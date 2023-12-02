@@ -1,11 +1,7 @@
 package com.revolvingmadness.testing.loader;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
 import com.revolvingmadness.testing.Testing;
-import com.revolvingmadness.testing.lang.LangScript;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.registry.tag.TagGroupLoader;
 import net.minecraft.resource.*;
 import net.minecraft.util.Identifier;
@@ -18,64 +14,66 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.Executor;
 
-public class ResourceLoader implements IdentifiableResourceReloadListener {
+public class LangScriptLoader implements ResourceReloader {
     private static final ResourceFinder FINDER = new ResourceFinder("scripts", ".script");
-    private volatile Map<Identifier, LangScript> scripts = ImmutableMap.of();
-    private final TagGroupLoader<LangScript> tagLoader = new TagGroupLoader<>(this::get, "tags/scripts");
-    private Map<Identifier, Collection<LangScript>> tagsWithScripts = Map.of();
+    private final TagGroupLoader<LangScript> TAG_LOADER = new TagGroupLoader<>(this::get, "tags/scripts");
+
+    private Map<Identifier, LangScript> scripts = new HashMap<>();
+    private Map<Identifier, Collection<LangScript>> identifiedScripts = Map.of();
 
     public Optional<LangScript> get(Identifier id) {
         return Optional.ofNullable(this.scripts.get(id));
     }
 
-    @Override
-    public Identifier getFabricId() {
-        return new Identifier(Testing.ID, "resource_loader");
+    public Collection<LangScript> getScriptsFromTag(Identifier tag) {
+        return this.identifiedScripts.getOrDefault(tag, List.of());
     }
 
     @Override
     public CompletableFuture<Void> reload(Synchronizer synchronizer, ResourceManager resourceManager, Profiler prepareProfiler, Profiler applyProfiler, Executor prepareExecutor, Executor applyExecutor) {
         Testing.LOGGER.info("Starting reload for mod '" + Testing.ID + "'");
-        CompletableFuture<Map<Identifier, List<TagGroupLoader.TrackedEntry>>> completableScriptTags = CompletableFuture.supplyAsync(() -> this.tagLoader.loadTags(resourceManager), prepareExecutor);
-        CompletableFuture<Map<Identifier, CompletableFuture<LangScript>>> completableIdentifiedScripts = CompletableFuture.supplyAsync(() -> {
-            return FINDER.findResources(resourceManager);
-        }, prepareExecutor).thenCompose((identifiedScriptResources) -> {
-            Map<Identifier, CompletableFuture<LangScript>> identifiedScripts = Maps.newHashMap();
+        CompletableFuture<Map<Identifier, List<TagGroupLoader.TrackedEntry>>> completableScriptTags = CompletableFuture.supplyAsync(() -> this.TAG_LOADER.loadTags(resourceManager), prepareExecutor);
 
-            for (Map.Entry<Identifier, Resource> entry : identifiedScriptResources.entrySet()) {
-                Identifier scriptIdentifier = entry.getKey();
+        CompletableFuture<Map<Identifier, CompletableFuture<LangScript>>> completableIdentifiedScripts = CompletableFuture.supplyAsync(() -> FINDER.findResources(resourceManager), prepareExecutor).thenCompose((identifiedScriptResources) -> {
+            Map<Identifier, CompletableFuture<LangScript>> identifiedCompletableScripts = new HashMap<>();
+
+            identifiedScriptResources.forEach((scriptIdentifier, scriptResource) -> {
                 Identifier scriptResourceIdentifier = FINDER.toResourceId(scriptIdentifier);
-                identifiedScripts.put(scriptResourceIdentifier, CompletableFuture.supplyAsync(() -> {
-                    Resource scriptResource = entry.getValue();
+
+                identifiedCompletableScripts.put(scriptResourceIdentifier, CompletableFuture.supplyAsync(() -> {
                     List<String> scriptContents = readResource(scriptResource);
 
                     return new LangScript(scriptIdentifier, scriptContents);
                 }, prepareExecutor));
-            }
+            });
 
-            CompletableFuture<?>[] completableFutures = identifiedScripts.values().toArray(new CompletableFuture[0]);
-            return CompletableFuture.allOf(completableFutures).handle((unused, ex) -> identifiedScripts);
+            CompletableFuture<?>[] completableFutures = identifiedCompletableScripts.values().toArray(new CompletableFuture[0]);
+            return CompletableFuture.allOf(completableFutures).handle((unused, ex) -> identifiedCompletableScripts);
         });
+
         CompletableFuture<Pair<Map<Identifier, List<TagGroupLoader.TrackedEntry>>, Map<Identifier, CompletableFuture<LangScript>>>> completableScriptTagPair = completableScriptTags.thenCombine(completableIdentifiedScripts, Pair::of);
+
         if (synchronizer == null) {
             throw new RuntimeException("Synchronizer is null???");
         }
-        return completableScriptTagPair.thenCompose(synchronizer::whenPrepared).thenAcceptAsync((intermediate) -> {
-            Map<Identifier, CompletableFuture<LangScript>> completableScriptMap = intermediate.getSecond();
-            ImmutableMap.Builder<Identifier, LangScript> identifiedScriptBuilder = ImmutableMap.builder();
 
-            completableScriptMap.forEach((scriptID, scriptFuture) -> scriptFuture.handle((script, exception) -> {
+        return completableScriptTagPair.thenCompose(synchronizer::whenPrepared).thenAcceptAsync((scriptTagPair) -> {
+            Map<Identifier, CompletableFuture<LangScript>> identifiedCompletableScripts = scriptTagPair.getSecond();
+            Map<Identifier, LangScript> identifiedScripts = new HashMap<>();
+
+            identifiedCompletableScripts.forEach((scriptIdentifier, scriptFuture) -> scriptFuture.handle((script, exception) -> {
                 if (exception != null) {
-                    Testing.LOGGER.error("Failed to load script '" + scriptID + "'");
+                    Testing.LOGGER.error("Failed to load script '" + scriptIdentifier + "'");
                     Testing.LOGGER.error(exception.getMessage());
                 } else {
-                    identifiedScriptBuilder.put(scriptID, script);
+                    identifiedScripts.put(scriptIdentifier, script);
                 }
 
                 return null;
             }).join());
-            this.scripts = identifiedScriptBuilder.build();
-            this.tagsWithScripts = this.tagLoader.buildGroup(intermediate.getFirst());
+
+            this.scripts = identifiedScripts;
+            this.identifiedScripts = this.TAG_LOADER.buildGroup(scriptTagPair.getFirst());
         }, applyExecutor);
     }
 

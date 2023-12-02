@@ -19,6 +19,7 @@
 			"com.revolvingmadness.testing.Testing"
 		]
 	},
+	"accessWidener": "testing.accesswidener",
 	"mixins": [
 		"testing.mixins.json"
 	],

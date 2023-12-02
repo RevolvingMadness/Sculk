@@ -1,0 +1,5 @@
+accessWidener v2 named
+
+accessible class net/minecraft/server/MinecraftServer$ResourceManagerHolder
+
+accessible method net/minecraft/server/MinecraftServer$ResourceManagerHolder <init> (Lnet/minecraft/resource/LifecycledResourceManager;Lnet/minecraft/server/DataPackContents;)V
