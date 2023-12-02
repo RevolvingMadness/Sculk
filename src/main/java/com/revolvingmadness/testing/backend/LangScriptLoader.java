@@ -1,4 +1,4 @@
-package com.revolvingmadness.testing.loader;
+package com.revolvingmadness.testing.backend;
 
 import com.mojang.datafixers.util.Pair;
 import com.revolvingmadness.testing.Testing;
@@ -41,9 +41,9 @@ public class LangScriptLoader implements ResourceReloader {
                 Identifier scriptResourceIdentifier = FINDER.toResourceId(scriptIdentifier);
 
                 identifiedCompletableScripts.put(scriptResourceIdentifier, CompletableFuture.supplyAsync(() -> {
-                    List<String> scriptContents = readResource(scriptResource);
+                    List<String> scriptContentsList = readResource(scriptResource);
 
-                    return new LangScript(scriptIdentifier, scriptContents);
+                    return new LangScript(scriptIdentifier, scriptContentsList);
                 }, prepareExecutor));
             });
 

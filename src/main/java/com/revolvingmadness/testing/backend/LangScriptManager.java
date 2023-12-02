@@ -1,4 +1,4 @@
-package com.revolvingmadness.testing.loader;
+package com.revolvingmadness.testing.backend;
 
 import com.google.common.collect.ImmutableList;
 import com.revolvingmadness.testing.Testing;
