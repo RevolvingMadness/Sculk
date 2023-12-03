@@ -1,6 +1,6 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression;
 
-import com.revolvingmadness.testing.language.parser.error.TypeError;
+import com.revolvingmadness.testing.language.error.TypeError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 
 public class IntegerExpressionNode implements LiteralExpressionNode {

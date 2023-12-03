@@ -1,23 +1,18 @@
 package com.revolvingmadness.testing.language.lexer;
 
+import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.language.lexer.error.LexerError;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class LangLexer {
     private final String input;
-    private final Map<String, TokenType> keywords;
     private Integer position;
 
     public LangLexer(String input) {
         this.input = input;
         this.position = 0;
-        this.keywords = new HashMap<>();
-        keywords.put("true", TokenType.TRUE);
-        keywords.put("false", TokenType.FALSE);
     }
 
     public Character consume() {
@@ -77,7 +72,7 @@ public class LangLexer {
             } else if (Character.isWhitespace(this.current())) {
                 this.consume();
             } else if (Character.isAlphabetic(this.current())) {
-                tokens.add(this.lexIdentifier());
+                tokens.add(this.lexIdentifier(true));
             } else if (this.current(';')) {
                 tokens.add(new Token(TokenType.SEMICOLON));
                 this.consume();
@@ -154,7 +149,7 @@ public class LangLexer {
         return new Token(TokenType.INTEGER, Integer.parseInt(digitString));
     }
 
-    private Token lexIdentifier() {
+    private Token lexIdentifier(boolean checkForKeywords) {
         StringBuilder identifier = new StringBuilder();
 
         while (this.position < this.input.length() && (Character.isLetterOrDigit(this.current()) || this.current('_'))) {
@@ -166,13 +161,13 @@ public class LangLexer {
         if (this.current(':')) {
             this.consume();
 
-            Token resourcePath = this.lexIdentifier();
+            Token resourcePath = this.lexIdentifier(false);
 
             return new Token(TokenType.RESOURCE, identifierString + ":" + resourcePath.value);
         }
 
-        if (keywords.containsKey(identifierString)) {
-            return new Token(keywords.get(identifierString));
+        if (Testing.keywords.containsKey(identifierString) && checkForKeywords) {
+            return new Token(Testing.keywords.get(identifierString));
         }
 
         return new Token(TokenType.IDENTIFIER, identifierString);

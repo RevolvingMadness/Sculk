@@ -62,7 +62,7 @@ public class LangScriptManager {
         if (this.justLoaded) {
             loader.scripts.forEach((identifier, script) -> {
                 try {
-                    script.initialize();
+                    script.initialize(loader.scripts);
                 } catch (RuntimeException exception) {
                     Logger.scriptError(script, exception);
                     script.hasErrors = true;

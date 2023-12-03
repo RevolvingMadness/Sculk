@@ -1,23 +1,28 @@
 package com.revolvingmadness.testing.language.parser;
 
+import com.revolvingmadness.testing.backend.LangScript;
+import com.revolvingmadness.testing.language.error.SyntaxError;
 import com.revolvingmadness.testing.language.lexer.Token;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 import com.revolvingmadness.testing.language.parser.error.ParseError;
-import com.revolvingmadness.testing.language.parser.error.SyntaxError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.UnaryOperatorType;
 import com.revolvingmadness.testing.language.parser.nodes.expression.*;
 import com.revolvingmadness.testing.language.parser.nodes.statement.AssignmentStatementNode;
+import com.revolvingmadness.testing.language.parser.nodes.statement.ImportStatementNode;
 import com.revolvingmadness.testing.language.parser.nodes.statement.StatementNode;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
+import java.util.Map;
 
 public class LangParser {
+    public final Map<Identifier, LangScript> scripts;
     private final List<Token> input;
     private Integer position;
 
-    public LangParser(List<Token> input) {
+    public LangParser(Map<Identifier, LangScript> scripts, List<Token> input) {
+        this.scripts = scripts;
         this.input = input;
         this.position = 0;
     }
@@ -45,7 +50,7 @@ public class LangParser {
     }
 
     public ScriptNode parse() {
-        ScriptNode script = new ScriptNode();
+        ScriptNode script = new ScriptNode(this.scripts);
 
         while (!this.current(TokenType.EOF)) {
             script.statements.add(this.parseStatement());
@@ -148,6 +153,30 @@ public class LangParser {
     }
 
     private StatementNode parseStatement() {
+        if (this.current(TokenType.IMPORT)) {
+            return this.parseImportStatement();
+        } else if (this.current(TokenType.IDENTIFIER)) {
+            return this.parseAssignmentStatement();
+        }
+
+        throw new SyntaxError("Expected 'IMPORT' or 'IDENTIFIER', got '" + this.current().type + "'");
+    }
+
+    private StatementNode parseImportStatement() {
+        this.consume(TokenType.IMPORT);
+
+        String[] splitIdentifier = ((String) this.consume(TokenType.RESOURCE).value).split(":");
+        String path = splitIdentifier[0];
+        String namespace = splitIdentifier[1];
+
+        Identifier resource = Identifier.of(path, namespace);
+
+        this.consume(TokenType.SEMICOLON);
+
+        return new ImportStatementNode(resource);
+    }
+
+    private AssignmentStatementNode parseAssignmentStatement() {
         IdentifierExpressionNode typeOrName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
 
         if (this.current(TokenType.IDENTIFIER)) {

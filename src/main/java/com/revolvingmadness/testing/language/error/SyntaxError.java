@@ -1,4 +1,4 @@
-package com.revolvingmadness.testing.language.parser.error;
+package com.revolvingmadness.testing.language.error;
 
 public class SyntaxError extends RuntimeException {
     public SyntaxError(String error) {

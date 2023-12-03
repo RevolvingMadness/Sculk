@@ -1,8 +1,10 @@
 package com.revolvingmadness.testing.language.interpreter;
 
+import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.backend.Logger;
-import com.revolvingmadness.testing.language.interpreter.error.NameError;
-import com.revolvingmadness.testing.language.parser.error.TypeError;
+import com.revolvingmadness.testing.language.error.NameError;
+import com.revolvingmadness.testing.language.error.SyntaxError;
+import com.revolvingmadness.testing.language.error.TypeError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression.IdentifierExpressionNode;
@@ -57,6 +59,10 @@ public class VariableTable {
     public void declareAndOrAssign(IdentifierExpressionNode type, IdentifierExpressionNode name, ExpressionNode value) {
         Objects.requireNonNull(name);
 
+        if (Testing.keywords.containsKey(name.value)) {
+            throw new SyntaxError("Cannot assign variable with the name '" + name + "'");
+        }
+
         if (type != null) {
             this.declare(type, name);
         }
@@ -84,5 +90,9 @@ public class VariableTable {
         }
 
         throw new NameError("Variable '" + name + "' has not been declared");
+    }
+
+    public void reset() {
+        this.variables.clear();
     }
 }

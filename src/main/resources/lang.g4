@@ -2,9 +2,11 @@ grammar lang;
 
 program: statement*;
 
-statement: assignment_statement ';';
+statement: (import_statement | assignment_statement);
 
-assignment_statement: IDENTIFIER (((binary_operator? '=' addition_expression) | (IDENTIFIER '=' addition_expression)) | ('++' | '--'));
+import_statement: 'import ' resource ';';
+
+assignment_statement: IDENTIFIER (((binary_operator? '=' addition_expression) | (IDENTIFIER '=' addition_expression)) | ('++' | '--')) ';';
 
 addition_expression: multiplication_expression (('+' | '-') multiplication_expression)*;
 

@@ -7,23 +7,31 @@ import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
+import java.util.Map;
 
 public class LangScript {
     public final String contents;
     public final Identifier identifier;
     public boolean hasErrors;
+    public boolean hasBeenInitialized;
     public ScriptNode scriptNode;
 
     public LangScript(Identifier identifier, List<String> contentsList) {
         this.identifier = identifier;
         this.contents = String.join("\n", contentsList);
         this.hasErrors = false;
+        this.hasBeenInitialized = false;
     }
 
-    public void initialize() {
+    public void initialize(Map<Identifier, LangScript> scripts) {
+        if (this.hasBeenInitialized) {
+            return;
+        }
+
         LangLexer lexer = new LangLexer(contents);
         List<Token> tokens = lexer.lex();
-        LangParser parser = new LangParser(tokens);
+        LangParser parser = new LangParser(scripts, tokens);
         this.scriptNode = parser.parse();
+        this.hasBeenInitialized = true;
     }
 }
