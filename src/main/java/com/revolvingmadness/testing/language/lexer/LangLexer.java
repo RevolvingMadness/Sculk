@@ -24,6 +24,10 @@ public class LangLexer {
         return this.input.charAt(this.position);
     }
 
+    public Boolean current(Character character) {
+        return this.current() == character;
+    }
+
     public Character next() {
         if (this.position+1 >= this.input.length()) {
             return null;
@@ -52,8 +56,14 @@ public class LangLexer {
                 tokens.add(new Token(TokenType.STAR));
                 this.consume();
             } else if (this.current() == '/') {
-                tokens.add(new Token(TokenType.FSLASH));
                 this.consume();
+
+                if (this.current('/')) {
+                    this.consume();
+                    this.lexComment();
+                } else {
+                    tokens.add(new Token(TokenType.FSLASH));
+                }
             } else if (this.current() == '^') {
                 tokens.add(new Token(TokenType.CARET));
                 this.consume();
@@ -84,6 +94,12 @@ public class LangLexer {
         tokens.add(new Token(TokenType.EOF));
 
         return tokens;
+    }
+
+    private void lexComment() {
+        while (this.position < this.input.length() && this.current() != '\n') {
+            this.consume();
+        }
     }
 
     private Token lexIdentifier() {
