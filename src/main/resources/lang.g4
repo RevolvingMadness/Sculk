@@ -4,7 +4,7 @@ program: statement*;
 
 statement: assignment_statement ';';
 
-assignment_statement: IDENTIFIER IDENTIFIER '=' addition_expression;
+assignment_statement: IDENTIFIER (('=' addition_expression) | IDENTIFIER | (IDENTIFIER '=' addition_expression));
 
 addition_expression: multiplication_expression (('+' | '-') multiplication_expression)*;
 

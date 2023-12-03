@@ -13,6 +13,6 @@ public class AssignmentStatementNode implements StatementNode {
 
     @Override
     public void interpret(ScriptNode script) {
-        script.variableTable.declareAndAssign(type, name, value);
+        script.variableTable.declareAndOrAssign(type, name, value);
     }
 }

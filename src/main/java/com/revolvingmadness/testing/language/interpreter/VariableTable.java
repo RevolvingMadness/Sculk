@@ -22,7 +22,7 @@ public class VariableTable {
 
     public Optional<Variable> get(IdentifierExpressionNode name) {
         for (Variable variable : this.variables) {
-            if (variable.name == name) {
+            if (variable.name.equals(name)) {
                 return Optional.of(variable);
             }
         }
@@ -40,7 +40,7 @@ public class VariableTable {
         throw new NameError("Variable '" + name + "' is not defined");
     }
 
-    public void declareAndAssign(IdentifierExpressionNode type, IdentifierExpressionNode name, ExpressionNode value) {
+    public void declareAndOrAssign(IdentifierExpressionNode type, IdentifierExpressionNode name, ExpressionNode value) {
         Objects.requireNonNull(name);
 
         if (type != null) {
@@ -64,7 +64,7 @@ public class VariableTable {
         }
 
         for (Variable variable : this.variables) {
-            if (variable.name == name) {
+            if (variable.name.equals(name)) {
                 variable.value = value;
                 break;
             }

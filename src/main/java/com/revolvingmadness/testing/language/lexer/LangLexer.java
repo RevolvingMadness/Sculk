@@ -1,6 +1,6 @@
 package com.revolvingmadness.testing.language.lexer;
 
-import com.revolvingmadness.testing.language.lexer.error.LexError;
+import com.revolvingmadness.testing.language.lexer.error.LexerError;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,7 +71,7 @@ public class LangLexer {
                 tokens.add(new Token(TokenType.EQUALS));
                 this.consume();
             } else {
-                throw new LexError("Unknown token '" + this.current() + "'");
+                throw new LexerError("Unknown token '" + this.current() + "'");
             }
         }
 

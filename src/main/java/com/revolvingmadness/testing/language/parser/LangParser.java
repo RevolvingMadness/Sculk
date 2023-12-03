@@ -50,16 +50,33 @@ public class LangParser {
     }
 
     private StatementNode parseStatement() {
-        IdentifierExpressionNode type = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
-        IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+        IdentifierExpressionNode typeOrName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+
+        if (this.current(TokenType.IDENTIFIER)) {
+            IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+
+            if (this.current(TokenType.EQUALS)) {
+                this.consume(TokenType.EQUALS);
+
+                ExpressionNode expression = this.parseExpression();
+
+                this.consume(TokenType.SEMICOLON);
+
+                return new AssignmentStatementNode(typeOrName, name, expression);
+            }
+
+            this.consume(TokenType.SEMICOLON);
+
+            return new AssignmentStatementNode(typeOrName, name, null);
+        }
 
         this.consume(TokenType.EQUALS);
 
-        AssignmentStatementNode assignmentStatementNode = new AssignmentStatementNode(type, name, this.parseExpression());
+        ExpressionNode expression = this.parseExpression();
 
         this.consume(TokenType.SEMICOLON);
 
-        return assignmentStatementNode;
+        return new AssignmentStatementNode(null, typeOrName, expression);
     }
 
     private ExpressionNode parseExpression() {
