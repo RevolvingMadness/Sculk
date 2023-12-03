@@ -12,12 +12,13 @@ multiplication_expression: exponentiation_expression (('*' | '/' | '%') exponent
 
 exponentiation_expression: primary_expression ('^' primary_expression)*;
 
-primary_expression: '-'? (INTEGER | float | IDENTIFIER | '(' addition_expression ')' | boolean);
+primary_expression: '-'? (INTEGER | float | IDENTIFIER | '(' addition_expression ')' | boolean | string);
 
 binary_operator: '+' | '-' | '*' | '/' | '%' | '^';
 
 float: (INTEGER '.' INTEGER?) | (INTEGER? '.' INTEGER);
 boolean: 'true' | 'false';
+string: '"' .*? '"';
 
 IDENTIFIER: [a-zA-Z_][a-zA-Z0-9_]*;
 INTEGER: [0-9];

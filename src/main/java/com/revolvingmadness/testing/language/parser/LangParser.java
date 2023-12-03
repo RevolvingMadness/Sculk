@@ -129,6 +129,8 @@ public class LangParser {
         } else if (this.current(TokenType.FALSE)) {
             this.consume();
             expression = new BooleanExpressionNode(false);
+        } else if (this.current(TokenType.STRING)) {
+            expression = new StringExpressionNode((String) this.consume().value);
         }
 
         if (expression == null) {

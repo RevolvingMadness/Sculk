@@ -93,6 +93,13 @@ public class LangLexer {
             } else if (this.current('!')) {
                 tokens.add(new Token(TokenType.EXCLAMATION_MARK));
                 this.consume();
+            } else if (this.current('"')) {
+                this.consume();
+                tokens.add(this.lexString());
+                this.consume();
+            } else if (this.current('\'')) {
+                tokens.add(new Token(TokenType.SINGLE_QUOTE));
+                this.consume();
             } else {
                 throw new LexerError("Unknown token '" + this.current() + "'");
             }
@@ -103,8 +110,18 @@ public class LangLexer {
         return tokens;
     }
 
+    private Token lexString() {
+        StringBuilder string = new StringBuilder();
+
+        while (this.position < this.input.length() && !this.current('"')) {
+            string.append(this.consume());
+        }
+
+        return new Token(TokenType.STRING, string.toString());
+    }
+
     private void lexComment() {
-        while (this.position < this.input.length() && this.current() != '\n') {
+        while (this.position < this.input.length() && !this.current('\n')) {
             this.consume();
         }
     }
@@ -113,8 +130,8 @@ public class LangLexer {
         StringBuilder digit = new StringBuilder();
         boolean isFloat = false;
 
-        while (this.position < this.input.length() && (Character.isDigit(this.current()) || this.current() == '.')) {
-            if (this.current() == '.') {
+        while (this.position < this.input.length() && (Character.isDigit(this.current()) || this.current('.'))) {
+            if (this.current('.')) {
                 if (isFloat) {
                     break;
                 }
@@ -137,7 +154,7 @@ public class LangLexer {
     private Token lexIdentifier() {
         StringBuilder identifier = new StringBuilder();
 
-        while (this.position < this.input.length() && (Character.isLetterOrDigit(this.current()) || this.current() == '_')) {
+        while (this.position < this.input.length() && (Character.isLetterOrDigit(this.current()) || this.current('_'))) {
             identifier.append(this.consume());
         }
 

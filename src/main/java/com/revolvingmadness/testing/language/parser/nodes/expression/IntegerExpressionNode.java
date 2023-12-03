@@ -97,6 +97,8 @@ public class IntegerExpressionNode implements LiteralExpressionNode {
             return new FloatExpressionNode(this.value * floatExpression.value);
         } else if (other instanceof IntegerExpressionNode integerExpression) {
             return new IntegerExpressionNode(this.value * integerExpression.value);
+        } else if (other instanceof StringExpressionNode stringExpression) {
+            return new StringExpressionNode(stringExpression.value.repeat(this.value));
         }
 
         throw new TypeError("Unsupported binary operator '*' for types '" + this.getType() + "' and '" + other.getType() + "'");
