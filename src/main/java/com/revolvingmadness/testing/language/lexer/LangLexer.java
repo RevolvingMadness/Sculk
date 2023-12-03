@@ -1,16 +1,15 @@
 package com.revolvingmadness.testing.language.lexer;
 
-import com.revolvingmadness.testing.Testing;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class LangLexer {
     private final String input;
-    private int position;
+    private Integer position;
 
     public LangLexer(String input) {
         this.input = input;
+        this.position = 0;
     }
 
     public Character current() {
@@ -39,7 +38,7 @@ public class LangLexer {
                 tokens.add(new Token(TokenType.PLUS));
                 this.consume();
             } else if (this.current() == '-') {
-                tokens.add(new Token(TokenType.MINUS));
+                tokens.add(new Token(TokenType.DASH));
                 this.consume();
             } else if (this.current() == '*') {
                 tokens.add(new Token(TokenType.STAR));
@@ -55,14 +54,29 @@ public class LangLexer {
                 this.consume();
             } else if (Character.isWhitespace(this.current())) {
                 this.consume();
+            } else if (Character.isAlphabetic(this.current())) {
+                tokens.add(this.lexIdentifier());
+            } else if (this.current() == ';') {
+                tokens.add(new Token(TokenType.SEMICOLON));
+                this.consume();
             } else {
-                Testing.LOGGER.error("Unknown token '" + this.current() + "'");
+                throw new RuntimeException("Unknown token '" + this.current() + "'");
             }
         }
 
         tokens.add(new Token(TokenType.EOF));
 
         return tokens;
+    }
+
+    private Token lexIdentifier() {
+        StringBuilder identifier = new StringBuilder();
+
+        while (this.position < this.input.length() && (Character.isLetterOrDigit(this.current()) || this.current() == '_')) {
+            identifier.append(this.consume());
+        }
+
+        return new Token(TokenType.IDENTIFIER, identifier.toString());
     }
 
     private Token lexDigit() {

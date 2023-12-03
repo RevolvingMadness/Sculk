@@ -1,5 +1,5 @@
 package com.revolvingmadness.testing.language.lexer;
 
 public enum TokenType {
-    FLOAT, INTEGER, PLUS, MINUS, STAR, FSLASH, CARET, PERCENT, EOF
+    FLOAT, INTEGER, PLUS, DASH, STAR, FSLASH, CARET, PERCENT, IDENTIFIER, SEMICOLON, EOF
 }
