@@ -70,6 +70,12 @@ public class LangLexer {
             } else if (this.current() == '=') {
                 tokens.add(new Token(TokenType.EQUALS));
                 this.consume();
+            } else if (this.current() == '(') {
+                tokens.add(new Token(TokenType.LEFT_PARENTHESIS));
+                this.consume();
+            } else if (this.current() == ')') {
+                tokens.add(new Token(TokenType.RIGHT_PARENTHESIS));
+                this.consume();
             } else {
                 throw new LexerError("Unknown token '" + this.current() + "'");
             }

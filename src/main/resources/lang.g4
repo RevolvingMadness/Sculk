@@ -10,9 +10,10 @@ addition_expression: multiplication_expression (('+' | '-') multiplication_expre
 
 multiplication_expression: exponentiation_expression (('*' | '/' | '%') exponentiation_expression)*;
 
-exponentiation_expression: number ('^' number)*;
+exponentiation_expression: primary_expression ('^' primary_expression)*;
 
-number: INTEGER | float;
+primary_expression: INTEGER | float | IDENTIFIER | '(' addition_expression ')';
+
 float: (INTEGER '.' INTEGER?) | (INTEGER? '.' INTEGER);
 
 IDENTIFIER: [a-zA-Z_][a-zA-Z0-9_]*;

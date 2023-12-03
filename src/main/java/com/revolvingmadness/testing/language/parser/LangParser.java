@@ -126,6 +126,14 @@ public class LangParser {
             return new FloatExpressionNode((Double) this.consume().value);
         } else if (this.current(TokenType.IDENTIFIER)) {
             return new IdentifierExpressionNode((String) this.consume().value);
+        } else if (this.current(TokenType.LEFT_PARENTHESIS)) {
+            this.consume(TokenType.LEFT_PARENTHESIS);
+
+            ExpressionNode expression = this.parseExpression();
+
+            this.consume(TokenType.RIGHT_PARENTHESIS);
+
+            return expression;
         }
 
         throw new ParseError("Unknown expression type '" + this.current().type + "'");
