@@ -86,6 +86,9 @@ public class LangLexer {
             } else if (this.current() == ')') {
                 tokens.add(new Token(TokenType.RIGHT_PARENTHESIS));
                 this.consume();
+            } else if (this.current() == '!') {
+                tokens.add(new Token(TokenType.EXCLAMATION_MARK));
+                this.consume();
             } else {
                 throw new LexerError("Unknown token '" + this.current() + "'");
             }

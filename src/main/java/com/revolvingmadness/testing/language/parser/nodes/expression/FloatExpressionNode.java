@@ -1,83 +1,99 @@
-package com.revolvingmadness.testing.language.parser.nodes;
+package com.revolvingmadness.testing.language.parser.nodes.expression;
 
 import com.revolvingmadness.testing.language.parser.error.TypeError;
+import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 
-public class FloatExpressionNode implements NumberExpressionNode {
-    public Double value;
+public class FloatExpressionNode implements LiteralExpressionNode {
+    public final Double value;
 
     public FloatExpressionNode(Double value) {
         this.value = value;
     }
 
     @Override
-    public ExpressionNode interpret(ScriptNode script) {
+    public LiteralExpressionNode interpret(ScriptNode script) {
         return this;
     }
 
     @Override
-    public IdentifierExpressionNode getType(ScriptNode script) {
+    public IdentifierExpressionNode getType() {
         return new IdentifierExpressionNode("float");
     }
 
     @Override
-    public ExpressionNode add(ScriptNode script, ExpressionNode other) {
+    public Boolean isTruthy() {
+        return this.value != 0.0;
+    }
+
+    @Override
+    public LiteralExpressionNode negate() {
+        return new FloatExpressionNode(-this.value);
+    }
+
+    @Override
+    public LiteralExpressionNode logicalNot() {
+        throw new TypeError("Unsupported unary operator '!' for type '" + this.getType() + "'");
+    }
+
+    @Override
+    public LiteralExpressionNode add(LiteralExpressionNode other) {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(this.value + floatExpression.value);
         } else if (other instanceof IntegerExpressionNode integerExpression) {
             return new FloatExpressionNode(this.value + integerExpression.value);
         }
 
-        throw new TypeError("Unsupported operator '+' for types '" + this.getType(script) + "' and '" + other.getType(script) + "'");
+        throw new TypeError("Unsupported binary operator '+' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
     @Override
-    public ExpressionNode subtract(ScriptNode script, ExpressionNode other) {
+    public LiteralExpressionNode subtract(LiteralExpressionNode other) {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(this.value - floatExpression.value);
         } else if (other instanceof IntegerExpressionNode integerExpression) {
             return new FloatExpressionNode(this.value - integerExpression.value);
         }
-        throw new TypeError("Unsupported operator '-' for types '" + this.getType(script) + "' and '" + other.getType(script) + "'");
+        throw new TypeError("Unsupported binary operator '-' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
     @Override
-    public ExpressionNode multiply(ScriptNode script, ExpressionNode other) {
+    public LiteralExpressionNode multiply(LiteralExpressionNode other) {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(this.value * floatExpression.value);
         } else if (other instanceof IntegerExpressionNode integerExpression) {
             return new FloatExpressionNode(this.value * integerExpression.value);
         }
-        throw new TypeError("Unsupported operator '*' for types '" + this.getType(script) + "' and '" + other.getType(script) + "'");
+        throw new TypeError("Unsupported binary operator '*' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
     @Override
-    public ExpressionNode divide(ScriptNode script, ExpressionNode other) {
+    public LiteralExpressionNode divide(LiteralExpressionNode other) {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(this.value / floatExpression.value);
         } else if (other instanceof IntegerExpressionNode integerExpression) {
             return new FloatExpressionNode(this.value / integerExpression.value);
         }
-        throw new TypeError("Unsupported operator '/' for types '" + this.getType(script) + "' and '" + other.getType(script) + "'");
+        throw new TypeError("Unsupported binary operator '/' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
     @Override
-    public ExpressionNode exponentiate(ScriptNode script, ExpressionNode other) {
+    public LiteralExpressionNode exponentiate(LiteralExpressionNode other) {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(Math.pow(this.value, floatExpression.value));
         } else if (other instanceof IntegerExpressionNode integerExpression) {
             return new FloatExpressionNode(Math.pow(this.value, integerExpression.value));
         }
-        throw new TypeError("Unsupported operator '^' for types '" + this.getType(script) + "' and '" + other.getType(script) + "'");
+        throw new TypeError("Unsupported binary operator '^' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
     @Override
-    public ExpressionNode mod(ScriptNode script, ExpressionNode other) {
+    public LiteralExpressionNode mod(LiteralExpressionNode other) {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(this.value % floatExpression.value);
         } else if (other instanceof IntegerExpressionNode integerExpression) {
             return new FloatExpressionNode(this.value % integerExpression.value);
         }
-        throw new TypeError("Unsupported operator '%' for types '" + this.getType(script) + "' and '" + other.getType(script) + "'");
+        throw new TypeError("Unsupported binary operator '%' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
     @Override

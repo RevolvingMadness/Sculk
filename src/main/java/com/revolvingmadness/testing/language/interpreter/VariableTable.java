@@ -3,9 +3,10 @@ package com.revolvingmadness.testing.language.interpreter;
 import com.revolvingmadness.testing.backend.Logger;
 import com.revolvingmadness.testing.language.interpreter.error.NameError;
 import com.revolvingmadness.testing.language.parser.error.TypeError;
-import com.revolvingmadness.testing.language.parser.nodes.ExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.IdentifierExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression.ExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression.IdentifierExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression.LiteralExpressionNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,13 +57,13 @@ public class VariableTable {
     private void assign(IdentifierExpressionNode name, ExpressionNode value) {
         Objects.requireNonNull(name);
 
-        ExpressionNode interpretedValue = value.interpret(this.script);
+        LiteralExpressionNode interpretedValue = value.interpret(this.script);
 
         Logger.info("Assigning '" + name + "' to the value '" + interpretedValue + "'");
 
         Variable existingVariable = this.getOrThrow(name);
 
-        IdentifierExpressionNode interpretedValueType = interpretedValue.getType(this.script);
+        IdentifierExpressionNode interpretedValueType = interpretedValue.getType();
 
         if (!existingVariable.type.equals(interpretedValueType)) {
             throw new TypeError("Expected type '" + existingVariable.type + "', but got type '" + interpretedValueType + "'");

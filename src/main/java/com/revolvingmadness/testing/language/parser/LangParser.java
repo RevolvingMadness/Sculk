@@ -4,7 +4,11 @@ import com.revolvingmadness.testing.language.lexer.Token;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 import com.revolvingmadness.testing.language.parser.error.ParseError;
 import com.revolvingmadness.testing.language.parser.error.SyntaxError;
-import com.revolvingmadness.testing.language.parser.nodes.*;
+import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
+import com.revolvingmadness.testing.language.parser.nodes.UnaryOperatorType;
+import com.revolvingmadness.testing.language.parser.nodes.expression.*;
+import com.revolvingmadness.testing.language.parser.nodes.statement.AssignmentStatementNode;
+import com.revolvingmadness.testing.language.parser.nodes.statement.StatementNode;
 
 import java.util.List;
 
@@ -120,22 +124,45 @@ public class LangParser {
     }
 
     private ExpressionNode parsePrimaryExpression() {
+        UnaryOperatorType unaryOperator = null;
+        ExpressionNode expression = null;
+
+        if (this.current(TokenType.DASH)) {
+            this.consume();
+            unaryOperator = UnaryOperatorType.NEGATION;
+        } else if (this.current(TokenType.EXCLAMATION_MARK)) {
+            this.consume();
+            unaryOperator = UnaryOperatorType.NOT;
+        }
+
         if (this.current(TokenType.INTEGER)) {
-            return new IntegerExpressionNode((Integer) this.consume().value);
+            expression = new IntegerExpressionNode((Integer) this.consume().value);
         } else if (this.current(TokenType.FLOAT)) {
-            return new FloatExpressionNode((Double) this.consume().value);
+            expression = new FloatExpressionNode((Double) this.consume().value);
         } else if (this.current(TokenType.IDENTIFIER)) {
-            return new IdentifierExpressionNode((String) this.consume().value);
+            expression = new IdentifierExpressionNode((String) this.consume().value);
         } else if (this.current(TokenType.LEFT_PARENTHESIS)) {
             this.consume(TokenType.LEFT_PARENTHESIS);
 
-            ExpressionNode expression = this.parseExpression();
+            expression = this.parseExpression();
 
             this.consume(TokenType.RIGHT_PARENTHESIS);
-
-            return expression;
+        } else if (this.current(TokenType.TRUE)) {
+            this.consume();
+            expression = new BooleanExpressionNode(true);
+        } else if (this.current(TokenType.FALSE)) {
+            this.consume();
+            expression = new BooleanExpressionNode(false);
         }
 
-        throw new ParseError("Unknown expression type '" + this.current().type + "'");
+        if (expression == null) {
+            throw new ParseError("Unknown expression type '" + this.current().type + "'");
+        }
+
+        if (unaryOperator != null) {
+            return new UnaryExpression(unaryOperator, expression);
+        }
+
+        return expression;
     }
 }
