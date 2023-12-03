@@ -1,7 +1,7 @@
 package com.revolvingmadness.testing.language.lexer;
 
 import com.revolvingmadness.testing.Testing;
-import com.revolvingmadness.testing.language.lexer.error.LexerError;
+import com.revolvingmadness.testing.language.lexer.errors.LexerError;
 
 import java.util.ArrayList;
 import java.util.List;

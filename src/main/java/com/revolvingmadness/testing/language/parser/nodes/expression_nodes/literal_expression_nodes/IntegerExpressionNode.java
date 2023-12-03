@@ -1,12 +1,13 @@
-package com.revolvingmadness.testing.language.parser.nodes.expression;
+package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes;
 
-import com.revolvingmadness.testing.language.error.TypeError;
+import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
-public class FloatExpressionNode implements LiteralExpressionNode {
-    public final Double value;
+public class IntegerExpressionNode implements LiteralExpressionNode {
+    public final Integer value;
 
-    public FloatExpressionNode(Double value) {
+    public IntegerExpressionNode(Integer value) {
         this.value = value;
     }
 
@@ -15,7 +16,7 @@ public class FloatExpressionNode implements LiteralExpressionNode {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(this.value + floatExpression.value);
         } else if (other instanceof IntegerExpressionNode integerExpression) {
-            return new FloatExpressionNode(this.value + integerExpression.value);
+            return new IntegerExpressionNode(this.value + integerExpression.value);
         }
 
         throw new TypeError("Unsupported binary operator '+' for types '" + this.getType() + "' and '" + other.getType() + "'");
@@ -26,8 +27,9 @@ public class FloatExpressionNode implements LiteralExpressionNode {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(this.value / floatExpression.value);
         } else if (other instanceof IntegerExpressionNode integerExpression) {
-            return new FloatExpressionNode(this.value / integerExpression.value);
+            return new IntegerExpressionNode(this.value / integerExpression.value);
         }
+
         throw new TypeError("Unsupported binary operator '/' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
@@ -38,9 +40,9 @@ public class FloatExpressionNode implements LiteralExpressionNode {
         if (otherObject == null || getClass() != otherObject.getClass())
             return false;
 
-        FloatExpressionNode otherFloatExpression = (FloatExpressionNode) otherObject;
+        IntegerExpressionNode otherIntegerExpression = (IntegerExpressionNode) otherObject;
 
-        return value.equals(otherFloatExpression.value);
+        return value.equals(otherIntegerExpression.value);
     }
 
     @Override
@@ -50,12 +52,13 @@ public class FloatExpressionNode implements LiteralExpressionNode {
         } else if (other instanceof IntegerExpressionNode integerExpression) {
             return new FloatExpressionNode(Math.pow(this.value, integerExpression.value));
         }
+
         throw new TypeError("Unsupported binary operator '^' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
     @Override
     public IdentifierExpressionNode getType() {
-        return new IdentifierExpressionNode("float");
+        return new IdentifierExpressionNode("int");
     }
 
     @Override
@@ -70,7 +73,7 @@ public class FloatExpressionNode implements LiteralExpressionNode {
 
     @Override
     public boolean isTruthy() {
-        return this.value != 0.0;
+        return this.value != 0;
     }
 
     @Override
@@ -83,8 +86,9 @@ public class FloatExpressionNode implements LiteralExpressionNode {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(this.value % floatExpression.value);
         } else if (other instanceof IntegerExpressionNode integerExpression) {
-            return new FloatExpressionNode(this.value % integerExpression.value);
+            return new IntegerExpressionNode(this.value % integerExpression.value);
         }
+
         throw new TypeError("Unsupported binary operator '%' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
@@ -93,14 +97,17 @@ public class FloatExpressionNode implements LiteralExpressionNode {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(this.value * floatExpression.value);
         } else if (other instanceof IntegerExpressionNode integerExpression) {
-            return new FloatExpressionNode(this.value * integerExpression.value);
+            return new IntegerExpressionNode(this.value * integerExpression.value);
+        } else if (other instanceof StringExpressionNode stringExpression) {
+            return new StringExpressionNode(stringExpression.value.repeat(this.value));
         }
+
         throw new TypeError("Unsupported binary operator '*' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
     @Override
     public LiteralExpressionNode negate() {
-        return new FloatExpressionNode(-this.value);
+        return new IntegerExpressionNode(-this.value);
     }
 
     @Override
@@ -108,8 +115,9 @@ public class FloatExpressionNode implements LiteralExpressionNode {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(this.value - floatExpression.value);
         } else if (other instanceof IntegerExpressionNode integerExpression) {
-            return new FloatExpressionNode(this.value - integerExpression.value);
+            return new IntegerExpressionNode(this.value - integerExpression.value);
         }
+
         throw new TypeError("Unsupported binary operator '-' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 

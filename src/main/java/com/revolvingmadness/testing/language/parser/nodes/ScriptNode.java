@@ -2,7 +2,7 @@ package com.revolvingmadness.testing.language.parser.nodes;
 
 import com.revolvingmadness.testing.backend.LangScript;
 import com.revolvingmadness.testing.language.interpreter.VariableTable;
-import com.revolvingmadness.testing.language.parser.nodes.statement.StatementNode;
+import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.StatementNode;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;

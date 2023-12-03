@@ -1,4 +1,4 @@
-package com.revolvingmadness.testing.language.parser.error;
+package com.revolvingmadness.testing.language.parser.errors;
 
 import com.revolvingmadness.testing.language.InternalError;
 

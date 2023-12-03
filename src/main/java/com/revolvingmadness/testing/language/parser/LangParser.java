@@ -1,16 +1,19 @@
 package com.revolvingmadness.testing.language.parser;
 
 import com.revolvingmadness.testing.backend.LangScript;
-import com.revolvingmadness.testing.language.error.SyntaxError;
+import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.lexer.Token;
 import com.revolvingmadness.testing.language.lexer.TokenType;
-import com.revolvingmadness.testing.language.parser.error.ParseError;
+import com.revolvingmadness.testing.language.parser.errors.ParseError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
-import com.revolvingmadness.testing.language.parser.nodes.UnaryOperatorType;
-import com.revolvingmadness.testing.language.parser.nodes.expression.*;
-import com.revolvingmadness.testing.language.parser.nodes.statement.AssignmentStatementNode;
-import com.revolvingmadness.testing.language.parser.nodes.statement.ImportStatementNode;
-import com.revolvingmadness.testing.language.parser.nodes.statement.StatementNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.BinaryExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.UnaryExpression;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
+import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.AssignmentStatementNode;
+import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.ImportStatementNode;
+import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.StatementNode;
 import net.minecraft.util.Identifier;
 
 import java.util.List;

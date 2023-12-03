@@ -1,6 +1,6 @@
 package com.revolvingmadness.testing;
 
-import com.revolvingmadness.testing.gamerule.TestingGamerules;
+import com.revolvingmadness.testing.gamerules.TestingGamerules;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;

@@ -1,6 +1,6 @@
 package com.revolvingmadness.testing.mixin;
 
-import com.revolvingmadness.testing.accessor.DatapackContentsAccessor;
+import com.revolvingmadness.testing.accessors.DatapackContentsAccessor;
 import com.revolvingmadness.testing.backend.LangScriptLoader;
 import net.minecraft.loot.LootManager;
 import net.minecraft.recipe.RecipeManager;

@@ -1,6 +1,7 @@
-package com.revolvingmadness.testing.language.parser.nodes.expression;
+package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
 
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
 public class IdentifierExpressionNode implements ExpressionNode {
     public final String value;

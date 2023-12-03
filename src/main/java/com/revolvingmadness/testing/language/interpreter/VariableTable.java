@@ -2,13 +2,13 @@ package com.revolvingmadness.testing.language.interpreter;
 
 import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.backend.Logger;
-import com.revolvingmadness.testing.language.error.NameError;
-import com.revolvingmadness.testing.language.error.SyntaxError;
-import com.revolvingmadness.testing.language.error.TypeError;
+import com.revolvingmadness.testing.language.errors.NameError;
+import com.revolvingmadness.testing.language.errors.SyntaxError;
+import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression.ExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression.IdentifierExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression.LiteralExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
 import java.util.ArrayList;
 import java.util.List;

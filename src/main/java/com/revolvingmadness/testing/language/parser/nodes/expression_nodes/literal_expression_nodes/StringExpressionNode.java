@@ -1,17 +1,24 @@
-package com.revolvingmadness.testing.language.parser.nodes.expression;
+package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes;
 
-import com.revolvingmadness.testing.language.error.TypeError;
+import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
-public class BooleanExpressionNode implements LiteralExpressionNode {
-    public final Boolean value;
+import java.util.Objects;
 
-    public BooleanExpressionNode(boolean value) {
+public class StringExpressionNode implements LiteralExpressionNode {
+    public final String value;
+
+    public StringExpressionNode(String value) {
         this.value = value;
     }
 
     @Override
     public LiteralExpressionNode add(LiteralExpressionNode other) {
+        if (other instanceof StringExpressionNode stringExpression) {
+            return new StringExpressionNode(this.value + stringExpression.value);
+        }
+
         throw new TypeError("Unsupported binary operator '+' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
@@ -27,9 +34,9 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
         if (otherObject == null || getClass() != otherObject.getClass())
             return false;
 
-        BooleanExpressionNode otherBooleanExpression = (BooleanExpressionNode) otherObject;
+        StringExpressionNode otherIntegerExpression = (StringExpressionNode) otherObject;
 
-        return value.equals(otherBooleanExpression.value);
+        return value.equals(otherIntegerExpression.value);
     }
 
     @Override
@@ -39,7 +46,7 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
 
     @Override
     public IdentifierExpressionNode getType() {
-        return new IdentifierExpressionNode("boolean");
+        return new IdentifierExpressionNode("string");
     }
 
     @Override
@@ -54,12 +61,12 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
 
     @Override
     public boolean isTruthy() {
-        return value;
+        return !Objects.equals(this.value, "");
     }
 
     @Override
     public LiteralExpressionNode logicalNot() {
-        return new BooleanExpressionNode(!this.value);
+        throw new TypeError("Unsupported unary operator '!' for type '" + this.getType() + "'");
     }
 
     @Override
@@ -69,6 +76,10 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
 
     @Override
     public LiteralExpressionNode multiply(LiteralExpressionNode other) {
+        if (other instanceof IntegerExpressionNode integerExpression) {
+            return new StringExpressionNode(this.value.repeat(integerExpression.value));
+        }
+
         throw new TypeError("Unsupported binary operator '*' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
@@ -84,6 +95,6 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
 
     @Override
     public String toString() {
-        return this.value.toString();
+        return this.value;
     }
 }

@@ -1,4 +1,4 @@
-package com.revolvingmadness.testing.accessor;
+package com.revolvingmadness.testing.accessors;
 
 import com.revolvingmadness.testing.backend.LangScriptLoader;
 

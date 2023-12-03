@@ -1,7 +1,7 @@
 package com.revolvingmadness.testing.backend;
 
 import com.revolvingmadness.testing.Testing;
-import com.revolvingmadness.testing.gamerule.TestingGamerules;
+import com.revolvingmadness.testing.gamerules.TestingGamerules;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;

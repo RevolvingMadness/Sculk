@@ -1,8 +1,9 @@
-package com.revolvingmadness.testing.language.parser.nodes.expression;
+package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
 
 import com.revolvingmadness.testing.language.lexer.TokenType;
-import com.revolvingmadness.testing.language.parser.error.ParseError;
+import com.revolvingmadness.testing.language.parser.errors.ParseError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
 public class BinaryExpressionNode implements ExpressionNode {
     public final ExpressionNode left;

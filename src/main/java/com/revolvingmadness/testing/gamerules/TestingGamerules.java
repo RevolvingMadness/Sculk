@@ -1,4 +1,4 @@
-package com.revolvingmadness.testing.gamerule;
+package com.revolvingmadness.testing.gamerules;
 
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;

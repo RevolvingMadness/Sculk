@@ -1,8 +1,8 @@
-package com.revolvingmadness.testing.language.parser.nodes.statement;
+package com.revolvingmadness.testing.language.parser.nodes.statement_nodes;
 
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression.ExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression.IdentifierExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 public class AssignmentStatementNode implements StatementNode {
     public final IdentifierExpressionNode name;

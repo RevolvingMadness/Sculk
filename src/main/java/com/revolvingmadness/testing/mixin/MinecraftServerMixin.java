@@ -2,7 +2,7 @@ package com.revolvingmadness.testing.mixin;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.DataFixer;
-import com.revolvingmadness.testing.accessor.DatapackContentsAccessor;
+import com.revolvingmadness.testing.accessors.DatapackContentsAccessor;
 import com.revolvingmadness.testing.backend.LangScriptManager;
 import net.minecraft.network.QueryableServer;
 import net.minecraft.registry.CombinedDynamicRegistries;

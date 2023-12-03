@@ -1,23 +1,19 @@
-package com.revolvingmadness.testing.language.parser.nodes.expression;
+package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes;
 
-import com.revolvingmadness.testing.language.error.TypeError;
+import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
+import net.minecraft.util.Identifier;
 
-import java.util.Objects;
+public class ResourceExpressionNode implements LiteralExpressionNode {
+    public final Identifier value;
 
-public class StringExpressionNode implements LiteralExpressionNode {
-    public final String value;
-
-    public StringExpressionNode(String value) {
+    public ResourceExpressionNode(Identifier value) {
         this.value = value;
     }
 
     @Override
     public LiteralExpressionNode add(LiteralExpressionNode other) {
-        if (other instanceof StringExpressionNode stringExpression) {
-            return new StringExpressionNode(this.value + stringExpression.value);
-        }
-
         throw new TypeError("Unsupported binary operator '+' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
@@ -33,9 +29,9 @@ public class StringExpressionNode implements LiteralExpressionNode {
         if (otherObject == null || getClass() != otherObject.getClass())
             return false;
 
-        StringExpressionNode otherIntegerExpression = (StringExpressionNode) otherObject;
+        ResourceExpressionNode otherResourceExpression = (ResourceExpressionNode) otherObject;
 
-        return value.equals(otherIntegerExpression.value);
+        return value.equals(otherResourceExpression.value);
     }
 
     @Override
@@ -45,7 +41,7 @@ public class StringExpressionNode implements LiteralExpressionNode {
 
     @Override
     public IdentifierExpressionNode getType() {
-        return new IdentifierExpressionNode("string");
+        return new IdentifierExpressionNode("resource");
     }
 
     @Override
@@ -60,7 +56,7 @@ public class StringExpressionNode implements LiteralExpressionNode {
 
     @Override
     public boolean isTruthy() {
-        return !Objects.equals(this.value, "");
+        return true;
     }
 
     @Override
@@ -75,10 +71,6 @@ public class StringExpressionNode implements LiteralExpressionNode {
 
     @Override
     public LiteralExpressionNode multiply(LiteralExpressionNode other) {
-        if (other instanceof IntegerExpressionNode integerExpression) {
-            return new StringExpressionNode(this.value.repeat(integerExpression.value));
-        }
-
         throw new TypeError("Unsupported binary operator '*' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
@@ -94,6 +86,6 @@ public class StringExpressionNode implements LiteralExpressionNode {
 
     @Override
     public String toString() {
-        return this.value;
+        return this.value.toString();
     }
 }

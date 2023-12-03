@@ -1,4 +1,7 @@
-package com.revolvingmadness.testing.language.parser.nodes.expression;
+package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes;
+
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 public interface LiteralExpressionNode extends ExpressionNode {
     LiteralExpressionNode add(LiteralExpressionNode other);
