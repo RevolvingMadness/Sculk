@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScriptNode implements Node {
-    public List<StatementNode> statements;
-    public VariableTable variableTable;
+    public final List<StatementNode> statements;
+    public final VariableTable variableTable;
 
     public ScriptNode() {
         this.statements = new ArrayList<>();

@@ -3,7 +3,6 @@ package com.revolvingmadness.testing.backend;
 import com.google.common.collect.ImmutableList;
 import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.language.interpreter.LangInterpreter;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 
@@ -15,14 +14,12 @@ public class LangScriptManager {
     private static final Identifier LOAD_TAG_ID = new Identifier(Testing.ID, "load");
     private static final Identifier TICK_TAG_ID = new Identifier(Testing.ID, "tick");
     private final LangInterpreter interpreter;
-    private final MinecraftServer server;
     private boolean justLoaded;
     private LangScriptLoader loader;
     private List<LangScript> tickScripts = ImmutableList.of();
 
-    public LangScriptManager(MinecraftServer server, LangScriptLoader loader) {
-        this.server = server;
-        this.interpreter = new LangInterpreter(server);
+    public LangScriptManager(LangScriptLoader loader) {
+        this.interpreter = new LangInterpreter();
         this.setLoader(loader);
     }
 
@@ -40,7 +37,7 @@ public class LangScriptManager {
     }
 
     private void executeAll(Collection<LangScript> scripts, Identifier label) {
-        Profiler serverProfiler = this.server.getProfiler();
+        Profiler serverProfiler = Testing.server.getProfiler();
 
         Objects.requireNonNull(label);
 
@@ -48,7 +45,7 @@ public class LangScriptManager {
 
         scripts.forEach(this::execute);
 
-        this.server.getProfiler().pop();
+        Testing.server.getProfiler().pop();
     }
 
     public void reload(LangScriptLoader loader) {

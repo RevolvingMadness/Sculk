@@ -100,6 +100,9 @@ public class LangLexer {
             } else if (this.current('\'')) {
                 tokens.add(new Token(TokenType.SINGLE_QUOTE));
                 this.consume();
+            } else if (this.current(':')) {
+                tokens.add(new Token(TokenType.COLON));
+                this.consume();
             } else {
                 throw new LexerError("Unknown token '" + this.current() + "'");
             }
@@ -159,6 +162,14 @@ public class LangLexer {
         }
 
         String identifierString = identifier.toString();
+
+        if (this.current(':')) {
+            this.consume();
+
+            Token resourcePath = this.lexIdentifier();
+
+            return new Token(TokenType.RESOURCE, identifierString + ":" + resourcePath.value);
+        }
 
         if (keywords.containsKey(identifierString)) {
             return new Token(keywords.get(identifierString));

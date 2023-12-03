@@ -88,7 +88,7 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
 
     @Inject(at = @At("TAIL"), method = "<init>")
     public void injectInit(Thread serverThread, LevelStorage.Session session, ResourcePackManager dataPackManager, SaveLoader saveLoader, Proxy proxy, DataFixer dataFixer, ApiServices apiServices, WorldGenerationProgressListenerFactory worldGenerationProgressListenerFactory, CallbackInfo ci) {
-        this.langScriptManager = new LangScriptManager((MinecraftServer) (Object) this, ((DatapackContentsAccessor) this.resourceManagerHolder.dataPackContents()).testing$getLangScriptLoader());
+        this.langScriptManager = new LangScriptManager(((DatapackContentsAccessor) this.resourceManagerHolder.dataPackContents()).testing$getLangScriptLoader());
     }
 
     @Inject(at = @At("HEAD"), method = "reloadResources", cancellable = true)

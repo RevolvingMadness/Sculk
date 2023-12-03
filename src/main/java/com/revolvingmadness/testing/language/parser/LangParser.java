@@ -9,6 +9,7 @@ import com.revolvingmadness.testing.language.parser.nodes.UnaryOperatorType;
 import com.revolvingmadness.testing.language.parser.nodes.expression.*;
 import com.revolvingmadness.testing.language.parser.nodes.statement.AssignmentStatementNode;
 import com.revolvingmadness.testing.language.parser.nodes.statement.StatementNode;
+import net.minecraft.util.Identifier;
 
 import java.util.List;
 
@@ -131,6 +132,8 @@ public class LangParser {
             expression = new BooleanExpressionNode(false);
         } else if (this.current(TokenType.STRING)) {
             expression = new StringExpressionNode((String) this.consume().value);
+        } else if (this.current(TokenType.RESOURCE)) {
+            expression = new ResourceExpressionNode(Identifier.tryParse((String) this.consume().value));
         }
 
         if (expression == null) {

@@ -2,11 +2,12 @@ package com.revolvingmadness.testing.language.parser.nodes.expression;
 
 import com.revolvingmadness.testing.language.parser.error.TypeError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
+import net.minecraft.util.Identifier;
 
-public class BooleanExpressionNode implements LiteralExpressionNode {
-    public final Boolean value;
+public class ResourceExpressionNode implements LiteralExpressionNode {
+    public final Identifier value;
 
-    public BooleanExpressionNode(boolean value) {
+    public ResourceExpressionNode(Identifier value) {
         this.value = value;
     }
 
@@ -27,9 +28,9 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
         if (otherObject == null || getClass() != otherObject.getClass())
             return false;
 
-        BooleanExpressionNode otherBooleanExpression = (BooleanExpressionNode) otherObject;
+        ResourceExpressionNode otherResourceExpression = (ResourceExpressionNode) otherObject;
 
-        return value.equals(otherBooleanExpression.value);
+        return value.equals(otherResourceExpression.value);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
 
     @Override
     public IdentifierExpressionNode getType() {
-        return new IdentifierExpressionNode("boolean");
+        return new IdentifierExpressionNode("resource");
     }
 
     @Override
@@ -54,12 +55,12 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
 
     @Override
     public boolean isTruthy() {
-        return value;
+        return true;
     }
 
     @Override
     public LiteralExpressionNode logicalNot() {
-        return new BooleanExpressionNode(!this.value);
+        throw new TypeError("Unsupported unary operator '!' for type '" + this.getType() + "'");
     }
 
     @Override
