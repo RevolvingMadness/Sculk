@@ -10,16 +10,6 @@ public class IdentifierExpressionNode implements ExpressionNode {
     }
 
     @Override
-    public LiteralExpressionNode interpret(ScriptNode script) {
-        return script.variableTable.getOrThrow(this).value;
-    }
-
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
@@ -34,5 +24,15 @@ public class IdentifierExpressionNode implements ExpressionNode {
     @Override
     public int hashCode() {
         return value.hashCode();
+    }
+
+    @Override
+    public LiteralExpressionNode interpret(ScriptNode script) {
+        return script.variableTable.getOrThrow(this).value;
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 }

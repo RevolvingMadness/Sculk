@@ -18,10 +18,36 @@ import java.util.concurrent.Executor;
 
 public class LangScriptLoader implements ResourceReloader {
     private static final ResourceFinder FINDER = new ResourceFinder("scripts", ".script");
+    public Map<Identifier, Collection<LangScript>> identifiedScripts = Map.of();
+    public Map<Identifier, LangScript> scripts = new HashMap<>();
     private final TagGroupLoader<LangScript> TAG_LOADER = new TagGroupLoader<>(this::get, "tags/scripts");
 
-    public Map<Identifier, LangScript> scripts = new HashMap<>();
-    public Map<Identifier, Collection<LangScript>> identifiedScripts = Map.of();
+    private static List<String> readResource(Resource resource) {
+        try {
+            BufferedReader bufferedReader = resource.getReader();
+
+            List<String> contents;
+            try {
+                contents = bufferedReader.lines().toList();
+            } catch (Throwable throwable) {
+                if (bufferedReader != null) {
+                    try {
+                        bufferedReader.close();
+                    } catch (Throwable throwable1) {
+                        throwable.addSuppressed(throwable1);
+                    }
+                }
+
+                throw throwable;
+            }
+
+            bufferedReader.close();
+
+            return contents;
+        } catch (IOException ioException) {
+            throw new CompletionException(ioException);
+        }
+    }
 
     public Optional<LangScript> get(Identifier id) {
         return Optional.ofNullable(this.scripts.get(id));
@@ -76,32 +102,5 @@ public class LangScriptLoader implements ResourceReloader {
             this.scripts = identifiedScripts;
             this.identifiedScripts = this.TAG_LOADER.buildGroup(scriptTagPair.getFirst());
         }, applyExecutor);
-    }
-
-    private static List<String> readResource(Resource resource) {
-        try {
-            BufferedReader bufferedReader = resource.getReader();
-
-            List<String> contents;
-            try {
-                contents = bufferedReader.lines().toList();
-            } catch (Throwable throwable) {
-                if (bufferedReader != null) {
-                    try {
-                        bufferedReader.close();
-                    } catch (Throwable throwable1) {
-                        throwable.addSuppressed(throwable1);
-                    }
-                }
-
-                throw throwable;
-            }
-
-            bufferedReader.close();
-
-            return contents;
-        } catch (IOException ioException) {
-            throw new CompletionException(ioException);
-        }
     }
 }

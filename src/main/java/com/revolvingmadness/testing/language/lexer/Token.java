@@ -15,15 +15,23 @@ public class Token {
     }
 
     public boolean isAdditionOperator() {
-        return this.type == TokenType.PLUS || this.type == TokenType.DASH;
+        return this.type == TokenType.PLUS || this.type == TokenType.HYPHEN;
+    }
+
+    public boolean isExponentiationOperator() {
+        return this.type == TokenType.CARET;
+    }
+
+    public boolean isIncrementOrDecrementOperator() {
+        return this.type == TokenType.DOUBLE_PLUS || this.type == TokenType.DOUBLE_HYPHEN;
     }
 
     public boolean isMultiplicationOperator() {
         return this.type == TokenType.STAR || this.type == TokenType.FSLASH || this.type == TokenType.PERCENT;
     }
 
-    public boolean isExponentiationOperator() {
-        return this.type == TokenType.CARET;
+    public boolean isOperator() {
+        return this.isAdditionOperator() || this.isMultiplicationOperator() || this.isExponentiationOperator();
     }
 
     @Override

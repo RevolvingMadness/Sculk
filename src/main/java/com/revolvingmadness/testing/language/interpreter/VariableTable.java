@@ -22,38 +22,6 @@ public class VariableTable {
         this.variables = new ArrayList<>();
     }
 
-    public Optional<Variable> get(IdentifierExpressionNode name) {
-        for (Variable variable : this.variables) {
-            if (variable.name.equals(name)) {
-                return Optional.of(variable);
-            }
-        }
-
-        return Optional.empty();
-    }
-
-    public Variable getOrThrow(IdentifierExpressionNode name) {
-        for (Variable variable : this.variables) {
-            if (variable.name.equals(name)) {
-                return variable;
-            }
-        }
-
-        throw new NameError("Variable '" + name + "' has not been declared");
-    }
-
-    public void declareAndOrAssign(IdentifierExpressionNode type, IdentifierExpressionNode name, ExpressionNode value) {
-        Objects.requireNonNull(name);
-
-        if (type != null) {
-            this.declare(type, name);
-        }
-
-        if (value != null) {
-            this.assign(name, value);
-        }
-    }
-
     private void assign(IdentifierExpressionNode name, ExpressionNode value) {
         Objects.requireNonNull(name);
 
@@ -84,5 +52,37 @@ public class VariableTable {
         }
 
         this.variables.add(new Variable(type, name, null));
+    }
+
+    public void declareAndOrAssign(IdentifierExpressionNode type, IdentifierExpressionNode name, ExpressionNode value) {
+        Objects.requireNonNull(name);
+
+        if (type != null) {
+            this.declare(type, name);
+        }
+
+        if (value != null) {
+            this.assign(name, value);
+        }
+    }
+
+    public Optional<Variable> get(IdentifierExpressionNode name) {
+        for (Variable variable : this.variables) {
+            if (variable.name.equals(name)) {
+                return Optional.of(variable);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    public Variable getOrThrow(IdentifierExpressionNode name) {
+        for (Variable variable : this.variables) {
+            if (variable.name.equals(name)) {
+                return variable;
+            }
+        }
+
+        throw new NameError("Variable '" + name + "' has not been declared");
     }
 }

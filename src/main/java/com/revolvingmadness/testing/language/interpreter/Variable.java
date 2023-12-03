@@ -4,8 +4,8 @@ import com.revolvingmadness.testing.language.parser.nodes.expression.IdentifierE
 import com.revolvingmadness.testing.language.parser.nodes.expression.LiteralExpressionNode;
 
 public class Variable {
-    public final IdentifierExpressionNode type;
     public final IdentifierExpressionNode name;
+    public final IdentifierExpressionNode type;
     public LiteralExpressionNode value;
 
     public Variable(IdentifierExpressionNode type, IdentifierExpressionNode name, LiteralExpressionNode value) {

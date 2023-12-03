@@ -5,8 +5,8 @@ import com.revolvingmadness.testing.language.parser.nodes.expression.ExpressionN
 import com.revolvingmadness.testing.language.parser.nodes.expression.IdentifierExpressionNode;
 
 public class AssignmentStatementNode implements StatementNode {
-    public final IdentifierExpressionNode type;
     public final IdentifierExpressionNode name;
+    public final IdentifierExpressionNode type;
     public final ExpressionNode value;
 
     public AssignmentStatementNode(IdentifierExpressionNode type, IdentifierExpressionNode name, ExpressionNode value) {

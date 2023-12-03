@@ -4,7 +4,7 @@ program: statement*;
 
 statement: assignment_statement ';';
 
-assignment_statement: IDENTIFIER (('=' addition_expression) | IDENTIFIER | (IDENTIFIER '=' addition_expression));
+assignment_statement: IDENTIFIER (((binary_operator? '=' addition_expression) | (IDENTIFIER '=' addition_expression)) | ('++' | '--'));
 
 addition_expression: multiplication_expression (('+' | '-') multiplication_expression)*;
 
@@ -13,6 +13,8 @@ multiplication_expression: exponentiation_expression (('*' | '/' | '%') exponent
 exponentiation_expression: primary_expression ('^' primary_expression)*;
 
 primary_expression: '-'? (INTEGER | float | IDENTIFIER | '(' addition_expression ')' | boolean);
+
+binary_operator: '+' | '-' | '*' | '/' | '%' | '^';
 
 float: (INTEGER '.' INTEGER?) | (INTEGER? '.' INTEGER);
 boolean: 'true' | 'false';

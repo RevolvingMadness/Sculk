@@ -9,10 +9,10 @@ import net.minecraft.util.Identifier;
 import java.util.List;
 
 public class LangScript {
-    public final Identifier identifier;
-    public ScriptNode scriptNode;
     public final String contents;
-    public Boolean hasErrors;
+    public final Identifier identifier;
+    public boolean hasErrors;
+    public ScriptNode scriptNode;
 
     public LangScript(Identifier identifier, List<String> contentsList) {
         this.identifier = identifier;

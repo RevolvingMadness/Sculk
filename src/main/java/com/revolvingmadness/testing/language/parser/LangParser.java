@@ -21,10 +21,6 @@ public class LangParser {
         this.position = 0;
     }
 
-    private Token current() {
-        return this.input.get(this.position);
-    }
-
     private Token consume() {
         return this.input.get(this.position++);
     }
@@ -39,7 +35,11 @@ public class LangParser {
         return token;
     }
 
-    private Boolean current(TokenType type) {
+    private Token current() {
+        return this.input.get(this.position);
+    }
+
+    private boolean current(TokenType type) {
         return this.current().type == type;
     }
 
@@ -53,34 +53,6 @@ public class LangParser {
         return script;
     }
 
-    private StatementNode parseStatement() {
-        IdentifierExpressionNode typeOrName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
-
-        if (this.current(TokenType.IDENTIFIER)) {
-            IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
-
-            this.consume(TokenType.EQUALS);
-
-            ExpressionNode expression = this.parseExpression();
-
-            this.consume(TokenType.SEMICOLON);
-
-            return new AssignmentStatementNode(typeOrName, name, expression);
-        }
-
-        this.consume(TokenType.EQUALS);
-
-        ExpressionNode expression = this.parseExpression();
-
-        this.consume(TokenType.SEMICOLON);
-
-        return new AssignmentStatementNode(null, typeOrName, expression);
-    }
-
-    private ExpressionNode parseExpression() {
-        return this.parseAdditionExpression();
-    }
-
     private ExpressionNode parseAdditionExpression() {
         ExpressionNode left = this.parseMultiplicationExpression();
 
@@ -88,20 +60,6 @@ public class LangParser {
             TokenType operator = this.consume().type;
 
             ExpressionNode right = this.parseMultiplicationExpression();
-
-            left = new BinaryExpressionNode(left, operator, right);
-        }
-
-        return left;
-    }
-
-    private ExpressionNode parseMultiplicationExpression() {
-        ExpressionNode left = this.parseExponentiationExpression();
-
-        while (this.current().isMultiplicationOperator()) {
-            TokenType operator = this.consume().type;
-
-            ExpressionNode right = this.parseExponentiationExpression();
 
             left = new BinaryExpressionNode(left, operator, right);
         }
@@ -123,11 +81,29 @@ public class LangParser {
         return left;
     }
 
+    private ExpressionNode parseExpression() {
+        return this.parseAdditionExpression();
+    }
+
+    private ExpressionNode parseMultiplicationExpression() {
+        ExpressionNode left = this.parseExponentiationExpression();
+
+        while (this.current().isMultiplicationOperator()) {
+            TokenType operator = this.consume().type;
+
+            ExpressionNode right = this.parseExponentiationExpression();
+
+            left = new BinaryExpressionNode(left, operator, right);
+        }
+
+        return left;
+    }
+
     private ExpressionNode parsePrimaryExpression() {
         UnaryOperatorType unaryOperator = null;
         ExpressionNode expression = null;
 
-        if (this.current(TokenType.DASH)) {
+        if (this.current(TokenType.HYPHEN)) {
             this.consume();
             unaryOperator = UnaryOperatorType.NEGATION;
         } else if (this.current(TokenType.EXCLAMATION_MARK)) {
@@ -164,5 +140,47 @@ public class LangParser {
         }
 
         return expression;
+    }
+
+    private StatementNode parseStatement() {
+        IdentifierExpressionNode typeOrName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+
+        if (this.current(TokenType.IDENTIFIER)) {
+            IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+
+            this.consume(TokenType.EQUALS);
+
+            ExpressionNode expression = this.parseExpression();
+
+            this.consume(TokenType.SEMICOLON);
+
+            return new AssignmentStatementNode(typeOrName, name, expression);
+        }
+
+        TokenType shorthandAssignmentOperator = null;
+
+        if (this.current().isOperator()) {
+            shorthandAssignmentOperator = this.consume().type;
+        }
+
+        if (this.current().isIncrementOrDecrementOperator()) {
+            TokenType incrementOrDecrementOperator = this.consume().type;
+
+            this.consume(TokenType.SEMICOLON);
+
+            return new AssignmentStatementNode(null, typeOrName, new BinaryExpressionNode(typeOrName, incrementOrDecrementOperator, new IntegerExpressionNode(1)));
+        }
+
+        this.consume(TokenType.EQUALS);
+
+        ExpressionNode expression = this.parseExpression();
+
+        this.consume(TokenType.SEMICOLON);
+
+        if (shorthandAssignmentOperator != null) {
+            return new AssignmentStatementNode(null, typeOrName, new BinaryExpressionNode(typeOrName, shorthandAssignmentOperator, expression));
+        }
+
+        return new AssignmentStatementNode(null, typeOrName, expression);
     }
 }

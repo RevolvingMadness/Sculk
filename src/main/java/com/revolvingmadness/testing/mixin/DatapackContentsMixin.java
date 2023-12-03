@@ -27,39 +27,34 @@ import java.util.List;
 public class DatapackContentsMixin implements DatapackContentsAccessor {
     @Shadow
     @Final
-    private TagManagerLoader registryTagManager;
-
+    private FunctionLoader functionLoader;
+    @Unique
+    private LangScriptLoader langScriptLoader;
     @Shadow
     @Final
     private LootManager lootManager;
-
     @Shadow
     @Final
     private RecipeManager recipeManager;
-
     @Shadow
     @Final
-    private FunctionLoader functionLoader;
-
+    private TagManagerLoader registryTagManager;
     @Shadow
     @Final
     private ServerAdvancementLoader serverAdvancementLoader;
 
-    @Unique
-    private LangScriptLoader langScriptLoader;
-
-    @Override
-    public LangScriptLoader testing$getLangScriptLoader() {
-        return this.langScriptLoader;
+    @Inject(at = @At("HEAD"), method = "getContents", cancellable = true)
+    public void injectGetContents(CallbackInfoReturnable<List<ResourceReloader>> cir) {
+        cir.setReturnValue(List.of(this.registryTagManager, this.lootManager, this.recipeManager, this.functionLoader, this.langScriptLoader, this.serverAdvancementLoader));
     }
 
-    @Inject(at=@At("TAIL"), method="<init>")
+    @Inject(at = @At("TAIL"), method = "<init>")
     public void injectInit(DynamicRegistryManager.Immutable dynamicRegistryManager, FeatureSet enabledFeatures, CommandManager.RegistrationEnvironment environment, int functionPermissionLevel, CallbackInfo ci) {
         this.langScriptLoader = new LangScriptLoader();
     }
 
-    @Inject(at=@At("HEAD"), method="getContents", cancellable = true)
-    public void injectGetContents(CallbackInfoReturnable<List<ResourceReloader>> cir) {
-        cir.setReturnValue(List.of(this.registryTagManager, this.lootManager, this.recipeManager, this.functionLoader, this.langScriptLoader, this.serverAdvancementLoader));
+    @Override
+    public LangScriptLoader testing$getLangScriptLoader() {
+        return this.langScriptLoader;
     }
 }

@@ -9,8 +9,8 @@ import java.util.Map;
 
 public class LangLexer {
     private final String input;
-    private Integer position;
     private final Map<String, TokenType> keywords;
+    private Integer position;
 
     public LangLexer(String input) {
         this.input = input;
@@ -20,42 +20,46 @@ public class LangLexer {
         keywords.put("false", TokenType.FALSE);
     }
 
-    public Character current() {
-        return this.input.charAt(this.position);
+    public Character consume() {
+        return this.input.charAt(this.position++);
     }
 
-    public Boolean current(Character character) {
+    public boolean current(Character character) {
         return this.current() == character;
     }
 
-    public Character next() {
-        if (this.position+1 >= this.input.length()) {
-            return null;
-        }
-
-        return this.input.charAt(this.position+1);
-    }
-
-    public Character consume() {
-        return this.input.charAt(this.position++);
+    public Character current() {
+        return this.input.charAt(this.position);
     }
 
     public List<Token> lex() {
         List<Token> tokens = new ArrayList<>();
 
         while (this.position < this.input.length()) {
-            if (Character.isDigit(this.current()) || (this.current() == '.' && Character.isDigit(this.next()))) {
+            if (Character.isDigit(this.current()) || (this.current('.') && Character.isDigit(this.next()))) {
                 tokens.add(this.lexDigit());
-            } else if (this.current() == '+') {
-                tokens.add(new Token(TokenType.PLUS));
+            } else if (this.current('+')) {
                 this.consume();
-            } else if (this.current() == '-') {
-                tokens.add(new Token(TokenType.DASH));
+
+                if (this.current('+')) {
+                    this.consume();
+
+                    tokens.add(new Token(TokenType.DOUBLE_PLUS));
+                } else {
+                    tokens.add(new Token(TokenType.PLUS));
+                }
+            } else if (this.current('-')) {
                 this.consume();
-            } else if (this.current() == '*') {
+
+                if (this.current('-')) {
+                    tokens.add(new Token(TokenType.DOUBLE_HYPHEN));
+                } else {
+                    tokens.add(new Token(TokenType.HYPHEN));
+                }
+            } else if (this.current('*')) {
                 tokens.add(new Token(TokenType.STAR));
                 this.consume();
-            } else if (this.current() == '/') {
+            } else if (this.current('/')) {
                 this.consume();
 
                 if (this.current('/')) {
@@ -64,29 +68,29 @@ public class LangLexer {
                 } else {
                     tokens.add(new Token(TokenType.FSLASH));
                 }
-            } else if (this.current() == '^') {
+            } else if (this.current('^')) {
                 tokens.add(new Token(TokenType.CARET));
                 this.consume();
-            } else if (this.current() == '%') {
+            } else if (this.current('%')) {
                 tokens.add(new Token(TokenType.PERCENT));
                 this.consume();
             } else if (Character.isWhitespace(this.current())) {
                 this.consume();
             } else if (Character.isAlphabetic(this.current())) {
                 tokens.add(this.lexIdentifier());
-            } else if (this.current() == ';') {
+            } else if (this.current(';')) {
                 tokens.add(new Token(TokenType.SEMICOLON));
                 this.consume();
-            } else if (this.current() == '=') {
+            } else if (this.current('=')) {
                 tokens.add(new Token(TokenType.EQUALS));
                 this.consume();
-            } else if (this.current() == '(') {
+            } else if (this.current('(')) {
                 tokens.add(new Token(TokenType.LEFT_PARENTHESIS));
                 this.consume();
-            } else if (this.current() == ')') {
+            } else if (this.current(')')) {
                 tokens.add(new Token(TokenType.RIGHT_PARENTHESIS));
                 this.consume();
-            } else if (this.current() == '!') {
+            } else if (this.current('!')) {
                 tokens.add(new Token(TokenType.EXCLAMATION_MARK));
                 this.consume();
             } else {
@@ -103,22 +107,6 @@ public class LangLexer {
         while (this.position < this.input.length() && this.current() != '\n') {
             this.consume();
         }
-    }
-
-    private Token lexIdentifier() {
-        StringBuilder identifier = new StringBuilder();
-
-        while (this.position < this.input.length() && (Character.isLetterOrDigit(this.current()) || this.current() == '_')) {
-            identifier.append(this.consume());
-        }
-
-        String identifierString = identifier.toString();
-
-        if (keywords.containsKey(identifierString)) {
-            return new Token(keywords.get(identifierString));
-        }
-
-        return new Token(TokenType.IDENTIFIER, identifierString);
     }
 
     private Token lexDigit() {
@@ -144,5 +132,29 @@ public class LangLexer {
         }
 
         return new Token(TokenType.INTEGER, Integer.parseInt(digitString));
+    }
+
+    private Token lexIdentifier() {
+        StringBuilder identifier = new StringBuilder();
+
+        while (this.position < this.input.length() && (Character.isLetterOrDigit(this.current()) || this.current() == '_')) {
+            identifier.append(this.consume());
+        }
+
+        String identifierString = identifier.toString();
+
+        if (keywords.containsKey(identifierString)) {
+            return new Token(keywords.get(identifierString));
+        }
+
+        return new Token(TokenType.IDENTIFIER, identifierString);
+    }
+
+    public Character next() {
+        if (this.position + 1 >= this.input.length()) {
+            return null;
+        }
+
+        return this.input.charAt(this.position + 1);
     }
 }

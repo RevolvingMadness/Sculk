@@ -4,8 +4,8 @@ import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.UnaryOperatorType;
 
 public class UnaryExpression implements ExpressionNode {
-    public final ExpressionNode value;
     public final UnaryOperatorType type;
+    public final ExpressionNode value;
 
     public UnaryExpression(UnaryOperatorType type, ExpressionNode value) {
         this.type = type;

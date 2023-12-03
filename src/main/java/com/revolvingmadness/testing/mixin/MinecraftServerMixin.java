@@ -39,54 +39,59 @@ import java.util.stream.Stream;
 @Mixin(MinecraftServer.class)
 public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<ServerTask> implements QueryableServer, CommandOutput, AutoCloseable {
     @Shadow
+    @Final
+    protected SaveProperties saveProperties;
+    @Shadow
+    @Final
+    private CombinedDynamicRegistries<ServerDynamicRegistryType> combinedDynamicRegistries;
+    @Shadow
+    @Final
+    private CommandFunctionManager commandFunctionManager;
+    @Shadow
+    @Final
+    private ResourcePackManager dataPackManager;
+    @Unique
+    private LangScriptManager langScriptManager;
+    @Shadow
     private Profiler profiler;
-
-    @Shadow private MinecraftServer.ResourceManagerHolder resourceManagerHolder;
-    @Shadow @Final private CombinedDynamicRegistries<ServerDynamicRegistryType> combinedDynamicRegistries;
-    @Shadow @Final private ResourcePackManager dataPackManager;
-    @Shadow @Final protected SaveProperties saveProperties;
+    @Shadow
+    private MinecraftServer.ResourceManagerHolder resourceManagerHolder;
+    @Shadow
+    @Final
+    private StructureTemplateManager structureTemplateManager;
+    @Shadow
+    @Final
+    private Executor workerExecutor;
 
     public MinecraftServerMixin(String string) {
         super(string);
     }
-
-    @Shadow public abstract boolean isDedicated();
-
-    @Shadow public abstract int getFunctionPermissionLevel();
-
-    @Shadow @Final private Executor workerExecutor;
-
-    @Shadow public abstract DynamicRegistryManager.Immutable getRegistryManager();
 
     @Shadow
     private static DataPackSettings createDataPackSettings(ResourcePackManager dataPackManager) {
         return null;
     }
 
-    @Shadow public abstract PlayerManager getPlayerManager();
-
-    @Shadow @Final private CommandFunctionManager commandFunctionManager;
-    @Shadow @Final private StructureTemplateManager structureTemplateManager;
-    @Unique
-    private LangScriptManager langScriptManager;
+    @Shadow
+    public abstract int getFunctionPermissionLevel();
 
     @Unique
     private LangScriptManager getLangScriptManager() {
         return this.langScriptManager;
     }
 
-    @Inject(at=@At("TAIL"), method="<init>")
+    @Shadow
+    public abstract PlayerManager getPlayerManager();
+
+    @Shadow
+    public abstract DynamicRegistryManager.Immutable getRegistryManager();
+
+    @Inject(at = @At("TAIL"), method = "<init>")
     public void injectInit(Thread serverThread, LevelStorage.Session session, ResourcePackManager dataPackManager, SaveLoader saveLoader, Proxy proxy, DataFixer dataFixer, ApiServices apiServices, WorldGenerationProgressListenerFactory worldGenerationProgressListenerFactory, CallbackInfo ci) {
-        this.langScriptManager = new LangScriptManager((MinecraftServer) (Object) this, ((DatapackContentsAccessor)this.resourceManagerHolder.dataPackContents()).testing$getLangScriptLoader());
+        this.langScriptManager = new LangScriptManager((MinecraftServer) (Object) this, ((DatapackContentsAccessor) this.resourceManagerHolder.dataPackContents()).testing$getLangScriptLoader());
     }
 
-    @Inject(at=@At("HEAD"), method="tickWorlds")
-    public void injectTickWorlds(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
-        this.profiler.push("langScripts");
-        this.getLangScriptManager().tick();
-    }
-
-    @Inject(at=@At("HEAD"), method="reloadResources", cancellable = true)
+    @Inject(at = @At("HEAD"), method = "reloadResources", cancellable = true)
     public void injectReloadResources(Collection<String> dataPacks, CallbackInfoReturnable<CompletableFuture<Void>> cir) {
         MinecraftServer thisInstance = (MinecraftServer) (Object) this;
 
@@ -115,7 +120,7 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
             this.getPlayerManager().saveAllPlayerData();
             this.getPlayerManager().onDataPacksReloaded();
             this.commandFunctionManager.setFunctions(this.resourceManagerHolder.dataPackContents().getFunctionLoader());
-            this.langScriptManager.setLoader(((DatapackContentsAccessor)this.resourceManagerHolder.dataPackContents()).testing$getLangScriptLoader());
+            this.langScriptManager.setLoader(((DatapackContentsAccessor) this.resourceManagerHolder.dataPackContents()).testing$getLangScriptLoader());
             this.structureTemplateManager.setResourceManager(this.resourceManagerHolder.resourceManager());
         }, this);
         if (this.isOnThread()) {
@@ -125,4 +130,13 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
 
         cir.setReturnValue(completableFuture);
     }
+
+    @Inject(at = @At("HEAD"), method = "tickWorlds")
+    public void injectTickWorlds(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
+        this.profiler.push("langScripts");
+        this.getLangScriptManager().tick();
+    }
+
+    @Shadow
+    public abstract boolean isDedicated();
 }
