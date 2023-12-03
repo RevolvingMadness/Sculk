@@ -1,5 +1,7 @@
 package com.revolvingmadness.testing.language.lexer;
 
+import com.revolvingmadness.testing.language.lexer.error.LexError;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,8 +67,11 @@ public class LangLexer {
             } else if (this.current() == ';') {
                 tokens.add(new Token(TokenType.SEMICOLON));
                 this.consume();
+            } else if (this.current() == '=') {
+                tokens.add(new Token(TokenType.EQUALS));
+                this.consume();
             } else {
-                throw new RuntimeException("Unknown token '" + this.current() + "'");
+                throw new LexError("Unknown token '" + this.current() + "'");
             }
         }
 

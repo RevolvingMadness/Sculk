@@ -1,5 +1,7 @@
 package com.revolvingmadness.testing.language.parser.nodes;
 
+import com.revolvingmadness.testing.language.parser.error.TypeError;
+
 public class IntegerExpressionNode implements NumberExpressionNode {
     public Integer value;
 
@@ -25,7 +27,7 @@ public class IntegerExpressionNode implements NumberExpressionNode {
             return new IntegerExpressionNode(this.value + integerExpression.value);
         }
 
-        throw new RuntimeException("Unsupported operator '+' for types '" + this.getType(program) + "' and '" + other.getType(program) + "'");
+        throw new TypeError("Unsupported operator '+' for types '" + this.getType(program) + "' and '" + other.getType(program) + "'");
     }
 
     @Override
@@ -36,7 +38,7 @@ public class IntegerExpressionNode implements NumberExpressionNode {
             return new IntegerExpressionNode(this.value - integerExpression.value);
         }
 
-        throw new RuntimeException("Unsupported operator '-' for types '" + this.getType(program) + "' and '" + other.getType(program) + "'");
+        throw new TypeError("Unsupported operator '-' for types '" + this.getType(program) + "' and '" + other.getType(program) + "'");
     }
 
     @Override
@@ -47,7 +49,7 @@ public class IntegerExpressionNode implements NumberExpressionNode {
             return new IntegerExpressionNode(this.value * integerExpression.value);
         }
 
-        throw new RuntimeException("Unsupported operator '*' for types '" + this.getType(program) + "' and '" + other.getType(program) + "'");
+        throw new TypeError("Unsupported operator '*' for types '" + this.getType(program) + "' and '" + other.getType(program) + "'");
     }
 
     @Override
@@ -58,7 +60,7 @@ public class IntegerExpressionNode implements NumberExpressionNode {
             return new IntegerExpressionNode(this.value / integerExpression.value);
         }
 
-        throw new RuntimeException("Unsupported operator '/' for types '" + this.getType(program) + "' and '" + other.getType(program) + "'");
+        throw new TypeError("Unsupported operator '/' for types '" + this.getType(program) + "' and '" + other.getType(program) + "'");
     }
 
     @Override
@@ -69,7 +71,7 @@ public class IntegerExpressionNode implements NumberExpressionNode {
             return new FloatExpressionNode(Math.pow(this.value, integerExpression.value));
         }
 
-        throw new RuntimeException("Unsupported operator '^' for types '" + this.getType(program) + "' and '" + other.getType(program) + "'");
+        throw new TypeError("Unsupported operator '^' for types '" + this.getType(program) + "' and '" + other.getType(program) + "'");
     }
 
     @Override
@@ -80,11 +82,28 @@ public class IntegerExpressionNode implements NumberExpressionNode {
             return new IntegerExpressionNode(this.value % integerExpression.value);
         }
 
-        throw new RuntimeException("Unsupported operator '%' for types '" + this.getType(program) + "' and '" + other.getType(program) + "'");
+        throw new TypeError("Unsupported operator '%' for types '" + this.getType(program) + "' and '" + other.getType(program) + "'");
     }
 
     @Override
     public String toString() {
         return this.value.toString();
+    }
+
+    @Override
+    public boolean equals(Object otherObject) {
+        if (this == otherObject)
+            return true;
+        if (otherObject == null || getClass() != otherObject.getClass())
+            return false;
+
+        IntegerExpressionNode otherIntegerExpression = (IntegerExpressionNode) otherObject;
+
+        return value.equals(otherIntegerExpression.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
     }
 }

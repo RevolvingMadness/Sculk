@@ -2,7 +2,9 @@ grammar lang;
 
 program: statement*;
 
-statement: addition_expression ';';
+statement: assignment_statement ';';
+
+assignment_statement: IDENTIFIER? IDENTIFIER '=' addition_expression;
 
 addition_expression: multiplication_expression (('+' | '-') multiplication_expression)*;
 

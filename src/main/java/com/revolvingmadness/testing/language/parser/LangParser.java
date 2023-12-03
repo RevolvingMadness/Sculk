@@ -2,6 +2,8 @@ package com.revolvingmadness.testing.language.parser;
 
 import com.revolvingmadness.testing.language.lexer.Token;
 import com.revolvingmadness.testing.language.lexer.TokenType;
+import com.revolvingmadness.testing.language.parser.error.ParseError;
+import com.revolvingmadness.testing.language.parser.error.SyntaxError;
 import com.revolvingmadness.testing.language.parser.nodes.*;
 
 import java.util.List;
@@ -27,7 +29,7 @@ public class LangParser {
         Token token = this.input.get(this.position++);
 
         if (token.type != type) {
-            throw new RuntimeException("Expected token type '" + type + "', but got '" + token.type + "'");
+            throw new SyntaxError("Expected token type '" + type + "', but got '" + token.type + "'");
         }
 
         return token;
@@ -48,7 +50,12 @@ public class LangParser {
     }
 
     private StatementNode parseStatement() {
-        AssignmentStatementNode assignmentStatementNode = new AssignmentStatementNode(new IdentifierExpressionNode("integer"), new IdentifierExpressionNode("variable"), this.parseExpression());
+        IdentifierExpressionNode type = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+        IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+
+        this.consume(TokenType.EQUALS);
+
+        AssignmentStatementNode assignmentStatementNode = new AssignmentStatementNode(type, name, this.parseExpression());
 
         this.consume(TokenType.SEMICOLON);
 
@@ -106,8 +113,10 @@ public class LangParser {
             return new IntegerExpressionNode((Integer) this.consume().value);
         } else if (this.current(TokenType.FLOAT)) {
             return new FloatExpressionNode((Double) this.consume().value);
+        } else if (this.current(TokenType.IDENTIFIER)) {
+            return new IdentifierExpressionNode((String) this.consume().value);
         }
 
-        throw new RuntimeException("Unknown expression type '" + this.current().type + "'");
+        throw new ParseError("Unknown expression type '" + this.current().type + "'");
     }
 }

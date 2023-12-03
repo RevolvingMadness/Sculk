@@ -1,41 +1,85 @@
 package com.revolvingmadness.testing.language.interpreter;
 
-import com.revolvingmadness.testing.Testing;
+import com.revolvingmadness.testing.backend.Logger;
+import com.revolvingmadness.testing.language.interpreter.error.NameError;
 import com.revolvingmadness.testing.language.parser.nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.IdentifierExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public class VariableTable {
     public final ScriptNode program;
-    public final Map<IdentifierExpressionNode, ExpressionNode> variables;
+    public final List<Variable> variables;
 
     public VariableTable(ScriptNode program) {
         this.program = program;
-        this.variables = new HashMap<>();
+        this.variables = new ArrayList<>();
     }
 
-    public ExpressionNode get(IdentifierExpressionNode name) {
-        return this.variables.get(name);
+    public Optional<Variable> get(IdentifierExpressionNode name) {
+        for (Variable variable : this.variables) {
+            if (variable.name == name) {
+                return Optional.of(variable);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    public Variable getOrThrow(IdentifierExpressionNode name) {
+        for (Variable variable : this.variables) {
+            if (variable.name.equals(name)) {
+                return variable;
+            }
+        }
+
+        throw new NameError("Variable '" + name + "' is not defined");
     }
 
     public void declareAndAssign(IdentifierExpressionNode type, IdentifierExpressionNode name, ExpressionNode value) {
-        this.declare(type, name);
+        Objects.requireNonNull(name);
 
-        this.assign(name, value);
+        if (type != null) {
+            this.declare(type, name);
+        }
+
+        if (value != null) {
+            this.assign(name, value);
+        }
     }
 
     private void assign(IdentifierExpressionNode name, ExpressionNode value) {
         ExpressionNode interpretedValue = value.interpret(program);
 
-        Testing.LOGGER.info("Assigning '" + name + "' to the value '" + interpretedValue + "'");
-        this.variables.put(name, interpretedValue);
+        Logger.info("Assigning '" + name + "' to the value '" + interpretedValue + "'");
+
+        Optional<Variable> existingVariable = this.get(name);
+
+        if (existingVariable.isEmpty()) {
+            throw new NameError("Variable '" + name + "' has not been declared");
+        }
+
+        for (Variable variable : this.variables) {
+            if (variable.name == name) {
+                variable.value = value;
+                break;
+            }
+        }
     }
 
     private void declare(IdentifierExpressionNode type, IdentifierExpressionNode name) {
-        Testing.LOGGER.info("Declaring '" + name + "'");
-        this.variables.put(name, null);
+        Logger.info("Declaring '" + name + "'");
+
+        Optional<Variable> existingVariable = this.get(name);
+
+        if (existingVariable.isPresent()) {
+            throw new NameError("Variable '" + name + "' is already declared");
+        }
+
+        this.variables.add(new Variable(type, name, null));
     }
 }

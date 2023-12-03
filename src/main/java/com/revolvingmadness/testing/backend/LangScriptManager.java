@@ -41,6 +41,17 @@ public class LangScriptManager {
 
     public void tick() {
         if (this.justLoaded) {
+            loader.scripts.forEach((identifier, script) -> {
+                try {
+                    script.initialize();
+                } catch (RuntimeException exception) {
+                    this.server.getPlayerManager().broadcast(Text.literal("The script '" + script.identifier + "' has the following error:").formatted(Formatting.GRAY), false);
+                    this.server.getPlayerManager().broadcast(Text.literal(exception.getClass().getSimpleName() + ": ").formatted(Formatting.DARK_GRAY).append(Text.literal(exception.getMessage()).formatted(Formatting.RED)), false);
+                    script.hasErrors = true;
+                }
+            });
+
+
             Collection<LangScript> loadScripts = this.loader.getScriptsFromTag(LOAD_TAG_ID);
             this.executeAll(loadScripts, LOAD_TAG_ID);
             this.justLoaded = false;
@@ -68,7 +79,7 @@ public class LangScriptManager {
 
         try {
             this.interpreter.interpret(script.program);
-        } catch (Exception exception) {
+        } catch (RuntimeException exception) {
             this.server.getPlayerManager().broadcast(Text.literal("The script '" + script.identifier + "' has the following error:").formatted(Formatting.GRAY), false);
             this.server.getPlayerManager().broadcast(Text.literal(exception.getMessage()).formatted(Formatting.RED), false);
             script.hasErrors = true;

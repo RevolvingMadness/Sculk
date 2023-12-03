@@ -67,4 +67,28 @@ public class BinaryExpressionNode implements ExpressionNode {
     public String toString() {
         return this.left.toString() + ' ' + operator + ' ' + this.right.toString();
     }
+
+    @Override
+    public boolean equals(Object otherObject) {
+        if (this == otherObject)
+            return true;
+        if (otherObject == null || getClass() != otherObject.getClass())
+            return false;
+
+        BinaryExpressionNode otherBinaryExpression = (BinaryExpressionNode) otherObject;
+
+        if (!left.equals(otherBinaryExpression.left))
+            return false;
+        if (operator != otherBinaryExpression.operator)
+            return false;
+        return right.equals(otherBinaryExpression.right);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = left.hashCode();
+        result = 31 * result + operator.hashCode();
+        result = 31 * result + right.hashCode();
+        return result;
+    }
 }

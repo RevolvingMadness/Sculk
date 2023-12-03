@@ -1,9 +1,11 @@
 package com.revolvingmadness.testing.backend;
 
 import com.mojang.datafixers.util.Pair;
-import com.revolvingmadness.testing.Testing;
 import net.minecraft.registry.tag.TagGroupLoader;
-import net.minecraft.resource.*;
+import net.minecraft.resource.Resource;
+import net.minecraft.resource.ResourceFinder;
+import net.minecraft.resource.ResourceManager;
+import net.minecraft.resource.ResourceReloader;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 
@@ -18,8 +20,8 @@ public class LangScriptLoader implements ResourceReloader {
     private static final ResourceFinder FINDER = new ResourceFinder("scripts", ".script");
     private final TagGroupLoader<LangScript> TAG_LOADER = new TagGroupLoader<>(this::get, "tags/scripts");
 
-    private Map<Identifier, LangScript> scripts = new HashMap<>();
-    private Map<Identifier, Collection<LangScript>> identifiedScripts = Map.of();
+    public Map<Identifier, LangScript> scripts = new HashMap<>();
+    public Map<Identifier, Collection<LangScript>> identifiedScripts = Map.of();
 
     public Optional<LangScript> get(Identifier id) {
         return Optional.ofNullable(this.scripts.get(id));
@@ -31,7 +33,6 @@ public class LangScriptLoader implements ResourceReloader {
 
     @Override
     public CompletableFuture<Void> reload(Synchronizer synchronizer, ResourceManager resourceManager, Profiler prepareProfiler, Profiler applyProfiler, Executor prepareExecutor, Executor applyExecutor) {
-        Testing.LOGGER.info("Starting reload for mod '" + Testing.ID + "'");
         CompletableFuture<Map<Identifier, List<TagGroupLoader.TrackedEntry>>> completableScriptTags = CompletableFuture.supplyAsync(() -> this.TAG_LOADER.loadTags(resourceManager), prepareExecutor);
 
         CompletableFuture<Map<Identifier, CompletableFuture<LangScript>>> completableIdentifiedScripts = CompletableFuture.supplyAsync(() -> FINDER.findResources(resourceManager), prepareExecutor).thenCompose((identifiedScriptResources) -> {
@@ -63,8 +64,8 @@ public class LangScriptLoader implements ResourceReloader {
 
             identifiedCompletableScripts.forEach((scriptIdentifier, scriptFuture) -> scriptFuture.handle((script, exception) -> {
                 if (exception != null) {
-                    Testing.LOGGER.error("Failed to load script '" + scriptIdentifier + "'");
-                    Testing.LOGGER.error(exception.getMessage());
+                    Logger.error("Failed to load script '" + scriptIdentifier + "'");
+                    Logger.error(exception.getMessage());
                 } else {
                     identifiedScripts.put(scriptIdentifier, script);
                 }
