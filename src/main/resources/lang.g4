@@ -19,3 +19,4 @@ float: (INTEGER '.' INTEGER?) | (INTEGER? '.' INTEGER);
 IDENTIFIER: [a-zA-Z_][a-zA-Z0-9_]*;
 INTEGER: [0-9];
 WHITESPACE: [ \n\t\r] -> skip;
+COMMENTS: '//' .*?'\n' -> skip;
