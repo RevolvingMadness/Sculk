@@ -1,5 +1,5 @@
 package com.revolvingmadness.testing.language.parser.nodes;
 
-public interface Node {
+public interface NumberExpressionNode extends ExpressionNode {
 
 }

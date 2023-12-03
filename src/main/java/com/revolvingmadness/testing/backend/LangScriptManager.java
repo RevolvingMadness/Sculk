@@ -2,12 +2,16 @@ package com.revolvingmadness.testing.backend;
 
 import com.google.common.collect.ImmutableList;
 import com.revolvingmadness.testing.Testing;
+import com.revolvingmadness.testing.language.interpreter.LangInterpreter;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class LangScriptManager {
     private static final Identifier TICK_TAG_ID = new Identifier(Testing.ID, "tick");
@@ -17,9 +21,11 @@ public class LangScriptManager {
     private boolean justLoaded;
     private LangScriptLoader loader;
     private final MinecraftServer server;
+    private final LangInterpreter interpreter;
 
     public LangScriptManager(MinecraftServer server, LangScriptLoader loader) {
         this.server = server;
+        this.interpreter = new LangInterpreter(server);
         this.setLoader(loader);
     }
 
@@ -45,9 +51,9 @@ public class LangScriptManager {
 
     private void executeAll(Collection<LangScript> scripts, Identifier label) {
         Profiler serverProfiler = this.server.getProfiler();
-        if (label == null) {
-            throw new RuntimeException("Label is null");
-        }
+
+        Objects.requireNonNull(label);
+
         serverProfiler.push(label::toString);
 
         scripts.forEach(this::execute);
@@ -56,6 +62,16 @@ public class LangScriptManager {
     }
 
     private void execute(LangScript script) {
-        System.out.println("Executing script '" + script.identifier + "'");
+        if (script.hasErrors) {
+            return;
+        }
+
+        try {
+            this.interpreter.interpret(script.program);
+        } catch (Exception exception) {
+            this.server.getPlayerManager().broadcast(Text.literal("The script '" + script.identifier + "' has the following error:").formatted(Formatting.GRAY), false);
+            this.server.getPlayerManager().broadcast(Text.literal(exception.getMessage()).formatted(Formatting.RED), false);
+            script.hasErrors = true;
+        }
     }
 }

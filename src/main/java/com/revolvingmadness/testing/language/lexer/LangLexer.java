@@ -1,15 +1,21 @@
 package com.revolvingmadness.testing.language.lexer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LangLexer {
     private final String input;
     private Integer position;
+    private final Map<String, TokenType> keywords;
 
     public LangLexer(String input) {
         this.input = input;
         this.position = 0;
+        this.keywords = new HashMap<>();
+        keywords.put("true", TokenType.TRUE);
+        keywords.put("false", TokenType.FALSE);
     }
 
     public Character current() {
@@ -76,7 +82,13 @@ public class LangLexer {
             identifier.append(this.consume());
         }
 
-        return new Token(TokenType.IDENTIFIER, identifier.toString());
+        String identifierString = identifier.toString();
+
+        if (keywords.containsKey(identifierString)) {
+            return new Token(keywords.get(identifierString));
+        }
+
+        return new Token(TokenType.IDENTIFIER, identifierString);
     }
 
     private Token lexDigit() {

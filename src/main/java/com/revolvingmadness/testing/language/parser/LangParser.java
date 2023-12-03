@@ -37,8 +37,8 @@ public class LangParser {
         return this.current().type == type;
     }
 
-    public ProgramNode parse() {
-        ProgramNode program = new ProgramNode();
+    public ScriptNode parse() {
+        ScriptNode program = new ScriptNode();
 
         while (!this.current(TokenType.EOF)) {
             program.statements.add(this.parseStatement());

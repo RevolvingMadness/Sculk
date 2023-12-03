@@ -1,5 +1,5 @@
 package com.revolvingmadness.testing.language.parser.nodes;
 
-public abstract class StatementNode extends Node {
-
+public interface StatementNode extends Node {
+    void interpret(ScriptNode program);
 }

@@ -1,6 +1,6 @@
 package com.revolvingmadness.testing.language.parser.nodes;
 
-public class AssignmentStatementNode extends StatementNode {
+public class AssignmentStatementNode implements StatementNode {
     public final IdentifierExpressionNode type;
     public final IdentifierExpressionNode name;
     public final ExpressionNode value;
@@ -9,5 +9,10 @@ public class AssignmentStatementNode extends StatementNode {
         this.type = type;
         this.name = name;
         this.value = value;
+    }
+
+    @Override
+    public void interpret(ScriptNode program) {
+        program.variableTable.declareAndAssign(type, name, value);
     }
 }
