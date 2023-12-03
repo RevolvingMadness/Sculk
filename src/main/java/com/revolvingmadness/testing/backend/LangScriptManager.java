@@ -4,8 +4,6 @@ import com.google.common.collect.ImmutableList;
 import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.language.interpreter.LangInterpreter;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 
@@ -45,8 +43,7 @@ public class LangScriptManager {
                 try {
                     script.initialize();
                 } catch (RuntimeException exception) {
-                    this.server.getPlayerManager().broadcast(Text.literal("The script '" + script.identifier + "' has the following error:").formatted(Formatting.GRAY), false);
-                    this.server.getPlayerManager().broadcast(Text.literal(exception.getClass().getSimpleName() + ": ").formatted(Formatting.DARK_GRAY).append(Text.literal(exception.getMessage()).formatted(Formatting.RED)), false);
+                    Logger.scriptError(script, exception);
                     script.hasErrors = true;
                 }
             });
@@ -80,8 +77,7 @@ public class LangScriptManager {
         try {
             this.interpreter.interpret(script.scriptNode);
         } catch (RuntimeException exception) {
-            this.server.getPlayerManager().broadcast(Text.literal("The script '" + script.identifier + "' has the following error:").formatted(Formatting.GRAY), false);
-            this.server.getPlayerManager().broadcast(Text.literal(exception.getMessage()).formatted(Formatting.RED), false);
+            Logger.scriptError(script, exception);
             script.hasErrors = true;
         }
     }

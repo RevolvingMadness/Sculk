@@ -1,7 +1,0 @@
-{
-   "commands.reload.success": "Reloading Functions!",
-   "commands.reloadscripts.success": "Reloading Scripts!",
-   "commands.reload.failure": "Reload functions failed; keeping old data",
-   "commands.reloadscripts.failure": "Reload scripts failed; keeping old data",
-   "gamerule.scriptLogsEnabled": "Script Logs Enabled"
-}

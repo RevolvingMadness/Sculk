@@ -29,7 +29,7 @@ public class LangParser {
         Token token = this.input.get(this.position++);
 
         if (token.type != type) {
-            throw new SyntaxError("Expected token type '" + type + "', but got '" + token.type + "'");
+            throw new SyntaxError("Expected '" + type + "', got '" + token.type + "'");
         }
 
         return token;
@@ -55,19 +55,13 @@ public class LangParser {
         if (this.current(TokenType.IDENTIFIER)) {
             IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
 
-            if (this.current(TokenType.EQUALS)) {
-                this.consume(TokenType.EQUALS);
+            this.consume(TokenType.EQUALS);
 
-                ExpressionNode expression = this.parseExpression();
-
-                this.consume(TokenType.SEMICOLON);
-
-                return new AssignmentStatementNode(typeOrName, name, expression);
-            }
+            ExpressionNode expression = this.parseExpression();
 
             this.consume(TokenType.SEMICOLON);
 
-            return new AssignmentStatementNode(typeOrName, name, null);
+            return new AssignmentStatementNode(typeOrName, name, expression);
         }
 
         this.consume(TokenType.EQUALS);

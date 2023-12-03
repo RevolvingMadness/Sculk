@@ -1,5 +1,7 @@
 package com.revolvingmadness.testing.language.parser.nodes;
 
+import com.revolvingmadness.testing.language.parser.error.ParseError;
+
 public class IdentifierExpressionNode implements ExpressionNode {
     public final String value;
 
@@ -14,49 +16,37 @@ public class IdentifierExpressionNode implements ExpressionNode {
 
     @Override
     public IdentifierExpressionNode getType(ScriptNode script) {
-        return script.variableTable.getOrThrow(this).value.getType(script);
+        throw new ParseError("This should be interpreted first");
     }
 
     @Override
     public ExpressionNode add(ScriptNode script, ExpressionNode other) {
-        ExpressionNode value = script.variableTable.getOrThrow(this).value;
-
-        return value.add(script, other);
+        throw new ParseError("This should be interpreted first");
     }
 
     @Override
     public ExpressionNode subtract(ScriptNode script, ExpressionNode other) {
-        ExpressionNode value = script.variableTable.getOrThrow(this).value;
-
-        return value.subtract(script, other);
+        throw new ParseError("This should be interpreted first");
     }
 
     @Override
     public ExpressionNode multiply(ScriptNode script, ExpressionNode other) {
-        ExpressionNode value = script.variableTable.getOrThrow(this).value;
-
-        return value.multiply(script, other);
+        throw new ParseError("This should be interpreted first");
     }
 
     @Override
     public ExpressionNode divide(ScriptNode script, ExpressionNode other) {
-        ExpressionNode value = script.variableTable.getOrThrow(this).value;
-
-        return value.divide(script, other);
+        throw new ParseError("This should be interpreted first");
     }
 
     @Override
     public ExpressionNode exponentiate(ScriptNode script, ExpressionNode other) {
-        ExpressionNode value = script.variableTable.getOrThrow(this).value;
-
-        return value.exponentiate(script, other);
+        throw new ParseError("This should be interpreted first");
     }
 
     @Override
     public ExpressionNode mod(ScriptNode script, ExpressionNode other) {
-        ExpressionNode value = script.variableTable.getOrThrow(this).value;
-
-        return value.mod(script, other);
+        throw new ParseError("This should be interpreted first");
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.revolvingmadness.testing.language.interpreter;
 
 import com.revolvingmadness.testing.backend.Logger;
 import com.revolvingmadness.testing.language.interpreter.error.NameError;
+import com.revolvingmadness.testing.language.parser.error.TypeError;
 import com.revolvingmadness.testing.language.parser.nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.IdentifierExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
@@ -37,7 +38,7 @@ public class VariableTable {
             }
         }
 
-        throw new NameError("Variable '" + name + "' is not defined");
+        throw new NameError("Variable '" + name + "' has not been declared");
     }
 
     public void declareAndOrAssign(IdentifierExpressionNode type, IdentifierExpressionNode name, ExpressionNode value) {
@@ -53,25 +54,26 @@ public class VariableTable {
     }
 
     private void assign(IdentifierExpressionNode name, ExpressionNode value) {
+        Objects.requireNonNull(name);
+
         ExpressionNode interpretedValue = value.interpret(this.script);
 
         Logger.info("Assigning '" + name + "' to the value '" + interpretedValue + "'");
 
-        Optional<Variable> existingVariable = this.get(name);
+        Variable existingVariable = this.getOrThrow(name);
 
-        if (existingVariable.isEmpty()) {
-            throw new NameError("Variable '" + name + "' has not been declared");
+        IdentifierExpressionNode interpretedValueType = interpretedValue.getType(this.script);
+
+        if (!existingVariable.type.equals(interpretedValueType)) {
+            throw new TypeError("Expected type '" + existingVariable.type + "', but got type '" + interpretedValueType + "'");
         }
 
-        for (Variable variable : this.variables) {
-            if (variable.name.equals(name)) {
-                variable.value = value;
-                break;
-            }
-        }
+        existingVariable.value = interpretedValue;
     }
 
     private void declare(IdentifierExpressionNode type, IdentifierExpressionNode name) {
+        Objects.requireNonNull(name);
+
         Logger.info("Declaring '" + name + "'");
 
         Optional<Variable> existingVariable = this.get(name);

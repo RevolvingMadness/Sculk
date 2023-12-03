@@ -1,7 +1,9 @@
 package com.revolvingmadness.testing.language.lexer.error;
 
-public class LexerError extends RuntimeException {
-    public LexerError(String error) {
-        super(error);
+import com.revolvingmadness.testing.language.InternalError;
+
+public class LexerError extends InternalError {
+    public LexerError(String message) {
+        super(message);
     }
 }

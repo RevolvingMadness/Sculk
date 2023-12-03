@@ -1,6 +1,7 @@
 package com.revolvingmadness.testing.language.parser.nodes;
 
 import com.revolvingmadness.testing.language.lexer.TokenType;
+import com.revolvingmadness.testing.language.parser.error.ParseError;
 
 public class BinaryExpressionNode implements ExpressionNode {
     public final ExpressionNode left;
@@ -15,16 +16,17 @@ public class BinaryExpressionNode implements ExpressionNode {
 
     @Override
     public ExpressionNode interpret(ScriptNode script) {
+        ExpressionNode interpretedLeftValue = this.left.interpret(script);
         ExpressionNode interpretedRightValue = this.right.interpret(script);
 
         return switch (this.operator) {
-            case PLUS -> this.left.add(script, interpretedRightValue);
-            case DASH -> this.left.subtract(script, interpretedRightValue);
-            case STAR -> this.left.multiply(script, interpretedRightValue);
-            case FSLASH -> this.left.divide(script, interpretedRightValue);
-            case CARET -> this.left.exponentiate(script, interpretedRightValue);
-            case PERCENT -> this.left.mod(script, interpretedRightValue);
-            default -> throw new RuntimeException("Unknown binary operator '" + this.operator + "'");
+            case PLUS -> interpretedLeftValue.add(script, interpretedRightValue);
+            case DASH -> interpretedLeftValue.subtract(script, interpretedRightValue);
+            case STAR -> interpretedLeftValue.multiply(script, interpretedRightValue);
+            case FSLASH -> interpretedLeftValue.divide(script, interpretedRightValue);
+            case CARET -> interpretedLeftValue.exponentiate(script, interpretedRightValue);
+            case PERCENT -> interpretedLeftValue.mod(script, interpretedRightValue);
+            default -> throw new ParseError("Unknown binary operator '" + this.operator + "'");
         };
     }
 
