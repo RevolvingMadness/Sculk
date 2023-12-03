@@ -10,7 +10,7 @@ public class LangInterpreter {
         this.server = server;
     }
 
-    public void interpret(ScriptNode program) {
-        program.interpret();
+    public void interpret(ScriptNode script) {
+        script.interpret();
     }
 }

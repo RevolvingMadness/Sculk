@@ -12,7 +12,7 @@ public class AssignmentStatementNode implements StatementNode {
     }
 
     @Override
-    public void interpret(ScriptNode program) {
-        program.variableTable.declareAndAssign(type, name, value);
+    public void interpret(ScriptNode script) {
+        script.variableTable.declareAndAssign(type, name, value);
     }
 }

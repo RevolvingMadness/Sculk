@@ -10,7 +10,7 @@ import java.util.List;
 
 public class LangScript {
     public final Identifier identifier;
-    public ScriptNode program;
+    public ScriptNode scriptNode;
     public final String contents;
     public Boolean hasErrors;
 
@@ -24,6 +24,6 @@ public class LangScript {
         LangLexer lexer = new LangLexer(contents);
         List<Token> tokens = lexer.lex();
         LangParser parser = new LangParser(tokens);
-        this.program = parser.parse();
+        this.scriptNode = parser.parse();
     }
 }

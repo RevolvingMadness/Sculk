@@ -40,13 +40,13 @@ public class LangParser {
     }
 
     public ScriptNode parse() {
-        ScriptNode program = new ScriptNode();
+        ScriptNode script = new ScriptNode();
 
         while (!this.current(TokenType.EOF)) {
-            program.statements.add(this.parseStatement());
+            script.statements.add(this.parseStatement());
         }
 
-        return program;
+        return script;
     }
 
     private StatementNode parseStatement() {

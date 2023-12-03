@@ -8,55 +8,55 @@ public class IdentifierExpressionNode implements ExpressionNode {
     }
 
     @Override
-    public ExpressionNode interpret(ScriptNode program) {
-        return program.variableTable.getOrThrow(this).value;
+    public ExpressionNode interpret(ScriptNode script) {
+        return script.variableTable.getOrThrow(this).value;
     }
 
     @Override
-    public IdentifierExpressionNode getType(ScriptNode program) {
-        return program.variableTable.getOrThrow(this).value.getType(program);
+    public IdentifierExpressionNode getType(ScriptNode script) {
+        return script.variableTable.getOrThrow(this).value.getType(script);
     }
 
     @Override
-    public ExpressionNode add(ScriptNode program, ExpressionNode other) {
-        ExpressionNode value = program.variableTable.getOrThrow(this).value;
+    public ExpressionNode add(ScriptNode script, ExpressionNode other) {
+        ExpressionNode value = script.variableTable.getOrThrow(this).value;
 
-        return value.add(program, other);
+        return value.add(script, other);
     }
 
     @Override
-    public ExpressionNode subtract(ScriptNode program, ExpressionNode other) {
-        ExpressionNode value = program.variableTable.getOrThrow(this).value;
+    public ExpressionNode subtract(ScriptNode script, ExpressionNode other) {
+        ExpressionNode value = script.variableTable.getOrThrow(this).value;
 
-        return value.subtract(program, other);
+        return value.subtract(script, other);
     }
 
     @Override
-    public ExpressionNode multiply(ScriptNode program, ExpressionNode other) {
-        ExpressionNode value = program.variableTable.getOrThrow(this).value;
+    public ExpressionNode multiply(ScriptNode script, ExpressionNode other) {
+        ExpressionNode value = script.variableTable.getOrThrow(this).value;
 
-        return value.multiply(program, other);
+        return value.multiply(script, other);
     }
 
     @Override
-    public ExpressionNode divide(ScriptNode program, ExpressionNode other) {
-        ExpressionNode value = program.variableTable.getOrThrow(this).value;
+    public ExpressionNode divide(ScriptNode script, ExpressionNode other) {
+        ExpressionNode value = script.variableTable.getOrThrow(this).value;
 
-        return value.divide(program, other);
+        return value.divide(script, other);
     }
 
     @Override
-    public ExpressionNode exponentiate(ScriptNode program, ExpressionNode other) {
-        ExpressionNode value = program.variableTable.getOrThrow(this).value;
+    public ExpressionNode exponentiate(ScriptNode script, ExpressionNode other) {
+        ExpressionNode value = script.variableTable.getOrThrow(this).value;
 
-        return value.exponentiate(program, other);
+        return value.exponentiate(script, other);
     }
 
     @Override
-    public ExpressionNode mod(ScriptNode program, ExpressionNode other) {
-        ExpressionNode value = program.variableTable.getOrThrow(this).value;
+    public ExpressionNode mod(ScriptNode script, ExpressionNode other) {
+        ExpressionNode value = script.variableTable.getOrThrow(this).value;
 
-        return value.mod(program, other);
+        return value.mod(script, other);
     }
 
     @Override

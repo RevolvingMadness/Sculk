@@ -78,7 +78,7 @@ public class LangScriptManager {
         }
 
         try {
-            this.interpreter.interpret(script.program);
+            this.interpreter.interpret(script.scriptNode);
         } catch (RuntimeException exception) {
             this.server.getPlayerManager().broadcast(Text.literal("The script '" + script.identifier + "' has the following error:").formatted(Formatting.GRAY), false);
             this.server.getPlayerManager().broadcast(Text.literal(exception.getMessage()).formatted(Formatting.RED), false);

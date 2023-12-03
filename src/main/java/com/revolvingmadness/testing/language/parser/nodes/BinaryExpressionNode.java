@@ -14,53 +14,53 @@ public class BinaryExpressionNode implements ExpressionNode {
     }
 
     @Override
-    public ExpressionNode interpret(ScriptNode program) {
-        ExpressionNode interpretedRightValue = this.right.interpret(program);
+    public ExpressionNode interpret(ScriptNode script) {
+        ExpressionNode interpretedRightValue = this.right.interpret(script);
 
         return switch (this.operator) {
-            case PLUS -> this.left.add(program, interpretedRightValue);
-            case DASH -> this.left.subtract(program, interpretedRightValue);
-            case STAR -> this.left.multiply(program, interpretedRightValue);
-            case FSLASH -> this.left.divide(program, interpretedRightValue);
-            case CARET -> this.left.exponentiate(program, interpretedRightValue);
-            case PERCENT -> this.left.mod(program, interpretedRightValue);
+            case PLUS -> this.left.add(script, interpretedRightValue);
+            case DASH -> this.left.subtract(script, interpretedRightValue);
+            case STAR -> this.left.multiply(script, interpretedRightValue);
+            case FSLASH -> this.left.divide(script, interpretedRightValue);
+            case CARET -> this.left.exponentiate(script, interpretedRightValue);
+            case PERCENT -> this.left.mod(script, interpretedRightValue);
             default -> throw new RuntimeException("Unknown binary operator '" + this.operator + "'");
         };
     }
 
     @Override
-    public IdentifierExpressionNode getType(ScriptNode program) {
-        return this.interpret(program).getType(program);
+    public IdentifierExpressionNode getType(ScriptNode script) {
+        return this.interpret(script).getType(script);
     }
 
     @Override
-    public ExpressionNode add(ScriptNode program, ExpressionNode other) {
-        return this.interpret(program).add(program, other);
+    public ExpressionNode add(ScriptNode script, ExpressionNode other) {
+        return this.interpret(script).add(script, other);
     }
 
     @Override
-    public ExpressionNode subtract(ScriptNode program, ExpressionNode other) {
-        return this.interpret(program).subtract(program, other);
+    public ExpressionNode subtract(ScriptNode script, ExpressionNode other) {
+        return this.interpret(script).subtract(script, other);
     }
 
     @Override
-    public ExpressionNode multiply(ScriptNode program, ExpressionNode other) {
-        return this.interpret(program).multiply(program, other);
+    public ExpressionNode multiply(ScriptNode script, ExpressionNode other) {
+        return this.interpret(script).multiply(script, other);
     }
 
     @Override
-    public ExpressionNode divide(ScriptNode program, ExpressionNode other) {
-        return this.interpret(program).divide(program, other);
+    public ExpressionNode divide(ScriptNode script, ExpressionNode other) {
+        return this.interpret(script).divide(script, other);
     }
 
     @Override
-    public ExpressionNode exponentiate(ScriptNode program, ExpressionNode other) {
-        return this.interpret(program).exponentiate(program, other);
+    public ExpressionNode exponentiate(ScriptNode script, ExpressionNode other) {
+        return this.interpret(script).exponentiate(script, other);
     }
 
     @Override
-    public ExpressionNode mod(ScriptNode program, ExpressionNode other) {
-        return this.interpret(program).mod(program, other);
+    public ExpressionNode mod(ScriptNode script, ExpressionNode other) {
+        return this.interpret(script).mod(script, other);
     }
 
     @Override

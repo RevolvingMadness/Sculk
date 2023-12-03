@@ -12,11 +12,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class VariableTable {
-    public final ScriptNode program;
+    public final ScriptNode script;
     public final List<Variable> variables;
 
-    public VariableTable(ScriptNode program) {
-        this.program = program;
+    public VariableTable(ScriptNode script) {
+        this.script = script;
         this.variables = new ArrayList<>();
     }
 
@@ -53,7 +53,7 @@ public class VariableTable {
     }
 
     private void assign(IdentifierExpressionNode name, ExpressionNode value) {
-        ExpressionNode interpretedValue = value.interpret(program);
+        ExpressionNode interpretedValue = value.interpret(this.script);
 
         Logger.info("Assigning '" + name + "' to the value '" + interpretedValue + "'");
 
