@@ -26,11 +26,15 @@ public class Token {
         return this.type == TokenType.DOUBLE_PLUS || this.type == TokenType.DOUBLE_HYPHEN;
     }
 
+    public boolean isLogicalOperator() {
+        return this.type == TokenType.EQUAL_TO || this.type == TokenType.NOT_EQUAL_TO || this.type == TokenType.GREATER_THAN || this.type == TokenType.GREATER_THAN_OR_EQUAL_TO || this.type == TokenType.LESS_THAN || this.type == TokenType.LESS_THAN_OR_EQUAL_TO;
+    }
+
     public boolean isMultiplicationOperator() {
         return this.type == TokenType.STAR || this.type == TokenType.FSLASH || this.type == TokenType.PERCENT;
     }
 
-    public boolean isOperator() {
+    public boolean isBinaryOperator() {
         return this.isAdditionOperator() || this.isMultiplicationOperator() || this.isExponentiationOperator();
     }
 

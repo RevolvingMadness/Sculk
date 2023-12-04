@@ -77,8 +77,14 @@ public class LangLexer {
                 tokens.add(new Token(TokenType.SEMICOLON));
                 this.consume();
             } else if (this.current('=')) {
-                tokens.add(new Token(TokenType.EQUALS));
                 this.consume();
+
+                if (this.current('=')) {
+                    tokens.add(new Token(TokenType.EQUAL_TO));
+                    this.consume();
+                } else {
+                    tokens.add(new Token(TokenType.EQUALS));
+                }
             } else if (this.current('(')) {
                 tokens.add(new Token(TokenType.LEFT_PARENTHESIS));
                 this.consume();
@@ -86,8 +92,14 @@ public class LangLexer {
                 tokens.add(new Token(TokenType.RIGHT_PARENTHESIS));
                 this.consume();
             } else if (this.current('!')) {
-                tokens.add(new Token(TokenType.EXCLAMATION_MARK));
                 this.consume();
+
+                if (this.current('=')) {
+                    tokens.add(new Token(TokenType.NOT_EQUAL_TO));
+                    this.consume();
+                } else {
+                    tokens.add(new Token(TokenType.EXCLAMATION_MARK));
+                }
             } else if (this.current('"')) {
                 this.consume();
                 tokens.add(this.lexString());
@@ -98,6 +110,24 @@ public class LangLexer {
             } else if (this.current(':')) {
                 tokens.add(new Token(TokenType.COLON));
                 this.consume();
+            } else if (this.current('>')) {
+                this.consume();
+
+                if (this.current('=')) {
+                    tokens.add(new Token(TokenType.GREATER_THAN_OR_EQUAL_TO));
+                    this.consume();
+                } else {
+                    tokens.add(new Token(TokenType.GREATER_THAN));
+                }
+            } else if (this.current('<')) {
+                this.consume();
+
+                if (this.current('=')) {
+                    tokens.add(new Token(TokenType.LESS_THAN_OR_EQUAL_TO));
+                    this.consume();
+                } else {
+                    tokens.add(new Token(TokenType.LESS_THAN));
+                }
             } else {
                 throw new LexerError("Unknown token '" + this.current() + "'");
             }

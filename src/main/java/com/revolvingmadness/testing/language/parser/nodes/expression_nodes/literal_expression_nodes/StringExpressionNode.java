@@ -28,15 +28,53 @@ public class StringExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
+    public LiteralExpressionNode equalTo(LiteralExpressionNode other) {
+        if (other instanceof StringExpressionNode stringExpression) {
+            return new BooleanExpressionNode(this.value.equals(stringExpression.value));
+        }
+
+        return new BooleanExpressionNode(false);
+    }
+
+    @Override
+    public LiteralExpressionNode notEqualTo(LiteralExpressionNode other) {
+        if (other instanceof StringExpressionNode stringExpression) {
+            return new BooleanExpressionNode(!this.value.equals(stringExpression.value));
+        }
+
+        return new BooleanExpressionNode(true);
+    }
+
+    @Override
+    public LiteralExpressionNode greaterThan(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '>' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
+    public LiteralExpressionNode greaterThanOrEqualTo(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '>=' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
+    public LiteralExpressionNode lessThan(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '<' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
+    public LiteralExpressionNode lessThanOrEqualTo(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '<=' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
         if (otherObject == null || getClass() != otherObject.getClass())
             return false;
 
-        StringExpressionNode otherIntegerExpression = (StringExpressionNode) otherObject;
+        StringExpressionNode otherStringExpression = (StringExpressionNode) otherObject;
 
-        return value.equals(otherIntegerExpression.value);
+        return value.equals(otherStringExpression.value);
     }
 
     @Override

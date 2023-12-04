@@ -59,6 +59,44 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
+    public LiteralExpressionNode equalTo(LiteralExpressionNode other) {
+        if (other instanceof BooleanExpressionNode booleanExpression) {
+            return new BooleanExpressionNode(this.value.equals(booleanExpression.value));
+        }
+
+        return new BooleanExpressionNode(false);
+    }
+
+    @Override
+    public LiteralExpressionNode notEqualTo(LiteralExpressionNode other) {
+        if (other instanceof BooleanExpressionNode booleanExpression) {
+            return new BooleanExpressionNode(!this.value.equals(booleanExpression.value));
+        }
+
+        return new BooleanExpressionNode(true);
+    }
+
+    @Override
+    public LiteralExpressionNode greaterThan(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '>' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
+    public LiteralExpressionNode greaterThanOrEqualTo(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '>=' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
+    public LiteralExpressionNode lessThan(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '<' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
+    public LiteralExpressionNode lessThanOrEqualTo(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '<=' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
     public LiteralExpressionNode logicalNot() {
         return new BooleanExpressionNode(!this.value);
     }

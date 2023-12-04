@@ -62,6 +62,20 @@ public class LangParser {
         return script;
     }
 
+    private ExpressionNode parseLogicalExpression() {
+        ExpressionNode left = this.parseAdditionExpression();
+
+        while (this.current().isLogicalOperator()) {
+            TokenType operator = this.consume().type;
+
+            ExpressionNode right = this.parseAdditionExpression();
+
+            left = new BinaryExpressionNode(left, operator, right);
+        }
+
+        return left;
+    }
+
     private ExpressionNode parseAdditionExpression() {
         ExpressionNode left = this.parseMultiplicationExpression();
 
@@ -91,7 +105,7 @@ public class LangParser {
     }
 
     private ExpressionNode parseExpression() {
-        return this.parseAdditionExpression();
+        return this.parseLogicalExpression();
     }
 
     private ExpressionNode parseMultiplicationExpression() {
@@ -196,7 +210,7 @@ public class LangParser {
 
         TokenType shorthandAssignmentOperator = null;
 
-        if (this.current().isOperator()) {
+        if (this.current().isBinaryOperator()) {
             shorthandAssignmentOperator = this.consume().type;
         }
 

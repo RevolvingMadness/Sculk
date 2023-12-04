@@ -4,7 +4,7 @@ import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
-public class IntegerExpressionNode implements LiteralExpressionNode {
+public class IntegerExpressionNode implements NumberExpressionNode {
     public final Integer value;
 
     public IntegerExpressionNode(Integer value) {
@@ -74,6 +74,68 @@ public class IntegerExpressionNode implements LiteralExpressionNode {
     @Override
     public boolean isTruthy() {
         return this.value != 0;
+    }
+
+    @Override
+    public LiteralExpressionNode equalTo(LiteralExpressionNode other) {
+        if (other instanceof IntegerExpressionNode integerExpression) {
+            return new BooleanExpressionNode(this.value.equals(integerExpression.value));
+        }
+
+        return new BooleanExpressionNode(false);
+    }
+
+    @Override
+    public LiteralExpressionNode notEqualTo(LiteralExpressionNode other) {
+        if (other instanceof IntegerExpressionNode integerExpression) {
+            return new BooleanExpressionNode(!this.value.equals(integerExpression.value));
+        }
+
+        return new BooleanExpressionNode(true);
+    }
+
+    @Override
+    public LiteralExpressionNode greaterThan(LiteralExpressionNode other) {
+        if (other instanceof IntegerExpressionNode integerExpression) {
+            return new BooleanExpressionNode(this.value > integerExpression.value);
+        } else if (other instanceof FloatExpressionNode floatExpression) {
+            return new BooleanExpressionNode(this.value > floatExpression.value);
+        }
+
+        throw new TypeError("Unsupported binary operator '>' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
+    public LiteralExpressionNode greaterThanOrEqualTo(LiteralExpressionNode other) {
+        if (other instanceof IntegerExpressionNode integerExpression) {
+            return new BooleanExpressionNode(this.value >= integerExpression.value);
+        } else if (other instanceof FloatExpressionNode floatExpression) {
+            return new BooleanExpressionNode(this.value >= floatExpression.value);
+        }
+
+        throw new TypeError("Unsupported binary operator '>' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
+    public LiteralExpressionNode lessThan(LiteralExpressionNode other) {
+        if (other instanceof IntegerExpressionNode integerExpression) {
+            return new BooleanExpressionNode(this.value < integerExpression.value);
+        } else if (other instanceof FloatExpressionNode floatExpression) {
+            return new BooleanExpressionNode(this.value < floatExpression.value);
+        }
+
+        throw new TypeError("Unsupported binary operator '>' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
+    public LiteralExpressionNode lessThanOrEqualTo(LiteralExpressionNode other) {
+        if (other instanceof IntegerExpressionNode integerExpression) {
+            return new BooleanExpressionNode(this.value <= integerExpression.value);
+        } else if (other instanceof FloatExpressionNode floatExpression) {
+            return new BooleanExpressionNode(this.value <= floatExpression.value);
+        }
+
+        throw new TypeError("Unsupported binary operator '>' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
     @Override

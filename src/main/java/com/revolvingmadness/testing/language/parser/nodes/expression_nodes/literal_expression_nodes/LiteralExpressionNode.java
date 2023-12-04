@@ -14,6 +14,18 @@ public interface LiteralExpressionNode extends ExpressionNode {
 
     boolean isTruthy();
 
+    LiteralExpressionNode equalTo(LiteralExpressionNode other);
+
+    LiteralExpressionNode notEqualTo(LiteralExpressionNode other);
+
+    LiteralExpressionNode greaterThan(LiteralExpressionNode other);
+
+    LiteralExpressionNode greaterThanOrEqualTo(LiteralExpressionNode other);
+
+    LiteralExpressionNode lessThan(LiteralExpressionNode other);
+
+    LiteralExpressionNode lessThanOrEqualTo(LiteralExpressionNode other);
+
     LiteralExpressionNode logicalNot();
 
     LiteralExpressionNode mod(LiteralExpressionNode other);

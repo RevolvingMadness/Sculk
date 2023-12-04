@@ -52,6 +52,12 @@ public class BinaryExpressionNode implements ExpressionNode {
             case FSLASH -> interpretedLeftValue.divide(interpretedRightValue);
             case CARET -> interpretedLeftValue.exponentiate(interpretedRightValue);
             case PERCENT -> interpretedLeftValue.mod(interpretedRightValue);
+            case EQUAL_TO -> interpretedLeftValue.equalTo(interpretedRightValue);
+            case NOT_EQUAL_TO -> interpretedLeftValue.notEqualTo(interpretedRightValue);
+            case GREATER_THAN -> interpretedLeftValue.greaterThan(interpretedRightValue);
+            case GREATER_THAN_OR_EQUAL_TO -> interpretedLeftValue.greaterThanOrEqualTo(interpretedRightValue);
+            case LESS_THAN -> interpretedLeftValue.lessThan(interpretedRightValue);
+            case LESS_THAN_OR_EQUAL_TO -> interpretedLeftValue.lessThanOrEqualTo(interpretedRightValue);
             default -> throw new ParseError("Unknown binary operator '" + this.operator + "'");
         };
     }

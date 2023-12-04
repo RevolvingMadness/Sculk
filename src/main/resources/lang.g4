@@ -6,7 +6,9 @@ statement: (import_statement | assignment_statement);
 
 import_statement: 'import ' resource ';';
 
-assignment_statement: IDENTIFIER (((binary_operator? '=' addition_expression) | (IDENTIFIER '=' addition_expression)) | ('++' | '--')) ';';
+assignment_statement: IDENTIFIER (((binary_operator? '=' logical_expression) | (IDENTIFIER '=' logical_expression)) | ('++' | '--')) ';';
+
+logical_expression: addition_expression ('==' | '!=' | '>' | '>=' | '<' | '<=') addition_expression;
 
 addition_expression: multiplication_expression (('+' | '-') multiplication_expression)*;
 
