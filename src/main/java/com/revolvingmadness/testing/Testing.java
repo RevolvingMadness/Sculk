@@ -23,5 +23,7 @@ public class Testing implements ModInitializer {
 		Testing.keywords.put("false", TokenType.FALSE);
 		Testing.keywords.put("import", TokenType.IMPORT);
 		Testing.keywords.put("if", TokenType.IF);
+		Testing.keywords.put("while", TokenType.WHILE);
+		Testing.keywords.put("for", TokenType.FOR);
 	}
 }

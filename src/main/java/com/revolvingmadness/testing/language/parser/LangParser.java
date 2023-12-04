@@ -11,10 +11,7 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Expre
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.UnaryExpression;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
-import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.AssignmentStatementNode;
-import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.IfStatementNode;
-import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.ImportStatementNode;
-import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.StatementNode;
+import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.*;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -172,15 +169,36 @@ public class LangParser {
     }
 
     private StatementNode parseStatement() {
+        StatementNode statement = null;
+
         if (this.current(TokenType.IMPORT)) {
-            return this.parseImportStatement();
-        } else if (this.current(TokenType.IF)) {
-            return this.parseIfStatement();
+            statement = this.parseImportStatement();
+            this.consume(TokenType.SEMICOLON);
         } else if (this.current(TokenType.IDENTIFIER)) {
-            return this.parseAssignmentStatement();
+            statement = this.parseAssignmentStatement();
+            this.consume(TokenType.SEMICOLON);
+        } else if (this.current(TokenType.IF)) {
+            statement = this.parseIfStatement();
+            if (this.current(TokenType.SEMICOLON)) {
+                this.consume(TokenType.SEMICOLON);
+            }
+        } else if (this.current(TokenType.WHILE)) {
+            statement = this.parseWhileStatement();
+            if (this.current(TokenType.SEMICOLON)) {
+                this.consume(TokenType.SEMICOLON);
+            }
+        } else if (this.current(TokenType.FOR)) {
+            statement = this.parseForStatement();
+            if (this.current(TokenType.SEMICOLON)) {
+                this.consume(TokenType.SEMICOLON);
+            }
         }
 
-        throw new SyntaxError("Expected 'IMPORT' or 'IDENTIFIER', got '" + this.current().type + "'");
+        if (statement == null) {
+            throw new SyntaxError("Expected 'IMPORT' or 'IDENTIFIER', got '" + this.current().type + "'");
+        }
+
+        return statement;
     }
 
     private StatementNode parseIfStatement() {
@@ -199,6 +217,54 @@ public class LangParser {
         this.consume(TokenType.RIGHT_BRACE);
 
         return new IfStatementNode(expression, body);
+    }
+
+    private StatementNode parseForStatement() {
+        this.consume(TokenType.FOR);
+
+        this.consume(TokenType.LEFT_PARENTHESIS);
+
+        AssignmentStatementNode initialization = this.parseAssignmentStatement();
+
+        this.consume(TokenType.SEMICOLON);
+
+        ExpressionNode condition = this.parseExpression();
+
+        this.consume(TokenType.SEMICOLON);
+
+        AssignmentStatementNode update = this.parseAssignmentStatement();
+
+        if (this.current(TokenType.SEMICOLON)) {
+            this.consume(TokenType.SEMICOLON);
+        }
+
+        this.consume(TokenType.RIGHT_PARENTHESIS);
+
+        this.consume(TokenType.LEFT_BRACE);
+
+        List<StatementNode> body = this.parseBody();
+
+        this.consume(TokenType.RIGHT_BRACE);
+
+        return new ForStatementNode(initialization, condition, update, body);
+    }
+
+    private StatementNode parseWhileStatement() {
+        this.consume(TokenType.WHILE);
+
+        this.consume(TokenType.LEFT_PARENTHESIS);
+
+        ExpressionNode expression = this.parseExpression();
+
+        this.consume(TokenType.RIGHT_PARENTHESIS);
+
+        this.consume(TokenType.LEFT_BRACE);
+
+        List<StatementNode> body = this.parseBody();
+
+        this.consume(TokenType.RIGHT_BRACE);
+
+        return new WhileStatementNode(expression, body);
     }
 
     private List<StatementNode> parseBody() {
@@ -220,8 +286,6 @@ public class LangParser {
 
         Identifier resource = Identifier.of(path, namespace);
 
-        this.consume(TokenType.SEMICOLON);
-
         return new ImportStatementNode(resource);
     }
 
@@ -235,8 +299,6 @@ public class LangParser {
 
             ExpressionNode expression = this.parseExpression();
 
-            this.consume(TokenType.SEMICOLON);
-
             return new AssignmentStatementNode(typeOrName, name, expression);
         }
 
@@ -249,16 +311,12 @@ public class LangParser {
         if (this.current().isIncrementOrDecrementOperator()) {
             TokenType incrementOrDecrementOperator = this.consume().type;
 
-            this.consume(TokenType.SEMICOLON);
-
             return new AssignmentStatementNode(null, typeOrName, new BinaryExpressionNode(typeOrName, incrementOrDecrementOperator, new IntegerExpressionNode(1)));
         }
 
         this.consume(TokenType.EQUALS);
 
         ExpressionNode expression = this.parseExpression();
-
-        this.consume(TokenType.SEMICOLON);
 
         if (shorthandAssignmentOperator != null) {
             return new AssignmentStatementNode(null, typeOrName, new BinaryExpressionNode(typeOrName, shorthandAssignmentOperator, expression));

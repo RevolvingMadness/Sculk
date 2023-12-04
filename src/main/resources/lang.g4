@@ -2,15 +2,21 @@ grammar lang;
 
 program: statement*;
 
-statement: (assignment_statement | import_statement | if_statement);
+statement: (assignment_statement ';' | import_statement ';' | if_statement ';'? | while_statement ';'? | for_statement ';'?);
 
-if_statement: 'if' '(' logical_expression ')' body ';'?;
+for_statement: 'for' '(' assignment_statement ';' expression ';' assignment_statement ';'? ')' body;
+
+while_statement: 'while' '(' expression ')' body;
+
+if_statement: 'if' '(' expression ')' body;
 
 body: '{' statement* '}';
 
-import_statement: 'import ' resource ';';
+import_statement: 'import ' resource;
 
-assignment_statement: IDENTIFIER ((binary_operator? '=' logical_expression) | (IDENTIFIER '=' logical_expression) | ('++' | '--')) ';';
+assignment_statement: IDENTIFIER ((binary_operator? '=' expression) | (IDENTIFIER '=' expression) | ('++' | '--'));
+
+expression: logical_expression;
 
 logical_expression: addition_expression (('==' | '!=' | '>' | '>=' | '<' | '<=') addition_expression)*;
 
