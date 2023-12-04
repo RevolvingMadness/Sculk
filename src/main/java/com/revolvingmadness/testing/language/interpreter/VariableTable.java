@@ -10,6 +10,7 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Expre
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.FunctionExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.NullExpressionNode;
 
 import java.util.*;
 
@@ -34,7 +35,7 @@ public class VariableTable {
 
         IdentifierExpressionNode interpretedValueType = interpretedValue.getType();
 
-        if (!existingVariable.type.equals(interpretedValueType)) {
+        if (!existingVariable.type.equals(interpretedValueType) && !interpretedValueType.value.equals("null")) {
             throw new TypeError("Expected type '" + existingVariable.type + "', but got type '" + interpretedValueType + "'");
         }
 
@@ -60,7 +61,7 @@ public class VariableTable {
             throw new NameError("Variable '" + name + "' is already declared");
         }
 
-        this.variableScopes.peek().add(new Variable(type, name, null));
+        this.variableScopes.peek().add(new Variable(type, name, new NullExpressionNode()));
     }
 
     public void declareAndOrAssign(IdentifierExpressionNode type, IdentifierExpressionNode name, ExpressionNode value) {

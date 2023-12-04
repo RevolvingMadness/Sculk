@@ -121,7 +121,7 @@ public class LangParser {
 
     private ExpressionNode parsePrimaryExpression() {
         UnaryOperatorType unaryOperator = null;
-        ExpressionNode expression = null;
+        ExpressionNode expression;
 
         if (this.current(TokenType.HYPHEN)) {
             this.consume();
@@ -175,9 +175,10 @@ public class LangParser {
             expression = new StringExpressionNode((String) this.consume().value);
         } else if (this.current(TokenType.RESOURCE)) {
             expression = new ResourceExpressionNode(Identifier.tryParse((String) this.consume().value));
-        }
-
-        if (expression == null) {
+        } else if (this.current(TokenType.NULL)) {
+            this.consume();
+            expression = new NullExpressionNode();
+        } else {
             throw new ParseError("Unknown expression type '" + this.current().type + "'");
         }
 
@@ -375,6 +376,10 @@ public class LangParser {
 
         if (this.current(TokenType.IDENTIFIER)) {
             IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+
+            if (this.current(TokenType.SEMICOLON)) {
+                return new AssignmentStatementNode(typeOrName, name, new NullExpressionNode());
+            }
 
             this.consume(TokenType.EQUALS);
 
