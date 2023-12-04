@@ -8,6 +8,7 @@ import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.FunctionExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
 import java.util.*;
@@ -96,6 +97,41 @@ public class VariableTable {
         }
 
         return Optional.empty();
+    }
+
+    public LiteralExpressionNode call(IdentifierExpressionNode functionToCallName, List<ExpressionNode> functionToCallArguments) {
+        script.variableTable.createScope();
+
+        Variable functionToCallVariable = script.variableTable.getOrThrow(functionToCallName);
+
+        if (!(functionToCallVariable.value instanceof FunctionExpressionNode functionDefinition)) {
+            throw new TypeError("Type '" + functionToCallVariable.type + "' is not callable");
+        }
+
+        if (functionToCallArguments.size() != functionDefinition.arguments.size()) {
+            throw new TypeError("Function '" + functionToCallName + "' takes '" + functionDefinition.arguments.size() + "' argument(s) but '" + functionToCallArguments.size() + "' argument(s) were given");
+        }
+
+        int argumentNumber = 0;
+
+        for (Map.Entry<IdentifierExpressionNode, IdentifierExpressionNode> entry : functionDefinition.arguments.entrySet()) {
+            IdentifierExpressionNode argumentType = entry.getKey();
+            IdentifierExpressionNode argumentName = entry.getValue();
+
+            LiteralExpressionNode argumentValue = functionToCallArguments.get(argumentNumber++).interpret(script);
+
+            if (argumentType != argumentValue.getType()) {
+                throw new TypeError("Expected type '" + argumentType + "' for argument '" + argumentName + "' but got '" + argumentValue.getType() + "'");
+            }
+            script.variableTable.declareAndOrAssign(entry.getKey(), entry.getValue(), argumentValue);
+        }
+
+        functionDefinition.body.forEach(statement -> statement.interpret(script));
+
+        script.variableTable.exitScope();
+
+        // Return function return value
+        return null;
     }
 
     public Variable getOrThrow(IdentifierExpressionNode name) {
