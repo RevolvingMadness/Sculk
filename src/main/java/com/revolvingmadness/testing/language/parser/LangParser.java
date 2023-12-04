@@ -12,10 +12,12 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Ident
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.UnaryExpression;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.AssignmentStatementNode;
+import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.IfStatementNode;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.ImportStatementNode;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.StatementNode;
 import net.minecraft.util.Identifier;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -172,11 +174,41 @@ public class LangParser {
     private StatementNode parseStatement() {
         if (this.current(TokenType.IMPORT)) {
             return this.parseImportStatement();
+        } else if (this.current(TokenType.IF)) {
+            return this.parseIfStatement();
         } else if (this.current(TokenType.IDENTIFIER)) {
             return this.parseAssignmentStatement();
         }
 
         throw new SyntaxError("Expected 'IMPORT' or 'IDENTIFIER', got '" + this.current().type + "'");
+    }
+
+    private StatementNode parseIfStatement() {
+        this.consume(TokenType.IF);
+
+        this.consume(TokenType.LEFT_PARENTHESIS);
+
+        ExpressionNode expression = this.parseExpression();
+
+        this.consume(TokenType.RIGHT_PARENTHESIS);
+
+        this.consume(TokenType.LEFT_BRACE);
+
+        List<StatementNode> body = this.parseBody();
+
+        this.consume(TokenType.RIGHT_BRACE);
+
+        return new IfStatementNode(expression, body);
+    }
+
+    private List<StatementNode> parseBody() {
+        List<StatementNode> body = new ArrayList<>();
+
+        while (this.position < this.input.size() && !this.current(TokenType.RIGHT_BRACE)) {
+            body.add(this.parseStatement());
+        }
+
+        return body;
     }
 
     private StatementNode parseImportStatement() {

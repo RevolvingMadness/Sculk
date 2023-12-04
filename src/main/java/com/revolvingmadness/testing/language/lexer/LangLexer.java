@@ -128,6 +128,12 @@ public class LangLexer {
                 } else {
                     tokens.add(new Token(TokenType.LESS_THAN));
                 }
+            } else if (this.current('{')) {
+                tokens.add(new Token(TokenType.LEFT_BRACE));
+                this.consume();
+            } else if (this.current('}')) {
+                tokens.add(new Token(TokenType.RIGHT_BRACE));
+                this.consume();
             } else {
                 throw new LexerError("Unknown token '" + this.current() + "'");
             }

@@ -2,13 +2,17 @@ grammar lang;
 
 program: statement*;
 
-statement: (import_statement | assignment_statement);
+statement: (assignment_statement | import_statement | if_statement);
+
+if_statement: 'if' '(' logical_expression ')' body ';'?;
+
+body: '{' statement* '}';
 
 import_statement: 'import ' resource ';';
 
-assignment_statement: IDENTIFIER (((binary_operator? '=' logical_expression) | (IDENTIFIER '=' logical_expression)) | ('++' | '--')) ';';
+assignment_statement: IDENTIFIER ((binary_operator? '=' logical_expression) | (IDENTIFIER '=' logical_expression) | ('++' | '--')) ';';
 
-logical_expression: addition_expression ('==' | '!=' | '>' | '>=' | '<' | '<=') addition_expression;
+logical_expression: addition_expression (('==' | '!=' | '>' | '>=' | '<' | '<=') addition_expression)*;
 
 addition_expression: multiplication_expression (('+' | '-') multiplication_expression)*;
 
