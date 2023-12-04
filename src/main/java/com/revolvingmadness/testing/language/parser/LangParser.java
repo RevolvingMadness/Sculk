@@ -6,15 +6,13 @@ import com.revolvingmadness.testing.language.lexer.Token;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 import com.revolvingmadness.testing.language.parser.errors.ParseError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.BinaryExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.UnaryExpression;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.*;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.*;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -138,7 +136,29 @@ public class LangParser {
         } else if (this.current(TokenType.FLOAT)) {
             expression = new FloatExpressionNode((Double) this.consume().value);
         } else if (this.current(TokenType.IDENTIFIER)) {
-            expression = new IdentifierExpressionNode((String) this.consume().value);
+            IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume().value);
+
+            if (this.current(TokenType.LEFT_PARENTHESIS)) {
+                this.consume(TokenType.LEFT_PARENTHESIS);
+
+                List<ExpressionNode> arguments = new ArrayList<>();
+
+                if (!this.current(TokenType.RIGHT_PARENTHESIS)) {
+                    arguments.add(this.parseExpression());
+                }
+
+                while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
+                    this.consume(TokenType.COMMA);
+
+                    arguments.add(this.parseExpression());
+                }
+
+                this.consume(TokenType.RIGHT_PARENTHESIS);
+
+                return new FunctionCallExpressionNode(name, arguments);
+            } else {
+                expression = name;
+            }
         } else if (this.current(TokenType.LEFT_PARENTHESIS)) {
             this.consume(TokenType.LEFT_PARENTHESIS);
 
@@ -175,7 +195,29 @@ public class LangParser {
             statement = this.parseImportStatement();
             this.consume(TokenType.SEMICOLON);
         } else if (this.current(TokenType.IDENTIFIER)) {
-            statement = this.parseAssignmentStatement();
+            if (this.next(TokenType.LEFT_PARENTHESIS)) {
+                IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+
+                this.consume(TokenType.LEFT_PARENTHESIS);
+
+                List<ExpressionNode> arguments = new ArrayList<>();
+
+                if (!this.current(TokenType.RIGHT_PARENTHESIS)) {
+                    arguments.add(this.parseExpression());
+                }
+
+                while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
+                    this.consume(TokenType.COMMA);
+
+                    arguments.add(this.parseExpression());
+                }
+
+                this.consume(TokenType.RIGHT_PARENTHESIS);
+
+                statement = new FunctionCallStatementNode(name, arguments);
+            } else {
+                statement = this.parseAssignmentStatement();
+            }
             this.consume(TokenType.SEMICOLON);
         } else if (this.current(TokenType.IF)) {
             statement = this.parseIfStatement();
@@ -192,13 +234,60 @@ public class LangParser {
             if (this.current(TokenType.SEMICOLON)) {
                 this.consume(TokenType.SEMICOLON);
             }
+        } else if (this.current(TokenType.FUNCTION)) {
+            statement = this.parseFunctionStatement();
+            if (this.current(TokenType.SEMICOLON)) {
+                this.consume(TokenType.SEMICOLON);
+            }
         }
 
         if (statement == null) {
-            throw new SyntaxError("Expected 'IMPORT' or 'IDENTIFIER', got '" + this.current().type + "'");
+            throw new SyntaxError("Expected 'IMPORT', 'IDENTIFIER', 'IF', 'WHILE', 'FOR', or 'FUNCTION', got '" + this.current().type + "'");
         }
 
         return statement;
+    }
+
+    private boolean next(TokenType type) {
+        if (this.position + 1 >= this.input.size()) {
+            return false;
+        }
+
+        return this.input.get(this.position + 1).type == type;
+    }
+
+    private StatementNode parseFunctionStatement() {
+        this.consume(TokenType.FUNCTION);
+
+        IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+
+        this.consume(TokenType.LEFT_PARENTHESIS);
+
+        Map<IdentifierExpressionNode, IdentifierExpressionNode> arguments = new HashMap<>();
+
+        if (this.current(TokenType.IDENTIFIER)) {
+            IdentifierExpressionNode type = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+            IdentifierExpressionNode argumentName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+            arguments.put(type, argumentName);
+        }
+
+        while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
+            this.consume(TokenType.COMMA);
+
+            IdentifierExpressionNode type = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+            IdentifierExpressionNode argumentName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+            arguments.put(type, argumentName);
+        }
+
+        this.consume(TokenType.RIGHT_PARENTHESIS);
+
+        this.consume(TokenType.RIGHT_ARROW);
+
+        IdentifierExpressionNode returnType = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+
+        List<StatementNode> body = this.parseBody();
+
+        return new FunctionDeclarationStatement(name, arguments, returnType, body);
     }
 
     private StatementNode parseIfStatement() {
@@ -210,11 +299,7 @@ public class LangParser {
 
         this.consume(TokenType.RIGHT_PARENTHESIS);
 
-        this.consume(TokenType.LEFT_BRACE);
-
         List<StatementNode> body = this.parseBody();
-
-        this.consume(TokenType.RIGHT_BRACE);
 
         return new IfStatementNode(expression, body);
     }
@@ -240,11 +325,7 @@ public class LangParser {
 
         this.consume(TokenType.RIGHT_PARENTHESIS);
 
-        this.consume(TokenType.LEFT_BRACE);
-
         List<StatementNode> body = this.parseBody();
-
-        this.consume(TokenType.RIGHT_BRACE);
 
         return new ForStatementNode(initialization, condition, update, body);
     }
@@ -258,21 +339,21 @@ public class LangParser {
 
         this.consume(TokenType.RIGHT_PARENTHESIS);
 
-        this.consume(TokenType.LEFT_BRACE);
-
         List<StatementNode> body = this.parseBody();
-
-        this.consume(TokenType.RIGHT_BRACE);
 
         return new WhileStatementNode(expression, body);
     }
 
     private List<StatementNode> parseBody() {
+        this.consume(TokenType.LEFT_BRACE);
+
         List<StatementNode> body = new ArrayList<>();
 
         while (this.position < this.input.size() && !this.current(TokenType.RIGHT_BRACE)) {
             body.add(this.parseStatement());
         }
+
+        this.consume(TokenType.RIGHT_BRACE);
 
         return body;
     }

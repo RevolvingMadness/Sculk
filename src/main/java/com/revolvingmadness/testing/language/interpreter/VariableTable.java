@@ -10,18 +10,16 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Expre
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class VariableTable {
     public final ScriptNode script;
-    public final List<Variable> variables;
+    public final Stack<List<Variable>> variableScopes;
 
     public VariableTable(ScriptNode script) {
         this.script = script;
-        this.variables = new ArrayList<>();
+        this.variableScopes = new Stack<>();
+        this.variableScopes.add(new ArrayList<>());
     }
 
     private void assign(IdentifierExpressionNode name, ExpressionNode value) {
@@ -42,6 +40,14 @@ public class VariableTable {
         existingVariable.value = interpretedValue;
     }
 
+    public void createScope() {
+        this.variableScopes.add(new ArrayList<>());
+    }
+
+    public void exitScope() {
+        this.variableScopes.pop();
+    }
+
     private void declare(IdentifierExpressionNode type, IdentifierExpressionNode name) {
         Objects.requireNonNull(name);
 
@@ -53,7 +59,7 @@ public class VariableTable {
             throw new NameError("Variable '" + name + "' is already declared");
         }
 
-        this.variables.add(new Variable(type, name, null));
+        this.variableScopes.peek().add(new Variable(type, name, null));
     }
 
     public void declareAndOrAssign(IdentifierExpressionNode type, IdentifierExpressionNode name, ExpressionNode value) {
@@ -73,9 +79,19 @@ public class VariableTable {
     }
 
     public Optional<Variable> get(IdentifierExpressionNode name) {
-        for (Variable variable : this.variables) {
-            if (variable.name.equals(name)) {
-                return Optional.of(variable);
+        ListIterator<List<Variable>> iterator = this.variableScopes.listIterator();
+
+        while (iterator.hasNext()) {
+            iterator.next();
+        }
+
+        while (iterator.hasPrevious()) {
+            List<Variable> variableScope = iterator.previous();
+
+            for (Variable variable : variableScope) {
+                if (variable.name.equals(name)) {
+                    return Optional.of(variable);
+                }
             }
         }
 
@@ -83,16 +99,16 @@ public class VariableTable {
     }
 
     public Variable getOrThrow(IdentifierExpressionNode name) {
-        for (Variable variable : this.variables) {
-            if (variable.name.equals(name)) {
-                return variable;
-            }
+        Optional<Variable> variable = this.get(name);
+
+        if (variable.isEmpty()) {
+            throw new NameError("Variable '" + name + "' has not been declared");
         }
 
-        throw new NameError("Variable '" + name + "' has not been declared");
+        return variable.get();
     }
 
     public void reset() {
-        this.variables.clear();
+        this.variableScopes.clear();
     }
 }

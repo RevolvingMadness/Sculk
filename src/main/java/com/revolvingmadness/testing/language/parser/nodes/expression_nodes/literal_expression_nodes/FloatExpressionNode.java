@@ -4,7 +4,7 @@ import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
-public class FloatExpressionNode implements NumberExpressionNode {
+public class FloatExpressionNode implements NumberLiteralExpressionNode {
     public final Double value;
 
     public FloatExpressionNode(Double value) {
@@ -75,7 +75,7 @@ public class FloatExpressionNode implements NumberExpressionNode {
     }
 
     @Override
-    public LiteralExpressionNode equalTo(LiteralExpressionNode other) {
+    public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new BooleanExpressionNode(this.value.equals(floatExpression.value));
         }
@@ -84,7 +84,7 @@ public class FloatExpressionNode implements NumberExpressionNode {
     }
 
     @Override
-    public LiteralExpressionNode notEqualTo(LiteralExpressionNode other) {
+    public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new BooleanExpressionNode(!this.value.equals(floatExpression.value));
         }
@@ -93,7 +93,7 @@ public class FloatExpressionNode implements NumberExpressionNode {
     }
 
     @Override
-    public LiteralExpressionNode greaterThan(LiteralExpressionNode other) {
+    public BooleanExpressionNode greaterThan(LiteralExpressionNode other) {
         if (other instanceof IntegerExpressionNode integerExpression) {
             return new BooleanExpressionNode(this.value > integerExpression.value);
         } else if (other instanceof FloatExpressionNode floatExpression) {
@@ -104,7 +104,7 @@ public class FloatExpressionNode implements NumberExpressionNode {
     }
 
     @Override
-    public LiteralExpressionNode greaterThanOrEqualTo(LiteralExpressionNode other) {
+    public BooleanExpressionNode greaterThanOrEqualTo(LiteralExpressionNode other) {
         if (other instanceof IntegerExpressionNode integerExpression) {
             return new BooleanExpressionNode(this.value >= integerExpression.value);
         } else if (other instanceof FloatExpressionNode floatExpression) {
@@ -115,7 +115,7 @@ public class FloatExpressionNode implements NumberExpressionNode {
     }
 
     @Override
-    public LiteralExpressionNode lessThan(LiteralExpressionNode other) {
+    public BooleanExpressionNode lessThan(LiteralExpressionNode other) {
         if (other instanceof IntegerExpressionNode integerExpression) {
             return new BooleanExpressionNode(this.value < integerExpression.value);
         } else if (other instanceof FloatExpressionNode floatExpression) {
@@ -126,7 +126,7 @@ public class FloatExpressionNode implements NumberExpressionNode {
     }
 
     @Override
-    public LiteralExpressionNode lessThanOrEqualTo(LiteralExpressionNode other) {
+    public BooleanExpressionNode lessThanOrEqualTo(LiteralExpressionNode other) {
         if (other instanceof IntegerExpressionNode integerExpression) {
             return new BooleanExpressionNode(this.value <= integerExpression.value);
         } else if (other instanceof FloatExpressionNode floatExpression) {

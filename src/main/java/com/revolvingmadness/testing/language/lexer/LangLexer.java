@@ -47,13 +47,17 @@ public class LangLexer {
                 this.consume();
 
                 if (this.current('-')) {
+                    this.consume();
                     tokens.add(new Token(TokenType.DOUBLE_HYPHEN));
+                } else if (this.current('>')) {
+                    this.consume();
+                    tokens.add(new Token(TokenType.RIGHT_ARROW));
                 } else {
                     tokens.add(new Token(TokenType.HYPHEN));
                 }
             } else if (this.current('*')) {
-                tokens.add(new Token(TokenType.STAR));
                 this.consume();
+                tokens.add(new Token(TokenType.STAR));
             } else if (this.current('/')) {
                 this.consume();
 
@@ -64,39 +68,39 @@ public class LangLexer {
                     tokens.add(new Token(TokenType.FSLASH));
                 }
             } else if (this.current('^')) {
+                this.consume();
                 tokens.add(new Token(TokenType.CARET));
-                this.consume();
             } else if (this.current('%')) {
-                tokens.add(new Token(TokenType.PERCENT));
                 this.consume();
+                tokens.add(new Token(TokenType.PERCENT));
             } else if (Character.isWhitespace(this.current())) {
                 this.consume();
             } else if (Character.isAlphabetic(this.current())) {
                 tokens.add(this.lexIdentifier(true));
             } else if (this.current(';')) {
-                tokens.add(new Token(TokenType.SEMICOLON));
                 this.consume();
+                tokens.add(new Token(TokenType.SEMICOLON));
             } else if (this.current('=')) {
                 this.consume();
 
                 if (this.current('=')) {
-                    tokens.add(new Token(TokenType.EQUAL_TO));
                     this.consume();
+                    tokens.add(new Token(TokenType.EQUAL_TO));
                 } else {
                     tokens.add(new Token(TokenType.EQUALS));
                 }
             } else if (this.current('(')) {
+                this.consume();
                 tokens.add(new Token(TokenType.LEFT_PARENTHESIS));
-                this.consume();
             } else if (this.current(')')) {
-                tokens.add(new Token(TokenType.RIGHT_PARENTHESIS));
                 this.consume();
+                tokens.add(new Token(TokenType.RIGHT_PARENTHESIS));
             } else if (this.current('!')) {
                 this.consume();
 
                 if (this.current('=')) {
-                    tokens.add(new Token(TokenType.NOT_EQUAL_TO));
                     this.consume();
+                    tokens.add(new Token(TokenType.NOT_EQUAL_TO));
                 } else {
                     tokens.add(new Token(TokenType.EXCLAMATION_MARK));
                 }
@@ -105,17 +109,17 @@ public class LangLexer {
                 tokens.add(this.lexString());
                 this.consume();
             } else if (this.current('\'')) {
+                this.consume();
                 tokens.add(new Token(TokenType.SINGLE_QUOTE));
-                this.consume();
             } else if (this.current(':')) {
-                tokens.add(new Token(TokenType.COLON));
                 this.consume();
+                tokens.add(new Token(TokenType.COLON));
             } else if (this.current('>')) {
                 this.consume();
 
                 if (this.current('=')) {
-                    tokens.add(new Token(TokenType.GREATER_THAN_OR_EQUAL_TO));
                     this.consume();
+                    tokens.add(new Token(TokenType.GREATER_THAN_OR_EQUAL_TO));
                 } else {
                     tokens.add(new Token(TokenType.GREATER_THAN));
                 }
@@ -123,17 +127,23 @@ public class LangLexer {
                 this.consume();
 
                 if (this.current('=')) {
-                    tokens.add(new Token(TokenType.LESS_THAN_OR_EQUAL_TO));
                     this.consume();
+                    tokens.add(new Token(TokenType.LESS_THAN_OR_EQUAL_TO));
+                } else if (this.current('-')) {
+                    this.consume();
+                    tokens.add(new Token(TokenType.LEFT_ARROW));
                 } else {
                     tokens.add(new Token(TokenType.LESS_THAN));
                 }
             } else if (this.current('{')) {
+                this.consume();
                 tokens.add(new Token(TokenType.LEFT_BRACE));
-                this.consume();
             } else if (this.current('}')) {
-                tokens.add(new Token(TokenType.RIGHT_BRACE));
                 this.consume();
+                tokens.add(new Token(TokenType.RIGHT_BRACE));
+            } else if (this.current(',')) {
+                this.consume();
+                tokens.add(new Token(TokenType.COMMA));
             } else {
                 throw new LexerError("Unknown token '" + this.current() + "'");
             }

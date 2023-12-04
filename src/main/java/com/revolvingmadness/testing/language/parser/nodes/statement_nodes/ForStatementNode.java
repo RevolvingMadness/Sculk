@@ -29,14 +29,12 @@ public class ForStatementNode implements StatementNode {
         initialization.interpret(script);
 
         while (condition.interpret(script).isTruthy()) {
-            if (loops > maxLoops) {
+            body.forEach(statement -> statement.interpret(script));
+            update.interpret(script);
+
+            if (++loops > maxLoops) {
                 throw new StackOverflowError("Loop ran more than " + maxLoops + " times");
             }
-
-            body.forEach(statement -> statement.interpret(script));
-
-            loops++;
-            update.interpret(script);
         }
     }
 }

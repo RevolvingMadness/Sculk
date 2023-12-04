@@ -23,12 +23,11 @@ public class WhileStatementNode implements StatementNode {
         long maxLoops = Testing.server.getGameRules().getInt(TestingGamerules.MAX_LOOPS);
 
         while (condition.interpret(script).isTruthy()) {
-            if (loops > maxLoops) {
+            body.forEach(statement -> statement.interpret(script));
+
+            if (++loops > maxLoops) {
                 throw new StackOverflowError("Loop ran more than " + maxLoops + " times");
             }
-
-            body.forEach(statement -> statement.interpret(script));
-            loops++;
         }
     }
 }

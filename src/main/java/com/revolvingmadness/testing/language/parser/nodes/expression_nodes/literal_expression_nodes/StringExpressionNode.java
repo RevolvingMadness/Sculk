@@ -28,7 +28,7 @@ public class StringExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public LiteralExpressionNode equalTo(LiteralExpressionNode other) {
+    public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
         if (other instanceof StringExpressionNode stringExpression) {
             return new BooleanExpressionNode(this.value.equals(stringExpression.value));
         }
@@ -37,7 +37,7 @@ public class StringExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public LiteralExpressionNode notEqualTo(LiteralExpressionNode other) {
+    public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
         if (other instanceof StringExpressionNode stringExpression) {
             return new BooleanExpressionNode(!this.value.equals(stringExpression.value));
         }
@@ -46,22 +46,22 @@ public class StringExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public LiteralExpressionNode greaterThan(LiteralExpressionNode other) {
+    public BooleanExpressionNode greaterThan(LiteralExpressionNode other) {
         throw new TypeError("Unsupported binary operator '>' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
     @Override
-    public LiteralExpressionNode greaterThanOrEqualTo(LiteralExpressionNode other) {
+    public BooleanExpressionNode greaterThanOrEqualTo(LiteralExpressionNode other) {
         throw new TypeError("Unsupported binary operator '>=' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
     @Override
-    public LiteralExpressionNode lessThan(LiteralExpressionNode other) {
+    public BooleanExpressionNode lessThan(LiteralExpressionNode other) {
         throw new TypeError("Unsupported binary operator '<' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
     @Override
-    public LiteralExpressionNode lessThanOrEqualTo(LiteralExpressionNode other) {
+    public BooleanExpressionNode lessThanOrEqualTo(LiteralExpressionNode other) {
         throw new TypeError("Unsupported binary operator '<=' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
