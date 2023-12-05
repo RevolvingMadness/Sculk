@@ -48,6 +48,6 @@ public class Token {
     }
 
     public boolean isUnaryOperator() {
-        return this.type == TokenType.DOUBLE_PLUS || this.type == TokenType.DOUBLE_HYPHEN;
+        return this.type == TokenType.HYPHEN || this.type == TokenType.EXCLAMATION_MARK;
     }
 }

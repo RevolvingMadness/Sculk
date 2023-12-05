@@ -24,6 +24,10 @@ public class LangLexer {
     }
 
     public Character current() {
+        if (this.position >= this.input.length()) {
+            return null;
+        }
+        
         return this.input.charAt(this.position);
     }
 

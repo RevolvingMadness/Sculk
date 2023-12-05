@@ -28,6 +28,11 @@ public class IdentifierExpressionNode implements ExpressionNode {
     }
 
     @Override
+    public String toString() {
+        return this.value;
+    }
+
+    @Override
     public LiteralExpressionNode interpret(ScriptNode script) {
         return script.variableTable.getOrThrow(this).value;
     }
