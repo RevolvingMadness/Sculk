@@ -14,14 +14,6 @@ public class Token {
         this.value = null;
     }
 
-    public boolean isAdditionOperator() {
-        return this.type == TokenType.PLUS || this.type == TokenType.HYPHEN;
-    }
-
-    public boolean isExponentiationOperator() {
-        return this.type == TokenType.CARET;
-    }
-
     public boolean isIncrementOrDecrementOperator() {
         return this.type == TokenType.DOUBLE_PLUS || this.type == TokenType.DOUBLE_HYPHEN;
     }
@@ -30,12 +22,20 @@ public class Token {
         return this.type == TokenType.EQUAL_TO || this.type == TokenType.NOT_EQUAL_TO || this.type == TokenType.GREATER_THAN || this.type == TokenType.GREATER_THAN_OR_EQUAL_TO || this.type == TokenType.LESS_THAN || this.type == TokenType.LESS_THAN_OR_EQUAL_TO;
     }
 
+    public boolean isBinaryOperator() {
+        return this.isAdditionOperator() || this.isMultiplicationOperator() || this.isExponentiationOperator();
+    }
+
+    public boolean isAdditionOperator() {
+        return this.type == TokenType.PLUS || this.type == TokenType.HYPHEN;
+    }
+
     public boolean isMultiplicationOperator() {
         return this.type == TokenType.STAR || this.type == TokenType.FSLASH || this.type == TokenType.PERCENT;
     }
 
-    public boolean isBinaryOperator() {
-        return this.isAdditionOperator() || this.isMultiplicationOperator() || this.isExponentiationOperator();
+    public boolean isExponentiationOperator() {
+        return this.type == TokenType.CARET;
     }
 
     @Override
@@ -45,5 +45,9 @@ public class Token {
         }
 
         return "Token(type=" + type + ", value=" + value + ")";
+    }
+
+    public boolean isUnaryOperator() {
+        return this.type == TokenType.DOUBLE_PLUS || this.type == TokenType.DOUBLE_HYPHEN;
     }
 }

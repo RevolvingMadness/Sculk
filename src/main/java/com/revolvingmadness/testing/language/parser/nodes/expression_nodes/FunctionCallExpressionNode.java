@@ -20,6 +20,13 @@ public class FunctionCallExpressionNode implements ExpressionNode {
     }
 
     @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + arguments.hashCode();
+        return result;
+    }
+
+    @Override
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
@@ -31,17 +38,5 @@ public class FunctionCallExpressionNode implements ExpressionNode {
         if (!name.equals(that.name))
             return false;
         return arguments.equals(that.arguments);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + arguments.hashCode();
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return this.name + "()";
     }
 }

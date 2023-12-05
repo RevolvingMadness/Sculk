@@ -10,6 +10,7 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.*;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.*;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,26 +28,12 @@ public class LangParser {
         this.position = 0;
     }
 
-    private Token consume() {
-        return this.input.get(this.position++);
-    }
-
-    private Token consume(TokenType type) {
-        Token token = this.input.get(this.position++);
-
-        if (token.type != type) {
-            throw new SyntaxError("Expected '" + type + "', got '" + token.type + "'");
+    private boolean next(TokenType type) {
+        if (this.position + 1 >= this.input.size()) {
+            return false;
         }
 
-        return token;
-    }
-
-    private Token current() {
-        return this.input.get(this.position);
-    }
-
-    private boolean current(TokenType type) {
-        return this.current().type == type;
+        return this.input.get(this.position + 1).type == type;
     }
 
     public ScriptNode parse() {
@@ -57,6 +44,32 @@ public class LangParser {
         }
 
         return script;
+    }
+
+    private ExpressionNode parseMultiplicationExpression() {
+        ExpressionNode left = this.parseUnaryExpression();
+
+        while (this.current().isMultiplicationOperator()) {
+            TokenType operator = this.consume().type;
+
+            ExpressionNode right = this.parseUnaryExpression();
+
+            left = new BinaryExpressionNode(left, operator, right);
+        }
+
+        return left;
+    }
+
+    private ExpressionNode parseUnaryExpression() {
+        if (this.current().isUnaryOperator()) {
+            TokenType unaryOperator = this.consume().type;
+
+            ExpressionNode expression = this.parseExponentiationExpression();
+
+            return new UnaryExpressionNode(unaryOperator, expression);
+        }
+
+        return this.parseExponentiationExpression();
     }
 
     private ExpressionNode parseLogicalExpression() {
@@ -105,88 +118,86 @@ public class LangParser {
         return this.parseLogicalExpression();
     }
 
-    private ExpressionNode parseMultiplicationExpression() {
-        ExpressionNode left = this.parseExponentiationExpression();
+    private Token current() {
+        return this.input.get(this.position);
+    }
 
-        while (this.current().isMultiplicationOperator()) {
-            TokenType operator = this.consume().type;
-
-            ExpressionNode right = this.parseExponentiationExpression();
-
-            left = new BinaryExpressionNode(left, operator, right);
-        }
-
-        return left;
+    private Token consume() {
+        return this.input.get(this.position++);
     }
 
     private ExpressionNode parsePrimaryExpression() {
-        UnaryOperatorType unaryOperator = null;
-        ExpressionNode expression;
-
-        if (this.current(TokenType.HYPHEN)) {
-            this.consume();
-            unaryOperator = UnaryOperatorType.NEGATION;
-        } else if (this.current(TokenType.EXCLAMATION_MARK)) {
-            this.consume();
-            unaryOperator = UnaryOperatorType.NOT;
-        }
-
         if (this.current(TokenType.INTEGER)) {
-            expression = new IntegerExpressionNode((Integer) this.consume().value);
+            return new IntegerExpressionNode((Integer) this.consume().value);
         } else if (this.current(TokenType.FLOAT)) {
-            expression = new FloatExpressionNode((Double) this.consume().value);
+            return new FloatExpressionNode((Double) this.consume().value);
         } else if (this.current(TokenType.IDENTIFIER)) {
             IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume().value);
 
             if (this.current(TokenType.LEFT_PARENTHESIS)) {
-                this.consume(TokenType.LEFT_PARENTHESIS);
-
-                List<ExpressionNode> arguments = new ArrayList<>();
-
-                if (!this.current(TokenType.RIGHT_PARENTHESIS)) {
-                    arguments.add(this.parseExpression());
-                }
-
-                while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
-                    this.consume(TokenType.COMMA);
-
-                    arguments.add(this.parseExpression());
-                }
-
-                this.consume(TokenType.RIGHT_PARENTHESIS);
-
-                return new FunctionCallExpressionNode(name, arguments);
+                return this.parseFunctionCallExpression(name);
             } else {
-                expression = name;
+                return name;
             }
         } else if (this.current(TokenType.LEFT_PARENTHESIS)) {
-            this.consume(TokenType.LEFT_PARENTHESIS);
+            this.consume();
 
-            expression = this.parseExpression();
+            ExpressionNode expression = this.parseExpression();
 
-            this.consume(TokenType.RIGHT_PARENTHESIS);
+            this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after grouped expression");
+
+            return expression;
         } else if (this.current(TokenType.TRUE)) {
             this.consume();
-            expression = new BooleanExpressionNode(true);
+            return new BooleanExpressionNode(true);
         } else if (this.current(TokenType.FALSE)) {
             this.consume();
-            expression = new BooleanExpressionNode(false);
+            return new BooleanExpressionNode(false);
         } else if (this.current(TokenType.STRING)) {
-            expression = new StringExpressionNode((String) this.consume().value);
+            return new StringExpressionNode((String) this.consume().value);
         } else if (this.current(TokenType.RESOURCE)) {
-            expression = new ResourceExpressionNode(Identifier.tryParse((String) this.consume().value));
+            return new ResourceExpressionNode(Identifier.tryParse((String) this.consume().value));
         } else if (this.current(TokenType.NULL)) {
             this.consume();
-            expression = new NullExpressionNode();
-        } else {
-            throw new ParseError("Unknown expression type '" + this.current().type + "'");
+            return new NullExpressionNode();
         }
 
-        if (unaryOperator != null) {
-            return new UnaryExpression(unaryOperator, expression);
+        throw new ParseError("Unknown expression type '" + this.current().type + "'");
+    }
+
+    private boolean current(TokenType type) {
+        return this.current().type == type;
+    }
+
+    @NotNull
+    private FunctionCallExpressionNode parseFunctionCallExpression(IdentifierExpressionNode name) {
+        this.consume();
+
+        List<ExpressionNode> arguments = new ArrayList<>();
+
+        if (!this.current(TokenType.RIGHT_PARENTHESIS)) {
+            arguments.add(this.parseExpression());
         }
 
-        return expression;
+        while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
+            this.consume();
+
+            arguments.add(this.parseExpression());
+        }
+
+        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after function call arguments");
+
+        return new FunctionCallExpressionNode(name, arguments);
+    }
+
+    private Token consume(TokenType type, String message) {
+        Token token = this.input.get(this.position++);
+
+        if (token.type != type) {
+            throw new SyntaxError(message);
+        }
+
+        return token;
     }
 
     private StatementNode parseStatement() {
@@ -194,51 +205,35 @@ public class LangParser {
 
         if (this.current(TokenType.IMPORT)) {
             statement = this.parseImportStatement();
-            this.consume(TokenType.SEMICOLON);
+            this.consume(TokenType.SEMICOLON, "Expected semicolon after import statement");
         } else if (this.current(TokenType.IDENTIFIER)) {
             if (this.next(TokenType.LEFT_PARENTHESIS)) {
-                IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+                statement = this.parseFunctionCallStatement();
 
-                this.consume(TokenType.LEFT_PARENTHESIS);
-
-                List<ExpressionNode> arguments = new ArrayList<>();
-
-                if (!this.current(TokenType.RIGHT_PARENTHESIS)) {
-                    arguments.add(this.parseExpression());
-                }
-
-                while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
-                    this.consume(TokenType.COMMA);
-
-                    arguments.add(this.parseExpression());
-                }
-
-                this.consume(TokenType.RIGHT_PARENTHESIS);
-
-                statement = new FunctionCallStatementNode(name, arguments);
+                this.consume(TokenType.SEMICOLON, "Expected semicolon after function call");
             } else {
                 statement = this.parseAssignmentStatement();
+                this.consume(TokenType.SEMICOLON, "Expected semicolon after variable assignment");
             }
-            this.consume(TokenType.SEMICOLON);
         } else if (this.current(TokenType.IF)) {
             statement = this.parseIfStatement();
             if (this.current(TokenType.SEMICOLON)) {
-                this.consume(TokenType.SEMICOLON);
+                this.consume();
             }
         } else if (this.current(TokenType.WHILE)) {
             statement = this.parseWhileStatement();
             if (this.current(TokenType.SEMICOLON)) {
-                this.consume(TokenType.SEMICOLON);
+                this.consume();
             }
         } else if (this.current(TokenType.FOR)) {
             statement = this.parseForStatement();
             if (this.current(TokenType.SEMICOLON)) {
-                this.consume(TokenType.SEMICOLON);
+                this.consume();
             }
         } else if (this.current(TokenType.FUNCTION)) {
-            statement = this.parseFunctionStatement();
+            statement = this.parseFunctionDeclarationStatement();
             if (this.current(TokenType.SEMICOLON)) {
-                this.consume(TokenType.SEMICOLON);
+                this.consume();
             }
         }
 
@@ -249,42 +244,59 @@ public class LangParser {
         return statement;
     }
 
-    private boolean next(TokenType type) {
-        if (this.position + 1 >= this.input.size()) {
-            return false;
+    @NotNull
+    private StatementNode parseFunctionCallStatement() {
+        StatementNode statement;
+        IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected function name").value);
+
+        this.consume();
+
+        List<ExpressionNode> arguments = new ArrayList<>();
+
+        if (!this.current(TokenType.RIGHT_PARENTHESIS)) {
+            arguments.add(this.parseExpression());
         }
 
-        return this.input.get(this.position + 1).type == type;
+        while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
+            this.consume();
+
+            arguments.add(this.parseExpression());
+        }
+
+        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after function call arguments");
+
+        statement = new FunctionCallStatementNode(name, arguments);
+        return statement;
     }
 
-    private StatementNode parseFunctionStatement() {
-        this.consume(TokenType.FUNCTION);
+    private StatementNode parseFunctionDeclarationStatement() {
+        this.consume();
 
-        IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+        IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected function name").value);
 
-        this.consume(TokenType.LEFT_PARENTHESIS);
+        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after function declaration name");
 
         Map<IdentifierExpressionNode, IdentifierExpressionNode> arguments = new HashMap<>();
 
         if (this.current(TokenType.IDENTIFIER)) {
-            IdentifierExpressionNode type = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
-            IdentifierExpressionNode argumentName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
-            arguments.put(type, argumentName);
+            IdentifierExpressionNode argumentType = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected argument type").value);
+            IdentifierExpressionNode argumentName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value);
+            arguments.put(argumentType, argumentName);
         }
 
         while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
-            this.consume(TokenType.COMMA);
+            this.consume();
 
-            IdentifierExpressionNode type = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
-            IdentifierExpressionNode argumentName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+            IdentifierExpressionNode type = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected argument type").value);
+            IdentifierExpressionNode argumentName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value);
             arguments.put(type, argumentName);
         }
 
-        this.consume(TokenType.RIGHT_PARENTHESIS);
+        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after function declaration");
 
-        this.consume(TokenType.RIGHT_ARROW);
+        this.consume(TokenType.RIGHT_ARROW, "Expected right arrow after function arguments");
 
-        IdentifierExpressionNode returnType = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+        IdentifierExpressionNode returnType = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected return type").value);
 
         List<StatementNode> body = this.parseBody();
 
@@ -292,13 +304,13 @@ public class LangParser {
     }
 
     private StatementNode parseIfStatement() {
-        this.consume(TokenType.IF);
+        this.consume();
 
-        this.consume(TokenType.LEFT_PARENTHESIS);
+        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'if'");
 
         ExpressionNode expression = this.parseExpression();
 
-        this.consume(TokenType.RIGHT_PARENTHESIS);
+        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after if condition");
 
         List<StatementNode> body = this.parseBody();
 
@@ -306,25 +318,25 @@ public class LangParser {
     }
 
     private StatementNode parseForStatement() {
-        this.consume(TokenType.FOR);
+        this.consume();
 
-        this.consume(TokenType.LEFT_PARENTHESIS);
+        this.consume(TokenType.LEFT_PARENTHESIS, "Expected left parenthesis after 'for'");
 
         AssignmentStatementNode initialization = this.parseAssignmentStatement();
 
-        this.consume(TokenType.SEMICOLON);
+        this.consume(TokenType.SEMICOLON, "Expected semicolon after variable assignment");
 
         ExpressionNode condition = this.parseExpression();
 
-        this.consume(TokenType.SEMICOLON);
+        this.consume(TokenType.SEMICOLON, "Expected semicolon after variable assignment");
 
         AssignmentStatementNode update = this.parseAssignmentStatement();
 
         if (this.current(TokenType.SEMICOLON)) {
-            this.consume(TokenType.SEMICOLON);
+            this.consume();
         }
 
-        this.consume(TokenType.RIGHT_PARENTHESIS);
+        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after for update");
 
         List<StatementNode> body = this.parseBody();
 
@@ -332,13 +344,13 @@ public class LangParser {
     }
 
     private StatementNode parseWhileStatement() {
-        this.consume(TokenType.WHILE);
+        this.consume();
 
-        this.consume(TokenType.LEFT_PARENTHESIS);
+        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'while'");
 
         ExpressionNode expression = this.parseExpression();
 
-        this.consume(TokenType.RIGHT_PARENTHESIS);
+        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after while condition");
 
         List<StatementNode> body = this.parseBody();
 
@@ -346,7 +358,7 @@ public class LangParser {
     }
 
     private List<StatementNode> parseBody() {
-        this.consume(TokenType.LEFT_BRACE);
+        this.consume();
 
         List<StatementNode> body = new ArrayList<>();
 
@@ -354,15 +366,15 @@ public class LangParser {
             body.add(this.parseStatement());
         }
 
-        this.consume(TokenType.RIGHT_BRACE);
+        this.consume(TokenType.RIGHT_BRACE, "Expected closing brace for body");
 
         return body;
     }
 
     private StatementNode parseImportStatement() {
-        this.consume(TokenType.IMPORT);
+        this.consume();
 
-        String[] splitIdentifier = ((String) this.consume(TokenType.RESOURCE).value).split(":");
+        String[] splitIdentifier = ((String) this.consume(TokenType.RESOURCE, "Expected resource after 'import'").value).split(":");
         String path = splitIdentifier[0];
         String namespace = splitIdentifier[1];
 
@@ -372,26 +384,20 @@ public class LangParser {
     }
 
     private AssignmentStatementNode parseAssignmentStatement() {
-        IdentifierExpressionNode typeOrName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+        IdentifierExpressionNode typeOrName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected variable type or name").value);
 
         if (this.current(TokenType.IDENTIFIER)) {
-            IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER).value);
+            IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected variable name").value);
 
             if (this.current(TokenType.SEMICOLON)) {
                 return new AssignmentStatementNode(typeOrName, name, new NullExpressionNode());
             }
 
-            this.consume(TokenType.EQUALS);
+            this.consume(TokenType.EQUALS, "Expected equals after variable name");
 
             ExpressionNode expression = this.parseExpression();
 
             return new AssignmentStatementNode(typeOrName, name, expression);
-        }
-
-        TokenType shorthandAssignmentOperator = null;
-
-        if (this.current().isBinaryOperator()) {
-            shorthandAssignmentOperator = this.consume().type;
         }
 
         if (this.current().isIncrementOrDecrementOperator()) {
@@ -400,7 +406,13 @@ public class LangParser {
             return new AssignmentStatementNode(null, typeOrName, new BinaryExpressionNode(typeOrName, incrementOrDecrementOperator, new IntegerExpressionNode(1)));
         }
 
-        this.consume(TokenType.EQUALS);
+        TokenType shorthandAssignmentOperator = null;
+
+        if (this.current().isBinaryOperator()) {
+            shorthandAssignmentOperator = this.consume().type;
+        }
+
+        this.consume(TokenType.EQUALS, "Expected equals after variable name");
 
         ExpressionNode expression = this.parseExpression();
 

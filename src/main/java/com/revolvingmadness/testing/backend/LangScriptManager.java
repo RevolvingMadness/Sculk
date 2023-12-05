@@ -23,39 +23,14 @@ public class LangScriptManager {
         this.setLoader(loader);
     }
 
-    private void execute(LangScript script) {
-        if (script.hasErrors) {
-            return;
-        }
-
-        try {
-            this.interpreter.interpret(script.scriptNode);
-        } catch (RuntimeException exception) {
-            Logger.scriptError(script, exception);
-            script.hasErrors = true;
-        }
-    }
-
-    private void executeAll(Collection<LangScript> scripts, Identifier label) {
-        Profiler serverProfiler = Testing.server.getProfiler();
-
-        Objects.requireNonNull(label);
-
-        serverProfiler.push(label::toString);
-
-        scripts.forEach(this::execute);
-
-        Testing.server.getProfiler().pop();
+    public void setLoader(LangScriptLoader loader) {
+        this.loader = loader;
+        this.reload(loader);
     }
 
     public void reload(LangScriptLoader loader) {
         this.tickScripts = List.copyOf(loader.getScriptsFromTag(TICK_TAG_ID));
         this.justLoaded = true;
-    }
-
-    public void setLoader(LangScriptLoader loader) {
-        this.loader = loader;
-        this.reload(loader);
     }
 
     public void tick() {
@@ -76,5 +51,30 @@ public class LangScriptManager {
         }
 
         this.executeAll(this.tickScripts, TICK_TAG_ID);
+    }
+
+    private void executeAll(Collection<LangScript> scripts, Identifier label) {
+        Profiler serverProfiler = Testing.server.getProfiler();
+
+        Objects.requireNonNull(label);
+
+        serverProfiler.push(label::toString);
+
+        scripts.forEach(this::execute);
+
+        Testing.server.getProfiler().pop();
+    }
+
+    private void execute(LangScript script) {
+        if (script.hasErrors) {
+            return;
+        }
+
+        try {
+            this.interpreter.interpret(script.scriptNode);
+        } catch (RuntimeException exception) {
+            Logger.scriptError(script, exception);
+            script.hasErrors = true;
+        }
     }
 }

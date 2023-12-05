@@ -18,6 +18,21 @@ public class NullExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
+    public LiteralExpressionNode exponentiate(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '^' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
+    public IdentifierExpressionNode getType() {
+        return new IdentifierExpressionNode("null");
+    }
+
+    @Override
+    public boolean isTruthy() {
+        return false;
+    }
+
+    @Override
     public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
         if (other instanceof NullExpressionNode) {
             return new BooleanExpressionNode(true);
@@ -56,26 +71,6 @@ public class NullExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public LiteralExpressionNode exponentiate(LiteralExpressionNode other) {
-        throw new TypeError("Unsupported binary operator '^' for types '" + this.getType() + "' and '" + other.getType() + "'");
-    }
-
-    @Override
-    public IdentifierExpressionNode getType() {
-        return new IdentifierExpressionNode("null");
-    }
-
-    @Override
-    public LiteralExpressionNode interpret(ScriptNode script) {
-        return this;
-    }
-
-    @Override
-    public boolean isTruthy() {
-        return false;
-    }
-
-    @Override
     public LiteralExpressionNode logicalNot() {
         throw new TypeError("Unsupported unary operator '!' for type '" + this.getType() + "'");
     }
@@ -98,6 +93,11 @@ public class NullExpressionNode implements LiteralExpressionNode {
     @Override
     public LiteralExpressionNode subtract(LiteralExpressionNode other) {
         throw new TypeError("Unsupported binary operator '-' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
+    public LiteralExpressionNode interpret(ScriptNode script) {
+        return this;
     }
 
     @Override

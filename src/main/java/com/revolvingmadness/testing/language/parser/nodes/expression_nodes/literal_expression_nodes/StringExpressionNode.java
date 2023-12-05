@@ -28,6 +28,21 @@ public class StringExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
+    public LiteralExpressionNode exponentiate(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '^' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
+    public IdentifierExpressionNode getType() {
+        return new IdentifierExpressionNode("string");
+    }
+
+    @Override
+    public boolean isTruthy() {
+        return !Objects.equals(this.value, "");
+    }
+
+    @Override
     public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
         if (other instanceof StringExpressionNode stringExpression) {
             return new BooleanExpressionNode(this.value.equals(stringExpression.value));
@@ -66,43 +81,6 @@ public class StringExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public boolean equals(Object otherObject) {
-        if (this == otherObject)
-            return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
-            return false;
-
-        StringExpressionNode otherStringExpression = (StringExpressionNode) otherObject;
-
-        return value.equals(otherStringExpression.value);
-    }
-
-    @Override
-    public LiteralExpressionNode exponentiate(LiteralExpressionNode other) {
-        throw new TypeError("Unsupported binary operator '^' for types '" + this.getType() + "' and '" + other.getType() + "'");
-    }
-
-    @Override
-    public IdentifierExpressionNode getType() {
-        return new IdentifierExpressionNode("string");
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public LiteralExpressionNode interpret(ScriptNode script) {
-        return this;
-    }
-
-    @Override
-    public boolean isTruthy() {
-        return !Objects.equals(this.value, "");
-    }
-
-    @Override
     public LiteralExpressionNode logicalNot() {
         throw new TypeError("Unsupported unary operator '!' for type '" + this.getType() + "'");
     }
@@ -132,7 +110,29 @@ public class StringExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object otherObject) {
+        if (this == otherObject)
+            return true;
+        if (otherObject == null || getClass() != otherObject.getClass())
+            return false;
+
+        StringExpressionNode otherStringExpression = (StringExpressionNode) otherObject;
+
+        return value.equals(otherStringExpression.value);
+    }
+
+    @Override
     public String toString() {
         return this.value;
+    }
+
+    @Override
+    public LiteralExpressionNode interpret(ScriptNode script) {
+        return this;
     }
 }

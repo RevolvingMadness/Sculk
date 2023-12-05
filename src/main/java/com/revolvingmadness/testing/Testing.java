@@ -10,22 +10,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Testing implements ModInitializer {
-	public static final String ID = "testing";
-	//    public static final Logger LOGGER = LoggerFactory.getLogger(ID);
-	public static MinecraftServer server;
-	public static final Map<String, TokenType> keywords = new HashMap<>();
+    public static final String ID = "testing";
+    public static final Map<String, TokenType> keywords = new HashMap<>();
+    //    public static final Logger LOGGER = LoggerFactory.getLogger(ID);
+    public static MinecraftServer server;
 
-	@Override
-	public void onInitialize() {
-		ServerLifecycleEvents.SERVER_STARTING.register(server1 -> Testing.server = server1);
-		TestingGamerules.registerGamerules();
-		Testing.keywords.put("true", TokenType.TRUE);
-		Testing.keywords.put("false", TokenType.FALSE);
-		Testing.keywords.put("import", TokenType.IMPORT);
-		Testing.keywords.put("if", TokenType.IF);
-		Testing.keywords.put("while", TokenType.WHILE);
-		Testing.keywords.put("for", TokenType.FOR);
-		Testing.keywords.put("function", TokenType.FUNCTION);
-		Testing.keywords.put("null", TokenType.NULL);
-	}
+    @Override
+    public void onInitialize() {
+        ServerLifecycleEvents.SERVER_STARTING.register(server1 -> Testing.server = server1);
+        TestingGamerules.registerGamerules();
+        Testing.keywords.put("true", TokenType.TRUE);
+        Testing.keywords.put("false", TokenType.FALSE);
+        Testing.keywords.put("import", TokenType.IMPORT);
+        Testing.keywords.put("if", TokenType.IF);
+        Testing.keywords.put("while", TokenType.WHILE);
+        Testing.keywords.put("for", TokenType.FOR);
+        Testing.keywords.put("function", TokenType.FUNCTION);
+        Testing.keywords.put("null", TokenType.NULL);
+    }
 }

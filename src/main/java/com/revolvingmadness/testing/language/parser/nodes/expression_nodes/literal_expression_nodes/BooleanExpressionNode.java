@@ -22,18 +22,6 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public boolean equals(Object otherObject) {
-        if (this == otherObject)
-            return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
-            return false;
-
-        BooleanExpressionNode otherBooleanExpression = (BooleanExpressionNode) otherObject;
-
-        return value.equals(otherBooleanExpression.value);
-    }
-
-    @Override
     public LiteralExpressionNode exponentiate(LiteralExpressionNode other) {
         throw new TypeError("Unsupported binary operator '^' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
@@ -41,16 +29,6 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
     @Override
     public IdentifierExpressionNode getType() {
         return new IdentifierExpressionNode("boolean");
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public LiteralExpressionNode interpret(ScriptNode script) {
-        return this;
     }
 
     @Override
@@ -122,7 +100,29 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object otherObject) {
+        if (this == otherObject)
+            return true;
+        if (otherObject == null || getClass() != otherObject.getClass())
+            return false;
+
+        BooleanExpressionNode otherBooleanExpression = (BooleanExpressionNode) otherObject;
+
+        return value.equals(otherBooleanExpression.value);
+    }
+
+    @Override
     public String toString() {
         return this.value.toString();
+    }
+
+    @Override
+    public LiteralExpressionNode interpret(ScriptNode script) {
+        return this;
     }
 }

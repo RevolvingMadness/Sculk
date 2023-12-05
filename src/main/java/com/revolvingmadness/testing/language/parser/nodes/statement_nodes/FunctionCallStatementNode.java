@@ -21,6 +21,13 @@ public class FunctionCallStatementNode implements StatementNode {
     }
 
     @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + arguments.hashCode();
+        return result;
+    }
+
+    @Override
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
@@ -32,13 +39,6 @@ public class FunctionCallStatementNode implements StatementNode {
         if (!name.equals(that.name))
             return false;
         return arguments.equals(that.arguments);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + arguments.hashCode();
-        return result;
     }
 
     @Override

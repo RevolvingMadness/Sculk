@@ -34,18 +34,6 @@ public class IntegerExpressionNode implements NumberLiteralExpressionNode {
     }
 
     @Override
-    public boolean equals(Object otherObject) {
-        if (this == otherObject)
-            return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
-            return false;
-
-        IntegerExpressionNode otherIntegerExpression = (IntegerExpressionNode) otherObject;
-
-        return value.equals(otherIntegerExpression.value);
-    }
-
-    @Override
     public LiteralExpressionNode exponentiate(LiteralExpressionNode other) {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(Math.pow(this.value, floatExpression.value));
@@ -59,16 +47,6 @@ public class IntegerExpressionNode implements NumberLiteralExpressionNode {
     @Override
     public IdentifierExpressionNode getType() {
         return new IdentifierExpressionNode("int");
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public LiteralExpressionNode interpret(ScriptNode script) {
-        return this;
     }
 
     @Override
@@ -184,7 +162,29 @@ public class IntegerExpressionNode implements NumberLiteralExpressionNode {
     }
 
     @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object otherObject) {
+        if (this == otherObject)
+            return true;
+        if (otherObject == null || getClass() != otherObject.getClass())
+            return false;
+
+        IntegerExpressionNode otherIntegerExpression = (IntegerExpressionNode) otherObject;
+
+        return value.equals(otherIntegerExpression.value);
+    }
+
+    @Override
     public String toString() {
         return this.value.toString();
+    }
+
+    @Override
+    public LiteralExpressionNode interpret(ScriptNode script) {
+        return this;
     }
 }

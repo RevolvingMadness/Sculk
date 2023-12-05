@@ -17,6 +17,14 @@ public class BinaryExpressionNode implements ExpressionNode {
     }
 
     @Override
+    public int hashCode() {
+        int result = left.hashCode();
+        result = 31 * result + operator.hashCode();
+        result = 31 * result + right.hashCode();
+        return result;
+    }
+
+    @Override
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
@@ -30,14 +38,6 @@ public class BinaryExpressionNode implements ExpressionNode {
         if (operator != otherBinaryExpression.operator)
             return false;
         return right.equals(otherBinaryExpression.right);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = left.hashCode();
-        result = 31 * result + operator.hashCode();
-        result = 31 * result + right.hashCode();
-        return result;
     }
 
     @Override
@@ -60,10 +60,5 @@ public class BinaryExpressionNode implements ExpressionNode {
             case LESS_THAN_OR_EQUAL_TO -> interpretedLeftValue.lessThanOrEqualTo(interpretedRightValue);
             default -> throw new ParseError("Unknown binary operator '" + this.operator + "'");
         };
-    }
-
-    @Override
-    public String toString() {
-        return this.left.toString() + ' ' + operator + ' ' + this.right.toString();
     }
 }

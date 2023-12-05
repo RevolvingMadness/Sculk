@@ -7,22 +7,22 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 public class Logger {
+    public static void error(String error) {
+        Logger.broadcast(Text.literal(error).formatted(Formatting.RED), true);
+    }
+
     public static void broadcast(MutableText text, boolean broadcastWithoutLogsEnabled) {
         if (Testing.server.getGameRules().getBoolean(TestingGamerules.SCRIPT_LOGS_ENABLED) || broadcastWithoutLogsEnabled) {
             Testing.server.getPlayerManager().broadcast(text, false);
         }
     }
 
-    public static void broadcast(MutableText text) {
-        Logger.broadcast(text, false);
-    }
-
-    public static void error(String error) {
-        Logger.broadcast(Text.literal(error).formatted(Formatting.RED), true);
-    }
-
     public static void info(String text) {
         Logger.broadcast(Text.literal(text));
+    }
+
+    public static void broadcast(MutableText text) {
+        Logger.broadcast(text, false);
     }
 
     public static void scriptError(LangScript script, RuntimeException exception) {

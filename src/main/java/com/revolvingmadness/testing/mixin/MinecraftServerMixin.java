@@ -67,25 +67,6 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
         super(string);
     }
 
-    @Shadow
-    private static DataPackSettings createDataPackSettings(ResourcePackManager dataPackManager) {
-        return null;
-    }
-
-    @Shadow
-    public abstract int getFunctionPermissionLevel();
-
-    @Unique
-    private LangScriptManager getLangScriptManager() {
-        return this.langScriptManager;
-    }
-
-    @Shadow
-    public abstract PlayerManager getPlayerManager();
-
-    @Shadow
-    public abstract DynamicRegistryManager.Immutable getRegistryManager();
-
     @Inject(at = @At("TAIL"), method = "<init>")
     public void injectInit(Thread serverThread, LevelStorage.Session session, ResourcePackManager dataPackManager, SaveLoader saveLoader, Proxy proxy, DataFixer dataFixer, ApiServices apiServices, WorldGenerationProgressListenerFactory worldGenerationProgressListenerFactory, CallbackInfo ci) {
         this.langScriptManager = new LangScriptManager(((DatapackContentsAccessor) this.resourceManagerHolder.dataPackContents()).testing$getLangScriptLoader());
@@ -131,12 +112,31 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
         cir.setReturnValue(completableFuture);
     }
 
+    @Shadow
+    public abstract boolean isDedicated();
+
+    @Shadow
+    public abstract int getFunctionPermissionLevel();
+
+    @Shadow
+    private static DataPackSettings createDataPackSettings(ResourcePackManager dataPackManager) {
+        return null;
+    }
+
+    @Shadow
+    public abstract DynamicRegistryManager.Immutable getRegistryManager();
+
+    @Shadow
+    public abstract PlayerManager getPlayerManager();
+
     @Inject(at = @At("HEAD"), method = "tickWorlds")
     public void injectTickWorlds(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
         this.profiler.push("langScripts");
         this.getLangScriptManager().tick();
     }
 
-    @Shadow
-    public abstract boolean isDedicated();
+    @Unique
+    private LangScriptManager getLangScriptManager() {
+        return this.langScriptManager;
+    }
 }

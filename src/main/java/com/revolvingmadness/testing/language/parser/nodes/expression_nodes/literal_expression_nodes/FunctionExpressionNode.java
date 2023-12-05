@@ -42,11 +42,6 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public LiteralExpressionNode interpret(ScriptNode script) {
-        return this;
-    }
-
-    @Override
     public boolean isTruthy() {
         return true;
     }
@@ -115,6 +110,20 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
+    public LiteralExpressionNode interpret(ScriptNode script) {
+        return this;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + arguments.hashCode();
+        result = 31 * result + returnType.hashCode();
+        result = 31 * result + body.hashCode();
+        return result;
+    }
+
+    @Override
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
@@ -130,15 +139,6 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
         if (!returnType.equals(that.returnType))
             return false;
         return body.equals(that.body);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + arguments.hashCode();
-        result = 31 * result + returnType.hashCode();
-        result = 31 * result + body.hashCode();
-        return result;
     }
 
     @Override
