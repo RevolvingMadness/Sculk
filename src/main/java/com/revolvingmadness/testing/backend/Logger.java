@@ -8,49 +8,50 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 public class Logger {
-    public static void error(String error) {
-        Logger.broadcast(Text.literal(error).formatted(Formatting.RED), true);
-    }
+	public static void broadcast(MutableText text, boolean broadcastWithoutLogsEnabled) {
+		if (Testing.server.getGameRules().getBoolean(TestingGamerules.SCRIPT_LOGS_ENABLED) || broadcastWithoutLogsEnabled) {
+			Testing.server.getPlayerManager().broadcast(text, false);
+		}
+	}
 
-    public static void broadcast(MutableText text, boolean broadcastWithoutLogsEnabled) {
-        if (Testing.server.getGameRules().getBoolean(TestingGamerules.SCRIPT_LOGS_ENABLED) || broadcastWithoutLogsEnabled) {
-            Testing.server.getPlayerManager().broadcast(text, false);
-        }
-    }
+	public static void broadcast(MutableText text) {
+		Logger.broadcast(text, false);
+	}
 
-    public static void info(String text) {
-        Logger.broadcast(Text.literal(text));
-    }
+	public static void error(String error) {
+		Logger.broadcast(Text.literal(error).formatted(Formatting.RED), true);
+	}
 
-    public static void broadcast(MutableText text) {
-        Logger.broadcast(text, false);
-    }
+	public static void info(String text) {
+		Logger.broadcast(Text.literal(text));
+	}
 
-    public static void scriptError(LangScript script, RuntimeException exception) {
-        if (exception instanceof InternalError internalError) {
-            Logger.internalScriptError(script, internalError);
-            return;
-        }
-        Logger.broadcast(Text.literal("The script '" + script.identifier + "' encountered an error:").formatted(Formatting.GRAY), true);
+	public static void scriptError(LangScript script, RuntimeException exception) {
+		if (exception instanceof InternalError internalError) {
+			Logger.internalScriptError(script, internalError);
+			return;
+		}
 
-        MutableText textError = Text.literal(exception.getClass().getSimpleName() + ": ").formatted(Formatting.GRAY);
+		Logger.broadcast(Text.literal("The script '" + script.identifier + "' encountered an error:").formatted(Formatting.GRAY), true);
 
-        textError.append(Text.literal(exception.getMessage()).formatted(Formatting.RED));
+		MutableText textError = Text.literal(exception.getClass().getSimpleName() + ": ").formatted(Formatting.GRAY);
 
-        Logger.broadcast(textError, true);
-    }
+		textError.append(Text.literal(exception.getMessage()).formatted(Formatting.RED));
 
-    private static void internalScriptError(LangScript script, InternalError internalError) {
-        MutableText errorText = Text.literal("The script '" + script.identifier + "' encountered an internal error:").formatted(Formatting.DARK_RED);
+		Logger.broadcast(textError, true);
+	}
 
-        errorText.append(internalError.getClass().getSimpleName() + ": ");
+	public static void warn(String text) {
+		Logger.broadcast(Text.literal(text).formatted(Formatting.YELLOW));
+	}
 
-        errorText.append(internalError.getMessage());
+	private static void internalScriptError(LangScript script, InternalError exception) {
+		Logger.broadcast(Text.literal("The script '" + script.identifier + "' encountered an internal error:").formatted(Formatting.GRAY));
 
-        Logger.broadcast(errorText, true);
-    }
+		MutableText textError = Text.literal(exception.getClass().getSimpleName() + ": ").formatted(Formatting.GRAY);
 
-    public static void warn(String text) {
-        Logger.broadcast(Text.literal(text).formatted(Formatting.YELLOW));
-    }
+		textError.append(Text.literal(exception.getMessage()).formatted(Formatting.DARK_RED));
+
+		Logger.broadcast(textError, true);
+	}
 }

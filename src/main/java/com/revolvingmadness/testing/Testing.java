@@ -27,5 +27,8 @@ public class Testing implements ModInitializer {
         Testing.keywords.put("for", TokenType.FOR);
         Testing.keywords.put("function", TokenType.FUNCTION);
         Testing.keywords.put("null", TokenType.NULL);
+        Testing.keywords.put("return", TokenType.RETURN);
+        Testing.keywords.put("break", TokenType.BREAK);
+        Testing.keywords.put("continue", TokenType.CONTINUE);
     }
 }

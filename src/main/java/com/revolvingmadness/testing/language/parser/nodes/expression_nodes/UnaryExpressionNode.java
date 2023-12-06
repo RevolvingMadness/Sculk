@@ -17,22 +17,6 @@ public class UnaryExpressionNode implements ExpressionNode {
     }
 
     @Override
-    public LiteralExpressionNode interpret(ScriptNode script) {
-        LiteralExpressionNode interpretedValue = this.value.interpret(script);
-
-        return switch (this.operator) {
-            case EXCLAMATION_MARK -> interpretedValue.logicalNot();
-            case HYPHEN -> interpretedValue.negate();
-            default -> throw new InterpreterError("Unknown unary operator '" + this.operator + "'");
-        };
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(operator, value);
-    }
-
-    @Override
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
@@ -42,5 +26,21 @@ public class UnaryExpressionNode implements ExpressionNode {
         UnaryExpressionNode otherUnaryExpression = (UnaryExpressionNode) otherObject;
 
         return operator == otherUnaryExpression.operator && Objects.equals(value, otherUnaryExpression.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(operator, value);
+    }
+
+    @Override
+    public LiteralExpressionNode interpret(ScriptNode script) {
+        LiteralExpressionNode interpretedValue = this.value.interpret(script);
+
+        return switch (this.operator) {
+            case EXCLAMATION_MARK -> interpretedValue.logicalNot();
+            case HYPHEN -> interpretedValue.negate();
+            default -> throw new InterpreterError("Unknown unary operator '" + this.operator + "'");
+        };
     }
 }

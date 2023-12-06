@@ -2,6 +2,7 @@ package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.lite
 
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.StatementNode;
 
@@ -9,12 +10,12 @@ import java.util.List;
 import java.util.Map;
 
 public class FunctionExpressionNode implements LiteralExpressionNode {
-    public final IdentifierExpressionNode name;
     public final Map<IdentifierExpressionNode, IdentifierExpressionNode> arguments;
-    public final IdentifierExpressionNode returnType;
     public final List<StatementNode> body;
+    public final IdentifierExpressionNode name;
+    public final ExpressionNode returnType;
 
-    public FunctionExpressionNode(IdentifierExpressionNode name, Map<IdentifierExpressionNode, IdentifierExpressionNode> arguments, IdentifierExpressionNode returnType, List<StatementNode> body) {
+    public FunctionExpressionNode(IdentifierExpressionNode name, Map<IdentifierExpressionNode, IdentifierExpressionNode> arguments, ExpressionNode returnType, List<StatementNode> body) {
         this.name = name;
         this.arguments = arguments;
         this.returnType = returnType;
@@ -32,6 +33,33 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
+    public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
+        if (other instanceof FunctionExpressionNode functionExpression) {
+            return new BooleanExpressionNode(this.name.equals(functionExpression.name) && this.arguments.equals(functionExpression.arguments) && this.returnType.equals(functionExpression.returnType) && this.body.equals(functionExpression.body));
+        }
+
+        return new BooleanExpressionNode(false);
+    }
+
+    @Override
+    public boolean equals(Object otherObject) {
+        if (this == otherObject)
+            return true;
+        if (otherObject == null || getClass() != otherObject.getClass())
+            return false;
+
+        FunctionExpressionNode that = (FunctionExpressionNode) otherObject;
+
+        if (!name.equals(that.name))
+            return false;
+        if (!arguments.equals(that.arguments))
+            return false;
+        if (!returnType.equals(that.returnType))
+            return false;
+        return body.equals(that.body);
+    }
+
+    @Override
     public LiteralExpressionNode exponentiate(LiteralExpressionNode other) {
         throw new TypeError("Unsupported binary operator '^' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
@@ -42,29 +70,6 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public boolean isTruthy() {
-        return true;
-    }
-
-    @Override
-    public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
-        if (other instanceof FunctionExpressionNode functionExpression) {
-            return new BooleanExpressionNode(this.name.equals(functionExpression.name) && this.arguments.equals(functionExpression.arguments) && this.returnType.equals(functionExpression.returnType) && this.body.equals(functionExpression.body));
-        }
-
-        return new BooleanExpressionNode(false);
-    }
-
-    @Override
-    public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
-        if (other instanceof FunctionExpressionNode functionExpression) {
-            return new BooleanExpressionNode(!this.name.equals(functionExpression.name) || !this.arguments.equals(functionExpression.arguments) || !this.returnType.equals(functionExpression.returnType) || !this.body.equals(functionExpression.body));
-        }
-
-        return new BooleanExpressionNode(true);
-    }
-
-    @Override
     public BooleanExpressionNode greaterThan(LiteralExpressionNode other) {
         throw new TypeError("Unsupported binary operator '>' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
@@ -72,6 +77,25 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
     @Override
     public BooleanExpressionNode greaterThanOrEqualTo(LiteralExpressionNode other) {
         throw new TypeError("Unsupported binary operator '>=' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + arguments.hashCode();
+        result = 31 * result + returnType.hashCode();
+        result = 31 * result + body.hashCode();
+        return result;
+    }
+
+    @Override
+    public LiteralExpressionNode interpret(ScriptNode script) {
+        return this;
+    }
+
+    @Override
+    public boolean isTruthy() {
+        return true;
     }
 
     @Override
@@ -105,40 +129,17 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
+    public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
+        if (other instanceof FunctionExpressionNode functionExpression) {
+            return new BooleanExpressionNode(!this.name.equals(functionExpression.name) || !this.arguments.equals(functionExpression.arguments) || !this.returnType.equals(functionExpression.returnType) || !this.body.equals(functionExpression.body));
+        }
+
+        return new BooleanExpressionNode(true);
+    }
+
+    @Override
     public LiteralExpressionNode subtract(LiteralExpressionNode other) {
         throw new TypeError("Unsupported binary operator '-' for types '" + this.getType() + "' and '" + other.getType() + "'");
-    }
-
-    @Override
-    public LiteralExpressionNode interpret(ScriptNode script) {
-        return this;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + arguments.hashCode();
-        result = 31 * result + returnType.hashCode();
-        result = 31 * result + body.hashCode();
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object otherObject) {
-        if (this == otherObject)
-            return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
-            return false;
-
-        FunctionExpressionNode that = (FunctionExpressionNode) otherObject;
-
-        if (!name.equals(that.name))
-            return false;
-        if (!arguments.equals(that.arguments))
-            return false;
-        if (!returnType.equals(that.returnType))
-            return false;
-        return body.equals(that.body);
     }
 
     @Override

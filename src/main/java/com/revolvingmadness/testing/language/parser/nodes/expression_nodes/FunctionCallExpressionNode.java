@@ -6,24 +6,12 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.liter
 import java.util.List;
 
 public class FunctionCallExpressionNode implements ExpressionNode {
-    public final IdentifierExpressionNode name;
     public final List<ExpressionNode> arguments;
+    public final IdentifierExpressionNode name;
 
     public FunctionCallExpressionNode(IdentifierExpressionNode name, List<ExpressionNode> arguments) {
         this.name = name;
         this.arguments = arguments;
-    }
-
-    @Override
-    public LiteralExpressionNode interpret(ScriptNode script) {
-        return script.variableTable.call(this.name, this.arguments);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + arguments.hashCode();
-        return result;
     }
 
     @Override
@@ -38,5 +26,17 @@ public class FunctionCallExpressionNode implements ExpressionNode {
         if (!name.equals(that.name))
             return false;
         return arguments.equals(that.arguments);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + arguments.hashCode();
+        return result;
+    }
+
+    @Override
+    public LiteralExpressionNode interpret(ScriptNode script) {
+        return script.variableTable.call(this.name, this.arguments);
     }
 }

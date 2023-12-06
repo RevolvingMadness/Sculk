@@ -7,24 +7,12 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Ident
 import java.util.List;
 
 public class FunctionCallStatementNode implements StatementNode {
-    public final IdentifierExpressionNode name;
     public final List<ExpressionNode> arguments;
+    public final IdentifierExpressionNode name;
 
     public FunctionCallStatementNode(IdentifierExpressionNode name, List<ExpressionNode> arguments) {
         this.name = name;
         this.arguments = arguments;
-    }
-
-    @Override
-    public void interpret(ScriptNode script) {
-        script.variableTable.call(this.name, this.arguments);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + arguments.hashCode();
-        return result;
     }
 
     @Override
@@ -39,6 +27,18 @@ public class FunctionCallStatementNode implements StatementNode {
         if (!name.equals(that.name))
             return false;
         return arguments.equals(that.arguments);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + arguments.hashCode();
+        return result;
+    }
+
+    @Override
+    public void interpret(ScriptNode script) {
+        script.variableTable.call(this.name, this.arguments);
     }
 
     @Override

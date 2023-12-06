@@ -1,10 +1,9 @@
 package com.revolvingmadness.testing.language.interpreter;
 
-import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.backend.Logger;
 import com.revolvingmadness.testing.language.errors.NameError;
-import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.interpreter.errors.Return;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
@@ -15,137 +14,148 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.liter
 import java.util.*;
 
 public class VariableTable {
-    public final ScriptNode script;
-    public final Stack<List<Variable>> variableScopes;
+	public final ScriptNode script;
+	public final Stack<VariableScope> variableScopes;
 
-    public VariableTable(ScriptNode script) {
-        this.script = script;
-        this.variableScopes = new Stack<>();
-        this.variableScopes.add(new ArrayList<>());
-    }
+	public VariableTable(ScriptNode script) {
+		this.script = script;
+		this.variableScopes = new Stack<>();
+		this.variableScopes.add(new VariableScope());
+	}
 
-    public LiteralExpressionNode call(IdentifierExpressionNode functionToCallName, List<ExpressionNode> functionToCallArguments) {
-        script.variableTable.createScope();
+	private void assign(IdentifierExpressionNode name, ExpressionNode value) {
+		Objects.requireNonNull(name);
 
-        Variable functionToCallVariable = script.variableTable.getOrThrow(functionToCallName);
+		LiteralExpressionNode interpretedValue = value.interpret(this.script);
 
-        if (!(functionToCallVariable.value instanceof FunctionExpressionNode functionDefinition)) {
-            throw new TypeError("Type '" + functionToCallVariable.type + "' is not callable");
-        }
+		Logger.info("Assigning '" + name + "' to the value '" + interpretedValue + "'");
 
-        if (functionToCallArguments.size() != functionDefinition.arguments.size()) {
-            throw new TypeError("Function '" + functionToCallName + "' takes '" + functionDefinition.arguments.size() + "' argument(s) but '" + functionToCallArguments.size() + "' argument(s) were given");
-        }
+		Variable existingVariable = this.getOrThrow(name);
 
-        int argumentNumber = 0;
+		IdentifierExpressionNode interpretedValueType = interpretedValue.getType();
 
-        for (Map.Entry<IdentifierExpressionNode, IdentifierExpressionNode> entry : functionDefinition.arguments.entrySet()) {
-            IdentifierExpressionNode argumentType = entry.getKey();
-            IdentifierExpressionNode argumentName = entry.getValue();
+		if (!existingVariable.type.equals(interpretedValueType) && !interpretedValueType.value.equals("null")) {
+			throw new TypeError("Expected type '" + interpretedValueType + "', but got type '" + existingVariable.type + "'");
+		}
 
-            LiteralExpressionNode argumentValue = functionToCallArguments.get(argumentNumber++).interpret(script);
+		existingVariable.value = interpretedValue;
+	}
 
-            if (argumentType != argumentValue.getType()) {
-                throw new TypeError("Expected type '" + argumentType + "' for argument '" + argumentName + "' but got '" + argumentValue.getType() + "'");
-            }
-            script.variableTable.declareAndOrAssign(entry.getKey(), entry.getValue(), argumentValue);
-        }
+	public LiteralExpressionNode call(IdentifierExpressionNode functionToCallName, List<ExpressionNode> functionToCallArguments) {
+		this.createScope();
 
-        functionDefinition.body.forEach(statement -> statement.interpret(script));
+		Variable functionToCallVariable = this.getOrThrow(functionToCallName);
 
-        script.variableTable.exitScope();
+		if (!(functionToCallVariable.value instanceof FunctionExpressionNode function)) {
+			throw new TypeError("Variable '" + functionToCallVariable.type + "' is not callable");
+		}
 
-        // Return function return value
-        return null;
-    }
+		if (functionToCallArguments.size() != function.arguments.size()) {
+			throw new TypeError("Function '" + functionToCallName + "' takes '" + function.arguments.size() + "' argument(s) but '" + functionToCallArguments.size() + "' argument(s) were given");
+		}
 
-    public void createScope() {
-        this.variableScopes.add(new ArrayList<>());
-    }
+		int argumentNumber = 0;
 
-    public Variable getOrThrow(IdentifierExpressionNode name) {
-        Optional<Variable> variable = this.get(name);
+		for (Map.Entry<IdentifierExpressionNode, IdentifierExpressionNode> entry : function.arguments.entrySet()) {
+			IdentifierExpressionNode argumentName = entry.getKey();
+			IdentifierExpressionNode argumentType = entry.getValue();
 
-        if (variable.isEmpty()) {
-            throw new NameError("Variable '" + name + "' has not been declared");
-        }
+			LiteralExpressionNode argumentValue = functionToCallArguments.get(argumentNumber++).interpret(script);
 
-        return variable.get();
-    }
+			if (!argumentType.equals(argumentValue.getType())) {
+				throw new TypeError("Expected type '" + argumentType + "' for argument '" + argumentName + "' but got type '" + argumentValue.getType() + "'");
+			}
 
-    public void declareAndOrAssign(IdentifierExpressionNode type, IdentifierExpressionNode name, ExpressionNode value) {
-        Objects.requireNonNull(name);
+			this.declareAndOrAssign(argumentType, argumentName, argumentValue);
+		}
 
-        if (Testing.keywords.containsKey(name.value)) {
-            throw new SyntaxError("Cannot assign variable with the name '" + name + "'");
-        }
+		try {
+			function.body.forEach(statement -> statement.interpret(script));
+		} catch (Return returnException) {
+			LiteralExpressionNode returnValue = returnException.value;
+			IdentifierExpressionNode returnValueType = returnValue.getType();
 
-        if (type != null) {
-            this.declare(type, name);
-        }
+			if (!returnValueType.equals(function.returnType) && !returnValueType.equals(new IdentifierExpressionNode("null"))) {
+				throw new TypeError("Expected return type '" + function.returnType + "' for function '" + functionToCallName + "' but got '" + returnValueType + "'");
+			}
 
-        if (value != null) {
-            this.assign(name, value);
-        }
-    }
+			return returnValue;
+		}
 
-    public void exitScope() {
-        this.variableScopes.pop();
-    }
+		this.exitScope();
 
-    public Optional<Variable> get(IdentifierExpressionNode name) {
-        ListIterator<List<Variable>> iterator = this.variableScopes.listIterator();
+		return new NullExpressionNode();
+	}
 
-        while (iterator.hasNext()) {
-            iterator.next();
-        }
+	public void createScope() {
+		this.variableScopes.add(new VariableScope());
+	}
 
-        while (iterator.hasPrevious()) {
-            List<Variable> variableScope = iterator.previous();
+	private void declare(IdentifierExpressionNode type, IdentifierExpressionNode name) {
+		Objects.requireNonNull(name);
 
-            for (Variable variable : variableScope) {
-                if (variable.name.equals(name)) {
-                    return Optional.of(variable);
-                }
-            }
-        }
+		Logger.info("Declaring '" + name + "'");
 
-        return Optional.empty();
-    }
+		Optional<Variable> variable = this.variableScopes.peek().get(name);
 
-    private void declare(IdentifierExpressionNode type, IdentifierExpressionNode name) {
-        Objects.requireNonNull(name);
+		if (variable.isPresent()) {
+			throw new NameError("Variable '" + name + "' has already been declared");
+		}
 
-        Logger.info("Declaring '" + name + "'");
+		this.variableScopes.peek().declare(type, name);
+	}
 
-        Optional<Variable> existingVariable = this.get(name);
+	public void declareAndOrAssign(IdentifierExpressionNode type, IdentifierExpressionNode name, ExpressionNode value) {
+		Objects.requireNonNull(name);
 
-        if (existingVariable.isPresent()) {
-            throw new NameError("Variable '" + name + "' is already declared");
-        }
+		if (type != null) {
+			this.declare(type, name);
+		}
 
-        this.variableScopes.peek().add(new Variable(type, name, new NullExpressionNode()));
-    }
+		if (value != null) {
+			this.assign(name, value);
+		}
+	}
 
-    private void assign(IdentifierExpressionNode name, ExpressionNode value) {
-        Objects.requireNonNull(name);
+	public void exitScope() {
+		this.variableScopes.pop();
+	}
 
-        LiteralExpressionNode interpretedValue = value.interpret(this.script);
+	public Optional<Variable> get(IdentifierExpressionNode name) {
+		Objects.requireNonNull(name);
 
-        Logger.info("Assigning '" + name + "' to the value '" + interpretedValue + "'");
+		ListIterator<VariableScope> variableScopesIterator = this.variableScopes.listIterator();
 
-        Variable existingVariable = this.getOrThrow(name);
+		while (variableScopesIterator.hasNext()) {
+			variableScopesIterator.next();
+		}
 
-        IdentifierExpressionNode interpretedValueType = interpretedValue.getType();
+		while (variableScopesIterator.hasPrevious()) {
+			VariableScope variableScope = variableScopesIterator.previous();
 
-        if (!existingVariable.type.equals(interpretedValueType) && !interpretedValueType.value.equals("null")) {
-            throw new TypeError("Expected type '" + existingVariable.type + "', but got type '" + interpretedValueType + "'");
-        }
+			Optional<Variable> variable = variableScope.get(name);
 
-        existingVariable.value = interpretedValue;
-    }
+			if (variable.isPresent()) {
+				return variable;
+			}
+		}
 
-    public void reset() {
-        this.variableScopes.clear();
-    }
+		return Optional.empty();
+	}
+
+	public Variable getOrThrow(IdentifierExpressionNode name) {
+		Objects.requireNonNull(name);
+
+		Optional<Variable> variable = this.get(name);
+
+		if (variable.isEmpty()) {
+			throw new NameError("Variable '" + name + "' has not been declared");
+		}
+
+		return variable.get();
+	}
+
+	public void reset() {
+		this.variableScopes.clear();
+	}
 }

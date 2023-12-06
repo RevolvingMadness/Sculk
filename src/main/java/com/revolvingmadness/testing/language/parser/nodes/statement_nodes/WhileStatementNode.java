@@ -2,6 +2,8 @@ package com.revolvingmadness.testing.language.parser.nodes.statement_nodes;
 
 import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.gamerules.TestingGamerules;
+import com.revolvingmadness.testing.language.interpreter.errors.Break;
+import com.revolvingmadness.testing.language.interpreter.errors.Continue;
 import com.revolvingmadness.testing.language.interpreter.errors.StackOverflowError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
@@ -9,8 +11,8 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Expre
 import java.util.List;
 
 public class WhileStatementNode implements StatementNode {
-    public final ExpressionNode condition;
     public final List<StatementNode> body;
+    public final ExpressionNode condition;
 
     public WhileStatementNode(ExpressionNode condition, List<StatementNode> body) {
         this.condition = condition;
@@ -22,8 +24,17 @@ public class WhileStatementNode implements StatementNode {
         int loops = 0;
         long maxLoops = Testing.server.getGameRules().getInt(TestingGamerules.MAX_LOOPS);
 
+        while_loop:
         while (condition.interpret(script).isTruthy()) {
-            body.forEach(statement -> statement.interpret(script));
+            for (StatementNode statement : this.body) {
+                try {
+                    statement.interpret(script);
+                } catch (Break ignored) {
+                    break while_loop;
+                } catch (Continue ignored) {
+                    break;
+                }
+            }
 
             if (++loops > maxLoops) {
                 throw new StackOverflowError("Loop ran more than " + maxLoops + " times");

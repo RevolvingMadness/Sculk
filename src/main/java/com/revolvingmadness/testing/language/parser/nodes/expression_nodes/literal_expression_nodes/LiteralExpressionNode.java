@@ -8,19 +8,17 @@ public interface LiteralExpressionNode extends ExpressionNode {
 
     LiteralExpressionNode divide(LiteralExpressionNode other);
 
+    BooleanExpressionNode equalTo(LiteralExpressionNode other);
+
     LiteralExpressionNode exponentiate(LiteralExpressionNode other);
 
     IdentifierExpressionNode getType();
 
-    boolean isTruthy();
-
-    BooleanExpressionNode equalTo(LiteralExpressionNode other);
-
-    BooleanExpressionNode notEqualTo(LiteralExpressionNode other);
-
     BooleanExpressionNode greaterThan(LiteralExpressionNode other);
 
     BooleanExpressionNode greaterThanOrEqualTo(LiteralExpressionNode other);
+
+    boolean isTruthy();
 
     BooleanExpressionNode lessThan(LiteralExpressionNode other);
 
@@ -33,6 +31,8 @@ public interface LiteralExpressionNode extends ExpressionNode {
     LiteralExpressionNode multiply(LiteralExpressionNode other);
 
     LiteralExpressionNode negate();
+
+    BooleanExpressionNode notEqualTo(LiteralExpressionNode other);
 
     LiteralExpressionNode subtract(LiteralExpressionNode other);
 }

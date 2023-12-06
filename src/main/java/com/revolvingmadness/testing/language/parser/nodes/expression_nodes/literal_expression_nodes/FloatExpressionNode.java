@@ -33,6 +33,27 @@ public class FloatExpressionNode implements NumberLiteralExpressionNode {
     }
 
     @Override
+    public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
+        if (other instanceof FloatExpressionNode floatExpression) {
+            return new BooleanExpressionNode(this.value.equals(floatExpression.value));
+        }
+
+        return new BooleanExpressionNode(false);
+    }
+
+    @Override
+    public boolean equals(Object otherObject) {
+        if (this == otherObject)
+            return true;
+        if (otherObject == null || getClass() != otherObject.getClass())
+            return false;
+
+        FloatExpressionNode otherFloatExpression = (FloatExpressionNode) otherObject;
+
+        return value.equals(otherFloatExpression.value);
+    }
+
+    @Override
     public LiteralExpressionNode exponentiate(LiteralExpressionNode other) {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(Math.pow(this.value, floatExpression.value));
@@ -45,29 +66,6 @@ public class FloatExpressionNode implements NumberLiteralExpressionNode {
     @Override
     public IdentifierExpressionNode getType() {
         return new IdentifierExpressionNode("float");
-    }
-
-    @Override
-    public boolean isTruthy() {
-        return this.value != 0.0;
-    }
-
-    @Override
-    public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
-        if (other instanceof FloatExpressionNode floatExpression) {
-            return new BooleanExpressionNode(this.value.equals(floatExpression.value));
-        }
-
-        return new BooleanExpressionNode(false);
-    }
-
-    @Override
-    public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
-        if (other instanceof FloatExpressionNode floatExpression) {
-            return new BooleanExpressionNode(!this.value.equals(floatExpression.value));
-        }
-
-        return new BooleanExpressionNode(true);
     }
 
     @Override
@@ -90,6 +88,21 @@ public class FloatExpressionNode implements NumberLiteralExpressionNode {
         }
 
         throw new TypeError("Unsupported binary operator '>=' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public LiteralExpressionNode interpret(ScriptNode script) {
+        return this;
+    }
+
+    @Override
+    public boolean isTruthy() {
+        return this.value != 0.0;
     }
 
     @Override
@@ -145,6 +158,15 @@ public class FloatExpressionNode implements NumberLiteralExpressionNode {
     }
 
     @Override
+    public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
+        if (other instanceof FloatExpressionNode floatExpression) {
+            return new BooleanExpressionNode(!this.value.equals(floatExpression.value));
+        }
+
+        return new BooleanExpressionNode(true);
+    }
+
+    @Override
     public LiteralExpressionNode subtract(LiteralExpressionNode other) {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(this.value - floatExpression.value);
@@ -155,29 +177,7 @@ public class FloatExpressionNode implements NumberLiteralExpressionNode {
     }
 
     @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object otherObject) {
-        if (this == otherObject)
-            return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
-            return false;
-
-        FloatExpressionNode otherFloatExpression = (FloatExpressionNode) otherObject;
-
-        return value.equals(otherFloatExpression.value);
-    }
-
-    @Override
     public String toString() {
         return this.value.toString();
-    }
-
-    @Override
-    public LiteralExpressionNode interpret(ScriptNode script) {
-        return this;
     }
 }

@@ -1,7 +1,7 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
 
+import com.revolvingmadness.testing.language.interpreter.errors.InterpreterError;
 import com.revolvingmadness.testing.language.lexer.TokenType;
-import com.revolvingmadness.testing.language.parser.errors.ParseError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
@@ -14,14 +14,6 @@ public class BinaryExpressionNode implements ExpressionNode {
         this.left = left;
         this.operator = operator;
         this.right = right;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = left.hashCode();
-        result = 31 * result + operator.hashCode();
-        result = 31 * result + right.hashCode();
-        return result;
     }
 
     @Override
@@ -38,6 +30,14 @@ public class BinaryExpressionNode implements ExpressionNode {
         if (operator != otherBinaryExpression.operator)
             return false;
         return right.equals(otherBinaryExpression.right);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = left.hashCode();
+        result = 31 * result + operator.hashCode();
+        result = 31 * result + right.hashCode();
+        return result;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class BinaryExpressionNode implements ExpressionNode {
             case GREATER_THAN_OR_EQUAL_TO -> interpretedLeftValue.greaterThanOrEqualTo(interpretedRightValue);
             case LESS_THAN -> interpretedLeftValue.lessThan(interpretedRightValue);
             case LESS_THAN_OR_EQUAL_TO -> interpretedLeftValue.lessThanOrEqualTo(interpretedRightValue);
-            default -> throw new ParseError("Unknown binary operator '" + this.operator + "'");
+            default -> throw new InterpreterError("Unknown binary operator '" + this.operator + "'");
         };
     }
 }

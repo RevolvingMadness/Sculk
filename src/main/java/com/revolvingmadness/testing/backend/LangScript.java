@@ -12,8 +12,8 @@ import java.util.Map;
 public class LangScript {
     public final String contents;
     public final Identifier identifier;
-    public boolean hasErrors;
     public boolean hasBeenInitialized;
+    public boolean hasErrors;
     public ScriptNode scriptNode;
 
     public LangScript(Identifier identifier, List<String> contentsList) {

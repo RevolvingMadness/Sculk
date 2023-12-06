@@ -27,7 +27,7 @@ public class LangLexer {
         if (this.position >= this.input.length()) {
             return null;
         }
-        
+
         return this.input.charAt(this.position);
     }
 
@@ -158,16 +158,6 @@ public class LangLexer {
         return tokens;
     }
 
-    private Token lexString() {
-        StringBuilder string = new StringBuilder();
-
-        while (this.position < this.input.length() && !this.current('"')) {
-            string.append(this.consume());
-        }
-
-        return new Token(TokenType.STRING, string.toString());
-    }
-
     private void lexComment() {
         while (this.position < this.input.length() && !this.current('\n')) {
             this.consume();
@@ -221,6 +211,16 @@ public class LangLexer {
         }
 
         return new Token(TokenType.IDENTIFIER, identifierString);
+    }
+
+    private Token lexString() {
+        StringBuilder string = new StringBuilder();
+
+        while (this.position < this.input.length() && !this.current('"')) {
+            string.append(this.consume());
+        }
+
+        return new Token(TokenType.STRING, string.toString());
     }
 
     public Character next() {

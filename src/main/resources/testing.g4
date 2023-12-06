@@ -2,9 +2,15 @@ grammar testing;
 
 program: statement*;
 
-statement: (variable_assignment_statement SEMICOLON | import_statement SEMICOLON | if_statement SEMICOLON? | while_statement SEMICOLON? | for_statement SEMICOLON? | function_declaration_assignment SEMICOLON?);
+statement: (variable_assignment_statement SEMICOLON | import_statement SEMICOLON | if_statement SEMICOLON? | while_statement SEMICOLON? | for_statement SEMICOLON? | function_declaration_assignment SEMICOLON? | return_statement SEMICOLON | break_statement SEMICOLON | continue_statement SEMICOLON);
 
-function_declaration_assignment: FUNCTION IDENTIFIER LEFT_PARENTHESIS (IDENTIFIER IDENTIFIER (',' IDENTIFIER IDENTIFIER)*)? RIGHT_PARENTHESIS RIGHT_ARROW IDENTIFIER body;
+continue_statement: CONTINUE;
+
+break_statement: BREAK;
+
+return_statement: RETURN expression?;
+
+function_declaration_assignment: FUNCTION IDENTIFIER LEFT_PARENTHESIS (IDENTIFIER IDENTIFIER (',' IDENTIFIER IDENTIFIER)*)? RIGHT_PARENTHESIS (RIGHT_ARROW IDENTIFIER)? body;
 
 for_statement: FOR LEFT_PARENTHESIS variable_assignment_statement SEMICOLON expression SEMICOLON variable_assignment_statement SEMICOLON? RIGHT_PARENTHESIS body;
 
@@ -65,6 +71,9 @@ RIGHT_BRACE: '}';
 EQUALS: '=';
 SEMICOLON: ';';
 RIGHT_ARROW: '->';
+RETURN: 'return';
+BREAK: 'break';
+CONTINUE: 'continue';
 
 IDENTIFIER: [a-zA-Z_][a-zA-Z0-9_]*;
 INTEGER: [0-9]+;
