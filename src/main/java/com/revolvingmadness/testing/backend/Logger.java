@@ -14,7 +14,15 @@ public class Logger {
 		}
 	}
 
+	public static void broadcast(String text, boolean broadcastWithoutLogsEnabled) {
+		Logger.broadcast(Text.literal(text), broadcastWithoutLogsEnabled);
+	}
+
 	public static void broadcast(MutableText text) {
+		Logger.broadcast(text, false);
+	}
+
+	public static void broadcast(String text) {
 		Logger.broadcast(text, false);
 	}
 

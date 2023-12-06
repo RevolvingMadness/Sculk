@@ -262,14 +262,14 @@ public class LangParser {
 
 		this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after function declaration");
 
-		ExpressionNode returnType;
+		IdentifierExpressionNode returnType;
 
 		if (this.current(TokenType.RIGHT_ARROW)) {
 			this.consume();
 
 			returnType = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected return type").value);
 		} else {
-			returnType = new NullExpressionNode();
+			returnType = new IdentifierExpressionNode("null");
 		}
 
 		List<StatementNode> body = this.parseBody();

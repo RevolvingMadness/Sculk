@@ -1,17 +1,18 @@
 package com.revolvingmadness.testing.language.interpreter;
 
 import com.revolvingmadness.testing.backend.Logger;
+import com.revolvingmadness.testing.language.builtins.functions.PrintFunctionExpression;
 import com.revolvingmadness.testing.language.errors.NameError;
 import com.revolvingmadness.testing.language.errors.TypeError;
-import com.revolvingmadness.testing.language.interpreter.errors.Return;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.FunctionExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.NullExpressionNode;
 
-import java.util.*;
+import java.util.ListIterator;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Stack;
 
 public class VariableTable {
 	public final ScriptNode script;
@@ -20,7 +21,7 @@ public class VariableTable {
 	public VariableTable(ScriptNode script) {
 		this.script = script;
 		this.variableScopes = new Stack<>();
-		this.variableScopes.add(new VariableScope());
+		this.reset();
 	}
 
 	private void assign(IdentifierExpressionNode name, ExpressionNode value) {
@@ -39,52 +40,6 @@ public class VariableTable {
 		}
 
 		existingVariable.value = interpretedValue;
-	}
-
-	public LiteralExpressionNode call(IdentifierExpressionNode functionToCallName, List<ExpressionNode> functionToCallArguments) {
-		this.createScope();
-
-		Variable functionToCallVariable = this.getOrThrow(functionToCallName);
-
-		if (!(functionToCallVariable.value instanceof FunctionExpressionNode function)) {
-			throw new TypeError("Variable '" + functionToCallVariable.type + "' is not callable");
-		}
-
-		if (functionToCallArguments.size() != function.arguments.size()) {
-			throw new TypeError("Function '" + functionToCallName + "' takes '" + function.arguments.size() + "' argument(s) but '" + functionToCallArguments.size() + "' argument(s) were given");
-		}
-
-		int argumentNumber = 0;
-
-		for (Map.Entry<IdentifierExpressionNode, IdentifierExpressionNode> entry : function.arguments.entrySet()) {
-			IdentifierExpressionNode argumentName = entry.getKey();
-			IdentifierExpressionNode argumentType = entry.getValue();
-
-			LiteralExpressionNode argumentValue = functionToCallArguments.get(argumentNumber++).interpret(script);
-
-			if (!argumentType.equals(argumentValue.getType())) {
-				throw new TypeError("Expected type '" + argumentType + "' for argument '" + argumentName + "' but got type '" + argumentValue.getType() + "'");
-			}
-
-			this.declareAndOrAssign(argumentType, argumentName, argumentValue);
-		}
-
-		try {
-			function.body.forEach(statement -> statement.interpret(script));
-		} catch (Return returnException) {
-			LiteralExpressionNode returnValue = returnException.value;
-			IdentifierExpressionNode returnValueType = returnValue.getType();
-
-			if (!returnValueType.equals(function.returnType) && !returnValueType.equals(new IdentifierExpressionNode("null"))) {
-				throw new TypeError("Expected return type '" + function.returnType + "' for function '" + functionToCallName + "' but got '" + returnValueType + "'");
-			}
-
-			return returnValue;
-		}
-
-		this.exitScope();
-
-		return new NullExpressionNode();
 	}
 
 	public void createScope() {
@@ -157,5 +112,8 @@ public class VariableTable {
 
 	public void reset() {
 		this.variableScopes.clear();
+		this.variableScopes.add(new VariableScope());
+
+		this.declareAndOrAssign(new IdentifierExpressionNode("function"), new IdentifierExpressionNode("print"), new PrintFunctionExpression());
 	}
 }

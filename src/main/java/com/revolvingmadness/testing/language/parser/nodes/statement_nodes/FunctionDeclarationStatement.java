@@ -1,7 +1,6 @@
 package com.revolvingmadness.testing.language.parser.nodes.statement_nodes;
 
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.FunctionExpressionNode;
 
@@ -12,9 +11,9 @@ public class FunctionDeclarationStatement implements StatementNode {
     public final Map<IdentifierExpressionNode, IdentifierExpressionNode> arguments;
     public final List<StatementNode> body;
     public final IdentifierExpressionNode name;
-    public final ExpressionNode returnType;
+    public final IdentifierExpressionNode returnType;
 
-    public FunctionDeclarationStatement(IdentifierExpressionNode name, Map<IdentifierExpressionNode, IdentifierExpressionNode> arguments, ExpressionNode returnType, List<StatementNode> body) {
+    public FunctionDeclarationStatement(IdentifierExpressionNode name, Map<IdentifierExpressionNode, IdentifierExpressionNode> arguments, IdentifierExpressionNode returnType, List<StatementNode> body) {
         this.name = name;
         this.arguments = arguments;
         this.returnType = returnType;

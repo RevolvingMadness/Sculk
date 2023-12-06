@@ -1,10 +1,9 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes;
 
 import com.revolvingmadness.testing.language.errors.TypeError;
-import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
-public class IntegerExpressionNode implements NumberLiteralExpressionNode {
+public class IntegerExpressionNode implements NumberExpressionNode {
     public final Integer value;
 
     public IntegerExpressionNode(Integer value) {
@@ -97,12 +96,7 @@ public class IntegerExpressionNode implements NumberLiteralExpressionNode {
         return value.hashCode();
     }
 
-    @Override
-    public LiteralExpressionNode interpret(ScriptNode script) {
-        return this;
-    }
-
-    @Override
+	@Override
     public boolean isTruthy() {
         return this.value != 0;
     }
@@ -127,11 +121,6 @@ public class IntegerExpressionNode implements NumberLiteralExpressionNode {
         }
 
         throw new TypeError("Unsupported binary operator '>' for types '" + this.getType() + "' and '" + other.getType() + "'");
-    }
-
-    @Override
-    public LiteralExpressionNode logicalNot() {
-        throw new TypeError("Unsupported unary operator '!' for type '" + this.getType() + "'");
     }
 
     @Override

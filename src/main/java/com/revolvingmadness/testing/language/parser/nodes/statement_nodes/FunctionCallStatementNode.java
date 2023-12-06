@@ -1,8 +1,11 @@
 package com.revolvingmadness.testing.language.parser.nodes.statement_nodes;
 
+import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.CallableExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
 import java.util.List;
 
@@ -22,11 +25,11 @@ public class FunctionCallStatementNode implements StatementNode {
         if (otherObject == null || getClass() != otherObject.getClass())
             return false;
 
-        FunctionCallStatementNode that = (FunctionCallStatementNode) otherObject;
+        FunctionCallStatementNode functionCallStatement = (FunctionCallStatementNode) otherObject;
 
-        if (!name.equals(that.name))
+        if (!name.equals(functionCallStatement.name))
             return false;
-        return arguments.equals(that.arguments);
+        return arguments.equals(functionCallStatement.arguments);
     }
 
     @Override
@@ -38,7 +41,14 @@ public class FunctionCallStatementNode implements StatementNode {
 
     @Override
     public void interpret(ScriptNode script) {
-        script.variableTable.call(this.name, this.arguments);
+        ExpressionNode functionVariable = script.variableTable.getOrThrow(this.name).value;
+        LiteralExpressionNode interpretedFunctionVariable = functionVariable.interpret(script);
+
+        if (!(interpretedFunctionVariable instanceof CallableExpressionNode callableExpression)) {
+            throw new TypeError("Variable '" + this.name + "' is not callable");
+        }
+
+        callableExpression.call(script, this.arguments);
     }
 
     @Override

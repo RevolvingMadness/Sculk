@@ -1,38 +1,72 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes;
 
+import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 public interface LiteralExpressionNode extends ExpressionNode {
-    LiteralExpressionNode add(LiteralExpressionNode other);
+    default LiteralExpressionNode add(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '+' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
 
-    LiteralExpressionNode divide(LiteralExpressionNode other);
+    default LiteralExpressionNode divide(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '/' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
 
-    BooleanExpressionNode equalTo(LiteralExpressionNode other);
+    default BooleanExpressionNode equalTo(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '==' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
 
-    LiteralExpressionNode exponentiate(LiteralExpressionNode other);
+    default LiteralExpressionNode exponentiate(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '^' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    default BooleanExpressionNode greaterThan(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '>' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
 
     IdentifierExpressionNode getType();
 
-    BooleanExpressionNode greaterThan(LiteralExpressionNode other);
+    default BooleanExpressionNode greaterThanOrEqualTo(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '>=' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
 
-    BooleanExpressionNode greaterThanOrEqualTo(LiteralExpressionNode other);
+    default LiteralExpressionNode interpret(ScriptNode script) {
+        return this;
+    }
 
     boolean isTruthy();
 
-    BooleanExpressionNode lessThan(LiteralExpressionNode other);
+    default BooleanExpressionNode lessThan(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '<' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
 
-    BooleanExpressionNode lessThanOrEqualTo(LiteralExpressionNode other);
+    default BooleanExpressionNode lessThanOrEqualTo(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '<=' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
 
-    LiteralExpressionNode logicalNot();
+    default LiteralExpressionNode logicalNot() {
+        throw new TypeError("Unsupported unary operator '!' for type '" + this.getType() + "'");
+    }
 
-    LiteralExpressionNode mod(LiteralExpressionNode other);
+    default LiteralExpressionNode mod(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '%' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
 
-    LiteralExpressionNode multiply(LiteralExpressionNode other);
+    default LiteralExpressionNode multiply(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '*' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
 
-    LiteralExpressionNode negate();
+    default LiteralExpressionNode negate() {
+        throw new TypeError("Unsupported unary operator '-' for type '" + this.getType() + "'");
+    }
 
-    BooleanExpressionNode notEqualTo(LiteralExpressionNode other);
+    default BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '!=' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
 
-    LiteralExpressionNode subtract(LiteralExpressionNode other);
+    default LiteralExpressionNode subtract(LiteralExpressionNode other) {
+        throw new TypeError("Unsupported binary operator '-' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
 }
