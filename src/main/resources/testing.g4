@@ -2,7 +2,7 @@ grammar testing;
 
 program: statement*;
 
-statement: (variable_assignment_statement SEMICOLON | import_statement SEMICOLON | if_statement SEMICOLON? | while_statement SEMICOLON? | for_statement SEMICOLON? | function_declaration_assignment SEMICOLON? | return_statement SEMICOLON | break_statement SEMICOLON | continue_statement SEMICOLON);
+statement: (variable_assignment_statement SEMICOLON | import_statement SEMICOLON | if_statement SEMICOLON? | while_statement SEMICOLON? | for_statement SEMICOLON? | function_call_statement SEMICOLON | function_declaration_assignment SEMICOLON? | return_statement SEMICOLON | break_statement SEMICOLON | continue_statement SEMICOLON);
 
 continue_statement: CONTINUE;
 
@@ -10,7 +10,9 @@ break_statement: BREAK;
 
 return_statement: RETURN expression?;
 
-function_declaration_assignment: FUNCTION IDENTIFIER LEFT_PARENTHESIS (IDENTIFIER IDENTIFIER (',' IDENTIFIER IDENTIFIER)*)? RIGHT_PARENTHESIS (RIGHT_ARROW IDENTIFIER)? body;
+function_declaration_assignment: FUNCTION IDENTIFIER LEFT_PARENTHESIS (IDENTIFIER IDENTIFIER (COMMA IDENTIFIER IDENTIFIER)*)? RIGHT_PARENTHESIS (RIGHT_ARROW IDENTIFIER)? body;
+
+function_call_statement: IDENTIFIER LEFT_PARENTHESIS (expression (COMMA expression)*)? RIGHT_PARENTHESIS;
 
 for_statement: FOR LEFT_PARENTHESIS variable_assignment_statement SEMICOLON expression SEMICOLON variable_assignment_statement SEMICOLON? RIGHT_PARENTHESIS body;
 
@@ -36,11 +38,11 @@ unary_expression: (HYPHEN | EXCLAMATION_MARK)* exponentiation_expression;
 
 exponentiation_expression: primary_expression (CARET primary_expression)*;
 
-primary_expression: (INTEGER | FLOAT | IDENTIFIER | LEFT_PARENTHESIS addition_expression RIGHT_PARENTHESIS | BOOLEAN | STRING | RESOURCE);
+primary_expression: (INTEGER | FLOAT | (IDENTIFIER (LEFT_PARENTHESIS ( expression (COMMA expression)*)? RIGHT_PARENTHESIS)?) | LEFT_PARENTHESIS addition_expression RIGHT_PARENTHESIS | BOOLEAN | STRING | RESOURCE);
 
 binary_operator: PLUS | HYPHEN | STAR | FSLASH | PERCENT | CARET;
 
-FLOAT: (INTEGER '.' INTEGER?) | (INTEGER? '.' INTEGER);
+FLOAT: (INTEGER PERIOD INTEGER?) | (INTEGER? PERIOD INTEGER);
 RESOURCE: IDENTIFIER ':' IDENTIFIER;
 STRING: '"' .*? '"';
 IMPORT: 'import';
@@ -74,6 +76,8 @@ RIGHT_ARROW: '->';
 RETURN: 'return';
 BREAK: 'break';
 CONTINUE: 'continue';
+COMMA: ',';
+PERIOD: '.';
 
 IDENTIFIER: [a-zA-Z_][a-zA-Z0-9_]*;
 INTEGER: [0-9]+;
