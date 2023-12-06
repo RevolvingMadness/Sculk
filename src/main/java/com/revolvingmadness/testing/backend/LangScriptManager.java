@@ -11,70 +11,70 @@ import java.util.List;
 import java.util.Objects;
 
 public class LangScriptManager {
-    private static final Identifier LOAD_TAG_ID = new Identifier(Testing.ID, "load");
-    private static final Identifier TICK_TAG_ID = new Identifier(Testing.ID, "tick");
-    private final LangInterpreter interpreter;
-    private boolean justLoaded;
-    private LangScriptLoader loader;
-    private List<LangScript> tickScripts = ImmutableList.of();
+	private static final Identifier LOAD_TAG_ID = new Identifier(Testing.ID, "load");
+	private static final Identifier TICK_TAG_ID = new Identifier(Testing.ID, "tick");
+	private final LangInterpreter interpreter;
+	private boolean justLoaded;
+	private LangScriptLoader loader;
+	private List<LangScript> tickScripts = ImmutableList.of();
 
-    public LangScriptManager(LangScriptLoader loader) {
-        this.interpreter = new LangInterpreter();
-        this.setLoader(loader);
-    }
+	public LangScriptManager(LangScriptLoader loader) {
+		this.interpreter = new LangInterpreter();
+		this.setLoader(loader);
+	}
 
-    private void execute(LangScript script) {
-        if (script.hasErrors) {
-            return;
-        }
+	private void execute(LangScript script) {
+		if (script.hasErrors) {
+			return;
+		}
 
-        try {
-            this.interpreter.interpret(script.scriptNode);
-        } catch (RuntimeException exception) {
-            Logger.scriptError(script, exception);
-            script.hasErrors = true;
-        }
-    }
+		try {
+			this.interpreter.interpret(script.scriptNode);
+		} catch (RuntimeException exception) {
+			Logger.scriptError(script, exception);
+			script.hasErrors = true;
+		}
+	}
 
-    private void executeAll(Collection<LangScript> scripts, Identifier label) {
-        Profiler serverProfiler = Testing.server.getProfiler();
+	private void executeAll(Collection<LangScript> scripts, Identifier label) {
+		Profiler serverProfiler = Testing.server.getProfiler();
 
-        Objects.requireNonNull(label);
+		Objects.requireNonNull(label);
 
-        serverProfiler.push(label::toString);
+		serverProfiler.push(label::toString);
 
-        scripts.forEach(this::execute);
+		scripts.forEach(this::execute);
 
-        Testing.server.getProfiler().pop();
-    }
+		Testing.server.getProfiler().pop();
+	}
 
-    public void reload(LangScriptLoader loader) {
-        this.tickScripts = List.copyOf(loader.getScriptsFromTag(TICK_TAG_ID));
-        this.justLoaded = true;
-    }
+	public void reload(LangScriptLoader loader) {
+		this.tickScripts = List.copyOf(loader.getScriptsFromTag(TICK_TAG_ID));
+		this.justLoaded = true;
+	}
 
-    public void setLoader(LangScriptLoader loader) {
-        this.loader = loader;
-        this.reload(loader);
-    }
+	public void setLoader(LangScriptLoader loader) {
+		this.loader = loader;
+		this.reload(loader);
+	}
 
-    public void tick() {
-        if (this.justLoaded) {
-            loader.scripts.forEach((identifier, script) -> {
-                try {
-                    script.initialize(loader.scripts);
-                } catch (RuntimeException exception) {
-                    Logger.scriptError(script, exception);
-                    script.hasErrors = true;
-                }
-            });
+	public void tick() {
+		if (this.justLoaded) {
+			loader.scripts.forEach((identifier, script) -> {
+				try {
+					script.initialize(loader.scripts);
+				} catch (RuntimeException exception) {
+					Logger.scriptError(script, exception);
+					script.hasErrors = true;
+				}
+			});
 
 
-            Collection<LangScript> loadScripts = this.loader.getScriptsFromTag(LOAD_TAG_ID);
-            this.executeAll(loadScripts, LOAD_TAG_ID);
-            this.justLoaded = false;
-        }
+			Collection<LangScript> loadScripts = this.loader.getScriptsFromTag(LOAD_TAG_ID);
+			this.executeAll(loadScripts, LOAD_TAG_ID);
+			this.justLoaded = false;
+		}
 
-        this.executeAll(this.tickScripts, TICK_TAG_ID);
-    }
+		this.executeAll(this.tickScripts, TICK_TAG_ID);
+	}
 }
