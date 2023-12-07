@@ -18,7 +18,7 @@ public class NullExpressionNode implements LiteralExpressionNode {
         return new IdentifierExpressionNode("null");
     }
 
-	@Override
+    @Override
     public boolean isTruthy() {
         return false;
     }

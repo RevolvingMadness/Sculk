@@ -5,23 +5,20 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Ident
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.FunctionExpressionNode;
 
 import java.util.List;
-import java.util.Map;
 
 public class FunctionDeclarationStatement implements StatementNode {
-    public final Map<IdentifierExpressionNode, IdentifierExpressionNode> arguments;
+    public final List<IdentifierExpressionNode> arguments;
     public final List<StatementNode> body;
     public final IdentifierExpressionNode name;
-    public final IdentifierExpressionNode returnType;
 
-    public FunctionDeclarationStatement(IdentifierExpressionNode name, Map<IdentifierExpressionNode, IdentifierExpressionNode> arguments, IdentifierExpressionNode returnType, List<StatementNode> body) {
+    public FunctionDeclarationStatement(IdentifierExpressionNode name, List<IdentifierExpressionNode> arguments, List<StatementNode> body) {
         this.name = name;
         this.arguments = arguments;
-        this.returnType = returnType;
         this.body = body;
     }
 
     @Override
     public void interpret(ScriptNode script) {
-        script.variableTable.declareAndOrAssign(new IdentifierExpressionNode("function"), this.name, new FunctionExpressionNode(this.name, this.arguments, this.returnType, this.body));
+        script.variableTable.assign(this.name, new FunctionExpressionNode(this.name, this.arguments, this.body));
     }
 }

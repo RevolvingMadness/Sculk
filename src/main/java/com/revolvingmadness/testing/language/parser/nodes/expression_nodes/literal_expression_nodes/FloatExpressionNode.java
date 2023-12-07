@@ -94,7 +94,7 @@ public class FloatExpressionNode implements NumberExpressionNode {
         return value.hashCode();
     }
 
-	@Override
+    @Override
     public boolean isTruthy() {
         return this.value != 0.0;
     }

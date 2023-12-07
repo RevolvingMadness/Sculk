@@ -5,9 +5,15 @@ import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
+import java.util.List;
+
 public interface LiteralExpressionNode extends ExpressionNode {
     default LiteralExpressionNode add(LiteralExpressionNode other) {
         throw new TypeError("Unsupported binary operator '+' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    default LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        throw new TypeError("Type '" + this.getType() + "' is not callable");
     }
 
     default LiteralExpressionNode divide(LiteralExpressionNode other) {
@@ -22,11 +28,11 @@ public interface LiteralExpressionNode extends ExpressionNode {
         throw new TypeError("Unsupported binary operator '^' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
+    IdentifierExpressionNode getType();
+
     default BooleanExpressionNode greaterThan(LiteralExpressionNode other) {
         throw new TypeError("Unsupported binary operator '>' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
-
-    IdentifierExpressionNode getType();
 
     default BooleanExpressionNode greaterThanOrEqualTo(LiteralExpressionNode other) {
         throw new TypeError("Unsupported binary operator '>=' for types '" + this.getType() + "' and '" + other.getType() + "'");

@@ -40,7 +40,7 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
         return value.hashCode();
     }
 
-	@Override
+    @Override
     public boolean isTruthy() {
         return value;
     }

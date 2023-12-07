@@ -5,12 +5,31 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.liter
 
 public class Variable {
     public final IdentifierExpressionNode name;
-    public final IdentifierExpressionNode type;
     public LiteralExpressionNode value;
 
-    public Variable(IdentifierExpressionNode type, IdentifierExpressionNode name, LiteralExpressionNode value) {
-        this.type = type;
+    public Variable(IdentifierExpressionNode name, LiteralExpressionNode value) {
         this.name = name;
         this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Variable variable = (Variable) o;
+
+        if (!name.equals(variable.name))
+            return false;
+        return value.equals(variable.value);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + value.hashCode();
+        return result;
     }
 }

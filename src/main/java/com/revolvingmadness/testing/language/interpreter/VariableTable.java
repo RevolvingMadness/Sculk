@@ -3,117 +3,80 @@ package com.revolvingmadness.testing.language.interpreter;
 import com.revolvingmadness.testing.backend.Logger;
 import com.revolvingmadness.testing.language.builtins.functions.PrintFunctionExpression;
 import com.revolvingmadness.testing.language.errors.NameError;
-import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
 import java.util.ListIterator;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Stack;
 
 public class VariableTable {
-	public final ScriptNode script;
-	public final Stack<VariableScope> variableScopes;
+    public final ScriptNode script;
+    public final Stack<VariableScope> variableScopes;
 
-	public VariableTable(ScriptNode script) {
-		this.script = script;
-		this.variableScopes = new Stack<>();
-		this.reset();
-	}
+    public VariableTable(ScriptNode script) {
+        this.script = script;
+        this.variableScopes = new Stack<>();
+        this.reset();
+    }
 
-	private void assign(IdentifierExpressionNode name, ExpressionNode value) {
-		Objects.requireNonNull(name);
+    public void assign(IdentifierExpressionNode name, LiteralExpressionNode value) {
+        Logger.info("Assigning variable '" + name + "' to the value '" + value + "'");
 
-		LiteralExpressionNode interpretedValue = value.interpret(this.script);
+        for (VariableScope variableScope : this.variableScopes) {
+            Optional<Variable> variable = variableScope.getOptional(name);
 
-		Logger.info("Assigning '" + name + "' to the value '" + interpretedValue + "'");
+            if (variable.isPresent()) {
+                variable.get().value = value;
+                return;
+            }
+        }
 
-		Variable existingVariable = this.getOrThrow(name);
+        this.variableScopes.peek().variables.add(new Variable(name, value));
+    }
 
-		IdentifierExpressionNode interpretedValueType = interpretedValue.getType();
+    public void enterScope() {
+        this.variableScopes.add(new VariableScope());
+    }
 
-		if (!existingVariable.type.equals(interpretedValueType) && !interpretedValueType.value.equals("null")) {
-			throw new TypeError("Expected type '" + interpretedValueType + "', but got type '" + existingVariable.type + "'");
-		}
+    public void exitScope() {
+        this.variableScopes.pop();
+    }
 
-		existingVariable.value = interpretedValue;
-	}
+    private Optional<Variable> getOptional(IdentifierExpressionNode name) {
+        ListIterator<VariableScope> variableScopeIterator = this.variableScopes.listIterator();
 
-	public void createScope() {
-		this.variableScopes.add(new VariableScope());
-	}
+        while (variableScopeIterator.hasNext()) {
+            variableScopeIterator.next();
+        }
 
-	private void declare(IdentifierExpressionNode type, IdentifierExpressionNode name) {
-		Objects.requireNonNull(name);
+        while (variableScopeIterator.hasPrevious()) {
+            VariableScope variableScope = variableScopeIterator.previous();
 
-		Logger.info("Declaring '" + name + "'");
+            Optional<Variable> variable = variableScope.getOptional(name);
 
-		Optional<Variable> variable = this.variableScopes.peek().get(name);
+            if (variable.isPresent()) {
+                return variable;
+            }
+        }
 
-		if (variable.isPresent()) {
-			throw new NameError("Variable '" + name + "' has already been declared");
-		}
+        return Optional.empty();
+    }
 
-		this.variableScopes.peek().declare(type, name);
-	}
+    public Variable getOrThrow(IdentifierExpressionNode name) {
+        Optional<Variable> variable = this.getOptional(name);
 
-	public void declareAndOrAssign(IdentifierExpressionNode type, IdentifierExpressionNode name, ExpressionNode value) {
-		Objects.requireNonNull(name);
+        if (variable.isEmpty()) {
+            throw new NameError("Variable '" + name + "' has not been declared");
+        }
 
-		if (type != null) {
-			this.declare(type, name);
-		}
+        return variable.get();
+    }
 
-		if (value != null) {
-			this.assign(name, value);
-		}
-	}
-
-	public void exitScope() {
-		this.variableScopes.pop();
-	}
-
-	public Optional<Variable> get(IdentifierExpressionNode name) {
-		Objects.requireNonNull(name);
-
-		ListIterator<VariableScope> variableScopesIterator = this.variableScopes.listIterator();
-
-		while (variableScopesIterator.hasNext()) {
-			variableScopesIterator.next();
-		}
-
-		while (variableScopesIterator.hasPrevious()) {
-			VariableScope variableScope = variableScopesIterator.previous();
-
-			Optional<Variable> variable = variableScope.get(name);
-
-			if (variable.isPresent()) {
-				return variable;
-			}
-		}
-
-		return Optional.empty();
-	}
-
-	public Variable getOrThrow(IdentifierExpressionNode name) {
-		Objects.requireNonNull(name);
-
-		Optional<Variable> variable = this.get(name);
-
-		if (variable.isEmpty()) {
-			throw new NameError("Variable '" + name + "' has not been declared");
-		}
-
-		return variable.get();
-	}
-
-	public void reset() {
-		this.variableScopes.clear();
-		this.variableScopes.add(new VariableScope());
-
-		this.declareAndOrAssign(new IdentifierExpressionNode("function"), new IdentifierExpressionNode("print"), new PrintFunctionExpression());
-	}
+    public void reset() {
+        this.variableScopes.clear();
+        this.variableScopes.add(new VariableScope());
+        this.assign(new IdentifierExpressionNode("print"), new PrintFunctionExpression());
+    }
 }

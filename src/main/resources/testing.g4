@@ -10,7 +10,7 @@ break_statement: BREAK;
 
 return_statement: RETURN expression?;
 
-function_declaration_assignment: FUNCTION IDENTIFIER LEFT_PARENTHESIS (IDENTIFIER IDENTIFIER (COMMA IDENTIFIER IDENTIFIER)*)? RIGHT_PARENTHESIS (RIGHT_ARROW IDENTIFIER)? body;
+function_declaration_assignment: FUNCTION IDENTIFIER LEFT_PARENTHESIS (IDENTIFIER (COMMA IDENTIFIER)*)? RIGHT_PARENTHESIS (RIGHT_ARROW IDENTIFIER)? body;
 
 function_call_statement: IDENTIFIER LEFT_PARENTHESIS (expression (COMMA expression)*)? RIGHT_PARENTHESIS;
 
@@ -24,7 +24,7 @@ body: LEFT_BRACE statement* RIGHT_BRACE;
 
 import_statement: IMPORT RESOURCE;
 
-variable_assignment_statement: IDENTIFIER ((binary_operator? EQUALS expression) | (IDENTIFIER EQUALS expression) | (DOUBLE_PLUS | (DOUBLE_HYPHEN)));
+variable_assignment_statement: IDENTIFIER ((binary_operator? EQUALS expression) | (DOUBLE_PLUS | DOUBLE_HYPHEN));
 
 expression: logical_expression;
 
