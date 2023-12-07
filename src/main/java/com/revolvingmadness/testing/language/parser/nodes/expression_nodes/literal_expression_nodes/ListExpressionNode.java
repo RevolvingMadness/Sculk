@@ -1,30 +1,24 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes;
 
 import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class StringExpressionNode implements LiteralExpressionNode {
-    public final String value;
+public class ListExpressionNode implements LiteralExpressionNode {
+    public final List<ExpressionNode> value;
 
-    public StringExpressionNode(String value) {
+    public ListExpressionNode(List<ExpressionNode> value) {
         this.value = value;
     }
 
     @Override
-    public LiteralExpressionNode add(LiteralExpressionNode other) {
-        if (other instanceof StringExpressionNode stringExpression) {
-            return new StringExpressionNode(this.value + stringExpression.value);
-        }
-
-        throw new TypeError("Unsupported binary operator '+' for types '" + this.getType() + "' and '" + other.getType() + "'");
-    }
-
-    @Override
     public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
-        if (other instanceof StringExpressionNode stringExpression) {
-            return new BooleanExpressionNode(this.value.equals(stringExpression.value));
+        if (other instanceof ListExpressionNode listExpression) {
+            return new BooleanExpressionNode(this.value.equals(listExpression.value));
         }
 
         return new BooleanExpressionNode(false);
@@ -37,14 +31,14 @@ public class StringExpressionNode implements LiteralExpressionNode {
         if (otherObject == null || getClass() != otherObject.getClass())
             return false;
 
-        StringExpressionNode otherStringExpression = (StringExpressionNode) otherObject;
+        ListExpressionNode otherListExpression = (ListExpressionNode) otherObject;
 
-        return value.equals(otherStringExpression.value);
+        return value.equals(otherListExpression.value);
     }
 
     @Override
     public IdentifierExpressionNode getType() {
-        return new IdentifierExpressionNode("string");
+        return new IdentifierExpressionNode("list");
     }
 
     @Override
@@ -55,7 +49,13 @@ public class StringExpressionNode implements LiteralExpressionNode {
     @Override
     public LiteralExpressionNode multiply(LiteralExpressionNode other) {
         if (other instanceof IntegerExpressionNode integerExpression) {
-            return new StringExpressionNode(this.value.repeat(integerExpression.value));
+            List<ExpressionNode> elements = new ArrayList<>();
+
+            for (int i = 0; i < integerExpression.value; i++) {
+                elements.addAll(this.value);
+            }
+
+            return new ListExpressionNode(elements);
         }
 
         throw new TypeError("Unsupported binary operator '*' for types '" + this.getType() + "' and '" + other.getType() + "'");
@@ -63,25 +63,21 @@ public class StringExpressionNode implements LiteralExpressionNode {
 
     @Override
     public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
-        if (other instanceof StringExpressionNode stringExpression) {
-            return new BooleanExpressionNode(!this.value.equals(stringExpression.value));
+        if (other instanceof ListExpressionNode listExpression) {
+            return new BooleanExpressionNode(!this.value.equals(listExpression.value));
         }
 
         return new BooleanExpressionNode(true);
     }
 
     @Override
-    public BooleanExpressionNode toBoolean() {
-        return new BooleanExpressionNode(!Objects.equals(this.value, ""));
-    }
-
-    @Override
     public String toString() {
-        return "\"" + this.value + "\"";
+        return "[" + this.value.stream().map(Object::toString).collect(Collectors.joining(", ")) + "]";
     }
 
     @Override
     public StringExpressionNode toStringType() {
-        return new StringExpressionNode("\"" + this.value + "\"");
+        String listString = this.value.stream().map(Object::toString).collect(Collectors.joining(", "));
+        return new StringExpressionNode("[" + listString + "]");
     }
 }

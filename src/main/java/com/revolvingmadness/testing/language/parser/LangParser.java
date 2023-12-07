@@ -302,6 +302,30 @@ public class LangParser {
         return left;
     }
 
+    private ExpressionNode parseListExpression() {
+        this.consume();
+
+        List<ExpressionNode> elements = new ArrayList<>();
+
+        if (!this.current(TokenType.RIGHT_BRACKET)) {
+            ExpressionNode element = this.parseExpression();
+
+            elements.add(element);
+        }
+
+        while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
+            this.consume();
+
+            ExpressionNode element = this.parseExpression();
+
+            elements.add(element);
+        }
+
+        this.consume(TokenType.RIGHT_BRACKET, "Expected closing bracket for list");
+
+        return new ListExpressionNode(elements);
+    }
+
     private ExpressionNode parsePrimaryExpression() {
         if (this.current(TokenType.INTEGER)) {
             return new IntegerExpressionNode((Integer) this.consume().value);
@@ -336,6 +360,8 @@ public class LangParser {
         } else if (this.current(TokenType.NULL)) {
             this.consume();
             return new NullExpressionNode();
+        } else if (this.current(TokenType.LEFT_BRACKET)) {
+            return this.parseListExpression();
         }
 
         throw new SyntaxError("Unknown expression type '" + this.current().type + "'");

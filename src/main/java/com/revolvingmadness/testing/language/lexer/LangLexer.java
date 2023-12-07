@@ -148,6 +148,12 @@ public class LangLexer {
             } else if (this.current(',')) {
                 this.consume();
                 tokens.add(new Token(TokenType.COMMA));
+            } else if (this.current('[')) {
+                this.consume();
+                tokens.add(new Token(TokenType.LEFT_BRACKET));
+            } else if (this.current(']')) {
+                this.consume();
+                tokens.add(new Token(TokenType.RIGHT_BRACKET));
             } else {
                 throw new LexerError("Unknown token '" + this.current() + "'");
             }

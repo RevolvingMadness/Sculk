@@ -38,7 +38,7 @@ unary_expression: (HYPHEN | EXCLAMATION_MARK)* exponentiation_expression;
 
 exponentiation_expression: primary_expression (CARET primary_expression)*;
 
-primary_expression: (INTEGER | FLOAT | (IDENTIFIER (LEFT_PARENTHESIS ( expression (COMMA expression)*)? RIGHT_PARENTHESIS)?) | LEFT_PARENTHESIS addition_expression RIGHT_PARENTHESIS | BOOLEAN | STRING | RESOURCE);
+primary_expression: (INTEGER | FLOAT | (IDENTIFIER (LEFT_PARENTHESIS ( expression (COMMA expression)*)? RIGHT_PARENTHESIS)?) | LEFT_PARENTHESIS addition_expression RIGHT_PARENTHESIS | BOOLEAN | STRING | RESOURCE) | (LEFT_BRACKET (expression (COMMA expression)*)? RIGHT_BRACKET);
 
 binary_operator: PLUS | HYPHEN | STAR | FSLASH | PERCENT | CARET;
 
@@ -78,6 +78,8 @@ BREAK: 'break';
 CONTINUE: 'continue';
 COMMA: ',';
 PERIOD: '.';
+LEFT_BRACKET: '[';
+RIGHT_BRACKET: ']';
 
 IDENTIFIER: [a-zA-Z_][a-zA-Z0-9_]*;
 INTEGER: [0-9]+;
