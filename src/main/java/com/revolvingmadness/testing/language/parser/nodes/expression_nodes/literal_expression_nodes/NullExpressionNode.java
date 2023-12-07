@@ -19,11 +19,6 @@ public class NullExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public boolean isTruthy() {
-        return false;
-    }
-
-    @Override
     public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
         if (other instanceof NullExpressionNode) {
             return new BooleanExpressionNode(false);
@@ -35,5 +30,10 @@ public class NullExpressionNode implements LiteralExpressionNode {
     @Override
     public String toString() {
         return "null";
+    }
+
+    @Override
+    public StringExpressionNode toStringType() {
+        return new StringExpressionNode("null");
     }
 }

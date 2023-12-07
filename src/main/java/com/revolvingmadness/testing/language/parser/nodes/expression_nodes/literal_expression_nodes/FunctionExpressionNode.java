@@ -60,12 +60,12 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public boolean isTruthy() {
-        return true;
+    public String toString() {
+        return "<function " + this.signature.name + ">";
     }
 
     @Override
-    public String toString() {
-        return "<function " + this.signature.name + ">";
+    public StringExpressionNode toStringType() {
+        return new StringExpressionNode("<function " + this.signature.name + ">");
     }
 }

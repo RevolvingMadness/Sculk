@@ -41,11 +41,6 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public boolean isTruthy() {
-        return value;
-    }
-
-    @Override
     public LiteralExpressionNode logicalNot() {
         return new BooleanExpressionNode(!this.value);
     }
@@ -60,7 +55,17 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
+    public BooleanExpressionNode toBoolean() {
+        return this;
+    }
+
+    @Override
     public String toString() {
         return this.value.toString();
+    }
+
+    @Override
+    public StringExpressionNode toStringType() {
+        return new StringExpressionNode(this.value.toString());
     }
 }

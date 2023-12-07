@@ -20,7 +20,7 @@ public class IfStatementNode implements StatementNode {
     public void interpret(ScriptNode script) {
         LiteralExpressionNode interpretedCondition = condition.interpret(script);
 
-        if (interpretedCondition.isTruthy()) {
+        if (interpretedCondition.toBoolean().value) {
             for (StatementNode statement : this.body) {
                 try {
                     statement.interpret(script);

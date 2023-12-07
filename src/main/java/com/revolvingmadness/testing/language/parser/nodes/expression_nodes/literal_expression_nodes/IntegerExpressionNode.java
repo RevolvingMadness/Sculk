@@ -3,11 +3,16 @@ package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.lite
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
-public class IntegerExpressionNode implements NumberExpressionNode {
+public class IntegerExpressionNode implements LiteralExpressionNode {
     public final Integer value;
 
     public IntegerExpressionNode(Integer value) {
         this.value = value;
+    }
+
+    @Override
+    public LiteralExpressionNode abs() {
+        return new IntegerExpressionNode(this.value);
     }
 
     @Override
@@ -97,11 +102,6 @@ public class IntegerExpressionNode implements NumberExpressionNode {
     }
 
     @Override
-    public boolean isTruthy() {
-        return this.value != 0;
-    }
-
-    @Override
     public BooleanExpressionNode lessThan(LiteralExpressionNode other) {
         if (other instanceof IntegerExpressionNode integerExpression) {
             return new BooleanExpressionNode(this.value < integerExpression.value);
@@ -173,7 +173,27 @@ public class IntegerExpressionNode implements NumberExpressionNode {
     }
 
     @Override
+    public BooleanExpressionNode toBoolean() {
+        return new BooleanExpressionNode(this.value != 0);
+    }
+
+    @Override
+    public LiteralExpressionNode toFloatType() {
+        return new FloatExpressionNode(this.value.doubleValue());
+    }
+
+    @Override
+    public LiteralExpressionNode toIntType() {
+        return this;
+    }
+
+    @Override
     public String toString() {
         return this.value.toString();
+    }
+
+    @Override
+    public StringExpressionNode toStringType() {
+        return new StringExpressionNode(this.value.toString());
     }
 }

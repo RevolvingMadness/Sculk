@@ -42,11 +42,6 @@ public class ResourceExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public boolean isTruthy() {
-        return true;
-    }
-
-    @Override
     public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
         if (other instanceof ResourceExpressionNode resourceExpression) {
             return new BooleanExpressionNode(!this.value.equals(resourceExpression.value));
@@ -58,5 +53,10 @@ public class ResourceExpressionNode implements LiteralExpressionNode {
     @Override
     public String toString() {
         return this.value.toString();
+    }
+
+    @Override
+    public StringExpressionNode toStringType() {
+        return new StringExpressionNode(this.value.toString());
     }
 }

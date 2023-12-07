@@ -53,11 +53,6 @@ public class StringExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public boolean isTruthy() {
-        return !Objects.equals(this.value, "");
-    }
-
-    @Override
     public LiteralExpressionNode multiply(LiteralExpressionNode other) {
         if (other instanceof IntegerExpressionNode integerExpression) {
             return new StringExpressionNode(this.value.repeat(integerExpression.value));
@@ -76,7 +71,17 @@ public class StringExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
+    public BooleanExpressionNode toBoolean() {
+        return new BooleanExpressionNode(!Objects.equals(this.value, ""));
+    }
+
+    @Override
     public String toString() {
         return this.value;
+    }
+
+    @Override
+    public StringExpressionNode toStringType() {
+        return new StringExpressionNode(this.value);
     }
 }

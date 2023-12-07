@@ -1,7 +1,12 @@
 package com.revolvingmadness.testing.language.interpreter;
 
 import com.revolvingmadness.testing.backend.Logger;
-import com.revolvingmadness.testing.language.builtins.functions.PrintFunctionExpression;
+import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunctionExpression;
+import com.revolvingmadness.testing.language.builtins.functions.math.AbsFunctionExpression;
+import com.revolvingmadness.testing.language.builtins.functions.types.BooleanFunctionExpression;
+import com.revolvingmadness.testing.language.builtins.functions.types.FloatFunctionExpression;
+import com.revolvingmadness.testing.language.builtins.functions.types.IntFunctionExpression;
+import com.revolvingmadness.testing.language.builtins.functions.types.StrFunctionExpression;
 import com.revolvingmadness.testing.language.errors.NameError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
@@ -78,5 +83,11 @@ public class VariableTable {
         this.variableScopes.clear();
         this.variableScopes.add(new VariableScope());
         this.assign(new IdentifierExpressionNode("print"), new PrintFunctionExpression());
+        this.assign(new IdentifierExpressionNode("abs"), new AbsFunctionExpression());
+
+        this.assign(new IdentifierExpressionNode("boolean"), new BooleanFunctionExpression());
+        this.assign(new IdentifierExpressionNode("float"), new FloatFunctionExpression());
+        this.assign(new IdentifierExpressionNode("int"), new IntFunctionExpression());
+        this.assign(new IdentifierExpressionNode("str"), new StrFunctionExpression());
     }
 }

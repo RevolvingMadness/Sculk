@@ -8,6 +8,10 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Ident
 import java.util.List;
 
 public interface LiteralExpressionNode extends ExpressionNode {
+    default LiteralExpressionNode abs() {
+        throw new TypeError("Cannot get absolute value of type '" + this.getType() + "'");
+    }
+
     default LiteralExpressionNode add(LiteralExpressionNode other) {
         throw new TypeError("Unsupported binary operator '+' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
@@ -42,8 +46,6 @@ public interface LiteralExpressionNode extends ExpressionNode {
         return this;
     }
 
-    boolean isTruthy();
-
     default BooleanExpressionNode lessThan(LiteralExpressionNode other) {
         throw new TypeError("Unsupported binary operator '<' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
@@ -74,5 +76,21 @@ public interface LiteralExpressionNode extends ExpressionNode {
 
     default LiteralExpressionNode subtract(LiteralExpressionNode other) {
         throw new TypeError("Unsupported binary operator '-' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    default BooleanExpressionNode toBoolean() {
+        throw new TypeError("Cannot convert type '" + this.getType() + "' to boolean");
+    }
+
+    default LiteralExpressionNode toFloatType() {
+        throw new TypeError("Cannot convert type '" + this.getType() + "' to float");
+    }
+
+    default LiteralExpressionNode toIntType() {
+        throw new TypeError("Cannot convert type '" + this.getType() + "' to int");
+    }
+
+    default StringExpressionNode toStringType() {
+        throw new TypeError("Cannot convert type '" + this.getType() + "' to string");
     }
 }
