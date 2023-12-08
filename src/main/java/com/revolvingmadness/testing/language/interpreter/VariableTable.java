@@ -1,12 +1,12 @@
 package com.revolvingmadness.testing.language.interpreter;
 
 import com.revolvingmadness.testing.backend.Logger;
-import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunctionExpression;
-import com.revolvingmadness.testing.language.builtins.functions.math.AbsFunctionExpression;
-import com.revolvingmadness.testing.language.builtins.functions.types.BooleanFunctionExpression;
-import com.revolvingmadness.testing.language.builtins.functions.types.FloatFunctionExpression;
-import com.revolvingmadness.testing.language.builtins.functions.types.IntFunctionExpression;
-import com.revolvingmadness.testing.language.builtins.functions.types.StrFunctionExpression;
+import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunctionExpressionNode;
+import com.revolvingmadness.testing.language.builtins.functions.math.AbsFunctionExpressionNode;
+import com.revolvingmadness.testing.language.builtins.functions.types.BoolFunctionExpressionNode;
+import com.revolvingmadness.testing.language.builtins.functions.types.FloatFunctionExpressionNode;
+import com.revolvingmadness.testing.language.builtins.functions.types.IntFunctionExpressionNode;
+import com.revolvingmadness.testing.language.builtins.functions.types.StrFunctionExpressionNode;
 import com.revolvingmadness.testing.language.errors.NameError;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
@@ -32,13 +32,13 @@ public class VariableTable {
         this.variableScopes.clear();
         this.variableScopes.add(new VariableScope());
 
-        this.assign(true, new IdentifierExpressionNode("print"), new PrintFunctionExpression());
-        this.assign(true, new IdentifierExpressionNode("abs"), new AbsFunctionExpression());
+        this.assign(true, new IdentifierExpressionNode("print"), new PrintFunctionExpressionNode());
+        this.assign(true, new IdentifierExpressionNode("abs"), new AbsFunctionExpressionNode());
 
-        this.assign(true, new IdentifierExpressionNode("boolean"), new BooleanFunctionExpression());
-        this.assign(true, new IdentifierExpressionNode("float"), new FloatFunctionExpression());
-        this.assign(true, new IdentifierExpressionNode("int"), new IntFunctionExpression());
-        this.assign(true, new IdentifierExpressionNode("str"), new StrFunctionExpression());
+        this.assign(true, new IdentifierExpressionNode("bool"), new BoolFunctionExpressionNode());
+        this.assign(true, new IdentifierExpressionNode("float"), new FloatFunctionExpressionNode());
+        this.assign(true, new IdentifierExpressionNode("int"), new IntFunctionExpressionNode());
+        this.assign(true, new IdentifierExpressionNode("str"), new StrFunctionExpressionNode());
 
         this.assign(true, new IdentifierExpressionNode("PI"), new FloatExpressionNode(Math.PI));
     }
@@ -62,10 +62,6 @@ public class VariableTable {
         }
 
         this.variableScopes.peek().variables.add(new Variable(isConstant, name, value));
-    }
-
-    public void assign(IdentifierExpressionNode name, LiteralExpressionNode value) {
-        this.assign(false, name, value);
     }
 
     public void enterScope() {
