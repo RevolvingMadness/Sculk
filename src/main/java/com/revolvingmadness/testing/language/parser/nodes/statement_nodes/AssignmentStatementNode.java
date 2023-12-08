@@ -6,10 +6,12 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Ident
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
 public class AssignmentStatementNode implements StatementNode {
+    public final boolean isConstant;
     public final IdentifierExpressionNode name;
     public final ExpressionNode value;
 
-    public AssignmentStatementNode(IdentifierExpressionNode name, ExpressionNode value) {
+    public AssignmentStatementNode(boolean isConstant, IdentifierExpressionNode name, ExpressionNode value) {
+        this.isConstant = isConstant;
         this.name = name;
         this.value = value;
     }
@@ -17,6 +19,6 @@ public class AssignmentStatementNode implements StatementNode {
     @Override
     public void interpret(ScriptNode script) {
         LiteralExpressionNode interpretedValue = this.value.interpret(script);
-        script.variableTable.assign(name, interpretedValue);
+        script.variableTable.assign(this.isConstant, this.name, interpretedValue);
     }
 }

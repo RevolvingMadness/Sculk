@@ -7,11 +7,13 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.liter
 import java.util.List;
 
 public class FunctionDeclarationStatement implements StatementNode {
+    public final boolean isConstant;
     public final List<IdentifierExpressionNode> arguments;
     public final List<StatementNode> body;
     public final IdentifierExpressionNode name;
 
-    public FunctionDeclarationStatement(IdentifierExpressionNode name, List<IdentifierExpressionNode> arguments, List<StatementNode> body) {
+    public FunctionDeclarationStatement(boolean isConstant, IdentifierExpressionNode name, List<IdentifierExpressionNode> arguments, List<StatementNode> body) {
+        this.isConstant = isConstant;
         this.name = name;
         this.arguments = arguments;
         this.body = body;
@@ -19,6 +21,6 @@ public class FunctionDeclarationStatement implements StatementNode {
 
     @Override
     public void interpret(ScriptNode script) {
-        script.variableTable.assign(this.name, new FunctionExpressionNode(this.name, this.arguments, this.body));
+        script.variableTable.assign(this.isConstant, this.name, new FunctionExpressionNode(this.name, this.arguments, this.body));
     }
 }

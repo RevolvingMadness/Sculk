@@ -1,7 +1,12 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes;
 
 import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IntegerExpressionNode implements LiteralExpressionNode {
     public final Integer value;
@@ -47,18 +52,6 @@ public class IntegerExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public boolean equals(Object otherObject) {
-        if (this == otherObject)
-            return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
-            return false;
-
-        IntegerExpressionNode otherIntegerExpression = (IntegerExpressionNode) otherObject;
-
-        return value.equals(otherIntegerExpression.value);
-    }
-
-    @Override
     public LiteralExpressionNode exponentiate(LiteralExpressionNode other) {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(Math.pow(this.value, floatExpression.value));
@@ -94,11 +87,6 @@ public class IntegerExpressionNode implements LiteralExpressionNode {
         }
 
         throw new TypeError("Unsupported binary operator '>' for types '" + this.getType() + "' and '" + other.getType() + "'");
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
     }
 
     @Override
@@ -142,6 +130,18 @@ public class IntegerExpressionNode implements LiteralExpressionNode {
             return new IntegerExpressionNode(this.value * integerExpression.value);
         } else if (other instanceof StringExpressionNode stringExpression) {
             return new StringExpressionNode(stringExpression.value.repeat(this.value));
+        } else if (other instanceof ListExpressionNode listExpression) {
+            List<ExpressionNode> elements = new ArrayList<>();
+
+            if (this.value < 0) {
+                throw new ValueError("Can't multiply a list by a negative number");
+            }
+
+            for (int i = 0; i < this.value; i++) {
+                elements.addAll(listExpression.value);
+            }
+
+            return new ListExpressionNode(elements);
         }
 
         throw new TypeError("Unsupported binary operator '*' for types '" + this.getType() + "' and '" + other.getType() + "'");
@@ -188,12 +188,29 @@ public class IntegerExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public String toString() {
-        return this.value.toString();
+    public StringExpressionNode toStringType() {
+        return new StringExpressionNode(this.value.toString());
     }
 
     @Override
-    public StringExpressionNode toStringType() {
-        return new StringExpressionNode(this.value.toString());
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object otherObject) {
+        if (this == otherObject)
+            return true;
+        if (otherObject == null || getClass() != otherObject.getClass())
+            return false;
+
+        IntegerExpressionNode otherIntegerExpression = (IntegerExpressionNode) otherObject;
+
+        return value.equals(otherIntegerExpression.value);
+    }
+
+    @Override
+    public String toString() {
+        return this.value.toString();
     }
 }

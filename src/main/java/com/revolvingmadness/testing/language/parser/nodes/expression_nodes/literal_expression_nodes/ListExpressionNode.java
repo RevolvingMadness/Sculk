@@ -1,6 +1,7 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes;
 
 import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
@@ -25,31 +26,18 @@ public class ListExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public boolean equals(Object otherObject) {
-        if (this == otherObject)
-            return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
-            return false;
-
-        ListExpressionNode otherListExpression = (ListExpressionNode) otherObject;
-
-        return value.equals(otherListExpression.value);
-    }
-
-    @Override
     public IdentifierExpressionNode getType() {
         return new IdentifierExpressionNode("list");
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
     }
 
     @Override
     public LiteralExpressionNode multiply(LiteralExpressionNode other) {
         if (other instanceof IntegerExpressionNode integerExpression) {
             List<ExpressionNode> elements = new ArrayList<>();
+
+            if (integerExpression.value < 0) {
+                throw new ValueError("Can't multiply a list by a negative number");
+            }
 
             for (int i = 0; i < integerExpression.value; i++) {
                 elements.addAll(this.value);
@@ -71,13 +59,30 @@ public class ListExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public String toString() {
-        return "[" + this.value.stream().map(Object::toString).collect(Collectors.joining(", ")) + "]";
-    }
-
-    @Override
     public StringExpressionNode toStringType() {
         String listString = this.value.stream().map(Object::toString).collect(Collectors.joining(", "));
         return new StringExpressionNode("[" + listString + "]");
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object otherObject) {
+        if (this == otherObject)
+            return true;
+        if (otherObject == null || getClass() != otherObject.getClass())
+            return false;
+
+        ListExpressionNode otherListExpression = (ListExpressionNode) otherObject;
+
+        return value.equals(otherListExpression.value);
+    }
+
+    @Override
+    public String toString() {
+        return "[" + this.value.stream().map(Object::toString).collect(Collectors.joining(", ")) + "]";
     }
 }

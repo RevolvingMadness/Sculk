@@ -30,5 +30,6 @@ public class Testing implements ModInitializer {
         Testing.keywords.put("return", TokenType.RETURN);
         Testing.keywords.put("break", TokenType.BREAK);
         Testing.keywords.put("continue", TokenType.CONTINUE);
+        Testing.keywords.put("const", TokenType.CONST);
     }
 }

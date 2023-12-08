@@ -4,12 +4,21 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Ident
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
 public class Variable {
+    public final boolean isConstant;
     public final IdentifierExpressionNode name;
     public LiteralExpressionNode value;
 
-    public Variable(IdentifierExpressionNode name, LiteralExpressionNode value) {
+    public Variable(boolean isConstant, IdentifierExpressionNode name, LiteralExpressionNode value) {
+        this.isConstant = isConstant;
         this.name = name;
         this.value = value;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + value.hashCode();
+        return result;
     }
 
     @Override
@@ -24,12 +33,5 @@ public class Variable {
         if (!name.equals(variable.name))
             return false;
         return value.equals(variable.value);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + value.hashCode();
-        return result;
     }
 }
