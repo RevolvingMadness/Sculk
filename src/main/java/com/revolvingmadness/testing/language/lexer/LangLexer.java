@@ -154,6 +154,27 @@ public class LangLexer {
             } else if (this.current(']')) {
                 this.consume();
                 tokens.add(new Token(TokenType.RIGHT_BRACKET));
+            } else if (this.current('&')) {
+                this.consume();
+
+                if (this.current('&')) {
+                    this.consume();
+                    tokens.add(new Token(TokenType.DOUBLE_AMPERSAND));
+                } else {
+                    tokens.add(new Token(TokenType.AMPERSAND));
+                }
+            } else if (this.current('|')) {
+                this.consume();
+
+                if (this.current('|')) {
+                    this.consume();
+                    tokens.add(new Token(TokenType.DOUBLE_PIPE));
+                } else {
+                    tokens.add(new Token(TokenType.PIPE));
+                }
+            } else if (this.current('.')) {
+                this.consume();
+                tokens.add(new Token(TokenType.PERIOD));
             } else {
                 throw new LexerError("Unknown token '" + this.current() + "'");
             }

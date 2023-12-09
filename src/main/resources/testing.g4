@@ -2,7 +2,7 @@ grammar testing;
 
 program: statement*;
 
-statement: (variable_assignment_statement SEMICOLON | import_statement SEMICOLON | if_statement SEMICOLON? | while_statement SEMICOLON? | for_statement SEMICOLON? | function_call_statement SEMICOLON | function_declaration_assignment SEMICOLON? | return_statement SEMICOLON | break_statement SEMICOLON | continue_statement SEMICOLON);
+statement: (variable_assignment_statement SEMICOLON | import_statement SEMICOLON | if_statement SEMICOLON? | while_statement SEMICOLON? | for_statement SEMICOLON? | call_statement SEMICOLON | function_declaration_assignment SEMICOLON? | return_statement SEMICOLON | break_statement SEMICOLON | continue_statement SEMICOLON);
 
 continue_statement: CONTINUE;
 
@@ -12,7 +12,9 @@ return_statement: RETURN expression?;
 
 function_declaration_assignment: FUNCTION IDENTIFIER LEFT_PARENTHESIS (IDENTIFIER (COMMA IDENTIFIER)*)? RIGHT_PARENTHESIS (RIGHT_ARROW IDENTIFIER)? body;
 
-function_call_statement: IDENTIFIER LEFT_PARENTHESIS (expression (COMMA expression)*)? RIGHT_PARENTHESIS;
+call_statement: IDENTIFIER ((LEFT_PARENTHESIS arguments RIGHT_PARENTHESIS) | (PERIOD IDENTIFIER))+;
+
+arguments: (expression (COMMA expression)*)?;
 
 for_statement: FOR LEFT_PARENTHESIS variable_assignment_statement SEMICOLON expression SEMICOLON variable_assignment_statement SEMICOLON? RIGHT_PARENTHESIS body;
 
@@ -26,7 +28,9 @@ import_statement: IMPORT RESOURCE;
 
 variable_assignment_statement: IDENTIFIER ((binary_operator? EQUALS expression) | (DOUBLE_PLUS | DOUBLE_HYPHEN));
 
-expression: logical_expression;
+expression: and_expression;
+
+and_expression: logical_expression ((DOUBLE_AMPERSAND || DOUBLE_PIPE) logical_expression)*;
 
 logical_expression: addition_expression ((EQUAL_TO | NOT_EQUAL_TO | GREATER_THAN | GREATER_THAN_OR_EQUAL_TO | LESS_THAN | LESS_THAN_OR_EQUAL_TO) addition_expression)*;
 
@@ -36,9 +40,11 @@ multiplication_expression: unary_expression ((STAR | FSLASH | PERCENT) unary_exp
 
 unary_expression: (HYPHEN | EXCLAMATION_MARK)* exponentiation_expression;
 
-exponentiation_expression: primary_expression (CARET primary_expression)*;
+exponentiation_expression: call_expression (CARET call_expression)*;
 
-primary_expression: (INTEGER | FLOAT | (IDENTIFIER (LEFT_PARENTHESIS ( expression (COMMA expression)*)? RIGHT_PARENTHESIS)?) | LEFT_PARENTHESIS addition_expression RIGHT_PARENTHESIS | BOOLEAN | STRING | RESOURCE) | (LEFT_BRACKET (expression (COMMA expression)*)? RIGHT_BRACKET);
+call_expression: primary_expression ((LEFT_PARENTHESIS (expression)? RIGHT_PARENTHESIS) | (PERIOD IDENTIFIER))*;
+
+primary_expression: (INTEGER | FLOAT | IDENTIFIER | LEFT_PARENTHESIS addition_expression RIGHT_PARENTHESIS | BOOLEAN | STRING | RESOURCE) | (LEFT_BRACKET (expression (COMMA expression)*)? RIGHT_BRACKET);
 
 binary_operator: PLUS | HYPHEN | STAR | FSLASH | PERCENT | CARET;
 
@@ -80,6 +86,8 @@ COMMA: ',';
 PERIOD: '.';
 LEFT_BRACKET: '[';
 RIGHT_BRACKET: ']';
+DOUBLE_AMPERSAND: '&&';
+DOUBLE_PIPE: '||';
 
 IDENTIFIER: [a-zA-Z_][a-zA-Z0-9_]*;
 INTEGER: [0-9]+;

@@ -31,7 +31,7 @@ public class ForStatementNode implements StatementNode {
         initialization.interpret(script);
 
         while_loop:
-        while (condition.interpret(script).toBoolean().value) {
+        while (condition.interpret(script).toBooleanType().value) {
             for (StatementNode statement : this.body) {
                 try {
                     statement.interpret(script);

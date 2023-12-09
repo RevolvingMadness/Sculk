@@ -50,4 +50,8 @@ public class Token {
 
         return "Token(type=" + type + ", value=" + value + ")";
     }
+
+    public boolean isAndOperator() {
+        return this.type == TokenType.DOUBLE_AMPERSAND || this.type == TokenType.DOUBLE_PIPE;
+    }
 }

@@ -71,7 +71,7 @@ public class StringExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public BooleanExpressionNode toBoolean() {
+    public BooleanExpressionNode toBooleanType() {
         return new BooleanExpressionNode(!Objects.equals(this.value, ""));
     }
 
@@ -82,6 +82,6 @@ public class StringExpressionNode implements LiteralExpressionNode {
 
     @Override
     public StringExpressionNode toStringType() {
-        return new StringExpressionNode("\"" + this.value + "\"");
+        return new StringExpressionNode(this.value);
     }
 }

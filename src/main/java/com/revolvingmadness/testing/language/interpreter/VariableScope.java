@@ -1,6 +1,7 @@
 package com.revolvingmadness.testing.language.interpreter;
 
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,5 +22,9 @@ public class VariableScope {
         }
 
         return Optional.empty();
+    }
+
+    public void assign(boolean isConstant, IdentifierExpressionNode name, LiteralExpressionNode value) {
+        this.variables.add(new Variable(isConstant, name, value));
     }
 }

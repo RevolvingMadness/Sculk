@@ -17,7 +17,7 @@ public class BoolFunctionExpressionNode implements LiteralExpressionNode {
 
         LiteralExpressionNode interpretedFirstArgument = arguments.get(0).interpret(script);
 
-        return interpretedFirstArgument.toBoolean();
+        return interpretedFirstArgument.toBooleanType();
     }
 
     @Override

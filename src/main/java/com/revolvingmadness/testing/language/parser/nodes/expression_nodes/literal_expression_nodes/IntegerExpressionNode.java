@@ -173,7 +173,7 @@ public class IntegerExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public BooleanExpressionNode toBoolean() {
+    public BooleanExpressionNode toBooleanType() {
         return new BooleanExpressionNode(this.value != 0);
     }
 

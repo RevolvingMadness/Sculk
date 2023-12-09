@@ -3,6 +3,7 @@ package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
 import com.revolvingmadness.testing.language.interpreter.errors.InterpreterError;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.BooleanExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
 public class BinaryExpressionNode implements ExpressionNode {
@@ -58,6 +59,10 @@ public class BinaryExpressionNode implements ExpressionNode {
             case GREATER_THAN_OR_EQUAL_TO -> interpretedLeftValue.greaterThanOrEqualTo(interpretedRightValue);
             case LESS_THAN -> interpretedLeftValue.lessThan(interpretedRightValue);
             case LESS_THAN_OR_EQUAL_TO -> interpretedLeftValue.lessThanOrEqualTo(interpretedRightValue);
+            case DOUBLE_AMPERSAND ->
+                    new BooleanExpressionNode(interpretedLeftValue.toBooleanType().value && interpretedRightValue.toBooleanType().value);
+            case DOUBLE_PIPE ->
+                    new BooleanExpressionNode(interpretedLeftValue.toBooleanType().value || interpretedRightValue.toBooleanType().value);
             default -> throw new InterpreterError("Unknown binary operator '" + this.operator + "'");
         };
     }

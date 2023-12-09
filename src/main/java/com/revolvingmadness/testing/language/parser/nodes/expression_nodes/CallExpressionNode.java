@@ -5,12 +5,12 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.liter
 
 import java.util.List;
 
-public class FunctionCallExpressionNode implements ExpressionNode {
+public class CallExpressionNode implements ExpressionNode {
     public final List<ExpressionNode> arguments;
-    public final IdentifierExpressionNode name;
+    public final ExpressionNode expression;
 
-    public FunctionCallExpressionNode(IdentifierExpressionNode name, List<ExpressionNode> arguments) {
-        this.name = name;
+    public CallExpressionNode(ExpressionNode expression, List<ExpressionNode> arguments) {
+        this.expression = expression;
         this.arguments = arguments;
     }
 
@@ -21,25 +21,24 @@ public class FunctionCallExpressionNode implements ExpressionNode {
         if (otherObject == null || getClass() != otherObject.getClass())
             return false;
 
-        FunctionCallExpressionNode that = (FunctionCallExpressionNode) otherObject;
+        CallExpressionNode that = (CallExpressionNode) otherObject;
 
-        if (!name.equals(that.name))
+        if (!expression.equals(that.expression))
             return false;
         return arguments.equals(that.arguments);
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
+        int result = expression.hashCode();
         result = 31 * result + arguments.hashCode();
         return result;
     }
 
     @Override
     public LiteralExpressionNode interpret(ScriptNode script) {
-        ExpressionNode functionVariable = script.variableTable.getOrThrow(this.name).value;
-        LiteralExpressionNode interpretedFunctionVariable = functionVariable.interpret(script);
+        LiteralExpressionNode interpretedExpression = this.expression.interpret(script);
 
-        return interpretedFunctionVariable.call(script, this.arguments);
+        return interpretedExpression.call(script, this.arguments);
     }
 }

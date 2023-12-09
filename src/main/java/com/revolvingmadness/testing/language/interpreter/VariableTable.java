@@ -43,25 +43,25 @@ public class VariableTable {
         this.assign(true, new IdentifierExpressionNode("PI"), new FloatExpressionNode(Math.PI));
     }
 
+
     public void assign(boolean isConstant, IdentifierExpressionNode name, LiteralExpressionNode value) {
         Logger.info("Assigning variable '" + name + "' to the value '" + value + "'");
 
-        for (VariableScope variableScope : this.variableScopes) {
-            Optional<Variable> optionalVariable = variableScope.getOptional(name);
+        VariableScope variableScope = this.variableScopes.peek();
 
-            if (optionalVariable.isPresent()) {
-                Variable variable = optionalVariable.get();
+        Optional<Variable> optionalVariable = variableScope.getOptional(name);
 
-                if (variable.isConstant) {
-                    throw new ValueError("Cannot assign value to variable '" + name + "' because it is a constant");
-                }
+        if (optionalVariable.isPresent()) {
+            Variable variable = optionalVariable.get();
 
-                variable.value = value;
-                return;
+            if (variable.isConstant) {
+                throw new ValueError("Cannot assign value to variable '" + name + "' because it is a constant");
             }
-        }
 
-        this.variableScopes.peek().variables.add(new Variable(isConstant, name, value));
+            variable.value = value;
+        } else {
+            variableScope.assign(isConstant, name, value);
+        }
     }
 
     public void enterScope() {

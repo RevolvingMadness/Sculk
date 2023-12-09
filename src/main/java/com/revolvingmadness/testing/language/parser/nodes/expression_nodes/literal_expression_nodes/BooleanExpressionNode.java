@@ -55,7 +55,7 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public BooleanExpressionNode toBoolean() {
+    public BooleanExpressionNode toBooleanType() {
         return this;
     }
 

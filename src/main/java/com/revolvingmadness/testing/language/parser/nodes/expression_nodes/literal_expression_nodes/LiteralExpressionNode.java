@@ -1,6 +1,7 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes;
 
 import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
@@ -78,7 +79,7 @@ public interface LiteralExpressionNode extends ExpressionNode {
         throw new TypeError("Unsupported binary operator '-' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
-    default BooleanExpressionNode toBoolean() {
+    default BooleanExpressionNode toBooleanType() {
         throw new TypeError("Cannot convert type '" + this.getType() + "' to boolean");
     }
 
@@ -92,5 +93,9 @@ public interface LiteralExpressionNode extends ExpressionNode {
 
     default StringExpressionNode toStringType() {
         throw new TypeError("Cannot convert type '" + this.getType() + "' to string");
+    }
+
+    default LiteralExpressionNode get(ScriptNode script, IdentifierExpressionNode propertyName) {
+        throw new ValueError("Type '" + this.getType() + "' has no properties");
     }
 }
