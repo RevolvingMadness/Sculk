@@ -32,7 +32,7 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
 
         for (IdentifierExpressionNode argumentName : this.arguments) {
             LiteralExpressionNode argumentValue = arguments.get(argumentNumber).interpret(script);
-            script.variableTable.assign(true, argumentName, argumentValue);
+            script.variableTable.declare(true, argumentName, argumentValue);
         }
 
         try {

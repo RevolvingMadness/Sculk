@@ -1,6 +1,5 @@
 package com.revolvingmadness.testing.language.interpreter;
 
-import com.revolvingmadness.testing.backend.Logger;
 import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunctionExpressionNode;
 import com.revolvingmadness.testing.language.builtins.functions.math.AbsFunctionExpressionNode;
 import com.revolvingmadness.testing.language.builtins.functions.types.BoolFunctionExpressionNode;
@@ -8,7 +7,6 @@ import com.revolvingmadness.testing.language.builtins.functions.types.FloatFunct
 import com.revolvingmadness.testing.language.builtins.functions.types.IntFunctionExpressionNode;
 import com.revolvingmadness.testing.language.builtins.functions.types.StrFunctionExpressionNode;
 import com.revolvingmadness.testing.language.errors.NameError;
-import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.FloatExpressionNode;
@@ -32,36 +30,20 @@ public class VariableTable {
         this.variableScopes.clear();
         this.variableScopes.add(new VariableScope());
 
-        this.assign(true, new IdentifierExpressionNode("print"), new PrintFunctionExpressionNode());
-        this.assign(true, new IdentifierExpressionNode("abs"), new AbsFunctionExpressionNode());
+        this.declare(true, new IdentifierExpressionNode("print"), new PrintFunctionExpressionNode());
+        this.declare(true, new IdentifierExpressionNode("abs"), new AbsFunctionExpressionNode());
 
-        this.assign(true, new IdentifierExpressionNode("bool"), new BoolFunctionExpressionNode());
-        this.assign(true, new IdentifierExpressionNode("float"), new FloatFunctionExpressionNode());
-        this.assign(true, new IdentifierExpressionNode("int"), new IntFunctionExpressionNode());
-        this.assign(true, new IdentifierExpressionNode("str"), new StrFunctionExpressionNode());
+        this.declare(true, new IdentifierExpressionNode("bool"), new BoolFunctionExpressionNode());
+        this.declare(true, new IdentifierExpressionNode("float"), new FloatFunctionExpressionNode());
+        this.declare(true, new IdentifierExpressionNode("int"), new IntFunctionExpressionNode());
+        this.declare(true, new IdentifierExpressionNode("str"), new StrFunctionExpressionNode());
 
-        this.assign(true, new IdentifierExpressionNode("PI"), new FloatExpressionNode(Math.PI));
+        this.declare(true, new IdentifierExpressionNode("PI"), new FloatExpressionNode(Math.PI));
     }
 
 
-    public void assign(boolean isConstant, IdentifierExpressionNode name, LiteralExpressionNode value) {
-        Logger.info("Assigning variable '" + name + "' to the value '" + value + "'");
-
-        VariableScope variableScope = this.variableScopes.peek();
-
-        Optional<Variable> optionalVariable = variableScope.getOptional(name);
-
-        if (optionalVariable.isPresent()) {
-            Variable variable = optionalVariable.get();
-
-            if (variable.isConstant) {
-                throw new ValueError("Cannot assign value to variable '" + name + "' because it is a constant");
-            }
-
-            variable.value = value;
-        } else {
-            variableScope.assign(isConstant, name, value);
-        }
+    public void assign(LiteralExpressionNode expression, LiteralExpressionNode value) {
+        this.variableScopes.peek().assign(expression, value);
     }
 
     public void enterScope() {
@@ -100,5 +82,9 @@ public class VariableTable {
         }
 
         return Optional.empty();
+    }
+
+    public void declare(boolean isConstant, IdentifierExpressionNode name, LiteralExpressionNode value) {
+        this.variableScopes.peek().declare(isConstant, name, value);
     }
 }

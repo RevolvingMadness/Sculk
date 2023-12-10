@@ -86,9 +86,9 @@ public class LangParser {
         if (this.current(TokenType.IMPORT)) {
             statement = this.parseImportStatement();
             this.consume(TokenType.SEMICOLON, "Expected semicolon after import statement");
-        } else if ((this.current(TokenType.IDENTIFIER) && !this.next(TokenType.LEFT_PARENTHESIS)) || (this.current(TokenType.CONST) && this.next(TokenType.IDENTIFIER))) {
-            statement = this.parseAssignmentStatement();
-            this.consume(TokenType.SEMICOLON, "Expected semicolon after variable assignment");
+        } else if (this.current(TokenType.VAR) || (this.current(TokenType.CONST) && this.next(TokenType.VAR))) {
+            statement = this.parseVariableDeclarationStatement();
+            this.consume(TokenType.SEMICOLON, "Expected semicolon after variable declaration statement");
         } else if (this.current(TokenType.IF)) {
             statement = this.parseIfStatement();
             if (this.current(TokenType.SEMICOLON)) {
@@ -168,7 +168,37 @@ public class LangParser {
     }
 
     private ExpressionNode parseExpression() {
-        return this.parseAndExpression();
+        return this.parseAssignmentExpression();
+    }
+
+    private ExpressionNode parseAssignmentExpression() {
+        ExpressionNode expression = this.parseAndExpression();
+
+        if (this.current().isIncrementOperator()) {
+            TokenType incrementOperator = this.consume().type;
+
+            return new VariableAssignmentExpressionNode(expression, new BinaryExpressionNode(expression, incrementOperator, new IntegerExpressionNode(1)));
+        }
+
+        if (this.current().isBinaryOperator()) {
+            TokenType binaryOperator = this.consume().type;
+
+            this.consume(TokenType.EQUALS, "Expected equals after binary operator");
+
+            ExpressionNode right = this.parseExpression();
+
+            return new VariableAssignmentExpressionNode(expression, new BinaryExpressionNode(expression, binaryOperator, right));
+        }
+
+        if (this.current(TokenType.EQUALS)) {
+            this.consume();
+
+            ExpressionNode value = this.parseAndExpression();
+
+            return new VariableAssignmentExpressionNode(expression, value);
+        }
+
+        return expression;
     }
 
     private ExpressionNode parseAndExpression() {
@@ -190,7 +220,7 @@ public class LangParser {
 
         this.consume(TokenType.LEFT_PARENTHESIS, "Expected left parenthesis after 'for'");
 
-        AssignmentStatementNode initialization = this.parseAssignmentStatement();
+        VariableDeclarationStatementNode initialization = this.parseVariableDeclarationStatement();
 
         this.consume(TokenType.SEMICOLON, "Expected semicolon after variable assignment");
 
@@ -198,7 +228,7 @@ public class LangParser {
 
         this.consume(TokenType.SEMICOLON, "Expected semicolon after variable assignment");
 
-        AssignmentStatementNode update = this.parseAssignmentStatement();
+        VariableDeclarationStatementNode update = this.parseVariableDeclarationStatement();
 
         if (this.current(TokenType.SEMICOLON)) {
             this.consume();
@@ -222,7 +252,7 @@ public class LangParser {
             } else if (this.current(TokenType.PERIOD)) {
                 this.consume();
                 IdentifierExpressionNode propertyName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected property name").value);
-                expression = new GetExpressionNode(expression, propertyName);
+                expression = new PropertyExpressionNode(expression, propertyName);
             }
         }
 
@@ -249,7 +279,7 @@ public class LangParser {
         return arguments;
     }
 
-    private AssignmentStatementNode parseAssignmentStatement() {
+    private VariableDeclarationStatementNode parseVariableDeclarationStatement() {
         boolean isConstant = false;
 
         if (this.current(TokenType.CONST)) {
@@ -257,29 +287,19 @@ public class LangParser {
             isConstant = true;
         }
 
+        this.consume(TokenType.VAR, "Expected var keyword");
+
         IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected variable name").value);
 
-        if (this.current().isIncrementOrDecrementOperator()) {
-            TokenType incrementOrDecrementOperator = this.consume().type;
-
-            return new AssignmentStatementNode(isConstant, name, new BinaryExpressionNode(name, incrementOrDecrementOperator, new IntegerExpressionNode(1)));
-        }
-
-        TokenType shorthandAssignmentOperator = null;
-
-        if (this.current().isBinaryOperator()) {
-            shorthandAssignmentOperator = this.consume().type;
+        if (this.current(TokenType.SEMICOLON)) {
+            return new VariableDeclarationStatementNode(isConstant, name, new NullExpressionNode());
         }
 
         this.consume(TokenType.EQUALS, "Expected equals after variable name");
 
         ExpressionNode expression = this.parseExpression();
 
-        if (shorthandAssignmentOperator != null) {
-            return new AssignmentStatementNode(isConstant, name, new BinaryExpressionNode(name, shorthandAssignmentOperator, expression));
-        }
-
-        return new AssignmentStatementNode(isConstant, name, expression);
+        return new VariableDeclarationStatementNode(isConstant, name, expression);
     }
 
     private StatementNode parseIfStatement() {

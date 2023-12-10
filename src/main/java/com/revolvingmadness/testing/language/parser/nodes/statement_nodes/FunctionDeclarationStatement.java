@@ -21,6 +21,6 @@ public class FunctionDeclarationStatement implements StatementNode {
 
     @Override
     public void interpret(ScriptNode script) {
-        script.variableTable.assign(this.isConstant, this.name, new FunctionExpressionNode(this.name, this.arguments, this.body));
+        script.variableTable.declare(this.isConstant, this.name, new FunctionExpressionNode(this.name, this.arguments, this.body));
     }
 }

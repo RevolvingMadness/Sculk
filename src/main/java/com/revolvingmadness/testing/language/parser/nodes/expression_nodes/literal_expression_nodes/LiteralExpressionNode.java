@@ -95,7 +95,11 @@ public interface LiteralExpressionNode extends ExpressionNode {
         throw new TypeError("Cannot convert type '" + this.getType() + "' to string");
     }
 
-    default LiteralExpressionNode get(ScriptNode script, IdentifierExpressionNode propertyName) {
+    default LiteralExpressionNode get(IdentifierExpressionNode propertyName) {
+        throw new ValueError("Type '" + this.getType() + "' has no properties");
+    }
+
+    default LiteralExpressionNode set(IdentifierExpressionNode propertyName, LiteralExpressionNode value) {
         throw new ValueError("Type '" + this.getType() + "' has no properties");
     }
 }

@@ -26,7 +26,7 @@ public class Token {
         return this.type == TokenType.CARET;
     }
 
-    public boolean isIncrementOrDecrementOperator() {
+    public boolean isIncrementOperator() {
         return this.type == TokenType.DOUBLE_PLUS || this.type == TokenType.DOUBLE_HYPHEN;
     }
 
