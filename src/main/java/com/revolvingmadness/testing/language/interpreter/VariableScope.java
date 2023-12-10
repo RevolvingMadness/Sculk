@@ -1,10 +1,8 @@
 package com.revolvingmadness.testing.language.interpreter;
 
 import com.revolvingmadness.testing.language.errors.NameError;
-import com.revolvingmadness.testing.language.errors.SyntaxError;
-import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.PropertyExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
 import java.util.ArrayList;
@@ -12,9 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 public class VariableScope {
+    public final ScriptNode script;
     public final List<Variable> variables;
 
-    public VariableScope() {
+    public VariableScope(ScriptNode script) {
+        this.script = script;
         this.variables = new ArrayList<>();
     }
 
@@ -32,26 +32,13 @@ public class VariableScope {
         this.variables.add(new Variable(isConstant, name, value));
     }
 
-    public void assign(LiteralExpressionNode expression, LiteralExpressionNode value) {
-        if (expression instanceof IdentifierExpressionNode identifierExpression) {
-            Optional<Variable> optionalVariable = this.getOptional(identifierExpression);
+    public Variable getOrThrow(IdentifierExpressionNode name) {
+        Optional<Variable> optionalVariable = this.getOptional(name);
 
-            if (optionalVariable.isPresent()) {
-                Variable variable = optionalVariable.get();
-
-                if (variable.isConstant) {
-                    throw new ValueError("Cannot assign value to variable '" + identifierExpression + "' because it is a constant");
-                }
-
-                variable.value = value;
-                return;
-            }
-
-            throw new NameError("Variable '" + identifierExpression + "' has not been declared");
-        } else if (expression instanceof PropertyExpressionNode propertyExpression) {
-            expression.set(propertyExpression.propertyName, value);
-        } else {
-            throw new SyntaxError("Invalid assignment target");
+        if (optionalVariable.isEmpty()) {
+            throw new NameError("Variable '" + name + "' has not been declared");
         }
+
+        return optionalVariable.get();
     }
 }

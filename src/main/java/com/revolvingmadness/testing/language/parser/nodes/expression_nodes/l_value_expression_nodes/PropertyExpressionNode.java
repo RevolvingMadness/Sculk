@@ -1,9 +1,11 @@
-package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
+package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes;
 
+import com.revolvingmadness.testing.language.interpreter.Variable;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
-public class PropertyExpressionNode implements ExpressionNode {
+public class PropertyExpressionNode implements LValueExpressionNode {
     public final ExpressionNode expression;
     public final IdentifierExpressionNode propertyName;
 
@@ -37,6 +39,13 @@ public class PropertyExpressionNode implements ExpressionNode {
     public LiteralExpressionNode interpret(ScriptNode script) {
         LiteralExpressionNode interpretedExpression = this.expression.interpret(script);
 
-        return interpretedExpression.get(this.propertyName);
+        return interpretedExpression.getProperty(this.propertyName).value;
+    }
+
+    @Override
+    public Variable getVariable(ScriptNode script) {
+        LiteralExpressionNode interpretedExpression = this.expression.interpret(script);
+
+        return interpretedExpression.getProperty(this.propertyName);
     }
 }

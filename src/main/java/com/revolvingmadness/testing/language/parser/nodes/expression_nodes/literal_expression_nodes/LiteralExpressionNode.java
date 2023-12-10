@@ -1,10 +1,11 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes;
 
 import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.interpreter.Variable;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
 
 import java.util.List;
 
@@ -95,11 +96,7 @@ public interface LiteralExpressionNode extends ExpressionNode {
         throw new TypeError("Cannot convert type '" + this.getType() + "' to string");
     }
 
-    default LiteralExpressionNode get(IdentifierExpressionNode propertyName) {
-        throw new ValueError("Type '" + this.getType() + "' has no properties");
-    }
-
-    default LiteralExpressionNode set(IdentifierExpressionNode propertyName, LiteralExpressionNode value) {
+    default Variable getProperty(IdentifierExpressionNode propertyName) {
         throw new ValueError("Type '" + this.getType() + "' has no properties");
     }
 }

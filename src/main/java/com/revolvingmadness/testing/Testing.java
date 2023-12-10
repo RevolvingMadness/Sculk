@@ -32,5 +32,6 @@ public class Testing implements ModInitializer {
         Testing.keywords.put("continue", TokenType.CONTINUE);
         Testing.keywords.put("const", TokenType.CONST);
         Testing.keywords.put("var", TokenType.VAR);
+        Testing.keywords.put("class", TokenType.CLASS);
     }
 }

@@ -1,7 +1,7 @@
 package com.revolvingmadness.testing.language.parser.nodes.statement_nodes;
 
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.FunctionExpressionNode;
 
 import java.util.List;

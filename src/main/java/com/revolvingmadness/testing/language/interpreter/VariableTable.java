@@ -7,8 +7,9 @@ import com.revolvingmadness.testing.language.builtins.functions.types.FloatFunct
 import com.revolvingmadness.testing.language.builtins.functions.types.IntFunctionExpressionNode;
 import com.revolvingmadness.testing.language.builtins.functions.types.StrFunctionExpressionNode;
 import com.revolvingmadness.testing.language.errors.NameError;
+import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.FloatExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
@@ -28,7 +29,7 @@ public class VariableTable {
 
     public void reset() {
         this.variableScopes.clear();
-        this.variableScopes.add(new VariableScope());
+        this.variableScopes.add(new VariableScope(this.script));
 
         this.declare(true, new IdentifierExpressionNode("print"), new PrintFunctionExpressionNode());
         this.declare(true, new IdentifierExpressionNode("abs"), new AbsFunctionExpressionNode());
@@ -42,16 +43,20 @@ public class VariableTable {
     }
 
 
-    public void assign(LiteralExpressionNode expression, LiteralExpressionNode value) {
-        this.variableScopes.peek().assign(expression, value);
+    public void assign(Variable variable, LiteralExpressionNode value) {
+        if (variable.isConstant) {
+            throw new ValueError("Cannot assign value to variable '" + variable.name + "' because it is a constant");
+        }
+
+        variable.value = value;
     }
 
     public void enterScope() {
-        this.variableScopes.add(new VariableScope());
+        this.variableScopes.add(new VariableScope(this.script));
     }
 
-    public void exitScope() {
-        this.variableScopes.pop();
+    public VariableScope exitScope() {
+        return this.variableScopes.pop();
     }
 
     public Variable getOrThrow(IdentifierExpressionNode name) {

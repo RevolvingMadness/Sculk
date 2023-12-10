@@ -6,6 +6,9 @@ import com.revolvingmadness.testing.language.lexer.Token;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.*;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.LValueExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.PropertyExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.*;
 import net.minecraft.util.Identifier;
@@ -118,6 +121,11 @@ public class LangParser {
         } else if (this.current(TokenType.CONTINUE)) {
             statement = this.parseContinueStatement();
             this.consume(TokenType.SEMICOLON, "Expected semicolon after continue statement");
+        } else if (this.current(TokenType.CLASS) || (this.current(TokenType.CONST) && this.next(TokenType.CLASS))) {
+            statement = this.parseClassDeclarationStatement();
+            if (this.current(TokenType.SEMICOLON)) {
+                this.consume();
+            }
         } else {
             ExpressionNode expression = this.parseExpression();
             statement = new ExpressionStatementNode(expression);
@@ -125,6 +133,23 @@ public class LangParser {
         }
 
         return statement;
+    }
+
+    private StatementNode parseClassDeclarationStatement() {
+        boolean isConstant = false;
+
+        if (this.current(TokenType.CONST)) {
+            this.consume();
+            isConstant = true;
+        }
+
+        this.consume();
+
+        IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected class name").value);
+
+        List<StatementNode> body = this.parseBody();
+
+        return new ClassDeclarationStatementNode(isConstant, name, body);
     }
 
     private List<StatementNode> parseBody() {
@@ -177,25 +202,37 @@ public class LangParser {
         if (this.current().isIncrementOperator()) {
             TokenType incrementOperator = this.consume().type;
 
-            return new VariableAssignmentExpressionNode(expression, new BinaryExpressionNode(expression, incrementOperator, new IntegerExpressionNode(1)));
+            if (!(expression instanceof LValueExpressionNode lValueExpression)) {
+                throw new SyntaxError("Cannot assign to r-value");
+            }
+
+            return new VariableAssignmentExpressionNode(lValueExpression, new BinaryExpressionNode(expression, incrementOperator, new IntegerExpressionNode(1)));
         }
 
         if (this.current().isBinaryOperator()) {
             TokenType binaryOperator = this.consume().type;
 
+            if (!(expression instanceof LValueExpressionNode lValueExpression)) {
+                throw new SyntaxError("Cannot assign to r-value");
+            }
+
             this.consume(TokenType.EQUALS, "Expected equals after binary operator");
 
             ExpressionNode right = this.parseExpression();
 
-            return new VariableAssignmentExpressionNode(expression, new BinaryExpressionNode(expression, binaryOperator, right));
+            return new VariableAssignmentExpressionNode(lValueExpression, new BinaryExpressionNode(lValueExpression, binaryOperator, right));
         }
 
         if (this.current(TokenType.EQUALS)) {
             this.consume();
 
+            if (!(expression instanceof LValueExpressionNode lValueExpression)) {
+                throw new SyntaxError("Cannot assign to r-value");
+            }
+
             ExpressionNode value = this.parseAndExpression();
 
-            return new VariableAssignmentExpressionNode(expression, value);
+            return new VariableAssignmentExpressionNode(lValueExpression, value);
         }
 
         return expression;
