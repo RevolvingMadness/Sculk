@@ -1,7 +1,6 @@
 package com.revolvingmadness.testing.language.interpreter;
 
 import com.revolvingmadness.testing.language.errors.NameError;
-import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
@@ -10,11 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class VariableScope {
-    public final ScriptNode script;
     public final List<Variable> variables;
 
-    public VariableScope(ScriptNode script) {
-        this.script = script;
+    public VariableScope() {
         this.variables = new ArrayList<>();
     }
 

@@ -1,5 +1,6 @@
 package com.revolvingmadness.testing.language.interpreter;
 
+import com.revolvingmadness.testing.language.builtins.classes.MinecraftServerClass;
 import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunctionExpressionNode;
 import com.revolvingmadness.testing.language.builtins.functions.math.AbsFunctionExpressionNode;
 import com.revolvingmadness.testing.language.builtins.functions.types.BoolFunctionExpressionNode;
@@ -29,17 +30,28 @@ public class VariableTable {
 
     public void reset() {
         this.variableScopes.clear();
-        this.variableScopes.add(new VariableScope(this.script));
+        this.variableScopes.add(new VariableScope());
 
+        this.declareClasses();
+        this.declareFunctions();
+        this.declareVariables();
+    }
+
+    private void declareVariables() {
+        this.declare(true, new IdentifierExpressionNode("PI"), new FloatExpressionNode(Math.PI));
+    }
+
+    private void declareFunctions() {
         this.declare(true, new IdentifierExpressionNode("print"), new PrintFunctionExpressionNode());
         this.declare(true, new IdentifierExpressionNode("abs"), new AbsFunctionExpressionNode());
-
         this.declare(true, new IdentifierExpressionNode("bool"), new BoolFunctionExpressionNode());
         this.declare(true, new IdentifierExpressionNode("float"), new FloatFunctionExpressionNode());
         this.declare(true, new IdentifierExpressionNode("int"), new IntFunctionExpressionNode());
         this.declare(true, new IdentifierExpressionNode("str"), new StrFunctionExpressionNode());
+    }
 
-        this.declare(true, new IdentifierExpressionNode("PI"), new FloatExpressionNode(Math.PI));
+    private void declareClasses() {
+        this.declare(true, new IdentifierExpressionNode("server"), new MinecraftServerClass());
     }
 
 
@@ -52,7 +64,7 @@ public class VariableTable {
     }
 
     public void enterScope() {
-        this.variableScopes.add(new VariableScope(this.script));
+        this.variableScopes.add(new VariableScope());
     }
 
     public VariableScope exitScope() {
