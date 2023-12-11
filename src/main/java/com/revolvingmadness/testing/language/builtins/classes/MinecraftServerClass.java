@@ -17,15 +17,15 @@ public class MinecraftServerClass implements LiteralExpressionNode {
 
     public MinecraftServerClass() {
         this.variableScope = new VariableScope();
-        this.variableScope.declare(true, new IdentifierExpressionNode("setPVPEnabled"), new MinecraftServerClass.SetPVPEnabledFunction());
-        this.variableScope.declare(true, new IdentifierExpressionNode("setDifficultyLocked"), new MinecraftServerClass.SetDifficultyLockedFunction());
+        this.variableScope.declare(true, new IdentifierExpressionNode("setPVPEnabled"), new SetPVPEnabled());
+        this.variableScope.declare(true, new IdentifierExpressionNode("setDifficultyLocked"), new SetDifficultyLocked());
         this.variableScope.declare(true, new IdentifierExpressionNode("isPVPEnabled"), new MinecraftServerClass.IsPVPEnabledFunction());
-        this.variableScope.declare(true, new IdentifierExpressionNode("isNetherAllowed"), new MinecraftServerClass.IsNetherAllowedFunction());
+        this.variableScope.declare(true, new IdentifierExpressionNode("isNetherEnabled"), new IsNetherEnabledFunction());
         this.variableScope.declare(true, new IdentifierExpressionNode("isFlightEnabled"), new MinecraftServerClass.IsFlightEnabledFunction());
         this.variableScope.declare(true, new IdentifierExpressionNode("getServerPort"), new MinecraftServerClass.GetServerPortFunction());
         this.variableScope.declare(true, new IdentifierExpressionNode("getServerIP"), new MinecraftServerClass.GetServerIpFunction());
         this.variableScope.declare(true, new IdentifierExpressionNode("isHardcore"), new MinecraftServerClass.IsHardcoreFunction());
-        this.variableScope.declare(true, new IdentifierExpressionNode("commandBlocksAreEnabled"), new MinecraftServerClass.CommandBlocksAreEnabledFunction());
+        this.variableScope.declare(true, new IdentifierExpressionNode("areCommandBlocksEnabled"), new AreCommandBlocksEnabledFunction());
     }
 
     @Override
@@ -38,7 +38,7 @@ public class MinecraftServerClass implements LiteralExpressionNode {
         return this.variableScope.getOrThrow(propertyName);
     }
 
-    private static class SetPVPEnabledFunction implements LiteralExpressionNode {
+    private static class SetPVPEnabled implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -62,7 +62,7 @@ public class MinecraftServerClass implements LiteralExpressionNode {
         }
     }
 
-    private static class SetDifficultyLockedFunction implements LiteralExpressionNode {
+    private static class SetDifficultyLocked implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -102,11 +102,11 @@ public class MinecraftServerClass implements LiteralExpressionNode {
         }
     }
 
-    private static class IsNetherAllowedFunction implements LiteralExpressionNode {
+    private static class IsNetherEnabledFunction implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'isNetherAllowed' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw new SyntaxError("Function 'isNetherEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             return new BooleanExpressionNode(Testing.server.isNetherAllowed());
@@ -182,11 +182,11 @@ public class MinecraftServerClass implements LiteralExpressionNode {
         }
     }
 
-    private static class CommandBlocksAreEnabledFunction implements LiteralExpressionNode {
+    private static class AreCommandBlocksEnabledFunction implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'commandBlocksAreEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw new SyntaxError("Function 'areCommandBlocksEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             return new BooleanExpressionNode(Testing.server.areCommandBlocksEnabled());

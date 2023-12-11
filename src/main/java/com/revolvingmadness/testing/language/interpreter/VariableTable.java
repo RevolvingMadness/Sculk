@@ -1,6 +1,7 @@
 package com.revolvingmadness.testing.language.interpreter;
 
 import com.revolvingmadness.testing.language.builtins.classes.MinecraftServerClass;
+import com.revolvingmadness.testing.language.builtins.classes.PlayerManagerClass;
 import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunctionExpressionNode;
 import com.revolvingmadness.testing.language.builtins.functions.math.AbsFunctionExpressionNode;
 import com.revolvingmadness.testing.language.builtins.functions.types.BoolFunctionExpressionNode;
@@ -52,6 +53,7 @@ public class VariableTable {
 
     private void declareClasses() {
         this.declare(true, new IdentifierExpressionNode("server"), new MinecraftServerClass());
+        this.declare(true, new IdentifierExpressionNode("playerManager"), new PlayerManagerClass());
     }
 
 
