@@ -34,6 +34,10 @@ public interface LiteralExpressionNode extends ExpressionNode {
         throw new TypeError("Unsupported binary operator '^' for types '" + this.getType() + "' and '" + other.getType() + "'");
     }
 
+    default Variable getProperty(IdentifierExpressionNode propertyName) {
+        throw new ValueError("Type '" + this.getType() + "' has no properties");
+    }
+
     IdentifierExpressionNode getType();
 
     default BooleanExpressionNode greaterThan(LiteralExpressionNode other) {
@@ -94,9 +98,5 @@ public interface LiteralExpressionNode extends ExpressionNode {
 
     default StringExpressionNode toStringType() {
         throw new TypeError("Cannot convert type '" + this.getType() + "' to string");
-    }
-
-    default Variable getProperty(IdentifierExpressionNode propertyName) {
-        throw new ValueError("Type '" + this.getType() + "' has no properties");
     }
 }

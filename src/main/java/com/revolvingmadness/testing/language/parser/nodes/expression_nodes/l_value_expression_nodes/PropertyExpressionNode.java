@@ -29,6 +29,13 @@ public class PropertyExpressionNode implements LValueExpressionNode {
     }
 
     @Override
+    public Variable getVariable(ScriptNode script) {
+        LiteralExpressionNode interpretedExpression = this.expression.interpret(script);
+
+        return interpretedExpression.getProperty(this.propertyName);
+    }
+
+    @Override
     public int hashCode() {
         int result = expression.hashCode();
         result = 31 * result + propertyName.hashCode();
@@ -40,12 +47,5 @@ public class PropertyExpressionNode implements LValueExpressionNode {
         LiteralExpressionNode interpretedExpression = this.expression.interpret(script);
 
         return interpretedExpression.getProperty(this.propertyName).value;
-    }
-
-    @Override
-    public Variable getVariable(ScriptNode script) {
-        LiteralExpressionNode interpretedExpression = this.expression.interpret(script);
-
-        return interpretedExpression.getProperty(this.propertyName);
     }
 }

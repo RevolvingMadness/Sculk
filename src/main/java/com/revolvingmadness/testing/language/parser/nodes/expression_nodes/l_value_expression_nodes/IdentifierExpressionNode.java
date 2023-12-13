@@ -24,6 +24,11 @@ public class IdentifierExpressionNode implements LValueExpressionNode {
     }
 
     @Override
+    public Variable getVariable(ScriptNode script) {
+        return script.variableTable.getOrThrow(this);
+    }
+
+    @Override
     public int hashCode() {
         return value.hashCode();
     }
@@ -36,10 +41,5 @@ public class IdentifierExpressionNode implements LValueExpressionNode {
     @Override
     public String toString() {
         return this.value;
-    }
-
-    @Override
-    public Variable getVariable(ScriptNode script) {
-        return script.variableTable.getOrThrow(this);
     }
 }

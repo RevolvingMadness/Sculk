@@ -18,6 +18,10 @@ public class Token {
         return this.type == TokenType.PLUS || this.type == TokenType.HYPHEN;
     }
 
+    public boolean isAndOperator() {
+        return this.type == TokenType.DOUBLE_AMPERSAND || this.type == TokenType.DOUBLE_PIPE;
+    }
+
     public boolean isBinaryOperator() {
         return this.isAdditionOperator() || this.isMultiplicationOperator() || this.isExponentiationOperator();
     }
@@ -49,9 +53,5 @@ public class Token {
         }
 
         return "Token(type=" + type + ", value=" + value + ")";
-    }
-
-    public boolean isAndOperator() {
-        return this.type == TokenType.DOUBLE_AMPERSAND || this.type == TokenType.DOUBLE_PIPE;
     }
 }

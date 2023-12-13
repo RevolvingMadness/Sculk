@@ -22,14 +22,31 @@ public class ClassExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
+    public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
+        if (other instanceof ClassExpressionNode functionExpression) {
+            return new BooleanExpressionNode(this.name.equals(functionExpression.name) && this.variableScope.equals(functionExpression.variableScope));
+        }
+
+        return new BooleanExpressionNode(false);
+    }
+
+    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         ClassExpressionNode that = (ClassExpressionNode) o;
 
-        if (!name.equals(that.name)) return false;
+        if (!name.equals(that.name))
+            return false;
         return variableScope.equals(that.variableScope);
+    }
+
+    @Override
+    public IdentifierExpressionNode getType() {
+        return new IdentifierExpressionNode("class");
     }
 
     @Override
@@ -40,26 +57,12 @@ public class ClassExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
-        if (other instanceof ClassExpressionNode functionExpression) {
-            return new BooleanExpressionNode(this.name.equals(functionExpression.name) && this.variableScope.equals(functionExpression.variableScope));
-        }
-
-        return new BooleanExpressionNode(false);
-    }
-
-    @Override
     public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
         if (other instanceof ClassExpressionNode functionExpression) {
             return new BooleanExpressionNode(!this.name.equals(functionExpression.name) || !this.variableScope.equals(functionExpression.variableScope));
         }
 
         return new BooleanExpressionNode(true);
-    }
-
-    @Override
-    public IdentifierExpressionNode getType() {
-        return new IdentifierExpressionNode("class");
     }
 
     @Override

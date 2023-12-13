@@ -52,6 +52,18 @@ public class IntegerExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
+    public boolean equals(Object otherObject) {
+        if (this == otherObject)
+            return true;
+        if (otherObject == null || getClass() != otherObject.getClass())
+            return false;
+
+        IntegerExpressionNode otherIntegerExpression = (IntegerExpressionNode) otherObject;
+
+        return value.equals(otherIntegerExpression.value);
+    }
+
+    @Override
     public LiteralExpressionNode exponentiate(LiteralExpressionNode other) {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(Math.pow(this.value, floatExpression.value));
@@ -87,6 +99,11 @@ public class IntegerExpressionNode implements LiteralExpressionNode {
         }
 
         throw new TypeError("Unsupported binary operator '>' for types '" + this.getType() + "' and '" + other.getType() + "'");
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
     }
 
     @Override
@@ -188,29 +205,12 @@ public class IntegerExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public StringExpressionNode toStringType() {
-        return new StringExpressionNode(this.value.toString());
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object otherObject) {
-        if (this == otherObject)
-            return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
-            return false;
-
-        IntegerExpressionNode otherIntegerExpression = (IntegerExpressionNode) otherObject;
-
-        return value.equals(otherIntegerExpression.value);
-    }
-
-    @Override
     public String toString() {
         return this.value.toString();
+    }
+
+    @Override
+    public StringExpressionNode toStringType() {
+        return new StringExpressionNode(this.value.toString());
     }
 }

@@ -8,9 +8,9 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.liter
 import java.util.List;
 
 public class ClassDeclarationStatementNode implements StatementNode {
+    public final List<StatementNode> body;
     public final boolean isConstant;
     public final IdentifierExpressionNode name;
-    public final List<StatementNode> body;
 
     public ClassDeclarationStatementNode(boolean isConstant, IdentifierExpressionNode name, List<StatementNode> body) {
         this.isConstant = isConstant;

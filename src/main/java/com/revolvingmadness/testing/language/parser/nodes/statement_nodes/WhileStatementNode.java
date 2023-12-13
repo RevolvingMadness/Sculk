@@ -37,7 +37,7 @@ public class WhileStatementNode implements StatementNode {
             }
 
             if (++loops > maxLoops) {
-                throw new StackOverflowError("Loop ran more than " + maxLoops + " times");
+                throw new StackOverflowError("While-loop ran more than " + maxLoops + " times");
             }
         }
     }

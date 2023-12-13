@@ -80,7 +80,7 @@ public class LangLexer {
             } else if (Character.isWhitespace(this.current())) {
                 this.consume();
             } else if (Character.isAlphabetic(this.current())) {
-                tokens.add(this.lexIdentifier(true));
+                tokens.add(this.lexIdentifier());
             } else if (this.current(';')) {
                 this.consume();
                 tokens.add(new Token(TokenType.SEMICOLON));
@@ -216,7 +216,7 @@ public class LangLexer {
         return new Token(TokenType.INTEGER, Integer.parseInt(digitString));
     }
 
-    private Token lexIdentifier(boolean checkForKeywords) {
+    private Token lexIdentifier() {
         StringBuilder identifier = new StringBuilder();
 
         while (this.position < this.input.length() && (Character.isLetterOrDigit(this.current()) || this.current('_'))) {
@@ -225,16 +225,16 @@ public class LangLexer {
 
         String identifierString = identifier.toString();
 
+        if (Testing.keywords.containsKey(identifierString)) {
+            return new Token(Testing.keywords.get(identifierString));
+        }
+
         if (this.current(':')) {
             this.consume();
 
-            Token resourcePath = this.lexIdentifier(false);
+            Token resourcePath = this.lexIdentifier();
 
             return new Token(TokenType.RESOURCE, identifierString + ":" + resourcePath.value);
-        }
-
-        if (Testing.keywords.containsKey(identifierString) && checkForKeywords) {
-            return new Token(Testing.keywords.get(identifierString));
         }
 
         return new Token(TokenType.IDENTIFIER, identifierString);

@@ -14,14 +14,36 @@ public class ClassInstanceExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
+    public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
+        if (other instanceof ClassInstanceExpressionNode functionExpression) {
+            return new BooleanExpressionNode(this.name.equals(functionExpression.name) && this.variableScope.equals(functionExpression.variableScope));
+        }
+
+        return new BooleanExpressionNode(false);
+    }
+
+    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         ClassInstanceExpressionNode that = (ClassInstanceExpressionNode) o;
 
-        if (!name.equals(that.name)) return false;
+        if (!name.equals(that.name))
+            return false;
         return variableScope.equals(that.variableScope);
+    }
+
+    @Override
+    public Variable getProperty(IdentifierExpressionNode propertyName) {
+        return this.variableScope.getOrThrow(propertyName);
+    }
+
+    @Override
+    public IdentifierExpressionNode getType() {
+        return this.name;
     }
 
     @Override
@@ -29,15 +51,6 @@ public class ClassInstanceExpressionNode implements LiteralExpressionNode {
         int result = name.hashCode();
         result = 31 * result + variableScope.hashCode();
         return result;
-    }
-
-    @Override
-    public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
-        if (other instanceof ClassInstanceExpressionNode functionExpression) {
-            return new BooleanExpressionNode(this.name.equals(functionExpression.name) && this.variableScope.equals(functionExpression.variableScope));
-        }
-
-        return new BooleanExpressionNode(false);
     }
 
     @Override
@@ -50,11 +63,6 @@ public class ClassInstanceExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public IdentifierExpressionNode getType() {
-        return this.name;
-    }
-
-    @Override
     public String toString() {
         return "<instance of " + this.name + ">";
     }
@@ -62,10 +70,5 @@ public class ClassInstanceExpressionNode implements LiteralExpressionNode {
     @Override
     public StringExpressionNode toStringType() {
         return new StringExpressionNode("<instance of " + this.name + ">");
-    }
-
-    @Override
-    public Variable getProperty(IdentifierExpressionNode propertyName) {
-        return this.variableScope.getOrThrow(propertyName);
     }
 }

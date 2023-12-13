@@ -26,8 +26,8 @@ public class Logger {
         Logger.broadcast(text, false);
     }
 
-    public static void error(String error) {
-        Logger.broadcast(Text.literal(error).formatted(Formatting.RED), true);
+    public static void error(String message) {
+        Logger.broadcast(Text.literal(message).formatted(Formatting.RED), true);
     }
 
     public static void info(String text) {

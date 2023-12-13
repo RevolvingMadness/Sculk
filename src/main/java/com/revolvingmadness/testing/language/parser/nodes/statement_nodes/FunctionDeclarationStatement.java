@@ -7,9 +7,9 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.liter
 import java.util.List;
 
 public class FunctionDeclarationStatement implements StatementNode {
-    public final boolean isConstant;
     public final List<IdentifierExpressionNode> arguments;
     public final List<StatementNode> body;
+    public final boolean isConstant;
     public final IdentifierExpressionNode name;
 
     public FunctionDeclarationStatement(boolean isConstant, IdentifierExpressionNode name, List<IdentifierExpressionNode> arguments, List<StatementNode> body) {

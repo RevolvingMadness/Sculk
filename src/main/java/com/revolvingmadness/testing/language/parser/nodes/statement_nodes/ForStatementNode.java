@@ -14,9 +14,9 @@ public class ForStatementNode implements StatementNode {
     public final List<StatementNode> body;
     public final ExpressionNode condition;
     public final StatementNode initialization;
-    public final StatementNode update;
+    public final ExpressionNode update;
 
-    public ForStatementNode(StatementNode initialization, ExpressionNode condition, StatementNode update, List<StatementNode> body) {
+    public ForStatementNode(StatementNode initialization, ExpressionNode condition, ExpressionNode update, List<StatementNode> body) {
         this.initialization = initialization;
         this.condition = condition;
         this.update = update;
@@ -28,10 +28,12 @@ public class ForStatementNode implements StatementNode {
         int loops = 0;
         long maxLoops = Testing.server.getGameRules().getInt(TestingGamerules.MAX_LOOPS);
 
-        initialization.interpret(script);
+        if (this.initialization != null) {
+            this.initialization.interpret(script);
+        }
 
         while_loop:
-        while (condition.interpret(script).toBooleanType().value) {
+        while (this.condition.interpret(script).toBooleanType().value) {
             for (StatementNode statement : this.body) {
                 try {
                     statement.interpret(script);
@@ -41,10 +43,13 @@ public class ForStatementNode implements StatementNode {
                     break;
                 }
             }
-            update.interpret(script);
+
+            if (this.update != null) {
+                this.update.interpret(script);
+            }
 
             if (++loops > maxLoops) {
-                throw new StackOverflowError("Loop ran more than " + maxLoops + " times");
+                throw new StackOverflowError("For-loop ran more than " + maxLoops + " times");
             }
         }
     }

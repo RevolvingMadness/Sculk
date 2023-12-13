@@ -29,17 +29,21 @@ public class VariableTable {
         this.reset();
     }
 
-    public void reset() {
-        this.variableScopes.clear();
-        this.variableScopes.add(new VariableScope());
+    public void assign(Variable variable, LiteralExpressionNode value) {
+        if (variable.isConstant) {
+            throw new ValueError("Cannot assign value to variable '" + variable.name + "' because it is a constant");
+        }
 
-        this.declareClasses();
-        this.declareFunctions();
-        this.declareVariables();
+        variable.value = value;
     }
 
-    private void declareVariables() {
-        this.declare(true, new IdentifierExpressionNode("PI"), new FloatExpressionNode(Math.PI));
+    public void declare(boolean isConstant, IdentifierExpressionNode name, LiteralExpressionNode value) {
+        this.variableScopes.peek().declare(isConstant, name, value);
+    }
+
+    private void declareClasses() {
+        this.declare(true, new IdentifierExpressionNode("server"), new MinecraftServerClass());
+        this.declare(true, new IdentifierExpressionNode("playerManager"), new PlayerManagerClass());
     }
 
     private void declareFunctions() {
@@ -51,18 +55,8 @@ public class VariableTable {
         this.declare(true, new IdentifierExpressionNode("str"), new StrFunctionExpressionNode());
     }
 
-    private void declareClasses() {
-        this.declare(true, new IdentifierExpressionNode("server"), new MinecraftServerClass());
-        this.declare(true, new IdentifierExpressionNode("playerManager"), new PlayerManagerClass());
-    }
-
-
-    public void assign(Variable variable, LiteralExpressionNode value) {
-        if (variable.isConstant) {
-            throw new ValueError("Cannot assign value to variable '" + variable.name + "' because it is a constant");
-        }
-
-        variable.value = value;
+    private void declareVariables() {
+        this.declare(true, new IdentifierExpressionNode("PI"), new FloatExpressionNode(Math.PI));
     }
 
     public void enterScope() {
@@ -71,16 +65,6 @@ public class VariableTable {
 
     public VariableScope exitScope() {
         return this.variableScopes.pop();
-    }
-
-    public Variable getOrThrow(IdentifierExpressionNode name) {
-        Optional<Variable> variable = this.getOptional(name);
-
-        if (variable.isEmpty()) {
-            throw new NameError("Variable '" + name + "' has not been declared");
-        }
-
-        return variable.get();
     }
 
     private Optional<Variable> getOptional(IdentifierExpressionNode name) {
@@ -103,7 +87,22 @@ public class VariableTable {
         return Optional.empty();
     }
 
-    public void declare(boolean isConstant, IdentifierExpressionNode name, LiteralExpressionNode value) {
-        this.variableScopes.peek().declare(isConstant, name, value);
+    public Variable getOrThrow(IdentifierExpressionNode name) {
+        Optional<Variable> variable = this.getOptional(name);
+
+        if (variable.isEmpty()) {
+            throw new NameError("Variable '" + name + "' has not been declared");
+        }
+
+        return variable.get();
+    }
+
+    public void reset() {
+        this.variableScopes.clear();
+        this.variableScopes.add(new VariableScope());
+
+        this.declareClasses();
+        this.declareFunctions();
+        this.declareVariables();
     }
 }

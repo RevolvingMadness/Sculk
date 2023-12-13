@@ -15,13 +15,6 @@ public class Variable {
     }
 
     @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + value.hashCode();
-        return result;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -33,5 +26,12 @@ public class Variable {
         if (!name.equals(variable.name))
             return false;
         return value.equals(variable.value);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + value.hashCode();
+        return result;
     }
 }

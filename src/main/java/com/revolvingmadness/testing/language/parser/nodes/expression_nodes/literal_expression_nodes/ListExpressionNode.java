@@ -26,8 +26,25 @@ public class ListExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
+    public boolean equals(Object otherObject) {
+        if (this == otherObject)
+            return true;
+        if (otherObject == null || getClass() != otherObject.getClass())
+            return false;
+
+        ListExpressionNode otherListExpression = (ListExpressionNode) otherObject;
+
+        return value.equals(otherListExpression.value);
+    }
+
+    @Override
     public IdentifierExpressionNode getType() {
         return new IdentifierExpressionNode("list");
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
     }
 
     @Override
@@ -59,30 +76,13 @@ public class ListExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
+    public String toString() {
+        return "[" + this.value.stream().map(Object::toString).collect(Collectors.joining(", ")) + "]";
+    }
+
+    @Override
     public StringExpressionNode toStringType() {
         String listString = this.value.stream().map(Object::toString).collect(Collectors.joining(", "));
         return new StringExpressionNode("[" + listString + "]");
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object otherObject) {
-        if (this == otherObject)
-            return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
-            return false;
-
-        ListExpressionNode otherListExpression = (ListExpressionNode) otherObject;
-
-        return value.equals(otherListExpression.value);
-    }
-
-    @Override
-    public String toString() {
-        return "[" + this.value.stream().map(Object::toString).collect(Collectors.joining(", ")) + "]";
     }
 }

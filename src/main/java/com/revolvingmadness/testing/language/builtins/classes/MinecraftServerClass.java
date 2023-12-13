@@ -29,31 +29,119 @@ public class MinecraftServerClass implements LiteralExpressionNode {
     }
 
     @Override
-    public IdentifierExpressionNode getType() {
-        return new IdentifierExpressionNode("MinecraftServer");
-    }
-
-    @Override
     public Variable getProperty(IdentifierExpressionNode propertyName) {
         return this.variableScope.getOrThrow(propertyName);
     }
 
-    private static class SetPVPEnabled implements LiteralExpressionNode {
+    @Override
+    public IdentifierExpressionNode getType() {
+        return new IdentifierExpressionNode("MinecraftServer");
+    }
+
+    private static class AreCommandBlocksEnabledFunction implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setPVPEnabled' takes 1 argument but got " + arguments.size() + " argument(s)");
+            if (arguments.size() != 0) {
+                throw new SyntaxError("Function 'areCommandBlocksEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode pvpEnabled = arguments.get(0).interpret(script);
+            return new BooleanExpressionNode(Testing.server.areCommandBlocksEnabled());
+        }
 
-            if (!pvpEnabled.getType().equals(new IdentifierExpressionNode("boolean"))) {
-                throw new TypeError("Argument 1 for function 'setPVPEnabled' requires type 'boolean' but got '" + pvpEnabled.getType() + "'");
+        @Override
+        public IdentifierExpressionNode getType() {
+            return new IdentifierExpressionNode("function");
+        }
+    }
+
+    private static class GetServerIpFunction implements LiteralExpressionNode {
+        @Override
+        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+            if (arguments.size() != 0) {
+                throw new SyntaxError("Function 'getServerIP' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            Testing.server.setPvpEnabled(((BooleanExpressionNode) pvpEnabled).value);
+            return new StringExpressionNode(Testing.server.getServerIp());
+        }
 
-            return new NullExpressionNode();
+        @Override
+        public IdentifierExpressionNode getType() {
+            return new IdentifierExpressionNode("function");
+        }
+    }
+
+    private static class GetServerPortFunction implements LiteralExpressionNode {
+        @Override
+        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+            if (arguments.size() != 0) {
+                throw new SyntaxError("Function 'getServerPort' takes 0 arguments but got " + arguments.size() + " argument(s)");
+            }
+
+            return new IntegerExpressionNode(Testing.server.getServerPort());
+        }
+
+        @Override
+        public IdentifierExpressionNode getType() {
+            return new IdentifierExpressionNode("function");
+        }
+    }
+
+    private static class IsFlightEnabledFunction implements LiteralExpressionNode {
+        @Override
+        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+            if (arguments.size() != 0) {
+                throw new SyntaxError("Function 'isFlightEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
+            }
+
+            return new BooleanExpressionNode(Testing.server.isFlightEnabled());
+        }
+
+        @Override
+        public IdentifierExpressionNode getType() {
+            return new IdentifierExpressionNode("function");
+        }
+    }
+
+    private static class IsHardcoreFunction implements LiteralExpressionNode {
+        @Override
+        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+            if (arguments.size() != 0) {
+                throw new SyntaxError("Function 'isHardcore' takes 0 arguments but got " + arguments.size() + " argument(s)");
+            }
+
+            return new BooleanExpressionNode(Testing.server.isHardcore());
+        }
+
+        @Override
+        public IdentifierExpressionNode getType() {
+            return new IdentifierExpressionNode("function");
+        }
+    }
+
+    private static class IsNetherEnabledFunction implements LiteralExpressionNode {
+        @Override
+        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+            if (arguments.size() != 0) {
+                throw new SyntaxError("Function 'isNetherEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
+            }
+
+            return new BooleanExpressionNode(Testing.server.isNetherAllowed());
+        }
+
+        @Override
+        public IdentifierExpressionNode getType() {
+            return new IdentifierExpressionNode("function");
+        }
+    }
+
+    private static class IsPVPEnabledFunction implements LiteralExpressionNode {
+        @Override
+        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+            if (arguments.size() != 0) {
+                throw new SyntaxError("Function 'isPVPEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
+            }
+
+            return new BooleanExpressionNode(Testing.server.isPvpEnabled());
         }
 
         @Override
@@ -86,110 +174,22 @@ public class MinecraftServerClass implements LiteralExpressionNode {
         }
     }
 
-    private static class IsPVPEnabledFunction implements LiteralExpressionNode {
+    private static class SetPVPEnabled implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
-            if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'isPVPEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'setPVPEnabled' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(Testing.server.isPvpEnabled());
-        }
+            LiteralExpressionNode pvpEnabled = arguments.get(0).interpret(script);
 
-        @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
-        }
-    }
-
-    private static class IsNetherEnabledFunction implements LiteralExpressionNode {
-        @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
-            if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'isNetherEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
+            if (!pvpEnabled.getType().equals(new IdentifierExpressionNode("boolean"))) {
+                throw new TypeError("Argument 1 for function 'setPVPEnabled' requires type 'boolean' but got '" + pvpEnabled.getType() + "'");
             }
 
-            return new BooleanExpressionNode(Testing.server.isNetherAllowed());
-        }
+            Testing.server.setPvpEnabled(((BooleanExpressionNode) pvpEnabled).value);
 
-        @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
-        }
-    }
-
-    private static class IsFlightEnabledFunction implements LiteralExpressionNode {
-        @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
-            if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'isFlightEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
-            }
-
-            return new BooleanExpressionNode(Testing.server.isFlightEnabled());
-        }
-
-        @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
-        }
-    }
-
-    private static class GetServerPortFunction implements LiteralExpressionNode {
-        @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
-            if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getServerPort' takes 0 arguments but got " + arguments.size() + " argument(s)");
-            }
-
-            return new IntegerExpressionNode(Testing.server.getServerPort());
-        }
-
-        @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
-        }
-    }
-
-    private static class GetServerIpFunction implements LiteralExpressionNode {
-        @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
-            if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getServerIP' takes 0 arguments but got " + arguments.size() + " argument(s)");
-            }
-
-            return new StringExpressionNode(Testing.server.getServerIp());
-        }
-
-        @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
-        }
-    }
-
-    private static class IsHardcoreFunction implements LiteralExpressionNode {
-        @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
-            if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'isHardcore' takes 0 arguments but got " + arguments.size() + " argument(s)");
-            }
-
-            return new BooleanExpressionNode(Testing.server.isHardcore());
-        }
-
-        @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
-        }
-    }
-
-    private static class AreCommandBlocksEnabledFunction implements LiteralExpressionNode {
-        @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
-            if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'areCommandBlocksEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
-            }
-
-            return new BooleanExpressionNode(Testing.server.areCommandBlocksEnabled());
+            return new NullExpressionNode();
         }
 
         @Override

@@ -15,6 +15,10 @@ public class VariableScope {
         this.variables = new ArrayList<>();
     }
 
+    public void declare(boolean isConstant, IdentifierExpressionNode name, LiteralExpressionNode value) {
+        this.variables.add(new Variable(isConstant, name, value));
+    }
+
     public Optional<Variable> getOptional(IdentifierExpressionNode name) {
         for (Variable variable : this.variables) {
             if (variable.name.equals(name)) {
@@ -23,10 +27,6 @@ public class VariableScope {
         }
 
         return Optional.empty();
-    }
-
-    public void declare(boolean isConstant, IdentifierExpressionNode name, LiteralExpressionNode value) {
-        this.variables.add(new Variable(isConstant, name, value));
     }
 
     public Variable getOrThrow(IdentifierExpressionNode name) {
