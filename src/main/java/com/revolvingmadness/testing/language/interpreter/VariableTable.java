@@ -1,5 +1,6 @@
 package com.revolvingmadness.testing.language.interpreter;
 
+import com.revolvingmadness.testing.language.builtins.classes.GameRulesClass;
 import com.revolvingmadness.testing.language.builtins.classes.MinecraftServerClass;
 import com.revolvingmadness.testing.language.builtins.classes.PlayerManagerClass;
 import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunctionExpressionNode;
@@ -44,6 +45,7 @@ public class VariableTable {
     private void declareClasses() {
         this.declare(true, new IdentifierExpressionNode("server"), new MinecraftServerClass());
         this.declare(true, new IdentifierExpressionNode("playerManager"), new PlayerManagerClass());
+        this.declare(true, new IdentifierExpressionNode("gameRules"), new GameRulesClass());
     }
 
     private void declareFunctions() {
