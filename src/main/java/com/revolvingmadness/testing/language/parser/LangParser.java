@@ -321,6 +321,40 @@ public class LangParser {
         return new FunctionDeclarationStatement(isConstant, name, arguments, body);
     }
 
+    private ExpressionNode parseFunctionExpression() {
+        this.consume();
+
+        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis for function expression");
+
+        List<IdentifierExpressionNode> arguments = new ArrayList<>();
+
+        if (!this.current(TokenType.RIGHT_PARENTHESIS)) {
+            arguments.add(new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value));
+        }
+
+        while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
+            this.consume();
+
+            arguments.add(new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value));
+        }
+
+        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis for function expression");
+
+        List<StatementNode> body = new ArrayList<>();
+
+        if (this.current(TokenType.RIGHT_ARROW)) {
+            this.consume();
+
+            ExpressionNode expression = this.parseExpression();
+
+            body.add(new ReturnStatementNode(expression));
+        } else {
+            body.addAll(this.parseBody());
+        }
+
+        return new FunctionExpressionNode(new IdentifierExpressionNode("anonymous"), arguments, body);
+    }
+
     private StatementNode parseIfStatement() {
         this.consume();
 
@@ -429,6 +463,8 @@ public class LangParser {
             return new NullExpressionNode();
         } else if (this.current(TokenType.LEFT_BRACKET)) {
             return this.parseListExpression();
+        } else if (this.current(TokenType.FUNCTION)) {
+            return this.parseFunctionExpression();
         }
 
         throw new SyntaxError("Unknown expression type '" + this.current().type + "'");
