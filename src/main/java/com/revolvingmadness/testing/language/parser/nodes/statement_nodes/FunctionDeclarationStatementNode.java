@@ -6,13 +6,13 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.liter
 
 import java.util.List;
 
-public class FunctionDeclarationStatement implements StatementNode {
+public class FunctionDeclarationStatementNode implements StatementNode {
     public final List<IdentifierExpressionNode> arguments;
     public final List<StatementNode> body;
     public final boolean isConstant;
     public final IdentifierExpressionNode name;
 
-    public FunctionDeclarationStatement(boolean isConstant, IdentifierExpressionNode name, List<IdentifierExpressionNode> arguments, List<StatementNode> body) {
+    public FunctionDeclarationStatementNode(boolean isConstant, IdentifierExpressionNode name, List<IdentifierExpressionNode> arguments, List<StatementNode> body) {
         this.isConstant = isConstant;
         this.name = name;
         this.arguments = arguments;

@@ -16,11 +16,16 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
     public final List<IdentifierExpressionNode> arguments;
     public final List<StatementNode> body;
     public final IdentifierExpressionNode name;
+    public ClassInstanceExpressionNode clazz;
 
     public FunctionExpressionNode(IdentifierExpressionNode name, List<IdentifierExpressionNode> arguments, List<StatementNode> body) {
         this.name = name;
         this.arguments = arguments;
         this.body = body;
+    }
+
+    public void bind(ClassInstanceExpressionNode classInstance) {
+        this.clazz = classInstance;
     }
 
     @Override
@@ -42,6 +47,10 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
         for (IdentifierExpressionNode argumentName : this.arguments) {
             LiteralExpressionNode argumentValue = arguments.get(argumentNumber).interpret(script);
             script.variableTable.declare(true, argumentName, argumentValue);
+        }
+
+        if (this.clazz != null) {
+            script.variableTable.declare(true, new IdentifierExpressionNode("this"), this.clazz);
         }
 
         try {

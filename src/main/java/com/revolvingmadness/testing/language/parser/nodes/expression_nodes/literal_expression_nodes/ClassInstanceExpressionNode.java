@@ -38,7 +38,13 @@ public class ClassInstanceExpressionNode implements LiteralExpressionNode {
 
     @Override
     public Variable getProperty(IdentifierExpressionNode propertyName) {
-        return this.variableScope.getOrThrow(propertyName);
+        Variable variable = this.variableScope.getOrThrow(propertyName);
+
+        if (variable.value instanceof FunctionExpressionNode method) {
+            method.bind(this);
+        }
+
+        return variable;
     }
 
     @Override
