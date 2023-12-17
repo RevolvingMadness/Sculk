@@ -77,7 +77,7 @@ public class StringExpressionNode implements LiteralExpressionNode {
 
     @Override
     public String toString() {
-        return "\"" + this.value + "\"";
+        return this.value;
     }
 
     @Override

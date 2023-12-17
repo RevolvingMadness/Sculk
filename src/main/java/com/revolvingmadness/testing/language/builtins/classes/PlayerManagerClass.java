@@ -5,14 +5,13 @@ import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Variable;
 import com.revolvingmadness.testing.language.interpreter.VariableScope;
+import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.BooleanExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.IntegerExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.NullExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
 import net.minecraft.server.PlayerManager;
+import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.List;
 
@@ -33,6 +32,7 @@ public class PlayerManagerClass implements LiteralExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("setSimulationDistance"), this.new SetSimulationDistance());
         this.variableScope.declare(true, new IdentifierExpressionNode("setViewDistance"), this.new SetViewDistance());
         this.variableScope.declare(true, new IdentifierExpressionNode("setWhitelistEnabled"), this.new SetWhitelistEnabled());
+        this.variableScope.declare(true, new IdentifierExpressionNode("getPlayer"), this.new GetPlayer());
     }
 
     @Override
@@ -85,6 +85,34 @@ public class PlayerManagerClass implements LiteralExpressionNode {
             }
 
             return new IntegerExpressionNode(PlayerManagerClass.this.playerManager.getMaxPlayerCount());
+        }
+
+        @Override
+        public IdentifierExpressionNode getType() {
+            return new IdentifierExpressionNode("function");
+        }
+    }
+
+    private class GetPlayer implements LiteralExpressionNode {
+        @Override
+        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'getPlayer' takes 0 arguments but got " + arguments.size() + " argument(s)");
+            }
+
+            LiteralExpressionNode playerName = arguments.get(0).interpret(script);
+
+            if (!playerName.getType().equals(new IdentifierExpressionNode("string"))) {
+                throw new TypeError("Argument 1 for function 'getPlayer' requires type 'string' but got '" + playerName.getType() + "'");
+            }
+
+            ServerPlayerEntity serverPlayerEntity = PlayerManagerClass.this.playerManager.getPlayer(((StringExpressionNode) playerName).value);
+
+            if (serverPlayerEntity == null) {
+                throw new ValueError("There is no player named '" + playerName + "'");
+            }
+
+            return new PlayerClass(serverPlayerEntity);
         }
 
         @Override
