@@ -5,7 +5,7 @@ import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import net.minecraft.util.Identifier;
 
 public class ImportStatementNode implements StatementNode {
-    private final Identifier resource;
+    public final Identifier resource;
 
     public ImportStatementNode(Identifier resource) {
         this.resource = resource;

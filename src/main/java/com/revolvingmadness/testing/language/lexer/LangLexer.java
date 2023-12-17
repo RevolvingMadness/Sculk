@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LangLexer {
-    private final String input;
+    public final String input;
     private Integer position;
 
     public LangLexer(String input) {

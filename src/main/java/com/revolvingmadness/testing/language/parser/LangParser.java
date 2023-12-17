@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 public class LangParser {
+    public final List<Token> input;
     public final Map<Identifier, LangScript> scripts;
-    private final List<Token> input;
     private Integer position;
 
     public LangParser(Map<Identifier, LangScript> scripts, List<Token> input) {

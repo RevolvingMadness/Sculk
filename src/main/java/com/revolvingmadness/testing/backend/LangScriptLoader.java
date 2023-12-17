@@ -19,7 +19,7 @@ import java.util.concurrent.Executor;
 public class LangScriptLoader implements ResourceReloader {
     private static final ResourceFinder FINDER = new ResourceFinder("scripts", ".script");
     public Map<Identifier, LangScript> scripts = new HashMap<>();
-    private final TagGroupLoader<LangScript> TAG_LOADER = new TagGroupLoader<>(this::get, "tags/scripts");
+    public final TagGroupLoader<LangScript> TAG_LOADER = new TagGroupLoader<>(this::get, "tags/scripts");
     public Map<Identifier, Collection<LangScript>> taggedScripts = Map.of();
 
     private static List<String> readResource(Resource resource) {

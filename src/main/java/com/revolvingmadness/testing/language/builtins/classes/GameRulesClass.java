@@ -138,7 +138,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         return new IdentifierExpressionNode("GameRules");
     }
 
-    private class GetAnnounceAdvancements implements LiteralExpressionNode {
+    public class GetAnnounceAdvancements implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -154,7 +154,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetBlockExplosionDropDecay implements LiteralExpressionNode {
+    public class GetBlockExplosionDropDecay implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -170,7 +170,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetCommandBlockOutput implements LiteralExpressionNode {
+    public class GetCommandBlockOutput implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -186,7 +186,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetCommandModificationBlockLimit implements LiteralExpressionNode {
+    public class GetCommandModificationBlockLimit implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -202,7 +202,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDisableElytraMovementCheck implements LiteralExpressionNode {
+    public class GetDisableElytraMovementCheck implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -218,7 +218,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDisableRaids implements LiteralExpressionNode {
+    public class GetDisableRaids implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -234,7 +234,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDoDaylightCycle implements LiteralExpressionNode {
+    public class GetDoDaylightCycle implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -250,7 +250,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDoEntityDrops implements LiteralExpressionNode {
+    public class GetDoEntityDrops implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -266,7 +266,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDoFireTick implements LiteralExpressionNode {
+    public class GetDoFireTick implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -282,7 +282,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDoImmediateRespawn implements LiteralExpressionNode {
+    public class GetDoImmediateRespawn implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -298,7 +298,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDoInsomnia implements LiteralExpressionNode {
+    public class GetDoInsomnia implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -314,7 +314,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDoLimitedCrafting implements LiteralExpressionNode {
+    public class GetDoLimitedCrafting implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -330,7 +330,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDoMobGriefing implements LiteralExpressionNode {
+    public class GetDoMobGriefing implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -346,7 +346,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDoMobLoot implements LiteralExpressionNode {
+    public class GetDoMobLoot implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -362,7 +362,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDoMobSpawning implements LiteralExpressionNode {
+    public class GetDoMobSpawning implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -378,7 +378,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDoPatrolSpawning implements LiteralExpressionNode {
+    public class GetDoPatrolSpawning implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -394,7 +394,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDoTileDrops implements LiteralExpressionNode {
+    public class GetDoTileDrops implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -410,7 +410,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDoTraderSpawning implements LiteralExpressionNode {
+    public class GetDoTraderSpawning implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -426,7 +426,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDoVinesSpread implements LiteralExpressionNode {
+    public class GetDoVinesSpread implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -442,7 +442,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDoWardenSpawning implements LiteralExpressionNode {
+    public class GetDoWardenSpawning implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -458,7 +458,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDoWeatherCycle implements LiteralExpressionNode {
+    public class GetDoWeatherCycle implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -474,7 +474,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetDrowningDamage implements LiteralExpressionNode {
+    public class GetDrowningDamage implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -490,7 +490,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetEnderPearlsVanishOnDeath implements LiteralExpressionNode {
+    public class GetEnderPearlsVanishOnDeath implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -506,7 +506,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetFallDamage implements LiteralExpressionNode {
+    public class GetFallDamage implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -522,7 +522,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetFireDamage implements LiteralExpressionNode {
+    public class GetFireDamage implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -538,7 +538,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetForgiveDeadPlayers implements LiteralExpressionNode {
+    public class GetForgiveDeadPlayers implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -554,7 +554,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetFreezeDamage implements LiteralExpressionNode {
+    public class GetFreezeDamage implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -570,7 +570,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetGlobalSoundEvents implements LiteralExpressionNode {
+    public class GetGlobalSoundEvents implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -586,7 +586,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetKeepInventory implements LiteralExpressionNode {
+    public class GetKeepInventory implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -602,7 +602,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetLavaSourceConversion implements LiteralExpressionNode {
+    public class GetLavaSourceConversion implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -618,7 +618,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetLogAdminCommands implements LiteralExpressionNode {
+    public class GetLogAdminCommands implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -634,7 +634,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetMaxArgumentCount implements LiteralExpressionNode {
+    public class GetMaxArgumentCount implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -650,7 +650,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetMaxCommandChainLength implements LiteralExpressionNode {
+    public class GetMaxCommandChainLength implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -666,7 +666,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetMaxEntityCramming implements LiteralExpressionNode {
+    public class GetMaxEntityCramming implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -682,7 +682,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetMaxLoops implements LiteralExpressionNode {
+    public class GetMaxLoops implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -698,7 +698,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetMobExplosionDropDecay implements LiteralExpressionNode {
+    public class GetMobExplosionDropDecay implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -714,7 +714,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetNaturalRegeneration implements LiteralExpressionNode {
+    public class GetNaturalRegeneration implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -730,7 +730,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetPlayerSleepingPercentage implements LiteralExpressionNode {
+    public class GetPlayerSleepingPercentage implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -746,7 +746,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetRandomTickSpeed implements LiteralExpressionNode {
+    public class GetRandomTickSpeed implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -762,7 +762,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetReducedDebugInfo implements LiteralExpressionNode {
+    public class GetReducedDebugInfo implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -778,7 +778,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetScriptLogsEnabled implements LiteralExpressionNode {
+    public class GetScriptLogsEnabled implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -794,7 +794,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetSendCommandFeedback implements LiteralExpressionNode {
+    public class GetSendCommandFeedback implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -810,7 +810,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetShowDeathMessages implements LiteralExpressionNode {
+    public class GetShowDeathMessages implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -826,7 +826,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetSnowAccumulationHeight implements LiteralExpressionNode {
+    public class GetSnowAccumulationHeight implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -842,7 +842,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetSpawnRadius implements LiteralExpressionNode {
+    public class GetSpawnRadius implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -858,7 +858,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetSpectatorsGenerateChunks implements LiteralExpressionNode {
+    public class GetSpectatorsGenerateChunks implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -874,7 +874,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetTntExplosionDropDecay implements LiteralExpressionNode {
+    public class GetTntExplosionDropDecay implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -890,7 +890,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetUniversalAnger implements LiteralExpressionNode {
+    public class GetUniversalAnger implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -906,7 +906,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetWaterSourceConversion implements LiteralExpressionNode {
+    public class GetWaterSourceConversion implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -922,7 +922,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetAnnounceAdvancements implements LiteralExpressionNode {
+    public class SetAnnounceAdvancements implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -946,7 +946,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetBlockExplosionDropDecay implements LiteralExpressionNode {
+    public class SetBlockExplosionDropDecay implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -970,7 +970,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetCommandBlockOutput implements LiteralExpressionNode {
+    public class SetCommandBlockOutput implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -994,7 +994,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetCommandModificationBlockLimit implements LiteralExpressionNode {
+    public class SetCommandModificationBlockLimit implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1018,7 +1018,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDisableElytraMovementCheck implements LiteralExpressionNode {
+    public class SetDisableElytraMovementCheck implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1042,7 +1042,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDisableRaids implements LiteralExpressionNode {
+    public class SetDisableRaids implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1066,7 +1066,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDoDaylightCycle implements LiteralExpressionNode {
+    public class SetDoDaylightCycle implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1090,7 +1090,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDoEntityDrops implements LiteralExpressionNode {
+    public class SetDoEntityDrops implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1114,7 +1114,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDoFireTick implements LiteralExpressionNode {
+    public class SetDoFireTick implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1138,7 +1138,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDoImmediateRespawn implements LiteralExpressionNode {
+    public class SetDoImmediateRespawn implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1162,7 +1162,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDoInsomnia implements LiteralExpressionNode {
+    public class SetDoInsomnia implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1186,7 +1186,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDoLimitedCrafting implements LiteralExpressionNode {
+    public class SetDoLimitedCrafting implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1210,7 +1210,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDoMobGriefing implements LiteralExpressionNode {
+    public class SetDoMobGriefing implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1234,7 +1234,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDoMobLoot implements LiteralExpressionNode {
+    public class SetDoMobLoot implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1258,7 +1258,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDoMobSpawning implements LiteralExpressionNode {
+    public class SetDoMobSpawning implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1282,7 +1282,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDoPatrolSpawning implements LiteralExpressionNode {
+    public class SetDoPatrolSpawning implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1306,7 +1306,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDoTileDrops implements LiteralExpressionNode {
+    public class SetDoTileDrops implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1330,7 +1330,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDoTraderSpawning implements LiteralExpressionNode {
+    public class SetDoTraderSpawning implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1354,7 +1354,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDoVinesSpread implements LiteralExpressionNode {
+    public class SetDoVinesSpread implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1378,7 +1378,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDoWardenSpawning implements LiteralExpressionNode {
+    public class SetDoWardenSpawning implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1402,7 +1402,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDoWeatherCycle implements LiteralExpressionNode {
+    public class SetDoWeatherCycle implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1426,7 +1426,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetDrowningDamage implements LiteralExpressionNode {
+    public class SetDrowningDamage implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1450,7 +1450,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetEnderPearlsVanishOnDeath implements LiteralExpressionNode {
+    public class SetEnderPearlsVanishOnDeath implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1474,7 +1474,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetFallDamage implements LiteralExpressionNode {
+    public class SetFallDamage implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1498,7 +1498,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetFireDamage implements LiteralExpressionNode {
+    public class SetFireDamage implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1522,7 +1522,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetForgiveDeadPlayers implements LiteralExpressionNode {
+    public class SetForgiveDeadPlayers implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1546,7 +1546,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetFreezeDamage implements LiteralExpressionNode {
+    public class SetFreezeDamage implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1570,7 +1570,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetGlobalSoundEvents implements LiteralExpressionNode {
+    public class SetGlobalSoundEvents implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1594,7 +1594,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetKeepInventory implements LiteralExpressionNode {
+    public class SetKeepInventory implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1618,7 +1618,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetLavaSourceConversion implements LiteralExpressionNode {
+    public class SetLavaSourceConversion implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1642,7 +1642,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetLogAdminCommands implements LiteralExpressionNode {
+    public class SetLogAdminCommands implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1666,7 +1666,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetMaxArgumentCount implements LiteralExpressionNode {
+    public class SetMaxArgumentCount implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1690,7 +1690,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetMaxCommandChainLength implements LiteralExpressionNode {
+    public class SetMaxCommandChainLength implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1714,7 +1714,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetMaxEntityCramming implements LiteralExpressionNode {
+    public class SetMaxEntityCramming implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1738,7 +1738,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetMaxLoops implements LiteralExpressionNode {
+    public class SetMaxLoops implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1762,7 +1762,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetMobExplosionDropDecay implements LiteralExpressionNode {
+    public class SetMobExplosionDropDecay implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1786,7 +1786,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetNaturalRegeneration implements LiteralExpressionNode {
+    public class SetNaturalRegeneration implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1810,7 +1810,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetPlayerSleepingPercentage implements LiteralExpressionNode {
+    public class SetPlayerSleepingPercentage implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1834,7 +1834,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetRandomTickSpeed implements LiteralExpressionNode {
+    public class SetRandomTickSpeed implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1858,7 +1858,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetReducedDebugInfo implements LiteralExpressionNode {
+    public class SetReducedDebugInfo implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1882,7 +1882,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetScriptLogsEnabled implements LiteralExpressionNode {
+    public class SetScriptLogsEnabled implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1906,7 +1906,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetSendCommandFeedback implements LiteralExpressionNode {
+    public class SetSendCommandFeedback implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1930,7 +1930,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetShowDeathMessages implements LiteralExpressionNode {
+    public class SetShowDeathMessages implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1954,7 +1954,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetSnowAccumulationHeight implements LiteralExpressionNode {
+    public class SetSnowAccumulationHeight implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1978,7 +1978,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetSpawnRadius implements LiteralExpressionNode {
+    public class SetSpawnRadius implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -2002,7 +2002,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetSpectatorsGenerateChunks implements LiteralExpressionNode {
+    public class SetSpectatorsGenerateChunks implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -2026,7 +2026,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetTntExplosionDropDecay implements LiteralExpressionNode {
+    public class SetTntExplosionDropDecay implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -2050,7 +2050,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetUniversalAnger implements LiteralExpressionNode {
+    public class SetUniversalAnger implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -2074,7 +2074,7 @@ public class GameRulesClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetWaterSourceConversion implements LiteralExpressionNode {
+    public class SetWaterSourceConversion implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {

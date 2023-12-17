@@ -45,7 +45,7 @@ public class PlayerManagerClass implements LiteralExpressionNode {
         return new IdentifierExpressionNode("PlayerManager");
     }
 
-    private class AreCheatsEnabled implements LiteralExpressionNode {
+    public class AreCheatsEnabled implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -61,7 +61,7 @@ public class PlayerManagerClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetCurrentPlayerCount implements LiteralExpressionNode {
+    public class GetCurrentPlayerCount implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -77,7 +77,7 @@ public class PlayerManagerClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetMaxPlayerCount implements LiteralExpressionNode {
+    public class GetMaxPlayerCount implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -93,7 +93,7 @@ public class PlayerManagerClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetPlayer implements LiteralExpressionNode {
+    public class GetPlayer implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -112,7 +112,7 @@ public class PlayerManagerClass implements LiteralExpressionNode {
                 throw new ValueError("There is no player named '" + playerName + "'");
             }
 
-            return new PlayerClass(serverPlayerEntity);
+            return new ServerPlayerEntityClass(serverPlayerEntity);
         }
 
         @Override
@@ -121,7 +121,7 @@ public class PlayerManagerClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetSimulationDistance implements LiteralExpressionNode {
+    public class GetSimulationDistance implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -137,7 +137,7 @@ public class PlayerManagerClass implements LiteralExpressionNode {
         }
     }
 
-    private class GetViewDistance implements LiteralExpressionNode {
+    public class GetViewDistance implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -153,7 +153,7 @@ public class PlayerManagerClass implements LiteralExpressionNode {
         }
     }
 
-    private class IsWhitelistEnabled implements LiteralExpressionNode {
+    public class IsWhitelistEnabled implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -169,7 +169,7 @@ public class PlayerManagerClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetCheatsEnabled implements LiteralExpressionNode {
+    public class SetCheatsEnabled implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -193,7 +193,7 @@ public class PlayerManagerClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetSimulationDistance implements LiteralExpressionNode {
+    public class SetSimulationDistance implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -217,7 +217,7 @@ public class PlayerManagerClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetViewDistance implements LiteralExpressionNode {
+    public class SetViewDistance implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -241,7 +241,7 @@ public class PlayerManagerClass implements LiteralExpressionNode {
         }
     }
 
-    private class SetWhitelistEnabled implements LiteralExpressionNode {
+    public class SetWhitelistEnabled implements LiteralExpressionNode {
         @Override
         public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {

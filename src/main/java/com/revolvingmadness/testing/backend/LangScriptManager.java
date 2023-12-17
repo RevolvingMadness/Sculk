@@ -13,7 +13,7 @@ import java.util.Objects;
 public class LangScriptManager {
     private static final Identifier LOAD_TAG_ID = new Identifier(Testing.ID, "load");
     private static final Identifier TICK_TAG_ID = new Identifier(Testing.ID, "tick");
-    private final LangInterpreter interpreter;
+    public final LangInterpreter interpreter;
     private boolean justLoaded;
     private LangScriptLoader loader;
     private List<LangScript> tickScripts = ImmutableList.of();
