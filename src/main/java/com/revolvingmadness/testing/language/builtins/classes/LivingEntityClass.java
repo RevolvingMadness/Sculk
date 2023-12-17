@@ -27,6 +27,7 @@ public class LivingEntityClass implements LiteralExpressionNode {
         this.variableScope.inherit(this.entity.variableScope);
 
         this.variableScope.declare(true, new IdentifierExpressionNode("tiltScreen"), new TiltScreen());
+        this.variableScope.declare(true, new IdentifierExpressionNode("wakeUp"), new WakeUp());
     }
 
     @Override
