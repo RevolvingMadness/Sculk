@@ -60,7 +60,7 @@ public class ServerPlayerEntityClass implements LiteralExpressionNode {
             GameMode gameMode1 = GameMode.byName(((StringExpressionNode) gameMode).value, null);
 
             if (gameMode1 == null) {
-                throw new ValueError("Unknown gamemode '" + gameMode + "'");
+                throw new ValueError("Gamemode '" + gameMode + "' does not exist");
             }
 
             ServerPlayerEntityClass.this.serverPlayerEntity.changeGameMode(gameMode1);
