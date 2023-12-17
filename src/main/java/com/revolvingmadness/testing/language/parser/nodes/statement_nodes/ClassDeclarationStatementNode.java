@@ -1,5 +1,6 @@
 package com.revolvingmadness.testing.language.parser.nodes.statement_nodes;
 
+import com.revolvingmadness.testing.language.interpreter.Variable;
 import com.revolvingmadness.testing.language.interpreter.VariableScope;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
@@ -11,10 +12,12 @@ public class ClassDeclarationStatementNode implements StatementNode {
     public final List<StatementNode> body;
     public final boolean isConstant;
     public final IdentifierExpressionNode name;
+    public final IdentifierExpressionNode superClassName;
 
-    public ClassDeclarationStatementNode(boolean isConstant, IdentifierExpressionNode name, List<StatementNode> body) {
+    public ClassDeclarationStatementNode(boolean isConstant, IdentifierExpressionNode name, IdentifierExpressionNode superClassName, List<StatementNode> body) {
         this.isConstant = isConstant;
         this.name = name;
+        this.superClassName = superClassName;
         this.body = body;
     }
 
@@ -26,6 +29,17 @@ public class ClassDeclarationStatementNode implements StatementNode {
 
         VariableScope variableScope = script.variableTable.exitScope();
 
-        script.variableTable.declare(this.isConstant, this.name, new ClassExpressionNode(this.name, variableScope));
+        if (this.superClassName != null) {
+            Variable superClassVariable = script.variableTable.getOrThrow(this.superClassName);
+
+            if (!(superClassVariable.value instanceof ClassExpressionNode superClass)) {
+                throw new RuntimeException("Cannot extend from type '" + superClassVariable.value.getType() + "'");
+            }
+
+            script.variableTable.declare(this.isConstant, this.name, new ClassExpressionNode(this.name, superClass, variableScope));
+            return;
+        }
+
+        script.variableTable.declare(this.isConstant, this.name, new ClassExpressionNode(this.name, null, variableScope));
     }
 }

@@ -209,6 +209,13 @@ public class LangParser {
 
         IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected class name").value);
 
+        IdentifierExpressionNode superClassName = null;
+
+        if (this.current(TokenType.EXTENDS)) {
+            this.consume();
+            superClassName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected super class name").value);
+        }
+
         this.consume(TokenType.LEFT_BRACE, "Expected opening brace after class name");
 
         List<StatementNode> body = new ArrayList<>();
@@ -219,7 +226,7 @@ public class LangParser {
 
         this.consume(TokenType.RIGHT_BRACE, "Expected closing brace after class methods");
 
-        return new ClassDeclarationStatementNode(isConstant, name, body);
+        return new ClassDeclarationStatementNode(isConstant, name, superClassName, body);
     }
 
     private StatementNode parseContinueStatement() {

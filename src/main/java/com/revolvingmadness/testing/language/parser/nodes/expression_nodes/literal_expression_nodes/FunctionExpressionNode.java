@@ -17,6 +17,7 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
     public final List<StatementNode> body;
     public final IdentifierExpressionNode name;
     public ClassInstanceExpressionNode clazz;
+    public ClassExpressionNode superClass;
 
     public FunctionExpressionNode(IdentifierExpressionNode name, List<IdentifierExpressionNode> arguments, List<StatementNode> body) {
         this.name = name;
@@ -24,8 +25,9 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
         this.body = body;
     }
 
-    public void bind(ClassInstanceExpressionNode classInstance) {
+    public void bind(ClassInstanceExpressionNode classInstance, ClassExpressionNode superClass) {
         this.clazz = classInstance;
+        this.superClass = superClass;
     }
 
     @Override
@@ -51,6 +53,10 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
 
         if (this.clazz != null) {
             script.variableTable.declare(true, new IdentifierExpressionNode("this"), this.clazz);
+        }
+
+        if (this.superClass != null) {
+            script.variableTable.declare(true, new IdentifierExpressionNode("super"), this.superClass);
         }
 
         try {
