@@ -29,17 +29,18 @@ public class ClassDeclarationStatementNode implements StatementNode {
 
         VariableScope variableScope = script.variableTable.exitScope();
 
+        ClassExpressionNode superClass = null;
+
         if (this.superClassName != null) {
             Variable superClassVariable = script.variableTable.getOrThrow(this.superClassName);
 
-            if (!(superClassVariable.value instanceof ClassExpressionNode superClass)) {
+            if (!(superClassVariable.value instanceof ClassExpressionNode)) {
                 throw new RuntimeException("Cannot extend from type '" + superClassVariable.value.getType() + "'");
             }
 
-            script.variableTable.declare(this.isConstant, this.name, new ClassExpressionNode(this.name, superClass, variableScope));
-            return;
+            superClass = (ClassExpressionNode) superClassVariable.value;
         }
 
-        script.variableTable.declare(this.isConstant, this.name, new ClassExpressionNode(this.name, null, variableScope));
+        script.variableTable.declare(this.isConstant, this.name, new ClassExpressionNode(this.name, superClass, variableScope));
     }
 }

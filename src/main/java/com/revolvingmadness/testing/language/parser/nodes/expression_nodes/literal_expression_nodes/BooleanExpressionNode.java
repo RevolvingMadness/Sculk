@@ -22,12 +22,12 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
+        if (otherObject == null || this.getClass() != otherObject.getClass())
             return false;
 
         BooleanExpressionNode otherBooleanExpression = (BooleanExpressionNode) otherObject;
 
-        return value.equals(otherBooleanExpression.value);
+        return this.value.equals(otherBooleanExpression.value);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return this.value.hashCode();
     }
 
     @Override

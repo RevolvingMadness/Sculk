@@ -23,12 +23,12 @@ public class ResourceExpressionNode implements LiteralExpressionNode {
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
+        if (otherObject == null || this.getClass() != otherObject.getClass())
             return false;
 
         ResourceExpressionNode otherResourceExpression = (ResourceExpressionNode) otherObject;
 
-        return value.equals(otherResourceExpression.value);
+        return this.value.equals(otherResourceExpression.value);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ResourceExpressionNode implements LiteralExpressionNode {
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return this.value.hashCode();
     }
 
     @Override

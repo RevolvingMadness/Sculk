@@ -49,12 +49,12 @@ public class FloatExpressionNode implements LiteralExpressionNode {
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
+        if (otherObject == null || this.getClass() != otherObject.getClass())
             return false;
 
         FloatExpressionNode otherFloatExpression = (FloatExpressionNode) otherObject;
 
-        return value.equals(otherFloatExpression.value);
+        return this.value.equals(otherFloatExpression.value);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class FloatExpressionNode implements LiteralExpressionNode {
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return this.value.hashCode();
     }
 
     @Override

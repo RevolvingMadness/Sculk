@@ -18,20 +18,20 @@ public class CallExpressionNode implements ExpressionNode {
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
+        if (otherObject == null || this.getClass() != otherObject.getClass())
             return false;
 
         CallExpressionNode that = (CallExpressionNode) otherObject;
 
-        if (!expression.equals(that.expression))
+        if (!this.expression.equals(that.expression))
             return false;
-        return arguments.equals(that.arguments);
+        return this.arguments.equals(that.arguments);
     }
 
     @Override
     public int hashCode() {
-        int result = expression.hashCode();
-        result = 31 * result + arguments.hashCode();
+        int result = this.expression.hashCode();
+        result = 31 * result + this.arguments.hashCode();
         return result;
     }
 

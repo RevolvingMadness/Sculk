@@ -1,27 +1,19 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes;
 
-import com.revolvingmadness.testing.language.errors.NameError;
 import com.revolvingmadness.testing.language.interpreter.Variable;
-import com.revolvingmadness.testing.language.interpreter.VariableScope;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
 
-import java.util.Optional;
-
 public class ClassInstanceExpressionNode implements LiteralExpressionNode {
-    public final IdentifierExpressionNode name;
-    public final ClassExpressionNode superClass;
-    public final VariableScope variableScope;
+    public final ClassExpressionNode clazz;
 
-    public ClassInstanceExpressionNode(IdentifierExpressionNode name, ClassExpressionNode superClass, VariableScope variableScope) {
-        this.name = name;
-        this.superClass = superClass;
-        this.variableScope = variableScope;
+    public ClassInstanceExpressionNode(ClassExpressionNode clazz) {
+        this.clazz = clazz;
     }
 
     @Override
     public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
-        if (other instanceof ClassInstanceExpressionNode classInstanceExpression) {
-            return new BooleanExpressionNode(this.name.equals(classInstanceExpression.name) && this.superClass.equals(classInstanceExpression.superClass) && this.variableScope.equals(classInstanceExpression.variableScope));
+        if (other instanceof ClassInstanceExpressionNode classInstance) {
+            return new BooleanExpressionNode(this.clazz.equals(classInstance.clazz));
         }
 
         return new BooleanExpressionNode(false);
@@ -31,40 +23,20 @@ public class ClassInstanceExpressionNode implements LiteralExpressionNode {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
 
         ClassInstanceExpressionNode that = (ClassInstanceExpressionNode) o;
 
-        if (!name.equals(that.name))
-            return false;
-        if (!superClass.equals(that.superClass))
-            return false;
-        return variableScope.equals(that.variableScope);
+        return this.clazz.equals(that.clazz);
     }
 
     @Override
     public Variable getProperty(IdentifierExpressionNode propertyName) {
-        Optional<Variable> optionalVariable = this.variableScope.getOptional(propertyName);
-
-        if (optionalVariable.isEmpty()) {
-            if (this.superClass == null) {
-                throw new NameError("Class '" + this.name + "' has no property '" + propertyName + "'");
-            }
-
-            Variable variable = this.superClass.getProperty(propertyName);
-
-            if (variable.value instanceof FunctionExpressionNode method) {
-                method.bind(this, this.superClass);
-            }
-
-            return variable;
-        }
-
-        Variable variable = optionalVariable.get();
+        Variable variable = this.clazz.getProperty(propertyName);
 
         if (variable.value instanceof FunctionExpressionNode method) {
-            method.bind(this, this.superClass);
+            method.bind(this, this.clazz.superClass);
         }
 
         return variable;
@@ -72,21 +44,18 @@ public class ClassInstanceExpressionNode implements LiteralExpressionNode {
 
     @Override
     public IdentifierExpressionNode getType() {
-        return this.name;
+        return this.clazz.name;
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + superClass.hashCode();
-        result = 31 * result + variableScope.hashCode();
-        return result;
+        return this.clazz.hashCode();
     }
 
     @Override
     public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
-        if (other instanceof ClassInstanceExpressionNode classInstanceExpression) {
-            return new BooleanExpressionNode(!this.name.equals(classInstanceExpression.name) || !this.superClass.equals(classInstanceExpression.superClass) || !this.variableScope.equals(classInstanceExpression.variableScope));
+        if (other instanceof ClassInstanceExpressionNode classInstance) {
+            return new BooleanExpressionNode(!this.clazz.equals(classInstance.clazz));
         }
 
         return new BooleanExpressionNode(true);
@@ -94,11 +63,11 @@ public class ClassInstanceExpressionNode implements LiteralExpressionNode {
 
     @Override
     public String toString() {
-        return "<instance of " + this.name + ">";
+        return "<instance of " + this.clazz.name + ">";
     }
 
     @Override
     public StringExpressionNode toStringType() {
-        return new StringExpressionNode("<instance of " + this.name + ">");
+        return new StringExpressionNode("<instance of " + this.clazz.name + ">");
     }
 }

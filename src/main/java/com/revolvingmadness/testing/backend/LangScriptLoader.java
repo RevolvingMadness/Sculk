@@ -18,9 +18,9 @@ import java.util.concurrent.Executor;
 
 public class LangScriptLoader implements ResourceReloader {
     private static final ResourceFinder FINDER = new ResourceFinder("scripts", ".script");
-    public Map<Identifier, Collection<LangScript>> identifiedScripts = Map.of();
     public Map<Identifier, LangScript> scripts = new HashMap<>();
     private final TagGroupLoader<LangScript> TAG_LOADER = new TagGroupLoader<>(this::get, "tags/scripts");
+    public Map<Identifier, Collection<LangScript>> taggedScripts = Map.of();
 
     private static List<String> readResource(Resource resource) {
         try {
@@ -54,7 +54,7 @@ public class LangScriptLoader implements ResourceReloader {
     }
 
     public Collection<LangScript> getScriptsFromTag(Identifier tag) {
-        return this.identifiedScripts.getOrDefault(tag, List.of());
+        return this.taggedScripts.getOrDefault(tag, List.of());
     }
 
     @Override
@@ -100,7 +100,7 @@ public class LangScriptLoader implements ResourceReloader {
             }).join());
 
             this.scripts = identifiedScripts;
-            this.identifiedScripts = this.TAG_LOADER.buildGroup(scriptTagPair.getFirst());
+            this.taggedScripts = this.TAG_LOADER.buildGroup(scriptTagPair.getFirst());
         }, applyExecutor);
     }
 }

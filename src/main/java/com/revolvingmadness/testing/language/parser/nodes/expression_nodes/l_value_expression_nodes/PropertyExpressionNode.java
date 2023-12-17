@@ -18,14 +18,14 @@ public class PropertyExpressionNode implements LValueExpressionNode {
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
+        if (otherObject == null || this.getClass() != otherObject.getClass())
             return false;
 
         PropertyExpressionNode that = (PropertyExpressionNode) otherObject;
 
-        if (!expression.equals(that.expression))
+        if (!this.expression.equals(that.expression))
             return false;
-        return propertyName.equals(that.propertyName);
+        return this.propertyName.equals(that.propertyName);
     }
 
     @Override
@@ -37,8 +37,8 @@ public class PropertyExpressionNode implements LValueExpressionNode {
 
     @Override
     public int hashCode() {
-        int result = expression.hashCode();
-        result = 31 * result + propertyName.hashCode();
+        int result = this.expression.hashCode();
+        result = 31 * result + this.propertyName.hashCode();
         return result;
     }
 

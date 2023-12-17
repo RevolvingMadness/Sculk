@@ -20,17 +20,17 @@ public class UnaryExpressionNode implements ExpressionNode {
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
+        if (otherObject == null || this.getClass() != otherObject.getClass())
             return false;
 
         UnaryExpressionNode otherUnaryExpression = (UnaryExpressionNode) otherObject;
 
-        return operator == otherUnaryExpression.operator && Objects.equals(value, otherUnaryExpression.value);
+        return this.operator == otherUnaryExpression.operator && Objects.equals(this.value, otherUnaryExpression.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(operator, value);
+        return Objects.hash(this.operator, this.value);
     }
 
     @Override

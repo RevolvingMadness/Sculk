@@ -23,7 +23,7 @@ public class ClassExpressionNode implements LiteralExpressionNode {
 
     @Override
     public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
-        return new ClassInstanceExpressionNode(this.name, this.superClass, this.variableScope);
+        return new ClassInstanceExpressionNode(this);
     }
 
     @Override
@@ -39,16 +39,16 @@ public class ClassExpressionNode implements LiteralExpressionNode {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
 
         ClassExpressionNode that = (ClassExpressionNode) o;
 
-        if (!name.equals(that.name))
+        if (!this.name.equals(that.name))
             return false;
-        if (!superClass.equals(that.superClass))
+        if (!this.superClass.equals(that.superClass))
             return false;
-        return variableScope.equals(that.variableScope);
+        return this.variableScope.equals(that.variableScope);
     }
 
     @Override
@@ -73,9 +73,9 @@ public class ClassExpressionNode implements LiteralExpressionNode {
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + superClass.hashCode();
-        result = 31 * result + variableScope.hashCode();
+        int result = this.name.hashCode();
+        result = 31 * result + this.superClass.hashCode();
+        result = 31 * result + this.variableScope.hashCode();
         return result;
     }
 

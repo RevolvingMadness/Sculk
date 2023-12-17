@@ -21,23 +21,23 @@ public class BinaryExpressionNode implements ExpressionNode {
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
+        if (otherObject == null || this.getClass() != otherObject.getClass())
             return false;
 
         BinaryExpressionNode otherBinaryExpression = (BinaryExpressionNode) otherObject;
 
-        if (!left.equals(otherBinaryExpression.left))
+        if (!this.left.equals(otherBinaryExpression.left))
             return false;
-        if (operator != otherBinaryExpression.operator)
+        if (this.operator != otherBinaryExpression.operator)
             return false;
-        return right.equals(otherBinaryExpression.right);
+        return this.right.equals(otherBinaryExpression.right);
     }
 
     @Override
     public int hashCode() {
-        int result = left.hashCode();
-        result = 31 * result + operator.hashCode();
-        result = 31 * result + right.hashCode();
+        int result = this.left.hashCode();
+        result = 31 * result + this.operator.hashCode();
+        result = 31 * result + this.right.hashCode();
         return result;
     }
 

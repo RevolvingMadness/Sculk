@@ -18,20 +18,20 @@ public class Variable {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
 
         Variable variable = (Variable) o;
 
-        if (!name.equals(variable.name))
+        if (!this.name.equals(variable.name))
             return false;
-        return value.equals(variable.value);
+        return this.value.equals(variable.value);
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + value.hashCode();
+        int result = this.name.hashCode();
+        result = 31 * result + this.value.hashCode();
         return result;
     }
 }

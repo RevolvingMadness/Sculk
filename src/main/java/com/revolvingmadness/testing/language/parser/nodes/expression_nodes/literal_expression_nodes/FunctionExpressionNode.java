@@ -49,6 +49,7 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
         for (IdentifierExpressionNode argumentName : this.arguments) {
             LiteralExpressionNode argumentValue = arguments.get(argumentNumber).interpret(script);
             script.variableTable.declare(true, argumentName, argumentValue);
+            argumentNumber++;
         }
 
         if (this.clazz != null) {
@@ -84,16 +85,16 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
 
         FunctionExpressionNode that = (FunctionExpressionNode) o;
 
-        if (!arguments.equals(that.arguments))
+        if (!this.arguments.equals(that.arguments))
             return false;
-        if (!name.equals(that.name))
+        if (!this.name.equals(that.name))
             return false;
-        return body.equals(that.body);
+        return this.body.equals(that.body);
     }
 
     @Override
@@ -103,9 +104,9 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
 
     @Override
     public int hashCode() {
-        int result = arguments.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + body.hashCode();
+        int result = this.arguments.hashCode();
+        result = 31 * result + this.name.hashCode();
+        result = 31 * result + this.body.hashCode();
         return result;
     }
 

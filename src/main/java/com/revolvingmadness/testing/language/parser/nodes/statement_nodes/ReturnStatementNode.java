@@ -6,7 +6,7 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Expre
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 
 public class ReturnStatementNode implements StatementNode {
-    ExpressionNode value;
+    public final ExpressionNode value;
 
     public ReturnStatementNode(ExpressionNode value) {
         this.value = value;

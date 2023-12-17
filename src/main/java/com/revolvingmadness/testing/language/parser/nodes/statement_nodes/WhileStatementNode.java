@@ -25,7 +25,7 @@ public class WhileStatementNode implements StatementNode {
         long maxLoops = Testing.server.getGameRules().getInt(TestingGamerules.MAX_LOOPS);
 
         while_loop:
-        while (condition.interpret(script).toBooleanType().value) {
+        while (this.condition.interpret(script).toBooleanType().value) {
             for (StatementNode statement : this.body) {
                 try {
                     statement.interpret(script);

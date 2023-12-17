@@ -18,7 +18,7 @@ public class IfStatementNode implements StatementNode {
 
     @Override
     public void interpret(ScriptNode script) {
-        LiteralExpressionNode interpretedCondition = condition.interpret(script);
+        LiteralExpressionNode interpretedCondition = this.condition.interpret(script);
 
         if (interpretedCondition.toBooleanType().value) {
             for (StatementNode statement : this.body) {

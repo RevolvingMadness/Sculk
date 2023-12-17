@@ -55,12 +55,12 @@ public class IntegerExpressionNode implements LiteralExpressionNode {
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
+        if (otherObject == null || this.getClass() != otherObject.getClass())
             return false;
 
         IntegerExpressionNode otherIntegerExpression = (IntegerExpressionNode) otherObject;
 
-        return value.equals(otherIntegerExpression.value);
+        return this.value.equals(otherIntegerExpression.value);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class IntegerExpressionNode implements LiteralExpressionNode {
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return this.value.hashCode();
     }
 
     @Override

@@ -13,7 +13,7 @@ public class ImportStatementNode implements StatementNode {
 
     @Override
     public void interpret(ScriptNode script) {
-        LangScript importedScript = script.scripts.get(resource);
+        LangScript importedScript = script.scripts.get(this.resource);
         ScriptNode importedScriptNode = importedScript.scriptNode;
 
         importedScriptNode.statements.forEach(statement -> statement.interpret(script));

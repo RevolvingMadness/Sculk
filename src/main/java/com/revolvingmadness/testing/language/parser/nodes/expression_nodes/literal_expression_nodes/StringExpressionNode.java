@@ -34,12 +34,12 @@ public class StringExpressionNode implements LiteralExpressionNode {
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
+        if (otherObject == null || this.getClass() != otherObject.getClass())
             return false;
 
         StringExpressionNode otherStringExpression = (StringExpressionNode) otherObject;
 
-        return value.equals(otherStringExpression.value);
+        return this.value.equals(otherStringExpression.value);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class StringExpressionNode implements LiteralExpressionNode {
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return this.value.hashCode();
     }
 
     @Override

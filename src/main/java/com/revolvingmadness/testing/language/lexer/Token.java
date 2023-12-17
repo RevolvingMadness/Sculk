@@ -49,9 +49,9 @@ public class Token {
     @Override
     public String toString() {
         if (this.value == null) {
-            return "Token(type=" + type + ")";
+            return "Token(type=" + this.type + ")";
         }
 
-        return "Token(type=" + type + ", value=" + value + ")";
+        return "Token(type=" + this.type + ", value=" + this.value + ")";
     }
 }

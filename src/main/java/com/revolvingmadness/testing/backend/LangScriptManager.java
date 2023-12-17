@@ -60,9 +60,9 @@ public class LangScriptManager {
 
     public void tick() {
         if (this.justLoaded) {
-            loader.scripts.forEach((identifier, script) -> {
+            this.loader.scripts.forEach((identifier, script) -> {
                 try {
-                    script.initialize(loader.scripts);
+                    script.initialize(this.loader.scripts);
                 } catch (RuntimeException exception) {
                     Logger.scriptError(script, exception);
                     script.hasErrors = true;

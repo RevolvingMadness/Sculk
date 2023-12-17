@@ -29,12 +29,12 @@ public class ListExpressionNode implements LiteralExpressionNode {
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
+        if (otherObject == null || this.getClass() != otherObject.getClass())
             return false;
 
         ListExpressionNode otherListExpression = (ListExpressionNode) otherObject;
 
-        return value.equals(otherListExpression.value);
+        return this.value.equals(otherListExpression.value);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ListExpressionNode implements LiteralExpressionNode {
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return this.value.hashCode();
     }
 
     @Override

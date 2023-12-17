@@ -15,12 +15,12 @@ public class IdentifierExpressionNode implements LValueExpressionNode {
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
-        if (otherObject == null || getClass() != otherObject.getClass())
+        if (otherObject == null || this.getClass() != otherObject.getClass())
             return false;
 
         IdentifierExpressionNode otherIdentifierExpression = (IdentifierExpressionNode) otherObject;
 
-        return value.equals(otherIdentifierExpression.value);
+        return this.value.equals(otherIdentifierExpression.value);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class IdentifierExpressionNode implements LValueExpressionNode {
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return this.value.hashCode();
     }
 
     @Override

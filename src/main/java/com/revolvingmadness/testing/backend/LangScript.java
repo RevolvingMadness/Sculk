@@ -28,7 +28,7 @@ public class LangScript {
             return;
         }
 
-        LangLexer lexer = new LangLexer(contents);
+        LangLexer lexer = new LangLexer(this.contents);
         List<Token> tokens = lexer.lex();
         LangParser parser = new LangParser(scripts, tokens);
         this.scriptNode = parser.parse();
