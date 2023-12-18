@@ -73,15 +73,6 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
-        if (other instanceof FunctionExpressionNode functionExpression) {
-            return new BooleanExpressionNode(this.name.equals(functionExpression.name) && this.arguments.equals(functionExpression.arguments) && this.body.equals(functionExpression.body));
-        }
-
-        return new BooleanExpressionNode(false);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -111,21 +102,7 @@ public class FunctionExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
-        if (other instanceof FunctionExpressionNode functionExpression) {
-            return new BooleanExpressionNode(!this.name.equals(functionExpression.name) || !this.arguments.equals(functionExpression.arguments) || !this.body.equals(functionExpression.body));
-        }
-
-        return new BooleanExpressionNode(true);
-    }
-
-    @Override
     public String toString() {
         return "<function " + this.name + ">";
-    }
-
-    @Override
-    public StringExpressionNode toStringType() {
-        return new StringExpressionNode("<function " + this.name + ">");
     }
 }

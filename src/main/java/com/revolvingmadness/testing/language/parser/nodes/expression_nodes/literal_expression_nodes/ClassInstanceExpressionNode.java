@@ -11,15 +11,6 @@ public class ClassInstanceExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
-        if (other instanceof ClassInstanceExpressionNode classInstance) {
-            return new BooleanExpressionNode(this.clazz.equals(classInstance.clazz));
-        }
-
-        return new BooleanExpressionNode(false);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -53,21 +44,7 @@ public class ClassInstanceExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
-        if (other instanceof ClassInstanceExpressionNode classInstance) {
-            return new BooleanExpressionNode(!this.clazz.equals(classInstance.clazz));
-        }
-
-        return new BooleanExpressionNode(true);
-    }
-
-    @Override
     public String toString() {
         return "<instance of " + this.clazz.name + ">";
-    }
-
-    @Override
-    public StringExpressionNode toStringType() {
-        return new StringExpressionNode("<instance of " + this.clazz.name + ">");
     }
 }

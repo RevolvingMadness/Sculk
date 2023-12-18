@@ -10,15 +10,6 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
-        if (other instanceof BooleanExpressionNode booleanExpression) {
-            return new BooleanExpressionNode(this.value.equals(booleanExpression.value));
-        }
-
-        return new BooleanExpressionNode(false);
-    }
-
-    @Override
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
@@ -46,15 +37,6 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
-        if (other instanceof BooleanExpressionNode booleanExpression) {
-            return new BooleanExpressionNode(!this.value.equals(booleanExpression.value));
-        }
-
-        return new BooleanExpressionNode(true);
-    }
-
-    @Override
     public BooleanExpressionNode toBooleanType() {
         return this;
     }
@@ -62,10 +44,5 @@ public class BooleanExpressionNode implements LiteralExpressionNode {
     @Override
     public String toString() {
         return this.value.toString();
-    }
-
-    @Override
-    public StringExpressionNode toStringType() {
-        return new StringExpressionNode(this.value.toString());
     }
 }

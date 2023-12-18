@@ -18,7 +18,7 @@ public class PrintFunctionExpressionNode implements LiteralExpressionNode {
 
         LiteralExpressionNode interpretedFirstArgument = arguments.get(0).interpret(script);
 
-        Logger.broadcast(interpretedFirstArgument.toStringType().value, true);
+        Logger.broadcast(interpretedFirstArgument.toString(), true);
 
         return this;
     }

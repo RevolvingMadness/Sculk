@@ -27,7 +27,7 @@ public interface LiteralExpressionNode extends ExpressionNode {
     }
 
     default BooleanExpressionNode equalTo(LiteralExpressionNode other) {
-        throw new TypeError("Unsupported binary operator '==' for types '" + this.getType() + "' and '" + other.getType() + "'");
+        return new BooleanExpressionNode(this.equals(other));
     }
 
     default LiteralExpressionNode exponentiate(LiteralExpressionNode other) {
@@ -77,7 +77,7 @@ public interface LiteralExpressionNode extends ExpressionNode {
     }
 
     default BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
-        throw new TypeError("Unsupported binary operator '!=' for types '" + this.getType() + "' and '" + other.getType() + "'");
+        return new BooleanExpressionNode(!this.equals(other));
     }
 
     default LiteralExpressionNode subtract(LiteralExpressionNode other) {
@@ -97,6 +97,6 @@ public interface LiteralExpressionNode extends ExpressionNode {
     }
 
     default StringExpressionNode toStringType() {
-        throw new TypeError("Cannot convert type '" + this.getType() + "' to string");
+        return new StringExpressionNode(this.toString());
     }
 }

@@ -27,15 +27,6 @@ public class ClassExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
-        if (other instanceof ClassExpressionNode classExpression) {
-            return new BooleanExpressionNode(this.name.equals(classExpression.name) && this.superClass.equals(classExpression.superClass) && this.variableScope.equals(classExpression.variableScope));
-        }
-
-        return new BooleanExpressionNode(false);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -80,21 +71,7 @@ public class ClassExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
-        if (other instanceof ClassExpressionNode classExpression) {
-            return new BooleanExpressionNode(!this.name.equals(classExpression.name) || !this.superClass.equals(classExpression.superClass) || !this.variableScope.equals(classExpression.variableScope));
-        }
-
-        return new BooleanExpressionNode(true);
-    }
-
-    @Override
     public String toString() {
         return "<class " + this.name + ">";
-    }
-
-    @Override
-    public StringExpressionNode toStringType() {
-        return new StringExpressionNode("<class " + this.name + ">");
     }
 }

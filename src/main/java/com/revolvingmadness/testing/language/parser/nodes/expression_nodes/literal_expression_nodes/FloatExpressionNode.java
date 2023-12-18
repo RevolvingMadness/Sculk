@@ -37,15 +37,6 @@ public class FloatExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
-        if (other instanceof FloatExpressionNode floatExpression) {
-            return new BooleanExpressionNode(this.value.equals(floatExpression.value));
-        }
-
-        return new BooleanExpressionNode(false);
-    }
-
-    @Override
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
@@ -147,15 +138,6 @@ public class FloatExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
-        if (other instanceof FloatExpressionNode floatExpression) {
-            return new BooleanExpressionNode(!this.value.equals(floatExpression.value));
-        }
-
-        return new BooleanExpressionNode(true);
-    }
-
-    @Override
     public LiteralExpressionNode subtract(LiteralExpressionNode other) {
         if (other instanceof FloatExpressionNode floatExpression) {
             return new FloatExpressionNode(this.value - floatExpression.value);
@@ -183,10 +165,5 @@ public class FloatExpressionNode implements LiteralExpressionNode {
     @Override
     public String toString() {
         return this.value.toString();
-    }
-
-    @Override
-    public StringExpressionNode toStringType() {
-        return new StringExpressionNode(this.value.toString());
     }
 }

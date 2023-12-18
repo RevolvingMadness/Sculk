@@ -15,6 +15,7 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -504,9 +505,43 @@ public class LangParser {
             return this.parseListExpression();
         } else if (this.current(TokenType.FUNCTION)) {
             return this.parseFunctionExpression();
+        } else if (this.current(TokenType.LEFT_BRACE)) {
+            return this.parseDictionaryExpression();
         }
 
         throw new SyntaxError("Unknown expression type '" + this.current().type + "'");
+    }
+
+    private ExpressionNode parseDictionaryExpression() {
+        this.consume();
+
+        Map<ExpressionNode, ExpressionNode> dictionary = new HashMap<>();
+
+        if (!this.current(TokenType.RIGHT_BRACE)) {
+            ExpressionNode key = this.parseExpression();
+
+            this.consume(TokenType.COLON, "Expected colon");
+
+            ExpressionNode value = this.parseExpression();
+
+            dictionary.put(key, value);
+        }
+
+        while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
+            this.consume();
+
+            ExpressionNode key = this.parseExpression();
+
+            this.consume(TokenType.COLON, "Expected colon");
+
+            ExpressionNode value = this.parseExpression();
+
+            dictionary.put(key, value);
+        }
+
+        this.consume(TokenType.RIGHT_BRACE, "Expected closing brace for dictionary");
+
+        return new DictionaryExpressionNode(dictionary);
     }
 
     private StatementNode parseReturnStatement() {

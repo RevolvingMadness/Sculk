@@ -17,15 +17,6 @@ public class ListExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public BooleanExpressionNode equalTo(LiteralExpressionNode other) {
-        if (other instanceof ListExpressionNode listExpression) {
-            return new BooleanExpressionNode(this.value.equals(listExpression.value));
-        }
-
-        return new BooleanExpressionNode(false);
-    }
-
-    @Override
     public boolean equals(Object otherObject) {
         if (this == otherObject)
             return true;
@@ -67,22 +58,7 @@ public class ListExpressionNode implements LiteralExpressionNode {
     }
 
     @Override
-    public BooleanExpressionNode notEqualTo(LiteralExpressionNode other) {
-        if (other instanceof ListExpressionNode listExpression) {
-            return new BooleanExpressionNode(!this.value.equals(listExpression.value));
-        }
-
-        return new BooleanExpressionNode(true);
-    }
-
-    @Override
     public String toString() {
         return "[" + this.value.stream().map(Object::toString).collect(Collectors.joining(", ")) + "]";
-    }
-
-    @Override
-    public StringExpressionNode toStringType() {
-        String listString = this.value.stream().map(Object::toString).collect(Collectors.joining(", "));
-        return new StringExpressionNode("[" + listString + "]");
     }
 }
