@@ -15,13 +15,12 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.List;
 
-public class PlayerManagerClass implements LiteralExpressionNode {
+public class PlayerManagerClass extends BuiltinClass {
     public final PlayerManager playerManager;
-    public final VariableScope variableScope;
 
     public PlayerManagerClass() {
-        this.variableScope = new VariableScope();
         this.playerManager = Testing.server.getPlayerManager();
+
         this.variableScope.declare(true, new IdentifierExpressionNode("areCheatsEnabled"), this.new AreCheatsEnabled());
         this.variableScope.declare(true, new IdentifierExpressionNode("getCurrentPlayerCount"), this.new GetCurrentPlayerCount());
         this.variableScope.declare(true, new IdentifierExpressionNode("getMaxPlayerCount"), this.new GetMaxPlayerCount());
@@ -33,11 +32,6 @@ public class PlayerManagerClass implements LiteralExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("setViewDistance"), this.new SetViewDistance());
         this.variableScope.declare(true, new IdentifierExpressionNode("setWhitelistEnabled"), this.new SetWhitelistEnabled());
         this.variableScope.declare(true, new IdentifierExpressionNode("getPlayer"), this.new GetPlayer());
-    }
-
-    @Override
-    public Variable getProperty(IdentifierExpressionNode propertyName) {
-        return this.variableScope.getOrThrow(propertyName);
     }
 
     @Override

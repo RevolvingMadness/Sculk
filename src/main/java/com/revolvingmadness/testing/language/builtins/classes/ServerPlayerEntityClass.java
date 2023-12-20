@@ -14,17 +14,13 @@ import net.minecraft.world.GameMode;
 
 import java.util.List;
 
-public class ServerPlayerEntityClass implements LiteralExpressionNode {
-    public final PlayerEntityClass playerEntityClass;
+public class ServerPlayerEntityClass extends BuiltinClass {
     public final ServerPlayerEntity serverPlayerEntity;
-    public final VariableScope variableScope;
 
     public ServerPlayerEntityClass(ServerPlayerEntity serverPlayerEntity) {
-        this.serverPlayerEntity = serverPlayerEntity;
-        this.variableScope = new VariableScope();
+        super(new PlayerEntityClass(serverPlayerEntity));
 
-        this.playerEntityClass = new PlayerEntityClass(serverPlayerEntity);
-        this.variableScope.inherit(this.playerEntityClass.variableScope);
+        this.serverPlayerEntity = serverPlayerEntity;
 
         this.variableScope.declare(true, new IdentifierExpressionNode("changeGameMode"), new ChangeGameMode());
         this.variableScope.declare(true, new IdentifierExpressionNode("dropSelectedItem"), new DropSelectedItem());
@@ -32,11 +28,6 @@ public class ServerPlayerEntityClass implements LiteralExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("getViewDistance"), new GetViewDistance());
         this.variableScope.declare(true, new IdentifierExpressionNode("setExperienceLevels"), new SetExperienceLevels());
         this.variableScope.declare(true, new IdentifierExpressionNode("setExperiencePoints"), new SetExperiencePoints());
-    }
-
-    @Override
-    public Variable getProperty(IdentifierExpressionNode propertyName) {
-        return this.variableScope.getOrThrow(propertyName);
     }
 
     @Override

@@ -14,11 +14,8 @@ import net.minecraft.world.Difficulty;
 
 import java.util.List;
 
-public class MinecraftServerClass implements LiteralExpressionNode {
-    public final VariableScope variableScope;
-
+public class MinecraftServerClass extends BuiltinClass {
     public MinecraftServerClass() {
-        this.variableScope = new VariableScope();
         this.variableScope.declare(true, new IdentifierExpressionNode("setPVPEnabled"), new SetPVPEnabled());
         this.variableScope.declare(true, new IdentifierExpressionNode("setDifficultyLocked"), new SetDifficultyLocked());
         this.variableScope.declare(true, new IdentifierExpressionNode("isPVPEnabled"), new MinecraftServerClass.IsPVPEnabledFunction());
@@ -29,11 +26,6 @@ public class MinecraftServerClass implements LiteralExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("isHardcore"), new MinecraftServerClass.IsHardcoreFunction());
         this.variableScope.declare(true, new IdentifierExpressionNode("areCommandBlocksEnabled"), new AreCommandBlocksEnabledFunction());
         this.variableScope.declare(true, new IdentifierExpressionNode("setDifficulty"), new SetDifficulty());
-    }
-
-    @Override
-    public Variable getProperty(IdentifierExpressionNode propertyName) {
-        return this.variableScope.getOrThrow(propertyName);
     }
 
     @Override

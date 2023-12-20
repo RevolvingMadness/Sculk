@@ -2,8 +2,6 @@ package com.revolvingmadness.testing.language.builtins.classes;
 
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
-import com.revolvingmadness.testing.language.interpreter.Variable;
-import com.revolvingmadness.testing.language.interpreter.VariableScope;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
@@ -14,13 +12,12 @@ import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 
-public class EntityClass implements LiteralExpressionNode {
+public class EntityClass extends BuiltinClass {
     public final Entity entity;
-    public final VariableScope variableScope;
 
     public EntityClass(Entity entity) {
         this.entity = entity;
-        this.variableScope = new VariableScope();
+        
         this.variableScope.declare(true, new IdentifierExpressionNode("addCommandTag"), new AddCommandTag());
         this.variableScope.declare(true, new IdentifierExpressionNode("dismountVehicle"), new DismountVehicle());
         this.variableScope.declare(true, new IdentifierExpressionNode("getBlockPos"), new GetBlockPos());
@@ -69,11 +66,6 @@ public class EntityClass implements LiteralExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("shouldDismountUnderwater"), new ShouldDismountUnderwater());
         this.variableScope.declare(true, new IdentifierExpressionNode("stopRiding"), new StopRiding());
         this.variableScope.declare(true, new IdentifierExpressionNode("teleport"), new Teleport());
-    }
-
-    @Override
-    public Variable getProperty(IdentifierExpressionNode propertyName) {
-        return this.variableScope.getOrThrow(propertyName);
     }
 
     @Override

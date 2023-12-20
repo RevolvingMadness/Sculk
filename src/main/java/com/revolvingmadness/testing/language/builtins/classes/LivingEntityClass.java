@@ -14,25 +14,15 @@ import net.minecraft.entity.LivingEntity;
 
 import java.util.List;
 
-public class LivingEntityClass implements LiteralExpressionNode {
-    public final EntityClass entity;
+public class LivingEntityClass extends BuiltinClass {
     public final LivingEntity livingEntity;
-    public final VariableScope variableScope;
 
     public LivingEntityClass(LivingEntity livingEntity) {
+        super(new EntityClass(livingEntity));
         this.livingEntity = livingEntity;
-        this.variableScope = new VariableScope();
-
-        this.entity = new EntityClass(livingEntity);
-        this.variableScope.inherit(this.entity.variableScope);
 
         this.variableScope.declare(true, new IdentifierExpressionNode("tiltScreen"), new TiltScreen());
         this.variableScope.declare(true, new IdentifierExpressionNode("wakeUp"), new WakeUp());
-    }
-
-    @Override
-    public Variable getProperty(IdentifierExpressionNode propertyName) {
-        return this.variableScope.getOrThrow(propertyName);
     }
 
     @Override

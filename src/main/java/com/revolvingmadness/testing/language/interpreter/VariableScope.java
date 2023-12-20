@@ -38,8 +38,4 @@ public class VariableScope {
 
         return optionalVariable.get();
     }
-
-    public void inherit(VariableScope variableScope) {
-        this.variables.addAll(variableScope.variables);
-    }
 }

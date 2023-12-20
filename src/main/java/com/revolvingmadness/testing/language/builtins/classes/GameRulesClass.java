@@ -4,8 +4,6 @@ import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.gamerules.TestingGamerules;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
-import com.revolvingmadness.testing.language.interpreter.Variable;
-import com.revolvingmadness.testing.language.interpreter.VariableScope;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
@@ -17,12 +15,10 @@ import net.minecraft.world.GameRules;
 
 import java.util.List;
 
-public class GameRulesClass implements LiteralExpressionNode {
+public class GameRulesClass extends BuiltinClass {
     public final GameRules gameRules;
-    public final VariableScope variableScope;
 
     public GameRulesClass() {
-        this.variableScope = new VariableScope();
         this.gameRules = Testing.server.getGameRules();
         this.variableScope.declare(true, new IdentifierExpressionNode("getDoFireTick"), this.new GetDoFireTick());
         this.variableScope.declare(true, new IdentifierExpressionNode("getDoMobGriefing"), this.new GetDoMobGriefing());
@@ -126,11 +122,6 @@ public class GameRulesClass implements LiteralExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("setMaxArgumentCount"), this.new SetMaxArgumentCount());
         this.variableScope.declare(true, new IdentifierExpressionNode("setMaxLoops"), this.new SetMaxLoops());
         this.variableScope.declare(true, new IdentifierExpressionNode("setScriptLogsEnabled"), this.new SetScriptLogsEnabled());
-    }
-
-    @Override
-    public Variable getProperty(IdentifierExpressionNode propertyName) {
-        return this.variableScope.getOrThrow(propertyName);
     }
 
     @Override

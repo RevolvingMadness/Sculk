@@ -15,27 +15,18 @@ import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.List;
 
-public class PlayerEntityClass implements LiteralExpressionNode {
-    public final LivingEntityClass livingEntity;
+public class PlayerEntityClass extends BuiltinClass {
     public final PlayerEntity playerEntity;
-    public final VariableScope variableScope;
 
     public PlayerEntityClass(PlayerEntity playerEntity) {
+        super(new LivingEntityClass(playerEntity));
+        
         this.playerEntity = playerEntity;
-        this.variableScope = new VariableScope();
-
-        this.livingEntity = new LivingEntityClass(playerEntity);
-        this.variableScope.inherit(this.livingEntity.variableScope);
 
         this.variableScope.declare(true, new IdentifierExpressionNode("addExperiencePoints"), new AddExperiencePoints());
         this.variableScope.declare(true, new IdentifierExpressionNode("addExperienceLevels"), new AddExperienceLevels());
         this.variableScope.declare(true, new IdentifierExpressionNode("isCreative"), new IsCreative());
         this.variableScope.declare(true, new IdentifierExpressionNode("isSpectator"), new IsSpectator());
-    }
-
-    @Override
-    public Variable getProperty(IdentifierExpressionNode propertyName) {
-        return this.variableScope.getOrThrow(propertyName);
     }
 
     @Override
