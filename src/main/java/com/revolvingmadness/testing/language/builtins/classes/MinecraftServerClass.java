@@ -1,20 +1,21 @@
 package com.revolvingmadness.testing.language.builtins.classes;
 
 import com.revolvingmadness.testing.Testing;
+import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.IntegerClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.StringClass;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
-import com.revolvingmadness.testing.language.interpreter.Variable;
-import com.revolvingmadness.testing.language.interpreter.VariableScope;
+import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
-import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.world.Difficulty;
 
 import java.util.List;
 
-public class MinecraftServerClass extends BuiltinClass {
+public class MinecraftServerClass extends BaseClassExpressionNode {
     public MinecraftServerClass() {
         this.variableScope.declare(true, new IdentifierExpressionNode("setPVPEnabled"), new SetPVPEnabled());
         this.variableScope.declare(true, new IdentifierExpressionNode("setDifficultyLocked"), new SetDifficultyLocked());
@@ -29,136 +30,136 @@ public class MinecraftServerClass extends BuiltinClass {
     }
 
     @Override
-    public IdentifierExpressionNode getType() {
-        return new IdentifierExpressionNode("MinecraftServer");
+    public String getType() {
+        return "MinecraftServer";
     }
 
-    private static class AreCommandBlocksEnabledFunction implements LiteralExpressionNode {
+    private static class AreCommandBlocksEnabledFunction extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'areCommandBlocksEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(Testing.server.areCommandBlocksEnabled());
+            return new BooleanClass(Testing.server.areCommandBlocksEnabled());
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    private static class GetServerIpFunction implements LiteralExpressionNode {
+    private static class GetServerIpFunction extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getServerIP' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new StringExpressionNode(Testing.server.getServerIp());
+            return new StringClass(Testing.server.getServerIp());
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    private static class GetServerPortFunction implements LiteralExpressionNode {
+    private static class GetServerPortFunction extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getServerPort' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new IntegerExpressionNode(Testing.server.getServerPort());
+            return new IntegerClass(Testing.server.getServerPort());
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    private static class IsFlightEnabledFunction implements LiteralExpressionNode {
+    private static class IsFlightEnabledFunction extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isFlightEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(Testing.server.isFlightEnabled());
+            return new BooleanClass(Testing.server.isFlightEnabled());
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    private static class IsHardcoreFunction implements LiteralExpressionNode {
+    private static class IsHardcoreFunction extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isHardcore' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(Testing.server.isHardcore());
+            return new BooleanClass(Testing.server.isHardcore());
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    private static class IsNetherEnabledFunction implements LiteralExpressionNode {
+    private static class IsNetherEnabledFunction extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isNetherEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(Testing.server.isNetherAllowed());
+            return new BooleanClass(Testing.server.isNetherAllowed());
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    private static class IsPVPEnabledFunction implements LiteralExpressionNode {
+    private static class IsPVPEnabledFunction extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isPVPEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(Testing.server.isPvpEnabled());
+            return new BooleanClass(Testing.server.isPvpEnabled());
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    private static class SetDifficulty implements LiteralExpressionNode {
+    private static class SetDifficulty extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDifficulty' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode difficulty = arguments.get(0).interpret(script);
+            BaseClassExpressionNode difficulty = interpreter.visitExpression(arguments.get(0));
 
-            if (!difficulty.getType().equals(new IdentifierExpressionNode("string"))) {
+            if (!difficulty.getType().equals("string")) {
                 throw new TypeError("Argument 1 for function 'setDifficulty' requires type 'string' but got '" + difficulty.getType() + "'");
             }
 
-            Difficulty difficulty1 = Difficulty.byName(((StringExpressionNode) difficulty).value);
+            Difficulty difficulty1 = Difficulty.byName(((StringClass) difficulty).value);
 
             if (difficulty1 == null) {
                 throw new ValueError("Difficulty '" + difficulty + "' does not exist");
@@ -166,60 +167,60 @@ public class MinecraftServerClass extends BuiltinClass {
 
             Testing.server.setDifficulty(difficulty1, true);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    private static class SetDifficultyLocked implements LiteralExpressionNode {
+    private static class SetDifficultyLocked extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDifficultyLocked' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode difficultyLocked = arguments.get(0).interpret(script);
+            BaseClassExpressionNode difficultyLocked = interpreter.visitExpression(arguments.get(0));
 
-            if (!difficultyLocked.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!difficultyLocked.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDifficultyLocked' requires type 'boolean' but got '" + difficultyLocked.getType() + "'");
             }
 
-            Testing.server.setDifficultyLocked(((BooleanExpressionNode) difficultyLocked).value);
+            Testing.server.setDifficultyLocked(((BooleanClass) difficultyLocked).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    private static class SetPVPEnabled implements LiteralExpressionNode {
+    private static class SetPVPEnabled extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setPVPEnabled' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode pvpEnabled = arguments.get(0).interpret(script);
+            BaseClassExpressionNode pvpEnabled = interpreter.visitExpression(arguments.get(0));
 
-            if (!pvpEnabled.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!pvpEnabled.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setPVPEnabled' requires type 'boolean' but got '" + pvpEnabled.getType() + "'");
             }
 
-            Testing.server.setPvpEnabled(((BooleanExpressionNode) pvpEnabled).value);
+            Testing.server.setPvpEnabled(((BooleanClass) pvpEnabled).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 }

@@ -1,20 +1,17 @@
 package com.revolvingmadness.testing.language.builtins.classes;
 
+import com.revolvingmadness.testing.language.builtins.classes.types.FloatClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
-import com.revolvingmadness.testing.language.interpreter.Variable;
-import com.revolvingmadness.testing.language.interpreter.VariableScope;
-import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
+import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.FloatExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.NullExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.entity.LivingEntity;
 
 import java.util.List;
 
-public class LivingEntityClass extends BuiltinClass {
+public class LivingEntityClass extends BaseClassExpressionNode {
     public final LivingEntity livingEntity;
 
     public LivingEntityClass(LivingEntity livingEntity) {
@@ -26,55 +23,55 @@ public class LivingEntityClass extends BuiltinClass {
     }
 
     @Override
-    public IdentifierExpressionNode getType() {
-        return new IdentifierExpressionNode("LivingEntity");
+    public String getType() {
+        return "LivingEntity";
     }
 
-    public class TiltScreen implements LiteralExpressionNode {
+    public class TiltScreen extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 2) {
                 throw new SyntaxError("Function 'tiltScreen' takes 2 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode deltaX = arguments.get(0).interpret(script);
+            BaseClassExpressionNode deltaX = interpreter.visitExpression(arguments.get(0));
 
-            if (!deltaX.getType().equals(new IdentifierExpressionNode("float"))) {
+            if (!deltaX.getType().equals("float")) {
                 throw new TypeError("Argument 1 for function 'tiltScreen' requires type 'float' but got '" + deltaX.getType() + "'");
             }
 
-            LiteralExpressionNode deltaZ = arguments.get(1).interpret(script);
+            BaseClassExpressionNode deltaZ = interpreter.visitExpression(arguments.get(1));
 
-            if (!deltaZ.getType().equals(new IdentifierExpressionNode("float"))) {
+            if (!deltaZ.getType().equals("float")) {
                 throw new TypeError("Argument 2 for function 'tiltScreen' requires type 'float' but got '" + deltaZ.getType() + "'");
             }
 
-            LivingEntityClass.this.livingEntity.tiltScreen(((FloatExpressionNode) deltaZ).value, ((FloatExpressionNode) deltaZ).value);
+            LivingEntityClass.this.livingEntity.tiltScreen(((FloatClass) deltaZ).value, ((FloatClass) deltaZ).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class WakeUp implements LiteralExpressionNode {
+    public class WakeUp extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'wakeUp' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             LivingEntityClass.this.livingEntity.wakeUp();
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 }

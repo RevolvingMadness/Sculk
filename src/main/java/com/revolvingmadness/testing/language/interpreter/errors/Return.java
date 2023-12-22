@@ -1,11 +1,12 @@
 package com.revolvingmadness.testing.language.interpreter.errors;
 
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
+
+import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
 
 public class Return extends RuntimeException {
-    public final LiteralExpressionNode value;
+    public final BaseClassExpressionNode value;
 
-    public Return(LiteralExpressionNode value) {
+    public Return(BaseClassExpressionNode value) {
         super("Unexpected 'return' statement");
         this.value = value;
     }

@@ -1,5 +1,6 @@
 package com.revolvingmadness.testing.backend;
 
+import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.lexer.LangLexer;
 import com.revolvingmadness.testing.language.lexer.Token;
 import com.revolvingmadness.testing.language.parser.LangParser;
@@ -14,6 +15,7 @@ public class LangScript {
     public final Identifier identifier;
     public boolean hasBeenInitialized;
     public boolean hasErrors;
+    public Interpreter interpreter;
     public ScriptNode scriptNode;
 
     public LangScript(Identifier identifier, List<String> contentsList) {
@@ -32,6 +34,11 @@ public class LangScript {
         List<Token> tokens = lexer.lex();
         LangParser parser = new LangParser(scripts, tokens);
         this.scriptNode = parser.parse();
+        this.interpreter = new Interpreter();
         this.hasBeenInitialized = true;
+    }
+
+    public void interpret() {
+        this.interpreter.visitScript(this.scriptNode);
     }
 }

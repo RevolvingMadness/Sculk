@@ -1,44 +1,44 @@
 package com.revolvingmadness.testing.language.interpreter;
 
+import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
 import com.revolvingmadness.testing.language.builtins.classes.GameRulesClass;
 import com.revolvingmadness.testing.language.builtins.classes.MinecraftServerClass;
 import com.revolvingmadness.testing.language.builtins.classes.PlayerManagerClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.FloatClass;
 import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunctionExpressionNode;
-import com.revolvingmadness.testing.language.builtins.functions.math.AbsFunctionExpressionNode;
-import com.revolvingmadness.testing.language.builtins.functions.types.BoolFunctionExpressionNode;
-import com.revolvingmadness.testing.language.builtins.functions.types.FloatFunctionExpressionNode;
-import com.revolvingmadness.testing.language.builtins.functions.types.IntFunctionExpressionNode;
-import com.revolvingmadness.testing.language.builtins.functions.types.StrFunctionExpressionNode;
 import com.revolvingmadness.testing.language.errors.NameError;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
-import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.FloatExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 import java.util.ListIterator;
 import java.util.Optional;
 import java.util.Stack;
 
 public class VariableTable {
-    public final ScriptNode script;
     public final Stack<VariableScope> variableScopes;
 
-    public VariableTable(ScriptNode script) {
-        this.script = script;
+    public VariableTable() {
         this.variableScopes = new Stack<>();
         this.reset();
     }
 
-    public void assign(Variable variable, LiteralExpressionNode value) {
+    public void assign(IdentifierExpressionNode name, BaseClassExpressionNode value) {
+        Optional<Variable> optionalVariable = this.getOptional(name);
+
+        if (optionalVariable.isEmpty()) {
+            throw new NameError("Variable '" + name + "' has not been declared");
+        }
+
+        Variable variable = optionalVariable.get();
+
         if (variable.isConstant) {
-            throw new ValueError("Cannot assign value to variable '" + variable.name + "' because it is a constant");
+            throw new ValueError("Cannot assign value to variable '" + variable.name + "' because it is constant");
         }
 
         variable.value = value;
     }
 
-    public void declare(boolean isConstant, IdentifierExpressionNode name, LiteralExpressionNode value) {
+    public void declare(boolean isConstant, IdentifierExpressionNode name, BaseClassExpressionNode value) {
         this.variableScopes.peek().declare(isConstant, name, value);
     }
 
@@ -50,15 +50,10 @@ public class VariableTable {
 
     private void declareFunctions() {
         this.declare(true, new IdentifierExpressionNode("print"), new PrintFunctionExpressionNode());
-        this.declare(true, new IdentifierExpressionNode("abs"), new AbsFunctionExpressionNode());
-        this.declare(true, new IdentifierExpressionNode("bool"), new BoolFunctionExpressionNode());
-        this.declare(true, new IdentifierExpressionNode("float"), new FloatFunctionExpressionNode());
-        this.declare(true, new IdentifierExpressionNode("int"), new IntFunctionExpressionNode());
-        this.declare(true, new IdentifierExpressionNode("str"), new StrFunctionExpressionNode());
     }
 
     private void declareVariables() {
-        this.declare(true, new IdentifierExpressionNode("PI"), new FloatExpressionNode(Math.PI));
+        this.declare(true, new IdentifierExpressionNode("PI"), new FloatClass(Math.PI));
     }
 
     public void enterScope() {

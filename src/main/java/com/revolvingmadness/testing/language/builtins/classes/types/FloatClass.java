@@ -1,6 +1,6 @@
-package com.revolvingmadness.testing.language.builtins.classes;
+package com.revolvingmadness.testing.language.builtins.classes.types;
 
-import com.revolvingmadness.testing.language.builtins.classes.types.StringClass;
+import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
@@ -9,9 +9,11 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Ident
 
 import java.util.List;
 
-public class ObjectClass extends BaseClassExpressionNode {
-    public ObjectClass() {
-        super(null);
+public class FloatClass extends BaseClassExpressionNode {
+    public final Double value;
+
+    public FloatClass(Double value) {
+        this.value = value;
         this.variableScope.declare(true, new IdentifierExpressionNode("toString"), new ToString());
         this.variableScope.declare(true, new IdentifierExpressionNode("add"), new Add());
         this.variableScope.declare(true, new IdentifierExpressionNode("subtract"), new Subtract());
@@ -23,14 +25,15 @@ public class ObjectClass extends BaseClassExpressionNode {
 
     @Override
     public String getType() {
-        return "Object";
+        return "Float";
+    }
+
+    @Override
+    public String toString() {
+        return this.value.toString();
     }
 
     public class Add extends BaseClassExpressionNode {
-        public Add() {
-            super(ObjectClass.this);
-        }
-
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -39,7 +42,13 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = interpreter.visitExpression(arguments.get(0));
 
-            throw new TypeError("Cannot apply operator '+' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
+            if (other.getType().equals("Float")) {
+                return new FloatClass(FloatClass.this.value + ((FloatClass) other).value);
+            } else if (other.getType().equals("Integer")) {
+                return new FloatClass(FloatClass.this.value + ((IntegerClass) other).value);
+            }
+
+            throw new TypeError("Cannot apply operator '+' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override
@@ -49,10 +58,6 @@ public class ObjectClass extends BaseClassExpressionNode {
     }
 
     public class Divide extends BaseClassExpressionNode {
-        public Divide() {
-            super(ObjectClass.this);
-        }
-
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -61,7 +66,13 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = interpreter.visitExpression(arguments.get(0));
 
-            throw new TypeError("Cannot apply operator '/' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
+            if (other.getType().equals("Float")) {
+                return new FloatClass(FloatClass.this.value / ((FloatClass) other).value);
+            } else if (other.getType().equals("Integer")) {
+                return new FloatClass(FloatClass.this.value / ((IntegerClass) other).value);
+            }
+
+            throw new TypeError("Cannot apply operator '/' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override
@@ -71,10 +82,6 @@ public class ObjectClass extends BaseClassExpressionNode {
     }
 
     public class Exponentiate extends BaseClassExpressionNode {
-        public Exponentiate() {
-            super(ObjectClass.this);
-        }
-
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -83,7 +90,13 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = interpreter.visitExpression(arguments.get(0));
 
-            throw new TypeError("Cannot apply operator '^' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
+            if (other.getType().equals("Float")) {
+                return new FloatClass(Math.pow(FloatClass.this.value, ((FloatClass) other).value));
+            } else if (other.getType().equals("Integer")) {
+                return new FloatClass(Math.pow(FloatClass.this.value, ((IntegerClass) other).value));
+            }
+
+            throw new TypeError("Cannot apply operator '^' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override
@@ -93,10 +106,6 @@ public class ObjectClass extends BaseClassExpressionNode {
     }
 
     public class Mod extends BaseClassExpressionNode {
-        public Mod() {
-            super(ObjectClass.this);
-        }
-
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -105,7 +114,13 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = interpreter.visitExpression(arguments.get(0));
 
-            throw new TypeError("Cannot apply operator '%' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
+            if (other.getType().equals("Float")) {
+                return new FloatClass(FloatClass.this.value % ((FloatClass) other).value);
+            } else if (other.getType().equals("Integer")) {
+                return new FloatClass(FloatClass.this.value % ((IntegerClass) other).value);
+            }
+
+            throw new TypeError("Cannot apply operator '%' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override
@@ -115,10 +130,6 @@ public class ObjectClass extends BaseClassExpressionNode {
     }
 
     public class Multiply extends BaseClassExpressionNode {
-        public Multiply() {
-            super(ObjectClass.this);
-        }
-
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -127,7 +138,13 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = interpreter.visitExpression(arguments.get(0));
 
-            throw new TypeError("Cannot apply operator '*' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
+            if (other.getType().equals("Float")) {
+                return new FloatClass(FloatClass.this.value * ((FloatClass) other).value);
+            } else if (other.getType().equals("Integer")) {
+                return new FloatClass(FloatClass.this.value * ((IntegerClass) other).value);
+            }
+
+            throw new TypeError("Cannot apply operator '*' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override
@@ -137,10 +154,6 @@ public class ObjectClass extends BaseClassExpressionNode {
     }
 
     public class Subtract extends BaseClassExpressionNode {
-        public Subtract() {
-            super(ObjectClass.this);
-        }
-
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -149,7 +162,13 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = interpreter.visitExpression(arguments.get(0));
 
-            throw new TypeError("Cannot apply operator '-' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
+            if (other.getType().equals("Float")) {
+                return new FloatClass(FloatClass.this.value - ((FloatClass) other).value);
+            } else if (other.getType().equals("Integer")) {
+                return new FloatClass(FloatClass.this.value - ((IntegerClass) other).value);
+            }
+
+            throw new TypeError("Cannot apply operator '-' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override
@@ -159,17 +178,13 @@ public class ObjectClass extends BaseClassExpressionNode {
     }
 
     public class ToString extends BaseClassExpressionNode {
-        public ToString() {
-            super(ObjectClass.this);
-        }
-
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'toString' requires 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new StringClass("<Class '" + ObjectClass.this.getType() + "'>");
+            return new StringClass(FloatClass.this.value.toString());
         }
 
         @Override

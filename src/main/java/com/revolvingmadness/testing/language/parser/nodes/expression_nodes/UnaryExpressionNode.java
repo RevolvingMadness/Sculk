@@ -1,11 +1,6 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
 
-import com.revolvingmadness.testing.language.interpreter.errors.InterpreterError;
 import com.revolvingmadness.testing.language.lexer.TokenType;
-import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
-
-import java.util.Objects;
 
 public class UnaryExpressionNode implements ExpressionNode {
     public final TokenType operator;
@@ -17,30 +12,23 @@ public class UnaryExpressionNode implements ExpressionNode {
     }
 
     @Override
-    public boolean equals(Object otherObject) {
-        if (this == otherObject)
+    public boolean equals(Object o) {
+        if (this == o)
             return true;
-        if (otherObject == null || this.getClass() != otherObject.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
 
-        UnaryExpressionNode otherUnaryExpression = (UnaryExpressionNode) otherObject;
+        UnaryExpressionNode that = (UnaryExpressionNode) o;
 
-        return this.operator == otherUnaryExpression.operator && Objects.equals(this.value, otherUnaryExpression.value);
+        if (this.operator != that.operator)
+            return false;
+        return this.value.equals(that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.operator, this.value);
-    }
-
-    @Override
-    public LiteralExpressionNode interpret(ScriptNode script) {
-        LiteralExpressionNode interpretedValue = this.value.interpret(script);
-
-        return switch (this.operator) {
-            case EXCLAMATION_MARK -> interpretedValue.logicalNot();
-            case HYPHEN -> interpretedValue.negate();
-            default -> throw new InterpreterError("Unknown unary operator '" + this.operator + "'");
-        };
+        int result = this.operator.hashCode();
+        result = 31 * result + this.value.hashCode();
+        return result;
     }
 }

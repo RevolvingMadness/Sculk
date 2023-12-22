@@ -2,7 +2,6 @@ package com.revolvingmadness.testing.backend;
 
 import com.google.common.collect.ImmutableList;
 import com.revolvingmadness.testing.Testing;
-import com.revolvingmadness.testing.language.interpreter.LangInterpreter;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 
@@ -13,13 +12,11 @@ import java.util.Objects;
 public class LangScriptManager {
     private static final Identifier LOAD_TAG_ID = new Identifier(Testing.ID, "load");
     private static final Identifier TICK_TAG_ID = new Identifier(Testing.ID, "tick");
-    public final LangInterpreter interpreter;
     private boolean justLoaded;
     private LangScriptLoader loader;
     private List<LangScript> tickScripts = ImmutableList.of();
 
     public LangScriptManager(LangScriptLoader loader) {
-        this.interpreter = new LangInterpreter();
         this.setLoader(loader);
     }
 
@@ -28,8 +25,9 @@ public class LangScriptManager {
             return;
         }
 
+
         try {
-            this.interpreter.interpret(script.scriptNode);
+            script.interpret();
         } catch (RuntimeException exception) {
             Logger.scriptError(script, exception);
             script.hasErrors = true;

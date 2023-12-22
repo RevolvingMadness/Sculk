@@ -1,5 +1,5 @@
 {
    "gamerule.maxLoops": "Max Loops",
-   "gamerule.maxArgumentCount": "Max Argument Count",
+   "gamerule.maxArguments": "Max Argument Count",
    "gamerule.scriptLogsEnabled": "Script Logs Enabled"
 }

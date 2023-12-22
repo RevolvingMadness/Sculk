@@ -1,12 +1,12 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
 
-public class VariableAssignmentExpressionNode implements ExpressionNode {
-    public final IdentifierExpressionNode expression;
-    public final ExpressionNode value;
+public class GetExpressionNode implements ExpressionNode {
+    public final ExpressionNode expression;
+    public final IdentifierExpressionNode propertyName;
 
-    public VariableAssignmentExpressionNode(IdentifierExpressionNode expression, ExpressionNode value) {
+    public GetExpressionNode(ExpressionNode expression, IdentifierExpressionNode propertyName) {
         this.expression = expression;
-        this.value = value;
+        this.propertyName = propertyName;
     }
 
     @Override
@@ -16,17 +16,17 @@ public class VariableAssignmentExpressionNode implements ExpressionNode {
         if (o == null || this.getClass() != o.getClass())
             return false;
 
-        VariableAssignmentExpressionNode that = (VariableAssignmentExpressionNode) o;
+        GetExpressionNode that = (GetExpressionNode) o;
 
         if (!this.expression.equals(that.expression))
             return false;
-        return this.value.equals(that.value);
+        return this.propertyName.equals(that.propertyName);
     }
 
     @Override
     public int hashCode() {
         int result = this.expression.hashCode();
-        result = 31 * result + this.value.hashCode();
+        result = 31 * result + this.propertyName.hashCode();
         return result;
     }
 }

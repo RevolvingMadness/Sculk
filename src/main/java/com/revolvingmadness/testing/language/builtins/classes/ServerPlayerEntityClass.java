@@ -1,20 +1,21 @@
 package com.revolvingmadness.testing.language.builtins.classes;
 
+import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.IntegerClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.StringClass;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
-import com.revolvingmadness.testing.language.interpreter.Variable;
-import com.revolvingmadness.testing.language.interpreter.VariableScope;
+import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
-import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameMode;
 
 import java.util.List;
 
-public class ServerPlayerEntityClass extends BuiltinClass {
+public class ServerPlayerEntityClass extends BaseClassExpressionNode {
     public final ServerPlayerEntity serverPlayerEntity;
 
     public ServerPlayerEntityClass(ServerPlayerEntity serverPlayerEntity) {
@@ -31,24 +32,24 @@ public class ServerPlayerEntityClass extends BuiltinClass {
     }
 
     @Override
-    public IdentifierExpressionNode getType() {
-        return new IdentifierExpressionNode("ServerPlayerEntity");
+    public String getType() {
+        return "ServerPlayerEntity";
     }
 
-    public class ChangeGameMode implements LiteralExpressionNode {
+    public class ChangeGameMode extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'changeGameMode' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode gameMode = arguments.get(0).interpret(script);
+            BaseClassExpressionNode gameMode = interpreter.visitExpression(arguments.get(0));
 
-            if (!gameMode.getType().equals(new IdentifierExpressionNode("string"))) {
+            if (!gameMode.getType().equals("string")) {
                 throw new TypeError("Argument 1 for function 'changeGameMode' requires type 'string' but got '" + gameMode.getType() + "'");
             }
 
-            GameMode gameMode1 = GameMode.byName(((StringExpressionNode) gameMode).value, null);
+            GameMode gameMode1 = GameMode.byName(((StringClass) gameMode).value, null);
 
             if (gameMode1 == null) {
                 throw new ValueError("Gamemode '" + gameMode + "' does not exist");
@@ -56,116 +57,116 @@ public class ServerPlayerEntityClass extends BuiltinClass {
 
             ServerPlayerEntityClass.this.serverPlayerEntity.changeGameMode(gameMode1);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class DropSelectedItem implements LiteralExpressionNode {
+    public class DropSelectedItem extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'dropSelectedItem' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode entireStack = arguments.get(0).interpret(script);
+            BaseClassExpressionNode entireStack = interpreter.visitExpression(arguments.get(0));
 
-            if (!entireStack.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!entireStack.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'dropSelectedItem' requires type 'boolean' but got '" + entireStack.getType() + "'");
             }
 
-            ServerPlayerEntityClass.this.serverPlayerEntity.dropSelectedItem(((BooleanExpressionNode) entireStack).value);
+            ServerPlayerEntityClass.this.serverPlayerEntity.dropSelectedItem(((BooleanClass) entireStack).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetIp implements LiteralExpressionNode {
+    public class GetIp extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getIp' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new StringExpressionNode(ServerPlayerEntityClass.this.serverPlayerEntity.getIp());
+            return new StringClass(ServerPlayerEntityClass.this.serverPlayerEntity.getIp());
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetViewDistance implements LiteralExpressionNode {
+    public class GetViewDistance extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getViewDistance' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new IntegerExpressionNode(ServerPlayerEntityClass.this.serverPlayerEntity.getViewDistance());
+            return new IntegerClass(ServerPlayerEntityClass.this.serverPlayerEntity.getViewDistance());
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetExperienceLevels implements LiteralExpressionNode {
+    public class SetExperienceLevels extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setExperienceLevels' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode experienceLevel = arguments.get(0).interpret(script);
+            BaseClassExpressionNode experienceLevel = interpreter.visitExpression(arguments.get(0));
 
-            if (!experienceLevel.getType().equals(new IdentifierExpressionNode("int"))) {
+            if (!experienceLevel.getType().equals("int")) {
                 throw new TypeError("Argument 1 for function 'setExperienceLevels' requires type 'int' but got '" + experienceLevel.getType() + "'");
             }
 
-            ServerPlayerEntityClass.this.serverPlayerEntity.setExperienceLevel(((IntegerExpressionNode) experienceLevel).value);
+            ServerPlayerEntityClass.this.serverPlayerEntity.setExperienceLevel(((IntegerClass) experienceLevel).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetExperiencePoints implements LiteralExpressionNode {
+    public class SetExperiencePoints extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setExperiencePoints' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode experiencePoints = arguments.get(0).interpret(script);
+            BaseClassExpressionNode experiencePoints = interpreter.visitExpression(arguments.get(0));
 
-            if (!experiencePoints.getType().equals(new IdentifierExpressionNode("int"))) {
+            if (!experiencePoints.getType().equals("int")) {
                 throw new TypeError("Argument 1 for function 'setExperiencePoints' requires type 'int' but got '" + experiencePoints.getType() + "'");
             }
 
-            ServerPlayerEntityClass.this.serverPlayerEntity.setExperiencePoints(((IntegerExpressionNode) experiencePoints).value);
+            ServerPlayerEntityClass.this.serverPlayerEntity.setExperiencePoints(((IntegerClass) experiencePoints).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 }

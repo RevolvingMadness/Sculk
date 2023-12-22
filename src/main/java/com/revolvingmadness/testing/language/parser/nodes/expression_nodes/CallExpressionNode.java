@@ -1,44 +1,34 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
 
-import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
-
 import java.util.List;
 
 public class CallExpressionNode implements ExpressionNode {
     public final List<ExpressionNode> arguments;
-    public final ExpressionNode expression;
+    public final ExpressionNode callee;
 
-    public CallExpressionNode(ExpressionNode expression, List<ExpressionNode> arguments) {
-        this.expression = expression;
+    public CallExpressionNode(ExpressionNode callee, List<ExpressionNode> arguments) {
+        this.callee = callee;
         this.arguments = arguments;
     }
 
     @Override
-    public boolean equals(Object otherObject) {
-        if (this == otherObject)
+    public boolean equals(Object o) {
+        if (this == o)
             return true;
-        if (otherObject == null || this.getClass() != otherObject.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
 
-        CallExpressionNode that = (CallExpressionNode) otherObject;
+        CallExpressionNode that = (CallExpressionNode) o;
 
-        if (!this.expression.equals(that.expression))
+        if (!this.arguments.equals(that.arguments))
             return false;
-        return this.arguments.equals(that.arguments);
+        return this.callee.equals(that.callee);
     }
 
     @Override
     public int hashCode() {
-        int result = this.expression.hashCode();
-        result = 31 * result + this.arguments.hashCode();
+        int result = this.arguments.hashCode();
+        result = 31 * result + this.callee.hashCode();
         return result;
-    }
-
-    @Override
-    public LiteralExpressionNode interpret(ScriptNode script) {
-        LiteralExpressionNode interpretedExpression = this.expression.interpret(script);
-
-        return interpretedExpression.call(script, this.arguments);
     }
 }

@@ -1,21 +1,22 @@
 package com.revolvingmadness.testing.language.builtins.classes;
 
 import com.revolvingmadness.testing.Testing;
+import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.IntegerClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.StringClass;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
-import com.revolvingmadness.testing.language.interpreter.Variable;
-import com.revolvingmadness.testing.language.interpreter.VariableScope;
+import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
-import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.List;
 
-public class PlayerManagerClass extends BuiltinClass {
+public class PlayerManagerClass extends BaseClassExpressionNode {
     public final PlayerManager playerManager;
 
     public PlayerManagerClass() {
@@ -35,72 +36,72 @@ public class PlayerManagerClass extends BuiltinClass {
     }
 
     @Override
-    public IdentifierExpressionNode getType() {
-        return new IdentifierExpressionNode("PlayerManager");
+    public String getType() {
+        return "PlayerManager";
     }
 
-    public class AreCheatsEnabled implements LiteralExpressionNode {
+    public class AreCheatsEnabled extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'areCheatsEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(PlayerManagerClass.this.playerManager.areCheatsAllowed());
+            return new BooleanClass(PlayerManagerClass.this.playerManager.areCheatsAllowed());
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetCurrentPlayerCount implements LiteralExpressionNode {
+    public class GetCurrentPlayerCount extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getCurrentPlayerCount' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new IntegerExpressionNode(PlayerManagerClass.this.playerManager.getCurrentPlayerCount());
+            return new IntegerClass(PlayerManagerClass.this.playerManager.getCurrentPlayerCount());
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetMaxPlayerCount implements LiteralExpressionNode {
+    public class GetMaxPlayerCount extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getMaxPlayerCount' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new IntegerExpressionNode(PlayerManagerClass.this.playerManager.getMaxPlayerCount());
+            return new IntegerClass(PlayerManagerClass.this.playerManager.getMaxPlayerCount());
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetPlayer implements LiteralExpressionNode {
+    public class GetPlayer extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'getPlayer' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode playerName = arguments.get(0).interpret(script);
+            BaseClassExpressionNode playerName = interpreter.visitExpression(arguments.get(0));
 
-            if (!playerName.getType().equals(new IdentifierExpressionNode("string"))) {
+            if (!playerName.getType().equals("string")) {
                 throw new TypeError("Argument 1 for function 'getPlayer' requires type 'string' but got '" + playerName.getType() + "'");
             }
 
-            ServerPlayerEntity serverPlayerEntity = PlayerManagerClass.this.playerManager.getPlayer(((StringExpressionNode) playerName).value);
+            ServerPlayerEntity serverPlayerEntity = PlayerManagerClass.this.playerManager.getPlayer(((StringClass) playerName).value);
 
             if (serverPlayerEntity == null) {
                 throw new ValueError("There is no player named '" + playerName + "'");
@@ -110,152 +111,152 @@ public class PlayerManagerClass extends BuiltinClass {
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetSimulationDistance implements LiteralExpressionNode {
+    public class GetSimulationDistance extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getSimulationDistance' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new IntegerExpressionNode(PlayerManagerClass.this.playerManager.getSimulationDistance());
+            return new IntegerClass(PlayerManagerClass.this.playerManager.getSimulationDistance());
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetViewDistance implements LiteralExpressionNode {
+    public class GetViewDistance extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getViewDistance' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new IntegerExpressionNode(PlayerManagerClass.this.playerManager.getViewDistance());
+            return new IntegerClass(PlayerManagerClass.this.playerManager.getViewDistance());
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsWhitelistEnabled implements LiteralExpressionNode {
+    public class IsWhitelistEnabled extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isWhitelistEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(PlayerManagerClass.this.playerManager.isWhitelistEnabled());
+            return new BooleanClass(PlayerManagerClass.this.playerManager.isWhitelistEnabled());
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetCheatsEnabled implements LiteralExpressionNode {
+    public class SetCheatsEnabled extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setCheatsEnabled' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode cheatsEnabled = arguments.get(0).interpret(script);
+            BaseClassExpressionNode cheatsEnabled = interpreter.visitExpression(arguments.get(0));
 
-            if (!cheatsEnabled.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!cheatsEnabled.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setCheatsEnabled' requires type 'boolean' but got '" + cheatsEnabled.getType() + "'");
             }
 
-            PlayerManagerClass.this.playerManager.setCheatsAllowed(((BooleanExpressionNode) cheatsEnabled).value);
+            PlayerManagerClass.this.playerManager.setCheatsAllowed(((BooleanClass) cheatsEnabled).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetSimulationDistance implements LiteralExpressionNode {
+    public class SetSimulationDistance extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSimulationDistance' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode simulationDistance = arguments.get(0).interpret(script);
+            BaseClassExpressionNode simulationDistance = interpreter.visitExpression(arguments.get(0));
 
-            if (!simulationDistance.getType().equals(new IdentifierExpressionNode("int"))) {
+            if (!simulationDistance.getType().equals("int")) {
                 throw new TypeError("Argument 1 for function 'setSimulationDistance' requires type 'int' but got '" + simulationDistance.getType() + "'");
             }
 
-            PlayerManagerClass.this.playerManager.setSimulationDistance(((IntegerExpressionNode) simulationDistance).value);
+            PlayerManagerClass.this.playerManager.setSimulationDistance(((IntegerClass) simulationDistance).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetViewDistance implements LiteralExpressionNode {
+    public class SetViewDistance extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setViewDistance' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode viewDistance = arguments.get(0).interpret(script);
+            BaseClassExpressionNode viewDistance = interpreter.visitExpression(arguments.get(0));
 
-            if (!viewDistance.getType().equals(new IdentifierExpressionNode("int"))) {
+            if (!viewDistance.getType().equals("int")) {
                 throw new TypeError("Argument 1 for function 'setViewDistance' requires type 'int' but got '" + viewDistance.getType() + "'");
             }
 
-            PlayerManagerClass.this.playerManager.setViewDistance(((IntegerExpressionNode) viewDistance).value);
+            PlayerManagerClass.this.playerManager.setViewDistance(((IntegerClass) viewDistance).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetWhitelistEnabled implements LiteralExpressionNode {
+    public class SetWhitelistEnabled extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setWhitelistEnabled' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode whitelistEnabled = arguments.get(0).interpret(script);
+            BaseClassExpressionNode whitelistEnabled = interpreter.visitExpression(arguments.get(0));
 
-            if (!whitelistEnabled.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!whitelistEnabled.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setWhitelistEnabled' requires type 'boolean' but got '" + whitelistEnabled.getType() + "'");
             }
 
-            PlayerManagerClass.this.playerManager.setWhitelistEnabled(((BooleanExpressionNode) whitelistEnabled).value);
+            PlayerManagerClass.this.playerManager.setWhitelistEnabled(((BooleanClass) whitelistEnabled).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 }

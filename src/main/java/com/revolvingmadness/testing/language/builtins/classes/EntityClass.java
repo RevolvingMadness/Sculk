@@ -1,23 +1,23 @@
 package com.revolvingmadness.testing.language.builtins.classes;
 
+import com.revolvingmadness.testing.language.builtins.classes.types.*;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
-import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
+import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 
-public class EntityClass extends BuiltinClass {
+public class EntityClass extends BaseClassExpressionNode {
     public final Entity entity;
 
     public EntityClass(Entity entity) {
         this.entity = entity;
-        
+
         this.variableScope.declare(true, new IdentifierExpressionNode("addCommandTag"), new AddCommandTag());
         this.variableScope.declare(true, new IdentifierExpressionNode("dismountVehicle"), new DismountVehicle());
         this.variableScope.declare(true, new IdentifierExpressionNode("getBlockPos"), new GetBlockPos());
@@ -69,55 +69,55 @@ public class EntityClass extends BuiltinClass {
     }
 
     @Override
-    public IdentifierExpressionNode getType() {
-        return new IdentifierExpressionNode("Entity");
+    public String getType() {
+        return "Entity";
     }
 
-    public class AddCommandTag implements LiteralExpressionNode {
+    public class AddCommandTag extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'addCommandTag' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode commandTag = arguments.get(0).interpret(script);
+            BaseClassExpressionNode commandTag = interpreter.visitExpression(arguments.get(0));
 
-            if (!commandTag.getType().equals(new IdentifierExpressionNode("string"))) {
+            if (!commandTag.getType().equals("string")) {
                 throw new TypeError("Argument 1 for function 'addCommandTag' requires type 'string' but got '" + commandTag.getType() + "'");
             }
 
-            EntityClass.this.entity.addCommandTag(((StringExpressionNode) commandTag).value);
+            EntityClass.this.entity.addCommandTag(((StringClass) commandTag).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class DismountVehicle implements LiteralExpressionNode {
+    public class DismountVehicle extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'dismountVehicle' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             EntityClass.this.entity.dismountVehicle();
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetBlockPos implements LiteralExpressionNode {
+    public class GetBlockPos extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getBlockPos' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -128,920 +128,920 @@ public class EntityClass extends BuiltinClass {
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetBlockX implements LiteralExpressionNode {
+    public class GetBlockX extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getBlockX' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             int blockX = EntityClass.this.entity.getBlockX();
 
-            return new IntegerExpressionNode(blockX);
+            return new IntegerClass(blockX);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetBlockY implements LiteralExpressionNode {
+    public class GetBlockY extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getBlockY' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             int blockY = EntityClass.this.entity.getBlockY();
 
-            return new IntegerExpressionNode(blockY);
+            return new IntegerClass(blockY);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetBlockZ implements LiteralExpressionNode {
+    public class GetBlockZ extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getBlockZ' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             int blockZ = EntityClass.this.entity.getBlockZ();
 
-            return new IntegerExpressionNode(blockZ);
+            return new IntegerClass(blockZ);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetX implements LiteralExpressionNode {
+    public class GetX extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getX' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             double x = EntityClass.this.entity.getX();
 
-            return new FloatExpressionNode(x);
+            return new FloatClass(x);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetY implements LiteralExpressionNode {
+    public class GetY extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getY' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             double y = EntityClass.this.entity.getY();
 
-            return new FloatExpressionNode(y);
+            return new FloatClass(y);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetZ implements LiteralExpressionNode {
+    public class GetZ extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getZ' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             double z = EntityClass.this.entity.getZ();
 
-            return new FloatExpressionNode(z);
+            return new FloatClass(z);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class HasVehicle implements LiteralExpressionNode {
+    public class HasVehicle extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'hasVehicle' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean hasVehicle = EntityClass.this.entity.hasVehicle();
 
-            return new BooleanExpressionNode(hasVehicle);
+            return new BooleanClass(hasVehicle);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsCrawling implements LiteralExpressionNode {
+    public class IsCrawling extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isCrawling' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isCrawling = EntityClass.this.entity.isCrawling();
 
-            return new BooleanExpressionNode(isCrawling);
+            return new BooleanClass(isCrawling);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsDescending implements LiteralExpressionNode {
+    public class IsDescending extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isDecending' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isDescending = EntityClass.this.entity.isDescending();
 
-            return new BooleanExpressionNode(isDescending);
+            return new BooleanClass(isDescending);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsFireImmune implements LiteralExpressionNode {
+    public class IsFireImmune extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isFireImmune' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isFireImmune = EntityClass.this.entity.isFireImmune();
 
-            return new BooleanExpressionNode(isFireImmune);
+            return new BooleanClass(isFireImmune);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsFrozen implements LiteralExpressionNode {
+    public class IsFrozen extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isFrozen' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isFrozen = EntityClass.this.entity.isFrozen();
 
-            return new BooleanExpressionNode(isFrozen);
+            return new BooleanClass(isFrozen);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsGlowing implements LiteralExpressionNode {
+    public class IsGlowing extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isGlowing' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isGlowing = EntityClass.this.entity.isGlowing();
 
-            return new BooleanExpressionNode(isGlowing);
+            return new BooleanClass(isGlowing);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsInFluid implements LiteralExpressionNode {
+    public class IsInFluid extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isInFluid' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isInFluid = EntityClass.this.entity.isInFluid();
 
-            return new BooleanExpressionNode(isInFluid);
+            return new BooleanClass(isInFluid);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsInLava implements LiteralExpressionNode {
+    public class IsInLava extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isInLava' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isInLava = EntityClass.this.entity.isInLava();
 
-            return new BooleanExpressionNode(isInLava);
+            return new BooleanClass(isInLava);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsInsideWall implements LiteralExpressionNode {
+    public class IsInsideWall extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isInsideWall' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isInsideWall = EntityClass.this.entity.isInsideWall();
 
-            return new BooleanExpressionNode(isInsideWall);
+            return new BooleanClass(isInsideWall);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsInvisible implements LiteralExpressionNode {
+    public class IsInvisible extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isInvisible' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isInvisible = EntityClass.this.entity.isInvisible();
 
-            return new BooleanExpressionNode(isInvisible);
+            return new BooleanClass(isInvisible);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsInvulnerable implements LiteralExpressionNode {
+    public class IsInvulnerable extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isInvulnerable' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isInvulnerable = EntityClass.this.entity.isInvulnerable();
 
-            return new BooleanExpressionNode(isInvulnerable);
+            return new BooleanClass(isInvulnerable);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsOnFire implements LiteralExpressionNode {
+    public class IsOnFire extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isOnFire' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isOnFire = EntityClass.this.entity.isOnFire();
 
-            return new BooleanExpressionNode(isOnFire);
+            return new BooleanClass(isOnFire);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsOnGround implements LiteralExpressionNode {
+    public class IsOnGround extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isOnGround' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isOnGround = EntityClass.this.entity.isOnGround();
 
-            return new BooleanExpressionNode(isOnGround);
+            return new BooleanClass(isOnGround);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsOnRail implements LiteralExpressionNode {
+    public class IsOnRail extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isOnRail' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isOnRail = EntityClass.this.entity.isOnRail();
 
-            return new BooleanExpressionNode(isOnRail);
+            return new BooleanClass(isOnRail);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsSilent implements LiteralExpressionNode {
+    public class IsSilent extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isSilent' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isSilent = EntityClass.this.entity.isSilent();
 
-            return new BooleanExpressionNode(isSilent);
+            return new BooleanClass(isSilent);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsSneaking implements LiteralExpressionNode {
+    public class IsSneaking extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isSneaking' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isSneaking = EntityClass.this.entity.isSneaking();
 
-            return new BooleanExpressionNode(isSneaking);
+            return new BooleanClass(isSneaking);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsSprinting implements LiteralExpressionNode {
+    public class IsSprinting extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isSprinting' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isSprinting = EntityClass.this.entity.isSprinting();
 
-            return new BooleanExpressionNode(isSprinting);
+            return new BooleanClass(isSprinting);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsSwimming implements LiteralExpressionNode {
+    public class IsSwimming extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isSwimming' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isSwimming = EntityClass.this.entity.isSwimming();
 
-            return new BooleanExpressionNode(isSwimming);
+            return new BooleanClass(isSwimming);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsTouchingWater implements LiteralExpressionNode {
+    public class IsTouchingWater extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isTouchingWater' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isTouchingWater = EntityClass.this.entity.isTouchingWater();
 
-            return new BooleanExpressionNode(isTouchingWater);
+            return new BooleanClass(isTouchingWater);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsTouchingWaterOrRain implements LiteralExpressionNode {
+    public class IsTouchingWaterOrRain extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isTouchingWaterOrRain' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isTouchingWaterOrRain = EntityClass.this.entity.isTouchingWaterOrRain();
 
-            return new BooleanExpressionNode(isTouchingWaterOrRain);
+            return new BooleanClass(isTouchingWaterOrRain);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class IsWet implements LiteralExpressionNode {
+    public class IsWet extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isWet' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean isWet = EntityClass.this.entity.isWet();
 
-            return new BooleanExpressionNode(isWet);
+            return new BooleanClass(isWet);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class Kill implements LiteralExpressionNode {
+    public class Kill extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'kill' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             EntityClass.this.entity.kill();
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class RemoveAllPassengers implements LiteralExpressionNode {
+    public class RemoveAllPassengers extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'removeAllPassengers' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             EntityClass.this.entity.removeAllPassengers();
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class ResetPortalCooldown implements LiteralExpressionNode {
+    public class ResetPortalCooldown extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'resetPortalCooldown' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             EntityClass.this.entity.resetPortalCooldown();
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SendMessage implements LiteralExpressionNode {
+    public class SendMessage extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'sendMessage' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode message = arguments.get(0).interpret(script);
+            BaseClassExpressionNode message = interpreter.visitExpression(arguments.get(0));
 
-            if (!message.getType().equals(new IdentifierExpressionNode("string"))) {
+            if (!message.getType().equals("string")) {
                 throw new TypeError("Argument 1 for function 'sendMessage' requires type 'string' but got '" + message.getType() + "'");
             }
 
-            EntityClass.this.entity.sendMessage(Text.literal(((StringExpressionNode) message).value));
+            EntityClass.this.entity.sendMessage(Text.literal(((StringClass) message).value));
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetInvisible implements LiteralExpressionNode {
+    public class SetInvisible extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setInvisible' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode invisible = arguments.get(0).interpret(script);
+            BaseClassExpressionNode invisible = interpreter.visitExpression(arguments.get(0));
 
-            if (!invisible.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!invisible.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setInvisible' requires type 'boolean' but got '" + invisible.getType() + "'");
             }
 
-            EntityClass.this.entity.setInvisible(((BooleanExpressionNode) invisible).value);
+            EntityClass.this.entity.setInvisible(((BooleanClass) invisible).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetInvulnerable implements LiteralExpressionNode {
+    public class SetInvulnerable extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setInvulnerable' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode invulnerable = arguments.get(0).interpret(script);
+            BaseClassExpressionNode invulnerable = interpreter.visitExpression(arguments.get(0));
 
-            if (!invulnerable.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!invulnerable.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setInvulnerable' requires type 'boolean' but got '" + invulnerable.getType() + "'");
             }
 
-            EntityClass.this.entity.setInvulnerable(((BooleanExpressionNode) invulnerable).value);
+            EntityClass.this.entity.setInvulnerable(((BooleanClass) invulnerable).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetNoGravity implements LiteralExpressionNode {
+    public class SetNoGravity extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setNoGravity' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode noGravity = arguments.get(0).interpret(script);
+            BaseClassExpressionNode noGravity = interpreter.visitExpression(arguments.get(0));
 
-            if (!noGravity.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!noGravity.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setNoGravity' requires type 'boolean' but got '" + noGravity.getType() + "'");
             }
 
-            EntityClass.this.entity.setNoGravity(((BooleanExpressionNode) noGravity).value);
+            EntityClass.this.entity.setNoGravity(((BooleanClass) noGravity).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetOnFire implements LiteralExpressionNode {
+    public class SetOnFire extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setOnFire' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode onFire = arguments.get(0).interpret(script);
+            BaseClassExpressionNode onFire = interpreter.visitExpression(arguments.get(0));
 
-            if (!onFire.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!onFire.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setOnFire' requires type 'boolean' but got '" + onFire.getType() + "'");
             }
 
-            EntityClass.this.entity.setOnFire(((BooleanExpressionNode) onFire).value);
+            EntityClass.this.entity.setOnFire(((BooleanClass) onFire).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetOnGround implements LiteralExpressionNode {
+    public class SetOnGround extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setOnGround' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode onGround = arguments.get(0).interpret(script);
+            BaseClassExpressionNode onGround = interpreter.visitExpression(arguments.get(0));
 
-            if (!onGround.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!onGround.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setOnGround' requires type 'boolean' but got '" + onGround.getType() + "'");
             }
 
-            EntityClass.this.entity.setOnGround(((BooleanExpressionNode) onGround).value);
+            EntityClass.this.entity.setOnGround(((BooleanClass) onGround).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetPortalCooldown implements LiteralExpressionNode {
+    public class SetPortalCooldown extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setPortalCooldown' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode portalCooldown = arguments.get(0).interpret(script);
+            BaseClassExpressionNode portalCooldown = interpreter.visitExpression(arguments.get(0));
 
-            if (!portalCooldown.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!portalCooldown.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setPortalCooldown' requires type 'boolean' but got '" + portalCooldown.getType() + "'");
             }
 
-            EntityClass.this.entity.setPortalCooldown(((IntegerExpressionNode) portalCooldown).value);
+            EntityClass.this.entity.setPortalCooldown(((IntegerClass) portalCooldown).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetPos implements LiteralExpressionNode {
+    public class SetPos extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 3) {
                 throw new SyntaxError("Function 'setPos' takes 3 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode x = arguments.get(0).interpret(script);
+            BaseClassExpressionNode x = interpreter.visitExpression(arguments.get(0));
 
-            if (!x.getType().equals(new IdentifierExpressionNode("float"))) {
+            if (!x.getType().equals("float")) {
                 throw new TypeError("Argument 1 for function 'setPos' requires type 'float' but got '" + x.getType() + "'");
             }
 
-            LiteralExpressionNode y = arguments.get(1).interpret(script);
+            BaseClassExpressionNode y = interpreter.visitExpression(arguments.get(1));
 
-            if (!y.getType().equals(new IdentifierExpressionNode("float"))) {
+            if (!y.getType().equals("float")) {
                 throw new TypeError("Argument 1 for function 'setPos' requires type 'float' but got '" + y.getType() + "'");
             }
 
-            LiteralExpressionNode z = arguments.get(2).interpret(script);
+            BaseClassExpressionNode z = interpreter.visitExpression(arguments.get(2));
 
-            if (!z.getType().equals(new IdentifierExpressionNode("float"))) {
+            if (!z.getType().equals("float")) {
                 throw new TypeError("Argument 1 for function 'setPos' requires type 'float' but got '" + z.getType() + "'");
             }
 
-            EntityClass.this.entity.setPos(((IntegerExpressionNode) x).value, ((IntegerExpressionNode) y).value, ((IntegerExpressionNode) z).value);
+            EntityClass.this.entity.setPos(((IntegerClass) x).value, ((IntegerClass) y).value, ((IntegerClass) z).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetSilent implements LiteralExpressionNode {
+    public class SetSilent extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSilent' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode silent = arguments.get(0).interpret(script);
+            BaseClassExpressionNode silent = interpreter.visitExpression(arguments.get(0));
 
-            if (!silent.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!silent.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setSilent' requires type 'boolean' but got '" + silent.getType() + "'");
             }
 
-            EntityClass.this.entity.setSilent(((BooleanExpressionNode) silent).value);
+            EntityClass.this.entity.setSilent(((BooleanClass) silent).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetSneaking implements LiteralExpressionNode {
+    public class SetSneaking extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSneaking' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode sneaking = arguments.get(0).interpret(script);
+            BaseClassExpressionNode sneaking = interpreter.visitExpression(arguments.get(0));
 
-            if (!sneaking.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!sneaking.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setSneaking' requires type 'boolean' but got '" + sneaking.getType() + "'");
             }
 
-            EntityClass.this.entity.setSneaking(((BooleanExpressionNode) sneaking).value);
+            EntityClass.this.entity.setSneaking(((BooleanClass) sneaking).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetSprinting implements LiteralExpressionNode {
+    public class SetSprinting extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSprinting' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode sprinting = arguments.get(0).interpret(script);
+            BaseClassExpressionNode sprinting = interpreter.visitExpression(arguments.get(0));
 
-            if (!sprinting.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!sprinting.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setSprinting' requires type 'boolean' but got '" + sprinting.getType() + "'");
             }
 
-            EntityClass.this.entity.setSprinting(((BooleanExpressionNode) sprinting).value);
+            EntityClass.this.entity.setSprinting(((BooleanClass) sprinting).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetSwimming implements LiteralExpressionNode {
+    public class SetSwimming extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSwimming' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode swimming = arguments.get(0).interpret(script);
+            BaseClassExpressionNode swimming = interpreter.visitExpression(arguments.get(0));
 
-            if (!swimming.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!swimming.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setSwimming' requires type 'boolean' but got '" + swimming.getType() + "'");
             }
 
-            EntityClass.this.entity.setSwimming(((BooleanExpressionNode) swimming).value);
+            EntityClass.this.entity.setSwimming(((BooleanClass) swimming).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class ShouldDismountUnderwater implements LiteralExpressionNode {
+    public class ShouldDismountUnderwater extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'shouldDismountUnderwater' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             boolean shouldDismountUnderwater = EntityClass.this.entity.shouldDismountUnderwater();
 
-            return new BooleanExpressionNode(shouldDismountUnderwater);
+            return new BooleanClass(shouldDismountUnderwater);
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class StopRiding implements LiteralExpressionNode {
+    public class StopRiding extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'stopRiding' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
             EntityClass.this.entity.stopRiding();
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class Teleport implements LiteralExpressionNode {
+    public class Teleport extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 3) {
                 throw new SyntaxError("Function 'teleport' takes 3 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode destX = arguments.get(0).interpret(script);
+            BaseClassExpressionNode destX = interpreter.visitExpression(arguments.get(0));
 
-            if (!destX.getType().equals(new IdentifierExpressionNode("float"))) {
+            if (!destX.getType().equals("float")) {
                 throw new TypeError("Argument 1 for function 'teleport' requires type 'float' but got '" + destX.getType() + "'");
             }
 
-            LiteralExpressionNode destY = arguments.get(1).interpret(script);
+            BaseClassExpressionNode destY = interpreter.visitExpression(arguments.get(1));
 
-            if (!destY.getType().equals(new IdentifierExpressionNode("float"))) {
+            if (!destY.getType().equals("float")) {
                 throw new TypeError("Argument 2 for function 'teleport' requires type 'float' but got '" + destY.getType() + "'");
             }
 
-            LiteralExpressionNode destZ = arguments.get(2).interpret(script);
+            BaseClassExpressionNode destZ = interpreter.visitExpression(arguments.get(2));
 
-            if (!destZ.getType().equals(new IdentifierExpressionNode("float"))) {
+            if (!destZ.getType().equals("float")) {
                 throw new TypeError("Argument 3 for function 'teleport' requires type 'float' but got '" + destZ.getType() + "'");
             }
 
-            EntityClass.this.entity.teleport(((FloatExpressionNode) destX).value, ((FloatExpressionNode) destY).value, ((FloatExpressionNode) destZ).value);
+            EntityClass.this.entity.teleport(((FloatClass) destX).value, ((FloatClass) destY).value, ((FloatClass) destZ).value);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 }

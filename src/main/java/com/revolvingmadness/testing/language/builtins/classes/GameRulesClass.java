@@ -2,20 +2,19 @@ package com.revolvingmadness.testing.language.builtins.classes;
 
 import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.gamerules.TestingGamerules;
+import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.IntegerClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
-import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
+import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.BooleanExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.IntegerExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.NullExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.world.GameRules;
 
 import java.util.List;
 
-public class GameRulesClass extends BuiltinClass {
+public class GameRulesClass extends BaseClassExpressionNode {
     public final GameRules gameRules;
 
     public GameRulesClass() {
@@ -52,11 +51,11 @@ public class GameRulesClass extends BuiltinClass {
         this.variableScope.declare(true, new IdentifierExpressionNode("getFireDamage"), this.new GetFireDamage());
         this.variableScope.declare(true, new IdentifierExpressionNode("getFreezeDamage"), this.new GetFreezeDamage());
         this.variableScope.declare(true, new IdentifierExpressionNode("getDoPatrolSpawning"), this.new GetDoPatrolSpawning());
-        this.variableScope.declare(true, new IdentifierExpressionNode("getTraderSpawning"), this.new GetDoTraderSpawning());
-        this.variableScope.declare(true, new IdentifierExpressionNode("getWardenSpawning"), this.new GetDoWardenSpawning());
+        this.variableScope.declare(true, new IdentifierExpressionNode("getDoTraderSpawning"), this.new GetDoTraderSpawning());
+        this.variableScope.declare(true, new IdentifierExpressionNode("getDoWardenSpawning"), this.new GetDoWardenSpawning());
         this.variableScope.declare(true, new IdentifierExpressionNode("getForgiveDeadPlayers"), this.new GetForgiveDeadPlayers());
         this.variableScope.declare(true, new IdentifierExpressionNode("getUniversalAnger"), this.new GetUniversalAnger());
-        this.variableScope.declare(true, new IdentifierExpressionNode("getPlayersSleepingPercentage"), this.new GetPlayerSleepingPercentage());
+        this.variableScope.declare(true, new IdentifierExpressionNode("getPlayersSleepingPercentage"), this.new GetPlayersSleepingPercentage());
         this.variableScope.declare(true, new IdentifierExpressionNode("getBlockExplosionDropDecay"), this.new GetBlockExplosionDropDecay());
         this.variableScope.declare(true, new IdentifierExpressionNode("getMobExplosionDropDecay"), this.new GetMobExplosionDropDecay());
         this.variableScope.declare(true, new IdentifierExpressionNode("getTntExplosionDropDecay"), this.new GetTntExplosionDropDecay());
@@ -69,7 +68,6 @@ public class GameRulesClass extends BuiltinClass {
         this.variableScope.declare(true, new IdentifierExpressionNode("getMaxArgumentCount"), this.new GetMaxArgumentCount());
         this.variableScope.declare(true, new IdentifierExpressionNode("getMaxLoops"), this.new GetMaxLoops());
         this.variableScope.declare(true, new IdentifierExpressionNode("getScriptLogsEnabled"), this.new GetScriptLogsEnabled());
-
         this.variableScope.declare(true, new IdentifierExpressionNode("setDoFireTick"), this.new SetDoFireTick());
         this.variableScope.declare(true, new IdentifierExpressionNode("setDoMobGriefing"), this.new SetDoMobGriefing());
         this.variableScope.declare(true, new IdentifierExpressionNode("setKeepInventory"), this.new SetKeepInventory());
@@ -102,11 +100,11 @@ public class GameRulesClass extends BuiltinClass {
         this.variableScope.declare(true, new IdentifierExpressionNode("setFireDamage"), this.new SetFireDamage());
         this.variableScope.declare(true, new IdentifierExpressionNode("setFreezeDamage"), this.new SetFreezeDamage());
         this.variableScope.declare(true, new IdentifierExpressionNode("setDoPatrolSpawning"), this.new SetDoPatrolSpawning());
-        this.variableScope.declare(true, new IdentifierExpressionNode("setTraderSpawning"), this.new SetDoTraderSpawning());
-        this.variableScope.declare(true, new IdentifierExpressionNode("setWardenSpawning"), this.new SetDoWardenSpawning());
+        this.variableScope.declare(true, new IdentifierExpressionNode("setDoTraderSpawning"), this.new SetDoTraderSpawning());
+        this.variableScope.declare(true, new IdentifierExpressionNode("setDoWardenSpawning"), this.new SetDoWardenSpawning());
         this.variableScope.declare(true, new IdentifierExpressionNode("setForgiveDeadPlayers"), this.new SetForgiveDeadPlayers());
         this.variableScope.declare(true, new IdentifierExpressionNode("setUniversalAnger"), this.new SetUniversalAnger());
-        this.variableScope.declare(true, new IdentifierExpressionNode("setPlayersSleepingPercentage"), this.new SetPlayerSleepingPercentage());
+        this.variableScope.declare(true, new IdentifierExpressionNode("setPlayersSleepingPercentage"), this.new SetPlayersSleepingPercentage());
         this.variableScope.declare(true, new IdentifierExpressionNode("setBlockExplosionDropDecay"), this.new SetBlockExplosionDropDecay());
         this.variableScope.declare(true, new IdentifierExpressionNode("setMobExplosionDropDecay"), this.new SetMobExplosionDropDecay());
         this.variableScope.declare(true, new IdentifierExpressionNode("setTntExplosionDropDecay"), this.new SetTntExplosionDropDecay());
@@ -116,1976 +114,1973 @@ public class GameRulesClass extends BuiltinClass {
         this.variableScope.declare(true, new IdentifierExpressionNode("setGlobalSoundEvents"), this.new SetGlobalSoundEvents());
         this.variableScope.declare(true, new IdentifierExpressionNode("setDoVinesSpread"), this.new SetDoVinesSpread());
         this.variableScope.declare(true, new IdentifierExpressionNode("setEnderPearlsVanishOnDeath"), this.new SetEnderPearlsVanishOnDeath());
-        this.variableScope.declare(true, new IdentifierExpressionNode("setMaxArgumentCount"), this.new SetEnderPearlsVanishOnDeath());
-        this.variableScope.declare(true, new IdentifierExpressionNode("setMaxLoops"), this.new SetEnderPearlsVanishOnDeath());
-        this.variableScope.declare(true, new IdentifierExpressionNode("setScriptsLogsEnabled"), this.new SetEnderPearlsVanishOnDeath());
+        this.variableScope.declare(true, new IdentifierExpressionNode("setScriptLogsEnabled"), this.new SetScriptLogsEnabled());
         this.variableScope.declare(true, new IdentifierExpressionNode("setMaxArgumentCount"), this.new SetMaxArgumentCount());
         this.variableScope.declare(true, new IdentifierExpressionNode("setMaxLoops"), this.new SetMaxLoops());
-        this.variableScope.declare(true, new IdentifierExpressionNode("setScriptLogsEnabled"), this.new SetScriptLogsEnabled());
     }
 
     @Override
-    public IdentifierExpressionNode getType() {
-        return new IdentifierExpressionNode("GameRules");
+    public String getType() {
+        return "GameRules";
     }
 
-    public class GetAnnounceAdvancements implements LiteralExpressionNode {
+    public class GetAnnounceAdvancements extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getAnnounceAdvancements' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.ANNOUNCE_ADVANCEMENTS));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.ANNOUNCE_ADVANCEMENTS));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetBlockExplosionDropDecay implements LiteralExpressionNode {
+    public class GetBlockExplosionDropDecay extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getBlockExplosionDropDecay' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.BLOCK_EXPLOSION_DROP_DECAY));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.BLOCK_EXPLOSION_DROP_DECAY));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetCommandBlockOutput implements LiteralExpressionNode {
+    public class GetCommandBlockOutput extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getCommandBlockOutput' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.COMMAND_BLOCK_OUTPUT));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.COMMAND_BLOCK_OUTPUT));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetCommandModificationBlockLimit implements LiteralExpressionNode {
+    public class GetCommandModificationBlockLimit extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getCommandModificationBlockLimit' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new IntegerExpressionNode(GameRulesClass.this.gameRules.getInt(GameRules.COMMAND_MODIFICATION_BLOCK_LIMIT));
+            return new IntegerClass(GameRulesClass.this.gameRules.getInt(GameRules.COMMAND_MODIFICATION_BLOCK_LIMIT));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDisableElytraMovementCheck implements LiteralExpressionNode {
+    public class GetDisableElytraMovementCheck extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDisableElytraMovementCheck' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DISABLE_ELYTRA_MOVEMENT_CHECK));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DISABLE_ELYTRA_MOVEMENT_CHECK));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDisableRaids implements LiteralExpressionNode {
+    public class GetDisableRaids extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDisableRaids' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DISABLE_RAIDS));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DISABLE_RAIDS));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDoDaylightCycle implements LiteralExpressionNode {
+    public class GetDoDaylightCycle extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoDaylightCycle' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_DAYLIGHT_CYCLE));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_DAYLIGHT_CYCLE));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDoEntityDrops implements LiteralExpressionNode {
+    public class GetDoEntityDrops extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoEntityDrops' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_ENTITY_DROPS));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_ENTITY_DROPS));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDoFireTick implements LiteralExpressionNode {
+    public class GetDoFireTick extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoFireTick' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_FIRE_TICK));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_FIRE_TICK));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDoImmediateRespawn implements LiteralExpressionNode {
+    public class GetDoImmediateRespawn extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoImmediateRespawn' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_IMMEDIATE_RESPAWN));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_IMMEDIATE_RESPAWN));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDoInsomnia implements LiteralExpressionNode {
+    public class GetDoInsomnia extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoInsomnia' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_INSOMNIA));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_INSOMNIA));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDoLimitedCrafting implements LiteralExpressionNode {
+    public class GetDoLimitedCrafting extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoLimitedCrafting' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_LIMITED_CRAFTING));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_LIMITED_CRAFTING));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDoMobGriefing implements LiteralExpressionNode {
+    public class GetDoMobGriefing extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoMobGriefing' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_MOB_GRIEFING));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_MOB_GRIEFING));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDoMobLoot implements LiteralExpressionNode {
+    public class GetDoMobLoot extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoMobLoot' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_MOB_LOOT));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_MOB_LOOT));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDoMobSpawning implements LiteralExpressionNode {
+    public class GetDoMobSpawning extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoMobSpawning' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_MOB_SPAWNING));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_MOB_SPAWNING));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDoPatrolSpawning implements LiteralExpressionNode {
+    public class GetDoPatrolSpawning extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoPatrolSpawning' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_PATROL_SPAWNING));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_PATROL_SPAWNING));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDoTileDrops implements LiteralExpressionNode {
+    public class GetDoTileDrops extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoTileDrops' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_TILE_DROPS));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_TILE_DROPS));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDoTraderSpawning implements LiteralExpressionNode {
+    public class GetDoTraderSpawning extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoTraderSpawning' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_TRADER_SPAWNING));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_TRADER_SPAWNING));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDoVinesSpread implements LiteralExpressionNode {
+    public class GetDoVinesSpread extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoVinesSpread' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_VINES_SPREAD));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_VINES_SPREAD));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDoWardenSpawning implements LiteralExpressionNode {
+    public class GetDoWardenSpawning extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoWardenSpawning' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_WARDEN_SPAWNING));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_WARDEN_SPAWNING));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDoWeatherCycle implements LiteralExpressionNode {
+    public class GetDoWeatherCycle extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoWeatherCycle' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_WEATHER_CYCLE));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_WEATHER_CYCLE));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetDrowningDamage implements LiteralExpressionNode {
+    public class GetDrowningDamage extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDrowningDamage' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.DROWNING_DAMAGE));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DROWNING_DAMAGE));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetEnderPearlsVanishOnDeath implements LiteralExpressionNode {
+    public class GetEnderPearlsVanishOnDeath extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getEnderPearlsVanishOnDeath' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.ENDER_PEARLS_VANISH_ON_DEATH));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.ENDER_PEARLS_VANISH_ON_DEATH));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetFallDamage implements LiteralExpressionNode {
+    public class GetFallDamage extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getFallDamage' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.FALL_DAMAGE));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.FALL_DAMAGE));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetFireDamage implements LiteralExpressionNode {
+    public class GetFireDamage extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getFireDamage' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.FIRE_DAMAGE));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.FIRE_DAMAGE));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetForgiveDeadPlayers implements LiteralExpressionNode {
+    public class GetForgiveDeadPlayers extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getForgiveDeadPlayers' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.FORGIVE_DEAD_PLAYERS));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.FORGIVE_DEAD_PLAYERS));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetFreezeDamage implements LiteralExpressionNode {
+    public class GetFreezeDamage extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getFreezeDamage' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.FREEZE_DAMAGE));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.FREEZE_DAMAGE));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetGlobalSoundEvents implements LiteralExpressionNode {
+    public class GetGlobalSoundEvents extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getGlobalSoundEvents' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.GLOBAL_SOUND_EVENTS));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.GLOBAL_SOUND_EVENTS));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetKeepInventory implements LiteralExpressionNode {
+    public class GetKeepInventory extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getKeepInventory' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.KEEP_INVENTORY));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.KEEP_INVENTORY));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetLavaSourceConversion implements LiteralExpressionNode {
+    public class GetLavaSourceConversion extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getLavaSourceConversion' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.LAVA_SOURCE_CONVERSION));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.LAVA_SOURCE_CONVERSION));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetLogAdminCommands implements LiteralExpressionNode {
+    public class GetLogAdminCommands extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getLogAdminCommands' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.LOG_ADMIN_COMMANDS));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.LOG_ADMIN_COMMANDS));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetMaxArgumentCount implements LiteralExpressionNode {
+    public class GetMaxArgumentCount extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getMaxArgumentCount' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new IntegerExpressionNode(GameRulesClass.this.gameRules.getInt(TestingGamerules.MAX_ARGUMENT_COUNT));
+            return new IntegerClass(GameRulesClass.this.gameRules.getInt(TestingGamerules.MAX_ARGUMENTS));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetMaxCommandChainLength implements LiteralExpressionNode {
+    public class GetMaxCommandChainLength extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getMaxCommandChainLength' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new IntegerExpressionNode(GameRulesClass.this.gameRules.getInt(GameRules.MAX_COMMAND_CHAIN_LENGTH));
+            return new IntegerClass(GameRulesClass.this.gameRules.getInt(GameRules.MAX_COMMAND_CHAIN_LENGTH));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetMaxEntityCramming implements LiteralExpressionNode {
+    public class GetMaxEntityCramming extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getMaxEntityCramming' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new IntegerExpressionNode(GameRulesClass.this.gameRules.getInt(GameRules.MAX_ENTITY_CRAMMING));
+            return new IntegerClass(GameRulesClass.this.gameRules.getInt(GameRules.MAX_ENTITY_CRAMMING));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetMaxLoops implements LiteralExpressionNode {
+    public class GetMaxLoops extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getMaxLoops' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new IntegerExpressionNode(GameRulesClass.this.gameRules.getInt(TestingGamerules.MAX_LOOPS));
+            return new IntegerClass(GameRulesClass.this.gameRules.getInt(TestingGamerules.MAX_LOOPS));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetMobExplosionDropDecay implements LiteralExpressionNode {
+    public class GetMobExplosionDropDecay extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getMobExplosionDropDecay' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.MOB_EXPLOSION_DROP_DECAY));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.MOB_EXPLOSION_DROP_DECAY));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetNaturalRegeneration implements LiteralExpressionNode {
+    public class GetNaturalRegeneration extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getNaturalRegeneration' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.NATURAL_REGENERATION));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.NATURAL_REGENERATION));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetPlayerSleepingPercentage implements LiteralExpressionNode {
+    public class GetPlayersSleepingPercentage extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getPlayersSleepingPercentage' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new IntegerExpressionNode(GameRulesClass.this.gameRules.getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE));
+            return new IntegerClass(GameRulesClass.this.gameRules.getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetRandomTickSpeed implements LiteralExpressionNode {
+    public class GetRandomTickSpeed extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getRandomTickSpeed' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new IntegerExpressionNode(GameRulesClass.this.gameRules.getInt(GameRules.RANDOM_TICK_SPEED));
+            return new IntegerClass(GameRulesClass.this.gameRules.getInt(GameRules.RANDOM_TICK_SPEED));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetReducedDebugInfo implements LiteralExpressionNode {
+    public class GetReducedDebugInfo extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getReducedDebugInfo' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.REDUCED_DEBUG_INFO));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.REDUCED_DEBUG_INFO));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetScriptLogsEnabled implements LiteralExpressionNode {
+    public class GetScriptLogsEnabled extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getScriptLogsEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(TestingGamerules.SCRIPT_LOGS_ENABLED));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(TestingGamerules.SCRIPT_LOGS_ENABLED));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetSendCommandFeedback implements LiteralExpressionNode {
+    public class GetSendCommandFeedback extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getSendCommandFeedback' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.SEND_COMMAND_FEEDBACK));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.SEND_COMMAND_FEEDBACK));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetShowDeathMessages implements LiteralExpressionNode {
+    public class GetShowDeathMessages extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getShowDeathMessages' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.SHOW_DEATH_MESSAGES));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.SHOW_DEATH_MESSAGES));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetSnowAccumulationHeight implements LiteralExpressionNode {
+    public class GetSnowAccumulationHeight extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getSnowAccumulationHeight' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new IntegerExpressionNode(GameRulesClass.this.gameRules.getInt(GameRules.SNOW_ACCUMULATION_HEIGHT));
+            return new IntegerClass(GameRulesClass.this.gameRules.getInt(GameRules.SNOW_ACCUMULATION_HEIGHT));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetSpawnRadius implements LiteralExpressionNode {
+    public class GetSpawnRadius extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getSpawnRadius' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new IntegerExpressionNode(GameRulesClass.this.gameRules.getInt(GameRules.SPAWN_RADIUS));
+            return new IntegerClass(GameRulesClass.this.gameRules.getInt(GameRules.SPAWN_RADIUS));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetSpectatorsGenerateChunks implements LiteralExpressionNode {
+    public class GetSpectatorsGenerateChunks extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getSpectatorsGenerateChunks' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.SPECTATORS_GENERATE_CHUNKS));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.SPECTATORS_GENERATE_CHUNKS));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetTntExplosionDropDecay implements LiteralExpressionNode {
+    public class GetTntExplosionDropDecay extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getTntExplosionDropDecay' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.TNT_EXPLOSION_DROP_DECAY));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.TNT_EXPLOSION_DROP_DECAY));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetUniversalAnger implements LiteralExpressionNode {
+    public class GetUniversalAnger extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getUniversalAnger' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.UNIVERSAL_ANGER));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.UNIVERSAL_ANGER));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class GetWaterSourceConversion implements LiteralExpressionNode {
+    public class GetWaterSourceConversion extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getWaterSourceConversion' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new BooleanExpressionNode(GameRulesClass.this.gameRules.getBoolean(GameRules.WATER_SOURCE_CONVERSION));
+            return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.WATER_SOURCE_CONVERSION));
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetAnnounceAdvancements implements LiteralExpressionNode {
+    public class SetAnnounceAdvancements extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setAnnounceAdvancements' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode announceAdvancements = arguments.get(0).interpret(script);
+            BaseClassExpressionNode announceAdvancements = interpreter.visitExpression(arguments.get(0));
 
-            if (!announceAdvancements.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!announceAdvancements.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setAnnounceAdvancements' requires type 'boolean' but got '" + announceAdvancements.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.ANNOUNCE_ADVANCEMENTS).set(((BooleanExpressionNode) announceAdvancements).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.ANNOUNCE_ADVANCEMENTS).set(((BooleanClass) announceAdvancements).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetBlockExplosionDropDecay implements LiteralExpressionNode {
+    public class SetBlockExplosionDropDecay extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setBlockExplosionDropDecay' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode blockExplosionDropDecay = arguments.get(0).interpret(script);
+            BaseClassExpressionNode blockExplosionDropDecay = interpreter.visitExpression(arguments.get(0));
 
-            if (!blockExplosionDropDecay.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!blockExplosionDropDecay.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setBlockExplosionDropDecay' requires type 'boolean' but got '" + blockExplosionDropDecay.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.BLOCK_EXPLOSION_DROP_DECAY).set(((BooleanExpressionNode) blockExplosionDropDecay).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.BLOCK_EXPLOSION_DROP_DECAY).set(((BooleanClass) blockExplosionDropDecay).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetCommandBlockOutput implements LiteralExpressionNode {
+    public class SetCommandBlockOutput extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setCommandBlockOutput' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode commandBlockOutput = arguments.get(0).interpret(script);
+            BaseClassExpressionNode commandBlockOutput = interpreter.visitExpression(arguments.get(0));
 
-            if (!commandBlockOutput.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!commandBlockOutput.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setCommandBlockOutput' requires type 'boolean' but got '" + commandBlockOutput.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.COMMAND_BLOCK_OUTPUT).set(((BooleanExpressionNode) commandBlockOutput).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.COMMAND_BLOCK_OUTPUT).set(((BooleanClass) commandBlockOutput).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetCommandModificationBlockLimit implements LiteralExpressionNode {
+    public class SetCommandModificationBlockLimit extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setCommandModificationBlockLimit' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode commandModificationBlockLimit = arguments.get(0).interpret(script);
+            BaseClassExpressionNode commandModificationBlockLimit = interpreter.visitExpression(arguments.get(0));
 
-            if (!commandModificationBlockLimit.getType().equals(new IdentifierExpressionNode("int"))) {
+            if (!commandModificationBlockLimit.getType().equals("int")) {
                 throw new TypeError("Argument 1 for function 'setCommandModificationBlockLimit' requires type 'int' but got '" + commandModificationBlockLimit.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.COMMAND_MODIFICATION_BLOCK_LIMIT).set(((IntegerExpressionNode) commandModificationBlockLimit).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.COMMAND_MODIFICATION_BLOCK_LIMIT).set(((IntegerClass) commandModificationBlockLimit).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDisableElytraMovementCheck implements LiteralExpressionNode {
+    public class SetDisableElytraMovementCheck extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDisableElytraMovementCheck' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode disableElytraMovementCheck = arguments.get(0).interpret(script);
+            BaseClassExpressionNode disableElytraMovementCheck = interpreter.visitExpression(arguments.get(0));
 
-            if (!disableElytraMovementCheck.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!disableElytraMovementCheck.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDisableElytraMovementCheck' requires type 'boolean' but got '" + disableElytraMovementCheck.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DISABLE_ELYTRA_MOVEMENT_CHECK).set(((BooleanExpressionNode) disableElytraMovementCheck).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DISABLE_ELYTRA_MOVEMENT_CHECK).set(((BooleanClass) disableElytraMovementCheck).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDisableRaids implements LiteralExpressionNode {
+    public class SetDisableRaids extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDisableRaids' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode disableRaids = arguments.get(0).interpret(script);
+            BaseClassExpressionNode disableRaids = interpreter.visitExpression(arguments.get(0));
 
-            if (!disableRaids.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!disableRaids.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDisableRaids' requires type 'boolean' but got '" + disableRaids.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DISABLE_RAIDS).set(((BooleanExpressionNode) disableRaids).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DISABLE_RAIDS).set(((BooleanClass) disableRaids).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDoDaylightCycle implements LiteralExpressionNode {
+    public class SetDoDaylightCycle extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoDaylightCycle' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode doDaylightCycle = arguments.get(0).interpret(script);
+            BaseClassExpressionNode doDaylightCycle = interpreter.visitExpression(arguments.get(0));
 
-            if (!doDaylightCycle.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!doDaylightCycle.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoDaylightCycle' requires type 'boolean' but got '" + doDaylightCycle.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DO_DAYLIGHT_CYCLE).set(((BooleanExpressionNode) doDaylightCycle).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DO_DAYLIGHT_CYCLE).set(((BooleanClass) doDaylightCycle).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDoEntityDrops implements LiteralExpressionNode {
+    public class SetDoEntityDrops extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoEntityDrops' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode doEntityDrops = arguments.get(0).interpret(script);
+            BaseClassExpressionNode doEntityDrops = interpreter.visitExpression(arguments.get(0));
 
-            if (!doEntityDrops.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!doEntityDrops.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoEntityDrops' requires type 'boolean' but got '" + doEntityDrops.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DO_ENTITY_DROPS).set(((BooleanExpressionNode) doEntityDrops).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DO_ENTITY_DROPS).set(((BooleanClass) doEntityDrops).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDoFireTick implements LiteralExpressionNode {
+    public class SetDoFireTick extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoFireTick' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode doFireTick = arguments.get(0).interpret(script);
+            BaseClassExpressionNode doFireTick = interpreter.visitExpression(arguments.get(0));
 
-            if (!doFireTick.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!doFireTick.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoFireTick' requires type 'boolean' but got '" + doFireTick.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DO_FIRE_TICK).set(((BooleanExpressionNode) doFireTick).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DO_FIRE_TICK).set(((BooleanClass) doFireTick).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDoImmediateRespawn implements LiteralExpressionNode {
+    public class SetDoImmediateRespawn extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoImmediateRespawn' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode immediateRespawn = arguments.get(0).interpret(script);
+            BaseClassExpressionNode immediateRespawn = interpreter.visitExpression(arguments.get(0));
 
-            if (!immediateRespawn.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!immediateRespawn.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoImmediateRespawn' requires type 'boolean' but got '" + immediateRespawn.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DO_IMMEDIATE_RESPAWN).set(((BooleanExpressionNode) immediateRespawn).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DO_IMMEDIATE_RESPAWN).set(((BooleanClass) immediateRespawn).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDoInsomnia implements LiteralExpressionNode {
+    public class SetDoInsomnia extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoInsomnia' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode doInsomnia = arguments.get(0).interpret(script);
+            BaseClassExpressionNode doInsomnia = interpreter.visitExpression(arguments.get(0));
 
-            if (!doInsomnia.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!doInsomnia.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoInsomnia' requires type 'boolean' but got '" + doInsomnia.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DO_INSOMNIA).set(((BooleanExpressionNode) doInsomnia).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DO_INSOMNIA).set(((BooleanClass) doInsomnia).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDoLimitedCrafting implements LiteralExpressionNode {
+    public class SetDoLimitedCrafting extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoLimitedCrafting' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode doLimitedCrafting = arguments.get(0).interpret(script);
+            BaseClassExpressionNode doLimitedCrafting = interpreter.visitExpression(arguments.get(0));
 
-            if (!doLimitedCrafting.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!doLimitedCrafting.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoLimitedCrafting' requires type 'boolean' but got '" + doLimitedCrafting.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DO_LIMITED_CRAFTING).set(((BooleanExpressionNode) doLimitedCrafting).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DO_LIMITED_CRAFTING).set(((BooleanClass) doLimitedCrafting).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDoMobGriefing implements LiteralExpressionNode {
+    public class SetDoMobGriefing extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoMobGriefing' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode doMobGriefing = arguments.get(0).interpret(script);
+            BaseClassExpressionNode doMobGriefing = interpreter.visitExpression(arguments.get(0));
 
-            if (!doMobGriefing.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!doMobGriefing.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoMobGriefing' requires type 'boolean' but got '" + doMobGriefing.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DO_MOB_GRIEFING).set(((BooleanExpressionNode) doMobGriefing).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DO_MOB_GRIEFING).set(((BooleanClass) doMobGriefing).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDoMobLoot implements LiteralExpressionNode {
+    public class SetDoMobLoot extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoMobLoot' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode doMobLoot = arguments.get(0).interpret(script);
+            BaseClassExpressionNode doMobLoot = interpreter.visitExpression(arguments.get(0));
 
-            if (!doMobLoot.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!doMobLoot.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoMobLoot' requires type 'boolean' but got '" + doMobLoot.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DO_MOB_LOOT).set(((BooleanExpressionNode) doMobLoot).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DO_MOB_LOOT).set(((BooleanClass) doMobLoot).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDoMobSpawning implements LiteralExpressionNode {
+    public class SetDoMobSpawning extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoMobSpawning' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode doMobSpawning = arguments.get(0).interpret(script);
+            BaseClassExpressionNode doMobSpawning = interpreter.visitExpression(arguments.get(0));
 
-            if (!doMobSpawning.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!doMobSpawning.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoMobSpawning' requires type 'boolean' but got '" + doMobSpawning.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DO_MOB_SPAWNING).set(((BooleanExpressionNode) doMobSpawning).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DO_MOB_SPAWNING).set(((BooleanClass) doMobSpawning).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDoPatrolSpawning implements LiteralExpressionNode {
+    public class SetDoPatrolSpawning extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoPatrolSpawning' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode doPatrolSpawning = arguments.get(0).interpret(script);
+            BaseClassExpressionNode doPatrolSpawning = interpreter.visitExpression(arguments.get(0));
 
-            if (!doPatrolSpawning.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!doPatrolSpawning.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoPatrolSpawning' requires type 'boolean' but got '" + doPatrolSpawning.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DO_PATROL_SPAWNING).set(((BooleanExpressionNode) doPatrolSpawning).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DO_PATROL_SPAWNING).set(((BooleanClass) doPatrolSpawning).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDoTileDrops implements LiteralExpressionNode {
+    public class SetDoTileDrops extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoTileDrops' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode doTileDrops = arguments.get(0).interpret(script);
+            BaseClassExpressionNode doTileDrops = interpreter.visitExpression(arguments.get(0));
 
-            if (!doTileDrops.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!doTileDrops.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoTileDrops' requires type 'boolean' but got '" + doTileDrops.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DO_TILE_DROPS).set(((BooleanExpressionNode) doTileDrops).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DO_TILE_DROPS).set(((BooleanClass) doTileDrops).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDoTraderSpawning implements LiteralExpressionNode {
+    public class SetDoTraderSpawning extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoTraderSpawning' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode doTraderSpawning = arguments.get(0).interpret(script);
+            BaseClassExpressionNode doTraderSpawning = interpreter.visitExpression(arguments.get(0));
 
-            if (!doTraderSpawning.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!doTraderSpawning.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoTraderSpawning' requires type 'boolean' but got '" + doTraderSpawning.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DO_TRADER_SPAWNING).set(((BooleanExpressionNode) doTraderSpawning).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DO_TRADER_SPAWNING).set(((BooleanClass) doTraderSpawning).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDoVinesSpread implements LiteralExpressionNode {
+    public class SetDoVinesSpread extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoVinesSpread' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode doVinesSpread = arguments.get(0).interpret(script);
+            BaseClassExpressionNode doVinesSpread = interpreter.visitExpression(arguments.get(0));
 
-            if (!doVinesSpread.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!doVinesSpread.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoVinesSpread' requires type 'boolean' but got '" + doVinesSpread.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DO_VINES_SPREAD).set(((BooleanExpressionNode) doVinesSpread).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DO_VINES_SPREAD).set(((BooleanClass) doVinesSpread).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDoWardenSpawning implements LiteralExpressionNode {
+    public class SetDoWardenSpawning extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoWardenSpawning' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode doWardenSpawning = arguments.get(0).interpret(script);
+            BaseClassExpressionNode doWardenSpawning = interpreter.visitExpression(arguments.get(0));
 
-            if (!doWardenSpawning.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!doWardenSpawning.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoWardenSpawning' requires type 'boolean' but got '" + doWardenSpawning.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DO_WARDEN_SPAWNING).set(((BooleanExpressionNode) doWardenSpawning).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DO_WARDEN_SPAWNING).set(((BooleanClass) doWardenSpawning).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDoWeatherCycle implements LiteralExpressionNode {
+    public class SetDoWeatherCycle extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoWeatherCycle' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode doWeatherCycle = arguments.get(0).interpret(script);
+            BaseClassExpressionNode doWeatherCycle = interpreter.visitExpression(arguments.get(0));
 
-            if (!doWeatherCycle.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!doWeatherCycle.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoWeatherCycle' requires type 'boolean' but got '" + doWeatherCycle.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DO_WEATHER_CYCLE).set(((BooleanExpressionNode) doWeatherCycle).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DO_WEATHER_CYCLE).set(((BooleanClass) doWeatherCycle).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetDrowningDamage implements LiteralExpressionNode {
+    public class SetDrowningDamage extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDrowningDamage' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode drowningDamage = arguments.get(0).interpret(script);
+            BaseClassExpressionNode drowningDamage = interpreter.visitExpression(arguments.get(0));
 
-            if (!drowningDamage.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!drowningDamage.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setDrowningDamage' requires type 'boolean' but got '" + drowningDamage.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.DROWNING_DAMAGE).set(((BooleanExpressionNode) drowningDamage).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.DROWNING_DAMAGE).set(((BooleanClass) drowningDamage).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetEnderPearlsVanishOnDeath implements LiteralExpressionNode {
+    public class SetEnderPearlsVanishOnDeath extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setEnderPearlsVanishOnDeath' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode enderPearlsVanishOnDeath = arguments.get(0).interpret(script);
+            BaseClassExpressionNode enderPearlsVanishOnDeath = interpreter.visitExpression(arguments.get(0));
 
-            if (!enderPearlsVanishOnDeath.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!enderPearlsVanishOnDeath.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setEnderPearlsVanishOnDeath' requires type 'boolean' but got '" + enderPearlsVanishOnDeath.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.ENDER_PEARLS_VANISH_ON_DEATH).set(((BooleanExpressionNode) enderPearlsVanishOnDeath).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.ENDER_PEARLS_VANISH_ON_DEATH).set(((BooleanClass) enderPearlsVanishOnDeath).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetFallDamage implements LiteralExpressionNode {
+    public class SetFallDamage extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setFallDamage' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode fallDamage = arguments.get(0).interpret(script);
+            BaseClassExpressionNode fallDamage = interpreter.visitExpression(arguments.get(0));
 
-            if (!fallDamage.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!fallDamage.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setFallDamage' requires type 'boolean' but got '" + fallDamage.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.FALL_DAMAGE).set(((BooleanExpressionNode) fallDamage).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.FALL_DAMAGE).set(((BooleanClass) fallDamage).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetFireDamage implements LiteralExpressionNode {
+    public class SetFireDamage extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setFireDamage' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode fireDamage = arguments.get(0).interpret(script);
+            BaseClassExpressionNode fireDamage = interpreter.visitExpression(arguments.get(0));
 
-            if (!fireDamage.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!fireDamage.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setFireDamage' requires type 'boolean' but got '" + fireDamage.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.FIRE_DAMAGE).set(((BooleanExpressionNode) fireDamage).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.FIRE_DAMAGE).set(((BooleanClass) fireDamage).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetForgiveDeadPlayers implements LiteralExpressionNode {
+    public class SetForgiveDeadPlayers extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setForgiveDeadPlayers' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode forgiveDeadPlayers = arguments.get(0).interpret(script);
+            BaseClassExpressionNode forgiveDeadPlayers = interpreter.visitExpression(arguments.get(0));
 
-            if (!forgiveDeadPlayers.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!forgiveDeadPlayers.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setForgiveDeadPlayers' requires type 'boolean' but got '" + forgiveDeadPlayers.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.FORGIVE_DEAD_PLAYERS).set(((BooleanExpressionNode) forgiveDeadPlayers).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.FORGIVE_DEAD_PLAYERS).set(((BooleanClass) forgiveDeadPlayers).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetFreezeDamage implements LiteralExpressionNode {
+    public class SetFreezeDamage extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setFreezeDamage' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode freezeDamage = arguments.get(0).interpret(script);
+            BaseClassExpressionNode freezeDamage = interpreter.visitExpression(arguments.get(0));
 
-            if (!freezeDamage.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!freezeDamage.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setFreezeDamage' requires type 'boolean' but got '" + freezeDamage.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.FREEZE_DAMAGE).set(((BooleanExpressionNode) freezeDamage).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.FREEZE_DAMAGE).set(((BooleanClass) freezeDamage).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetGlobalSoundEvents implements LiteralExpressionNode {
+    public class SetGlobalSoundEvents extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setGlobalSoundEvents' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode globalSoundEvents = arguments.get(0).interpret(script);
+            BaseClassExpressionNode globalSoundEvents = interpreter.visitExpression(arguments.get(0));
 
-            if (!globalSoundEvents.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!globalSoundEvents.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setGlobalSoundEvents' requires type 'boolean' but got '" + globalSoundEvents.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.GLOBAL_SOUND_EVENTS).set(((BooleanExpressionNode) globalSoundEvents).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.GLOBAL_SOUND_EVENTS).set(((BooleanClass) globalSoundEvents).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetKeepInventory implements LiteralExpressionNode {
+    public class SetKeepInventory extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setKeepInventory' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode keepInventory = arguments.get(0).interpret(script);
+            BaseClassExpressionNode keepInventory = interpreter.visitExpression(arguments.get(0));
 
-            if (!keepInventory.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!keepInventory.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setKeepInventory' requires type 'boolean' but got '" + keepInventory.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.KEEP_INVENTORY).set(((BooleanExpressionNode) keepInventory).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.KEEP_INVENTORY).set(((BooleanClass) keepInventory).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetLavaSourceConversion implements LiteralExpressionNode {
+    public class SetLavaSourceConversion extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setLavaSourceConversion' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode lavaSourceConversion = arguments.get(0).interpret(script);
+            BaseClassExpressionNode lavaSourceConversion = interpreter.visitExpression(arguments.get(0));
 
-            if (!lavaSourceConversion.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!lavaSourceConversion.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setLavaSourceConversion' requires type 'boolean' but got '" + lavaSourceConversion.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.LAVA_SOURCE_CONVERSION).set(((BooleanExpressionNode) lavaSourceConversion).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.LAVA_SOURCE_CONVERSION).set(((BooleanClass) lavaSourceConversion).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetLogAdminCommands implements LiteralExpressionNode {
+    public class SetLogAdminCommands extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setLogAdminCommands' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode logAdminCommands = arguments.get(0).interpret(script);
+            BaseClassExpressionNode logAdminCommands = interpreter.visitExpression(arguments.get(0));
 
-            if (!logAdminCommands.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!logAdminCommands.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setLogAdminCommands' requires type 'boolean' but got '" + logAdminCommands.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.LOG_ADMIN_COMMANDS).set(((BooleanExpressionNode) logAdminCommands).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.LOG_ADMIN_COMMANDS).set(((BooleanClass) logAdminCommands).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetMaxArgumentCount implements LiteralExpressionNode {
+    public class SetMaxArgumentCount extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setMaxArgumentCount' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode maxArgumentCount = arguments.get(0).interpret(script);
+            BaseClassExpressionNode maxArgumentCount = interpreter.visitExpression(arguments.get(0));
 
-            if (!maxArgumentCount.getType().equals(new IdentifierExpressionNode("int"))) {
+            if (!maxArgumentCount.getType().equals("int")) {
                 throw new TypeError("Argument 1 for function 'setMaxArgumentCount' requires type 'int' but got '" + maxArgumentCount.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(TestingGamerules.MAX_ARGUMENT_COUNT).set(((IntegerExpressionNode) maxArgumentCount).value, Testing.server);
+            GameRulesClass.this.gameRules.get(TestingGamerules.MAX_ARGUMENTS).set(((IntegerClass) maxArgumentCount).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetMaxCommandChainLength implements LiteralExpressionNode {
+    public class SetMaxCommandChainLength extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setMaxCommandChainLength' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode maxCommandChainLength = arguments.get(0).interpret(script);
+            BaseClassExpressionNode maxCommandChainLength = interpreter.visitExpression(arguments.get(0));
 
-            if (!maxCommandChainLength.getType().equals(new IdentifierExpressionNode("int"))) {
+            if (!maxCommandChainLength.getType().equals("int")) {
                 throw new TypeError("Argument 1 for function 'setMaxCommandChainLength' requires type 'int' but got '" + maxCommandChainLength.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.MAX_COMMAND_CHAIN_LENGTH).set(((IntegerExpressionNode) maxCommandChainLength).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.MAX_COMMAND_CHAIN_LENGTH).set(((IntegerClass) maxCommandChainLength).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetMaxEntityCramming implements LiteralExpressionNode {
+    public class SetMaxEntityCramming extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setMaxEntityCramming' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode maxEntityCramming = arguments.get(0).interpret(script);
+            BaseClassExpressionNode maxEntityCramming = interpreter.visitExpression(arguments.get(0));
 
-            if (!maxEntityCramming.getType().equals(new IdentifierExpressionNode("int"))) {
+            if (!maxEntityCramming.getType().equals("int")) {
                 throw new TypeError("Argument 1 for function 'setMaxEntityCramming' requires type 'int' but got '" + maxEntityCramming.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.MAX_ENTITY_CRAMMING).set(((IntegerExpressionNode) maxEntityCramming).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.MAX_ENTITY_CRAMMING).set(((IntegerClass) maxEntityCramming).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetMaxLoops implements LiteralExpressionNode {
+    public class SetMaxLoops extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setMaxLoops' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode maxLoops = arguments.get(0).interpret(script);
+            BaseClassExpressionNode maxLoops = interpreter.visitExpression(arguments.get(0));
 
-            if (!maxLoops.getType().equals(new IdentifierExpressionNode("int"))) {
+            if (!maxLoops.getType().equals("int")) {
                 throw new TypeError("Argument 1 for function 'setMaxLoops' requires type 'int' but got '" + maxLoops.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(TestingGamerules.MAX_LOOPS).set(((IntegerExpressionNode) maxLoops).value, Testing.server);
+            GameRulesClass.this.gameRules.get(TestingGamerules.MAX_LOOPS).set(((IntegerClass) maxLoops).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetMobExplosionDropDecay implements LiteralExpressionNode {
+    public class SetMobExplosionDropDecay extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setMobExplosionDropDecay' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode mobExplosionDropDecay = arguments.get(0).interpret(script);
+            BaseClassExpressionNode mobExplosionDropDecay = interpreter.visitExpression(arguments.get(0));
 
-            if (!mobExplosionDropDecay.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!mobExplosionDropDecay.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setMobExplosionDropDecay' requires type 'boolean' but got '" + mobExplosionDropDecay.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.MOB_EXPLOSION_DROP_DECAY).set(((BooleanExpressionNode) mobExplosionDropDecay).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.MOB_EXPLOSION_DROP_DECAY).set(((BooleanClass) mobExplosionDropDecay).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetNaturalRegeneration implements LiteralExpressionNode {
+    public class SetNaturalRegeneration extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setNaturalRegeneration' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode naturalRegeneration = arguments.get(0).interpret(script);
+            BaseClassExpressionNode naturalRegeneration = interpreter.visitExpression(arguments.get(0));
 
-            if (!naturalRegeneration.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!naturalRegeneration.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setNaturalRegeneration' requires type 'boolean' but got '" + naturalRegeneration.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.NATURAL_REGENERATION).set(((BooleanExpressionNode) naturalRegeneration).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.NATURAL_REGENERATION).set(((BooleanClass) naturalRegeneration).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetPlayerSleepingPercentage implements LiteralExpressionNode {
+    public class SetPlayersSleepingPercentage extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setPlayersSleepingPercentage' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode playerSleepingPercentage = arguments.get(0).interpret(script);
+            BaseClassExpressionNode playerSleepingPercentage = interpreter.visitExpression(arguments.get(0));
 
-            if (!playerSleepingPercentage.getType().equals(new IdentifierExpressionNode("int"))) {
+            if (!playerSleepingPercentage.getType().equals("int")) {
                 throw new TypeError("Argument 1 for function 'setPlayersSleepingPercentage' requires type 'int' but got '" + playerSleepingPercentage.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.PLAYERS_SLEEPING_PERCENTAGE).set(((IntegerExpressionNode) playerSleepingPercentage).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.PLAYERS_SLEEPING_PERCENTAGE).set(((IntegerClass) playerSleepingPercentage).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetRandomTickSpeed implements LiteralExpressionNode {
+    public class SetRandomTickSpeed extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setRandomTickSpeed' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode randomTickSpeed = arguments.get(0).interpret(script);
+            BaseClassExpressionNode randomTickSpeed = interpreter.visitExpression(arguments.get(0));
 
-            if (!randomTickSpeed.getType().equals(new IdentifierExpressionNode("int"))) {
+            if (!randomTickSpeed.getType().equals("int")) {
                 throw new TypeError("Argument 1 for function 'setRandomTickSpeed' requires type 'int' but got '" + randomTickSpeed.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.RANDOM_TICK_SPEED).set(((IntegerExpressionNode) randomTickSpeed).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.RANDOM_TICK_SPEED).set(((IntegerClass) randomTickSpeed).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetReducedDebugInfo implements LiteralExpressionNode {
+    public class SetReducedDebugInfo extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setReducedDebugInfo' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode reducedDebugInfo = arguments.get(0).interpret(script);
+            BaseClassExpressionNode reducedDebugInfo = interpreter.visitExpression(arguments.get(0));
 
-            if (!reducedDebugInfo.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!reducedDebugInfo.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setReducedDebugInfo' requires type 'boolean' but got '" + reducedDebugInfo.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.REDUCED_DEBUG_INFO).set(((BooleanExpressionNode) reducedDebugInfo).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.REDUCED_DEBUG_INFO).set(((BooleanClass) reducedDebugInfo).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetScriptLogsEnabled implements LiteralExpressionNode {
+    public class SetScriptLogsEnabled extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setScriptLogsEnabled' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode scriptLogsEnabled = arguments.get(0).interpret(script);
+            BaseClassExpressionNode scriptLogsEnabled = interpreter.visitExpression(arguments.get(0));
 
-            if (!scriptLogsEnabled.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!scriptLogsEnabled.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setScriptLogsEnabled' requires type 'boolean' but got '" + scriptLogsEnabled.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(TestingGamerules.SCRIPT_LOGS_ENABLED).set(((BooleanExpressionNode) scriptLogsEnabled).value, Testing.server);
+            GameRulesClass.this.gameRules.get(TestingGamerules.SCRIPT_LOGS_ENABLED).set(((BooleanClass) scriptLogsEnabled).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetSendCommandFeedback implements LiteralExpressionNode {
+    public class SetSendCommandFeedback extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSendCommandFeedback' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode sendCommandFeedback = arguments.get(0).interpret(script);
+            BaseClassExpressionNode sendCommandFeedback = interpreter.visitExpression(arguments.get(0));
 
-            if (!sendCommandFeedback.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!sendCommandFeedback.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setSendCommandFeedback' requires type 'boolean' but got '" + sendCommandFeedback.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.SEND_COMMAND_FEEDBACK).set(((BooleanExpressionNode) sendCommandFeedback).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.SEND_COMMAND_FEEDBACK).set(((BooleanClass) sendCommandFeedback).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetShowDeathMessages implements LiteralExpressionNode {
+    public class SetShowDeathMessages extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setShowDeathMessages' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode showDeathMessages = arguments.get(0).interpret(script);
+            BaseClassExpressionNode showDeathMessages = interpreter.visitExpression(arguments.get(0));
 
-            if (!showDeathMessages.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!showDeathMessages.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setShowDeathMessages' requires type 'boolean' but got '" + showDeathMessages.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.SHOW_DEATH_MESSAGES).set(((BooleanExpressionNode) showDeathMessages).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.SHOW_DEATH_MESSAGES).set(((BooleanClass) showDeathMessages).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetSnowAccumulationHeight implements LiteralExpressionNode {
+    public class SetSnowAccumulationHeight extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSnowAccumulationHeight' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode snowAccumulationHeight = arguments.get(0).interpret(script);
+            BaseClassExpressionNode snowAccumulationHeight = interpreter.visitExpression(arguments.get(0));
 
-            if (!snowAccumulationHeight.getType().equals(new IdentifierExpressionNode("int"))) {
+            if (!snowAccumulationHeight.getType().equals("int")) {
                 throw new TypeError("Argument 1 for function 'setSnowAccumulationHeight' requires type 'int' but got '" + snowAccumulationHeight.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.SNOW_ACCUMULATION_HEIGHT).set(((IntegerExpressionNode) snowAccumulationHeight).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.SNOW_ACCUMULATION_HEIGHT).set(((IntegerClass) snowAccumulationHeight).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetSpawnRadius implements LiteralExpressionNode {
+    public class SetSpawnRadius extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSpawnRadius' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode spawnRadius = arguments.get(0).interpret(script);
+            BaseClassExpressionNode spawnRadius = interpreter.visitExpression(arguments.get(0));
 
-            if (!spawnRadius.getType().equals(new IdentifierExpressionNode("int"))) {
+            if (!spawnRadius.getType().equals("int")) {
                 throw new TypeError("Argument 1 for function 'setSpawnRadius' requires type 'int' but got '" + spawnRadius.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.SPAWN_RADIUS).set(((IntegerExpressionNode) spawnRadius).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.SPAWN_RADIUS).set(((IntegerClass) spawnRadius).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetSpectatorsGenerateChunks implements LiteralExpressionNode {
+    public class SetSpectatorsGenerateChunks extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSpectatorsGenerateChunks' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode spectatorsGenerateChunks = arguments.get(0).interpret(script);
+            BaseClassExpressionNode spectatorsGenerateChunks = interpreter.visitExpression(arguments.get(0));
 
-            if (!spectatorsGenerateChunks.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!spectatorsGenerateChunks.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setSpectatorsGenerateChunks' requires type 'boolean' but got '" + spectatorsGenerateChunks.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.SPECTATORS_GENERATE_CHUNKS).set(((BooleanExpressionNode) spectatorsGenerateChunks).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.SPECTATORS_GENERATE_CHUNKS).set(((BooleanClass) spectatorsGenerateChunks).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetTntExplosionDropDecay implements LiteralExpressionNode {
+    public class SetTntExplosionDropDecay extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setTntExplosionDropDecay' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode tntExplosionDropDecay = arguments.get(0).interpret(script);
+            BaseClassExpressionNode tntExplosionDropDecay = interpreter.visitExpression(arguments.get(0));
 
-            if (!tntExplosionDropDecay.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!tntExplosionDropDecay.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setTntExplosionDropDecay' requires type 'boolean' but got '" + tntExplosionDropDecay.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.TNT_EXPLOSION_DROP_DECAY).set(((BooleanExpressionNode) tntExplosionDropDecay).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.TNT_EXPLOSION_DROP_DECAY).set(((BooleanClass) tntExplosionDropDecay).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetUniversalAnger implements LiteralExpressionNode {
+    public class SetUniversalAnger extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setUniversalAnger' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode universalAnger = arguments.get(0).interpret(script);
+            BaseClassExpressionNode universalAnger = interpreter.visitExpression(arguments.get(0));
 
-            if (!universalAnger.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!universalAnger.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setUniversalAnger' requires type 'boolean' but got '" + universalAnger.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.UNIVERSAL_ANGER).set(((BooleanExpressionNode) universalAnger).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.UNIVERSAL_ANGER).set(((BooleanClass) universalAnger).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 
-    public class SetWaterSourceConversion implements LiteralExpressionNode {
+    public class SetWaterSourceConversion extends BaseClassExpressionNode {
         @Override
-        public LiteralExpressionNode call(ScriptNode script, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setWaterSourceConversion' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            LiteralExpressionNode waterSourceConversion = arguments.get(0).interpret(script);
+            BaseClassExpressionNode waterSourceConversion = interpreter.visitExpression(arguments.get(0));
 
-            if (!waterSourceConversion.getType().equals(new IdentifierExpressionNode("boolean"))) {
+            if (!waterSourceConversion.getType().equals("boolean")) {
                 throw new TypeError("Argument 1 for function 'setWaterSourceConversion' requires type 'boolean' but got '" + waterSourceConversion.getType() + "'");
             }
 
-            GameRulesClass.this.gameRules.get(GameRules.WATER_SOURCE_CONVERSION).set(((BooleanExpressionNode) waterSourceConversion).value, Testing.server);
+            GameRulesClass.this.gameRules.get(GameRules.WATER_SOURCE_CONVERSION).set(((BooleanClass) waterSourceConversion).value, Testing.server);
 
-            return new NullExpressionNode();
+            return new NullClass();
         }
 
         @Override
-        public IdentifierExpressionNode getType() {
-            return new IdentifierExpressionNode("function");
+        public String getType() {
+            return "Function";
         }
     }
 }

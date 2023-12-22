@@ -1,14 +1,14 @@
 package com.revolvingmadness.testing.language.interpreter;
 
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
+import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 public class Variable {
     public final boolean isConstant;
     public final IdentifierExpressionNode name;
-    public LiteralExpressionNode value;
+    public BaseClassExpressionNode value;
 
-    public Variable(boolean isConstant, IdentifierExpressionNode name, LiteralExpressionNode value) {
+    public Variable(boolean isConstant, IdentifierExpressionNode name, BaseClassExpressionNode value) {
         this.isConstant = isConstant;
         this.name = name;
         this.value = value;

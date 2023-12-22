@@ -1,8 +1,8 @@
 package com.revolvingmadness.testing.language.interpreter;
 
-import com.revolvingmadness.testing.language.errors.NameError;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.l_value_expression_nodes.IdentifierExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
+import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
+import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,13 @@ public class VariableScope {
         this.variables = new ArrayList<>();
     }
 
-    public void declare(boolean isConstant, IdentifierExpressionNode name, LiteralExpressionNode value) {
+    public void declare(boolean isConstant, IdentifierExpressionNode name, BaseClassExpressionNode value) {
+        Optional<Variable> optionalVariable = this.getOptional(name);
+
+        if (optionalVariable.isPresent()) {
+            throw new ValueError("Variable '" + name + "' has already been declared");
+        }
+
         this.variables.add(new Variable(isConstant, name, value));
     }
 
@@ -27,15 +33,5 @@ public class VariableScope {
         }
 
         return Optional.empty();
-    }
-
-    public Variable getOrThrow(IdentifierExpressionNode name) {
-        Optional<Variable> optionalVariable = this.getOptional(name);
-
-        if (optionalVariable.isEmpty()) {
-            throw new NameError("Variable '" + name + "' has not been declared");
-        }
-
-        return optionalVariable.get();
     }
 }
