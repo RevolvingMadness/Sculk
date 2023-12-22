@@ -169,7 +169,7 @@ public class LangParser {
     private ExpressionNode parseCallExpression() {
         ExpressionNode expression = this.parsePrimaryExpression();
 
-        while (this.position < this.input.size() && (this.current(TokenType.LEFT_PARENTHESIS) || this.current(TokenType.PERIOD))) {
+        while (this.position < this.input.size() && (this.current(TokenType.LEFT_PARENTHESIS) || this.current(TokenType.PERIOD) || this.current(TokenType.LEFT_BRACKET))) {
             if (this.current(TokenType.LEFT_PARENTHESIS)) {
                 List<ExpressionNode> arguments = this.parseArguments();
                 expression = new CallExpressionNode(expression, arguments);
@@ -177,6 +177,11 @@ public class LangParser {
                 this.consume();
                 IdentifierExpressionNode propertyName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected property name").value);
                 expression = new GetExpressionNode(expression, propertyName);
+            } else if (this.current(TokenType.LEFT_BRACKET)) {
+                this.consume();
+                ExpressionNode indexExpression = this.parseExpression();
+                this.consume(TokenType.RIGHT_BRACKET, "Expected closing bracket for list indexing");
+                expression = new IndexExpressionNode(expression, indexExpression);
             }
         }
 
@@ -262,6 +267,10 @@ public class LangParser {
 
         while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
             this.consume();
+
+            if (this.current(TokenType.RIGHT_BRACE)) {
+                throw new SyntaxError("Found trailing comma in dictionary");
+            }
 
             ExpressionNode key = this.parseExpression();
 

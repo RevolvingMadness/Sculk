@@ -54,6 +54,10 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
 
     public abstract String getType();
 
+    public BaseClassExpressionNode index(BaseClassExpressionNode index) {
+        throw new TypeError("Type '" + this.getType() + "' is not indexable");
+    }
+
     public void setProperty(IdentifierExpressionNode propertyName, BaseClassExpressionNode value) {
         Optional<Variable> optionalVariable = this.variableScope.getOptional(propertyName);
 

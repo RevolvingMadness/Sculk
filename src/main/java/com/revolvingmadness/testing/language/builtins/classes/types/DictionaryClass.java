@@ -18,6 +18,11 @@ public class DictionaryClass extends BaseClassExpressionNode {
     }
 
     @Override
+    public BaseClassExpressionNode index(BaseClassExpressionNode index) {
+        return this.value.get(index);
+    }
+
+    @Override
     public String toString() {
         throw new NotImplementedException();
     }

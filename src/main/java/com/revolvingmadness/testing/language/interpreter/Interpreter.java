@@ -130,6 +130,8 @@ public class Interpreter implements Visitor {
             return baseClassExpression;
         } else if (expression instanceof DictionaryExpressionNode dictionaryExpression) {
             return this.visitDictionaryExpression(dictionaryExpression);
+        } else if (expression instanceof IndexExpressionNode indexExpression) {
+            return this.visitIndexExpression(indexExpression);
         } else if (expression instanceof ListExpressionNode listExpression) {
             return this.visitListExpression(listExpression);
         } else {
@@ -217,6 +219,14 @@ public class Interpreter implements Visitor {
                 }
             }
         }
+    }
+
+    @Override
+    public BaseClassExpressionNode visitIndexExpression(IndexExpressionNode indexExpression) {
+        BaseClassExpressionNode expression = this.visitExpression(indexExpression.expression);
+        BaseClassExpressionNode index = this.visitExpression(indexExpression.index);
+
+        return expression.index(index);
     }
 
     @Override

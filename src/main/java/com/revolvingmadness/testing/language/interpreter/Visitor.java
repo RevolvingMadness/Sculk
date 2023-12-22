@@ -32,6 +32,8 @@ public interface Visitor {
 
     void visitIfStatement(IfStatementNode ifStatement);
 
+    BaseClassExpressionNode visitIndexExpression(IndexExpressionNode indexExpression);
+
     BaseClassExpressionNode visitListExpression(ListExpressionNode listExpression);
 
     void visitReturnStatement(ReturnStatementNode returnStatement);
