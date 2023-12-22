@@ -1,5 +1,7 @@
 package com.revolvingmadness.testing.language.parser.nodes;
 
-public interface Node {
+import java.io.Serializable;
+
+public abstract class Node implements Serializable {
 
 }

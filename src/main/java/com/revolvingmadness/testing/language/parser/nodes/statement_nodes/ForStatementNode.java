@@ -4,7 +4,7 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Expre
 
 import java.util.List;
 
-public class ForStatementNode implements StatementNode {
+public class ForStatementNode extends StatementNode {
     public final List<StatementNode> body;
     public final ExpressionNode condition;
     public final StatementNode initialization;

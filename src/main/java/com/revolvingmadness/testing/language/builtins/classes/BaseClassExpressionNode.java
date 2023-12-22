@@ -11,7 +11,7 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Ident
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BaseClassExpressionNode implements ExpressionNode {
+public abstract class BaseClassExpressionNode extends ExpressionNode {
     public final BaseClassExpressionNode superClass;
     public final VariableScope variableScope;
 
@@ -28,11 +28,11 @@ public abstract class BaseClassExpressionNode implements ExpressionNode {
         this.variableScope = variableScope;
     }
 
-    public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+    public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
         throw new TypeError("Type '" + this.getType() + "' is not callable");
     }
 
-    public BaseClassExpressionNode call(Interpreter interpreter, IdentifierExpressionNode methodName, List<ExpressionNode> arguments) {
+    public BaseClassExpressionNode call(Interpreter interpreter, IdentifierExpressionNode methodName, List<BaseClassExpressionNode> arguments) {
         BaseClassExpressionNode method = this.getProperty(methodName);
 
         return method.call(interpreter, arguments);
@@ -59,7 +59,7 @@ public abstract class BaseClassExpressionNode implements ExpressionNode {
 
         if (optionalVariable.isPresent()) {
             this.variableScope.assign(propertyName, value);
-            
+
             return;
         }
 

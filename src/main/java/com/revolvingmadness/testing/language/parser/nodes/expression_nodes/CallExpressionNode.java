@@ -2,7 +2,7 @@ package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
 
 import java.util.List;
 
-public class CallExpressionNode implements ExpressionNode {
+public class CallExpressionNode extends ExpressionNode {
     public final List<ExpressionNode> arguments;
     public final ExpressionNode callee;
 

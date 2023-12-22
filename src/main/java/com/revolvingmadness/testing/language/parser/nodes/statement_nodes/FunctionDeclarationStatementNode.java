@@ -4,7 +4,7 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Ident
 
 import java.util.List;
 
-public class FunctionDeclarationStatementNode implements StatementNode {
+public class FunctionDeclarationStatementNode extends StatementNode {
     public final List<IdentifierExpressionNode> arguments;
     public final List<StatementNode> body;
     public final boolean isConstant;

@@ -1,6 +1,7 @@
 # Classes
 
 ## Declaration
+
 **Constructors are currently not supported**
 
 ```js
@@ -10,7 +11,9 @@ class Apple {
 ```
 
 ## Fields
+
 **Field attributes such as public/private/static are currently not supported**
+
 ```js
 class Apple {
     var color;
@@ -19,7 +22,9 @@ class Apple {
 ```
 
 ## Functions/Methods
+
 **Function/Method attributes such as public/private/static are currently not supported**
+
 ```js
 class Apple {
     function eat() {
@@ -29,6 +34,7 @@ class Apple {
 ```
 
 ## This
+
 ```js
 class Apple {
     var color;

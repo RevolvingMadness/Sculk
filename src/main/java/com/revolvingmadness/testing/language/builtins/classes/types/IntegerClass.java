@@ -4,7 +4,6 @@ import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressio
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 import java.util.List;
@@ -35,12 +34,12 @@ public class IntegerClass extends BaseClassExpressionNode {
 
     public class Add extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'add' requires 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode other = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode other = arguments.get(0);
 
             if (other.getType().equals("Float")) {
                 return new FloatClass(IntegerClass.this.value + ((FloatClass) other).value);
@@ -59,12 +58,12 @@ public class IntegerClass extends BaseClassExpressionNode {
 
     public class Divide extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'divide' requires 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode other = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode other = arguments.get(0);
 
             if (other.getType().equals("Float")) {
                 return new FloatClass(IntegerClass.this.value / ((FloatClass) other).value);
@@ -83,12 +82,12 @@ public class IntegerClass extends BaseClassExpressionNode {
 
     public class Exponentiate extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'exponentiate' requires 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode other = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode other = arguments.get(0);
 
             if (other.getType().equals("Float")) {
                 return new FloatClass(Math.pow(IntegerClass.this.value, ((FloatClass) other).value));
@@ -107,12 +106,12 @@ public class IntegerClass extends BaseClassExpressionNode {
 
     public class Mod extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'mod' requires 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode other = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode other = arguments.get(0);
 
             if (other.getType().equals("Float")) {
                 return new FloatClass(IntegerClass.this.value % ((FloatClass) other).value);
@@ -131,12 +130,12 @@ public class IntegerClass extends BaseClassExpressionNode {
 
     public class Multiply extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'multiply' requires 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode other = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode other = arguments.get(0);
 
             if (other.getType().equals("Float")) {
                 return new FloatClass(IntegerClass.this.value * ((FloatClass) other).value);
@@ -155,12 +154,12 @@ public class IntegerClass extends BaseClassExpressionNode {
 
     public class Subtract extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'subtract' requires 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode other = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode other = arguments.get(0);
 
             if (other.getType().equals("Float")) {
                 return new FloatClass(IntegerClass.this.value - ((FloatClass) other).value);
@@ -179,7 +178,7 @@ public class IntegerClass extends BaseClassExpressionNode {
 
     public class ToString extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'toString' requires 0 arguments but got " + arguments.size() + " argument(s)");
             }

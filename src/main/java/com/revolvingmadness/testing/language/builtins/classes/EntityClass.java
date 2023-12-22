@@ -4,7 +4,6 @@ import com.revolvingmadness.testing.language.builtins.classes.types.*;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
@@ -75,14 +74,14 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class AddCommandTag extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'addCommandTag' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode commandTag = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode commandTag = arguments.get(0);
 
-            if (!commandTag.getType().equals("string")) {
+            if (!commandTag.getType().equals("String")) {
                 throw new TypeError("Argument 1 for function 'addCommandTag' requires type 'string' but got '" + commandTag.getType() + "'");
             }
 
@@ -99,7 +98,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class DismountVehicle extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'dismountVehicle' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -117,7 +116,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class GetBlockPos extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getBlockPos' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -135,7 +134,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class GetBlockX extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getBlockX' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -153,7 +152,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class GetBlockY extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getBlockY' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -171,7 +170,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class GetBlockZ extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getBlockZ' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -189,7 +188,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class GetX extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getX' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -207,7 +206,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class GetY extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getY' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -225,7 +224,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class GetZ extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getZ' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -243,7 +242,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class HasVehicle extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'hasVehicle' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -261,7 +260,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsCrawling extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isCrawling' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -279,7 +278,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsDescending extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isDecending' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -297,7 +296,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsFireImmune extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isFireImmune' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -315,7 +314,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsFrozen extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isFrozen' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -333,7 +332,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsGlowing extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isGlowing' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -351,7 +350,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsInFluid extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isInFluid' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -369,7 +368,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsInLava extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isInLava' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -387,7 +386,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsInsideWall extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isInsideWall' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -405,7 +404,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsInvisible extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isInvisible' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -423,7 +422,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsInvulnerable extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isInvulnerable' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -441,7 +440,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsOnFire extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isOnFire' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -459,7 +458,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsOnGround extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isOnGround' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -477,7 +476,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsOnRail extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isOnRail' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -495,7 +494,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsSilent extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isSilent' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -513,7 +512,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsSneaking extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isSneaking' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -531,7 +530,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsSprinting extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isSprinting' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -549,7 +548,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsSwimming extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isSwimming' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -567,7 +566,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsTouchingWater extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isTouchingWater' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -585,7 +584,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsTouchingWaterOrRain extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isTouchingWaterOrRain' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -603,7 +602,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class IsWet extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isWet' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -621,7 +620,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class Kill extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'kill' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -639,7 +638,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class RemoveAllPassengers extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'removeAllPassengers' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -657,7 +656,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class ResetPortalCooldown extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'resetPortalCooldown' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -675,14 +674,14 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class SendMessage extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'sendMessage' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode message = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode message = arguments.get(0);
 
-            if (!message.getType().equals("string")) {
+            if (!message.getType().equals("String")) {
                 throw new TypeError("Argument 1 for function 'sendMessage' requires type 'string' but got '" + message.getType() + "'");
             }
 
@@ -699,14 +698,14 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class SetInvisible extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setInvisible' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode invisible = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode invisible = arguments.get(0);
 
-            if (!invisible.getType().equals("boolean")) {
+            if (!invisible.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setInvisible' requires type 'boolean' but got '" + invisible.getType() + "'");
             }
 
@@ -723,14 +722,14 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class SetInvulnerable extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setInvulnerable' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode invulnerable = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode invulnerable = arguments.get(0);
 
-            if (!invulnerable.getType().equals("boolean")) {
+            if (!invulnerable.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setInvulnerable' requires type 'boolean' but got '" + invulnerable.getType() + "'");
             }
 
@@ -747,14 +746,14 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class SetNoGravity extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setNoGravity' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode noGravity = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode noGravity = arguments.get(0);
 
-            if (!noGravity.getType().equals("boolean")) {
+            if (!noGravity.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setNoGravity' requires type 'boolean' but got '" + noGravity.getType() + "'");
             }
 
@@ -771,14 +770,14 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class SetOnFire extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setOnFire' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode onFire = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode onFire = arguments.get(0);
 
-            if (!onFire.getType().equals("boolean")) {
+            if (!onFire.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setOnFire' requires type 'boolean' but got '" + onFire.getType() + "'");
             }
 
@@ -795,14 +794,14 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class SetOnGround extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setOnGround' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode onGround = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode onGround = arguments.get(0);
 
-            if (!onGround.getType().equals("boolean")) {
+            if (!onGround.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setOnGround' requires type 'boolean' but got '" + onGround.getType() + "'");
             }
 
@@ -819,14 +818,14 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class SetPortalCooldown extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setPortalCooldown' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode portalCooldown = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode portalCooldown = arguments.get(0);
 
-            if (!portalCooldown.getType().equals("boolean")) {
+            if (!portalCooldown.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setPortalCooldown' requires type 'boolean' but got '" + portalCooldown.getType() + "'");
             }
 
@@ -843,26 +842,26 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class SetPos extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 3) {
                 throw new SyntaxError("Function 'setPos' takes 3 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode x = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode x = arguments.get(0);
 
-            if (!x.getType().equals("float")) {
+            if (!x.getType().equals("Float")) {
                 throw new TypeError("Argument 1 for function 'setPos' requires type 'float' but got '" + x.getType() + "'");
             }
 
-            BaseClassExpressionNode y = interpreter.visitExpression(arguments.get(1));
+            BaseClassExpressionNode y = arguments.get(1);
 
-            if (!y.getType().equals("float")) {
+            if (!y.getType().equals("Float")) {
                 throw new TypeError("Argument 1 for function 'setPos' requires type 'float' but got '" + y.getType() + "'");
             }
 
-            BaseClassExpressionNode z = interpreter.visitExpression(arguments.get(2));
+            BaseClassExpressionNode z = arguments.get(2);
 
-            if (!z.getType().equals("float")) {
+            if (!z.getType().equals("Float")) {
                 throw new TypeError("Argument 1 for function 'setPos' requires type 'float' but got '" + z.getType() + "'");
             }
 
@@ -879,14 +878,14 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class SetSilent extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSilent' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode silent = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode silent = arguments.get(0);
 
-            if (!silent.getType().equals("boolean")) {
+            if (!silent.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setSilent' requires type 'boolean' but got '" + silent.getType() + "'");
             }
 
@@ -903,14 +902,14 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class SetSneaking extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSneaking' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode sneaking = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode sneaking = arguments.get(0);
 
-            if (!sneaking.getType().equals("boolean")) {
+            if (!sneaking.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setSneaking' requires type 'boolean' but got '" + sneaking.getType() + "'");
             }
 
@@ -927,14 +926,14 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class SetSprinting extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSprinting' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode sprinting = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode sprinting = arguments.get(0);
 
-            if (!sprinting.getType().equals("boolean")) {
+            if (!sprinting.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setSprinting' requires type 'boolean' but got '" + sprinting.getType() + "'");
             }
 
@@ -951,14 +950,14 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class SetSwimming extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSwimming' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode swimming = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode swimming = arguments.get(0);
 
-            if (!swimming.getType().equals("boolean")) {
+            if (!swimming.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setSwimming' requires type 'boolean' but got '" + swimming.getType() + "'");
             }
 
@@ -975,7 +974,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class ShouldDismountUnderwater extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'shouldDismountUnderwater' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -993,7 +992,7 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class StopRiding extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'stopRiding' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -1011,26 +1010,26 @@ public class EntityClass extends BaseClassExpressionNode {
 
     public class Teleport extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 3) {
                 throw new SyntaxError("Function 'teleport' takes 3 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode destX = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode destX = arguments.get(0);
 
-            if (!destX.getType().equals("float")) {
+            if (!destX.getType().equals("Float")) {
                 throw new TypeError("Argument 1 for function 'teleport' requires type 'float' but got '" + destX.getType() + "'");
             }
 
-            BaseClassExpressionNode destY = interpreter.visitExpression(arguments.get(1));
+            BaseClassExpressionNode destY = arguments.get(1);
 
-            if (!destY.getType().equals("float")) {
+            if (!destY.getType().equals("Float")) {
                 throw new TypeError("Argument 2 for function 'teleport' requires type 'float' but got '" + destY.getType() + "'");
             }
 
-            BaseClassExpressionNode destZ = interpreter.visitExpression(arguments.get(2));
+            BaseClassExpressionNode destZ = arguments.get(2);
 
-            if (!destZ.getType().equals("float")) {
+            if (!destZ.getType().equals("Float")) {
                 throw new TypeError("Argument 3 for function 'teleport' requires type 'float' but got '" + destZ.getType() + "'");
             }
 

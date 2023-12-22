@@ -62,6 +62,7 @@ var scriptID = namespace:path;
 The Java equivalent is `Identifier`.
 
 ## List
+
 **Indexing lists is currently not supported**
 
 The `list` type is a series of values.
@@ -73,6 +74,7 @@ var hrsOfSleepInPastWeek = [1, 4, 6, 5, 7, 3, 2];
 The Java equivalent is `ArrayList<?>`.
 
 ## Dictionary
+
 **Indexing dictionaries is currently not supported**
 
 The `dictionary` type is a map of values.

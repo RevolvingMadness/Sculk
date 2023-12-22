@@ -5,11 +5,12 @@ import com.revolvingmadness.testing.language.errors.NameError;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class VariableScope {
+public class VariableScope implements Serializable {
     public final List<Variable> variables;
 
     public VariableScope() {

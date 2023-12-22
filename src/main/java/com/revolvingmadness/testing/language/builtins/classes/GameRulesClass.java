@@ -8,7 +8,6 @@ import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.world.GameRules;
 
@@ -126,7 +125,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetAnnounceAdvancements extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getAnnounceAdvancements' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -142,7 +141,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetBlockExplosionDropDecay extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getBlockExplosionDropDecay' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -158,7 +157,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetCommandBlockOutput extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getCommandBlockOutput' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -174,7 +173,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetCommandModificationBlockLimit extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getCommandModificationBlockLimit' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -190,7 +189,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDisableElytraMovementCheck extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDisableElytraMovementCheck' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -206,7 +205,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDisableRaids extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDisableRaids' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -222,7 +221,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDoDaylightCycle extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoDaylightCycle' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -238,7 +237,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDoEntityDrops extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoEntityDrops' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -254,7 +253,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDoFireTick extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoFireTick' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -270,7 +269,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDoImmediateRespawn extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoImmediateRespawn' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -286,7 +285,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDoInsomnia extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoInsomnia' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -302,7 +301,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDoLimitedCrafting extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoLimitedCrafting' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -318,7 +317,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDoMobGriefing extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoMobGriefing' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -334,7 +333,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDoMobLoot extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoMobLoot' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -350,7 +349,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDoMobSpawning extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoMobSpawning' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -366,7 +365,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDoPatrolSpawning extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoPatrolSpawning' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -382,7 +381,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDoTileDrops extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoTileDrops' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -398,7 +397,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDoTraderSpawning extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoTraderSpawning' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -414,7 +413,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDoVinesSpread extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoVinesSpread' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -430,7 +429,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDoWardenSpawning extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoWardenSpawning' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -446,7 +445,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDoWeatherCycle extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDoWeatherCycle' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -462,7 +461,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetDrowningDamage extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getDrowningDamage' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -478,7 +477,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetEnderPearlsVanishOnDeath extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getEnderPearlsVanishOnDeath' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -494,7 +493,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetFallDamage extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getFallDamage' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -510,7 +509,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetFireDamage extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getFireDamage' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -526,7 +525,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetForgiveDeadPlayers extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getForgiveDeadPlayers' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -542,7 +541,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetFreezeDamage extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getFreezeDamage' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -558,7 +557,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetGlobalSoundEvents extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getGlobalSoundEvents' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -574,7 +573,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetKeepInventory extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getKeepInventory' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -590,7 +589,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetLavaSourceConversion extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getLavaSourceConversion' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -606,7 +605,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetLogAdminCommands extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getLogAdminCommands' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -622,7 +621,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetMaxArgumentCount extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getMaxArgumentCount' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -638,7 +637,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetMaxCommandChainLength extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getMaxCommandChainLength' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -654,7 +653,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetMaxEntityCramming extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getMaxEntityCramming' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -670,7 +669,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetMaxLoops extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getMaxLoops' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -686,7 +685,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetMobExplosionDropDecay extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getMobExplosionDropDecay' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -702,7 +701,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetNaturalRegeneration extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getNaturalRegeneration' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -718,7 +717,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetPlayersSleepingPercentage extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getPlayersSleepingPercentage' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -734,7 +733,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetRandomTickSpeed extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getRandomTickSpeed' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -750,7 +749,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetReducedDebugInfo extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getReducedDebugInfo' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -766,7 +765,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetScriptLogsEnabled extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getScriptLogsEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -782,7 +781,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetSendCommandFeedback extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getSendCommandFeedback' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -798,7 +797,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetShowDeathMessages extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getShowDeathMessages' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -814,7 +813,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetSnowAccumulationHeight extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getSnowAccumulationHeight' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -830,7 +829,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetSpawnRadius extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getSpawnRadius' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -846,7 +845,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetSpectatorsGenerateChunks extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getSpectatorsGenerateChunks' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -862,7 +861,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetTntExplosionDropDecay extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getTntExplosionDropDecay' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -878,7 +877,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetUniversalAnger extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getUniversalAnger' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -894,7 +893,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class GetWaterSourceConversion extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getWaterSourceConversion' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -910,14 +909,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetAnnounceAdvancements extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setAnnounceAdvancements' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode announceAdvancements = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode announceAdvancements = arguments.get(0);
 
-            if (!announceAdvancements.getType().equals("boolean")) {
+            if (!announceAdvancements.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setAnnounceAdvancements' requires type 'boolean' but got '" + announceAdvancements.getType() + "'");
             }
 
@@ -934,14 +933,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetBlockExplosionDropDecay extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setBlockExplosionDropDecay' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode blockExplosionDropDecay = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode blockExplosionDropDecay = arguments.get(0);
 
-            if (!blockExplosionDropDecay.getType().equals("boolean")) {
+            if (!blockExplosionDropDecay.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setBlockExplosionDropDecay' requires type 'boolean' but got '" + blockExplosionDropDecay.getType() + "'");
             }
 
@@ -958,14 +957,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetCommandBlockOutput extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setCommandBlockOutput' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode commandBlockOutput = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode commandBlockOutput = arguments.get(0);
 
-            if (!commandBlockOutput.getType().equals("boolean")) {
+            if (!commandBlockOutput.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setCommandBlockOutput' requires type 'boolean' but got '" + commandBlockOutput.getType() + "'");
             }
 
@@ -982,14 +981,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetCommandModificationBlockLimit extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setCommandModificationBlockLimit' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode commandModificationBlockLimit = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode commandModificationBlockLimit = arguments.get(0);
 
-            if (!commandModificationBlockLimit.getType().equals("int")) {
+            if (!commandModificationBlockLimit.getType().equals("Integer")) {
                 throw new TypeError("Argument 1 for function 'setCommandModificationBlockLimit' requires type 'int' but got '" + commandModificationBlockLimit.getType() + "'");
             }
 
@@ -1006,14 +1005,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDisableElytraMovementCheck extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDisableElytraMovementCheck' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode disableElytraMovementCheck = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode disableElytraMovementCheck = arguments.get(0);
 
-            if (!disableElytraMovementCheck.getType().equals("boolean")) {
+            if (!disableElytraMovementCheck.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDisableElytraMovementCheck' requires type 'boolean' but got '" + disableElytraMovementCheck.getType() + "'");
             }
 
@@ -1030,14 +1029,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDisableRaids extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDisableRaids' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode disableRaids = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode disableRaids = arguments.get(0);
 
-            if (!disableRaids.getType().equals("boolean")) {
+            if (!disableRaids.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDisableRaids' requires type 'boolean' but got '" + disableRaids.getType() + "'");
             }
 
@@ -1054,14 +1053,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDoDaylightCycle extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoDaylightCycle' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode doDaylightCycle = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode doDaylightCycle = arguments.get(0);
 
-            if (!doDaylightCycle.getType().equals("boolean")) {
+            if (!doDaylightCycle.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoDaylightCycle' requires type 'boolean' but got '" + doDaylightCycle.getType() + "'");
             }
 
@@ -1078,14 +1077,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDoEntityDrops extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoEntityDrops' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode doEntityDrops = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode doEntityDrops = arguments.get(0);
 
-            if (!doEntityDrops.getType().equals("boolean")) {
+            if (!doEntityDrops.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoEntityDrops' requires type 'boolean' but got '" + doEntityDrops.getType() + "'");
             }
 
@@ -1102,14 +1101,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDoFireTick extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoFireTick' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode doFireTick = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode doFireTick = arguments.get(0);
 
-            if (!doFireTick.getType().equals("boolean")) {
+            if (!doFireTick.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoFireTick' requires type 'boolean' but got '" + doFireTick.getType() + "'");
             }
 
@@ -1126,14 +1125,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDoImmediateRespawn extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoImmediateRespawn' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode immediateRespawn = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode immediateRespawn = arguments.get(0);
 
-            if (!immediateRespawn.getType().equals("boolean")) {
+            if (!immediateRespawn.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoImmediateRespawn' requires type 'boolean' but got '" + immediateRespawn.getType() + "'");
             }
 
@@ -1150,14 +1149,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDoInsomnia extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoInsomnia' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode doInsomnia = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode doInsomnia = arguments.get(0);
 
-            if (!doInsomnia.getType().equals("boolean")) {
+            if (!doInsomnia.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoInsomnia' requires type 'boolean' but got '" + doInsomnia.getType() + "'");
             }
 
@@ -1174,14 +1173,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDoLimitedCrafting extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoLimitedCrafting' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode doLimitedCrafting = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode doLimitedCrafting = arguments.get(0);
 
-            if (!doLimitedCrafting.getType().equals("boolean")) {
+            if (!doLimitedCrafting.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoLimitedCrafting' requires type 'boolean' but got '" + doLimitedCrafting.getType() + "'");
             }
 
@@ -1198,14 +1197,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDoMobGriefing extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoMobGriefing' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode doMobGriefing = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode doMobGriefing = arguments.get(0);
 
-            if (!doMobGriefing.getType().equals("boolean")) {
+            if (!doMobGriefing.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoMobGriefing' requires type 'boolean' but got '" + doMobGriefing.getType() + "'");
             }
 
@@ -1222,14 +1221,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDoMobLoot extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoMobLoot' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode doMobLoot = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode doMobLoot = arguments.get(0);
 
-            if (!doMobLoot.getType().equals("boolean")) {
+            if (!doMobLoot.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoMobLoot' requires type 'boolean' but got '" + doMobLoot.getType() + "'");
             }
 
@@ -1246,14 +1245,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDoMobSpawning extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoMobSpawning' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode doMobSpawning = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode doMobSpawning = arguments.get(0);
 
-            if (!doMobSpawning.getType().equals("boolean")) {
+            if (!doMobSpawning.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoMobSpawning' requires type 'boolean' but got '" + doMobSpawning.getType() + "'");
             }
 
@@ -1270,14 +1269,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDoPatrolSpawning extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoPatrolSpawning' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode doPatrolSpawning = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode doPatrolSpawning = arguments.get(0);
 
-            if (!doPatrolSpawning.getType().equals("boolean")) {
+            if (!doPatrolSpawning.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoPatrolSpawning' requires type 'boolean' but got '" + doPatrolSpawning.getType() + "'");
             }
 
@@ -1294,14 +1293,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDoTileDrops extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoTileDrops' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode doTileDrops = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode doTileDrops = arguments.get(0);
 
-            if (!doTileDrops.getType().equals("boolean")) {
+            if (!doTileDrops.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoTileDrops' requires type 'boolean' but got '" + doTileDrops.getType() + "'");
             }
 
@@ -1318,14 +1317,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDoTraderSpawning extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoTraderSpawning' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode doTraderSpawning = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode doTraderSpawning = arguments.get(0);
 
-            if (!doTraderSpawning.getType().equals("boolean")) {
+            if (!doTraderSpawning.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoTraderSpawning' requires type 'boolean' but got '" + doTraderSpawning.getType() + "'");
             }
 
@@ -1342,14 +1341,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDoVinesSpread extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoVinesSpread' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode doVinesSpread = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode doVinesSpread = arguments.get(0);
 
-            if (!doVinesSpread.getType().equals("boolean")) {
+            if (!doVinesSpread.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoVinesSpread' requires type 'boolean' but got '" + doVinesSpread.getType() + "'");
             }
 
@@ -1366,14 +1365,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDoWardenSpawning extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoWardenSpawning' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode doWardenSpawning = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode doWardenSpawning = arguments.get(0);
 
-            if (!doWardenSpawning.getType().equals("boolean")) {
+            if (!doWardenSpawning.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoWardenSpawning' requires type 'boolean' but got '" + doWardenSpawning.getType() + "'");
             }
 
@@ -1390,14 +1389,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDoWeatherCycle extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDoWeatherCycle' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode doWeatherCycle = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode doWeatherCycle = arguments.get(0);
 
-            if (!doWeatherCycle.getType().equals("boolean")) {
+            if (!doWeatherCycle.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDoWeatherCycle' requires type 'boolean' but got '" + doWeatherCycle.getType() + "'");
             }
 
@@ -1414,14 +1413,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetDrowningDamage extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDrowningDamage' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode drowningDamage = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode drowningDamage = arguments.get(0);
 
-            if (!drowningDamage.getType().equals("boolean")) {
+            if (!drowningDamage.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDrowningDamage' requires type 'boolean' but got '" + drowningDamage.getType() + "'");
             }
 
@@ -1438,14 +1437,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetEnderPearlsVanishOnDeath extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setEnderPearlsVanishOnDeath' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode enderPearlsVanishOnDeath = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode enderPearlsVanishOnDeath = arguments.get(0);
 
-            if (!enderPearlsVanishOnDeath.getType().equals("boolean")) {
+            if (!enderPearlsVanishOnDeath.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setEnderPearlsVanishOnDeath' requires type 'boolean' but got '" + enderPearlsVanishOnDeath.getType() + "'");
             }
 
@@ -1462,14 +1461,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetFallDamage extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setFallDamage' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode fallDamage = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode fallDamage = arguments.get(0);
 
-            if (!fallDamage.getType().equals("boolean")) {
+            if (!fallDamage.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setFallDamage' requires type 'boolean' but got '" + fallDamage.getType() + "'");
             }
 
@@ -1486,14 +1485,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetFireDamage extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setFireDamage' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode fireDamage = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode fireDamage = arguments.get(0);
 
-            if (!fireDamage.getType().equals("boolean")) {
+            if (!fireDamage.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setFireDamage' requires type 'boolean' but got '" + fireDamage.getType() + "'");
             }
 
@@ -1510,14 +1509,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetForgiveDeadPlayers extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setForgiveDeadPlayers' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode forgiveDeadPlayers = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode forgiveDeadPlayers = arguments.get(0);
 
-            if (!forgiveDeadPlayers.getType().equals("boolean")) {
+            if (!forgiveDeadPlayers.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setForgiveDeadPlayers' requires type 'boolean' but got '" + forgiveDeadPlayers.getType() + "'");
             }
 
@@ -1534,14 +1533,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetFreezeDamage extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setFreezeDamage' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode freezeDamage = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode freezeDamage = arguments.get(0);
 
-            if (!freezeDamage.getType().equals("boolean")) {
+            if (!freezeDamage.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setFreezeDamage' requires type 'boolean' but got '" + freezeDamage.getType() + "'");
             }
 
@@ -1558,14 +1557,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetGlobalSoundEvents extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setGlobalSoundEvents' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode globalSoundEvents = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode globalSoundEvents = arguments.get(0);
 
-            if (!globalSoundEvents.getType().equals("boolean")) {
+            if (!globalSoundEvents.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setGlobalSoundEvents' requires type 'boolean' but got '" + globalSoundEvents.getType() + "'");
             }
 
@@ -1582,14 +1581,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetKeepInventory extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setKeepInventory' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode keepInventory = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode keepInventory = arguments.get(0);
 
-            if (!keepInventory.getType().equals("boolean")) {
+            if (!keepInventory.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setKeepInventory' requires type 'boolean' but got '" + keepInventory.getType() + "'");
             }
 
@@ -1606,14 +1605,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetLavaSourceConversion extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setLavaSourceConversion' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode lavaSourceConversion = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode lavaSourceConversion = arguments.get(0);
 
-            if (!lavaSourceConversion.getType().equals("boolean")) {
+            if (!lavaSourceConversion.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setLavaSourceConversion' requires type 'boolean' but got '" + lavaSourceConversion.getType() + "'");
             }
 
@@ -1630,14 +1629,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetLogAdminCommands extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setLogAdminCommands' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode logAdminCommands = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode logAdminCommands = arguments.get(0);
 
-            if (!logAdminCommands.getType().equals("boolean")) {
+            if (!logAdminCommands.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setLogAdminCommands' requires type 'boolean' but got '" + logAdminCommands.getType() + "'");
             }
 
@@ -1654,14 +1653,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetMaxArgumentCount extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setMaxArgumentCount' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode maxArgumentCount = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode maxArgumentCount = arguments.get(0);
 
-            if (!maxArgumentCount.getType().equals("int")) {
+            if (!maxArgumentCount.getType().equals("Integer")) {
                 throw new TypeError("Argument 1 for function 'setMaxArgumentCount' requires type 'int' but got '" + maxArgumentCount.getType() + "'");
             }
 
@@ -1678,14 +1677,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetMaxCommandChainLength extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setMaxCommandChainLength' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode maxCommandChainLength = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode maxCommandChainLength = arguments.get(0);
 
-            if (!maxCommandChainLength.getType().equals("int")) {
+            if (!maxCommandChainLength.getType().equals("Integer")) {
                 throw new TypeError("Argument 1 for function 'setMaxCommandChainLength' requires type 'int' but got '" + maxCommandChainLength.getType() + "'");
             }
 
@@ -1702,14 +1701,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetMaxEntityCramming extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setMaxEntityCramming' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode maxEntityCramming = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode maxEntityCramming = arguments.get(0);
 
-            if (!maxEntityCramming.getType().equals("int")) {
+            if (!maxEntityCramming.getType().equals("Integer")) {
                 throw new TypeError("Argument 1 for function 'setMaxEntityCramming' requires type 'int' but got '" + maxEntityCramming.getType() + "'");
             }
 
@@ -1726,14 +1725,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetMaxLoops extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setMaxLoops' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode maxLoops = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode maxLoops = arguments.get(0);
 
-            if (!maxLoops.getType().equals("int")) {
+            if (!maxLoops.getType().equals("Integer")) {
                 throw new TypeError("Argument 1 for function 'setMaxLoops' requires type 'int' but got '" + maxLoops.getType() + "'");
             }
 
@@ -1750,14 +1749,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetMobExplosionDropDecay extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setMobExplosionDropDecay' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode mobExplosionDropDecay = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode mobExplosionDropDecay = arguments.get(0);
 
-            if (!mobExplosionDropDecay.getType().equals("boolean")) {
+            if (!mobExplosionDropDecay.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setMobExplosionDropDecay' requires type 'boolean' but got '" + mobExplosionDropDecay.getType() + "'");
             }
 
@@ -1774,14 +1773,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetNaturalRegeneration extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setNaturalRegeneration' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode naturalRegeneration = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode naturalRegeneration = arguments.get(0);
 
-            if (!naturalRegeneration.getType().equals("boolean")) {
+            if (!naturalRegeneration.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setNaturalRegeneration' requires type 'boolean' but got '" + naturalRegeneration.getType() + "'");
             }
 
@@ -1798,14 +1797,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetPlayersSleepingPercentage extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setPlayersSleepingPercentage' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode playerSleepingPercentage = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode playerSleepingPercentage = arguments.get(0);
 
-            if (!playerSleepingPercentage.getType().equals("int")) {
+            if (!playerSleepingPercentage.getType().equals("Integer")) {
                 throw new TypeError("Argument 1 for function 'setPlayersSleepingPercentage' requires type 'int' but got '" + playerSleepingPercentage.getType() + "'");
             }
 
@@ -1822,14 +1821,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetRandomTickSpeed extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setRandomTickSpeed' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode randomTickSpeed = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode randomTickSpeed = arguments.get(0);
 
-            if (!randomTickSpeed.getType().equals("int")) {
+            if (!randomTickSpeed.getType().equals("Integer")) {
                 throw new TypeError("Argument 1 for function 'setRandomTickSpeed' requires type 'int' but got '" + randomTickSpeed.getType() + "'");
             }
 
@@ -1846,14 +1845,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetReducedDebugInfo extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setReducedDebugInfo' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode reducedDebugInfo = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode reducedDebugInfo = arguments.get(0);
 
-            if (!reducedDebugInfo.getType().equals("boolean")) {
+            if (!reducedDebugInfo.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setReducedDebugInfo' requires type 'boolean' but got '" + reducedDebugInfo.getType() + "'");
             }
 
@@ -1870,14 +1869,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetScriptLogsEnabled extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setScriptLogsEnabled' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode scriptLogsEnabled = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode scriptLogsEnabled = arguments.get(0);
 
-            if (!scriptLogsEnabled.getType().equals("boolean")) {
+            if (!scriptLogsEnabled.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setScriptLogsEnabled' requires type 'boolean' but got '" + scriptLogsEnabled.getType() + "'");
             }
 
@@ -1894,14 +1893,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetSendCommandFeedback extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSendCommandFeedback' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode sendCommandFeedback = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode sendCommandFeedback = arguments.get(0);
 
-            if (!sendCommandFeedback.getType().equals("boolean")) {
+            if (!sendCommandFeedback.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setSendCommandFeedback' requires type 'boolean' but got '" + sendCommandFeedback.getType() + "'");
             }
 
@@ -1918,14 +1917,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetShowDeathMessages extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setShowDeathMessages' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode showDeathMessages = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode showDeathMessages = arguments.get(0);
 
-            if (!showDeathMessages.getType().equals("boolean")) {
+            if (!showDeathMessages.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setShowDeathMessages' requires type 'boolean' but got '" + showDeathMessages.getType() + "'");
             }
 
@@ -1942,14 +1941,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetSnowAccumulationHeight extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSnowAccumulationHeight' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode snowAccumulationHeight = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode snowAccumulationHeight = arguments.get(0);
 
-            if (!snowAccumulationHeight.getType().equals("int")) {
+            if (!snowAccumulationHeight.getType().equals("Integer")) {
                 throw new TypeError("Argument 1 for function 'setSnowAccumulationHeight' requires type 'int' but got '" + snowAccumulationHeight.getType() + "'");
             }
 
@@ -1966,14 +1965,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetSpawnRadius extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSpawnRadius' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode spawnRadius = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode spawnRadius = arguments.get(0);
 
-            if (!spawnRadius.getType().equals("int")) {
+            if (!spawnRadius.getType().equals("Integer")) {
                 throw new TypeError("Argument 1 for function 'setSpawnRadius' requires type 'int' but got '" + spawnRadius.getType() + "'");
             }
 
@@ -1990,14 +1989,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetSpectatorsGenerateChunks extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setSpectatorsGenerateChunks' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode spectatorsGenerateChunks = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode spectatorsGenerateChunks = arguments.get(0);
 
-            if (!spectatorsGenerateChunks.getType().equals("boolean")) {
+            if (!spectatorsGenerateChunks.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setSpectatorsGenerateChunks' requires type 'boolean' but got '" + spectatorsGenerateChunks.getType() + "'");
             }
 
@@ -2014,14 +2013,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetTntExplosionDropDecay extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setTntExplosionDropDecay' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode tntExplosionDropDecay = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode tntExplosionDropDecay = arguments.get(0);
 
-            if (!tntExplosionDropDecay.getType().equals("boolean")) {
+            if (!tntExplosionDropDecay.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setTntExplosionDropDecay' requires type 'boolean' but got '" + tntExplosionDropDecay.getType() + "'");
             }
 
@@ -2038,14 +2037,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetUniversalAnger extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setUniversalAnger' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode universalAnger = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode universalAnger = arguments.get(0);
 
-            if (!universalAnger.getType().equals("boolean")) {
+            if (!universalAnger.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setUniversalAnger' requires type 'boolean' but got '" + universalAnger.getType() + "'");
             }
 
@@ -2062,14 +2061,14 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     public class SetWaterSourceConversion extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setWaterSourceConversion' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode waterSourceConversion = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode waterSourceConversion = arguments.get(0);
 
-            if (!waterSourceConversion.getType().equals("boolean")) {
+            if (!waterSourceConversion.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setWaterSourceConversion' requires type 'boolean' but got '" + waterSourceConversion.getType() + "'");
             }
 

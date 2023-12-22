@@ -34,7 +34,7 @@ public class Logger {
         Logger.broadcast(Text.literal(text));
     }
 
-    public static void scriptError(LangScript script, RuntimeException exception) {
+    public static void scriptError(LangScript script, Exception exception) {
         if (exception instanceof InternalError internalError) {
             Logger.internalScriptError(script, internalError);
             return;

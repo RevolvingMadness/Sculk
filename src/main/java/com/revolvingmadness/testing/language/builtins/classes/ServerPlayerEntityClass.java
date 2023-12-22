@@ -8,7 +8,6 @@ import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameMode;
@@ -38,14 +37,14 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
 
     public class ChangeGameMode extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'changeGameMode' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode gameMode = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode gameMode = arguments.get(0);
 
-            if (!gameMode.getType().equals("string")) {
+            if (!gameMode.getType().equals("String")) {
                 throw new TypeError("Argument 1 for function 'changeGameMode' requires type 'string' but got '" + gameMode.getType() + "'");
             }
 
@@ -68,14 +67,14 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
 
     public class DropSelectedItem extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'dropSelectedItem' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode entireStack = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode entireStack = arguments.get(0);
 
-            if (!entireStack.getType().equals("boolean")) {
+            if (!entireStack.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'dropSelectedItem' requires type 'boolean' but got '" + entireStack.getType() + "'");
             }
 
@@ -92,7 +91,7 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
 
     public class GetIp extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getIp' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -108,7 +107,7 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
 
     public class GetViewDistance extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getViewDistance' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -124,14 +123,14 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
 
     public class SetExperienceLevels extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setExperienceLevels' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode experienceLevel = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode experienceLevel = arguments.get(0);
 
-            if (!experienceLevel.getType().equals("int")) {
+            if (!experienceLevel.getType().equals("Integer")) {
                 throw new TypeError("Argument 1 for function 'setExperienceLevels' requires type 'int' but got '" + experienceLevel.getType() + "'");
             }
 
@@ -148,14 +147,14 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
 
     public class SetExperiencePoints extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setExperiencePoints' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode experiencePoints = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode experiencePoints = arguments.get(0);
 
-            if (!experiencePoints.getType().equals("int")) {
+            if (!experiencePoints.getType().equals("Integer")) {
                 throw new TypeError("Argument 1 for function 'setExperiencePoints' requires type 'int' but got '" + experiencePoints.getType() + "'");
             }
 

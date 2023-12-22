@@ -7,7 +7,6 @@ import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.MaxArgumentError;
 import com.revolvingmadness.testing.language.interpreter.errors.Return;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.StatementNode;
 import org.apache.commons.lang3.NotImplementedException;
@@ -33,7 +32,7 @@ public class FunctionClass extends BaseClassExpressionNode {
     }
 
     @Override
-    public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+    public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
         interpreter.variableTable.enterScope();
 
         int maxArguments = Testing.server.getGameRules().getInt(TestingGamerules.MAX_ARGUMENTS);
@@ -49,7 +48,7 @@ public class FunctionClass extends BaseClassExpressionNode {
         int argumentNumber = 0;
 
         for (IdentifierExpressionNode argumentName : this.arguments) {
-            BaseClassExpressionNode argumentValue = interpreter.visitExpression(arguments.get(argumentNumber));
+            BaseClassExpressionNode argumentValue = arguments.get(argumentNumber);
             interpreter.variableTable.declare(true, argumentName, argumentValue);
             argumentNumber++;
         }

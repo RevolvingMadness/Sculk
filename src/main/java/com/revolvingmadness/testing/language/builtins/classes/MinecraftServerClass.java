@@ -9,7 +9,6 @@ import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.world.Difficulty;
 
@@ -36,7 +35,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
     private static class AreCommandBlocksEnabledFunction extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'areCommandBlocksEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -52,7 +51,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
     private static class GetServerIpFunction extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getServerIP' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -68,7 +67,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
     private static class GetServerPortFunction extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'getServerPort' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -84,7 +83,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
     private static class IsFlightEnabledFunction extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isFlightEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -100,7 +99,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
     private static class IsHardcoreFunction extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isHardcore' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -116,7 +115,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
     private static class IsNetherEnabledFunction extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isNetherEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -132,7 +131,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
     private static class IsPVPEnabledFunction extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'isPVPEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
@@ -148,14 +147,14 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
     private static class SetDifficulty extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDifficulty' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode difficulty = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode difficulty = arguments.get(0);
 
-            if (!difficulty.getType().equals("string")) {
+            if (!difficulty.getType().equals("String")) {
                 throw new TypeError("Argument 1 for function 'setDifficulty' requires type 'string' but got '" + difficulty.getType() + "'");
             }
 
@@ -178,14 +177,14 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
     private static class SetDifficultyLocked extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setDifficultyLocked' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode difficultyLocked = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode difficultyLocked = arguments.get(0);
 
-            if (!difficultyLocked.getType().equals("boolean")) {
+            if (!difficultyLocked.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setDifficultyLocked' requires type 'boolean' but got '" + difficultyLocked.getType() + "'");
             }
 
@@ -202,14 +201,14 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
     private static class SetPVPEnabled extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
                 throw new SyntaxError("Function 'setPVPEnabled' takes 1 argument but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode pvpEnabled = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode pvpEnabled = arguments.get(0);
 
-            if (!pvpEnabled.getType().equals("boolean")) {
+            if (!pvpEnabled.getType().equals("Boolean")) {
                 throw new TypeError("Argument 1 for function 'setPVPEnabled' requires type 'boolean' but got '" + pvpEnabled.getType() + "'");
             }
 

@@ -3,7 +3,9 @@ package com.revolvingmadness.testing.language.interpreter;
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
-public class Variable {
+import java.io.Serializable;
+
+public class Variable implements Serializable {
     public final boolean isConstant;
     public final IdentifierExpressionNode name;
     public BaseClassExpressionNode value;

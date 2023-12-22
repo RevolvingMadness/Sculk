@@ -1,6 +1,6 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
 
-public class IdentifierExpressionNode implements ExpressionNode {
+public class IdentifierExpressionNode extends ExpressionNode {
     public final String value;
 
     public IdentifierExpressionNode(String value) {

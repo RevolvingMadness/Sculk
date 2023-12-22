@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ScriptNode implements Node {
+public class ScriptNode extends Node {
     public final Map<Identifier, LangScript> scripts;
     public final List<StatementNode> statements;
 

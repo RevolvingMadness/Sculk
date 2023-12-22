@@ -3,7 +3,6 @@ package com.revolvingmadness.testing.language.interpreter;
 import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.gamerules.TestingGamerules;
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
-import com.revolvingmadness.testing.language.builtins.classes.ClassExpressionNode;
 import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.FunctionClass;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
@@ -13,7 +12,9 @@ import com.revolvingmadness.testing.language.interpreter.errors.*;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.*;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.*;
+import com.revolvingmadness.testing.language.user_defined.UserDefinedClass;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Interpreter implements Visitor {
@@ -62,7 +63,11 @@ public class Interpreter implements Visitor {
     public BaseClassExpressionNode visitCallExpression(CallExpressionNode callExpression) {
         BaseClassExpressionNode callee = this.visitExpression(callExpression.callee);
 
-        return callee.call(this, callExpression.arguments);
+        List<BaseClassExpressionNode> arguments = new ArrayList<>();
+
+        callExpression.arguments.forEach(argumentExpression -> arguments.add(this.visitExpression(argumentExpression)));
+
+        return callee.call(this, arguments);
     }
 
     @Override
@@ -81,7 +86,7 @@ public class Interpreter implements Visitor {
             superClass = superClassVariable.value;
         }
 
-        this.variableTable.declare(classDeclarationStatement.isConstant, classDeclarationStatement.name, new ClassExpressionNode(classDeclarationStatement.name, superClass, variableScope));
+        this.variableTable.declare(classDeclarationStatement.isConstant, classDeclarationStatement.name, new UserDefinedClass(classDeclarationStatement.name, superClass, variableScope));
     }
 
     @Override
@@ -202,6 +207,7 @@ public class Interpreter implements Visitor {
     @Override
     public void visitScript(ScriptNode script) {
         script.statements.forEach(this::visitStatement);
+        this.variableTable.reset();
     }
 
     @Override

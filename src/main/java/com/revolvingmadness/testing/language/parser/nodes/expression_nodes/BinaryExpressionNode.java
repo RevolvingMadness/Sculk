@@ -2,7 +2,7 @@ package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
 
 import com.revolvingmadness.testing.language.lexer.TokenType;
 
-public class BinaryExpressionNode implements ExpressionNode {
+public class BinaryExpressionNode extends ExpressionNode {
     public final ExpressionNode left;
     public final TokenType operator;
     public final ExpressionNode right;

@@ -5,7 +5,6 @@ import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.entity.LivingEntity;
 
@@ -29,20 +28,20 @@ public class LivingEntityClass extends BaseClassExpressionNode {
 
     public class TiltScreen extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 2) {
                 throw new SyntaxError("Function 'tiltScreen' takes 2 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            BaseClassExpressionNode deltaX = interpreter.visitExpression(arguments.get(0));
+            BaseClassExpressionNode deltaX = arguments.get(0);
 
-            if (!deltaX.getType().equals("float")) {
+            if (!deltaX.getType().equals("Float")) {
                 throw new TypeError("Argument 1 for function 'tiltScreen' requires type 'float' but got '" + deltaX.getType() + "'");
             }
 
-            BaseClassExpressionNode deltaZ = interpreter.visitExpression(arguments.get(1));
+            BaseClassExpressionNode deltaZ = arguments.get(1);
 
-            if (!deltaZ.getType().equals("float")) {
+            if (!deltaZ.getType().equals("Float")) {
                 throw new TypeError("Argument 2 for function 'tiltScreen' requires type 'float' but got '" + deltaZ.getType() + "'");
             }
 
@@ -59,7 +58,7 @@ public class LivingEntityClass extends BaseClassExpressionNode {
 
     public class WakeUp extends BaseClassExpressionNode {
         @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
                 throw new SyntaxError("Function 'wakeUp' takes 0 arguments but got " + arguments.size() + " argument(s)");
             }
