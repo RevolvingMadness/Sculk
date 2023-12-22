@@ -5,7 +5,8 @@ import com.revolvingmadness.testing.language.builtins.classes.GameRulesClass;
 import com.revolvingmadness.testing.language.builtins.classes.MinecraftServerClass;
 import com.revolvingmadness.testing.language.builtins.classes.PlayerManagerClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.FloatClass;
-import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunctionExpressionNode;
+import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunction;
+import com.revolvingmadness.testing.language.builtins.functions.types.TypeFunction;
 import com.revolvingmadness.testing.language.errors.NameError;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
@@ -49,7 +50,8 @@ public class VariableTable {
     }
 
     private void declareFunctions() {
-        this.declare(true, new IdentifierExpressionNode("print"), new PrintFunctionExpressionNode());
+        this.declare(true, new IdentifierExpressionNode("print"), new PrintFunction());
+        this.declare(true, new IdentifierExpressionNode("type"), new TypeFunction());
     }
 
     private void declareVariables() {

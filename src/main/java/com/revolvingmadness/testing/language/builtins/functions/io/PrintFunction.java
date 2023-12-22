@@ -10,7 +10,7 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Ident
 
 import java.util.List;
 
-public class PrintFunctionExpressionNode extends BaseClassExpressionNode {
+public class PrintFunction extends BaseClassExpressionNode {
     @Override
     public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
         if (arguments.size() != 1) {
