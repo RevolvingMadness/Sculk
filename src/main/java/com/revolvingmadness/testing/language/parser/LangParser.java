@@ -274,7 +274,7 @@ public class LangParser {
 
         this.consume(TokenType.RIGHT_BRACE, "Expected closing brace for dictionary");
 
-        return new DictionaryClass(dictionary);
+        return new DictionaryExpressionNode(dictionary);
     }
 
     private ExpressionNode parseExponentiationExpression() {
@@ -447,7 +447,7 @@ public class LangParser {
 
         this.consume(TokenType.RIGHT_BRACKET, "Expected closing bracket for list");
 
-        return new ListClass(elements);
+        return new ListExpressionNode(elements);
     }
 
     private ExpressionNode parseLogicalExpression() {

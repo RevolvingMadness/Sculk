@@ -54,7 +54,7 @@ public class Logger {
     }
 
     private static void internalScriptError(LangScript script, InternalError exception) {
-        Logger.broadcast(Text.literal("The script '" + script.identifier + "' encountered an internal error:").formatted(Formatting.GRAY));
+        Logger.broadcast(Text.literal("The script '" + script.identifier + "' encountered an internal error:").formatted(Formatting.GRAY), true);
 
         MutableText textError = Text.literal(exception.getClass().getSimpleName() + ": ").formatted(Formatting.GRAY);
 

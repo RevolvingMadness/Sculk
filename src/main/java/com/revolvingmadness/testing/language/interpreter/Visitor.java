@@ -16,6 +16,8 @@ public interface Visitor {
 
     void visitContinueStatement(ContinueStatementNode continueStatement);
 
+    BaseClassExpressionNode visitDictionaryExpression(DictionaryExpressionNode dictionaryExpression);
+
     BaseClassExpressionNode visitExpression(ExpressionNode expression);
 
     void visitExpressionStatement(ExpressionStatementNode expressionStatement);
@@ -29,6 +31,8 @@ public interface Visitor {
     BaseClassExpressionNode visitIdentifierExpression(IdentifierExpressionNode identifierExpression);
 
     void visitIfStatement(IfStatementNode ifStatement);
+
+    BaseClassExpressionNode visitListExpression(ListExpressionNode listExpression);
 
     void visitReturnStatement(ReturnStatementNode returnStatement);
 

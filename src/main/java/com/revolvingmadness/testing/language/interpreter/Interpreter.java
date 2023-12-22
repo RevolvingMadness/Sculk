@@ -4,7 +4,9 @@ import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.gamerules.TestingGamerules;
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
 import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.DictionaryClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.FunctionClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.ListClass;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.errors.StackOverflowError;
@@ -15,7 +17,9 @@ import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.*;
 import com.revolvingmadness.testing.language.user_defined.UserDefinedClass;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Interpreter implements Visitor {
     public final Integer maxArguments;
@@ -95,6 +99,20 @@ public class Interpreter implements Visitor {
     }
 
     @Override
+    public BaseClassExpressionNode visitDictionaryExpression(DictionaryExpressionNode dictionaryExpression) {
+        Map<BaseClassExpressionNode, BaseClassExpressionNode> dictionary = new HashMap<>();
+
+        dictionaryExpression.value.forEach((keyEx, valueEx) -> {
+            BaseClassExpressionNode key = this.visitExpression(keyEx);
+            BaseClassExpressionNode value = this.visitExpression(valueEx);
+
+            dictionary.put(key, value);
+        });
+
+        return new DictionaryClass(dictionary);
+    }
+
+    @Override
     public BaseClassExpressionNode visitExpression(ExpressionNode expression) {
         if (expression instanceof BinaryExpressionNode binaryExpression) {
             return this.visitBinaryExpression(binaryExpression);
@@ -110,6 +128,10 @@ public class Interpreter implements Visitor {
             return this.visitGetExpression(getExpression);
         } else if (expression instanceof BaseClassExpressionNode baseClassExpression) {
             return baseClassExpression;
+        } else if (expression instanceof DictionaryExpressionNode dictionaryExpression) {
+            return this.visitDictionaryExpression(dictionaryExpression);
+        } else if (expression instanceof ListExpressionNode listExpression) {
+            return this.visitListExpression(listExpression);
         } else {
             throw new InterpreterError("Unsupported node to interpret '" + expression.getClass().getSimpleName() + "'");
         }
@@ -195,6 +217,15 @@ public class Interpreter implements Visitor {
                 }
             }
         }
+    }
+
+    @Override
+    public BaseClassExpressionNode visitListExpression(ListExpressionNode listExpression) {
+        List<BaseClassExpressionNode> list = new ArrayList<>();
+
+        listExpression.value.forEach(expression -> list.add(this.visitExpression(expression)));
+
+        return new ListClass(list);
     }
 
     @Override

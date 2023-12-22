@@ -1,7 +1,7 @@
 package com.revolvingmadness.testing.language.lexer;
 
 import com.revolvingmadness.testing.Testing;
-import com.revolvingmadness.testing.language.lexer.errors.LexerError;
+import com.revolvingmadness.testing.language.errors.SyntaxError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -176,7 +176,7 @@ public class LangLexer {
                 this.consume();
                 tokens.add(new Token(TokenType.PERIOD));
             } else {
-                throw new LexerError("Unknown token '" + this.current() + "'");
+                throw new SyntaxError("Unexpected character '" + this.current() + "'");
             }
         }
 
@@ -229,7 +229,7 @@ public class LangLexer {
             case '\'' -> '\'';
             case '"' -> '"';
             case '\\' -> '\\';
-            default -> throw new LexerError("Unsupported escape character '" + escapeChar + "'");
+            default -> throw new SyntaxError("Unsupported escape character '" + escapeChar + "'");
         };
     }
 
