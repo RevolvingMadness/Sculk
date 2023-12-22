@@ -1,10 +1,10 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
 
 public class VariableAssignmentExpressionNode implements ExpressionNode {
-    public final IdentifierExpressionNode expression;
+    public final ExpressionNode expression;
     public final ExpressionNode value;
 
-    public VariableAssignmentExpressionNode(IdentifierExpressionNode expression, ExpressionNode value) {
+    public VariableAssignmentExpressionNode(ExpressionNode expression, ExpressionNode value) {
         this.expression = expression;
         this.value = value;
     }

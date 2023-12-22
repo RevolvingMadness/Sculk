@@ -20,8 +20,12 @@ public abstract class BaseClassExpressionNode implements ExpressionNode {
     }
 
     public BaseClassExpressionNode(BaseClassExpressionNode superClass) {
+        this(superClass, new VariableScope());
+    }
+
+    public BaseClassExpressionNode(BaseClassExpressionNode superClass, VariableScope variableScope) {
         this.superClass = superClass;
-        this.variableScope = new VariableScope();
+        this.variableScope = variableScope;
     }
 
     public BaseClassExpressionNode call(Interpreter interpreter, List<ExpressionNode> arguments) {
@@ -49,4 +53,20 @@ public abstract class BaseClassExpressionNode implements ExpressionNode {
     }
 
     public abstract String getType();
+
+    public void setProperty(IdentifierExpressionNode propertyName, BaseClassExpressionNode value) {
+        Optional<Variable> optionalVariable = this.variableScope.getOptional(propertyName);
+
+        if (optionalVariable.isPresent()) {
+            this.variableScope.assign(propertyName, value);
+            
+            return;
+        }
+
+        if (this.superClass == null) {
+            throw new NameError("Type '" + this.getType() + "' has no property '" + propertyName + "'");
+        }
+
+        this.superClass.setProperty(propertyName, value);
+    }
 }

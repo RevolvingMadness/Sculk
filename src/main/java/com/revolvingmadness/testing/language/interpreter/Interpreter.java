@@ -6,6 +6,7 @@ import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressio
 import com.revolvingmadness.testing.language.builtins.classes.ClassExpressionNode;
 import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.FunctionClass;
+import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.errors.StackOverflowError;
 import com.revolvingmadness.testing.language.interpreter.errors.*;
@@ -104,7 +105,6 @@ public class Interpreter implements Visitor {
             return this.visitGetExpression(getExpression);
         } else if (expression instanceof BaseClassExpressionNode baseClassExpression) {
             return baseClassExpression;
-
         } else {
             throw new InterpreterError("Unsupported node to interpret '" + expression.getClass().getSimpleName() + "'");
         }
@@ -246,9 +246,19 @@ public class Interpreter implements Visitor {
     public BaseClassExpressionNode visitVariableAssignmentExpression(VariableAssignmentExpressionNode variableAssignmentExpression) {
         BaseClassExpressionNode value = this.visitExpression(variableAssignmentExpression.value);
 
-        this.variableTable.assign(variableAssignmentExpression.expression, value);
+        if (variableAssignmentExpression.expression instanceof IdentifierExpressionNode identifierExpression) {
+            this.variableTable.assign(identifierExpression, value);
 
-        return value;
+            return value;
+        } else if (variableAssignmentExpression.expression instanceof GetExpressionNode getExpression) {
+            BaseClassExpressionNode assignee = this.visitExpression(getExpression.expression);
+
+            assignee.setProperty(getExpression.propertyName, value);
+
+            return value;
+        }
+
+        throw new SyntaxError("Cannot assign to r-value");
     }
 
     @Override

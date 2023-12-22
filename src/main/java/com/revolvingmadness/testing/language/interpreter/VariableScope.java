@@ -1,6 +1,7 @@
 package com.revolvingmadness.testing.language.interpreter;
 
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
+import com.revolvingmadness.testing.language.errors.NameError;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
@@ -13,6 +14,22 @@ public class VariableScope {
 
     public VariableScope() {
         this.variables = new ArrayList<>();
+    }
+
+    public void assign(IdentifierExpressionNode name, BaseClassExpressionNode value) {
+        Optional<Variable> optionalVariable = this.getOptional(name);
+
+        if (optionalVariable.isEmpty()) {
+            throw new NameError("Variable '" + name + "' has not been declared");
+        }
+
+        Variable variable = optionalVariable.get();
+
+        if (variable.isConstant) {
+            throw new ValueError("Cannot assign value to variable '" + variable.name + "' because it is constant");
+        }
+
+        variable.value = value;
     }
 
     public void declare(boolean isConstant, IdentifierExpressionNode name, BaseClassExpressionNode value) {

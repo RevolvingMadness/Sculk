@@ -121,11 +121,7 @@ public class LangParser {
         if (this.current().isIncrementOperator()) {
             TokenType incrementOperator = this.consume().type;
 
-            if (expression instanceof IdentifierExpressionNode identifierExpression) {
-                return new VariableAssignmentExpressionNode(identifierExpression, new BinaryExpressionNode(expression, incrementOperator, new IntegerClass(1)));
-            } else {
-                throw new SyntaxError("Cannot assign to r-value");
-            }
+            return new VariableAssignmentExpressionNode(expression, new BinaryExpressionNode(expression, incrementOperator, new IntegerClass(1)));
         }
 
         if (this.current().isBinaryOperator()) {
@@ -135,11 +131,7 @@ public class LangParser {
 
             ExpressionNode right = this.parseExpression();
 
-            if (expression instanceof IdentifierExpressionNode identifierExpression) {
-                return new VariableAssignmentExpressionNode(identifierExpression, new BinaryExpressionNode(expression, binaryOperator, right));
-            } else {
-                throw new SyntaxError("Cannot assign to r-value");
-            }
+            return new VariableAssignmentExpressionNode(expression, new BinaryExpressionNode(expression, binaryOperator, right));
         }
 
         if (this.current(TokenType.EQUALS)) {
@@ -147,11 +139,7 @@ public class LangParser {
 
             ExpressionNode value = this.parseAndExpression();
 
-            if (expression instanceof IdentifierExpressionNode identifierExpression) {
-                return new VariableAssignmentExpressionNode(identifierExpression, value);
-            } else {
-                throw new SyntaxError("Cannot assign to r-value");
-            }
+            return new VariableAssignmentExpressionNode(expression, value);
         }
 
         return expression;
