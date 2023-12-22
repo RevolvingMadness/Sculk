@@ -216,6 +216,23 @@ public class LangLexer {
         return new Token(TokenType.INTEGER, Integer.parseInt(digitString));
     }
 
+    private Character lexEscapeSequence() {
+        this.consume();
+        Character escapeChar = this.consume();
+
+        return switch (escapeChar) {
+            case 't' -> '\t';
+            case 'b' -> '\b';
+            case 'n' -> '\n';
+            case 'r' -> '\r';
+            case 'f' -> '\f';
+            case '\'' -> '\'';
+            case '"' -> '"';
+            case '\\' -> '\\';
+            default -> throw new LexerError("Unsupported escape character '" + escapeChar + "'");
+        };
+    }
+
     private Token lexIdentifier() {
         StringBuilder identifier = new StringBuilder();
 
@@ -244,7 +261,11 @@ public class LangLexer {
         StringBuilder string = new StringBuilder();
 
         while (this.position < this.input.length() && !this.current('"')) {
-            string.append(this.consume());
+            if (this.current('\\')) {
+                string.append(this.lexEscapeSequence());
+            } else {
+                string.append(this.consume());
+            }
         }
 
         return new Token(TokenType.STRING, string.toString());
