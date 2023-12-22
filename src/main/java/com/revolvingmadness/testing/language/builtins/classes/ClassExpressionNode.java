@@ -1,12 +1,14 @@
 package com.revolvingmadness.testing.language.builtins.classes;
 
-import com.revolvingmadness.testing.language.builtins.classes.types.FunctionClass;
+import com.revolvingmadness.testing.language.errors.NameError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
+import com.revolvingmadness.testing.language.interpreter.Variable;
 import com.revolvingmadness.testing.language.interpreter.VariableScope;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ClassExpressionNode extends BaseClassExpressionNode {
     public final IdentifierExpressionNode name;
@@ -26,13 +28,17 @@ public class ClassExpressionNode extends BaseClassExpressionNode {
 
     @Override
     public BaseClassExpressionNode getProperty(IdentifierExpressionNode propertyName) {
-        BaseClassExpressionNode property = super.getProperty(propertyName);
+        Optional<Variable> optionalVariable = this.variableScope.getOptional(propertyName);
 
-        if (property instanceof FunctionClass method) {
-            method.bind(this, this.superClass);
+        if (optionalVariable.isPresent()) {
+            return optionalVariable.get().value;
         }
 
-        return property;
+        if (this.superClass == null) {
+            throw new NameError("Type '" + this.getType() + "' has no property '" + propertyName + "'");
+        }
+
+        return this.superClass.getProperty(propertyName);
     }
 
     @Override

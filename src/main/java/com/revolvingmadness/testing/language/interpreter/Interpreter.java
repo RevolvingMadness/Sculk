@@ -5,6 +5,7 @@ import com.revolvingmadness.testing.gamerules.TestingGamerules;
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
 import com.revolvingmadness.testing.language.builtins.classes.ClassExpressionNode;
 import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.FunctionClass;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.errors.StackOverflowError;
 import com.revolvingmadness.testing.language.interpreter.errors.*;
@@ -157,7 +158,7 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visitFunctionDeclarationStatement(FunctionDeclarationStatementNode functionDeclarationStatement) {
-
+        this.variableTable.declare(functionDeclarationStatement.isConstant, functionDeclarationStatement.name, new FunctionClass(functionDeclarationStatement.name, functionDeclarationStatement.arguments, functionDeclarationStatement.body));
     }
 
     @Override
