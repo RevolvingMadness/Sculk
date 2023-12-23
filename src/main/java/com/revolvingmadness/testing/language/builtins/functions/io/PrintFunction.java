@@ -26,6 +26,16 @@ public class PrintFunction extends BaseClassExpressionNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        return o instanceof PrintFunction;
+    }
+
+    @Override
+    public int hashCode() {
+        return PrintFunction.class.hashCode();
+    }
+
+    @Override
     public String getType() {
         return "Function";
     }

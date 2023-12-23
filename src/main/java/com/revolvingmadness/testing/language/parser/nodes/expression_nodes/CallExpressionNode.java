@@ -1,6 +1,7 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CallExpressionNode extends ExpressionNode {
     public final List<ExpressionNode> arguments;
@@ -13,22 +14,14 @@ public class CallExpressionNode extends ExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || this.getClass() != o.getClass())
-            return false;
-
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
         CallExpressionNode that = (CallExpressionNode) o;
-
-        if (!this.arguments.equals(that.arguments))
-            return false;
-        return this.callee.equals(that.callee);
+        return Objects.equals(this.arguments, that.arguments) && Objects.equals(this.callee, that.callee);
     }
 
     @Override
     public int hashCode() {
-        int result = this.arguments.hashCode();
-        result = 31 * result + this.callee.hashCode();
-        return result;
+        return Objects.hash(this.arguments, this.callee);
     }
 }

@@ -7,6 +7,7 @@ import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 import java.util.List;
+import java.util.Objects;
 
 public class IntegerClass extends BaseClassExpressionNode {
     public final Integer value;
@@ -20,6 +21,19 @@ public class IntegerClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("divide"), new Divide());
         this.variableScope.declare(true, new IdentifierExpressionNode("exponentiate"), new Exponentiate());
         this.variableScope.declare(true, new IdentifierExpressionNode("mod"), new Mod());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        IntegerClass that = (IntegerClass) o;
+        return Objects.equals(this.value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.value);
     }
 
     @Override

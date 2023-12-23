@@ -2,6 +2,8 @@ package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
 
 import com.revolvingmadness.testing.language.lexer.TokenType;
 
+import java.util.Objects;
+
 public class BinaryExpressionNode extends ExpressionNode {
     public final ExpressionNode left;
     public final TokenType operator;
@@ -15,25 +17,14 @@ public class BinaryExpressionNode extends ExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || this.getClass() != o.getClass())
-            return false;
-
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
         BinaryExpressionNode that = (BinaryExpressionNode) o;
-
-        if (!this.left.equals(that.left))
-            return false;
-        if (this.operator != that.operator)
-            return false;
-        return this.right.equals(that.right);
+        return Objects.equals(this.left, that.left) && this.operator == that.operator && Objects.equals(this.right, that.right);
     }
 
     @Override
     public int hashCode() {
-        int result = this.left.hashCode();
-        result = 31 * result + this.operator.hashCode();
-        result = 31 * result + this.right.hashCode();
-        return result;
+        return Objects.hash(this.left, this.operator, this.right);
     }
 }

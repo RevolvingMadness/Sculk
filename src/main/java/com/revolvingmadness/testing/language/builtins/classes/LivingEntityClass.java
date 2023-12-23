@@ -9,6 +9,7 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Ident
 import net.minecraft.entity.LivingEntity;
 
 import java.util.List;
+import java.util.Objects;
 
 public class LivingEntityClass extends BaseClassExpressionNode {
     public final LivingEntity livingEntity;
@@ -19,6 +20,20 @@ public class LivingEntityClass extends BaseClassExpressionNode {
 
         this.variableScope.declare(true, new IdentifierExpressionNode("tiltScreen"), new TiltScreen());
         this.variableScope.declare(true, new IdentifierExpressionNode("wakeUp"), new WakeUp());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        LivingEntityClass that = (LivingEntityClass) o;
+        return Objects.equals(this.livingEntity, that.livingEntity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), this.livingEntity);
     }
 
     @Override

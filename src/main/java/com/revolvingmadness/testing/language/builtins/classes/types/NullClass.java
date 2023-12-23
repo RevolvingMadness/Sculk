@@ -22,7 +22,17 @@ public class NullClass extends BaseClassExpressionNode {
         return "null";
     }
 
-    public static class ToString extends BaseClassExpressionNode {
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof NullClass;
+    }
+
+    @Override
+    public int hashCode() {
+        return NullClass.class.hashCode();
+    }
+
+    private static class ToString extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {

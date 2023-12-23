@@ -9,6 +9,7 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Expre
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public abstract class BaseClassExpressionNode extends ExpressionNode {
@@ -72,5 +73,18 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
         }
 
         this.superClass.setProperty(propertyName, value);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        BaseClassExpressionNode that = (BaseClassExpressionNode) o;
+        return Objects.equals(this.superClass, that.superClass) && Objects.equals(this.variableScope, that.variableScope);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.superClass, this.variableScope);
     }
 }

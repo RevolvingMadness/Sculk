@@ -33,6 +33,16 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
         return "MinecraftServer";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof MinecraftServerClass;
+    }
+
+    @Override
+    public int hashCode() {
+        return MinecraftServerClass.class.hashCode();
+    }
+
     private static class AreCommandBlocksEnabledFunction extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {

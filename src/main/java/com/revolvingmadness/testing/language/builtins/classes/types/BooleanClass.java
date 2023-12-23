@@ -6,6 +6,7 @@ import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 import java.util.List;
+import java.util.Objects;
 
 public class BooleanClass extends BaseClassExpressionNode {
     public final Boolean value;
@@ -23,6 +24,19 @@ public class BooleanClass extends BaseClassExpressionNode {
     @Override
     public String toString() {
         return this.value.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        BooleanClass that = (BooleanClass) o;
+        return Objects.equals(this.value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.value);
     }
 
     public class ToString extends BaseClassExpressionNode {

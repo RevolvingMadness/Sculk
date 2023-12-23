@@ -1,5 +1,7 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
 
+import java.util.Objects;
+
 public class VariableAssignmentExpressionNode extends ExpressionNode {
     public final ExpressionNode expression;
     public final ExpressionNode value;
@@ -11,22 +13,14 @@ public class VariableAssignmentExpressionNode extends ExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || this.getClass() != o.getClass())
-            return false;
-
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
         VariableAssignmentExpressionNode that = (VariableAssignmentExpressionNode) o;
-
-        if (!this.expression.equals(that.expression))
-            return false;
-        return this.value.equals(that.value);
+        return Objects.equals(this.expression, that.expression) && Objects.equals(this.value, that.value);
     }
 
     @Override
     public int hashCode() {
-        int result = this.expression.hashCode();
-        result = 31 * result + this.value.hashCode();
-        return result;
+        return Objects.hash(this.expression, this.value);
     }
 }

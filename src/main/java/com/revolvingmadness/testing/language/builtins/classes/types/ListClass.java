@@ -5,12 +5,26 @@ import com.revolvingmadness.testing.language.errors.TypeError;
 import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ListClass extends BaseClassExpressionNode {
     public final List<BaseClassExpressionNode> value;
 
     public ListClass(List<BaseClassExpressionNode> value) {
         this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        ListClass listClass = (ListClass) o;
+        return Objects.equals(this.value, listClass.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.value);
     }
 
     @Override

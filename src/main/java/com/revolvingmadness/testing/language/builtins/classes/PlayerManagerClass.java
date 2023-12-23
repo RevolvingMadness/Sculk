@@ -14,6 +14,7 @@ import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.List;
+import java.util.Objects;
 
 public class PlayerManagerClass extends BaseClassExpressionNode {
     public final PlayerManager playerManager;
@@ -32,6 +33,20 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("setViewDistance"), this.new SetViewDistance());
         this.variableScope.declare(true, new IdentifierExpressionNode("setWhitelistEnabled"), this.new SetWhitelistEnabled());
         this.variableScope.declare(true, new IdentifierExpressionNode("getPlayer"), this.new GetPlayer());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        PlayerManagerClass that = (PlayerManagerClass) o;
+        return Objects.equals(this.playerManager, that.playerManager);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), this.playerManager);
     }
 
     @Override

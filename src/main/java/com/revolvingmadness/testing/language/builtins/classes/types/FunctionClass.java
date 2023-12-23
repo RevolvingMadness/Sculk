@@ -12,6 +12,7 @@ import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.Statem
 import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.List;
+import java.util.Objects;
 
 public class FunctionClass extends BaseClassExpressionNode {
     public final List<IdentifierExpressionNode> arguments;
@@ -24,6 +25,19 @@ public class FunctionClass extends BaseClassExpressionNode {
         this.name = name;
         this.arguments = arguments;
         this.body = body;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        FunctionClass that = (FunctionClass) o;
+        return Objects.equals(this.arguments, that.arguments) && Objects.equals(this.body, that.body) && Objects.equals(this.name, that.name) && Objects.equals(this.clazz, that.clazz) && Objects.equals(this.superClass, that.superClass);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.arguments, this.body, this.name, this.clazz, this.superClass);
     }
 
     public void bind(BaseClassExpressionNode clazz, BaseClassExpressionNode superClass) {

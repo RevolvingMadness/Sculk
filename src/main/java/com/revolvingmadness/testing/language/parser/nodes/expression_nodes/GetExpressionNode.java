@@ -1,5 +1,7 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
 
+import java.util.Objects;
+
 public class GetExpressionNode extends ExpressionNode {
     public final ExpressionNode expression;
     public final IdentifierExpressionNode propertyName;
@@ -11,22 +13,14 @@ public class GetExpressionNode extends ExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || this.getClass() != o.getClass())
-            return false;
-
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
         GetExpressionNode that = (GetExpressionNode) o;
-
-        if (!this.expression.equals(that.expression))
-            return false;
-        return this.propertyName.equals(that.propertyName);
+        return Objects.equals(this.expression, that.expression) && Objects.equals(this.propertyName, that.propertyName);
     }
 
     @Override
     public int hashCode() {
-        int result = this.expression.hashCode();
-        result = 31 * result + this.propertyName.hashCode();
-        return result;
+        return Objects.hash(this.expression, this.propertyName);
     }
 }

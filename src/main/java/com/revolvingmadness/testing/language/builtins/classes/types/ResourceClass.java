@@ -7,6 +7,7 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Ident
 import net.minecraft.util.Identifier;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ResourceClass extends BaseClassExpressionNode {
     public final Identifier value;
@@ -14,6 +15,19 @@ public class ResourceClass extends BaseClassExpressionNode {
     public ResourceClass(Identifier value) {
         this.value = value;
         this.variableScope.declare(true, new IdentifierExpressionNode("toString"), new ToString());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        ResourceClass that = (ResourceClass) o;
+        return Objects.equals(this.value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.value);
     }
 
     @Override

@@ -21,6 +21,16 @@ public class ObjectClass extends BaseClassExpressionNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        return o instanceof ObjectClass;
+    }
+
+    @Override
+    public int hashCode() {
+        return ObjectClass.class.hashCode();
+    }
+
+    @Override
     public String getType() {
         return "Object";
     }

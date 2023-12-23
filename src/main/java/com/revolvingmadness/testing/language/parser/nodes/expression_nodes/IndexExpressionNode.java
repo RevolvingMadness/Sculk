@@ -1,5 +1,7 @@
 package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
 
+import java.util.Objects;
+
 public class IndexExpressionNode extends ExpressionNode {
     public final ExpressionNode expression;
     public final ExpressionNode index;
@@ -11,22 +13,14 @@ public class IndexExpressionNode extends ExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || this.getClass() != o.getClass())
-            return false;
-
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
         IndexExpressionNode that = (IndexExpressionNode) o;
-
-        if (!this.expression.equals(that.expression))
-            return false;
-        return this.index.equals(that.index);
+        return Objects.equals(this.expression, that.expression) && Objects.equals(this.index, that.index);
     }
 
     @Override
     public int hashCode() {
-        int result = this.expression.hashCode();
-        result = 31 * result + this.index.hashCode();
-        return result;
+        return Objects.hash(this.expression, this.index);
     }
 }

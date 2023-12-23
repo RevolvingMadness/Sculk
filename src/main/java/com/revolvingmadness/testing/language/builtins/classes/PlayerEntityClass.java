@@ -10,6 +10,7 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Ident
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.List;
+import java.util.Objects;
 
 public class PlayerEntityClass extends BaseClassExpressionNode {
     public final PlayerEntity playerEntity;
@@ -23,6 +24,20 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("addExperienceLevels"), new AddExperienceLevels());
         this.variableScope.declare(true, new IdentifierExpressionNode("isCreative"), new IsCreative());
         this.variableScope.declare(true, new IdentifierExpressionNode("isSpectator"), new IsSpectator());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        PlayerEntityClass that = (PlayerEntityClass) o;
+        return Objects.equals(this.playerEntity, that.playerEntity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), this.playerEntity);
     }
 
     @Override

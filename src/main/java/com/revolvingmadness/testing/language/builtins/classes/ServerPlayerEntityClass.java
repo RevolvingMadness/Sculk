@@ -13,6 +13,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameMode;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ServerPlayerEntityClass extends BaseClassExpressionNode {
     public final ServerPlayerEntity serverPlayerEntity;
@@ -28,6 +29,20 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("getViewDistance"), new GetViewDistance());
         this.variableScope.declare(true, new IdentifierExpressionNode("setExperienceLevels"), new SetExperienceLevels());
         this.variableScope.declare(true, new IdentifierExpressionNode("setExperiencePoints"), new SetExperiencePoints());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ServerPlayerEntityClass that = (ServerPlayerEntityClass) o;
+        return Objects.equals(this.serverPlayerEntity, that.serverPlayerEntity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), this.serverPlayerEntity);
     }
 
     @Override

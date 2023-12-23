@@ -21,6 +21,16 @@ public class TypeFunction extends BaseClassExpressionNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        return o instanceof TypeFunction;
+    }
+
+    @Override
+    public int hashCode() {
+        return TypeFunction.class.hashCode();
+    }
+
+    @Override
     public String getType() {
         return "Function";
     }

@@ -7,6 +7,7 @@ import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 import java.util.List;
+import java.util.Objects;
 
 public class FloatClass extends BaseClassExpressionNode {
     public final Double value;
@@ -25,6 +26,19 @@ public class FloatClass extends BaseClassExpressionNode {
     @Override
     public String getType() {
         return "Float";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        FloatClass that = (FloatClass) o;
+        return Objects.equals(this.value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.value);
     }
 
     @Override

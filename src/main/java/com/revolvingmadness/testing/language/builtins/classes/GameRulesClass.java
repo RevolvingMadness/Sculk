@@ -12,12 +12,14 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Ident
 import net.minecraft.world.GameRules;
 
 import java.util.List;
+import java.util.Objects;
 
 public class GameRulesClass extends BaseClassExpressionNode {
     public final GameRules gameRules;
 
     public GameRulesClass() {
         this.gameRules = Testing.server.getGameRules();
+
         this.variableScope.declare(true, new IdentifierExpressionNode("getDoFireTick"), this.new GetDoFireTick());
         this.variableScope.declare(true, new IdentifierExpressionNode("getDoMobGriefing"), this.new GetDoMobGriefing());
         this.variableScope.declare(true, new IdentifierExpressionNode("getKeepInventory"), this.new GetKeepInventory());
@@ -116,6 +118,20 @@ public class GameRulesClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("setScriptLogsEnabled"), this.new SetScriptLogsEnabled());
         this.variableScope.declare(true, new IdentifierExpressionNode("setMaxArgumentCount"), this.new SetMaxArgumentCount());
         this.variableScope.declare(true, new IdentifierExpressionNode("setMaxLoops"), this.new SetMaxLoops());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        GameRulesClass that = (GameRulesClass) o;
+        return Objects.equals(this.gameRules, that.gameRules);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), this.gameRules);
     }
 
     @Override

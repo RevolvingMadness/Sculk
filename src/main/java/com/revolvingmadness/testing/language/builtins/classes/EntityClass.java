@@ -10,6 +10,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
+import java.util.Objects;
 
 public class EntityClass extends BaseClassExpressionNode {
     public final Entity entity;
@@ -65,6 +66,20 @@ public class EntityClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("shouldDismountUnderwater"), new ShouldDismountUnderwater());
         this.variableScope.declare(true, new IdentifierExpressionNode("stopRiding"), new StopRiding());
         this.variableScope.declare(true, new IdentifierExpressionNode("teleport"), new Teleport());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        EntityClass that = (EntityClass) o;
+        return Objects.equals(this.entity, that.entity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), this.entity);
     }
 
     @Override
