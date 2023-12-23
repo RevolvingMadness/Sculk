@@ -21,6 +21,7 @@ public class FloatClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("divide"), new Divide());
         this.variableScope.declare(true, new IdentifierExpressionNode("exponentiate"), new Exponentiate());
         this.variableScope.declare(true, new IdentifierExpressionNode("mod"), new Mod());
+        this.variableScope.declare(true, new IdentifierExpressionNode("negate"), new Negate());
     }
 
     @Override
@@ -62,6 +63,22 @@ public class FloatClass extends BaseClassExpressionNode {
             }
 
             throw new TypeError("Cannot apply operator '+' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class Negate extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 0) {
+                throw new SyntaxError("Function 'negate' requires 0 arguments but got " + arguments.size() + " argument(s)");
+            }
+
+            return new FloatClass(-FloatClass.this.value);
         }
 
         @Override
