@@ -29,6 +29,8 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("getViewDistance"), new GetViewDistance());
         this.variableScope.declare(true, new IdentifierExpressionNode("setExperienceLevels"), new SetExperienceLevels());
         this.variableScope.declare(true, new IdentifierExpressionNode("setExperiencePoints"), new SetExperiencePoints());
+        this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
+        this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
     }
 
     @Override
@@ -50,6 +52,42 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         return "ServerPlayerEntity";
     }
 
+    public class EqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(ServerPlayerEntityClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class NotEqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(!ServerPlayerEntityClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
     public class ChangeGameMode extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
@@ -60,7 +98,7 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode gameMode = arguments.get(0);
 
             if (!gameMode.getType().equals("String")) {
-                throw new TypeError("Argument 1 for function 'changeGameMode' requires type 'string' but got '" + gameMode.getType() + "'");
+                throw new TypeError("Argument 1 for function 'changeGameMode' requires type 'String' but got '" + gameMode.getType() + "'");
             }
 
             GameMode gameMode1 = GameMode.byName(((StringClass) gameMode).value, null);
@@ -90,7 +128,7 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode entireStack = arguments.get(0);
 
             if (!entireStack.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'dropSelectedItem' requires type 'boolean' but got '" + entireStack.getType() + "'");
+                throw new TypeError("Argument 1 for function 'dropSelectedItem' requires type 'Boolean' but got '" + entireStack.getType() + "'");
             }
 
             ServerPlayerEntityClass.this.serverPlayerEntity.dropSelectedItem(((BooleanClass) entireStack).value);
@@ -146,7 +184,7 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode experienceLevel = arguments.get(0);
 
             if (!experienceLevel.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setExperienceLevels' requires type 'int' but got '" + experienceLevel.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setExperienceLevels' requires type 'Integer' but got '" + experienceLevel.getType() + "'");
             }
 
             ServerPlayerEntityClass.this.serverPlayerEntity.setExperienceLevel(((IntegerClass) experienceLevel).value);
@@ -170,7 +208,7 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode experiencePoints = arguments.get(0);
 
             if (!experiencePoints.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setExperiencePoints' requires type 'int' but got '" + experiencePoints.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setExperiencePoints' requires type 'Integer' but got '" + experiencePoints.getType() + "'");
             }
 
             ServerPlayerEntityClass.this.serverPlayerEntity.setExperiencePoints(((IntegerClass) experiencePoints).value);

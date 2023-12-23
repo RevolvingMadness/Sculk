@@ -15,6 +15,7 @@ import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.*;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.*;
 import com.revolvingmadness.testing.language.user_defined.UserDefinedClass;
+import net.minecraft.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -158,7 +159,7 @@ public class Interpreter implements Visitor {
             BaseClassExpressionNode condition = this.visitExpression(forStatement.condition);
 
             if (!condition.getType().equals("Boolean")) {
-                throw new TypeError("For-loop update requires type 'int' but got '" + condition.getType() + "'");
+                throw new TypeError("For-loop update requires type 'Integer' but got '" + condition.getType() + "'");
             }
 
             if (!((BooleanClass) condition).value) {
@@ -204,20 +205,37 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visitIfStatement(IfStatementNode ifStatement) {
-        BaseClassExpressionNode condition = this.visitExpression(ifStatement.condition);
+        BaseClassExpressionNode ifCondition = this.visitExpression(ifStatement.ifConditionPair.getLeft());
 
-        if (!condition.getType().equals("Boolean")) {
-            throw new TypeError("For-loop update requires type 'int' but got '" + condition.getType() + "'");
+        if (!ifCondition.getType().equals("Boolean")) {
+            throw new TypeError("If statement requires type 'Boolean' but got '" + ifCondition.getType() + "'");
         }
 
-        if (((BooleanClass) condition).value) {
-            for (StatementNode statement : ifStatement.body) {
-                try {
-                    this.visitStatement(statement);
-                } catch (Break ignored) {
-                    break;
-                }
+        if (((BooleanClass) ifCondition).value) {
+            for (StatementNode statement : ifStatement.ifConditionPair.getRight()) {
+                this.visitStatement(statement);
             }
+            return;
+        }
+
+        for (Pair<ExpressionNode, List<StatementNode>> elseIfConditionPair : ifStatement.elseIfConditionPairs) {
+            BaseClassExpressionNode elseIfCondition = this.visitExpression(elseIfConditionPair.getLeft());
+            List<StatementNode> elseIfBody = elseIfConditionPair.getRight();
+
+            if (!elseIfCondition.getType().equals("Boolean")) {
+                throw new TypeError("If statement requires type 'Boolean' but got '" + ifCondition.getType() + "'");
+            }
+
+            if (((BooleanClass) elseIfCondition).value) {
+                for (StatementNode statement : elseIfBody) {
+                    this.visitStatement(statement);
+                }
+                return;
+            }
+        }
+
+        for (StatementNode statement : ifStatement.elseBody) {
+            this.visitStatement(statement);
         }
     }
 
@@ -331,7 +349,7 @@ public class Interpreter implements Visitor {
             BaseClassExpressionNode condition = this.visitExpression(whileStatement.condition);
 
             if (!condition.getType().equals("Boolean")) {
-                throw new TypeError("For-loop update requires type 'int' but got '" + condition.getType() + "'");
+                throw new TypeError("For-loop update requires type 'Integer' but got '" + condition.getType() + "'");
             }
 
             if (!((BooleanClass) condition).value) {

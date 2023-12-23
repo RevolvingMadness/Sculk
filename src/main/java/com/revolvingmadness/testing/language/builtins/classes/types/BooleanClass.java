@@ -14,6 +14,8 @@ public class BooleanClass extends BaseClassExpressionNode {
     public BooleanClass(Boolean value) {
         this.value = value;
         this.variableScope.declare(true, new IdentifierExpressionNode("toString"), new ToString());
+        this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
+        this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
     }
 
     @Override
@@ -37,6 +39,42 @@ public class BooleanClass extends BaseClassExpressionNode {
     @Override
     public int hashCode() {
         return Objects.hash(this.value);
+    }
+
+    public class EqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(BooleanClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class NotEqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(!BooleanClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
     }
 
     public class ToString extends BaseClassExpressionNode {

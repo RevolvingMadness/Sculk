@@ -1,5 +1,6 @@
 package com.revolvingmadness.testing.language.builtins.classes;
 
+import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.StringClass;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
@@ -18,6 +19,9 @@ public class ObjectClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("divide"), new Divide());
         this.variableScope.declare(true, new IdentifierExpressionNode("exponentiate"), new Exponentiate());
         this.variableScope.declare(true, new IdentifierExpressionNode("mod"), new Mod());
+        this.variableScope.declare(true, new IdentifierExpressionNode("negate"), new Negate());
+        this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
+        this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
     }
 
     @Override
@@ -35,6 +39,70 @@ public class ObjectClass extends BaseClassExpressionNode {
         return "Object";
     }
 
+    public class Negate extends BaseClassExpressionNode {
+        public Negate() {
+            super(ObjectClass.this);
+        }
+
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 0) {
+                throw new SyntaxError("Function 'negate' requires 0 arguments but got " + arguments.size() + " argument(s)");
+            }
+
+            throw new SyntaxError("Cannot apply unary operator '-' to type '" + ObjectClass.this.getType() + "'");
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class EqualTo extends BaseClassExpressionNode {
+        public EqualTo() {
+            super(ObjectClass.this);
+        }
+
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(ObjectClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class NotEqualTo extends BaseClassExpressionNode {
+        public NotEqualTo() {
+            super(ObjectClass.this);
+        }
+
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(!ObjectClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
     public class Add extends BaseClassExpressionNode {
         public Add() {
             super(ObjectClass.this);
@@ -48,7 +116,7 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply operator '+' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
+            throw new TypeError("Cannot apply binary operator '+' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override
@@ -70,7 +138,7 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply operator '/' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
+            throw new TypeError("Cannot apply binary operator '/' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override
@@ -92,7 +160,7 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply operator '^' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
+            throw new TypeError("Cannot apply binary operator '^' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override
@@ -114,7 +182,7 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply operator '%' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
+            throw new TypeError("Cannot apply binary operator '%' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override
@@ -136,7 +204,7 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply operator '*' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
+            throw new TypeError("Cannot apply binary operator '*' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override
@@ -158,7 +226,7 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply operator '-' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
+            throw new TypeError("Cannot apply binary operator '-' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override

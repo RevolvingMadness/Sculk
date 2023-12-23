@@ -66,6 +66,8 @@ public class EntityClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("shouldDismountUnderwater"), new ShouldDismountUnderwater());
         this.variableScope.declare(true, new IdentifierExpressionNode("stopRiding"), new StopRiding());
         this.variableScope.declare(true, new IdentifierExpressionNode("teleport"), new Teleport());
+        this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
+        this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
     }
 
     @Override
@@ -87,6 +89,42 @@ public class EntityClass extends BaseClassExpressionNode {
         return "Entity";
     }
 
+    public class EqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(EntityClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class NotEqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(!EntityClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
     public class AddCommandTag extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
@@ -97,7 +135,7 @@ public class EntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode commandTag = arguments.get(0);
 
             if (!commandTag.getType().equals("String")) {
-                throw new TypeError("Argument 1 for function 'addCommandTag' requires type 'string' but got '" + commandTag.getType() + "'");
+                throw new TypeError("Argument 1 for function 'addCommandTag' requires type 'String' but got '" + commandTag.getType() + "'");
             }
 
             EntityClass.this.entity.addCommandTag(((StringClass) commandTag).value);
@@ -697,7 +735,7 @@ public class EntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode message = arguments.get(0);
 
             if (!message.getType().equals("String")) {
-                throw new TypeError("Argument 1 for function 'sendMessage' requires type 'string' but got '" + message.getType() + "'");
+                throw new TypeError("Argument 1 for function 'sendMessage' requires type 'String' but got '" + message.getType() + "'");
             }
 
             EntityClass.this.entity.sendMessage(Text.literal(((StringClass) message).value));
@@ -721,7 +759,7 @@ public class EntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode invisible = arguments.get(0);
 
             if (!invisible.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setInvisible' requires type 'boolean' but got '" + invisible.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setInvisible' requires type 'Boolean' but got '" + invisible.getType() + "'");
             }
 
             EntityClass.this.entity.setInvisible(((BooleanClass) invisible).value);
@@ -745,7 +783,7 @@ public class EntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode invulnerable = arguments.get(0);
 
             if (!invulnerable.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setInvulnerable' requires type 'boolean' but got '" + invulnerable.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setInvulnerable' requires type 'Boolean' but got '" + invulnerable.getType() + "'");
             }
 
             EntityClass.this.entity.setInvulnerable(((BooleanClass) invulnerable).value);
@@ -769,7 +807,7 @@ public class EntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode noGravity = arguments.get(0);
 
             if (!noGravity.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setNoGravity' requires type 'boolean' but got '" + noGravity.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setNoGravity' requires type 'Boolean' but got '" + noGravity.getType() + "'");
             }
 
             EntityClass.this.entity.setNoGravity(((BooleanClass) noGravity).value);
@@ -793,7 +831,7 @@ public class EntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode onFire = arguments.get(0);
 
             if (!onFire.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setOnFire' requires type 'boolean' but got '" + onFire.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setOnFire' requires type 'Boolean' but got '" + onFire.getType() + "'");
             }
 
             EntityClass.this.entity.setOnFire(((BooleanClass) onFire).value);
@@ -817,7 +855,7 @@ public class EntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode onGround = arguments.get(0);
 
             if (!onGround.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setOnGround' requires type 'boolean' but got '" + onGround.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setOnGround' requires type 'Boolean' but got '" + onGround.getType() + "'");
             }
 
             EntityClass.this.entity.setOnGround(((BooleanClass) onGround).value);
@@ -841,7 +879,7 @@ public class EntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode portalCooldown = arguments.get(0);
 
             if (!portalCooldown.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setPortalCooldown' requires type 'boolean' but got '" + portalCooldown.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setPortalCooldown' requires type 'Boolean' but got '" + portalCooldown.getType() + "'");
             }
 
             EntityClass.this.entity.setPortalCooldown(((IntegerClass) portalCooldown).value);
@@ -865,19 +903,19 @@ public class EntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode x = arguments.get(0);
 
             if (!x.getType().equals("Float")) {
-                throw new TypeError("Argument 1 for function 'setPos' requires type 'float' but got '" + x.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setPos' requires type 'Float' but got '" + x.getType() + "'");
             }
 
             BaseClassExpressionNode y = arguments.get(1);
 
             if (!y.getType().equals("Float")) {
-                throw new TypeError("Argument 1 for function 'setPos' requires type 'float' but got '" + y.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setPos' requires type 'Float' but got '" + y.getType() + "'");
             }
 
             BaseClassExpressionNode z = arguments.get(2);
 
             if (!z.getType().equals("Float")) {
-                throw new TypeError("Argument 1 for function 'setPos' requires type 'float' but got '" + z.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setPos' requires type 'Float' but got '" + z.getType() + "'");
             }
 
             EntityClass.this.entity.setPos(((IntegerClass) x).value, ((IntegerClass) y).value, ((IntegerClass) z).value);
@@ -901,7 +939,7 @@ public class EntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode silent = arguments.get(0);
 
             if (!silent.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setSilent' requires type 'boolean' but got '" + silent.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setSilent' requires type 'Boolean' but got '" + silent.getType() + "'");
             }
 
             EntityClass.this.entity.setSilent(((BooleanClass) silent).value);
@@ -925,7 +963,7 @@ public class EntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode sneaking = arguments.get(0);
 
             if (!sneaking.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setSneaking' requires type 'boolean' but got '" + sneaking.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setSneaking' requires type 'Boolean' but got '" + sneaking.getType() + "'");
             }
 
             EntityClass.this.entity.setSneaking(((BooleanClass) sneaking).value);
@@ -949,7 +987,7 @@ public class EntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode sprinting = arguments.get(0);
 
             if (!sprinting.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setSprinting' requires type 'boolean' but got '" + sprinting.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setSprinting' requires type 'Boolean' but got '" + sprinting.getType() + "'");
             }
 
             EntityClass.this.entity.setSprinting(((BooleanClass) sprinting).value);
@@ -973,7 +1011,7 @@ public class EntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode swimming = arguments.get(0);
 
             if (!swimming.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setSwimming' requires type 'boolean' but got '" + swimming.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setSwimming' requires type 'Boolean' but got '" + swimming.getType() + "'");
             }
 
             EntityClass.this.entity.setSwimming(((BooleanClass) swimming).value);
@@ -1033,19 +1071,19 @@ public class EntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode destX = arguments.get(0);
 
             if (!destX.getType().equals("Float")) {
-                throw new TypeError("Argument 1 for function 'teleport' requires type 'float' but got '" + destX.getType() + "'");
+                throw new TypeError("Argument 1 for function 'teleport' requires type 'Float' but got '" + destX.getType() + "'");
             }
 
             BaseClassExpressionNode destY = arguments.get(1);
 
             if (!destY.getType().equals("Float")) {
-                throw new TypeError("Argument 2 for function 'teleport' requires type 'float' but got '" + destY.getType() + "'");
+                throw new TypeError("Argument 2 for function 'teleport' requires type 'Float' but got '" + destY.getType() + "'");
             }
 
             BaseClassExpressionNode destZ = arguments.get(2);
 
             if (!destZ.getType().equals("Float")) {
-                throw new TypeError("Argument 3 for function 'teleport' requires type 'float' but got '" + destZ.getType() + "'");
+                throw new TypeError("Argument 3 for function 'teleport' requires type 'Float' but got '" + destZ.getType() + "'");
             }
 
             EntityClass.this.entity.teleport(((FloatClass) destX).value, ((FloatClass) destY).value, ((FloatClass) destZ).value);

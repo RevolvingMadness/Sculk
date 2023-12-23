@@ -33,6 +33,8 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("setViewDistance"), this.new SetViewDistance());
         this.variableScope.declare(true, new IdentifierExpressionNode("setWhitelistEnabled"), this.new SetWhitelistEnabled());
         this.variableScope.declare(true, new IdentifierExpressionNode("getPlayer"), this.new GetPlayer());
+        this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
+        this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
     }
 
     @Override
@@ -52,6 +54,42 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
     @Override
     public String getType() {
         return "PlayerManager";
+    }
+
+    public class EqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(PlayerManagerClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class NotEqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(!PlayerManagerClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
     }
 
     public class AreCheatsEnabled extends BaseClassExpressionNode {
@@ -112,7 +150,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
             BaseClassExpressionNode playerName = arguments.get(0);
 
             if (!playerName.getType().equals("String")) {
-                throw new TypeError("Argument 1 for function 'getPlayer' requires type 'string' but got '" + playerName.getType() + "'");
+                throw new TypeError("Argument 1 for function 'getPlayer' requires type 'String' but got '" + playerName.getType() + "'");
             }
 
             ServerPlayerEntity serverPlayerEntity = PlayerManagerClass.this.playerManager.getPlayer(((StringClass) playerName).value);
@@ -188,7 +226,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
             BaseClassExpressionNode cheatsEnabled = arguments.get(0);
 
             if (!cheatsEnabled.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setCheatsEnabled' requires type 'boolean' but got '" + cheatsEnabled.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setCheatsEnabled' requires type 'Boolean' but got '" + cheatsEnabled.getType() + "'");
             }
 
             PlayerManagerClass.this.playerManager.setCheatsAllowed(((BooleanClass) cheatsEnabled).value);
@@ -212,7 +250,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
             BaseClassExpressionNode simulationDistance = arguments.get(0);
 
             if (!simulationDistance.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setSimulationDistance' requires type 'int' but got '" + simulationDistance.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setSimulationDistance' requires type 'Integer' but got '" + simulationDistance.getType() + "'");
             }
 
             PlayerManagerClass.this.playerManager.setSimulationDistance(((IntegerClass) simulationDistance).value);
@@ -236,7 +274,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
             BaseClassExpressionNode viewDistance = arguments.get(0);
 
             if (!viewDistance.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setViewDistance' requires type 'int' but got '" + viewDistance.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setViewDistance' requires type 'Integer' but got '" + viewDistance.getType() + "'");
             }
 
             PlayerManagerClass.this.playerManager.setViewDistance(((IntegerClass) viewDistance).value);
@@ -260,7 +298,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
             BaseClassExpressionNode whitelistEnabled = arguments.get(0);
 
             if (!whitelistEnabled.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setWhitelistEnabled' requires type 'boolean' but got '" + whitelistEnabled.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setWhitelistEnabled' requires type 'Boolean' but got '" + whitelistEnabled.getType() + "'");
             }
 
             PlayerManagerClass.this.playerManager.setWhitelistEnabled(((BooleanClass) whitelistEnabled).value);

@@ -24,6 +24,8 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("addExperienceLevels"), new AddExperienceLevels());
         this.variableScope.declare(true, new IdentifierExpressionNode("isCreative"), new IsCreative());
         this.variableScope.declare(true, new IdentifierExpressionNode("isSpectator"), new IsSpectator());
+        this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
+        this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
     }
 
     @Override
@@ -45,6 +47,42 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
         return "PlayerEntity";
     }
 
+    public class EqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(PlayerEntityClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class NotEqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(!PlayerEntityClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
     public class AddExperienceLevels extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
@@ -55,7 +93,7 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode experienceLevels = arguments.get(0);
 
             if (!experienceLevels.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'addExperienceLevels' requires type 'int' but got '" + experienceLevels.getType() + "'");
+                throw new TypeError("Argument 1 for function 'addExperienceLevels' requires type 'Integer' but got '" + experienceLevels.getType() + "'");
             }
 
             PlayerEntityClass.this.playerEntity.addExperienceLevels(((IntegerClass) experienceLevels).value);
@@ -79,7 +117,7 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode experience = arguments.get(0);
 
             if (!experience.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'addExperiencePoints' requires type 'int' but got '" + experience.getType() + "'");
+                throw new TypeError("Argument 1 for function 'addExperiencePoints' requires type 'Integer' but got '" + experience.getType() + "'");
             }
 
             PlayerEntityClass.this.playerEntity.addExperience(((IntegerClass) experience).value);

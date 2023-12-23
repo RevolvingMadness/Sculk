@@ -1,5 +1,6 @@
 package com.revolvingmadness.testing.language.builtins.classes;
 
+import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.FloatClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
@@ -20,6 +21,8 @@ public class LivingEntityClass extends BaseClassExpressionNode {
 
         this.variableScope.declare(true, new IdentifierExpressionNode("tiltScreen"), new TiltScreen());
         this.variableScope.declare(true, new IdentifierExpressionNode("wakeUp"), new WakeUp());
+        this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
+        this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
     }
 
     @Override
@@ -41,6 +44,42 @@ public class LivingEntityClass extends BaseClassExpressionNode {
         return "LivingEntity";
     }
 
+    public class EqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(LivingEntityClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class NotEqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(!LivingEntityClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
     public class TiltScreen extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
@@ -51,13 +90,13 @@ public class LivingEntityClass extends BaseClassExpressionNode {
             BaseClassExpressionNode deltaX = arguments.get(0);
 
             if (!deltaX.getType().equals("Float")) {
-                throw new TypeError("Argument 1 for function 'tiltScreen' requires type 'float' but got '" + deltaX.getType() + "'");
+                throw new TypeError("Argument 1 for function 'tiltScreen' requires type 'Float' but got '" + deltaX.getType() + "'");
             }
 
             BaseClassExpressionNode deltaZ = arguments.get(1);
 
             if (!deltaZ.getType().equals("Float")) {
-                throw new TypeError("Argument 2 for function 'tiltScreen' requires type 'float' but got '" + deltaZ.getType() + "'");
+                throw new TypeError("Argument 2 for function 'tiltScreen' requires type 'Float' but got '" + deltaZ.getType() + "'");
             }
 
             LivingEntityClass.this.livingEntity.tiltScreen(((FloatClass) deltaZ).value, ((FloatClass) deltaZ).value);

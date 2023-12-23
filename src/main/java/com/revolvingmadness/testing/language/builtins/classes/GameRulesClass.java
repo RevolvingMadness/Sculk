@@ -118,6 +118,8 @@ public class GameRulesClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("setScriptLogsEnabled"), this.new SetScriptLogsEnabled());
         this.variableScope.declare(true, new IdentifierExpressionNode("setMaxArgumentCount"), this.new SetMaxArgumentCount());
         this.variableScope.declare(true, new IdentifierExpressionNode("setMaxLoops"), this.new SetMaxLoops());
+        this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
+        this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
     }
 
     @Override
@@ -137,6 +139,42 @@ public class GameRulesClass extends BaseClassExpressionNode {
     @Override
     public String getType() {
         return "GameRules";
+    }
+
+    public class EqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(GameRulesClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class NotEqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(!GameRulesClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
     }
 
     public class GetAnnounceAdvancements extends BaseClassExpressionNode {
@@ -933,7 +971,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode announceAdvancements = arguments.get(0);
 
             if (!announceAdvancements.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setAnnounceAdvancements' requires type 'boolean' but got '" + announceAdvancements.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setAnnounceAdvancements' requires type 'Boolean' but got '" + announceAdvancements.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.ANNOUNCE_ADVANCEMENTS).set(((BooleanClass) announceAdvancements).value, Testing.server);
@@ -957,7 +995,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode blockExplosionDropDecay = arguments.get(0);
 
             if (!blockExplosionDropDecay.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setBlockExplosionDropDecay' requires type 'boolean' but got '" + blockExplosionDropDecay.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setBlockExplosionDropDecay' requires type 'Boolean' but got '" + blockExplosionDropDecay.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.BLOCK_EXPLOSION_DROP_DECAY).set(((BooleanClass) blockExplosionDropDecay).value, Testing.server);
@@ -981,7 +1019,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode commandBlockOutput = arguments.get(0);
 
             if (!commandBlockOutput.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setCommandBlockOutput' requires type 'boolean' but got '" + commandBlockOutput.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setCommandBlockOutput' requires type 'Boolean' but got '" + commandBlockOutput.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.COMMAND_BLOCK_OUTPUT).set(((BooleanClass) commandBlockOutput).value, Testing.server);
@@ -1005,7 +1043,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode commandModificationBlockLimit = arguments.get(0);
 
             if (!commandModificationBlockLimit.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setCommandModificationBlockLimit' requires type 'int' but got '" + commandModificationBlockLimit.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setCommandModificationBlockLimit' requires type 'Integer' but got '" + commandModificationBlockLimit.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.COMMAND_MODIFICATION_BLOCK_LIMIT).set(((IntegerClass) commandModificationBlockLimit).value, Testing.server);
@@ -1029,7 +1067,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode disableElytraMovementCheck = arguments.get(0);
 
             if (!disableElytraMovementCheck.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDisableElytraMovementCheck' requires type 'boolean' but got '" + disableElytraMovementCheck.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDisableElytraMovementCheck' requires type 'Boolean' but got '" + disableElytraMovementCheck.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DISABLE_ELYTRA_MOVEMENT_CHECK).set(((BooleanClass) disableElytraMovementCheck).value, Testing.server);
@@ -1053,7 +1091,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode disableRaids = arguments.get(0);
 
             if (!disableRaids.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDisableRaids' requires type 'boolean' but got '" + disableRaids.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDisableRaids' requires type 'Boolean' but got '" + disableRaids.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DISABLE_RAIDS).set(((BooleanClass) disableRaids).value, Testing.server);
@@ -1077,7 +1115,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode doDaylightCycle = arguments.get(0);
 
             if (!doDaylightCycle.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoDaylightCycle' requires type 'boolean' but got '" + doDaylightCycle.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDoDaylightCycle' requires type 'Boolean' but got '" + doDaylightCycle.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_DAYLIGHT_CYCLE).set(((BooleanClass) doDaylightCycle).value, Testing.server);
@@ -1101,7 +1139,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode doEntityDrops = arguments.get(0);
 
             if (!doEntityDrops.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoEntityDrops' requires type 'boolean' but got '" + doEntityDrops.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDoEntityDrops' requires type 'Boolean' but got '" + doEntityDrops.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_ENTITY_DROPS).set(((BooleanClass) doEntityDrops).value, Testing.server);
@@ -1125,7 +1163,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode doFireTick = arguments.get(0);
 
             if (!doFireTick.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoFireTick' requires type 'boolean' but got '" + doFireTick.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDoFireTick' requires type 'Boolean' but got '" + doFireTick.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_FIRE_TICK).set(((BooleanClass) doFireTick).value, Testing.server);
@@ -1149,7 +1187,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode immediateRespawn = arguments.get(0);
 
             if (!immediateRespawn.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoImmediateRespawn' requires type 'boolean' but got '" + immediateRespawn.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDoImmediateRespawn' requires type 'Boolean' but got '" + immediateRespawn.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_IMMEDIATE_RESPAWN).set(((BooleanClass) immediateRespawn).value, Testing.server);
@@ -1173,7 +1211,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode doInsomnia = arguments.get(0);
 
             if (!doInsomnia.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoInsomnia' requires type 'boolean' but got '" + doInsomnia.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDoInsomnia' requires type 'Boolean' but got '" + doInsomnia.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_INSOMNIA).set(((BooleanClass) doInsomnia).value, Testing.server);
@@ -1197,7 +1235,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode doLimitedCrafting = arguments.get(0);
 
             if (!doLimitedCrafting.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoLimitedCrafting' requires type 'boolean' but got '" + doLimitedCrafting.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDoLimitedCrafting' requires type 'Boolean' but got '" + doLimitedCrafting.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_LIMITED_CRAFTING).set(((BooleanClass) doLimitedCrafting).value, Testing.server);
@@ -1221,7 +1259,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode doMobGriefing = arguments.get(0);
 
             if (!doMobGriefing.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoMobGriefing' requires type 'boolean' but got '" + doMobGriefing.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDoMobGriefing' requires type 'Boolean' but got '" + doMobGriefing.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_MOB_GRIEFING).set(((BooleanClass) doMobGriefing).value, Testing.server);
@@ -1245,7 +1283,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode doMobLoot = arguments.get(0);
 
             if (!doMobLoot.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoMobLoot' requires type 'boolean' but got '" + doMobLoot.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDoMobLoot' requires type 'Boolean' but got '" + doMobLoot.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_MOB_LOOT).set(((BooleanClass) doMobLoot).value, Testing.server);
@@ -1269,7 +1307,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode doMobSpawning = arguments.get(0);
 
             if (!doMobSpawning.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoMobSpawning' requires type 'boolean' but got '" + doMobSpawning.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDoMobSpawning' requires type 'Boolean' but got '" + doMobSpawning.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_MOB_SPAWNING).set(((BooleanClass) doMobSpawning).value, Testing.server);
@@ -1293,7 +1331,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode doPatrolSpawning = arguments.get(0);
 
             if (!doPatrolSpawning.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoPatrolSpawning' requires type 'boolean' but got '" + doPatrolSpawning.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDoPatrolSpawning' requires type 'Boolean' but got '" + doPatrolSpawning.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_PATROL_SPAWNING).set(((BooleanClass) doPatrolSpawning).value, Testing.server);
@@ -1317,7 +1355,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode doTileDrops = arguments.get(0);
 
             if (!doTileDrops.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoTileDrops' requires type 'boolean' but got '" + doTileDrops.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDoTileDrops' requires type 'Boolean' but got '" + doTileDrops.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_TILE_DROPS).set(((BooleanClass) doTileDrops).value, Testing.server);
@@ -1341,7 +1379,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode doTraderSpawning = arguments.get(0);
 
             if (!doTraderSpawning.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoTraderSpawning' requires type 'boolean' but got '" + doTraderSpawning.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDoTraderSpawning' requires type 'Boolean' but got '" + doTraderSpawning.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_TRADER_SPAWNING).set(((BooleanClass) doTraderSpawning).value, Testing.server);
@@ -1365,7 +1403,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode doVinesSpread = arguments.get(0);
 
             if (!doVinesSpread.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoVinesSpread' requires type 'boolean' but got '" + doVinesSpread.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDoVinesSpread' requires type 'Boolean' but got '" + doVinesSpread.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_VINES_SPREAD).set(((BooleanClass) doVinesSpread).value, Testing.server);
@@ -1389,7 +1427,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode doWardenSpawning = arguments.get(0);
 
             if (!doWardenSpawning.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoWardenSpawning' requires type 'boolean' but got '" + doWardenSpawning.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDoWardenSpawning' requires type 'Boolean' but got '" + doWardenSpawning.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_WARDEN_SPAWNING).set(((BooleanClass) doWardenSpawning).value, Testing.server);
@@ -1413,7 +1451,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode doWeatherCycle = arguments.get(0);
 
             if (!doWeatherCycle.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoWeatherCycle' requires type 'boolean' but got '" + doWeatherCycle.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDoWeatherCycle' requires type 'Boolean' but got '" + doWeatherCycle.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_WEATHER_CYCLE).set(((BooleanClass) doWeatherCycle).value, Testing.server);
@@ -1437,7 +1475,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode drowningDamage = arguments.get(0);
 
             if (!drowningDamage.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDrowningDamage' requires type 'boolean' but got '" + drowningDamage.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDrowningDamage' requires type 'Boolean' but got '" + drowningDamage.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DROWNING_DAMAGE).set(((BooleanClass) drowningDamage).value, Testing.server);
@@ -1461,7 +1499,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode enderPearlsVanishOnDeath = arguments.get(0);
 
             if (!enderPearlsVanishOnDeath.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setEnderPearlsVanishOnDeath' requires type 'boolean' but got '" + enderPearlsVanishOnDeath.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setEnderPearlsVanishOnDeath' requires type 'Boolean' but got '" + enderPearlsVanishOnDeath.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.ENDER_PEARLS_VANISH_ON_DEATH).set(((BooleanClass) enderPearlsVanishOnDeath).value, Testing.server);
@@ -1485,7 +1523,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode fallDamage = arguments.get(0);
 
             if (!fallDamage.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setFallDamage' requires type 'boolean' but got '" + fallDamage.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setFallDamage' requires type 'Boolean' but got '" + fallDamage.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.FALL_DAMAGE).set(((BooleanClass) fallDamage).value, Testing.server);
@@ -1509,7 +1547,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode fireDamage = arguments.get(0);
 
             if (!fireDamage.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setFireDamage' requires type 'boolean' but got '" + fireDamage.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setFireDamage' requires type 'Boolean' but got '" + fireDamage.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.FIRE_DAMAGE).set(((BooleanClass) fireDamage).value, Testing.server);
@@ -1533,7 +1571,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode forgiveDeadPlayers = arguments.get(0);
 
             if (!forgiveDeadPlayers.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setForgiveDeadPlayers' requires type 'boolean' but got '" + forgiveDeadPlayers.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setForgiveDeadPlayers' requires type 'Boolean' but got '" + forgiveDeadPlayers.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.FORGIVE_DEAD_PLAYERS).set(((BooleanClass) forgiveDeadPlayers).value, Testing.server);
@@ -1557,7 +1595,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode freezeDamage = arguments.get(0);
 
             if (!freezeDamage.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setFreezeDamage' requires type 'boolean' but got '" + freezeDamage.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setFreezeDamage' requires type 'Boolean' but got '" + freezeDamage.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.FREEZE_DAMAGE).set(((BooleanClass) freezeDamage).value, Testing.server);
@@ -1581,7 +1619,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode globalSoundEvents = arguments.get(0);
 
             if (!globalSoundEvents.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setGlobalSoundEvents' requires type 'boolean' but got '" + globalSoundEvents.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setGlobalSoundEvents' requires type 'Boolean' but got '" + globalSoundEvents.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.GLOBAL_SOUND_EVENTS).set(((BooleanClass) globalSoundEvents).value, Testing.server);
@@ -1605,7 +1643,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode keepInventory = arguments.get(0);
 
             if (!keepInventory.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setKeepInventory' requires type 'boolean' but got '" + keepInventory.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setKeepInventory' requires type 'Boolean' but got '" + keepInventory.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.KEEP_INVENTORY).set(((BooleanClass) keepInventory).value, Testing.server);
@@ -1629,7 +1667,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode lavaSourceConversion = arguments.get(0);
 
             if (!lavaSourceConversion.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setLavaSourceConversion' requires type 'boolean' but got '" + lavaSourceConversion.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setLavaSourceConversion' requires type 'Boolean' but got '" + lavaSourceConversion.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.LAVA_SOURCE_CONVERSION).set(((BooleanClass) lavaSourceConversion).value, Testing.server);
@@ -1653,7 +1691,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode logAdminCommands = arguments.get(0);
 
             if (!logAdminCommands.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setLogAdminCommands' requires type 'boolean' but got '" + logAdminCommands.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setLogAdminCommands' requires type 'Boolean' but got '" + logAdminCommands.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.LOG_ADMIN_COMMANDS).set(((BooleanClass) logAdminCommands).value, Testing.server);
@@ -1677,7 +1715,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode maxArgumentCount = arguments.get(0);
 
             if (!maxArgumentCount.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setMaxArgumentCount' requires type 'int' but got '" + maxArgumentCount.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setMaxArgumentCount' requires type 'Integer' but got '" + maxArgumentCount.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(TestingGamerules.MAX_ARGUMENTS).set(((IntegerClass) maxArgumentCount).value, Testing.server);
@@ -1701,7 +1739,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode maxCommandChainLength = arguments.get(0);
 
             if (!maxCommandChainLength.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setMaxCommandChainLength' requires type 'int' but got '" + maxCommandChainLength.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setMaxCommandChainLength' requires type 'Integer' but got '" + maxCommandChainLength.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.MAX_COMMAND_CHAIN_LENGTH).set(((IntegerClass) maxCommandChainLength).value, Testing.server);
@@ -1725,7 +1763,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode maxEntityCramming = arguments.get(0);
 
             if (!maxEntityCramming.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setMaxEntityCramming' requires type 'int' but got '" + maxEntityCramming.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setMaxEntityCramming' requires type 'Integer' but got '" + maxEntityCramming.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.MAX_ENTITY_CRAMMING).set(((IntegerClass) maxEntityCramming).value, Testing.server);
@@ -1749,7 +1787,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode maxLoops = arguments.get(0);
 
             if (!maxLoops.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setMaxLoops' requires type 'int' but got '" + maxLoops.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setMaxLoops' requires type 'Integer' but got '" + maxLoops.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(TestingGamerules.MAX_LOOPS).set(((IntegerClass) maxLoops).value, Testing.server);
@@ -1773,7 +1811,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode mobExplosionDropDecay = arguments.get(0);
 
             if (!mobExplosionDropDecay.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setMobExplosionDropDecay' requires type 'boolean' but got '" + mobExplosionDropDecay.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setMobExplosionDropDecay' requires type 'Boolean' but got '" + mobExplosionDropDecay.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.MOB_EXPLOSION_DROP_DECAY).set(((BooleanClass) mobExplosionDropDecay).value, Testing.server);
@@ -1797,7 +1835,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode naturalRegeneration = arguments.get(0);
 
             if (!naturalRegeneration.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setNaturalRegeneration' requires type 'boolean' but got '" + naturalRegeneration.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setNaturalRegeneration' requires type 'Boolean' but got '" + naturalRegeneration.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.NATURAL_REGENERATION).set(((BooleanClass) naturalRegeneration).value, Testing.server);
@@ -1821,7 +1859,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode playerSleepingPercentage = arguments.get(0);
 
             if (!playerSleepingPercentage.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setPlayersSleepingPercentage' requires type 'int' but got '" + playerSleepingPercentage.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setPlayersSleepingPercentage' requires type 'Integer' but got '" + playerSleepingPercentage.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.PLAYERS_SLEEPING_PERCENTAGE).set(((IntegerClass) playerSleepingPercentage).value, Testing.server);
@@ -1845,7 +1883,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode randomTickSpeed = arguments.get(0);
 
             if (!randomTickSpeed.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setRandomTickSpeed' requires type 'int' but got '" + randomTickSpeed.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setRandomTickSpeed' requires type 'Integer' but got '" + randomTickSpeed.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.RANDOM_TICK_SPEED).set(((IntegerClass) randomTickSpeed).value, Testing.server);
@@ -1869,7 +1907,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode reducedDebugInfo = arguments.get(0);
 
             if (!reducedDebugInfo.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setReducedDebugInfo' requires type 'boolean' but got '" + reducedDebugInfo.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setReducedDebugInfo' requires type 'Boolean' but got '" + reducedDebugInfo.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.REDUCED_DEBUG_INFO).set(((BooleanClass) reducedDebugInfo).value, Testing.server);
@@ -1893,7 +1931,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode scriptLogsEnabled = arguments.get(0);
 
             if (!scriptLogsEnabled.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setScriptLogsEnabled' requires type 'boolean' but got '" + scriptLogsEnabled.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setScriptLogsEnabled' requires type 'Boolean' but got '" + scriptLogsEnabled.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(TestingGamerules.SCRIPT_LOGS_ENABLED).set(((BooleanClass) scriptLogsEnabled).value, Testing.server);
@@ -1917,7 +1955,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode sendCommandFeedback = arguments.get(0);
 
             if (!sendCommandFeedback.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setSendCommandFeedback' requires type 'boolean' but got '" + sendCommandFeedback.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setSendCommandFeedback' requires type 'Boolean' but got '" + sendCommandFeedback.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.SEND_COMMAND_FEEDBACK).set(((BooleanClass) sendCommandFeedback).value, Testing.server);
@@ -1941,7 +1979,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode showDeathMessages = arguments.get(0);
 
             if (!showDeathMessages.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setShowDeathMessages' requires type 'boolean' but got '" + showDeathMessages.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setShowDeathMessages' requires type 'Boolean' but got '" + showDeathMessages.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.SHOW_DEATH_MESSAGES).set(((BooleanClass) showDeathMessages).value, Testing.server);
@@ -1965,7 +2003,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode snowAccumulationHeight = arguments.get(0);
 
             if (!snowAccumulationHeight.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setSnowAccumulationHeight' requires type 'int' but got '" + snowAccumulationHeight.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setSnowAccumulationHeight' requires type 'Integer' but got '" + snowAccumulationHeight.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.SNOW_ACCUMULATION_HEIGHT).set(((IntegerClass) snowAccumulationHeight).value, Testing.server);
@@ -1989,7 +2027,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode spawnRadius = arguments.get(0);
 
             if (!spawnRadius.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setSpawnRadius' requires type 'int' but got '" + spawnRadius.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setSpawnRadius' requires type 'Integer' but got '" + spawnRadius.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.SPAWN_RADIUS).set(((IntegerClass) spawnRadius).value, Testing.server);
@@ -2013,7 +2051,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode spectatorsGenerateChunks = arguments.get(0);
 
             if (!spectatorsGenerateChunks.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setSpectatorsGenerateChunks' requires type 'boolean' but got '" + spectatorsGenerateChunks.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setSpectatorsGenerateChunks' requires type 'Boolean' but got '" + spectatorsGenerateChunks.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.SPECTATORS_GENERATE_CHUNKS).set(((BooleanClass) spectatorsGenerateChunks).value, Testing.server);
@@ -2037,7 +2075,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode tntExplosionDropDecay = arguments.get(0);
 
             if (!tntExplosionDropDecay.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setTntExplosionDropDecay' requires type 'boolean' but got '" + tntExplosionDropDecay.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setTntExplosionDropDecay' requires type 'Boolean' but got '" + tntExplosionDropDecay.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.TNT_EXPLOSION_DROP_DECAY).set(((BooleanClass) tntExplosionDropDecay).value, Testing.server);
@@ -2061,7 +2099,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode universalAnger = arguments.get(0);
 
             if (!universalAnger.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setUniversalAnger' requires type 'boolean' but got '" + universalAnger.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setUniversalAnger' requires type 'Boolean' but got '" + universalAnger.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.UNIVERSAL_ANGER).set(((BooleanClass) universalAnger).value, Testing.server);
@@ -2085,7 +2123,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode waterSourceConversion = arguments.get(0);
 
             if (!waterSourceConversion.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setWaterSourceConversion' requires type 'boolean' but got '" + waterSourceConversion.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setWaterSourceConversion' requires type 'Boolean' but got '" + waterSourceConversion.getType() + "'");
             }
 
             GameRulesClass.this.gameRules.get(GameRules.WATER_SOURCE_CONVERSION).set(((BooleanClass) waterSourceConversion).value, Testing.server);

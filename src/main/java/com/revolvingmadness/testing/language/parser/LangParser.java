@@ -9,6 +9,7 @@ import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.*;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.*;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -426,13 +427,40 @@ public class LangParser {
 
         this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'if'");
 
-        ExpressionNode expression = this.parseExpression();
+        ExpressionNode ifCondition = this.parseExpression();
 
-        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after if condition");
+        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after 'if' condition");
 
-        List<StatementNode> body = this.parseBody();
+        List<StatementNode> ifConditionBody = this.parseBody();
 
-        return new IfStatementNode(expression, body);
+        Pair<ExpressionNode, List<StatementNode>> ifConditionPair = new Pair<>(ifCondition, ifConditionBody);
+
+        List<Pair<ExpressionNode, List<StatementNode>>> elseIfConditionPairs = new ArrayList<>();
+
+        List<StatementNode> elseBody = new ArrayList<>();
+
+        while (this.position < this.input.size() && this.current(TokenType.ELSE)) {
+            this.consume();
+
+            if (this.current(TokenType.IF)) {
+                this.consume();
+
+                this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'else if'");
+
+                ExpressionNode elseIfCondition = this.parseExpression();
+
+                this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after 'else if' condition");
+
+                List<StatementNode> elseIfBody = this.parseBody();
+
+                elseIfConditionPairs.add(new Pair<>(elseIfCondition, elseIfBody));
+            } else {
+                elseBody = this.parseBody();
+                break;
+            }
+        }
+
+        return new IfStatementNode(ifConditionPair, elseIfConditionPairs, elseBody);
     }
 
     private ExpressionNode parseListExpression() {

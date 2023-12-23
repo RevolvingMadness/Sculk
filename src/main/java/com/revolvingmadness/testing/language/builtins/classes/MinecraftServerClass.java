@@ -26,6 +26,8 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("isHardcore"), new MinecraftServerClass.IsHardcoreFunction());
         this.variableScope.declare(true, new IdentifierExpressionNode("areCommandBlocksEnabled"), new AreCommandBlocksEnabledFunction());
         this.variableScope.declare(true, new IdentifierExpressionNode("setDifficulty"), new SetDifficulty());
+        this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
+        this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
     }
 
     @Override
@@ -165,7 +167,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
             BaseClassExpressionNode difficulty = arguments.get(0);
 
             if (!difficulty.getType().equals("String")) {
-                throw new TypeError("Argument 1 for function 'setDifficulty' requires type 'string' but got '" + difficulty.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDifficulty' requires type 'String' but got '" + difficulty.getType() + "'");
             }
 
             Difficulty difficulty1 = Difficulty.byName(((StringClass) difficulty).value);
@@ -195,7 +197,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
             BaseClassExpressionNode difficultyLocked = arguments.get(0);
 
             if (!difficultyLocked.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDifficultyLocked' requires type 'boolean' but got '" + difficultyLocked.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setDifficultyLocked' requires type 'Boolean' but got '" + difficultyLocked.getType() + "'");
             }
 
             Testing.server.setDifficultyLocked(((BooleanClass) difficultyLocked).value);
@@ -219,12 +221,48 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
             BaseClassExpressionNode pvpEnabled = arguments.get(0);
 
             if (!pvpEnabled.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setPVPEnabled' requires type 'boolean' but got '" + pvpEnabled.getType() + "'");
+                throw new TypeError("Argument 1 for function 'setPVPEnabled' requires type 'Boolean' but got '" + pvpEnabled.getType() + "'");
             }
 
             Testing.server.setPvpEnabled(((BooleanClass) pvpEnabled).value);
 
             return new NullClass();
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class EqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(MinecraftServerClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class NotEqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(!MinecraftServerClass.this.equals(o));
         }
 
         @Override
