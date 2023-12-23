@@ -15,8 +15,10 @@ public class UnaryExpressionNode extends ExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         UnaryExpressionNode that = (UnaryExpressionNode) o;
         return this.operator == that.operator && Objects.equals(this.value, that.value);
     }

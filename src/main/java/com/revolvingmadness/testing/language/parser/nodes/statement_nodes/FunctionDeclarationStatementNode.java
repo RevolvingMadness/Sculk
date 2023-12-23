@@ -20,8 +20,10 @@ public class FunctionDeclarationStatementNode extends StatementNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         FunctionDeclarationStatementNode that = (FunctionDeclarationStatementNode) o;
         return this.isConstant == that.isConstant && Objects.equals(this.arguments, that.arguments) && Objects.equals(this.body, that.body) && Objects.equals(this.name, that.name);
     }

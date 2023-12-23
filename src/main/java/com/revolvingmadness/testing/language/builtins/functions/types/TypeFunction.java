@@ -26,12 +26,12 @@ public class TypeFunction extends BaseClassExpressionNode {
     }
 
     @Override
-    public int hashCode() {
-        return TypeFunction.class.hashCode();
+    public String getType() {
+        return "Function";
     }
 
     @Override
-    public String getType() {
-        return "Function";
+    public int hashCode() {
+        return TypeFunction.class.hashCode();
     }
 }

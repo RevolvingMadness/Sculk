@@ -13,8 +13,10 @@ public class ReturnStatementNode extends StatementNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         ReturnStatementNode that = (ReturnStatementNode) o;
         return Objects.equals(this.value, that.value);
     }

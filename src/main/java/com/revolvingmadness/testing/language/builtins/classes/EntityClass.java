@@ -72,16 +72,14 @@ public class EntityClass extends BaseClassExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
         EntityClass that = (EntityClass) o;
         return Objects.equals(this.entity, that.entity);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), this.entity);
     }
 
     @Override
@@ -89,40 +87,9 @@ public class EntityClass extends BaseClassExpressionNode {
         return "Entity";
     }
 
-    public class EqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(EntityClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class NotEqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(!EntityClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), this.entity);
     }
 
     public class AddCommandTag extends BaseClassExpressionNode {
@@ -159,6 +126,24 @@ public class EntityClass extends BaseClassExpressionNode {
             EntityClass.this.entity.dismountVehicle();
 
             return new NullClass();
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class EqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(EntityClass.this.equals(o));
         }
 
         @Override
@@ -681,6 +666,24 @@ public class EntityClass extends BaseClassExpressionNode {
             EntityClass.this.entity.kill();
 
             return new NullClass();
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class NotEqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(!EntityClass.this.equals(o));
         }
 
         @Override

@@ -35,16 +35,14 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
         ServerPlayerEntityClass that = (ServerPlayerEntityClass) o;
         return Objects.equals(this.serverPlayerEntity, that.serverPlayerEntity);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), this.serverPlayerEntity);
     }
 
     @Override
@@ -52,40 +50,9 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         return "ServerPlayerEntity";
     }
 
-    public class EqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(ServerPlayerEntityClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class NotEqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(!ServerPlayerEntityClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), this.serverPlayerEntity);
     }
 
     public class ChangeGameMode extends BaseClassExpressionNode {
@@ -142,6 +109,24 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         }
     }
 
+    public class EqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(ServerPlayerEntityClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
     public class GetIp extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
@@ -166,6 +151,24 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
             }
 
             return new IntegerClass(ServerPlayerEntityClass.this.serverPlayerEntity.getViewDistance());
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class NotEqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(!ServerPlayerEntityClass.this.equals(o));
         }
 
         @Override

@@ -39,11 +39,19 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
         PlayerManagerClass that = (PlayerManagerClass) o;
         return Objects.equals(this.playerManager, that.playerManager);
+    }
+
+    @Override
+    public String getType() {
+        return "PlayerManager";
     }
 
     @Override
@@ -51,9 +59,20 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         return Objects.hash(super.hashCode(), this.playerManager);
     }
 
-    @Override
-    public String getType() {
-        return "PlayerManager";
+    public class AreCheatsEnabled extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 0) {
+                throw new SyntaxError("Function 'areCheatsEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
+            }
+
+            return new BooleanClass(PlayerManagerClass.this.playerManager.areCheatsAllowed());
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
     }
 
     public class EqualTo extends BaseClassExpressionNode {
@@ -66,40 +85,6 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
             BaseClassExpressionNode o = arguments.get(0);
 
             return new BooleanClass(PlayerManagerClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class NotEqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(!PlayerManagerClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class AreCheatsEnabled extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'areCheatsEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
-            }
-
-            return new BooleanClass(PlayerManagerClass.this.playerManager.areCheatsAllowed());
         }
 
         @Override
@@ -208,6 +193,24 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
             }
 
             return new BooleanClass(PlayerManagerClass.this.playerManager.isWhitelistEnabled());
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class NotEqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(!PlayerManagerClass.this.equals(o));
         }
 
         @Override

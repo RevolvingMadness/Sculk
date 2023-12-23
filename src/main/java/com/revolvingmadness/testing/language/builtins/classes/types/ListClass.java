@@ -22,20 +22,12 @@ public class ListClass extends BaseClassExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         ListClass listClass = (ListClass) o;
         return Objects.equals(this.value, listClass.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.value);
-    }
-
-    @Override
-    public String getType() {
-        return "List";
     }
 
     @Override
@@ -45,6 +37,16 @@ public class ListClass extends BaseClassExpressionNode {
         }
 
         return this.value.get(((IntegerClass) index).value);
+    }
+
+    @Override
+    public String getType() {
+        return "List";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.value);
     }
 
     @Override

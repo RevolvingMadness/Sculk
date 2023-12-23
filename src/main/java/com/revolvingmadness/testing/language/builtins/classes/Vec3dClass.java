@@ -25,21 +25,24 @@ public class Vec3dClass extends BaseClassExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
         Vec3dClass that = (Vec3dClass) o;
         return Objects.equals(this.vec3d, that.vec3d);
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), this.vec3d);
+    public String getType() {
+        return "Vec3d";
     }
 
     @Override
-    public String getType() {
-        return "Vec3d";
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), this.vec3d);
     }
 
     public class EqualTo extends BaseClassExpressionNode {

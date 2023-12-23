@@ -12,8 +12,10 @@ public class DictionaryExpressionNode extends ExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         DictionaryExpressionNode that = (DictionaryExpressionNode) o;
         return Objects.equals(this.value, that.value);
     }

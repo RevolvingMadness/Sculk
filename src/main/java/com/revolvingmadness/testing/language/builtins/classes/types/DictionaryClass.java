@@ -21,8 +21,13 @@ public class DictionaryClass extends BaseClassExpressionNode {
     }
 
     @Override
-    public String getType() {
-        return "Dictionary";
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        DictionaryClass that = (DictionaryClass) o;
+        return Objects.equals(this.value, that.value);
     }
 
     @Override
@@ -37,6 +42,16 @@ public class DictionaryClass extends BaseClassExpressionNode {
     }
 
     @Override
+    public String getType() {
+        return "Dictionary";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.value);
+    }
+
+    @Override
     public void setIndex(BaseClassExpressionNode index, BaseClassExpressionNode value) {
         this.value.put(index, value);
     }
@@ -44,19 +59,6 @@ public class DictionaryClass extends BaseClassExpressionNode {
     @Override
     public String toString() {
         throw new NotImplementedException();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
-        DictionaryClass that = (DictionaryClass) o;
-        return Objects.equals(this.value, that.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.value);
     }
 
     public class EqualTo extends BaseClassExpressionNode {

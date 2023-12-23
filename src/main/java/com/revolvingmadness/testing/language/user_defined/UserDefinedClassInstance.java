@@ -35,17 +35,20 @@ public class UserDefinedClassInstance extends BaseClassExpressionNode {
     }
 
     @Override
-    public String getType() {
-        return this.name.value;
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+        UserDefinedClassInstance that = (UserDefinedClassInstance) o;
+        return Objects.equals(this.name, that.name) && Objects.equals(this.superClass, that.superClass) && Objects.equals(this.variableScope, that.variableScope);
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        UserDefinedClassInstance that = (UserDefinedClassInstance) o;
-        return Objects.equals(this.name, that.name) && Objects.equals(this.superClass, that.superClass) && Objects.equals(this.variableScope, that.variableScope);
+    public String getType() {
+        return this.name.value;
     }
 
     @Override

@@ -30,19 +30,6 @@ public class FunctionClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
-        FunctionClass that = (FunctionClass) o;
-        return Objects.equals(this.arguments, that.arguments) && Objects.equals(this.body, that.body) && Objects.equals(this.name, that.name) && Objects.equals(this.clazz, that.clazz) && Objects.equals(this.superClass, that.superClass);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.arguments, this.body, this.name, this.clazz, this.superClass);
-    }
-
     public void bind(BaseClassExpressionNode clazz, BaseClassExpressionNode superClass) {
         this.clazz = clazz;
         this.superClass = superClass;
@@ -91,8 +78,23 @@ public class FunctionClass extends BaseClassExpressionNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        FunctionClass that = (FunctionClass) o;
+        return Objects.equals(this.arguments, that.arguments) && Objects.equals(this.body, that.body) && Objects.equals(this.name, that.name) && Objects.equals(this.clazz, that.clazz) && Objects.equals(this.superClass, that.superClass);
+    }
+
+    @Override
     public String getType() {
         return "Function";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.arguments, this.body, this.name, this.clazz, this.superClass);
     }
 
     @Override

@@ -13,8 +13,10 @@ public class VariableAssignmentExpressionNode extends ExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         VariableAssignmentExpressionNode that = (VariableAssignmentExpressionNode) o;
         return Objects.equals(this.expression, that.expression) && Objects.equals(this.value, that.value);
     }

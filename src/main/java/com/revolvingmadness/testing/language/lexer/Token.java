@@ -26,6 +26,10 @@ public class Token {
         return this.isAdditiveOperator() || this.isMultiplicativeOperator() || this.isExponentiationOperator();
     }
 
+    public boolean isEqualityOperator() {
+        return this.type == TokenType.EQUAL_TO || this.type == TokenType.NOT_EQUAL_TO;
+    }
+
     public boolean isExponentiationOperator() {
         return this.type == TokenType.CARET;
     }
@@ -34,12 +38,16 @@ public class Token {
         return this.type == TokenType.DOUBLE_PLUS || this.type == TokenType.DOUBLE_HYPHEN;
     }
 
-    public boolean isEqualityOperator() {
-        return this.type == TokenType.EQUAL_TO || this.type == TokenType.NOT_EQUAL_TO;
-    }
-
     public boolean isMultiplicativeOperator() {
         return this.type == TokenType.STAR || this.type == TokenType.FSLASH || this.type == TokenType.PERCENT;
+    }
+
+    public boolean isPostfixOperator() {
+        return this.type == TokenType.DOUBLE_PLUS || this.type == TokenType.DOUBLE_HYPHEN;
+    }
+
+    public boolean isRelationOperator() {
+        return this.type == TokenType.GREATER_THAN || this.type == TokenType.GREATER_THAN_OR_EQUAL_TO || this.type == TokenType.LESS_THAN || this.type == TokenType.LESS_THAN_OR_EQUAL_TO || this.type == TokenType.INSTANCE_OF;
     }
 
     public boolean isUnaryOperator() {
@@ -53,13 +61,5 @@ public class Token {
         }
 
         return "Token(type=" + this.type + ", value=" + this.value + ")";
-    }
-
-    public boolean isRelationOperator() {
-        return this.type == TokenType.GREATER_THAN || this.type == TokenType.GREATER_THAN_OR_EQUAL_TO || this.type == TokenType.LESS_THAN || this.type == TokenType.LESS_THAN_OR_EQUAL_TO || this.type == TokenType.INSTANCE_OF;
-    }
-
-    public boolean isPostfixOperator() {
-        return this.type == TokenType.DOUBLE_PLUS || this.type == TokenType.DOUBLE_HYPHEN;
     }
 }

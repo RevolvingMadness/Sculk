@@ -19,26 +19,28 @@ public class BooleanClass extends BaseClassExpressionNode {
     }
 
     @Override
-    public String getType() {
-        return "Boolean";
-    }
-
-    @Override
-    public String toString() {
-        return this.value.toString();
-    }
-
-    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         BooleanClass that = (BooleanClass) o;
         return Objects.equals(this.value, that.value);
     }
 
     @Override
+    public String getType() {
+        return "Boolean";
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(this.value);
+    }
+
+    @Override
+    public String toString() {
+        return this.value.toString();
     }
 
     public class EqualTo extends BaseClassExpressionNode {

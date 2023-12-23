@@ -15,23 +15,23 @@ public class NullClass extends BaseClassExpressionNode {
     }
 
     @Override
-    public String getType() {
-        return "Null";
-    }
-
-    @Override
-    public String toString() {
-        return "null";
-    }
-
-    @Override
     public boolean equals(Object o) {
         return o instanceof NullClass;
     }
 
     @Override
+    public String getType() {
+        return "Null";
+    }
+
+    @Override
     public int hashCode() {
         return NullClass.class.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "null";
     }
 
     private static class ToString extends BaseClassExpressionNode {

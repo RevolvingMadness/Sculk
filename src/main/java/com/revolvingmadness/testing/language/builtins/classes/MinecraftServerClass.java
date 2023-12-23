@@ -31,13 +31,13 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
     }
 
     @Override
-    public String getType() {
-        return "MinecraftServer";
+    public boolean equals(Object o) {
+        return o instanceof MinecraftServerClass;
     }
 
     @Override
-    public boolean equals(Object o) {
-        return o instanceof MinecraftServerClass;
+    public String getType() {
+        return "MinecraftServer";
     }
 
     @Override

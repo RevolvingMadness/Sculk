@@ -18,8 +18,6 @@ public interface Visitor {
 
     BaseClassExpressionNode visitDictionaryExpression(DictionaryExpressionNode dictionaryExpression);
 
-    BaseClassExpressionNode visitPostfixExpression(PostfixExpressionNode postfixExpression);
-
     BaseClassExpressionNode visitExpression(ExpressionNode expression);
 
     void visitExpressionStatement(ExpressionStatementNode expressionStatement);
@@ -37,6 +35,8 @@ public interface Visitor {
     BaseClassExpressionNode visitIndexExpression(IndexExpressionNode indexExpression);
 
     BaseClassExpressionNode visitListExpression(ListExpressionNode listExpression);
+
+    BaseClassExpressionNode visitPostfixExpression(PostfixExpressionNode postfixExpression);
 
     void visitReturnStatement(ReturnStatementNode returnStatement);
 

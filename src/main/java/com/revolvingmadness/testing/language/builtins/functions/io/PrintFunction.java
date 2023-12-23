@@ -31,12 +31,12 @@ public class PrintFunction extends BaseClassExpressionNode {
     }
 
     @Override
-    public int hashCode() {
-        return PrintFunction.class.hashCode();
+    public String getType() {
+        return "Function";
     }
 
     @Override
-    public String getType() {
-        return "Function";
+    public int hashCode() {
+        return PrintFunction.class.hashCode();
     }
 }

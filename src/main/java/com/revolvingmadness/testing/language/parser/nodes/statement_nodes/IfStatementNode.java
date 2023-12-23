@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class IfStatementNode extends StatementNode {
-    public final Pair<ExpressionNode, List<StatementNode>> ifConditionPair;
-    public final List<Pair<ExpressionNode, List<StatementNode>>> elseIfConditionPairs;
     public final List<StatementNode> elseBody;
+    public final List<Pair<ExpressionNode, List<StatementNode>>> elseIfConditionPairs;
+    public final Pair<ExpressionNode, List<StatementNode>> ifConditionPair;
 
     public IfStatementNode(Pair<ExpressionNode, List<StatementNode>> ifConditionPair, List<Pair<ExpressionNode, List<StatementNode>>> elseIfConditionPairs, List<StatementNode> elseBody) {
         this.ifConditionPair = ifConditionPair;
@@ -19,8 +19,10 @@ public class IfStatementNode extends StatementNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         IfStatementNode that = (IfStatementNode) o;
         return Objects.equals(this.ifConditionPair, that.ifConditionPair) && Objects.equals(this.elseIfConditionPairs, that.elseIfConditionPairs) && Objects.equals(this.elseBody, that.elseBody);
     }

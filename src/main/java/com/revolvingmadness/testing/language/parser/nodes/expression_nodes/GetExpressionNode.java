@@ -13,8 +13,10 @@ public class GetExpressionNode extends ExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         GetExpressionNode that = (GetExpressionNode) o;
         return Objects.equals(this.expression, that.expression) && Objects.equals(this.propertyName, that.propertyName);
     }

@@ -16,8 +16,10 @@ public class WhileStatementNode extends StatementNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         WhileStatementNode that = (WhileStatementNode) o;
         return Objects.equals(this.body, that.body) && Objects.equals(this.condition, that.condition);
     }

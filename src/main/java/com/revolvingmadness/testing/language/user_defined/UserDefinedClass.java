@@ -23,20 +23,23 @@ public class UserDefinedClass extends BaseClassExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
         UserDefinedClass that = (UserDefinedClass) o;
         return Objects.equals(this.name, that.name);
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), this.name);
+    public String getType() {
+        return this.name.value;
     }
 
     @Override
-    public String getType() {
-        return this.name.value;
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), this.name);
     }
 }

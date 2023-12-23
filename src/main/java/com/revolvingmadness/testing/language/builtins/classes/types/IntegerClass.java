@@ -32,15 +32,12 @@ public class IntegerClass extends BaseClassExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         IntegerClass that = (IntegerClass) o;
         return Objects.equals(this.value, that.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.value);
     }
 
     @Override
@@ -49,26 +46,31 @@ public class IntegerClass extends BaseClassExpressionNode {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(this.value);
+    }
+
+    @Override
     public String toString() {
         return this.value.toString();
     }
 
-    public class LessThan extends BaseClassExpressionNode {
+    public class Add extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'lessThan' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw new SyntaxError("Function 'add' requires 1 argument but got " + arguments.size() + " argument(s)");
             }
 
             BaseClassExpressionNode other = arguments.get(0);
 
             if (other.getType().equals("Float")) {
-                return new BooleanClass(IntegerClass.this.value < ((FloatClass) other).value);
+                return new FloatClass(IntegerClass.this.value + ((FloatClass) other).value);
             } else if (other.getType().equals("Integer")) {
-                return new BooleanClass(IntegerClass.this.value < ((IntegerClass) other).value);
+                return new IntegerClass(IntegerClass.this.value + ((IntegerClass) other).value);
             }
 
-            throw new TypeError("Cannot apply binary operator '<' to types '" + IntegerClass.this.getType() + "' and '" + other.getType() + "'");
+            throw new TypeError("Cannot apply binary operator '+' to types '" + IntegerClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override
@@ -77,22 +79,64 @@ public class IntegerClass extends BaseClassExpressionNode {
         }
     }
 
-    public class LessThanOrEqualTo extends BaseClassExpressionNode {
+    public class Divide extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'lessThanOrEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw new SyntaxError("Function 'divide' requires 1 argument but got " + arguments.size() + " argument(s)");
             }
 
             BaseClassExpressionNode other = arguments.get(0);
 
             if (other.getType().equals("Float")) {
-                return new BooleanClass(IntegerClass.this.value <= ((FloatClass) other).value);
+                return new FloatClass(IntegerClass.this.value / ((FloatClass) other).value);
             } else if (other.getType().equals("Integer")) {
-                return new BooleanClass(IntegerClass.this.value <= ((IntegerClass) other).value);
+                return new IntegerClass(IntegerClass.this.value / ((IntegerClass) other).value);
             }
 
-            throw new TypeError("Cannot apply binary operator '<=' to types '" + IntegerClass.this.getType() + "' and '" + other.getType() + "'");
+            throw new TypeError("Cannot apply binary operator '/' to types '" + IntegerClass.this.getType() + "' and '" + other.getType() + "'");
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class EqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(IntegerClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class Exponentiate extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'exponentiate' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode other = arguments.get(0);
+
+            if (other.getType().equals("Float")) {
+                return new FloatClass(Math.pow(IntegerClass.this.value, ((FloatClass) other).value));
+            } else if (other.getType().equals("Integer")) {
+                return new FloatClass(Math.pow(IntegerClass.this.value, ((IntegerClass) other).value));
+            }
+
+            throw new TypeError("Cannot apply binary operator '^' to types '" + IntegerClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override
@@ -149,74 +193,22 @@ public class IntegerClass extends BaseClassExpressionNode {
         }
     }
 
-    public class EqualTo extends BaseClassExpressionNode {
+    public class LessThan extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(IntegerClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class NotEqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(!IntegerClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class Negate extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'negate' requires 0 arguments but got " + arguments.size() + " argument(s)");
-            }
-
-            return new IntegerClass(-IntegerClass.this.value);
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class Add extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'add' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw new SyntaxError("Function 'lessThan' requires 1 argument but got " + arguments.size() + " argument(s)");
             }
 
             BaseClassExpressionNode other = arguments.get(0);
 
             if (other.getType().equals("Float")) {
-                return new FloatClass(IntegerClass.this.value + ((FloatClass) other).value);
+                return new BooleanClass(IntegerClass.this.value < ((FloatClass) other).value);
             } else if (other.getType().equals("Integer")) {
-                return new IntegerClass(IntegerClass.this.value + ((IntegerClass) other).value);
+                return new BooleanClass(IntegerClass.this.value < ((IntegerClass) other).value);
             }
 
-            throw new TypeError("Cannot apply binary operator '+' to types '" + IntegerClass.this.getType() + "' and '" + other.getType() + "'");
+            throw new TypeError("Cannot apply binary operator '<' to types '" + IntegerClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override
@@ -225,46 +217,22 @@ public class IntegerClass extends BaseClassExpressionNode {
         }
     }
 
-    public class Divide extends BaseClassExpressionNode {
+    public class LessThanOrEqualTo extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'divide' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw new SyntaxError("Function 'lessThanOrEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
             }
 
             BaseClassExpressionNode other = arguments.get(0);
 
             if (other.getType().equals("Float")) {
-                return new FloatClass(IntegerClass.this.value / ((FloatClass) other).value);
+                return new BooleanClass(IntegerClass.this.value <= ((FloatClass) other).value);
             } else if (other.getType().equals("Integer")) {
-                return new IntegerClass(IntegerClass.this.value / ((IntegerClass) other).value);
+                return new BooleanClass(IntegerClass.this.value <= ((IntegerClass) other).value);
             }
 
-            throw new TypeError("Cannot apply binary operator '/' to types '" + IntegerClass.this.getType() + "' and '" + other.getType() + "'");
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class Exponentiate extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'exponentiate' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode other = arguments.get(0);
-
-            if (other.getType().equals("Float")) {
-                return new FloatClass(Math.pow(IntegerClass.this.value, ((FloatClass) other).value));
-            } else if (other.getType().equals("Integer")) {
-                return new FloatClass(Math.pow(IntegerClass.this.value, ((IntegerClass) other).value));
-            }
-
-            throw new TypeError("Cannot apply binary operator '^' to types '" + IntegerClass.this.getType() + "' and '" + other.getType() + "'");
+            throw new TypeError("Cannot apply binary operator '<=' to types '" + IntegerClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override
@@ -313,6 +281,40 @@ public class IntegerClass extends BaseClassExpressionNode {
             }
 
             throw new TypeError("Cannot apply binary operator '*' to types '" + IntegerClass.this.getType() + "' and '" + other.getType() + "'");
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class Negate extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 0) {
+                throw new SyntaxError("Function 'negate' requires 0 arguments but got " + arguments.size() + " argument(s)");
+            }
+
+            return new IntegerClass(-IntegerClass.this.value);
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class NotEqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(!IntegerClass.this.equals(o));
         }
 
         @Override

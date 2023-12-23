@@ -14,8 +14,10 @@ public class CallExpressionNode extends ExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         CallExpressionNode that = (CallExpressionNode) o;
         return Objects.equals(this.arguments, that.arguments) && Objects.equals(this.callee, that.callee);
     }

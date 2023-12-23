@@ -30,16 +30,14 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
         PlayerEntityClass that = (PlayerEntityClass) o;
         return Objects.equals(this.playerEntity, that.playerEntity);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), this.playerEntity);
     }
 
     @Override
@@ -47,40 +45,9 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
         return "PlayerEntity";
     }
 
-    public class EqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(PlayerEntityClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class NotEqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(!PlayerEntityClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), this.playerEntity);
     }
 
     public class AddExperienceLevels extends BaseClassExpressionNode {
@@ -131,6 +98,24 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
         }
     }
 
+    public class EqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(PlayerEntityClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
     public class IsCreative extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
@@ -155,6 +140,24 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
             }
 
             return new BooleanClass(PlayerEntityClass.this.playerEntity.isSpectator());
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class NotEqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(!PlayerEntityClass.this.equals(o));
         }
 
         @Override

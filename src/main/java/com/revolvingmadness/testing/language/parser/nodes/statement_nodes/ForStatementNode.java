@@ -20,8 +20,10 @@ public class ForStatementNode extends StatementNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         ForStatementNode that = (ForStatementNode) o;
         return Objects.equals(this.body, that.body) && Objects.equals(this.condition, that.condition) && Objects.equals(this.initialization, that.initialization) && Objects.equals(this.update, that.update);
     }

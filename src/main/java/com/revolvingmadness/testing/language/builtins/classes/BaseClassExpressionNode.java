@@ -40,6 +40,20 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
         return method.call(interpreter, arguments);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        BaseClassExpressionNode that = (BaseClassExpressionNode) o;
+        return Objects.equals(this.superClass, that.superClass) && Objects.equals(this.variableScope, that.variableScope);
+    }
+
+    public BaseClassExpressionNode getIndex(BaseClassExpressionNode index) {
+        throw new TypeError("Type '" + this.getType() + "' is not indexable");
+    }
+
     public BaseClassExpressionNode getProperty(IdentifierExpressionNode propertyName) {
         Optional<Variable> optionalVariable = this.variableScope.getOptional(propertyName);
 
@@ -60,6 +74,13 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
         return this.superClass.getProperty(propertyName);
     }
 
+    public abstract String getType();
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.superClass, this.variableScope);
+    }
+
     public boolean instanceOf(BaseClassExpressionNode other) {
         if (this.getType().equals(other.getType())) {
             return true;
@@ -72,9 +93,7 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
         return this.instanceOf(other.superClass);
     }
 
-    public abstract String getType();
-
-    public BaseClassExpressionNode getIndex(BaseClassExpressionNode index) {
+    public void setIndex(BaseClassExpressionNode index, BaseClassExpressionNode value) {
         throw new TypeError("Type '" + this.getType() + "' is not indexable");
     }
 
@@ -92,22 +111,5 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
         }
 
         this.superClass.setProperty(propertyName, value);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
-        BaseClassExpressionNode that = (BaseClassExpressionNode) o;
-        return Objects.equals(this.superClass, that.superClass) && Objects.equals(this.variableScope, that.variableScope);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.superClass, this.variableScope);
-    }
-
-    public void setIndex(BaseClassExpressionNode index, BaseClassExpressionNode value) {
-        throw new TypeError("Type '" + this.getType() + "' is not indexable");
     }
 }

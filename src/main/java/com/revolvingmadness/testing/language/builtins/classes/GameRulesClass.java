@@ -124,21 +124,24 @@ public class GameRulesClass extends BaseClassExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
         GameRulesClass that = (GameRulesClass) o;
         return Objects.equals(this.gameRules, that.gameRules);
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), this.gameRules);
+    public String getType() {
+        return "GameRules";
     }
 
     @Override
-    public String getType() {
-        return "GameRules";
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), this.gameRules);
     }
 
     public class EqualTo extends BaseClassExpressionNode {
@@ -151,24 +154,6 @@ public class GameRulesClass extends BaseClassExpressionNode {
             BaseClassExpressionNode o = arguments.get(0);
 
             return new BooleanClass(GameRulesClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class NotEqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(!GameRulesClass.this.equals(o));
         }
 
         @Override
@@ -953,6 +938,24 @@ public class GameRulesClass extends BaseClassExpressionNode {
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.WATER_SOURCE_CONVERSION));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class NotEqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(!GameRulesClass.this.equals(o));
         }
 
         @Override

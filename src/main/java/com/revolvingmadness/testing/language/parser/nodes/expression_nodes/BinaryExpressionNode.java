@@ -17,8 +17,10 @@ public class BinaryExpressionNode extends ExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         BinaryExpressionNode that = (BinaryExpressionNode) o;
         return Objects.equals(this.left, that.left) && this.operator == that.operator && Objects.equals(this.right, that.right);
     }

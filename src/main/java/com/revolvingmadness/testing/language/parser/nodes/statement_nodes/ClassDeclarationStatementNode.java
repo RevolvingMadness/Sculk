@@ -20,8 +20,10 @@ public class ClassDeclarationStatementNode extends StatementNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         ClassDeclarationStatementNode that = (ClassDeclarationStatementNode) o;
         return this.isConstant == that.isConstant && Objects.equals(this.body, that.body) && Objects.equals(this.name, that.name) && Objects.equals(this.superClassName, that.superClassName);
     }

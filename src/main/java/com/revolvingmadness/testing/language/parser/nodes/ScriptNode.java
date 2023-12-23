@@ -20,8 +20,10 @@ public class ScriptNode extends Node {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         ScriptNode that = (ScriptNode) o;
         return Objects.equals(this.scripts, that.scripts) && Objects.equals(this.statements, that.statements);
     }

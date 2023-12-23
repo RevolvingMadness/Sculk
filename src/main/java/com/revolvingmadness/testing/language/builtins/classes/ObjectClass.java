@@ -31,99 +31,13 @@ public class ObjectClass extends BaseClassExpressionNode {
     }
 
     @Override
-    public int hashCode() {
-        return ObjectClass.class.hashCode();
-    }
-
-    @Override
     public String getType() {
         return "Object";
     }
 
-    public class Negate extends BaseClassExpressionNode {
-        public Negate() {
-            super(ObjectClass.this);
-        }
-
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'negate' requires 0 arguments but got " + arguments.size() + " argument(s)");
-            }
-
-            throw new SyntaxError("Cannot apply unary operator '-' to type '" + ObjectClass.this.getType() + "'");
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class EqualTo extends BaseClassExpressionNode {
-        public EqualTo() {
-            super(ObjectClass.this);
-        }
-
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(ObjectClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class NotEqualTo extends BaseClassExpressionNode {
-        public NotEqualTo() {
-            super(ObjectClass.this);
-        }
-
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(!ObjectClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class InstanceOf extends BaseClassExpressionNode {
-        public InstanceOf() {
-            super(ObjectClass.this);
-        }
-
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'instanceOf' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(ObjectClass.this.instanceOf(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
+    @Override
+    public int hashCode() {
+        return ObjectClass.class.hashCode();
     }
 
     public class Add extends BaseClassExpressionNode {
@@ -170,6 +84,28 @@ public class ObjectClass extends BaseClassExpressionNode {
         }
     }
 
+    public class EqualTo extends BaseClassExpressionNode {
+        public EqualTo() {
+            super(ObjectClass.this);
+        }
+
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(ObjectClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
     public class Exponentiate extends BaseClassExpressionNode {
         public Exponentiate() {
             super(ObjectClass.this);
@@ -184,6 +120,28 @@ public class ObjectClass extends BaseClassExpressionNode {
             BaseClassExpressionNode other = arguments.get(0);
 
             throw new TypeError("Cannot apply binary operator '^' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class InstanceOf extends BaseClassExpressionNode {
+        public InstanceOf() {
+            super(ObjectClass.this);
+        }
+
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'instanceOf' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(ObjectClass.this.instanceOf(o));
         }
 
         @Override
@@ -228,6 +186,48 @@ public class ObjectClass extends BaseClassExpressionNode {
             BaseClassExpressionNode other = arguments.get(0);
 
             throw new TypeError("Cannot apply binary operator '*' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class Negate extends BaseClassExpressionNode {
+        public Negate() {
+            super(ObjectClass.this);
+        }
+
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 0) {
+                throw new SyntaxError("Function 'negate' requires 0 arguments but got " + arguments.size() + " argument(s)");
+            }
+
+            throw new SyntaxError("Cannot apply unary operator '-' to type '" + ObjectClass.this.getType() + "'");
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class NotEqualTo extends BaseClassExpressionNode {
+        public NotEqualTo() {
+            super(ObjectClass.this);
+        }
+
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(!ObjectClass.this.equals(o));
         }
 
         @Override

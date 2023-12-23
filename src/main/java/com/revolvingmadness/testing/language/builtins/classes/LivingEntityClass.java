@@ -27,21 +27,24 @@ public class LivingEntityClass extends BaseClassExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
         LivingEntityClass that = (LivingEntityClass) o;
         return Objects.equals(this.livingEntity, that.livingEntity);
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), this.livingEntity);
+    public String getType() {
+        return "LivingEntity";
     }
 
     @Override
-    public String getType() {
-        return "LivingEntity";
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), this.livingEntity);
     }
 
     public class EqualTo extends BaseClassExpressionNode {

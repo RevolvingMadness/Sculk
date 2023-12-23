@@ -21,20 +21,22 @@ public class ResourceClass extends BaseClassExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
         ResourceClass that = (ResourceClass) o;
         return Objects.equals(this.value, that.value);
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(this.value);
+    public String getType() {
+        return "Resource";
     }
 
     @Override
-    public String getType() {
-        return "Resource";
+    public int hashCode() {
+        return Objects.hash(this.value);
     }
 
     @Override

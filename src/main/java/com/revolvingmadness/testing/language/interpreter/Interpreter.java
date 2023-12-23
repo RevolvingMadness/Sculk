@@ -118,17 +118,6 @@ public class Interpreter implements Visitor {
     }
 
     @Override
-    public BaseClassExpressionNode visitPostfixExpression(PostfixExpressionNode postfixExpression) {
-        BaseClassExpressionNode expression = this.visitExpression(postfixExpression.expression);
-
-        return switch (postfixExpression.operator) {
-            case DOUBLE_PLUS -> expression.call(this, new IdentifierExpressionNode("increment"), List.of());
-            case DOUBLE_HYPHEN -> expression.call(this, new IdentifierExpressionNode("decrement"), List.of());
-            default -> throw new InterpreterError("Unsupported postfix operator '" + postfixExpression.operator + "'");
-        };
-    }
-
-    @Override
     public BaseClassExpressionNode visitExpression(ExpressionNode expression) {
         if (expression instanceof BinaryExpressionNode binaryExpression) {
             return this.visitBinaryExpression(binaryExpression);
@@ -271,6 +260,17 @@ public class Interpreter implements Visitor {
         listExpression.value.forEach(expression -> list.add(this.visitExpression(expression)));
 
         return new ListClass(list);
+    }
+
+    @Override
+    public BaseClassExpressionNode visitPostfixExpression(PostfixExpressionNode postfixExpression) {
+        BaseClassExpressionNode expression = this.visitExpression(postfixExpression.expression);
+
+        return switch (postfixExpression.operator) {
+            case DOUBLE_PLUS -> expression.call(this, new IdentifierExpressionNode("increment"), List.of());
+            case DOUBLE_HYPHEN -> expression.call(this, new IdentifierExpressionNode("decrement"), List.of());
+            default -> throw new InterpreterError("Unsupported postfix operator '" + postfixExpression.operator + "'");
+        };
     }
 
     @Override

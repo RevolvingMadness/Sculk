@@ -82,34 +82,6 @@ public class LangParser {
         return left;
     }
 
-    private ExpressionNode parseConditionalAndExpression() {
-        ExpressionNode left = this.parseEqualityExpression();
-
-        while (this.current().isAndOperator()) {
-            TokenType operator = this.consume().type;
-
-            ExpressionNode right = this.parseEqualityExpression();
-
-            left = new BinaryExpressionNode(left, operator, right);
-        }
-
-        return left;
-    }
-
-    private ExpressionNode parseConditionalOrExpression() {
-        ExpressionNode left = this.parseConditionalAndExpression();
-
-        while (this.current(TokenType.DOUBLE_PIPE)) {
-            TokenType operator = this.consume().type;
-
-            ExpressionNode right = this.parseConditionalAndExpression();
-
-            left = new BinaryExpressionNode(left, operator, right);
-        }
-
-        return left;
-    }
-
     private List<ExpressionNode> parseArguments() {
         this.consume();
 
@@ -235,6 +207,34 @@ public class LangParser {
         return new ClassDeclarationStatementNode(isConstant, name, superClassName, body);
     }
 
+    private ExpressionNode parseConditionalAndExpression() {
+        ExpressionNode left = this.parseEqualityExpression();
+
+        while (this.current().isAndOperator()) {
+            TokenType operator = this.consume().type;
+
+            ExpressionNode right = this.parseEqualityExpression();
+
+            left = new BinaryExpressionNode(left, operator, right);
+        }
+
+        return left;
+    }
+
+    private ExpressionNode parseConditionalOrExpression() {
+        ExpressionNode left = this.parseConditionalAndExpression();
+
+        while (this.current(TokenType.DOUBLE_PIPE)) {
+            TokenType operator = this.consume().type;
+
+            ExpressionNode right = this.parseConditionalAndExpression();
+
+            left = new BinaryExpressionNode(left, operator, right);
+        }
+
+        return left;
+    }
+
     private StatementNode parseContinueStatement() {
         this.consume();
 
@@ -299,6 +299,20 @@ public class LangParser {
         this.consume(TokenType.RIGHT_BRACE, "Expected closing brace for dictionary");
 
         return new DictionaryExpressionNode(dictionary);
+    }
+
+    private ExpressionNode parseEqualityExpression() {
+        ExpressionNode left = this.parseRelationalExpression();
+
+        while (this.current().isEqualityOperator()) {
+            TokenType operator = this.consume().type;
+
+            ExpressionNode right = this.parseRelationalExpression();
+
+            left = new BinaryExpressionNode(left, operator, right);
+        }
+
+        return left;
     }
 
     private ExpressionNode parseExponentiationExpression() {
@@ -501,34 +515,6 @@ public class LangParser {
         return new ListExpressionNode(elements);
     }
 
-    private ExpressionNode parseEqualityExpression() {
-        ExpressionNode left = this.parseRelationalExpression();
-
-        while (this.current().isEqualityOperator()) {
-            TokenType operator = this.consume().type;
-
-            ExpressionNode right = this.parseRelationalExpression();
-
-            left = new BinaryExpressionNode(left, operator, right);
-        }
-
-        return left;
-    }
-
-    private ExpressionNode parseRelationalExpression() {
-        ExpressionNode left = this.parseAdditiveExpression();
-
-        while (this.current().isRelationOperator()) {
-            TokenType operator = this.consume().type;
-
-            ExpressionNode right = this.parseAdditiveExpression();
-
-            left = new BinaryExpressionNode(left, operator, right);
-        }
-
-        return left;
-    }
-
     private ExpressionNode parseMultiplicativeExpression() {
         ExpressionNode left = this.parseUnaryExpression();
 
@@ -541,6 +527,18 @@ public class LangParser {
         }
 
         return left;
+    }
+
+    private ExpressionNode parsePostfixExpression() {
+        ExpressionNode expression = this.parseExponentiationExpression();
+
+        if (this.current().isPostfixOperator()) {
+            TokenType operator = this.consume().type;
+
+            return new PostfixExpressionNode(expression, operator);
+        }
+
+        return expression;
     }
 
     private ExpressionNode parsePrimaryExpression() {
@@ -580,6 +578,20 @@ public class LangParser {
         }
 
         throw new SyntaxError("Unknown expression type '" + this.current().type + "'");
+    }
+
+    private ExpressionNode parseRelationalExpression() {
+        ExpressionNode left = this.parseAdditiveExpression();
+
+        while (this.current().isRelationOperator()) {
+            TokenType operator = this.consume().type;
+
+            ExpressionNode right = this.parseAdditiveExpression();
+
+            left = new BinaryExpressionNode(left, operator, right);
+        }
+
+        return left;
     }
 
     private StatementNode parseReturnStatement() {
@@ -638,18 +650,6 @@ public class LangParser {
         }
 
         return this.parsePostfixExpression();
-    }
-
-    private ExpressionNode parsePostfixExpression() {
-        ExpressionNode expression = this.parseExponentiationExpression();
-
-        if (this.current().isPostfixOperator()) {
-            TokenType operator = this.consume().type;
-
-            return new PostfixExpressionNode(expression, operator);
-        }
-
-        return expression;
     }
 
     private VariableDeclarationStatementNode parseVariableDeclarationStatement() {
