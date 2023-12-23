@@ -18,7 +18,7 @@ public class UserDefinedClass extends BaseClassExpressionNode {
 
     @Override
     public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-        return new UserDefinedClassInstance(this);
+        return new UserDefinedClassInstance(this, interpreter, arguments);
     }
 
     @Override

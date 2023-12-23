@@ -3,6 +3,7 @@ package com.revolvingmadness.testing.language.interpreter;
 import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.gamerules.TestingGamerules;
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
+import com.revolvingmadness.testing.language.builtins.classes.ObjectClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.DictionaryClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.FunctionClass;
@@ -84,12 +85,14 @@ public class Interpreter implements Visitor {
 
         VariableScope variableScope = this.variableTable.exitScope();
 
-        BaseClassExpressionNode superClass = null;
+        BaseClassExpressionNode superClass;
 
         if (classDeclarationStatement.superClassName != null) {
             Variable superClassVariable = this.variableTable.getOrThrow(classDeclarationStatement.superClassName);
 
             superClass = superClassVariable.value;
+        } else {
+            superClass = new ObjectClass();
         }
 
         this.variableTable.declare(classDeclarationStatement.isConstant, classDeclarationStatement.name, new UserDefinedClass(classDeclarationStatement.name, superClass, variableScope));
