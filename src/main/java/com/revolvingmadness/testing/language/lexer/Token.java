@@ -14,7 +14,7 @@ public class Token {
         this.value = null;
     }
 
-    public boolean isAdditionOperator() {
+    public boolean isAdditiveOperator() {
         return this.type == TokenType.PLUS || this.type == TokenType.HYPHEN;
     }
 
@@ -23,7 +23,7 @@ public class Token {
     }
 
     public boolean isBinaryOperator() {
-        return this.isAdditionOperator() || this.isMultiplicationOperator() || this.isExponentiationOperator();
+        return this.isAdditiveOperator() || this.isMultiplicativeOperator() || this.isExponentiationOperator();
     }
 
     public boolean isExponentiationOperator() {
@@ -34,16 +34,16 @@ public class Token {
         return this.type == TokenType.DOUBLE_PLUS || this.type == TokenType.DOUBLE_HYPHEN;
     }
 
-    public boolean isLogicalOperator() {
-        return this.type == TokenType.EQUAL_TO || this.type == TokenType.NOT_EQUAL_TO || this.type == TokenType.GREATER_THAN || this.type == TokenType.GREATER_THAN_OR_EQUAL_TO || this.type == TokenType.LESS_THAN || this.type == TokenType.LESS_THAN_OR_EQUAL_TO;
+    public boolean isEqualityOperator() {
+        return this.type == TokenType.EQUAL_TO || this.type == TokenType.NOT_EQUAL_TO;
     }
 
-    public boolean isMultiplicationOperator() {
+    public boolean isMultiplicativeOperator() {
         return this.type == TokenType.STAR || this.type == TokenType.FSLASH || this.type == TokenType.PERCENT;
     }
 
     public boolean isUnaryOperator() {
-        return this.type == TokenType.HYPHEN || this.type == TokenType.EXCLAMATION_MARK;
+        return this.type == TokenType.HYPHEN || this.type == TokenType.EXCLAMATION_MARK || this.type == TokenType.PLUS || this.type == TokenType.DOUBLE_PLUS || this.type == TokenType.DOUBLE_HYPHEN;
     }
 
     @Override
@@ -53,5 +53,13 @@ public class Token {
         }
 
         return "Token(type=" + this.type + ", value=" + this.value + ")";
+    }
+
+    public boolean isRelationOperator() {
+        return this.type == TokenType.GREATER_THAN || this.type == TokenType.GREATER_THAN_OR_EQUAL_TO || this.type == TokenType.LESS_THAN || this.type == TokenType.LESS_THAN_OR_EQUAL_TO || this.type == TokenType.INSTANCE_OF;
+    }
+
+    public boolean isPostfixOperator() {
+        return this.type == TokenType.DOUBLE_PLUS || this.type == TokenType.DOUBLE_HYPHEN;
     }
 }

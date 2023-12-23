@@ -22,6 +22,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("negate"), new Negate());
         this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
         this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
+        this.variableScope.declare(true, new IdentifierExpressionNode("instanceOf"), new InstanceOf());
     }
 
     @Override
@@ -95,6 +96,28 @@ public class ObjectClass extends BaseClassExpressionNode {
             BaseClassExpressionNode o = arguments.get(0);
 
             return new BooleanClass(!ObjectClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class InstanceOf extends BaseClassExpressionNode {
+        public InstanceOf() {
+            super(ObjectClass.this);
+        }
+
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'instanceOf' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode o = arguments.get(0);
+
+            return new BooleanClass(ObjectClass.this.instanceOf(o));
         }
 
         @Override

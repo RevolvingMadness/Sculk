@@ -39,8 +39,8 @@ public class Interpreter implements Visitor {
         BaseClassExpressionNode right = this.visitExpression(binaryExpression.right);
 
         return switch (binaryExpression.operator) {
-            case PLUS, DOUBLE_PLUS -> left.call(this, new IdentifierExpressionNode("add"), List.of(right));
-            case HYPHEN, DOUBLE_HYPHEN -> left.call(this, new IdentifierExpressionNode("subtract"), List.of(right));
+            case PLUS -> left.call(this, new IdentifierExpressionNode("add"), List.of(right));
+            case HYPHEN -> left.call(this, new IdentifierExpressionNode("subtract"), List.of(right));
             case STAR -> left.call(this, new IdentifierExpressionNode("multiply"), List.of(right));
             case FSLASH -> left.call(this, new IdentifierExpressionNode("divide"), List.of(right));
             case CARET -> left.call(this, new IdentifierExpressionNode("exponentiate"), List.of(right));
@@ -55,6 +55,7 @@ public class Interpreter implements Visitor {
                     left.call(this, new IdentifierExpressionNode("lessThanOrEqualTo"), List.of(right));
             case DOUBLE_AMPERSAND -> left.call(this, new IdentifierExpressionNode("booleanAnd"), List.of(right));
             case DOUBLE_PIPE -> left.call(this, new IdentifierExpressionNode("booleanOr"), List.of(right));
+            case INSTANCE_OF -> left.call(this, new IdentifierExpressionNode("instanceOf"), List.of(right));
             default -> throw new InterpreterError("Unsupported binary operator '" + binaryExpression.operator + "'");
         };
     }
@@ -114,6 +115,17 @@ public class Interpreter implements Visitor {
     }
 
     @Override
+    public BaseClassExpressionNode visitPostfixExpression(PostfixExpressionNode postfixExpression) {
+        BaseClassExpressionNode expression = this.visitExpression(postfixExpression.expression);
+
+        return switch (postfixExpression.operator) {
+            case DOUBLE_PLUS -> expression.call(this, new IdentifierExpressionNode("increment"), List.of());
+            case DOUBLE_HYPHEN -> expression.call(this, new IdentifierExpressionNode("decrement"), List.of());
+            default -> throw new InterpreterError("Unsupported postfix operator '" + postfixExpression.operator + "'");
+        };
+    }
+
+    @Override
     public BaseClassExpressionNode visitExpression(ExpressionNode expression) {
         if (expression instanceof BinaryExpressionNode binaryExpression) {
             return this.visitBinaryExpression(binaryExpression);
@@ -135,6 +147,8 @@ public class Interpreter implements Visitor {
             return this.visitIndexExpression(indexExpression);
         } else if (expression instanceof ListExpressionNode listExpression) {
             return this.visitListExpression(listExpression);
+        } else if (expression instanceof PostfixExpressionNode postfixExpression) {
+            return this.visitPostfixExpression(postfixExpression);
         } else {
             throw new InterpreterError("Unsupported node to interpret '" + expression.getClass().getSimpleName() + "'");
         }

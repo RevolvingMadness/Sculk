@@ -60,6 +60,18 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
         return this.superClass.getProperty(propertyName);
     }
 
+    public boolean instanceOf(BaseClassExpressionNode other) {
+        if (this.getType().equals(other.getType())) {
+            return true;
+        }
+
+        if (other.superClass == null) {
+            return false;
+        }
+
+        return this.instanceOf(other.superClass);
+    }
+
     public abstract String getType();
 
     public BaseClassExpressionNode getIndex(BaseClassExpressionNode index) {

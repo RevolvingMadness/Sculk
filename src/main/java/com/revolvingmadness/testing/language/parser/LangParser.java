@@ -68,13 +68,13 @@ public class LangParser {
         return script;
     }
 
-    private ExpressionNode parseAdditionExpression() {
-        ExpressionNode left = this.parseMultiplicationExpression();
+    private ExpressionNode parseAdditiveExpression() {
+        ExpressionNode left = this.parseMultiplicativeExpression();
 
-        while (this.current().isAdditionOperator()) {
+        while (this.current().isAdditiveOperator()) {
             TokenType operator = this.consume().type;
 
-            ExpressionNode right = this.parseMultiplicationExpression();
+            ExpressionNode right = this.parseMultiplicativeExpression();
 
             left = new BinaryExpressionNode(left, operator, right);
         }
@@ -82,13 +82,27 @@ public class LangParser {
         return left;
     }
 
-    private ExpressionNode parseAndExpression() {
-        ExpressionNode left = this.parseLogicalExpression();
+    private ExpressionNode parseConditionalAndExpression() {
+        ExpressionNode left = this.parseEqualityExpression();
 
         while (this.current().isAndOperator()) {
             TokenType operator = this.consume().type;
 
-            ExpressionNode right = this.parseLogicalExpression();
+            ExpressionNode right = this.parseEqualityExpression();
+
+            left = new BinaryExpressionNode(left, operator, right);
+        }
+
+        return left;
+    }
+
+    private ExpressionNode parseConditionalOrExpression() {
+        ExpressionNode left = this.parseConditionalAndExpression();
+
+        while (this.current(TokenType.DOUBLE_PIPE)) {
+            TokenType operator = this.consume().type;
+
+            ExpressionNode right = this.parseConditionalAndExpression();
 
             left = new BinaryExpressionNode(left, operator, right);
         }
@@ -117,7 +131,7 @@ public class LangParser {
     }
 
     private ExpressionNode parseAssignmentExpression() {
-        ExpressionNode expression = this.parseAndExpression();
+        ExpressionNode expression = this.parseConditionalOrExpression();
 
         if (this.current().isIncrementOperator()) {
             TokenType incrementOperator = this.consume().type;
@@ -138,7 +152,7 @@ public class LangParser {
         if (this.current(TokenType.EQUALS)) {
             this.consume();
 
-            ExpressionNode value = this.parseAndExpression();
+            ExpressionNode value = this.parseConditionalOrExpression();
 
             return new VariableAssignmentExpressionNode(expression, value);
         }
@@ -487,13 +501,13 @@ public class LangParser {
         return new ListExpressionNode(elements);
     }
 
-    private ExpressionNode parseLogicalExpression() {
-        ExpressionNode left = this.parseAdditionExpression();
+    private ExpressionNode parseEqualityExpression() {
+        ExpressionNode left = this.parseRelationalExpression();
 
-        while (this.current().isLogicalOperator()) {
+        while (this.current().isEqualityOperator()) {
             TokenType operator = this.consume().type;
 
-            ExpressionNode right = this.parseAdditionExpression();
+            ExpressionNode right = this.parseRelationalExpression();
 
             left = new BinaryExpressionNode(left, operator, right);
         }
@@ -501,10 +515,24 @@ public class LangParser {
         return left;
     }
 
-    private ExpressionNode parseMultiplicationExpression() {
+    private ExpressionNode parseRelationalExpression() {
+        ExpressionNode left = this.parseAdditiveExpression();
+
+        while (this.current().isRelationOperator()) {
+            TokenType operator = this.consume().type;
+
+            ExpressionNode right = this.parseAdditiveExpression();
+
+            left = new BinaryExpressionNode(left, operator, right);
+        }
+
+        return left;
+    }
+
+    private ExpressionNode parseMultiplicativeExpression() {
         ExpressionNode left = this.parseUnaryExpression();
 
-        while (this.current().isMultiplicationOperator()) {
+        while (this.current().isMultiplicativeOperator()) {
             TokenType operator = this.consume().type;
 
             ExpressionNode right = this.parseUnaryExpression();
@@ -604,12 +632,24 @@ public class LangParser {
         if (this.current().isUnaryOperator()) {
             TokenType unaryOperator = this.consume().type;
 
-            ExpressionNode expression = this.parseExponentiationExpression();
+            ExpressionNode expression = this.parsePostfixExpression();
 
             return new UnaryExpressionNode(unaryOperator, expression);
         }
 
-        return this.parseExponentiationExpression();
+        return this.parsePostfixExpression();
+    }
+
+    private ExpressionNode parsePostfixExpression() {
+        ExpressionNode expression = this.parseExponentiationExpression();
+
+        if (this.current().isPostfixOperator()) {
+            TokenType operator = this.consume().type;
+
+            return new PostfixExpressionNode(expression, operator);
+        }
+
+        return expression;
     }
 
     private VariableDeclarationStatementNode parseVariableDeclarationStatement() {
