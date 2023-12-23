@@ -20,7 +20,7 @@ public class DictionaryClass extends BaseClassExpressionNode {
     }
 
     @Override
-    public BaseClassExpressionNode index(BaseClassExpressionNode index) {
+    public BaseClassExpressionNode getIndex(BaseClassExpressionNode index) {
         BaseClassExpressionNode value = this.value.get(index);
 
         if (value == null) {
@@ -28,6 +28,11 @@ public class DictionaryClass extends BaseClassExpressionNode {
         }
 
         return value;
+    }
+
+    @Override
+    public void setIndex(BaseClassExpressionNode index, BaseClassExpressionNode value) {
+        this.value.put(index, value);
     }
 
     @Override

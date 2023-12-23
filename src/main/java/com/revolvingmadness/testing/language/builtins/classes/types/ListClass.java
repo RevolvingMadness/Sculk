@@ -33,12 +33,21 @@ public class ListClass extends BaseClassExpressionNode {
     }
 
     @Override
-    public BaseClassExpressionNode index(BaseClassExpressionNode index) {
+    public BaseClassExpressionNode getIndex(BaseClassExpressionNode index) {
         if (!index.getType().equals("Integer")) {
             throw new TypeError("Cannot index list by non-integer");
         }
 
         return this.value.get(((IntegerClass) index).value);
+    }
+
+    @Override
+    public void setIndex(BaseClassExpressionNode index, BaseClassExpressionNode value) {
+        if (!index.getType().equals("Integer")) {
+            throw new TypeError("Cannot index list by non-integer");
+        }
+
+        this.value.set(((IntegerClass) index).value, value);
     }
 
     @Override

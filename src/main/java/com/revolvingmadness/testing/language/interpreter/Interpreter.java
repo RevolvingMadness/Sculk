@@ -226,7 +226,7 @@ public class Interpreter implements Visitor {
         BaseClassExpressionNode expression = this.visitExpression(indexExpression.expression);
         BaseClassExpressionNode index = this.visitExpression(indexExpression.index);
 
-        return expression.index(index);
+        return expression.getIndex(index);
     }
 
     @Override
@@ -301,6 +301,13 @@ public class Interpreter implements Visitor {
             BaseClassExpressionNode assignee = this.visitExpression(getExpression.expression);
 
             assignee.setProperty(getExpression.propertyName, value);
+
+            return value;
+        } else if (variableAssignmentExpression.expression instanceof IndexExpressionNode indexExpression) {
+            BaseClassExpressionNode assignee = this.visitExpression(indexExpression.expression);
+            BaseClassExpressionNode index = this.visitExpression(indexExpression.index);
+
+            assignee.setIndex(index, value);
 
             return value;
         }

@@ -62,7 +62,7 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
 
     public abstract String getType();
 
-    public BaseClassExpressionNode index(BaseClassExpressionNode index) {
+    public BaseClassExpressionNode getIndex(BaseClassExpressionNode index) {
         throw new TypeError("Type '" + this.getType() + "' is not indexable");
     }
 
@@ -93,5 +93,9 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
     @Override
     public int hashCode() {
         return Objects.hash(this.superClass, this.variableScope);
+    }
+
+    public void setIndex(BaseClassExpressionNode index, BaseClassExpressionNode value) {
+        throw new TypeError("Type '" + this.getType() + "' is not indexable");
     }
 }
