@@ -24,6 +24,10 @@ public class FloatClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("negate"), new Negate());
         this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
         this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
+        this.variableScope.declare(true, new IdentifierExpressionNode("lessThan"), new LessThan());
+        this.variableScope.declare(true, new IdentifierExpressionNode("lessThanOrEqualTo"), new LessThanOrEqualTo());
+        this.variableScope.declare(true, new IdentifierExpressionNode("greaterThan"), new GreaterThan());
+        this.variableScope.declare(true, new IdentifierExpressionNode("greaterThanOrEqualTo"), new GreaterThanOrEqualTo());
     }
 
     @Override
@@ -59,6 +63,102 @@ public class FloatClass extends BaseClassExpressionNode {
             BaseClassExpressionNode o = arguments.get(0);
 
             return new BooleanClass(FloatClass.this.equals(o));
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class LessThan extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'lessThan' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode other = arguments.get(0);
+
+            if (other.getType().equals("Float")) {
+                return new BooleanClass(FloatClass.this.value < ((FloatClass) other).value);
+            } else if (other.getType().equals("Integer")) {
+                return new BooleanClass(FloatClass.this.value < ((IntegerClass) other).value);
+            }
+
+            throw new TypeError("Cannot apply binary operator '<' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class LessThanOrEqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'lessThanOrEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode other = arguments.get(0);
+
+            if (other.getType().equals("Float")) {
+                return new BooleanClass(FloatClass.this.value <= ((FloatClass) other).value);
+            } else if (other.getType().equals("Integer")) {
+                return new BooleanClass(FloatClass.this.value <= ((IntegerClass) other).value);
+            }
+
+            throw new TypeError("Cannot apply binary operator '<=' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class GreaterThan extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'greaterThan' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode other = arguments.get(0);
+
+            if (other.getType().equals("Float")) {
+                return new BooleanClass(FloatClass.this.value > ((FloatClass) other).value);
+            } else if (other.getType().equals("Integer")) {
+                return new BooleanClass(FloatClass.this.value > ((IntegerClass) other).value);
+            }
+
+            throw new TypeError("Cannot apply binary operator '>' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
+        }
+
+        @Override
+        public String getType() {
+            return "Function";
+        }
+    }
+
+    public class GreaterThanOrEqualTo extends BaseClassExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw new SyntaxError("Function 'greaterThanOrEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+            }
+
+            BaseClassExpressionNode other = arguments.get(0);
+
+            if (other.getType().equals("Float")) {
+                return new BooleanClass(FloatClass.this.value >= ((FloatClass) other).value);
+            } else if (other.getType().equals("Integer")) {
+                return new BooleanClass(FloatClass.this.value >= ((IntegerClass) other).value);
+            }
+
+            throw new TypeError("Cannot apply binary operator '>=' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
 
         @Override
