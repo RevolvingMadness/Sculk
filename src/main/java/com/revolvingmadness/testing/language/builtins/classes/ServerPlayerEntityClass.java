@@ -29,8 +29,6 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("getViewDistance"), new GetViewDistance());
         this.variableScope.declare(true, new IdentifierExpressionNode("setExperienceLevels"), new SetExperienceLevels());
         this.variableScope.declare(true, new IdentifierExpressionNode("setExperiencePoints"), new SetExperiencePoints());
-        this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
-        this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
     }
 
     @Override
@@ -55,7 +53,7 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         return Objects.hash(super.hashCode(), this.serverPlayerEntity);
     }
 
-    public class ChangeGameMode extends BaseClassExpressionNode {
+    public class ChangeGameMode extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -78,14 +76,9 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class DropSelectedItem extends BaseClassExpressionNode {
+    public class DropSelectedItem extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -102,32 +95,9 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class EqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(ServerPlayerEntityClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class GetIp extends BaseClassExpressionNode {
+    public class GetIp extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -136,14 +106,9 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
 
             return new StringClass(ServerPlayerEntityClass.this.serverPlayerEntity.getIp());
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class GetViewDistance extends BaseClassExpressionNode {
+    public class GetViewDistance extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -152,32 +117,9 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
 
             return new IntegerClass(ServerPlayerEntityClass.this.serverPlayerEntity.getViewDistance());
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class NotEqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(!ServerPlayerEntityClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class SetExperienceLevels extends BaseClassExpressionNode {
+    public class SetExperienceLevels extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -194,14 +136,9 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class SetExperiencePoints extends BaseClassExpressionNode {
+    public class SetExperiencePoints extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -217,11 +154,6 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
             ServerPlayerEntityClass.this.serverPlayerEntity.setExperiencePoints(((IntegerClass) experiencePoints).value);
 
             return new NullClass();
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.revolvingmadness.testing.language.user_defined;
 
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
-import com.revolvingmadness.testing.language.builtins.classes.types.FunctionClass;
+import com.revolvingmadness.testing.language.builtins.classes.BaseFunctionExpressionNode;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.Variable;
@@ -24,7 +24,7 @@ public class UserDefinedClassInstance extends BaseClassExpressionNode {
         if (optionalConstructor.isPresent()) {
             BaseClassExpressionNode constructor = optionalConstructor.get().value;
 
-            if (!(constructor instanceof FunctionClass method)) {
+            if (!(constructor instanceof BaseFunctionExpressionNode method)) {
                 throw new SyntaxError("Constructor cannot be type '" + constructor.getType() + "'");
             }
 

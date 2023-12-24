@@ -1,6 +1,7 @@
 package com.revolvingmadness.testing.language.builtins.classes.types;
 
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
+import com.revolvingmadness.testing.language.builtins.classes.BaseFunctionExpressionNode;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
@@ -14,7 +15,6 @@ public class FloatClass extends BaseClassExpressionNode {
 
     public FloatClass(Double value) {
         this.value = value;
-        this.variableScope.declare(true, new IdentifierExpressionNode("toString"), new ToString());
         this.variableScope.declare(true, new IdentifierExpressionNode("add"), new Add());
         this.variableScope.declare(true, new IdentifierExpressionNode("subtract"), new Subtract());
         this.variableScope.declare(true, new IdentifierExpressionNode("multiply"), new Multiply());
@@ -22,12 +22,11 @@ public class FloatClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("exponentiate"), new Exponentiate());
         this.variableScope.declare(true, new IdentifierExpressionNode("mod"), new Mod());
         this.variableScope.declare(true, new IdentifierExpressionNode("negate"), new Negate());
-        this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
-        this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
         this.variableScope.declare(true, new IdentifierExpressionNode("lessThan"), new LessThan());
         this.variableScope.declare(true, new IdentifierExpressionNode("lessThanOrEqualTo"), new LessThanOrEqualTo());
         this.variableScope.declare(true, new IdentifierExpressionNode("greaterThan"), new GreaterThan());
         this.variableScope.declare(true, new IdentifierExpressionNode("greaterThanOrEqualTo"), new GreaterThanOrEqualTo());
+        this.variableScope.declare(true, new IdentifierExpressionNode("toString"), new ToString());
     }
 
     @Override
@@ -55,7 +54,7 @@ public class FloatClass extends BaseClassExpressionNode {
         return this.value.toString();
     }
 
-    public class Add extends BaseClassExpressionNode {
+    public class Add extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -72,14 +71,9 @@ public class FloatClass extends BaseClassExpressionNode {
 
             throw new TypeError("Cannot apply binary operator '+' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class Divide extends BaseClassExpressionNode {
+    public class Divide extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -96,32 +90,9 @@ public class FloatClass extends BaseClassExpressionNode {
 
             throw new TypeError("Cannot apply binary operator '/' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class EqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(FloatClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class Exponentiate extends BaseClassExpressionNode {
+    public class Exponentiate extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -138,14 +109,9 @@ public class FloatClass extends BaseClassExpressionNode {
 
             throw new TypeError("Cannot apply binary operator '^' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class GreaterThan extends BaseClassExpressionNode {
+    public class GreaterThan extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -162,14 +128,9 @@ public class FloatClass extends BaseClassExpressionNode {
 
             throw new TypeError("Cannot apply binary operator '>' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class GreaterThanOrEqualTo extends BaseClassExpressionNode {
+    public class GreaterThanOrEqualTo extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -186,14 +147,9 @@ public class FloatClass extends BaseClassExpressionNode {
 
             throw new TypeError("Cannot apply binary operator '>=' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class LessThan extends BaseClassExpressionNode {
+    public class LessThan extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -210,14 +166,9 @@ public class FloatClass extends BaseClassExpressionNode {
 
             throw new TypeError("Cannot apply binary operator '<' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class LessThanOrEqualTo extends BaseClassExpressionNode {
+    public class LessThanOrEqualTo extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -234,14 +185,9 @@ public class FloatClass extends BaseClassExpressionNode {
 
             throw new TypeError("Cannot apply binary operator '<=' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class Mod extends BaseClassExpressionNode {
+    public class Mod extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -258,14 +204,9 @@ public class FloatClass extends BaseClassExpressionNode {
 
             throw new TypeError("Cannot apply binary operator '%' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class Multiply extends BaseClassExpressionNode {
+    public class Multiply extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -282,14 +223,9 @@ public class FloatClass extends BaseClassExpressionNode {
 
             throw new TypeError("Cannot apply binary operator '*' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class Negate extends BaseClassExpressionNode {
+    public class Negate extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -298,32 +234,9 @@ public class FloatClass extends BaseClassExpressionNode {
 
             return new FloatClass(-FloatClass.this.value);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class NotEqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(!FloatClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class Subtract extends BaseClassExpressionNode {
+    public class Subtract extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -340,14 +253,9 @@ public class FloatClass extends BaseClassExpressionNode {
 
             throw new TypeError("Cannot apply binary operator '-' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class ToString extends BaseClassExpressionNode {
+    public class ToString extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -355,11 +263,6 @@ public class FloatClass extends BaseClassExpressionNode {
             }
 
             return new StringClass(FloatClass.this.value.toString());
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
         }
     }
 }

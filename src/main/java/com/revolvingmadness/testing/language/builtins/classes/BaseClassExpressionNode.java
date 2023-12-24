@@ -1,6 +1,5 @@
 package com.revolvingmadness.testing.language.builtins.classes;
 
-import com.revolvingmadness.testing.language.builtins.classes.types.FunctionClass;
 import com.revolvingmadness.testing.language.errors.NameError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
@@ -60,7 +59,7 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
         if (optionalVariable.isPresent()) {
             BaseClassExpressionNode property = optionalVariable.get().value;
 
-            if (property instanceof FunctionClass method) {
+            if (property instanceof BaseFunctionExpressionNode method) {
                 method.bind(this, this.superClass);
             }
 
@@ -71,7 +70,13 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
             throw new NameError("Type '" + this.getType() + "' has no property '" + propertyName + "'");
         }
 
-        return this.superClass.getProperty(propertyName);
+        BaseClassExpressionNode superProperty = this.superClass.getProperty(propertyName);
+
+        if (superProperty instanceof BaseFunctionExpressionNode superMethod) {
+            superMethod.bind(this, this.superClass);
+        }
+
+        return superProperty;
     }
 
     public abstract String getType();

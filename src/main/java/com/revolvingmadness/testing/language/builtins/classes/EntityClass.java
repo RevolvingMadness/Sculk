@@ -66,8 +66,6 @@ public class EntityClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("shouldDismountUnderwater"), new ShouldDismountUnderwater());
         this.variableScope.declare(true, new IdentifierExpressionNode("stopRiding"), new StopRiding());
         this.variableScope.declare(true, new IdentifierExpressionNode("teleport"), new Teleport());
-        this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
-        this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
     }
 
     @Override
@@ -92,7 +90,7 @@ public class EntityClass extends BaseClassExpressionNode {
         return Objects.hash(super.hashCode(), this.entity);
     }
 
-    public class AddCommandTag extends BaseClassExpressionNode {
+    public class AddCommandTag extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -109,14 +107,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class DismountVehicle extends BaseClassExpressionNode {
+    public class DismountVehicle extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -127,32 +120,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class EqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(EntityClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class GetBlockPos extends BaseClassExpressionNode {
+    public class GetBlockPos extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -163,14 +133,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new Vec3dClass(blockPos.toCenterPos());
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class GetBlockX extends BaseClassExpressionNode {
+    public class GetBlockX extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -181,14 +146,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new IntegerClass(blockX);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class GetBlockY extends BaseClassExpressionNode {
+    public class GetBlockY extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -199,14 +159,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new IntegerClass(blockY);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class GetBlockZ extends BaseClassExpressionNode {
+    public class GetBlockZ extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -217,14 +172,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new IntegerClass(blockZ);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class GetX extends BaseClassExpressionNode {
+    public class GetX extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -235,14 +185,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new FloatClass(x);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class GetY extends BaseClassExpressionNode {
+    public class GetY extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -253,14 +198,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new FloatClass(y);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class GetZ extends BaseClassExpressionNode {
+    public class GetZ extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -271,14 +211,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new FloatClass(z);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class HasVehicle extends BaseClassExpressionNode {
+    public class HasVehicle extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -289,14 +224,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(hasVehicle);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsCrawling extends BaseClassExpressionNode {
+    public class IsCrawling extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -307,14 +237,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isCrawling);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsDescending extends BaseClassExpressionNode {
+    public class IsDescending extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -325,14 +250,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isDescending);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsFireImmune extends BaseClassExpressionNode {
+    public class IsFireImmune extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -343,14 +263,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isFireImmune);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsFrozen extends BaseClassExpressionNode {
+    public class IsFrozen extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -361,14 +276,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isFrozen);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsGlowing extends BaseClassExpressionNode {
+    public class IsGlowing extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -379,14 +289,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isGlowing);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsInFluid extends BaseClassExpressionNode {
+    public class IsInFluid extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -397,14 +302,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isInFluid);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsInLava extends BaseClassExpressionNode {
+    public class IsInLava extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -415,14 +315,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isInLava);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsInsideWall extends BaseClassExpressionNode {
+    public class IsInsideWall extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -433,14 +328,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isInsideWall);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsInvisible extends BaseClassExpressionNode {
+    public class IsInvisible extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -451,14 +341,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isInvisible);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsInvulnerable extends BaseClassExpressionNode {
+    public class IsInvulnerable extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -469,14 +354,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isInvulnerable);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsOnFire extends BaseClassExpressionNode {
+    public class IsOnFire extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -487,14 +367,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isOnFire);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsOnGround extends BaseClassExpressionNode {
+    public class IsOnGround extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -505,14 +380,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isOnGround);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsOnRail extends BaseClassExpressionNode {
+    public class IsOnRail extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -523,14 +393,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isOnRail);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsSilent extends BaseClassExpressionNode {
+    public class IsSilent extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -541,14 +406,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isSilent);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsSneaking extends BaseClassExpressionNode {
+    public class IsSneaking extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -559,14 +419,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isSneaking);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsSprinting extends BaseClassExpressionNode {
+    public class IsSprinting extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -577,14 +432,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isSprinting);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsSwimming extends BaseClassExpressionNode {
+    public class IsSwimming extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -595,14 +445,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isSwimming);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsTouchingWater extends BaseClassExpressionNode {
+    public class IsTouchingWater extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -613,14 +458,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isTouchingWater);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsTouchingWaterOrRain extends BaseClassExpressionNode {
+    public class IsTouchingWaterOrRain extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -631,14 +471,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isTouchingWaterOrRain);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class IsWet extends BaseClassExpressionNode {
+    public class IsWet extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -649,14 +484,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(isWet);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class Kill extends BaseClassExpressionNode {
+    public class Kill extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -667,32 +497,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class NotEqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(!EntityClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class RemoveAllPassengers extends BaseClassExpressionNode {
+    public class RemoveAllPassengers extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -703,14 +510,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class ResetPortalCooldown extends BaseClassExpressionNode {
+    public class ResetPortalCooldown extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -721,14 +523,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class SendMessage extends BaseClassExpressionNode {
+    public class SendMessage extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -745,14 +542,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class SetInvisible extends BaseClassExpressionNode {
+    public class SetInvisible extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -769,14 +561,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class SetInvulnerable extends BaseClassExpressionNode {
+    public class SetInvulnerable extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -793,14 +580,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class SetNoGravity extends BaseClassExpressionNode {
+    public class SetNoGravity extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -817,14 +599,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class SetOnFire extends BaseClassExpressionNode {
+    public class SetOnFire extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -841,14 +618,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class SetOnGround extends BaseClassExpressionNode {
+    public class SetOnGround extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -865,14 +637,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class SetPortalCooldown extends BaseClassExpressionNode {
+    public class SetPortalCooldown extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -889,14 +656,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class SetPos extends BaseClassExpressionNode {
+    public class SetPos extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 3) {
@@ -925,14 +687,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class SetSilent extends BaseClassExpressionNode {
+    public class SetSilent extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -949,14 +706,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class SetSneaking extends BaseClassExpressionNode {
+    public class SetSneaking extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -973,14 +725,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class SetSprinting extends BaseClassExpressionNode {
+    public class SetSprinting extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -997,14 +744,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class SetSwimming extends BaseClassExpressionNode {
+    public class SetSwimming extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1021,14 +763,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class ShouldDismountUnderwater extends BaseClassExpressionNode {
+    public class ShouldDismountUnderwater extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -1039,14 +776,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new BooleanClass(shouldDismountUnderwater);
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class StopRiding extends BaseClassExpressionNode {
+    public class StopRiding extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -1057,14 +789,9 @@ public class EntityClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    public class Teleport extends BaseClassExpressionNode {
+    public class Teleport extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 3) {
@@ -1092,11 +819,6 @@ public class EntityClass extends BaseClassExpressionNode {
             EntityClass.this.entity.teleport(((FloatClass) destX).value, ((FloatClass) destY).value, ((FloatClass) destZ).value);
 
             return new NullClass();
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
         }
     }
 }

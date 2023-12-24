@@ -40,7 +40,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         return ObjectClass.class.hashCode();
     }
 
-    public class Add extends BaseClassExpressionNode {
+    public class Add extends BaseFunctionExpressionNode {
         public Add() {
             super(ObjectClass.this);
         }
@@ -53,16 +53,11 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply binary operator '+' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
+            throw new TypeError("Cannot apply binary operator '+' to types '" + this.boundClass.getType() + "' and '" + other.getType() + "'");
         }
     }
 
-    public class Divide extends BaseClassExpressionNode {
+    public class Divide extends BaseFunctionExpressionNode {
         public Divide() {
             super(ObjectClass.this);
         }
@@ -75,16 +70,11 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply binary operator '/' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
+            throw new TypeError("Cannot apply binary operator '/' to types '" + this.boundClass.getType() + "' and '" + other.getType() + "'");
         }
     }
 
-    public class EqualTo extends BaseClassExpressionNode {
+    public class EqualTo extends BaseFunctionExpressionNode {
         public EqualTo() {
             super(ObjectClass.this);
         }
@@ -97,16 +87,11 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode o = arguments.get(0);
 
-            return new BooleanClass(ObjectClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
+            return new BooleanClass(this.boundClass.equals(o));
         }
     }
 
-    public class Exponentiate extends BaseClassExpressionNode {
+    public class Exponentiate extends BaseFunctionExpressionNode {
         public Exponentiate() {
             super(ObjectClass.this);
         }
@@ -119,16 +104,11 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply binary operator '^' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
+            throw new TypeError("Cannot apply binary operator '^' to types '" + this.boundClass.getType() + "' and '" + other.getType() + "'");
         }
     }
 
-    public class InstanceOf extends BaseClassExpressionNode {
+    public class InstanceOf extends BaseFunctionExpressionNode {
         public InstanceOf() {
             super(ObjectClass.this);
         }
@@ -141,16 +121,11 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode o = arguments.get(0);
 
-            return new BooleanClass(ObjectClass.this.instanceOf(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
+            return new BooleanClass(this.boundClass.instanceOf(o));
         }
     }
 
-    public class Mod extends BaseClassExpressionNode {
+    public class Mod extends BaseFunctionExpressionNode {
         public Mod() {
             super(ObjectClass.this);
         }
@@ -163,16 +138,11 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply binary operator '%' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
+            throw new TypeError("Cannot apply binary operator '%' to types '" + this.boundClass.getType() + "' and '" + other.getType() + "'");
         }
     }
 
-    public class Multiply extends BaseClassExpressionNode {
+    public class Multiply extends BaseFunctionExpressionNode {
         public Multiply() {
             super(ObjectClass.this);
         }
@@ -185,16 +155,11 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply binary operator '*' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
+            throw new TypeError("Cannot apply binary operator '*' to types '" + this.boundClass.getType() + "' and '" + other.getType() + "'");
         }
     }
 
-    public class Negate extends BaseClassExpressionNode {
+    public class Negate extends BaseFunctionExpressionNode {
         public Negate() {
             super(ObjectClass.this);
         }
@@ -205,16 +170,11 @@ public class ObjectClass extends BaseClassExpressionNode {
                 throw new SyntaxError("Function 'negate' requires 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            throw new SyntaxError("Cannot apply unary operator '-' to type '" + ObjectClass.this.getType() + "'");
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
+            throw new SyntaxError("Cannot apply unary operator '-' to type '" + this.boundClass.getType() + "'");
         }
     }
 
-    public class NotEqualTo extends BaseClassExpressionNode {
+    public class NotEqualTo extends BaseFunctionExpressionNode {
         public NotEqualTo() {
             super(ObjectClass.this);
         }
@@ -227,16 +187,11 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode o = arguments.get(0);
 
-            return new BooleanClass(!ObjectClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
+            return new BooleanClass(!this.boundClass.equals(o));
         }
     }
 
-    public class Subtract extends BaseClassExpressionNode {
+    public class Subtract extends BaseFunctionExpressionNode {
         public Subtract() {
             super(ObjectClass.this);
         }
@@ -249,16 +204,11 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply binary operator '-' to types '" + ObjectClass.this.getType() + "' and '" + other.getType() + "'");
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
+            throw new TypeError("Cannot apply binary operator '-' to types '" + this.boundClass.getType() + "' and '" + other.getType() + "'");
         }
     }
 
-    public class ToString extends BaseClassExpressionNode {
+    public class ToString extends BaseFunctionExpressionNode {
         public ToString() {
             super(ObjectClass.this);
         }
@@ -269,12 +219,7 @@ public class ObjectClass extends BaseClassExpressionNode {
                 throw new SyntaxError("Function 'toString' requires 0 arguments but got " + arguments.size() + " argument(s)");
             }
 
-            return new StringClass("<Class '" + ObjectClass.this.getType() + "'>");
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
+            return new StringClass("<Class '" + this.boundClass.getType() + "'>");
         }
     }
 }

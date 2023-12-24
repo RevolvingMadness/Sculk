@@ -26,8 +26,6 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, new IdentifierExpressionNode("isHardcore"), new MinecraftServerClass.IsHardcoreFunction());
         this.variableScope.declare(true, new IdentifierExpressionNode("areCommandBlocksEnabled"), new AreCommandBlocksEnabledFunction());
         this.variableScope.declare(true, new IdentifierExpressionNode("setDifficulty"), new SetDifficulty());
-        this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
-        this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
     }
 
     @Override
@@ -45,7 +43,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
         return MinecraftServerClass.class.hashCode();
     }
 
-    private static class AreCommandBlocksEnabledFunction extends BaseClassExpressionNode {
+    private static class AreCommandBlocksEnabledFunction extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -54,14 +52,9 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
             return new BooleanClass(Testing.server.areCommandBlocksEnabled());
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    private static class GetServerIpFunction extends BaseClassExpressionNode {
+    private static class GetServerIpFunction extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -70,14 +63,9 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
             return new StringClass(Testing.server.getServerIp());
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    private static class GetServerPortFunction extends BaseClassExpressionNode {
+    private static class GetServerPortFunction extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -86,14 +74,9 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
             return new IntegerClass(Testing.server.getServerPort());
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    private static class IsFlightEnabledFunction extends BaseClassExpressionNode {
+    private static class IsFlightEnabledFunction extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -102,14 +85,9 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
             return new BooleanClass(Testing.server.isFlightEnabled());
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    private static class IsHardcoreFunction extends BaseClassExpressionNode {
+    private static class IsHardcoreFunction extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -118,14 +96,9 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
             return new BooleanClass(Testing.server.isHardcore());
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    private static class IsNetherEnabledFunction extends BaseClassExpressionNode {
+    private static class IsNetherEnabledFunction extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -134,14 +107,9 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
             return new BooleanClass(Testing.server.isNetherAllowed());
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    private static class IsPVPEnabledFunction extends BaseClassExpressionNode {
+    private static class IsPVPEnabledFunction extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -150,14 +118,9 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
             return new BooleanClass(Testing.server.isPvpEnabled());
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    private static class SetDifficulty extends BaseClassExpressionNode {
+    private static class SetDifficulty extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -180,14 +143,9 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    private static class SetDifficultyLocked extends BaseClassExpressionNode {
+    private static class SetDifficultyLocked extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -204,14 +162,9 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
 
             return new NullClass();
         }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
     }
 
-    private static class SetPVPEnabled extends BaseClassExpressionNode {
+    private static class SetPVPEnabled extends BaseFunctionExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -227,47 +180,6 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
             Testing.server.setPvpEnabled(((BooleanClass) pvpEnabled).value);
 
             return new NullClass();
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class EqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(MinecraftServerClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
-        }
-    }
-
-    public class NotEqualTo extends BaseClassExpressionNode {
-        @Override
-        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-            if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
-            }
-
-            BaseClassExpressionNode o = arguments.get(0);
-
-            return new BooleanClass(!MinecraftServerClass.this.equals(o));
-        }
-
-        @Override
-        public String getType() {
-            return "Function";
         }
     }
 }
