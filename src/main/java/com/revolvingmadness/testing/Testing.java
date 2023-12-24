@@ -36,5 +36,6 @@ public class Testing implements ModInitializer {
         Testing.keywords.put("extends", TokenType.EXTENDS);
         Testing.keywords.put("else", TokenType.ELSE);
         Testing.keywords.put("instanceof", TokenType.INSTANCE_OF);
+        Testing.keywords.put("static", TokenType.STATIC);
     }
 }

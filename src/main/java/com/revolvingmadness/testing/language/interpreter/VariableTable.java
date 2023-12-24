@@ -9,7 +9,9 @@ import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunction
 import com.revolvingmadness.testing.language.builtins.functions.types.TypeFunction;
 import com.revolvingmadness.testing.language.errors.NameError;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
+import com.revolvingmadness.testing.language.lexer.TokenType;
 
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Optional;
 import java.util.Stack;
@@ -39,7 +41,11 @@ public class VariableTable {
     }
 
     public void declare(boolean isConstant, String name, BaseClassExpressionNode value) {
-        this.variableScopes.peek().declare(isConstant, name, value);
+        this.declare(List.of(), isConstant, name, value);
+    }
+
+    public void declare(List<TokenType> accessModifiers, boolean isConstant, String name, BaseClassExpressionNode value) {
+        this.variableScopes.peek().declare(accessModifiers, isConstant, name, value);
     }
 
     private void declareClasses() {

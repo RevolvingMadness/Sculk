@@ -175,6 +175,42 @@ public class LangParser {
         return expression;
     }
 
+    private List<StatementNode> parseClassBody() {
+        this.consume(TokenType.LEFT_BRACE, "Expected opening brace after class name");
+
+        List<TokenType> accessModifiers = new ArrayList<>();
+
+        while (this.position < this.input.size() && this.current().isAccessModifier()) {
+            accessModifiers.add(this.consume().type);
+        }
+
+        List<StatementNode> body = new ArrayList<>();
+
+        while (this.position < this.input.size() && !this.current(TokenType.RIGHT_BRACE)) {
+            if (this.current(TokenType.FUNCTION)) {
+                StatementNode statement = this.parseMethodDeclarationStatement(accessModifiers);
+
+                if (this.current(TokenType.SEMICOLON)) {
+                    this.consume();
+                }
+
+                body.add(statement);
+            } else if (this.current(TokenType.VAR)) {
+                StatementNode statement = this.parseFieldDeclarationStatement(accessModifiers);
+
+                this.consume(TokenType.SEMICOLON, "Expected semicolon");
+
+                body.add(statement);
+            } else {
+                throw new SyntaxError("Expected class element");
+            }
+        }
+
+        this.consume(TokenType.RIGHT_BRACE, "Expected closing brace after class body");
+
+        return body;
+    }
+
     private StatementNode parseClassDeclarationStatement() {
         boolean isConstant = false;
 
@@ -194,15 +230,7 @@ public class LangParser {
             superClassName = (String) this.consume(TokenType.IDENTIFIER, "Expected super class name").value;
         }
 
-        this.consume(TokenType.LEFT_BRACE, "Expected opening brace after class name");
-
-        List<StatementNode> body = new ArrayList<>();
-
-        while (this.position < this.input.size() && !this.current(TokenType.RIGHT_BRACE)) {
-            body.add(this.parseDeclarationStatement());
-        }
-
-        this.consume(TokenType.RIGHT_BRACE, "Expected closing brace after class methods");
+        List<StatementNode> body = this.parseClassBody();
 
         return new ClassDeclarationStatementNode(isConstant, name, superClassName, body);
     }
@@ -243,6 +271,11 @@ public class LangParser {
 
     private StatementNode parseDeclarationStatement() {
         StatementNode statement;
+        List<TokenType> accessModifiers = new ArrayList<>();
+
+        while (this.position < this.input.size() && this.current().isAccessModifier()) {
+            accessModifiers.add(this.consume().type);
+        }
 
         if (this.current(TokenType.FUNCTION) || (this.current(TokenType.CONST) && this.next(TokenType.FUNCTION))) {
             statement = this.parseFunctionDeclarationStatement();
@@ -258,6 +291,10 @@ public class LangParser {
             statement = this.parseVariableDeclarationStatement();
             this.consume(TokenType.SEMICOLON, "Expected semicolon after variable declaration statement");
         } else {
+            if (accessModifiers.size() > 0) {
+                throw new SyntaxError("Cannot apply access modifiers to expression");
+            }
+
             statement = this.parseExpressionStatement();
             this.consume(TokenType.SEMICOLON, "Expected semicolon after expression statement");
         }
@@ -337,6 +374,29 @@ public class LangParser {
         ExpressionNode expression = this.parseExpression();
 
         return new ExpressionStatementNode(expression);
+    }
+
+    private FieldDeclarationStatementNode parseFieldDeclarationStatement(List<TokenType> accessModifiers) {
+        boolean isConstant = false;
+
+        if (this.current(TokenType.CONST)) {
+            this.consume();
+            isConstant = true;
+        }
+
+        this.consume(TokenType.VAR, "Expected 'var' keyword");
+
+        String name = (String) this.consume(TokenType.IDENTIFIER, "Expected variable name").value;
+
+        if (this.current(TokenType.SEMICOLON)) {
+            return new FieldDeclarationStatementNode(accessModifiers, isConstant, name, new NullClass());
+        }
+
+        this.consume(TokenType.EQUALS, "Expected equals after variable name");
+
+        ExpressionNode expression = this.parseExpression();
+
+        return new FieldDeclarationStatementNode(accessModifiers, isConstant, name, expression);
     }
 
     private StatementNode parseForStatement() {
@@ -513,6 +573,34 @@ public class LangParser {
         this.consume(TokenType.RIGHT_BRACKET, "Expected closing bracket for list");
 
         return new ListExpressionNode(elements);
+    }
+
+    private MethodDeclarationStatementNode parseMethodDeclarationStatement(List<TokenType> accessModifiers) {
+        this.consume();
+
+        String name = (String) this.consume(TokenType.IDENTIFIER, "Expected method name").value;
+
+        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after method name");
+
+        List<String> arguments = new ArrayList<>();
+
+        if (this.current(TokenType.IDENTIFIER)) {
+            String argumentName = (String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value;
+            arguments.add(argumentName);
+        }
+
+        while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
+            this.consume();
+
+            String argumentName = (String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value;
+            arguments.add(argumentName);
+        }
+
+        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after method arguments");
+
+        List<StatementNode> body = this.parseBody();
+
+        return new MethodDeclarationStatementNode(accessModifiers, name, arguments, body);
     }
 
     private ExpressionNode parseMultiplicativeExpression() {

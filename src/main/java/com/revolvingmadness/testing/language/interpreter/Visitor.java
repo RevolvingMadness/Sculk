@@ -22,6 +22,8 @@ public interface Visitor {
 
     void visitExpressionStatement(ExpressionStatementNode expressionStatement);
 
+    void visitFieldDeclarationStatement(FieldDeclarationStatementNode fieldDeclarationStatement);
+
     void visitForStatement(ForStatementNode forStatement);
 
     void visitFunctionDeclarationStatement(FunctionDeclarationStatementNode functionDeclarationStatement);
@@ -35,6 +37,8 @@ public interface Visitor {
     BaseClassExpressionNode visitIndexExpression(IndexExpressionNode indexExpression);
 
     BaseClassExpressionNode visitListExpression(ListExpressionNode listExpression);
+
+    void visitMethodDeclarationStatement(MethodDeclarationStatementNode methodDeclarationStatement);
 
     BaseClassExpressionNode visitPostfixExpression(PostfixExpressionNode postfixExpression);
 

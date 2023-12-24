@@ -58,7 +58,7 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
         if (optionalVariable.isPresent()) {
             BaseClassExpressionNode property = optionalVariable.get().value;
 
-            if (property instanceof BaseFunctionExpressionNode method) {
+            if (property instanceof BaseMethodExpressionNode method) {
                 method.bind(this, this.superClass);
             }
 
@@ -71,7 +71,7 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
 
         BaseClassExpressionNode superProperty = this.superClass.getProperty(propertyName);
 
-        if (superProperty instanceof BaseFunctionExpressionNode superMethod) {
+        if (superProperty instanceof BaseMethodExpressionNode superMethod) {
             superMethod.bind(this, this.superClass);
         }
 

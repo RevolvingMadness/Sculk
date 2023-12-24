@@ -3,6 +3,7 @@ package com.revolvingmadness.testing.language.interpreter;
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
 import com.revolvingmadness.testing.language.errors.NameError;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
+import com.revolvingmadness.testing.language.lexer.TokenType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,14 +33,19 @@ public class VariableScope implements Serializable {
         variable.value = value;
     }
 
+    // TODO to be removed and make access modifiers required
     public void declare(boolean isConstant, String name, BaseClassExpressionNode value) {
+        this.declare(List.of(), isConstant, name, value);
+    }
+
+    public void declare(List<TokenType> accessModifiers, boolean isConstant, String name, BaseClassExpressionNode value) {
         Optional<Variable> optionalVariable = this.getOptional(name);
 
         if (optionalVariable.isPresent()) {
             throw new ValueError("Variable '" + name + "' has already been declared");
         }
 
-        this.variables.add(new Variable(isConstant, name, value));
+        this.variables.add(new Variable(accessModifiers, isConstant, name, value));
     }
 
     public Optional<Variable> getOptional(String name) {

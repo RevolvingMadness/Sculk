@@ -39,7 +39,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         return ObjectClass.class.hashCode();
     }
 
-    public class Add extends BaseFunctionExpressionNode {
+    public class Add extends BaseMethodExpressionNode {
         public Add() {
             super(ObjectClass.this);
         }
@@ -56,7 +56,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         }
     }
 
-    public class Divide extends BaseFunctionExpressionNode {
+    public class Divide extends BaseMethodExpressionNode {
         public Divide() {
             super(ObjectClass.this);
         }
@@ -73,7 +73,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         }
     }
 
-    public class EqualTo extends BaseFunctionExpressionNode {
+    public class EqualTo extends BaseMethodExpressionNode {
         public EqualTo() {
             super(ObjectClass.this);
         }
@@ -90,7 +90,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         }
     }
 
-    public class Exponentiate extends BaseFunctionExpressionNode {
+    public class Exponentiate extends BaseMethodExpressionNode {
         public Exponentiate() {
             super(ObjectClass.this);
         }
@@ -107,7 +107,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         }
     }
 
-    public class InstanceOf extends BaseFunctionExpressionNode {
+    public class InstanceOf extends BaseMethodExpressionNode {
         public InstanceOf() {
             super(ObjectClass.this);
         }
@@ -124,7 +124,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         }
     }
 
-    public class Mod extends BaseFunctionExpressionNode {
+    public class Mod extends BaseMethodExpressionNode {
         public Mod() {
             super(ObjectClass.this);
         }
@@ -141,7 +141,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         }
     }
 
-    public class Multiply extends BaseFunctionExpressionNode {
+    public class Multiply extends BaseMethodExpressionNode {
         public Multiply() {
             super(ObjectClass.this);
         }
@@ -158,7 +158,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         }
     }
 
-    public class Negate extends BaseFunctionExpressionNode {
+    public class Negate extends BaseMethodExpressionNode {
         public Negate() {
             super(ObjectClass.this);
         }
@@ -173,7 +173,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         }
     }
 
-    public class NotEqualTo extends BaseFunctionExpressionNode {
+    public class NotEqualTo extends BaseMethodExpressionNode {
         public NotEqualTo() {
             super(ObjectClass.this);
         }
@@ -190,7 +190,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         }
     }
 
-    public class Subtract extends BaseFunctionExpressionNode {
+    public class Subtract extends BaseMethodExpressionNode {
         public Subtract() {
             super(ObjectClass.this);
         }
@@ -207,7 +207,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         }
     }
 
-    public class ToString extends BaseFunctionExpressionNode {
+    public class ToString extends BaseMethodExpressionNode {
         public ToString() {
             super(ObjectClass.this);
         }

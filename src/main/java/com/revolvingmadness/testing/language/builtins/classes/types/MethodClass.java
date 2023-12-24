@@ -3,7 +3,7 @@ package com.revolvingmadness.testing.language.builtins.classes.types;
 import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.gamerules.TestingGamerules;
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
-import com.revolvingmadness.testing.language.builtins.classes.BaseFunctionExpressionNode;
+import com.revolvingmadness.testing.language.builtins.classes.BaseMethodExpressionNode;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.MaxArgumentError;
@@ -14,12 +14,12 @@ import org.apache.commons.lang3.NotImplementedException;
 import java.util.List;
 import java.util.Objects;
 
-public class FunctionClass extends BaseFunctionExpressionNode {
+public class MethodClass extends BaseMethodExpressionNode {
     public final List<String> arguments;
     public final List<StatementNode> body;
     public final String name;
 
-    public FunctionClass(String name, List<String> arguments, List<StatementNode> body) {
+    public MethodClass(String name, List<String> arguments, List<StatementNode> body) {
         this.name = name;
         this.arguments = arguments;
         this.body = body;
@@ -47,6 +47,14 @@ public class FunctionClass extends BaseFunctionExpressionNode {
             argumentNumber++;
         }
 
+        if (this.boundClass != null) {
+            interpreter.variableTable.declare(true, "this", this.boundClass);
+        }
+
+        if (this.boundSuperClass != null) {
+            interpreter.variableTable.declare(true, "super", this.boundSuperClass);
+        }
+
         try {
             this.body.forEach(interpreter::visitStatement);
         } catch (Return returnException) {
@@ -67,7 +75,7 @@ public class FunctionClass extends BaseFunctionExpressionNode {
             return false;
         if (!super.equals(o))
             return false;
-        FunctionClass that = (FunctionClass) o;
+        MethodClass that = (MethodClass) o;
         return Objects.equals(this.arguments, that.arguments) && Objects.equals(this.body, that.body) && Objects.equals(this.name, that.name);
     }
 

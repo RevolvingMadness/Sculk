@@ -14,6 +14,10 @@ public class Token {
         this.value = null;
     }
 
+    public boolean isAccessModifier() {
+        return this.type == TokenType.STATIC;
+    }
+
     public boolean isAdditiveOperator() {
         return this.type == TokenType.PLUS || this.type == TokenType.HYPHEN;
     }

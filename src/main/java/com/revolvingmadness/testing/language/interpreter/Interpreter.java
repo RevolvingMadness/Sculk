@@ -4,10 +4,7 @@ import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.gamerules.TestingGamerules;
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
 import com.revolvingmadness.testing.language.builtins.classes.ObjectClass;
-import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass;
-import com.revolvingmadness.testing.language.builtins.classes.types.DictionaryClass;
-import com.revolvingmadness.testing.language.builtins.classes.types.FunctionClass;
-import com.revolvingmadness.testing.language.builtins.classes.types.ListClass;
+import com.revolvingmadness.testing.language.builtins.classes.types.*;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.errors.StackOverflowError;
@@ -150,6 +147,13 @@ public class Interpreter implements Visitor {
     }
 
     @Override
+    public void visitFieldDeclarationStatement(FieldDeclarationStatementNode fieldDeclarationStatement) {
+        BaseClassExpressionNode value = this.visitExpression(fieldDeclarationStatement.value);
+
+        this.variableTable.declare(fieldDeclarationStatement.accessModifiers, fieldDeclarationStatement.isConstant, fieldDeclarationStatement.name, value);
+    }
+
+    @Override
     public void visitForStatement(ForStatementNode forStatement) {
         int loops = 0;
         long maxLoops = Testing.server.getGameRules().getInt(TestingGamerules.MAX_LOOPS);
@@ -261,6 +265,11 @@ public class Interpreter implements Visitor {
     }
 
     @Override
+    public void visitMethodDeclarationStatement(MethodDeclarationStatementNode methodDeclarationStatement) {
+        this.variableTable.declare(true, methodDeclarationStatement.name, new MethodClass(methodDeclarationStatement.name, methodDeclarationStatement.arguments, methodDeclarationStatement.body));
+    }
+
+    @Override
     public BaseClassExpressionNode visitPostfixExpression(PostfixExpressionNode postfixExpression) {
         BaseClassExpressionNode expression = this.visitExpression(postfixExpression.expression);
 
@@ -306,6 +315,10 @@ public class Interpreter implements Visitor {
             this.visitVariableDeclarationStatement(variableDeclarationStatement);
         } else if (statement instanceof WhileStatementNode whileStatement) {
             this.visitWhileStatement(whileStatement);
+        } else if (statement instanceof MethodDeclarationStatementNode methodDeclarationStatement) {
+            this.visitMethodDeclarationStatement(methodDeclarationStatement);
+        } else if (statement instanceof FieldDeclarationStatementNode fieldDeclarationStatement) {
+            this.visitFieldDeclarationStatement(fieldDeclarationStatement);
         } else {
             throw new InterpreterError("Unsupported node to interpret '" + statement.getClass().getSimpleName() + "'");
         }
