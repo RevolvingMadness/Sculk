@@ -178,16 +178,16 @@ public class LangParser {
     private List<StatementNode> parseClassBody() {
         this.consume(TokenType.LEFT_BRACE, "Expected opening brace after class name");
 
-        List<TokenType> accessModifiers = new ArrayList<>();
-
-        while (this.position < this.input.size() && this.current().isAccessModifier()) {
-            accessModifiers.add(this.consume().type);
-        }
-
         List<StatementNode> body = new ArrayList<>();
 
         while (this.position < this.input.size() && !this.current(TokenType.RIGHT_BRACE)) {
-            if (this.current(TokenType.FUNCTION)) {
+            List<TokenType> accessModifiers = new ArrayList<>();
+
+            while (this.position < this.input.size() && this.current().isAccessModifier()) {
+                accessModifiers.add(this.consume().type);
+            }
+
+            if (this.current(TokenType.FUNCTION) || (this.current(TokenType.CONST) && this.next(TokenType.FUNCTION))) {
                 StatementNode statement = this.parseMethodDeclarationStatement(accessModifiers);
 
                 if (this.current(TokenType.SEMICOLON)) {
@@ -195,7 +195,7 @@ public class LangParser {
                 }
 
                 body.add(statement);
-            } else if (this.current(TokenType.VAR)) {
+            } else if (this.current(TokenType.VAR) || (this.current(TokenType.CONST) && this.next(TokenType.VAR))) {
                 StatementNode statement = this.parseFieldDeclarationStatement(accessModifiers);
 
                 this.consume(TokenType.SEMICOLON, "Expected semicolon");
@@ -567,6 +567,13 @@ public class LangParser {
     }
 
     private MethodDeclarationStatementNode parseMethodDeclarationStatement(List<TokenType> accessModifiers) {
+        boolean isConstant = false;
+
+        if (this.current(TokenType.CONST)) {
+            this.consume();
+            isConstant = true;
+        }
+
         this.consume();
 
         String name = (String) this.consume(TokenType.IDENTIFIER, "Expected method name").value;
@@ -591,7 +598,7 @@ public class LangParser {
 
         List<StatementNode> body = this.parseBody();
 
-        return new MethodDeclarationStatementNode(accessModifiers, name, arguments, body);
+        return new MethodDeclarationStatementNode(accessModifiers, isConstant, name, arguments, body);
     }
 
     private ExpressionNode parseMultiplicativeExpression() {

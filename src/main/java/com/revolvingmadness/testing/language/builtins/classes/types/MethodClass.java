@@ -8,6 +8,7 @@ import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.MaxArgumentError;
 import com.revolvingmadness.testing.language.interpreter.errors.Return;
+import com.revolvingmadness.testing.language.lexer.TokenType;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.StatementNode;
 import org.apache.commons.lang3.NotImplementedException;
 
@@ -18,8 +19,12 @@ public class MethodClass extends BaseMethodExpressionNode {
     public final List<String> arguments;
     public final List<StatementNode> body;
     public final String name;
+    public final List<TokenType> accessModifiers;
+    public final boolean isConstant;
 
-    public MethodClass(String name, List<String> arguments, List<StatementNode> body) {
+    public MethodClass(List<TokenType> accessModifiers, boolean isConstant, String name, List<String> arguments, List<StatementNode> body) {
+        this.accessModifiers = accessModifiers;
+        this.isConstant = isConstant;
         this.name = name;
         this.arguments = arguments;
         this.body = body;

@@ -10,9 +10,11 @@ public class MethodDeclarationStatementNode extends StatementNode {
     public final List<String> arguments;
     public final List<StatementNode> body;
     public final String name;
+    public final boolean isConstant;
 
-    public MethodDeclarationStatementNode(List<TokenType> accessModifiers, String name, List<String> arguments, List<StatementNode> body) {
+    public MethodDeclarationStatementNode(List<TokenType> accessModifiers, boolean isConstant, String name, List<String> arguments, List<StatementNode> body) {
         this.accessModifiers = accessModifiers;
+        this.isConstant = isConstant;
         this.name = name;
         this.arguments = arguments;
         this.body = body;

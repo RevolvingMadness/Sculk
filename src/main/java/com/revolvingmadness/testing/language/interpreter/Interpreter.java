@@ -266,7 +266,7 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visitMethodDeclarationStatement(MethodDeclarationStatementNode methodDeclarationStatement) {
-        this.variableTable.declare(true, methodDeclarationStatement.name, new MethodClass(methodDeclarationStatement.name, methodDeclarationStatement.arguments, methodDeclarationStatement.body));
+        this.variableTable.declare(methodDeclarationStatement.isConstant, methodDeclarationStatement.name, new MethodClass(methodDeclarationStatement.accessModifiers, methodDeclarationStatement.isConstant, methodDeclarationStatement.name, methodDeclarationStatement.arguments, methodDeclarationStatement.body));
     }
 
     @Override
