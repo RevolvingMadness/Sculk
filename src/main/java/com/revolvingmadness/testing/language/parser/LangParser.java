@@ -271,11 +271,6 @@ public class LangParser {
 
     private StatementNode parseDeclarationStatement() {
         StatementNode statement;
-        List<TokenType> accessModifiers = new ArrayList<>();
-
-        while (this.position < this.input.size() && this.current().isAccessModifier()) {
-            accessModifiers.add(this.consume().type);
-        }
 
         if (this.current(TokenType.FUNCTION) || (this.current(TokenType.CONST) && this.next(TokenType.FUNCTION))) {
             statement = this.parseFunctionDeclarationStatement();
@@ -291,10 +286,6 @@ public class LangParser {
             statement = this.parseVariableDeclarationStatement();
             this.consume(TokenType.SEMICOLON, "Expected semicolon after variable declaration statement");
         } else {
-            if (accessModifiers.size() > 0) {
-                throw new SyntaxError("Cannot apply access modifiers to expression");
-            }
-
             statement = this.parseExpressionStatement();
             this.consume(TokenType.SEMICOLON, "Expected semicolon after expression statement");
         }
