@@ -9,23 +9,22 @@ import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.world.Difficulty;
 
 import java.util.List;
 
 public class MinecraftServerClass extends BaseClassExpressionNode {
     public MinecraftServerClass() {
-        this.variableScope.declare(true, new IdentifierExpressionNode("setPVPEnabled"), new SetPVPEnabled());
-        this.variableScope.declare(true, new IdentifierExpressionNode("setDifficultyLocked"), new SetDifficultyLocked());
-        this.variableScope.declare(true, new IdentifierExpressionNode("isPVPEnabled"), new MinecraftServerClass.IsPVPEnabledFunction());
-        this.variableScope.declare(true, new IdentifierExpressionNode("isNetherEnabled"), new IsNetherEnabledFunction());
-        this.variableScope.declare(true, new IdentifierExpressionNode("isFlightEnabled"), new MinecraftServerClass.IsFlightEnabledFunction());
-        this.variableScope.declare(true, new IdentifierExpressionNode("getServerPort"), new MinecraftServerClass.GetServerPortFunction());
-        this.variableScope.declare(true, new IdentifierExpressionNode("getServerIP"), new MinecraftServerClass.GetServerIpFunction());
-        this.variableScope.declare(true, new IdentifierExpressionNode("isHardcore"), new MinecraftServerClass.IsHardcoreFunction());
-        this.variableScope.declare(true, new IdentifierExpressionNode("areCommandBlocksEnabled"), new AreCommandBlocksEnabledFunction());
-        this.variableScope.declare(true, new IdentifierExpressionNode("setDifficulty"), new SetDifficulty());
+        this.variableScope.declare(true, "setPVPEnabled", new SetPVPEnabled());
+        this.variableScope.declare(true, "setDifficultyLocked", new SetDifficultyLocked());
+        this.variableScope.declare(true, "isPVPEnabled", new MinecraftServerClass.IsPVPEnabledFunction());
+        this.variableScope.declare(true, "isNetherEnabled", new IsNetherEnabledFunction());
+        this.variableScope.declare(true, "isFlightEnabled", new MinecraftServerClass.IsFlightEnabledFunction());
+        this.variableScope.declare(true, "getServerPort", new MinecraftServerClass.GetServerPortFunction());
+        this.variableScope.declare(true, "getServerIP", new MinecraftServerClass.GetServerIpFunction());
+        this.variableScope.declare(true, "isHardcore", new MinecraftServerClass.IsHardcoreFunction());
+        this.variableScope.declare(true, "areCommandBlocksEnabled", new AreCommandBlocksEnabledFunction());
+        this.variableScope.declare(true, "setDifficulty", new SetDifficulty());
     }
 
     @Override

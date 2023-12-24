@@ -8,7 +8,6 @@ import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.MaxArgumentError;
 import com.revolvingmadness.testing.language.interpreter.errors.Return;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.StatementNode;
 import org.apache.commons.lang3.NotImplementedException;
 
@@ -16,11 +15,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class FunctionClass extends BaseFunctionExpressionNode {
-    public final List<IdentifierExpressionNode> arguments;
+    public final List<String> arguments;
     public final List<StatementNode> body;
-    public final IdentifierExpressionNode name;
+    public final String name;
 
-    public FunctionClass(IdentifierExpressionNode name, List<IdentifierExpressionNode> arguments, List<StatementNode> body) {
+    public FunctionClass(String name, List<String> arguments, List<StatementNode> body) {
         this.name = name;
         this.arguments = arguments;
         this.body = body;
@@ -42,18 +41,18 @@ public class FunctionClass extends BaseFunctionExpressionNode {
 
         int argumentNumber = 0;
 
-        for (IdentifierExpressionNode argumentName : this.arguments) {
+        for (String argumentName : this.arguments) {
             BaseClassExpressionNode argumentValue = arguments.get(argumentNumber);
             interpreter.variableTable.declare(true, argumentName, argumentValue);
             argumentNumber++;
         }
 
         if (this.boundClass != null) {
-            interpreter.variableTable.declare(true, new IdentifierExpressionNode("this"), this.boundClass);
+            interpreter.variableTable.declare(true, "this", this.boundClass);
         }
 
         if (this.boundSuperClass != null) {
-            interpreter.variableTable.declare(true, new IdentifierExpressionNode("super"), this.boundSuperClass);
+            interpreter.variableTable.declare(true, "super", this.boundSuperClass);
         }
 
         try {

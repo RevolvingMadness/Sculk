@@ -6,7 +6,6 @@ import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.StringClass;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class PrintFunction extends BaseClassExpressionNode {
         }
 
         BaseClassExpressionNode value = arguments.get(0);
-        BaseClassExpressionNode toStringResult = value.call(interpreter, new IdentifierExpressionNode("toString"), List.of());
+        BaseClassExpressionNode toStringResult = value.call(interpreter, "toString", List.of());
 
         Logger.broadcast(((StringClass) toStringResult).value, true);
 

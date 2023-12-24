@@ -5,7 +5,6 @@ import com.revolvingmadness.testing.language.builtins.classes.BaseFunctionExpres
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.Variable;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import org.apache.commons.lang3.SerializationUtils;
 
 import java.util.List;
@@ -13,13 +12,13 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class UserDefinedClassInstance extends BaseClassExpressionNode {
-    public final IdentifierExpressionNode name;
+    public final String name;
 
     public UserDefinedClassInstance(UserDefinedClass clazz, Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
         super(SerializationUtils.clone(clazz.superClass), SerializationUtils.clone(clazz.variableScope));
         this.name = SerializationUtils.clone(clazz.name);
 
-        Optional<Variable> optionalConstructor = this.variableScope.getOptional(new IdentifierExpressionNode("init"));
+        Optional<Variable> optionalConstructor = this.variableScope.getOptional("init");
 
         if (optionalConstructor.isPresent()) {
             BaseClassExpressionNode constructor = optionalConstructor.get().value;
@@ -48,7 +47,7 @@ public class UserDefinedClassInstance extends BaseClassExpressionNode {
 
     @Override
     public String getType() {
-        return this.name.value;
+        return this.name;
     }
 
     @Override

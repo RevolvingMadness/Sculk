@@ -3,7 +3,6 @@ package com.revolvingmadness.testing.language.interpreter;
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
 import com.revolvingmadness.testing.language.errors.NameError;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class VariableScope implements Serializable {
         this.variables = new ArrayList<>();
     }
 
-    public void assign(IdentifierExpressionNode name, BaseClassExpressionNode value) {
+    public void assign(String name, BaseClassExpressionNode value) {
         Optional<Variable> optionalVariable = this.getOptional(name);
 
         if (optionalVariable.isEmpty()) {
@@ -33,7 +32,7 @@ public class VariableScope implements Serializable {
         variable.value = value;
     }
 
-    public void declare(boolean isConstant, IdentifierExpressionNode name, BaseClassExpressionNode value) {
+    public void declare(boolean isConstant, String name, BaseClassExpressionNode value) {
         Optional<Variable> optionalVariable = this.getOptional(name);
 
         if (optionalVariable.isPresent()) {
@@ -43,7 +42,7 @@ public class VariableScope implements Serializable {
         this.variables.add(new Variable(isConstant, name, value));
     }
 
-    public Optional<Variable> getOptional(IdentifierExpressionNode name) {
+    public Optional<Variable> getOptional(String name) {
         for (Variable variable : this.variables) {
             if (variable.name.equals(name)) {
                 return Optional.of(variable);

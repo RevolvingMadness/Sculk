@@ -1,16 +1,15 @@
 package com.revolvingmadness.testing.language.interpreter;
 
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 import java.io.Serializable;
 
 public class Variable implements Serializable {
     public final boolean isConstant;
-    public final IdentifierExpressionNode name;
+    public final String name;
     public BaseClassExpressionNode value;
 
-    public Variable(boolean isConstant, IdentifierExpressionNode name, BaseClassExpressionNode value) {
+    public Variable(boolean isConstant, String name, BaseClassExpressionNode value) {
         this.isConstant = isConstant;
         this.name = name;
         this.value = value;

@@ -9,7 +9,6 @@ import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -22,19 +21,19 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
     public PlayerManagerClass() {
         this.playerManager = Testing.server.getPlayerManager();
 
-        this.variableScope.declare(true, new IdentifierExpressionNode("areCheatsEnabled"), this.new AreCheatsEnabled());
-        this.variableScope.declare(true, new IdentifierExpressionNode("getCurrentPlayerCount"), this.new GetCurrentPlayerCount());
-        this.variableScope.declare(true, new IdentifierExpressionNode("getMaxPlayerCount"), this.new GetMaxPlayerCount());
-        this.variableScope.declare(true, new IdentifierExpressionNode("getSimulationDistance"), this.new GetSimulationDistance());
-        this.variableScope.declare(true, new IdentifierExpressionNode("getViewDistance"), this.new GetViewDistance());
-        this.variableScope.declare(true, new IdentifierExpressionNode("isWhitelistEnabled"), this.new IsWhitelistEnabled());
-        this.variableScope.declare(true, new IdentifierExpressionNode("setCheatsEnabled"), this.new SetCheatsEnabled());
-        this.variableScope.declare(true, new IdentifierExpressionNode("setSimulationDistance"), this.new SetSimulationDistance());
-        this.variableScope.declare(true, new IdentifierExpressionNode("setViewDistance"), this.new SetViewDistance());
-        this.variableScope.declare(true, new IdentifierExpressionNode("setWhitelistEnabled"), this.new SetWhitelistEnabled());
-        this.variableScope.declare(true, new IdentifierExpressionNode("getPlayer"), this.new GetPlayer());
-        this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
-        this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
+        this.variableScope.declare(true, "areCheatsEnabled", this.new AreCheatsEnabled());
+        this.variableScope.declare(true, "getCurrentPlayerCount", this.new GetCurrentPlayerCount());
+        this.variableScope.declare(true, "getMaxPlayerCount", this.new GetMaxPlayerCount());
+        this.variableScope.declare(true, "getSimulationDistance", this.new GetSimulationDistance());
+        this.variableScope.declare(true, "getViewDistance", this.new GetViewDistance());
+        this.variableScope.declare(true, "isWhitelistEnabled", this.new IsWhitelistEnabled());
+        this.variableScope.declare(true, "setCheatsEnabled", this.new SetCheatsEnabled());
+        this.variableScope.declare(true, "setSimulationDistance", this.new SetSimulationDistance());
+        this.variableScope.declare(true, "setViewDistance", this.new SetViewDistance());
+        this.variableScope.declare(true, "setWhitelistEnabled", this.new SetWhitelistEnabled());
+        this.variableScope.declare(true, "getPlayer", this.new GetPlayer());
+        this.variableScope.declare(true, "equalTo", new EqualTo());
+        this.variableScope.declare(true, "notEqualTo", new NotEqualTo());
     }
 
     @Override

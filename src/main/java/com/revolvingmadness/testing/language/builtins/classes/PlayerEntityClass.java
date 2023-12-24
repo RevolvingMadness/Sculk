@@ -6,7 +6,6 @@ import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.List;
@@ -20,10 +19,10 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
 
         this.playerEntity = playerEntity;
 
-        this.variableScope.declare(true, new IdentifierExpressionNode("addExperiencePoints"), new AddExperiencePoints());
-        this.variableScope.declare(true, new IdentifierExpressionNode("addExperienceLevels"), new AddExperienceLevels());
-        this.variableScope.declare(true, new IdentifierExpressionNode("isCreative"), new IsCreative());
-        this.variableScope.declare(true, new IdentifierExpressionNode("isSpectator"), new IsSpectator());
+        this.variableScope.declare(true, "addExperiencePoints", new AddExperiencePoints());
+        this.variableScope.declare(true, "addExperienceLevels", new AddExperienceLevels());
+        this.variableScope.declare(true, "isCreative", new IsCreative());
+        this.variableScope.declare(true, "isSpectator", new IsSpectator());
     }
 
     @Override

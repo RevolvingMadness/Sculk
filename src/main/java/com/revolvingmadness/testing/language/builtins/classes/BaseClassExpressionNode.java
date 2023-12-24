@@ -6,7 +6,6 @@ import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.Variable;
 import com.revolvingmadness.testing.language.interpreter.VariableScope;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 import java.util.List;
 import java.util.Objects;
@@ -33,7 +32,7 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
         throw new TypeError("Type '" + this.getType() + "' is not callable");
     }
 
-    public BaseClassExpressionNode call(Interpreter interpreter, IdentifierExpressionNode methodName, List<BaseClassExpressionNode> arguments) {
+    public BaseClassExpressionNode call(Interpreter interpreter, String methodName, List<BaseClassExpressionNode> arguments) {
         BaseClassExpressionNode method = this.getProperty(methodName);
 
         return method.call(interpreter, arguments);
@@ -53,7 +52,7 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
         throw new TypeError("Type '" + this.getType() + "' is not indexable");
     }
 
-    public BaseClassExpressionNode getProperty(IdentifierExpressionNode propertyName) {
+    public BaseClassExpressionNode getProperty(String propertyName) {
         Optional<Variable> optionalVariable = this.variableScope.getOptional(propertyName);
 
         if (optionalVariable.isPresent()) {
@@ -102,7 +101,7 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
         throw new TypeError("Type '" + this.getType() + "' is not indexable");
     }
 
-    public void setProperty(IdentifierExpressionNode propertyName, BaseClassExpressionNode value) {
+    public void setProperty(String propertyName, BaseClassExpressionNode value) {
         Optional<Variable> optionalVariable = this.variableScope.getOptional(propertyName);
 
         if (optionalVariable.isPresent()) {

@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class GetExpressionNode extends ExpressionNode {
     public final ExpressionNode expression;
-    public final IdentifierExpressionNode propertyName;
+    public final String propertyName;
 
-    public GetExpressionNode(ExpressionNode expression, IdentifierExpressionNode propertyName) {
+    public GetExpressionNode(ExpressionNode expression, String propertyName) {
         this.expression = expression;
         this.propertyName = propertyName;
     }

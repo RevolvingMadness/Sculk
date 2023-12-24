@@ -40,23 +40,21 @@ public class Interpreter implements Visitor {
         BaseClassExpressionNode right = this.visitExpression(binaryExpression.right);
 
         return switch (binaryExpression.operator) {
-            case PLUS -> left.call(this, new IdentifierExpressionNode("add"), List.of(right));
-            case HYPHEN -> left.call(this, new IdentifierExpressionNode("subtract"), List.of(right));
-            case STAR -> left.call(this, new IdentifierExpressionNode("multiply"), List.of(right));
-            case FSLASH -> left.call(this, new IdentifierExpressionNode("divide"), List.of(right));
-            case CARET -> left.call(this, new IdentifierExpressionNode("exponentiate"), List.of(right));
-            case PERCENT -> left.call(this, new IdentifierExpressionNode("mod"), List.of(right));
-            case EQUAL_TO -> left.call(this, new IdentifierExpressionNode("equalTo"), List.of(right));
-            case NOT_EQUAL_TO -> left.call(this, new IdentifierExpressionNode("notEqualTo"), List.of(right));
-            case GREATER_THAN -> left.call(this, new IdentifierExpressionNode("greaterThan"), List.of(right));
-            case GREATER_THAN_OR_EQUAL_TO ->
-                    left.call(this, new IdentifierExpressionNode("greaterThanOrEqualTo"), List.of(right));
-            case LESS_THAN -> left.call(this, new IdentifierExpressionNode("lessThan"), List.of(right));
-            case LESS_THAN_OR_EQUAL_TO ->
-                    left.call(this, new IdentifierExpressionNode("lessThanOrEqualTo"), List.of(right));
-            case DOUBLE_AMPERSAND -> left.call(this, new IdentifierExpressionNode("booleanAnd"), List.of(right));
-            case DOUBLE_PIPE -> left.call(this, new IdentifierExpressionNode("booleanOr"), List.of(right));
-            case INSTANCE_OF -> left.call(this, new IdentifierExpressionNode("instanceOf"), List.of(right));
+            case PLUS -> left.call(this, "add", List.of(right));
+            case HYPHEN -> left.call(this, "subtract", List.of(right));
+            case STAR -> left.call(this, "multiply", List.of(right));
+            case FSLASH -> left.call(this, "divide", List.of(right));
+            case CARET -> left.call(this, "exponentiate", List.of(right));
+            case PERCENT -> left.call(this, "mod", List.of(right));
+            case EQUAL_TO -> left.call(this, "equalTo", List.of(right));
+            case NOT_EQUAL_TO -> left.call(this, "notEqualTo", List.of(right));
+            case GREATER_THAN -> left.call(this, "greaterThan", List.of(right));
+            case GREATER_THAN_OR_EQUAL_TO -> left.call(this, "greaterThanOrEqualTo", List.of(right));
+            case LESS_THAN -> left.call(this, "lessThan", List.of(right));
+            case LESS_THAN_OR_EQUAL_TO -> left.call(this, "lessThanOrEqualTo", List.of(right));
+            case DOUBLE_AMPERSAND -> left.call(this, "booleanAnd", List.of(right));
+            case DOUBLE_PIPE -> left.call(this, "booleanOr", List.of(right));
+            case INSTANCE_OF -> left.call(this, "instanceOf", List.of(right));
             default -> throw new InterpreterError("Unsupported binary operator '" + binaryExpression.operator + "'");
         };
     }
@@ -206,7 +204,7 @@ public class Interpreter implements Visitor {
 
     @Override
     public BaseClassExpressionNode visitIdentifierExpression(IdentifierExpressionNode identifierExpression) {
-        return this.variableTable.getOrThrow(identifierExpression).value;
+        return this.variableTable.getOrThrow(identifierExpression.value).value;
     }
 
     @Override
@@ -267,8 +265,8 @@ public class Interpreter implements Visitor {
         BaseClassExpressionNode expression = this.visitExpression(postfixExpression.expression);
 
         return switch (postfixExpression.operator) {
-            case DOUBLE_PLUS -> expression.call(this, new IdentifierExpressionNode("increment"), List.of());
-            case DOUBLE_HYPHEN -> expression.call(this, new IdentifierExpressionNode("decrement"), List.of());
+            case DOUBLE_PLUS -> expression.call(this, "increment", List.of());
+            case DOUBLE_HYPHEN -> expression.call(this, "decrement", List.of());
             default -> throw new InterpreterError("Unsupported postfix operator '" + postfixExpression.operator + "'");
         };
     }
@@ -318,8 +316,8 @@ public class Interpreter implements Visitor {
         BaseClassExpressionNode value = this.visitExpression(unaryExpression.value);
 
         return switch (unaryExpression.operator) {
-            case EXCLAMATION_MARK -> value.call(this, new IdentifierExpressionNode("logicalNot"), List.of());
-            case HYPHEN -> value.call(this, new IdentifierExpressionNode("negate"), List.of());
+            case EXCLAMATION_MARK -> value.call(this, "logicalNot", List.of());
+            case HYPHEN -> value.call(this, "negate", List.of());
             default -> throw new InterpreterError("Unknown unary operator '" + unaryExpression.operator + "'");
         };
     }
@@ -329,7 +327,7 @@ public class Interpreter implements Visitor {
         BaseClassExpressionNode value = this.visitExpression(variableAssignmentExpression.value);
 
         if (variableAssignmentExpression.expression instanceof IdentifierExpressionNode identifierExpression) {
-            this.variableTable.assign(identifierExpression, value);
+            this.variableTable.assign(identifierExpression.value, value);
 
             return value;
         } else if (variableAssignmentExpression.expression instanceof GetExpressionNode getExpression) {

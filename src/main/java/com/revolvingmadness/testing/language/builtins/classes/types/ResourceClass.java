@@ -4,7 +4,6 @@ import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressio
 import com.revolvingmadness.testing.language.builtins.classes.BaseFunctionExpressionNode;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public class ResourceClass extends BaseClassExpressionNode {
 
     public ResourceClass(Identifier value) {
         this.value = value;
-        this.variableScope.declare(true, new IdentifierExpressionNode("toString"), new ToString());
+        this.variableScope.declare(true, "toString", new ToString());
     }
 
     @Override

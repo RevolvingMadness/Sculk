@@ -8,7 +8,6 @@ import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameMode;
 
@@ -23,12 +22,12 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
 
         this.serverPlayerEntity = serverPlayerEntity;
 
-        this.variableScope.declare(true, new IdentifierExpressionNode("changeGameMode"), new ChangeGameMode());
-        this.variableScope.declare(true, new IdentifierExpressionNode("dropSelectedItem"), new DropSelectedItem());
-        this.variableScope.declare(true, new IdentifierExpressionNode("getIp"), new GetIp());
-        this.variableScope.declare(true, new IdentifierExpressionNode("getViewDistance"), new GetViewDistance());
-        this.variableScope.declare(true, new IdentifierExpressionNode("setExperienceLevels"), new SetExperienceLevels());
-        this.variableScope.declare(true, new IdentifierExpressionNode("setExperiencePoints"), new SetExperiencePoints());
+        this.variableScope.declare(true, "changeGameMode", new ChangeGameMode());
+        this.variableScope.declare(true, "dropSelectedItem", new DropSelectedItem());
+        this.variableScope.declare(true, "getIp", new GetIp());
+        this.variableScope.declare(true, "getViewDistance", new GetViewDistance());
+        this.variableScope.declare(true, "setExperienceLevels", new SetExperienceLevels());
+        this.variableScope.declare(true, "setExperiencePoints", new SetExperiencePoints());
     }
 
     @Override

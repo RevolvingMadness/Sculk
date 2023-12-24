@@ -9,7 +9,6 @@ import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunction
 import com.revolvingmadness.testing.language.builtins.functions.types.TypeFunction;
 import com.revolvingmadness.testing.language.errors.NameError;
 import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 import java.util.ListIterator;
 import java.util.Optional;
@@ -23,7 +22,7 @@ public class VariableTable {
         this.reset();
     }
 
-    public void assign(IdentifierExpressionNode name, BaseClassExpressionNode value) {
+    public void assign(String name, BaseClassExpressionNode value) {
         Optional<Variable> optionalVariable = this.getOptional(name);
 
         if (optionalVariable.isEmpty()) {
@@ -39,23 +38,23 @@ public class VariableTable {
         variable.value = value;
     }
 
-    public void declare(boolean isConstant, IdentifierExpressionNode name, BaseClassExpressionNode value) {
+    public void declare(boolean isConstant, String name, BaseClassExpressionNode value) {
         this.variableScopes.peek().declare(isConstant, name, value);
     }
 
     private void declareClasses() {
-        this.declare(true, new IdentifierExpressionNode("server"), new MinecraftServerClass());
-        this.declare(true, new IdentifierExpressionNode("playerManager"), new PlayerManagerClass());
-        this.declare(true, new IdentifierExpressionNode("gameRules"), new GameRulesClass());
+        this.declare(true, "server", new MinecraftServerClass());
+        this.declare(true, "playerManager", new PlayerManagerClass());
+        this.declare(true, "gameRules", new GameRulesClass());
     }
 
     private void declareFunctions() {
-        this.declare(true, new IdentifierExpressionNode("print"), new PrintFunction());
-        this.declare(true, new IdentifierExpressionNode("type"), new TypeFunction());
+        this.declare(true, "print", new PrintFunction());
+        this.declare(true, "type", new TypeFunction());
     }
 
     private void declareVariables() {
-        this.declare(true, new IdentifierExpressionNode("PI"), new FloatClass(Math.PI));
+        this.declare(true, "PI", new FloatClass(Math.PI));
     }
 
     public void enterScope() {
@@ -66,7 +65,7 @@ public class VariableTable {
         return this.variableScopes.pop();
     }
 
-    private Optional<Variable> getOptional(IdentifierExpressionNode name) {
+    private Optional<Variable> getOptional(String name) {
         ListIterator<VariableScope> variableScopeIterator = this.variableScopes.listIterator();
 
         while (variableScopeIterator.hasNext()) {
@@ -86,7 +85,7 @@ public class VariableTable {
         return Optional.empty();
     }
 
-    public Variable getOrThrow(IdentifierExpressionNode name) {
+    public Variable getOrThrow(String name) {
         Optional<Variable> variable = this.getOptional(name);
 
         if (variable.isEmpty()) {

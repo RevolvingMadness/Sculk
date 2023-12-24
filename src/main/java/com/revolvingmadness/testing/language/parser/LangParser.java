@@ -162,7 +162,7 @@ public class LangParser {
                 expression = new CallExpressionNode(expression, arguments);
             } else if (this.current(TokenType.PERIOD)) {
                 this.consume();
-                IdentifierExpressionNode propertyName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected property name").value);
+                String propertyName = (String) this.consume(TokenType.IDENTIFIER, "Expected property name").value;
                 expression = new GetExpressionNode(expression, propertyName);
             } else if (this.current(TokenType.LEFT_BRACKET)) {
                 this.consume();
@@ -185,13 +185,13 @@ public class LangParser {
 
         this.consume();
 
-        IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected class name").value);
+        String name = (String) this.consume(TokenType.IDENTIFIER, "Expected class name").value;
 
-        IdentifierExpressionNode superClassName = null;
+        String superClassName = null;
 
         if (this.current(TokenType.EXTENDS)) {
             this.consume();
-            superClassName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected super class name").value);
+            superClassName = (String) this.consume(TokenType.IDENTIFIER, "Expected super class name").value;
         }
 
         this.consume(TokenType.LEFT_BRACE, "Expected opening brace after class name");
@@ -391,21 +391,21 @@ public class LangParser {
 
         this.consume();
 
-        IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected function name").value);
+        String name = (String) this.consume(TokenType.IDENTIFIER, "Expected function name").value;
 
         this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after function name");
 
-        List<IdentifierExpressionNode> arguments = new ArrayList<>();
+        List<String> arguments = new ArrayList<>();
 
         if (this.current(TokenType.IDENTIFIER)) {
-            IdentifierExpressionNode argumentName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value);
+            String argumentName = (String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value;
             arguments.add(argumentName);
         }
 
         while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
             this.consume();
 
-            IdentifierExpressionNode argumentName = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value);
+            String argumentName = (String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value;
             arguments.add(argumentName);
         }
 
@@ -421,16 +421,16 @@ public class LangParser {
 
         this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis for function expression");
 
-        List<IdentifierExpressionNode> arguments = new ArrayList<>();
+        List<String> arguments = new ArrayList<>();
 
         if (!this.current(TokenType.RIGHT_PARENTHESIS)) {
-            arguments.add(new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value));
+            arguments.add((String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value);
         }
 
         while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
             this.consume();
 
-            arguments.add(new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value));
+            arguments.add((String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value);
         }
 
         this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis for function expression");
@@ -447,7 +447,7 @@ public class LangParser {
             body.addAll(this.parseBody());
         }
 
-        return new FunctionClass(new IdentifierExpressionNode("anonymous"), arguments, body);
+        return new FunctionClass("anonymous", arguments, body);
     }
 
     private StatementNode parseIfStatement() {
@@ -662,7 +662,7 @@ public class LangParser {
 
         this.consume(TokenType.VAR, "Expected 'var' keyword");
 
-        IdentifierExpressionNode name = new IdentifierExpressionNode((String) this.consume(TokenType.IDENTIFIER, "Expected variable name").value);
+        String name = (String) this.consume(TokenType.IDENTIFIER, "Expected variable name").value;
 
         if (this.current(TokenType.SEMICOLON)) {
             return new VariableDeclarationStatementNode(isConstant, name, new NullClass());

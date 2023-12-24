@@ -1,7 +1,6 @@
 package com.revolvingmadness.testing.language.builtins.classes;
 
 import com.revolvingmadness.testing.language.builtins.classes.types.FloatClass;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.Objects;
@@ -12,9 +11,9 @@ public class Vec3dClass extends BaseClassExpressionNode {
     public Vec3dClass(Vec3d vec3d) {
         this.vec3d = vec3d;
 
-        this.variableScope.declare(true, new IdentifierExpressionNode("x"), new FloatClass(this.vec3d.getX()));
-        this.variableScope.declare(true, new IdentifierExpressionNode("y"), new FloatClass(this.vec3d.getY()));
-        this.variableScope.declare(true, new IdentifierExpressionNode("z"), new FloatClass(this.vec3d.getZ()));
+        this.variableScope.declare(true, "x", new FloatClass(this.vec3d.getX()));
+        this.variableScope.declare(true, "y", new FloatClass(this.vec3d.getY()));
+        this.variableScope.declare(true, "z", new FloatClass(this.vec3d.getZ()));
     }
 
     @Override

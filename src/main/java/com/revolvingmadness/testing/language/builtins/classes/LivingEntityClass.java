@@ -5,7 +5,6 @@ import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 import net.minecraft.entity.LivingEntity;
 
 import java.util.List;
@@ -18,8 +17,8 @@ public class LivingEntityClass extends BaseClassExpressionNode {
         super(new EntityClass(livingEntity));
         this.livingEntity = livingEntity;
 
-        this.variableScope.declare(true, new IdentifierExpressionNode("tiltScreen"), new TiltScreen());
-        this.variableScope.declare(true, new IdentifierExpressionNode("wakeUp"), new WakeUp());
+        this.variableScope.declare(true, "tiltScreen", new TiltScreen());
+        this.variableScope.declare(true, "wakeUp", new WakeUp());
     }
 
     @Override

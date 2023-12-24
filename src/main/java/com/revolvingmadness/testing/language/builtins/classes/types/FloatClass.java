@@ -5,7 +5,6 @@ import com.revolvingmadness.testing.language.builtins.classes.BaseFunctionExpres
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 import java.util.List;
 import java.util.Objects;
@@ -15,18 +14,18 @@ public class FloatClass extends BaseClassExpressionNode {
 
     public FloatClass(Double value) {
         this.value = value;
-        this.variableScope.declare(true, new IdentifierExpressionNode("add"), new Add());
-        this.variableScope.declare(true, new IdentifierExpressionNode("subtract"), new Subtract());
-        this.variableScope.declare(true, new IdentifierExpressionNode("multiply"), new Multiply());
-        this.variableScope.declare(true, new IdentifierExpressionNode("divide"), new Divide());
-        this.variableScope.declare(true, new IdentifierExpressionNode("exponentiate"), new Exponentiate());
-        this.variableScope.declare(true, new IdentifierExpressionNode("mod"), new Mod());
-        this.variableScope.declare(true, new IdentifierExpressionNode("negate"), new Negate());
-        this.variableScope.declare(true, new IdentifierExpressionNode("lessThan"), new LessThan());
-        this.variableScope.declare(true, new IdentifierExpressionNode("lessThanOrEqualTo"), new LessThanOrEqualTo());
-        this.variableScope.declare(true, new IdentifierExpressionNode("greaterThan"), new GreaterThan());
-        this.variableScope.declare(true, new IdentifierExpressionNode("greaterThanOrEqualTo"), new GreaterThanOrEqualTo());
-        this.variableScope.declare(true, new IdentifierExpressionNode("toString"), new ToString());
+        this.variableScope.declare(true, "add", new Add());
+        this.variableScope.declare(true, "subtract", new Subtract());
+        this.variableScope.declare(true, "multiply", new Multiply());
+        this.variableScope.declare(true, "divide", new Divide());
+        this.variableScope.declare(true, "exponentiate", new Exponentiate());
+        this.variableScope.declare(true, "mod", new Mod());
+        this.variableScope.declare(true, "negate", new Negate());
+        this.variableScope.declare(true, "lessThan", new LessThan());
+        this.variableScope.declare(true, "lessThanOrEqualTo", new LessThanOrEqualTo());
+        this.variableScope.declare(true, "greaterThan", new GreaterThan());
+        this.variableScope.declare(true, "greaterThanOrEqualTo", new GreaterThanOrEqualTo());
+        this.variableScope.declare(true, "toString", new ToString());
     }
 
     @Override

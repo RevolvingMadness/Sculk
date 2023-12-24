@@ -5,24 +5,23 @@ import com.revolvingmadness.testing.language.builtins.classes.types.StringClass;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 import java.util.List;
 
 public class ObjectClass extends BaseClassExpressionNode {
     public ObjectClass() {
         super(null);
-        this.variableScope.declare(true, new IdentifierExpressionNode("toString"), new ToString());
-        this.variableScope.declare(true, new IdentifierExpressionNode("add"), new Add());
-        this.variableScope.declare(true, new IdentifierExpressionNode("subtract"), new Subtract());
-        this.variableScope.declare(true, new IdentifierExpressionNode("multiply"), new Multiply());
-        this.variableScope.declare(true, new IdentifierExpressionNode("divide"), new Divide());
-        this.variableScope.declare(true, new IdentifierExpressionNode("exponentiate"), new Exponentiate());
-        this.variableScope.declare(true, new IdentifierExpressionNode("mod"), new Mod());
-        this.variableScope.declare(true, new IdentifierExpressionNode("negate"), new Negate());
-        this.variableScope.declare(true, new IdentifierExpressionNode("equalTo"), new EqualTo());
-        this.variableScope.declare(true, new IdentifierExpressionNode("notEqualTo"), new NotEqualTo());
-        this.variableScope.declare(true, new IdentifierExpressionNode("instanceOf"), new InstanceOf());
+        this.variableScope.declare(true, "toString", new ToString());
+        this.variableScope.declare(true, "add", new Add());
+        this.variableScope.declare(true, "subtract", new Subtract());
+        this.variableScope.declare(true, "multiply", new Multiply());
+        this.variableScope.declare(true, "divide", new Divide());
+        this.variableScope.declare(true, "exponentiate", new Exponentiate());
+        this.variableScope.declare(true, "mod", new Mod());
+        this.variableScope.declare(true, "negate", new Negate());
+        this.variableScope.declare(true, "equalTo", new EqualTo());
+        this.variableScope.declare(true, "notEqualTo", new NotEqualTo());
+        this.variableScope.declare(true, "instanceOf", new InstanceOf());
     }
 
     @Override

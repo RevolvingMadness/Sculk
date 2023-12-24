@@ -3,15 +3,14 @@ package com.revolvingmadness.testing.language.user_defined;
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.VariableScope;
-import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.IdentifierExpressionNode;
 
 import java.util.List;
 import java.util.Objects;
 
 public class UserDefinedClass extends BaseClassExpressionNode {
-    public final IdentifierExpressionNode name;
+    public final String name;
 
-    public UserDefinedClass(IdentifierExpressionNode name, BaseClassExpressionNode superClass, VariableScope variableScope) {
+    public UserDefinedClass(String name, BaseClassExpressionNode superClass, VariableScope variableScope) {
         super(superClass, variableScope);
         this.name = name;
     }
@@ -35,7 +34,7 @@ public class UserDefinedClass extends BaseClassExpressionNode {
 
     @Override
     public String getType() {
-        return this.name.value;
+        return this.name;
     }
 
     @Override
