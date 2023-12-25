@@ -270,6 +270,24 @@ public class Interpreter implements Visitor {
     }
 
     @Override
+    public void visitDeleteStatement(DeleteStatementNode deleteStatement) {
+        if (deleteStatement.expression instanceof IdentifierExpressionNode identifierExpression) {
+            this.variableTable.deleteOrThrow(identifierExpression.value);
+        } else if (deleteStatement.expression instanceof GetExpressionNode getExpression) {
+            BaseClassExpressionNode assignee = this.visitExpression(getExpression.expression);
+
+            assignee.deleteProperty(getExpression.propertyName);
+        } else if (deleteStatement.expression instanceof IndexExpressionNode indexExpression) {
+            BaseClassExpressionNode assignee = this.visitExpression(indexExpression.expression);
+            BaseClassExpressionNode index = this.visitExpression(indexExpression.index);
+
+            assignee.deleteIndex(index);
+        } else {
+            throw new SyntaxError("Cannot delete r-value");
+        }
+    }
+
+    @Override
     public BaseClassExpressionNode visitPostfixExpression(PostfixExpressionNode postfixExpression) {
         BaseClassExpressionNode expression = this.visitExpression(postfixExpression.expression);
 
@@ -319,6 +337,8 @@ public class Interpreter implements Visitor {
             this.visitMethodDeclarationStatement(methodDeclarationStatement);
         } else if (statement instanceof FieldDeclarationStatementNode fieldDeclarationStatement) {
             this.visitFieldDeclarationStatement(fieldDeclarationStatement);
+        } else if (statement instanceof DeleteStatementNode deleteStatement) {
+            this.visitDeleteStatement(deleteStatement);
         } else {
             throw new InterpreterError("Unsupported node to interpret '" + statement.getClass().getSimpleName() + "'");
         }

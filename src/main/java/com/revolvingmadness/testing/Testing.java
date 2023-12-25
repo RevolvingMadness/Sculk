@@ -37,5 +37,6 @@ public class Testing implements ModInitializer {
         Testing.keywords.put("else", TokenType.ELSE);
         Testing.keywords.put("instanceof", TokenType.INSTANCE_OF);
         Testing.keywords.put("static", TokenType.STATIC);
+        Testing.keywords.put("delete", TokenType.DELETE);
     }
 }

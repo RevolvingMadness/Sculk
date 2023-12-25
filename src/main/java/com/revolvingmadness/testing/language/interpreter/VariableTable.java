@@ -109,4 +109,22 @@ public class VariableTable {
         this.declareFunctions();
         this.declareVariables();
     }
+
+    public void deleteOrThrow(String name) {
+        ListIterator<VariableScope> variableScopeIterator = this.variableScopes.listIterator();
+
+        while (variableScopeIterator.hasNext()) {
+            variableScopeIterator.next();
+        }
+
+        while (variableScopeIterator.hasPrevious()) {
+            VariableScope variableScope = variableScopeIterator.previous();
+
+            if (variableScope.exists(name)) {
+                variableScope.deleteOrThrow(name);
+            }
+        }
+
+        throw new NameError("Variable '" + name + "' has not been declared");
+    }
 }

@@ -57,4 +57,27 @@ public class VariableScope implements Serializable {
 
         return Optional.empty();
     }
+
+    public void deleteOrThrow(String name) {
+        for (int i = 0; i < this.variables.size(); i++) {
+            Variable variable = this.variables.get(i);
+
+            if (variable.name.equals(name)) {
+                this.variables.remove(i);
+                return;
+            }
+        }
+
+        throw new NameError("Variable '" + name + "' has not been declared");
+    }
+
+    public boolean exists(String name) {
+        for (Variable variable : this.variables) {
+            if (variable.name.equals(name)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

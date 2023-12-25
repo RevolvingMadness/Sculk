@@ -719,11 +719,22 @@ public class LangParser {
         } else if (this.current(TokenType.CONTINUE)) {
             statement = this.parseContinueStatement();
             this.consume(TokenType.SEMICOLON, "Expected semicolon after continue statement");
+        } else if (this.current(TokenType.DELETE)) {
+            statement = this.parseDeleteStatement();
+            this.consume(TokenType.SEMICOLON, "Expected semicolon after delete statement");
         } else {
             return this.parseDeclarationStatement();
         }
 
         return statement;
+    }
+
+    private StatementNode parseDeleteStatement() {
+        this.consume();
+
+        ExpressionNode expression = this.parseExpression();
+
+        return new DeleteStatementNode(expression);
     }
 
     private ExpressionNode parseUnaryExpression() {

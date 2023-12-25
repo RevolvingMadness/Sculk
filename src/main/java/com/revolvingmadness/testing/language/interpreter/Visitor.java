@@ -40,6 +40,8 @@ public interface Visitor {
 
     void visitMethodDeclarationStatement(MethodDeclarationStatementNode methodDeclarationStatement);
 
+    void visitDeleteStatement(DeleteStatementNode deleteStatement);
+
     BaseClassExpressionNode visitPostfixExpression(PostfixExpressionNode postfixExpression);
 
     void visitReturnStatement(ReturnStatementNode returnStatement);

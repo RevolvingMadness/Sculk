@@ -116,4 +116,12 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
 
         this.superClass.setProperty(propertyName, value);
     }
+
+    public void deleteProperty(String propertyName) {
+        this.variableScope.deleteOrThrow(propertyName);
+    }
+
+    public void deleteIndex(BaseClassExpressionNode index) {
+        throw new TypeError("Type '" + this.getType() + "' is not indexable");
+    }
 }

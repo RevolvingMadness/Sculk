@@ -25,6 +25,17 @@ public class ListClass extends BaseClassExpressionNode {
     }
 
     @Override
+    public void deleteIndex(BaseClassExpressionNode index) {
+        if (!index.getType().equals("Integer")) {
+            throw new TypeError("Cannot index list by non-integer");
+        }
+
+        int integerIndex = ((IntegerClass) index).value;
+
+        this.value.remove(integerIndex);
+    }
+
+    @Override
     public BaseClassExpressionNode getIndex(BaseClassExpressionNode index) {
         if (!index.getType().equals("Integer")) {
             throw new TypeError("Cannot index list by non-integer");
