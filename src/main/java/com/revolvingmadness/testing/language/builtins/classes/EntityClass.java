@@ -88,7 +88,7 @@ public class EntityClass extends BaseClassExpressionNode {
         return Objects.hash(super.hashCode(), this.entity);
     }
 
-    public class AddCommandTag extends BaseFunctionExpressionNode {
+    public class AddCommandTag extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -107,7 +107,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class DismountVehicle extends BaseFunctionExpressionNode {
+    public class DismountVehicle extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -120,7 +120,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetBlockPos extends BaseFunctionExpressionNode {
+    public class GetBlockPos extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -133,7 +133,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetBlockX extends BaseFunctionExpressionNode {
+    public class GetBlockX extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -146,7 +146,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetBlockY extends BaseFunctionExpressionNode {
+    public class GetBlockY extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -159,7 +159,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetBlockZ extends BaseFunctionExpressionNode {
+    public class GetBlockZ extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -172,7 +172,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetX extends BaseFunctionExpressionNode {
+    public class GetX extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -185,7 +185,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetY extends BaseFunctionExpressionNode {
+    public class GetY extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -198,7 +198,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetZ extends BaseFunctionExpressionNode {
+    public class GetZ extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -211,7 +211,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class HasVehicle extends BaseFunctionExpressionNode {
+    public class HasVehicle extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -224,7 +224,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsCrawling extends BaseFunctionExpressionNode {
+    public class IsCrawling extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -237,7 +237,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsDescending extends BaseFunctionExpressionNode {
+    public class IsDescending extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -250,7 +250,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsFireImmune extends BaseFunctionExpressionNode {
+    public class IsFireImmune extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -263,7 +263,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsFrozen extends BaseFunctionExpressionNode {
+    public class IsFrozen extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -276,7 +276,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsGlowing extends BaseFunctionExpressionNode {
+    public class IsGlowing extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -289,7 +289,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsInFluid extends BaseFunctionExpressionNode {
+    public class IsInFluid extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -302,7 +302,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsInLava extends BaseFunctionExpressionNode {
+    public class IsInLava extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -315,7 +315,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsInsideWall extends BaseFunctionExpressionNode {
+    public class IsInsideWall extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -328,7 +328,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsInvisible extends BaseFunctionExpressionNode {
+    public class IsInvisible extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -341,7 +341,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsInvulnerable extends BaseFunctionExpressionNode {
+    public class IsInvulnerable extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -354,7 +354,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsOnFire extends BaseFunctionExpressionNode {
+    public class IsOnFire extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -367,7 +367,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsOnGround extends BaseFunctionExpressionNode {
+    public class IsOnGround extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -380,7 +380,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsOnRail extends BaseFunctionExpressionNode {
+    public class IsOnRail extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -393,7 +393,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsSilent extends BaseFunctionExpressionNode {
+    public class IsSilent extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -406,7 +406,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsSneaking extends BaseFunctionExpressionNode {
+    public class IsSneaking extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -419,7 +419,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsSprinting extends BaseFunctionExpressionNode {
+    public class IsSprinting extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -432,7 +432,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsSwimming extends BaseFunctionExpressionNode {
+    public class IsSwimming extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -445,7 +445,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsTouchingWater extends BaseFunctionExpressionNode {
+    public class IsTouchingWater extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -458,7 +458,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsTouchingWaterOrRain extends BaseFunctionExpressionNode {
+    public class IsTouchingWaterOrRain extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -471,7 +471,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsWet extends BaseFunctionExpressionNode {
+    public class IsWet extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -484,7 +484,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class Kill extends BaseFunctionExpressionNode {
+    public class Kill extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -497,7 +497,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class RemoveAllPassengers extends BaseFunctionExpressionNode {
+    public class RemoveAllPassengers extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -510,7 +510,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class ResetPortalCooldown extends BaseFunctionExpressionNode {
+    public class ResetPortalCooldown extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -523,7 +523,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SendMessage extends BaseFunctionExpressionNode {
+    public class SendMessage extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -542,7 +542,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetInvisible extends BaseFunctionExpressionNode {
+    public class SetInvisible extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -561,7 +561,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetInvulnerable extends BaseFunctionExpressionNode {
+    public class SetInvulnerable extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -580,7 +580,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetNoGravity extends BaseFunctionExpressionNode {
+    public class SetNoGravity extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -599,7 +599,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetOnFire extends BaseFunctionExpressionNode {
+    public class SetOnFire extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -618,7 +618,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetOnGround extends BaseFunctionExpressionNode {
+    public class SetOnGround extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -637,7 +637,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetPortalCooldown extends BaseFunctionExpressionNode {
+    public class SetPortalCooldown extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -656,7 +656,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetPos extends BaseFunctionExpressionNode {
+    public class SetPos extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 3) {
@@ -687,7 +687,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetSilent extends BaseFunctionExpressionNode {
+    public class SetSilent extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -706,7 +706,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetSneaking extends BaseFunctionExpressionNode {
+    public class SetSneaking extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -725,7 +725,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetSprinting extends BaseFunctionExpressionNode {
+    public class SetSprinting extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -744,7 +744,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetSwimming extends BaseFunctionExpressionNode {
+    public class SetSwimming extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -763,7 +763,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class ShouldDismountUnderwater extends BaseFunctionExpressionNode {
+    public class ShouldDismountUnderwater extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -776,7 +776,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class StopRiding extends BaseFunctionExpressionNode {
+    public class StopRiding extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -789,7 +789,7 @@ public class EntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class Teleport extends BaseFunctionExpressionNode {
+    public class Teleport extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 3) {

@@ -3,7 +3,7 @@ package com.revolvingmadness.testing.language.builtins.classes.types;
 import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.gamerules.TestingGamerules;
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
-import com.revolvingmadness.testing.language.builtins.classes.BaseFunctionExpressionNode;
+import com.revolvingmadness.testing.language.builtins.classes.BaseMethodExpressionNode;
 import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.MaxArgumentError;
@@ -14,7 +14,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import java.util.List;
 import java.util.Objects;
 
-public class FunctionClass extends BaseFunctionExpressionNode {
+public class FunctionClass extends BaseMethodExpressionNode {
     public final List<String> arguments;
     public final List<StatementNode> body;
     public final String name;

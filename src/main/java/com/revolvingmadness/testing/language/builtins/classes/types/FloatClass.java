@@ -1,7 +1,7 @@
 package com.revolvingmadness.testing.language.builtins.classes.types;
 
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
-import com.revolvingmadness.testing.language.builtins.classes.BaseFunctionExpressionNode;
+import com.revolvingmadness.testing.language.builtins.classes.BaseMethodExpressionNode;
 import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 
@@ -52,7 +52,7 @@ public class FloatClass extends BaseClassExpressionNode {
         return this.value.toString();
     }
 
-    public class Add extends BaseFunctionExpressionNode {
+    public class Add extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -71,7 +71,7 @@ public class FloatClass extends BaseClassExpressionNode {
         }
     }
 
-    public class Divide extends BaseFunctionExpressionNode {
+    public class Divide extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -90,7 +90,7 @@ public class FloatClass extends BaseClassExpressionNode {
         }
     }
 
-    public class Exponentiate extends BaseFunctionExpressionNode {
+    public class Exponentiate extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -109,7 +109,7 @@ public class FloatClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GreaterThan extends BaseFunctionExpressionNode {
+    public class GreaterThan extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -128,7 +128,7 @@ public class FloatClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GreaterThanOrEqualTo extends BaseFunctionExpressionNode {
+    public class GreaterThanOrEqualTo extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -147,7 +147,7 @@ public class FloatClass extends BaseClassExpressionNode {
         }
     }
 
-    public class LessThan extends BaseFunctionExpressionNode {
+    public class LessThan extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -166,7 +166,7 @@ public class FloatClass extends BaseClassExpressionNode {
         }
     }
 
-    public class LessThanOrEqualTo extends BaseFunctionExpressionNode {
+    public class LessThanOrEqualTo extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -185,7 +185,7 @@ public class FloatClass extends BaseClassExpressionNode {
         }
     }
 
-    public class Mod extends BaseFunctionExpressionNode {
+    public class Mod extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -204,7 +204,7 @@ public class FloatClass extends BaseClassExpressionNode {
         }
     }
 
-    public class Multiply extends BaseFunctionExpressionNode {
+    public class Multiply extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -223,7 +223,7 @@ public class FloatClass extends BaseClassExpressionNode {
         }
     }
 
-    public class Negate extends BaseFunctionExpressionNode {
+    public class Negate extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -234,7 +234,7 @@ public class FloatClass extends BaseClassExpressionNode {
         }
     }
 
-    public class Subtract extends BaseFunctionExpressionNode {
+    public class Subtract extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -253,7 +253,7 @@ public class FloatClass extends BaseClassExpressionNode {
         }
     }
 
-    public class ToString extends BaseFunctionExpressionNode {
+    public class ToString extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {

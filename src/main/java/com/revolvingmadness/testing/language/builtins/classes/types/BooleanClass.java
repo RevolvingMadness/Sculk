@@ -1,7 +1,7 @@
 package com.revolvingmadness.testing.language.builtins.classes.types;
 
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
-import com.revolvingmadness.testing.language.builtins.classes.BaseFunctionExpressionNode;
+import com.revolvingmadness.testing.language.builtins.classes.BaseMethodExpressionNode;
 import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 
@@ -42,7 +42,7 @@ public class BooleanClass extends BaseClassExpressionNode {
         return this.value.toString();
     }
 
-    public class LogicalNot extends BaseFunctionExpressionNode {
+    public class LogicalNot extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -53,7 +53,7 @@ public class BooleanClass extends BaseClassExpressionNode {
         }
     }
 
-    public class ToString extends BaseFunctionExpressionNode {
+    public class ToString extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {

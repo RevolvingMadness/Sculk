@@ -46,7 +46,7 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
         return Objects.hash(super.hashCode(), this.playerEntity);
     }
 
-    public class AddExperienceLevels extends BaseFunctionExpressionNode {
+    public class AddExperienceLevels extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -65,7 +65,7 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class AddExperiencePoints extends BaseFunctionExpressionNode {
+    public class AddExperiencePoints extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -84,7 +84,7 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsCreative extends BaseFunctionExpressionNode {
+    public class IsCreative extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -95,7 +95,7 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsSpectator extends BaseFunctionExpressionNode {
+    public class IsSpectator extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {

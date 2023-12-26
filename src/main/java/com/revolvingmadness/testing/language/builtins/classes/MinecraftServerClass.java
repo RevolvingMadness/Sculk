@@ -40,7 +40,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
         return MinecraftServerClass.class.hashCode();
     }
 
-    private static class AreCommandBlocksEnabledFunction extends BaseFunctionExpressionNode {
+    private static class AreCommandBlocksEnabledFunction extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -51,7 +51,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
         }
     }
 
-    private static class GetServerIpFunction extends BaseFunctionExpressionNode {
+    private static class GetServerIpFunction extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -62,7 +62,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
         }
     }
 
-    private static class GetServerPortFunction extends BaseFunctionExpressionNode {
+    private static class GetServerPortFunction extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -73,7 +73,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
         }
     }
 
-    private static class IsFlightEnabledFunction extends BaseFunctionExpressionNode {
+    private static class IsFlightEnabledFunction extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -84,7 +84,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
         }
     }
 
-    private static class IsHardcoreFunction extends BaseFunctionExpressionNode {
+    private static class IsHardcoreFunction extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -95,7 +95,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
         }
     }
 
-    private static class IsNetherEnabledFunction extends BaseFunctionExpressionNode {
+    private static class IsNetherEnabledFunction extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -106,7 +106,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
         }
     }
 
-    private static class IsPVPEnabledFunction extends BaseFunctionExpressionNode {
+    private static class IsPVPEnabledFunction extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -117,7 +117,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
         }
     }
 
-    private static class SetDifficulty extends BaseFunctionExpressionNode {
+    private static class SetDifficulty extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -142,7 +142,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
         }
     }
 
-    private static class SetDifficultyLocked extends BaseFunctionExpressionNode {
+    private static class SetDifficultyLocked extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -161,7 +161,7 @@ public class MinecraftServerClass extends BaseClassExpressionNode {
         }
     }
 
-    private static class SetPVPEnabled extends BaseFunctionExpressionNode {
+    private static class SetPVPEnabled extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {

@@ -56,7 +56,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         return Objects.hash(super.hashCode(), this.playerManager);
     }
 
-    public class AreCheatsEnabled extends BaseFunctionExpressionNode {
+    public class AreCheatsEnabled extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -67,7 +67,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         }
     }
 
-    public class EqualTo extends BaseFunctionExpressionNode {
+    public class EqualTo extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -80,7 +80,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetCurrentPlayerCount extends BaseFunctionExpressionNode {
+    public class GetCurrentPlayerCount extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -91,7 +91,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetMaxPlayerCount extends BaseFunctionExpressionNode {
+    public class GetMaxPlayerCount extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -102,7 +102,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetPlayer extends BaseFunctionExpressionNode {
+    public class GetPlayer extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -125,7 +125,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetSimulationDistance extends BaseFunctionExpressionNode {
+    public class GetSimulationDistance extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -136,7 +136,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetViewDistance extends BaseFunctionExpressionNode {
+    public class GetViewDistance extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -147,7 +147,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         }
     }
 
-    public class IsWhitelistEnabled extends BaseFunctionExpressionNode {
+    public class IsWhitelistEnabled extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -158,7 +158,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         }
     }
 
-    public class NotEqualTo extends BaseFunctionExpressionNode {
+    public class NotEqualTo extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -171,7 +171,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetCheatsEnabled extends BaseFunctionExpressionNode {
+    public class SetCheatsEnabled extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -190,7 +190,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetSimulationDistance extends BaseFunctionExpressionNode {
+    public class SetSimulationDistance extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -209,7 +209,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetViewDistance extends BaseFunctionExpressionNode {
+    public class SetViewDistance extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -228,7 +228,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetWhitelistEnabled extends BaseFunctionExpressionNode {
+    public class SetWhitelistEnabled extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {

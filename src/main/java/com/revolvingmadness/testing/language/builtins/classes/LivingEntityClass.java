@@ -42,7 +42,7 @@ public class LivingEntityClass extends BaseClassExpressionNode {
         return Objects.hash(super.hashCode(), this.livingEntity);
     }
 
-    public class TiltScreen extends BaseFunctionExpressionNode {
+    public class TiltScreen extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 2) {
@@ -67,7 +67,7 @@ public class LivingEntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class WakeUp extends BaseFunctionExpressionNode {
+    public class WakeUp extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {

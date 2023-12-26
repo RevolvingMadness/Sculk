@@ -140,7 +140,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         return Objects.hash(super.hashCode(), this.gameRules);
     }
 
-    public class GetAnnounceAdvancements extends BaseFunctionExpressionNode {
+    public class GetAnnounceAdvancements extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -151,7 +151,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetBlockExplosionDropDecay extends BaseFunctionExpressionNode {
+    public class GetBlockExplosionDropDecay extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -162,7 +162,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetCommandBlockOutput extends BaseFunctionExpressionNode {
+    public class GetCommandBlockOutput extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -173,7 +173,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetCommandModificationBlockLimit extends BaseFunctionExpressionNode {
+    public class GetCommandModificationBlockLimit extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -184,7 +184,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDisableElytraMovementCheck extends BaseFunctionExpressionNode {
+    public class GetDisableElytraMovementCheck extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -195,7 +195,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDisableRaids extends BaseFunctionExpressionNode {
+    public class GetDisableRaids extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -206,7 +206,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDoDaylightCycle extends BaseFunctionExpressionNode {
+    public class GetDoDaylightCycle extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -217,7 +217,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDoEntityDrops extends BaseFunctionExpressionNode {
+    public class GetDoEntityDrops extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -228,7 +228,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDoFireTick extends BaseFunctionExpressionNode {
+    public class GetDoFireTick extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -239,7 +239,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDoImmediateRespawn extends BaseFunctionExpressionNode {
+    public class GetDoImmediateRespawn extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -250,7 +250,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDoInsomnia extends BaseFunctionExpressionNode {
+    public class GetDoInsomnia extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -261,7 +261,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDoLimitedCrafting extends BaseFunctionExpressionNode {
+    public class GetDoLimitedCrafting extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -272,7 +272,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDoMobGriefing extends BaseFunctionExpressionNode {
+    public class GetDoMobGriefing extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -283,7 +283,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDoMobLoot extends BaseFunctionExpressionNode {
+    public class GetDoMobLoot extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -294,7 +294,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDoMobSpawning extends BaseFunctionExpressionNode {
+    public class GetDoMobSpawning extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -305,7 +305,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDoPatrolSpawning extends BaseFunctionExpressionNode {
+    public class GetDoPatrolSpawning extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -316,7 +316,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDoTileDrops extends BaseFunctionExpressionNode {
+    public class GetDoTileDrops extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -327,7 +327,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDoTraderSpawning extends BaseFunctionExpressionNode {
+    public class GetDoTraderSpawning extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -338,7 +338,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDoVinesSpread extends BaseFunctionExpressionNode {
+    public class GetDoVinesSpread extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -349,7 +349,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDoWardenSpawning extends BaseFunctionExpressionNode {
+    public class GetDoWardenSpawning extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -360,7 +360,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDoWeatherCycle extends BaseFunctionExpressionNode {
+    public class GetDoWeatherCycle extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -371,7 +371,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetDrowningDamage extends BaseFunctionExpressionNode {
+    public class GetDrowningDamage extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -382,7 +382,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetEnderPearlsVanishOnDeath extends BaseFunctionExpressionNode {
+    public class GetEnderPearlsVanishOnDeath extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -393,7 +393,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetFallDamage extends BaseFunctionExpressionNode {
+    public class GetFallDamage extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -404,7 +404,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetFireDamage extends BaseFunctionExpressionNode {
+    public class GetFireDamage extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -415,7 +415,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetForgiveDeadPlayers extends BaseFunctionExpressionNode {
+    public class GetForgiveDeadPlayers extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -426,7 +426,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetFreezeDamage extends BaseFunctionExpressionNode {
+    public class GetFreezeDamage extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -437,7 +437,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetGlobalSoundEvents extends BaseFunctionExpressionNode {
+    public class GetGlobalSoundEvents extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -448,7 +448,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetKeepInventory extends BaseFunctionExpressionNode {
+    public class GetKeepInventory extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -459,7 +459,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetLavaSourceConversion extends BaseFunctionExpressionNode {
+    public class GetLavaSourceConversion extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -470,7 +470,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetLogAdminCommands extends BaseFunctionExpressionNode {
+    public class GetLogAdminCommands extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -481,7 +481,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetMaxArgumentCount extends BaseFunctionExpressionNode {
+    public class GetMaxArgumentCount extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -492,7 +492,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetMaxCommandChainLength extends BaseFunctionExpressionNode {
+    public class GetMaxCommandChainLength extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -503,7 +503,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetMaxEntityCramming extends BaseFunctionExpressionNode {
+    public class GetMaxEntityCramming extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -514,7 +514,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetMaxLoops extends BaseFunctionExpressionNode {
+    public class GetMaxLoops extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -525,7 +525,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetMobExplosionDropDecay extends BaseFunctionExpressionNode {
+    public class GetMobExplosionDropDecay extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -536,7 +536,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetNaturalRegeneration extends BaseFunctionExpressionNode {
+    public class GetNaturalRegeneration extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -547,7 +547,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetPlayersSleepingPercentage extends BaseFunctionExpressionNode {
+    public class GetPlayersSleepingPercentage extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -558,7 +558,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetRandomTickSpeed extends BaseFunctionExpressionNode {
+    public class GetRandomTickSpeed extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -569,7 +569,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetReducedDebugInfo extends BaseFunctionExpressionNode {
+    public class GetReducedDebugInfo extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -580,7 +580,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetScriptLogsEnabled extends BaseFunctionExpressionNode {
+    public class GetScriptLogsEnabled extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -591,7 +591,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetSendCommandFeedback extends BaseFunctionExpressionNode {
+    public class GetSendCommandFeedback extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -602,7 +602,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetShowDeathMessages extends BaseFunctionExpressionNode {
+    public class GetShowDeathMessages extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -613,7 +613,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetSnowAccumulationHeight extends BaseFunctionExpressionNode {
+    public class GetSnowAccumulationHeight extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -624,7 +624,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetSpawnRadius extends BaseFunctionExpressionNode {
+    public class GetSpawnRadius extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -635,7 +635,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetSpectatorsGenerateChunks extends BaseFunctionExpressionNode {
+    public class GetSpectatorsGenerateChunks extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -646,7 +646,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetTntExplosionDropDecay extends BaseFunctionExpressionNode {
+    public class GetTntExplosionDropDecay extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -657,7 +657,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetUniversalAnger extends BaseFunctionExpressionNode {
+    public class GetUniversalAnger extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -668,7 +668,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetWaterSourceConversion extends BaseFunctionExpressionNode {
+    public class GetWaterSourceConversion extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -679,7 +679,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetAnnounceAdvancements extends BaseFunctionExpressionNode {
+    public class SetAnnounceAdvancements extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -698,7 +698,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetBlockExplosionDropDecay extends BaseFunctionExpressionNode {
+    public class SetBlockExplosionDropDecay extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -717,7 +717,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetCommandBlockOutput extends BaseFunctionExpressionNode {
+    public class SetCommandBlockOutput extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -736,7 +736,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetCommandModificationBlockLimit extends BaseFunctionExpressionNode {
+    public class SetCommandModificationBlockLimit extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -755,7 +755,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDisableElytraMovementCheck extends BaseFunctionExpressionNode {
+    public class SetDisableElytraMovementCheck extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -774,7 +774,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDisableRaids extends BaseFunctionExpressionNode {
+    public class SetDisableRaids extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -793,7 +793,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDoDaylightCycle extends BaseFunctionExpressionNode {
+    public class SetDoDaylightCycle extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -812,7 +812,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDoEntityDrops extends BaseFunctionExpressionNode {
+    public class SetDoEntityDrops extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -831,7 +831,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDoFireTick extends BaseFunctionExpressionNode {
+    public class SetDoFireTick extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -850,7 +850,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDoImmediateRespawn extends BaseFunctionExpressionNode {
+    public class SetDoImmediateRespawn extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -869,7 +869,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDoInsomnia extends BaseFunctionExpressionNode {
+    public class SetDoInsomnia extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -888,7 +888,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDoLimitedCrafting extends BaseFunctionExpressionNode {
+    public class SetDoLimitedCrafting extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -907,7 +907,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDoMobGriefing extends BaseFunctionExpressionNode {
+    public class SetDoMobGriefing extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -926,7 +926,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDoMobLoot extends BaseFunctionExpressionNode {
+    public class SetDoMobLoot extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -945,7 +945,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDoMobSpawning extends BaseFunctionExpressionNode {
+    public class SetDoMobSpawning extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -964,7 +964,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDoPatrolSpawning extends BaseFunctionExpressionNode {
+    public class SetDoPatrolSpawning extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -983,7 +983,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDoTileDrops extends BaseFunctionExpressionNode {
+    public class SetDoTileDrops extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1002,7 +1002,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDoTraderSpawning extends BaseFunctionExpressionNode {
+    public class SetDoTraderSpawning extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1021,7 +1021,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDoVinesSpread extends BaseFunctionExpressionNode {
+    public class SetDoVinesSpread extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1040,7 +1040,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDoWardenSpawning extends BaseFunctionExpressionNode {
+    public class SetDoWardenSpawning extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1059,7 +1059,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDoWeatherCycle extends BaseFunctionExpressionNode {
+    public class SetDoWeatherCycle extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1078,7 +1078,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetDrowningDamage extends BaseFunctionExpressionNode {
+    public class SetDrowningDamage extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1097,7 +1097,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetEnderPearlsVanishOnDeath extends BaseFunctionExpressionNode {
+    public class SetEnderPearlsVanishOnDeath extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1116,7 +1116,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetFallDamage extends BaseFunctionExpressionNode {
+    public class SetFallDamage extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1135,7 +1135,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetFireDamage extends BaseFunctionExpressionNode {
+    public class SetFireDamage extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1154,7 +1154,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetForgiveDeadPlayers extends BaseFunctionExpressionNode {
+    public class SetForgiveDeadPlayers extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1173,7 +1173,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetFreezeDamage extends BaseFunctionExpressionNode {
+    public class SetFreezeDamage extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1192,7 +1192,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetGlobalSoundEvents extends BaseFunctionExpressionNode {
+    public class SetGlobalSoundEvents extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1211,7 +1211,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetKeepInventory extends BaseFunctionExpressionNode {
+    public class SetKeepInventory extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1230,7 +1230,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetLavaSourceConversion extends BaseFunctionExpressionNode {
+    public class SetLavaSourceConversion extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1249,7 +1249,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetLogAdminCommands extends BaseFunctionExpressionNode {
+    public class SetLogAdminCommands extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1268,7 +1268,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetMaxArgumentCount extends BaseFunctionExpressionNode {
+    public class SetMaxArgumentCount extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1287,7 +1287,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetMaxCommandChainLength extends BaseFunctionExpressionNode {
+    public class SetMaxCommandChainLength extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1306,7 +1306,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetMaxEntityCramming extends BaseFunctionExpressionNode {
+    public class SetMaxEntityCramming extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1325,7 +1325,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetMaxLoops extends BaseFunctionExpressionNode {
+    public class SetMaxLoops extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1344,7 +1344,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetMobExplosionDropDecay extends BaseFunctionExpressionNode {
+    public class SetMobExplosionDropDecay extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1363,7 +1363,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetNaturalRegeneration extends BaseFunctionExpressionNode {
+    public class SetNaturalRegeneration extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1382,7 +1382,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetPlayersSleepingPercentage extends BaseFunctionExpressionNode {
+    public class SetPlayersSleepingPercentage extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1401,7 +1401,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetRandomTickSpeed extends BaseFunctionExpressionNode {
+    public class SetRandomTickSpeed extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1420,7 +1420,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetReducedDebugInfo extends BaseFunctionExpressionNode {
+    public class SetReducedDebugInfo extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1439,7 +1439,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetScriptLogsEnabled extends BaseFunctionExpressionNode {
+    public class SetScriptLogsEnabled extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1458,7 +1458,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetSendCommandFeedback extends BaseFunctionExpressionNode {
+    public class SetSendCommandFeedback extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1477,7 +1477,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetShowDeathMessages extends BaseFunctionExpressionNode {
+    public class SetShowDeathMessages extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1496,7 +1496,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetSnowAccumulationHeight extends BaseFunctionExpressionNode {
+    public class SetSnowAccumulationHeight extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1515,7 +1515,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetSpawnRadius extends BaseFunctionExpressionNode {
+    public class SetSpawnRadius extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1534,7 +1534,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetSpectatorsGenerateChunks extends BaseFunctionExpressionNode {
+    public class SetSpectatorsGenerateChunks extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1553,7 +1553,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetTntExplosionDropDecay extends BaseFunctionExpressionNode {
+    public class SetTntExplosionDropDecay extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1572,7 +1572,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetUniversalAnger extends BaseFunctionExpressionNode {
+    public class SetUniversalAnger extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -1591,7 +1591,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetWaterSourceConversion extends BaseFunctionExpressionNode {
+    public class SetWaterSourceConversion extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {

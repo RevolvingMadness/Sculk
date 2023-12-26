@@ -111,7 +111,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GreaterThan extends BaseFunctionExpressionNode {
+    public class GreaterThan extends BaseMethodExpressionNode {
         public GreaterThan() {
             super(ObjectClass.this);
         }
@@ -124,11 +124,11 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw ErrorHolder.cannotApplyBinaryOperatorToTypes(">", ObjectClass.this.getType(), other.getType());
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes(">", this.boundClass.getType(), other.getType());
         }
     }
 
-    public class GreaterThanOrEqualTo extends BaseFunctionExpressionNode {
+    public class GreaterThanOrEqualTo extends BaseMethodExpressionNode {
         public GreaterThanOrEqualTo() {
             super(ObjectClass.this);
         }
@@ -141,7 +141,7 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw ErrorHolder.cannotApplyBinaryOperatorToTypes(">=", ObjectClass.this.getType(), other.getType());
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes(">=", this.boundClass.getType(), other.getType());
         }
     }
 
@@ -162,7 +162,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         }
     }
 
-    public class LessThan extends BaseFunctionExpressionNode {
+    public class LessThan extends BaseMethodExpressionNode {
         public LessThan() {
             super(ObjectClass.this);
         }
@@ -175,11 +175,11 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("<", ObjectClass.this.getType(), other.getType());
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("<", this.boundClass.getType(), other.getType());
         }
     }
 
-    public class LessThanOrEqualTo extends BaseFunctionExpressionNode {
+    public class LessThanOrEqualTo extends BaseMethodExpressionNode {
         public LessThanOrEqualTo() {
             super(ObjectClass.this);
         }
@@ -192,11 +192,11 @@ public class ObjectClass extends BaseClassExpressionNode {
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("<=", ObjectClass.this.getType(), other.getType());
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("<=", this.boundClass.getType(), other.getType());
         }
     }
 
-    public class LogicalNot extends BaseFunctionExpressionNode {
+    public class LogicalNot extends BaseMethodExpressionNode {
         public LogicalNot() {
             super(ObjectClass.this);
         }
@@ -207,7 +207,7 @@ public class ObjectClass extends BaseClassExpressionNode {
                 throw ErrorHolder.invalidArgumentCount("logicalNot", 0, arguments.size());
             }
 
-            throw ErrorHolder.cannotApplyUnaryOperatorToTypes("!", ObjectClass.this.getType());
+            throw ErrorHolder.cannotApplyUnaryOperatorToTypes("!", this.boundClass.getType());
         }
     }
 

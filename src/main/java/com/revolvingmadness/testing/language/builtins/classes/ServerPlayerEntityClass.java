@@ -50,7 +50,7 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         return Objects.hash(super.hashCode(), this.serverPlayerEntity);
     }
 
-    public class ChangeGameMode extends BaseFunctionExpressionNode {
+    public class ChangeGameMode extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -75,7 +75,7 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class DropSelectedItem extends BaseFunctionExpressionNode {
+    public class DropSelectedItem extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -94,7 +94,7 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetIp extends BaseFunctionExpressionNode {
+    public class GetIp extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -105,7 +105,7 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class GetViewDistance extends BaseFunctionExpressionNode {
+    public class GetViewDistance extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
@@ -116,7 +116,7 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetExperienceLevels extends BaseFunctionExpressionNode {
+    public class SetExperienceLevels extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
@@ -135,7 +135,7 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         }
     }
 
-    public class SetExperiencePoints extends BaseFunctionExpressionNode {
+    public class SetExperiencePoints extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
