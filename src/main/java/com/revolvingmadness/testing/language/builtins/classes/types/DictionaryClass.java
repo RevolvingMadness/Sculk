@@ -1,7 +1,7 @@
 package com.revolvingmadness.testing.language.builtins.classes.types;
 
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
-import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
+import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.Map;
@@ -25,11 +25,11 @@ public class DictionaryClass extends BaseClassExpressionNode {
     }
 
     @Override
-    public BaseClassExpressionNode getIndex(BaseClassExpressionNode index) {
-        BaseClassExpressionNode value = this.value.get(index);
+    public BaseClassExpressionNode getIndex(BaseClassExpressionNode key) {
+        BaseClassExpressionNode value = this.value.get(key);
 
         if (value == null) {
-            throw new ValueError("Dictionary has no key '" + index + "'");
+            throw ErrorHolder.dictionaryHasNoKey(((StringClass) key).value);
         }
 
         return value;

@@ -293,6 +293,14 @@ public class LangParser {
         return statement;
     }
 
+    private StatementNode parseDeleteStatement() {
+        this.consume();
+
+        ExpressionNode expression = this.parseExpression();
+
+        return new DeleteStatementNode(expression);
+    }
+
     private ExpressionNode parseDictionaryExpression() {
         this.consume();
 
@@ -727,14 +735,6 @@ public class LangParser {
         }
 
         return statement;
-    }
-
-    private StatementNode parseDeleteStatement() {
-        this.consume();
-
-        ExpressionNode expression = this.parseExpression();
-
-        return new DeleteStatementNode(expression);
     }
 
     private ExpressionNode parseUnaryExpression() {

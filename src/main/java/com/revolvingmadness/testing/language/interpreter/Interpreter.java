@@ -5,10 +5,12 @@ import com.revolvingmadness.testing.gamerules.TestingGamerules;
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
 import com.revolvingmadness.testing.language.builtins.classes.ObjectClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.*;
+import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
-import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.interpreter.errors.Break;
+import com.revolvingmadness.testing.language.interpreter.errors.Continue;
+import com.revolvingmadness.testing.language.interpreter.errors.Return;
 import com.revolvingmadness.testing.language.interpreter.errors.StackOverflowError;
-import com.revolvingmadness.testing.language.interpreter.errors.*;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.*;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.*;
@@ -52,7 +54,7 @@ public class Interpreter implements Visitor {
             case DOUBLE_AMPERSAND -> left.call(this, "booleanAnd", List.of(right));
             case DOUBLE_PIPE -> left.call(this, "booleanOr", List.of(right));
             case INSTANCE_OF -> left.call(this, "instanceOf", List.of(right));
-            default -> throw new InterpreterError("Unsupported binary operator '" + binaryExpression.operator + "'");
+            default -> throw ErrorHolder.unsupportedBinaryOperator(binaryExpression.operator);
         };
     }
 
@@ -99,6 +101,24 @@ public class Interpreter implements Visitor {
     }
 
     @Override
+    public void visitDeleteStatement(DeleteStatementNode deleteStatement) {
+        if (deleteStatement.expression instanceof IdentifierExpressionNode identifierExpression) {
+            this.variableTable.deleteOrThrow(identifierExpression.value);
+        } else if (deleteStatement.expression instanceof GetExpressionNode getExpression) {
+            BaseClassExpressionNode assignee = this.visitExpression(getExpression.expression);
+
+            assignee.deleteProperty(getExpression.propertyName);
+        } else if (deleteStatement.expression instanceof IndexExpressionNode indexExpression) {
+            BaseClassExpressionNode assignee = this.visitExpression(indexExpression.expression);
+            BaseClassExpressionNode index = this.visitExpression(indexExpression.index);
+
+            assignee.deleteIndex(index);
+        } else {
+            throw new SyntaxError("Cannot delete r-value");
+        }
+    }
+
+    @Override
     public BaseClassExpressionNode visitDictionaryExpression(DictionaryExpressionNode dictionaryExpression) {
         Map<BaseClassExpressionNode, BaseClassExpressionNode> dictionary = new HashMap<>();
 
@@ -137,7 +157,7 @@ public class Interpreter implements Visitor {
         } else if (expression instanceof PostfixExpressionNode postfixExpression) {
             return this.visitPostfixExpression(postfixExpression);
         } else {
-            throw new InterpreterError("Unsupported node to interpret '" + expression.getClass().getSimpleName() + "'");
+            throw ErrorHolder.unsupportedExpressionNodeToInterpret(expression);
         }
     }
 
@@ -167,7 +187,7 @@ public class Interpreter implements Visitor {
             BaseClassExpressionNode condition = this.visitExpression(forStatement.condition);
 
             if (!condition.getType().equals("Boolean")) {
-                throw new TypeError("For-loop update requires type 'Integer' but got '" + condition.getType() + "'");
+                throw ErrorHolder.invalidForLoopUpdateType("Integer", condition.getType());
             }
 
             if (!((BooleanClass) condition).value) {
@@ -216,7 +236,7 @@ public class Interpreter implements Visitor {
         BaseClassExpressionNode ifCondition = this.visitExpression(ifStatement.ifConditionPair.getLeft());
 
         if (!ifCondition.getType().equals("Boolean")) {
-            throw new TypeError("If statement requires type 'Boolean' but got '" + ifCondition.getType() + "'");
+            throw ErrorHolder.ifStatementConditionRequiresType("Boolean", ifCondition.getType());
         }
 
         if (((BooleanClass) ifCondition).value) {
@@ -231,7 +251,7 @@ public class Interpreter implements Visitor {
             List<StatementNode> elseIfBody = elseIfConditionPair.getRight();
 
             if (!elseIfCondition.getType().equals("Boolean")) {
-                throw new TypeError("If statement requires type 'Boolean' but got '" + ifCondition.getType() + "'");
+                throw ErrorHolder.ifStatementConditionRequiresType("Boolean", ifCondition.getType());
             }
 
             if (((BooleanClass) elseIfCondition).value) {
@@ -270,31 +290,13 @@ public class Interpreter implements Visitor {
     }
 
     @Override
-    public void visitDeleteStatement(DeleteStatementNode deleteStatement) {
-        if (deleteStatement.expression instanceof IdentifierExpressionNode identifierExpression) {
-            this.variableTable.deleteOrThrow(identifierExpression.value);
-        } else if (deleteStatement.expression instanceof GetExpressionNode getExpression) {
-            BaseClassExpressionNode assignee = this.visitExpression(getExpression.expression);
-
-            assignee.deleteProperty(getExpression.propertyName);
-        } else if (deleteStatement.expression instanceof IndexExpressionNode indexExpression) {
-            BaseClassExpressionNode assignee = this.visitExpression(indexExpression.expression);
-            BaseClassExpressionNode index = this.visitExpression(indexExpression.index);
-
-            assignee.deleteIndex(index);
-        } else {
-            throw new SyntaxError("Cannot delete r-value");
-        }
-    }
-
-    @Override
     public BaseClassExpressionNode visitPostfixExpression(PostfixExpressionNode postfixExpression) {
         BaseClassExpressionNode expression = this.visitExpression(postfixExpression.expression);
 
         return switch (postfixExpression.operator) {
             case DOUBLE_PLUS -> expression.call(this, "increment", List.of());
             case DOUBLE_HYPHEN -> expression.call(this, "decrement", List.of());
-            default -> throw new InterpreterError("Unsupported postfix operator '" + postfixExpression.operator + "'");
+            default -> throw ErrorHolder.unsupportedPostfixOperator(postfixExpression.operator);
         };
     }
 
@@ -340,7 +342,7 @@ public class Interpreter implements Visitor {
         } else if (statement instanceof DeleteStatementNode deleteStatement) {
             this.visitDeleteStatement(deleteStatement);
         } else {
-            throw new InterpreterError("Unsupported node to interpret '" + statement.getClass().getSimpleName() + "'");
+            throw ErrorHolder.unsupportedStatementNodeToInterpret(statement);
         }
     }
 
@@ -351,7 +353,7 @@ public class Interpreter implements Visitor {
         return switch (unaryExpression.operator) {
             case EXCLAMATION_MARK -> value.call(this, "logicalNot", List.of());
             case HYPHEN -> value.call(this, "negate", List.of());
-            default -> throw new InterpreterError("Unknown unary operator '" + unaryExpression.operator + "'");
+            default -> throw ErrorHolder.unsupportedUnaryOperator(unaryExpression.operator);
         };
     }
 
@@ -397,7 +399,7 @@ public class Interpreter implements Visitor {
             BaseClassExpressionNode condition = this.visitExpression(whileStatement.condition);
 
             if (!condition.getType().equals("Boolean")) {
-                throw new TypeError("For-loop update requires type 'Integer' but got '" + condition.getType() + "'");
+                throw ErrorHolder.invalidWhileLoopConditionType("Boolean", condition.getType());
             }
 
             if (!((BooleanClass) condition).value) {

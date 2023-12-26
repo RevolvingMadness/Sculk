@@ -5,8 +5,7 @@ import com.revolvingmadness.testing.gamerules.TestingGamerules;
 import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.IntegerClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
-import com.revolvingmadness.testing.language.errors.SyntaxError;
-import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import net.minecraft.world.GameRules;
 
@@ -145,7 +144,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getAnnounceAdvancements' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getAnnounceAdvancements", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.ANNOUNCE_ADVANCEMENTS));
@@ -156,7 +155,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getBlockExplosionDropDecay' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getBlockExplosionDropDecay", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.BLOCK_EXPLOSION_DROP_DECAY));
@@ -167,7 +166,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getCommandBlockOutput' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getCommandBlockOutput", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.COMMAND_BLOCK_OUTPUT));
@@ -178,7 +177,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getCommandModificationBlockLimit' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getCommandModificationBlockLimit", 0, arguments.size());
             }
 
             return new IntegerClass(GameRulesClass.this.gameRules.getInt(GameRules.COMMAND_MODIFICATION_BLOCK_LIMIT));
@@ -189,7 +188,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDisableElytraMovementCheck' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDisableElytraMovementCheck", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DISABLE_ELYTRA_MOVEMENT_CHECK));
@@ -200,7 +199,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDisableRaids' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDisableRaids", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DISABLE_RAIDS));
@@ -211,7 +210,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDoDaylightCycle' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDoDaylightCycle", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_DAYLIGHT_CYCLE));
@@ -222,7 +221,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDoEntityDrops' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDoEntityDrops", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_ENTITY_DROPS));
@@ -233,7 +232,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDoFireTick' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDoFireTick", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_FIRE_TICK));
@@ -244,7 +243,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDoImmediateRespawn' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDoImmediateRespawn", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_IMMEDIATE_RESPAWN));
@@ -255,7 +254,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDoInsomnia' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDoInsomnia", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_INSOMNIA));
@@ -266,7 +265,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDoLimitedCrafting' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDoLimitedCrafting", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_LIMITED_CRAFTING));
@@ -277,7 +276,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDoMobGriefing' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDoMobGriefing", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_MOB_GRIEFING));
@@ -288,7 +287,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDoMobLoot' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDoMobLoot", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_MOB_LOOT));
@@ -299,7 +298,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDoMobSpawning' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDoMobSpawning", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_MOB_SPAWNING));
@@ -310,7 +309,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDoPatrolSpawning' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDoPatrolSpawning", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_PATROL_SPAWNING));
@@ -321,7 +320,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDoTileDrops' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDoTileDrops", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_TILE_DROPS));
@@ -332,7 +331,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDoTraderSpawning' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDoTraderSpawning", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_TRADER_SPAWNING));
@@ -343,7 +342,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDoVinesSpread' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDoVinesSpread", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_VINES_SPREAD));
@@ -354,7 +353,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDoWardenSpawning' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDoWardenSpawning", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_WARDEN_SPAWNING));
@@ -365,7 +364,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDoWeatherCycle' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDoWeatherCycle", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DO_WEATHER_CYCLE));
@@ -376,7 +375,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getDrowningDamage' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getDrowningDamage", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.DROWNING_DAMAGE));
@@ -387,7 +386,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getEnderPearlsVanishOnDeath' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getEnderPearlsVanishOnDeath", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.ENDER_PEARLS_VANISH_ON_DEATH));
@@ -398,7 +397,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getFallDamage' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getFallDamage", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.FALL_DAMAGE));
@@ -409,7 +408,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getFireDamage' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getFireDamage", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.FIRE_DAMAGE));
@@ -420,7 +419,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getForgiveDeadPlayers' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getForgiveDeadPlayers", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.FORGIVE_DEAD_PLAYERS));
@@ -431,7 +430,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getFreezeDamage' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getFreezeDamage", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.FREEZE_DAMAGE));
@@ -442,7 +441,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getGlobalSoundEvents' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getGlobalSoundEvents", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.GLOBAL_SOUND_EVENTS));
@@ -453,7 +452,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getKeepInventory' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getKeepInventory", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.KEEP_INVENTORY));
@@ -464,7 +463,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getLavaSourceConversion' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getLavaSourceConversion", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.LAVA_SOURCE_CONVERSION));
@@ -475,7 +474,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getLogAdminCommands' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getLogAdminCommands", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.LOG_ADMIN_COMMANDS));
@@ -486,7 +485,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getMaxArgumentCount' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getMaxArgumentCount", 0, arguments.size());
             }
 
             return new IntegerClass(GameRulesClass.this.gameRules.getInt(TestingGamerules.MAX_ARGUMENTS));
@@ -497,7 +496,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getMaxCommandChainLength' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getMaxCommandChainLength", 0, arguments.size());
             }
 
             return new IntegerClass(GameRulesClass.this.gameRules.getInt(GameRules.MAX_COMMAND_CHAIN_LENGTH));
@@ -508,7 +507,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getMaxEntityCramming' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getMaxEntityCramming", 0, arguments.size());
             }
 
             return new IntegerClass(GameRulesClass.this.gameRules.getInt(GameRules.MAX_ENTITY_CRAMMING));
@@ -519,7 +518,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getMaxLoops' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getMaxLoops", 0, arguments.size());
             }
 
             return new IntegerClass(GameRulesClass.this.gameRules.getInt(TestingGamerules.MAX_LOOPS));
@@ -530,7 +529,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getMobExplosionDropDecay' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getMobExplosionDropDecay", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.MOB_EXPLOSION_DROP_DECAY));
@@ -541,7 +540,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getNaturalRegeneration' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getNaturalRegeneration", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.NATURAL_REGENERATION));
@@ -552,7 +551,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getPlayersSleepingPercentage' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getPlayersSleepingPercentage", 0, arguments.size());
             }
 
             return new IntegerClass(GameRulesClass.this.gameRules.getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE));
@@ -563,7 +562,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getRandomTickSpeed' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getRandomTickSpeed", 0, arguments.size());
             }
 
             return new IntegerClass(GameRulesClass.this.gameRules.getInt(GameRules.RANDOM_TICK_SPEED));
@@ -574,7 +573,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getReducedDebugInfo' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getReducedDebugInfo", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.REDUCED_DEBUG_INFO));
@@ -585,7 +584,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getScriptLogsEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getScriptLogsEnabled", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(TestingGamerules.SCRIPT_LOGS_ENABLED));
@@ -596,7 +595,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getSendCommandFeedback' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getSendCommandFeedback", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.SEND_COMMAND_FEEDBACK));
@@ -607,7 +606,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getShowDeathMessages' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getShowDeathMessages", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.SHOW_DEATH_MESSAGES));
@@ -618,7 +617,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getSnowAccumulationHeight' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getSnowAccumulationHeight", 0, arguments.size());
             }
 
             return new IntegerClass(GameRulesClass.this.gameRules.getInt(GameRules.SNOW_ACCUMULATION_HEIGHT));
@@ -629,7 +628,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getSpawnRadius' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getSpawnRadius", 0, arguments.size());
             }
 
             return new IntegerClass(GameRulesClass.this.gameRules.getInt(GameRules.SPAWN_RADIUS));
@@ -640,7 +639,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getSpectatorsGenerateChunks' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getSpectatorsGenerateChunks", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.SPECTATORS_GENERATE_CHUNKS));
@@ -651,7 +650,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getTntExplosionDropDecay' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getTntExplosionDropDecay", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.TNT_EXPLOSION_DROP_DECAY));
@@ -662,7 +661,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getUniversalAnger' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getUniversalAnger", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.UNIVERSAL_ANGER));
@@ -673,7 +672,7 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getWaterSourceConversion' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getWaterSourceConversion", 0, arguments.size());
             }
 
             return new BooleanClass(GameRulesClass.this.gameRules.getBoolean(GameRules.WATER_SOURCE_CONVERSION));
@@ -684,13 +683,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setAnnounceAdvancements' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setAnnounceAdvancements", 1, arguments.size());
             }
 
             BaseClassExpressionNode announceAdvancements = arguments.get(0);
 
             if (!announceAdvancements.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setAnnounceAdvancements' requires type 'Boolean' but got '" + announceAdvancements.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setAnnounceAdvancements", "Boolean", announceAdvancements.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.ANNOUNCE_ADVANCEMENTS).set(((BooleanClass) announceAdvancements).value, Testing.server);
@@ -703,13 +702,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setBlockExplosionDropDecay' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setBlockExplosionDropDecay", 1, arguments.size());
             }
 
             BaseClassExpressionNode blockExplosionDropDecay = arguments.get(0);
 
             if (!blockExplosionDropDecay.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setBlockExplosionDropDecay' requires type 'Boolean' but got '" + blockExplosionDropDecay.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setBlockExplosionDropDecay", "Boolean", blockExplosionDropDecay.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.BLOCK_EXPLOSION_DROP_DECAY).set(((BooleanClass) blockExplosionDropDecay).value, Testing.server);
@@ -722,13 +721,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setCommandBlockOutput' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setCommandBlockOutput", 1, arguments.size());
             }
 
             BaseClassExpressionNode commandBlockOutput = arguments.get(0);
 
             if (!commandBlockOutput.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setCommandBlockOutput' requires type 'Boolean' but got '" + commandBlockOutput.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setCommandBlockOutput", "Boolean", commandBlockOutput.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.COMMAND_BLOCK_OUTPUT).set(((BooleanClass) commandBlockOutput).value, Testing.server);
@@ -741,13 +740,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setCommandModificationBlockLimit' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setCommandModificationBlockLimit", 1, arguments.size());
             }
 
             BaseClassExpressionNode commandModificationBlockLimit = arguments.get(0);
 
             if (!commandModificationBlockLimit.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setCommandModificationBlockLimit' requires type 'Integer' but got '" + commandModificationBlockLimit.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setCommandModificationBlockLimit", "Integer", commandModificationBlockLimit.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.COMMAND_MODIFICATION_BLOCK_LIMIT).set(((IntegerClass) commandModificationBlockLimit).value, Testing.server);
@@ -760,13 +759,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDisableElytraMovementCheck' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDisableElytraMovementCheck", 1, arguments.size());
             }
 
             BaseClassExpressionNode disableElytraMovementCheck = arguments.get(0);
 
             if (!disableElytraMovementCheck.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDisableElytraMovementCheck' requires type 'Boolean' but got '" + disableElytraMovementCheck.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDisableElytraMovementCheck", "Boolean", disableElytraMovementCheck.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DISABLE_ELYTRA_MOVEMENT_CHECK).set(((BooleanClass) disableElytraMovementCheck).value, Testing.server);
@@ -779,13 +778,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDisableRaids' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDisableRaids", 1, arguments.size());
             }
 
             BaseClassExpressionNode disableRaids = arguments.get(0);
 
             if (!disableRaids.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDisableRaids' requires type 'Boolean' but got '" + disableRaids.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDisableRaids", "Boolean", disableRaids.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DISABLE_RAIDS).set(((BooleanClass) disableRaids).value, Testing.server);
@@ -798,13 +797,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDoDaylightCycle' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDoDaylightCycle", 1, arguments.size());
             }
 
             BaseClassExpressionNode doDaylightCycle = arguments.get(0);
 
             if (!doDaylightCycle.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoDaylightCycle' requires type 'Boolean' but got '" + doDaylightCycle.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDoDaylightCycle", "Boolean", doDaylightCycle.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_DAYLIGHT_CYCLE).set(((BooleanClass) doDaylightCycle).value, Testing.server);
@@ -817,13 +816,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDoEntityDrops' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDoEntityDrops", 1, arguments.size());
             }
 
             BaseClassExpressionNode doEntityDrops = arguments.get(0);
 
             if (!doEntityDrops.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoEntityDrops' requires type 'Boolean' but got '" + doEntityDrops.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDoEntityDrops", "Boolean", doEntityDrops.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_ENTITY_DROPS).set(((BooleanClass) doEntityDrops).value, Testing.server);
@@ -836,13 +835,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDoFireTick' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDoFireTick", 1, arguments.size());
             }
 
             BaseClassExpressionNode doFireTick = arguments.get(0);
 
             if (!doFireTick.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoFireTick' requires type 'Boolean' but got '" + doFireTick.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDoFireTick", "Boolean", doFireTick.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_FIRE_TICK).set(((BooleanClass) doFireTick).value, Testing.server);
@@ -855,13 +854,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDoImmediateRespawn' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDoImmediateRespawn", 1, arguments.size());
             }
 
             BaseClassExpressionNode immediateRespawn = arguments.get(0);
 
             if (!immediateRespawn.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoImmediateRespawn' requires type 'Boolean' but got '" + immediateRespawn.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDoImmediateRespawn", "Boolean", immediateRespawn.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_IMMEDIATE_RESPAWN).set(((BooleanClass) immediateRespawn).value, Testing.server);
@@ -874,13 +873,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDoInsomnia' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDoInsomnia", 1, arguments.size());
             }
 
             BaseClassExpressionNode doInsomnia = arguments.get(0);
 
             if (!doInsomnia.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoInsomnia' requires type 'Boolean' but got '" + doInsomnia.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDoInsomnia", "Boolean", doInsomnia.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_INSOMNIA).set(((BooleanClass) doInsomnia).value, Testing.server);
@@ -893,13 +892,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDoLimitedCrafting' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDoLimitedCrafting", 1, arguments.size());
             }
 
             BaseClassExpressionNode doLimitedCrafting = arguments.get(0);
 
             if (!doLimitedCrafting.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoLimitedCrafting' requires type 'Boolean' but got '" + doLimitedCrafting.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDoLimitedCrafting", "Boolean", doLimitedCrafting.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_LIMITED_CRAFTING).set(((BooleanClass) doLimitedCrafting).value, Testing.server);
@@ -912,13 +911,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDoMobGriefing' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDoMobGriefing", 1, arguments.size());
             }
 
             BaseClassExpressionNode doMobGriefing = arguments.get(0);
 
             if (!doMobGriefing.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoMobGriefing' requires type 'Boolean' but got '" + doMobGriefing.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDoMobGriefing", "Boolean", doMobGriefing.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_MOB_GRIEFING).set(((BooleanClass) doMobGriefing).value, Testing.server);
@@ -931,13 +930,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDoMobLoot' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDoMobLoot", 1, arguments.size());
             }
 
             BaseClassExpressionNode doMobLoot = arguments.get(0);
 
             if (!doMobLoot.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoMobLoot' requires type 'Boolean' but got '" + doMobLoot.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDoMobLoot", "Boolean", doMobLoot.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_MOB_LOOT).set(((BooleanClass) doMobLoot).value, Testing.server);
@@ -950,13 +949,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDoMobSpawning' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDoMobSpawning", 1, arguments.size());
             }
 
             BaseClassExpressionNode doMobSpawning = arguments.get(0);
 
             if (!doMobSpawning.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoMobSpawning' requires type 'Boolean' but got '" + doMobSpawning.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDoMobSpawning", "Boolean", doMobSpawning.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_MOB_SPAWNING).set(((BooleanClass) doMobSpawning).value, Testing.server);
@@ -969,13 +968,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDoPatrolSpawning' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDoPatrolSpawning", 1, arguments.size());
             }
 
             BaseClassExpressionNode doPatrolSpawning = arguments.get(0);
 
             if (!doPatrolSpawning.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoPatrolSpawning' requires type 'Boolean' but got '" + doPatrolSpawning.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDoPatrolSpawning", "Boolean", doPatrolSpawning.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_PATROL_SPAWNING).set(((BooleanClass) doPatrolSpawning).value, Testing.server);
@@ -988,13 +987,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDoTileDrops' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDoTileDrops", 1, arguments.size());
             }
 
             BaseClassExpressionNode doTileDrops = arguments.get(0);
 
             if (!doTileDrops.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoTileDrops' requires type 'Boolean' but got '" + doTileDrops.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDoTileDrops", "Boolean", doTileDrops.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_TILE_DROPS).set(((BooleanClass) doTileDrops).value, Testing.server);
@@ -1007,13 +1006,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDoTraderSpawning' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDoTraderSpawning", 1, arguments.size());
             }
 
             BaseClassExpressionNode doTraderSpawning = arguments.get(0);
 
             if (!doTraderSpawning.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoTraderSpawning' requires type 'Boolean' but got '" + doTraderSpawning.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDoTraderSpawning", "Boolean", doTraderSpawning.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_TRADER_SPAWNING).set(((BooleanClass) doTraderSpawning).value, Testing.server);
@@ -1026,13 +1025,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDoVinesSpread' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDoVinesSpread", 1, arguments.size());
             }
 
             BaseClassExpressionNode doVinesSpread = arguments.get(0);
 
             if (!doVinesSpread.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoVinesSpread' requires type 'Boolean' but got '" + doVinesSpread.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDoVinesSpread", "Boolean", doVinesSpread.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_VINES_SPREAD).set(((BooleanClass) doVinesSpread).value, Testing.server);
@@ -1045,13 +1044,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDoWardenSpawning' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDoWardenSpawning", 1, arguments.size());
             }
 
             BaseClassExpressionNode doWardenSpawning = arguments.get(0);
 
             if (!doWardenSpawning.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoWardenSpawning' requires type 'Boolean' but got '" + doWardenSpawning.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDoWardenSpawning", "Boolean", doWardenSpawning.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_WARDEN_SPAWNING).set(((BooleanClass) doWardenSpawning).value, Testing.server);
@@ -1064,13 +1063,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDoWeatherCycle' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDoWeatherCycle", 1, arguments.size());
             }
 
             BaseClassExpressionNode doWeatherCycle = arguments.get(0);
 
             if (!doWeatherCycle.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDoWeatherCycle' requires type 'Boolean' but got '" + doWeatherCycle.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDoWeatherCycle", "Boolean", doWeatherCycle.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DO_WEATHER_CYCLE).set(((BooleanClass) doWeatherCycle).value, Testing.server);
@@ -1083,13 +1082,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setDrowningDamage' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setDrowningDamage", 1, arguments.size());
             }
 
             BaseClassExpressionNode drowningDamage = arguments.get(0);
 
             if (!drowningDamage.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setDrowningDamage' requires type 'Boolean' but got '" + drowningDamage.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setDrowningDamage", "Boolean", drowningDamage.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.DROWNING_DAMAGE).set(((BooleanClass) drowningDamage).value, Testing.server);
@@ -1102,13 +1101,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setEnderPearlsVanishOnDeath' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setEnderPearlsVanishOnDeath", 1, arguments.size());
             }
 
             BaseClassExpressionNode enderPearlsVanishOnDeath = arguments.get(0);
 
             if (!enderPearlsVanishOnDeath.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setEnderPearlsVanishOnDeath' requires type 'Boolean' but got '" + enderPearlsVanishOnDeath.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setEnderPearlsVanishOnDeath", "Boolean", enderPearlsVanishOnDeath.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.ENDER_PEARLS_VANISH_ON_DEATH).set(((BooleanClass) enderPearlsVanishOnDeath).value, Testing.server);
@@ -1121,13 +1120,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setFallDamage' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setFallDamage", 1, arguments.size());
             }
 
             BaseClassExpressionNode fallDamage = arguments.get(0);
 
             if (!fallDamage.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setFallDamage' requires type 'Boolean' but got '" + fallDamage.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setFallDamage", "Boolean", fallDamage.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.FALL_DAMAGE).set(((BooleanClass) fallDamage).value, Testing.server);
@@ -1140,13 +1139,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setFireDamage' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setFireDamage", 1, arguments.size());
             }
 
             BaseClassExpressionNode fireDamage = arguments.get(0);
 
             if (!fireDamage.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setFireDamage' requires type 'Boolean' but got '" + fireDamage.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setFireDamage", "Boolean", fireDamage.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.FIRE_DAMAGE).set(((BooleanClass) fireDamage).value, Testing.server);
@@ -1159,13 +1158,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setForgiveDeadPlayers' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setForgiveDeadPlayers", 1, arguments.size());
             }
 
             BaseClassExpressionNode forgiveDeadPlayers = arguments.get(0);
 
             if (!forgiveDeadPlayers.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setForgiveDeadPlayers' requires type 'Boolean' but got '" + forgiveDeadPlayers.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setForgiveDeadPlayers", "Boolean", forgiveDeadPlayers.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.FORGIVE_DEAD_PLAYERS).set(((BooleanClass) forgiveDeadPlayers).value, Testing.server);
@@ -1178,13 +1177,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setFreezeDamage' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setFreezeDamage", 1, arguments.size());
             }
 
             BaseClassExpressionNode freezeDamage = arguments.get(0);
 
             if (!freezeDamage.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setFreezeDamage' requires type 'Boolean' but got '" + freezeDamage.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setFreezeDamage", "Boolean", freezeDamage.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.FREEZE_DAMAGE).set(((BooleanClass) freezeDamage).value, Testing.server);
@@ -1197,13 +1196,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setGlobalSoundEvents' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setGlobalSoundEvents", 1, arguments.size());
             }
 
             BaseClassExpressionNode globalSoundEvents = arguments.get(0);
 
             if (!globalSoundEvents.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setGlobalSoundEvents' requires type 'Boolean' but got '" + globalSoundEvents.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setGlobalSoundEvents", "Boolean", globalSoundEvents.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.GLOBAL_SOUND_EVENTS).set(((BooleanClass) globalSoundEvents).value, Testing.server);
@@ -1216,13 +1215,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setKeepInventory' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setKeepInventory", 1, arguments.size());
             }
 
             BaseClassExpressionNode keepInventory = arguments.get(0);
 
             if (!keepInventory.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setKeepInventory' requires type 'Boolean' but got '" + keepInventory.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setKeepInventory", "Boolean", keepInventory.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.KEEP_INVENTORY).set(((BooleanClass) keepInventory).value, Testing.server);
@@ -1235,13 +1234,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setLavaSourceConversion' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setLavaSourceConversion", 1, arguments.size());
             }
 
             BaseClassExpressionNode lavaSourceConversion = arguments.get(0);
 
             if (!lavaSourceConversion.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setLavaSourceConversion' requires type 'Boolean' but got '" + lavaSourceConversion.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setLavaSourceConversion", "Boolean", lavaSourceConversion.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.LAVA_SOURCE_CONVERSION).set(((BooleanClass) lavaSourceConversion).value, Testing.server);
@@ -1254,13 +1253,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setLogAdminCommands' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setLogAdminCommands", 1, arguments.size());
             }
 
             BaseClassExpressionNode logAdminCommands = arguments.get(0);
 
             if (!logAdminCommands.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setLogAdminCommands' requires type 'Boolean' but got '" + logAdminCommands.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setLogAdminCommands", "Boolean", logAdminCommands.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.LOG_ADMIN_COMMANDS).set(((BooleanClass) logAdminCommands).value, Testing.server);
@@ -1273,13 +1272,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setMaxArgumentCount' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setMaxArgumentCount", 1, arguments.size());
             }
 
             BaseClassExpressionNode maxArgumentCount = arguments.get(0);
 
             if (!maxArgumentCount.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setMaxArgumentCount' requires type 'Integer' but got '" + maxArgumentCount.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setMaxArgumentCount", "Integer", maxArgumentCount.getType());
             }
 
             GameRulesClass.this.gameRules.get(TestingGamerules.MAX_ARGUMENTS).set(((IntegerClass) maxArgumentCount).value, Testing.server);
@@ -1292,13 +1291,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setMaxCommandChainLength' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setMaxCommandChainLength", 1, arguments.size());
             }
 
             BaseClassExpressionNode maxCommandChainLength = arguments.get(0);
 
             if (!maxCommandChainLength.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setMaxCommandChainLength' requires type 'Integer' but got '" + maxCommandChainLength.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setMaxCommandChainLength", "Integer", maxCommandChainLength.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.MAX_COMMAND_CHAIN_LENGTH).set(((IntegerClass) maxCommandChainLength).value, Testing.server);
@@ -1311,13 +1310,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setMaxEntityCramming' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setMaxEntityCramming", 1, arguments.size());
             }
 
             BaseClassExpressionNode maxEntityCramming = arguments.get(0);
 
             if (!maxEntityCramming.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setMaxEntityCramming' requires type 'Integer' but got '" + maxEntityCramming.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setMaxEntityCramming", "Integer", maxEntityCramming.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.MAX_ENTITY_CRAMMING).set(((IntegerClass) maxEntityCramming).value, Testing.server);
@@ -1330,13 +1329,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setMaxLoops' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setMaxLoops", 1, arguments.size());
             }
 
             BaseClassExpressionNode maxLoops = arguments.get(0);
 
             if (!maxLoops.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setMaxLoops' requires type 'Integer' but got '" + maxLoops.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setMaxLoops", "Integer", maxLoops.getType());
             }
 
             GameRulesClass.this.gameRules.get(TestingGamerules.MAX_LOOPS).set(((IntegerClass) maxLoops).value, Testing.server);
@@ -1349,13 +1348,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setMobExplosionDropDecay' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setMobExplosionDropDecay", 1, arguments.size());
             }
 
             BaseClassExpressionNode mobExplosionDropDecay = arguments.get(0);
 
             if (!mobExplosionDropDecay.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setMobExplosionDropDecay' requires type 'Boolean' but got '" + mobExplosionDropDecay.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setMobExplosionDropDecay", "Boolean", mobExplosionDropDecay.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.MOB_EXPLOSION_DROP_DECAY).set(((BooleanClass) mobExplosionDropDecay).value, Testing.server);
@@ -1368,13 +1367,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setNaturalRegeneration' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setNaturalRegeneration", 1, arguments.size());
             }
 
             BaseClassExpressionNode naturalRegeneration = arguments.get(0);
 
             if (!naturalRegeneration.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setNaturalRegeneration' requires type 'Boolean' but got '" + naturalRegeneration.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setNaturalRegeneration", "Boolean", naturalRegeneration.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.NATURAL_REGENERATION).set(((BooleanClass) naturalRegeneration).value, Testing.server);
@@ -1387,13 +1386,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setPlayersSleepingPercentage' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setPlayersSleepingPercentage", 1, arguments.size());
             }
 
             BaseClassExpressionNode playerSleepingPercentage = arguments.get(0);
 
             if (!playerSleepingPercentage.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setPlayersSleepingPercentage' requires type 'Integer' but got '" + playerSleepingPercentage.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setPlayersSleepingPercentage", "Integer", playerSleepingPercentage.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.PLAYERS_SLEEPING_PERCENTAGE).set(((IntegerClass) playerSleepingPercentage).value, Testing.server);
@@ -1406,13 +1405,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setRandomTickSpeed' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setRandomTickSpeed", 1, arguments.size());
             }
 
             BaseClassExpressionNode randomTickSpeed = arguments.get(0);
 
             if (!randomTickSpeed.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setRandomTickSpeed' requires type 'Integer' but got '" + randomTickSpeed.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setRandomTickSpeed", "Integer", randomTickSpeed.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.RANDOM_TICK_SPEED).set(((IntegerClass) randomTickSpeed).value, Testing.server);
@@ -1425,13 +1424,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setReducedDebugInfo' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setReducedDebugInfo", 1, arguments.size());
             }
 
             BaseClassExpressionNode reducedDebugInfo = arguments.get(0);
 
             if (!reducedDebugInfo.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setReducedDebugInfo' requires type 'Boolean' but got '" + reducedDebugInfo.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setReducedDebugInfo", "Boolean", reducedDebugInfo.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.REDUCED_DEBUG_INFO).set(((BooleanClass) reducedDebugInfo).value, Testing.server);
@@ -1444,13 +1443,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setScriptLogsEnabled' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setScriptLogsEnabled", 1, arguments.size());
             }
 
             BaseClassExpressionNode scriptLogsEnabled = arguments.get(0);
 
             if (!scriptLogsEnabled.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setScriptLogsEnabled' requires type 'Boolean' but got '" + scriptLogsEnabled.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setScriptLogsEnabled", "Boolean", scriptLogsEnabled.getType());
             }
 
             GameRulesClass.this.gameRules.get(TestingGamerules.SCRIPT_LOGS_ENABLED).set(((BooleanClass) scriptLogsEnabled).value, Testing.server);
@@ -1463,13 +1462,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setSendCommandFeedback' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setSendCommandFeedback", 1, arguments.size());
             }
 
             BaseClassExpressionNode sendCommandFeedback = arguments.get(0);
 
             if (!sendCommandFeedback.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setSendCommandFeedback' requires type 'Boolean' but got '" + sendCommandFeedback.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setSendCommandFeedback", "Boolean", sendCommandFeedback.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.SEND_COMMAND_FEEDBACK).set(((BooleanClass) sendCommandFeedback).value, Testing.server);
@@ -1482,13 +1481,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setShowDeathMessages' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setShowDeathMessages", 1, arguments.size());
             }
 
             BaseClassExpressionNode showDeathMessages = arguments.get(0);
 
             if (!showDeathMessages.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setShowDeathMessages' requires type 'Boolean' but got '" + showDeathMessages.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setShowDeathMessages", "Boolean", showDeathMessages.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.SHOW_DEATH_MESSAGES).set(((BooleanClass) showDeathMessages).value, Testing.server);
@@ -1501,13 +1500,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setSnowAccumulationHeight' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setSnowAccumulationHeight", 1, arguments.size());
             }
 
             BaseClassExpressionNode snowAccumulationHeight = arguments.get(0);
 
             if (!snowAccumulationHeight.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setSnowAccumulationHeight' requires type 'Integer' but got '" + snowAccumulationHeight.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setSnowAccumulationHeight", "Integer", snowAccumulationHeight.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.SNOW_ACCUMULATION_HEIGHT).set(((IntegerClass) snowAccumulationHeight).value, Testing.server);
@@ -1520,13 +1519,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setSpawnRadius' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setSpawnRadius", 1, arguments.size());
             }
 
             BaseClassExpressionNode spawnRadius = arguments.get(0);
 
             if (!spawnRadius.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setSpawnRadius' requires type 'Integer' but got '" + spawnRadius.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setSpawnRadius", "Integer", spawnRadius.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.SPAWN_RADIUS).set(((IntegerClass) spawnRadius).value, Testing.server);
@@ -1539,13 +1538,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setSpectatorsGenerateChunks' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setSpectatorsGenerateChunks", 1, arguments.size());
             }
 
             BaseClassExpressionNode spectatorsGenerateChunks = arguments.get(0);
 
             if (!spectatorsGenerateChunks.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setSpectatorsGenerateChunks' requires type 'Boolean' but got '" + spectatorsGenerateChunks.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setSpectatorsGenerateChunks", "Boolean", spectatorsGenerateChunks.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.SPECTATORS_GENERATE_CHUNKS).set(((BooleanClass) spectatorsGenerateChunks).value, Testing.server);
@@ -1558,13 +1557,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setTntExplosionDropDecay' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setTntExplosionDropDecay", 1, arguments.size());
             }
 
             BaseClassExpressionNode tntExplosionDropDecay = arguments.get(0);
 
             if (!tntExplosionDropDecay.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setTntExplosionDropDecay' requires type 'Boolean' but got '" + tntExplosionDropDecay.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setTntExplosionDropDecay", "Boolean", tntExplosionDropDecay.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.TNT_EXPLOSION_DROP_DECAY).set(((BooleanClass) tntExplosionDropDecay).value, Testing.server);
@@ -1577,13 +1576,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setUniversalAnger' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setUniversalAnger", 1, arguments.size());
             }
 
             BaseClassExpressionNode universalAnger = arguments.get(0);
 
             if (!universalAnger.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setUniversalAnger' requires type 'Boolean' but got '" + universalAnger.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setUniversalAnger", "Boolean", universalAnger.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.UNIVERSAL_ANGER).set(((BooleanClass) universalAnger).value, Testing.server);
@@ -1596,13 +1595,13 @@ public class GameRulesClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setWaterSourceConversion' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setWaterSourceConversion", 1, arguments.size());
             }
 
             BaseClassExpressionNode waterSourceConversion = arguments.get(0);
 
             if (!waterSourceConversion.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setWaterSourceConversion' requires type 'Boolean' but got '" + waterSourceConversion.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setWaterSourceConversion", "Boolean", waterSourceConversion.getType());
             }
 
             GameRulesClass.this.gameRules.get(GameRules.WATER_SOURCE_CONVERSION).set(((BooleanClass) waterSourceConversion).value, Testing.server);

@@ -2,8 +2,7 @@ package com.revolvingmadness.testing.language.builtins.classes;
 
 import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.StringClass;
-import com.revolvingmadness.testing.language.errors.SyntaxError;
-import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 
 import java.util.List;
@@ -47,12 +46,12 @@ public class ObjectClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'add' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("add", 1, arguments.size());
             }
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply binary operator '+' to types '" + this.boundClass.getType() + "' and '" + other.getType() + "'");
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("+", this.boundClass.getType(), other.getType());
         }
     }
 
@@ -64,12 +63,12 @@ public class ObjectClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'divide' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("divide", 1, arguments.size());
             }
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply binary operator '/' to types '" + this.boundClass.getType() + "' and '" + other.getType() + "'");
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("/", this.boundClass.getType(), other.getType());
         }
     }
 
@@ -81,7 +80,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
             }
 
             BaseClassExpressionNode o = arguments.get(0);
@@ -98,12 +97,12 @@ public class ObjectClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'exponentiate' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("exponentiate", 1, arguments.size());
             }
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply binary operator '^' to types '" + this.boundClass.getType() + "' and '" + other.getType() + "'");
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("^", this.boundClass.getType(), other.getType());
         }
     }
 
@@ -115,7 +114,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'instanceOf' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("instanceOf", 1, arguments.size());
             }
 
             BaseClassExpressionNode o = arguments.get(0);
@@ -132,12 +131,12 @@ public class ObjectClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'mod' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("mod", 1, arguments.size());
             }
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply binary operator '%' to types '" + this.boundClass.getType() + "' and '" + other.getType() + "'");
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("%", this.boundClass.getType(), other.getType());
         }
     }
 
@@ -149,12 +148,12 @@ public class ObjectClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'multiply' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("multiply", 1, arguments.size());
             }
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply binary operator '*' to types '" + this.boundClass.getType() + "' and '" + other.getType() + "'");
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("*", this.boundClass.getType(), other.getType());
         }
     }
 
@@ -166,10 +165,10 @@ public class ObjectClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'negate' requires 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("negate", 0, arguments.size());
             }
 
-            throw new SyntaxError("Cannot apply unary operator '-' to type '" + this.boundClass.getType() + "'");
+            throw ErrorHolder.cannotApplyUnaryOperatorToTypes("-", this.boundClass.getType());
         }
     }
 
@@ -181,7 +180,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("notEqualTo", 1, arguments.size());
             }
 
             BaseClassExpressionNode o = arguments.get(0);
@@ -198,12 +197,12 @@ public class ObjectClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'subtract' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("subtract", 1, arguments.size());
             }
 
             BaseClassExpressionNode other = arguments.get(0);
 
-            throw new TypeError("Cannot apply binary operator '-' to types '" + this.boundClass.getType() + "' and '" + other.getType() + "'");
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("-", this.boundClass.getType(), other.getType());
         }
     }
 
@@ -215,7 +214,7 @@ public class ObjectClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'toString' requires 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("toString", 0, arguments.size());
             }
 
             return new StringClass("<Class '" + this.boundClass.getType() + "'>");

@@ -4,7 +4,7 @@ import com.revolvingmadness.testing.backend.Logger;
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
 import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.StringClass;
-import com.revolvingmadness.testing.language.errors.SyntaxError;
+import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public class PrintFunction extends BaseClassExpressionNode {
     @Override
     public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
         if (arguments.size() != 1) {
-            throw new SyntaxError("Function 'print' requires 1 argument but got " + arguments.size() + " argument(s)");
+            throw ErrorHolder.invalidArgumentCount("print", 1, arguments.size());
         }
 
         BaseClassExpressionNode value = arguments.get(0);

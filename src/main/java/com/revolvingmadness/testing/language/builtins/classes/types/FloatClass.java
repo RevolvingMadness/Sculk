@@ -2,8 +2,7 @@ package com.revolvingmadness.testing.language.builtins.classes.types;
 
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
 import com.revolvingmadness.testing.language.builtins.classes.BaseFunctionExpressionNode;
-import com.revolvingmadness.testing.language.errors.SyntaxError;
-import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 
 import java.util.List;
@@ -57,7 +56,7 @@ public class FloatClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'add' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("add", 1, arguments.size());
             }
 
             BaseClassExpressionNode other = arguments.get(0);
@@ -68,7 +67,7 @@ public class FloatClass extends BaseClassExpressionNode {
                 return new FloatClass(FloatClass.this.value + ((IntegerClass) other).value);
             }
 
-            throw new TypeError("Cannot apply binary operator '+' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("+", FloatClass.this.getType(), other.getType());
         }
     }
 
@@ -76,7 +75,7 @@ public class FloatClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'divide' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("divide", 1, arguments.size());
             }
 
             BaseClassExpressionNode other = arguments.get(0);
@@ -87,7 +86,7 @@ public class FloatClass extends BaseClassExpressionNode {
                 return new FloatClass(FloatClass.this.value / ((IntegerClass) other).value);
             }
 
-            throw new TypeError("Cannot apply binary operator '/' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("/", FloatClass.this.getType(), other.getType());
         }
     }
 
@@ -95,7 +94,7 @@ public class FloatClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'exponentiate' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("exponentiate", 1, arguments.size());
             }
 
             BaseClassExpressionNode other = arguments.get(0);
@@ -106,7 +105,7 @@ public class FloatClass extends BaseClassExpressionNode {
                 return new FloatClass(Math.pow(FloatClass.this.value, ((IntegerClass) other).value));
             }
 
-            throw new TypeError("Cannot apply binary operator '^' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("^", FloatClass.this.getType(), other.getType());
         }
     }
 
@@ -114,7 +113,7 @@ public class FloatClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'greaterThan' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("greaterThan", 1, arguments.size());
             }
 
             BaseClassExpressionNode other = arguments.get(0);
@@ -125,7 +124,7 @@ public class FloatClass extends BaseClassExpressionNode {
                 return new BooleanClass(FloatClass.this.value > ((IntegerClass) other).value);
             }
 
-            throw new TypeError("Cannot apply binary operator '>' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes(">", FloatClass.this.getType(), other.getType());
         }
     }
 
@@ -133,7 +132,7 @@ public class FloatClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'greaterThanOrEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("greaterThanOrEqualTo", 1, arguments.size());
             }
 
             BaseClassExpressionNode other = arguments.get(0);
@@ -144,7 +143,7 @@ public class FloatClass extends BaseClassExpressionNode {
                 return new BooleanClass(FloatClass.this.value >= ((IntegerClass) other).value);
             }
 
-            throw new TypeError("Cannot apply binary operator '>=' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes(">=", FloatClass.this.getType(), other.getType());
         }
     }
 
@@ -152,7 +151,7 @@ public class FloatClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'lessThan' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("lessThan", 1, arguments.size());
             }
 
             BaseClassExpressionNode other = arguments.get(0);
@@ -163,7 +162,7 @@ public class FloatClass extends BaseClassExpressionNode {
                 return new BooleanClass(FloatClass.this.value < ((IntegerClass) other).value);
             }
 
-            throw new TypeError("Cannot apply binary operator '<' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("<", FloatClass.this.getType(), other.getType());
         }
     }
 
@@ -171,7 +170,7 @@ public class FloatClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'lessThanOrEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("lessThanOrEqualTo", 1, arguments.size());
             }
 
             BaseClassExpressionNode other = arguments.get(0);
@@ -182,7 +181,7 @@ public class FloatClass extends BaseClassExpressionNode {
                 return new BooleanClass(FloatClass.this.value <= ((IntegerClass) other).value);
             }
 
-            throw new TypeError("Cannot apply binary operator '<=' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("<=", FloatClass.this.getType(), other.getType());
         }
     }
 
@@ -190,7 +189,7 @@ public class FloatClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'mod' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("mod", 1, arguments.size());
             }
 
             BaseClassExpressionNode other = arguments.get(0);
@@ -201,7 +200,7 @@ public class FloatClass extends BaseClassExpressionNode {
                 return new FloatClass(FloatClass.this.value % ((IntegerClass) other).value);
             }
 
-            throw new TypeError("Cannot apply binary operator '%' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("%", FloatClass.this.getType(), other.getType());
         }
     }
 
@@ -209,7 +208,7 @@ public class FloatClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'multiply' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("multiply", 1, arguments.size());
             }
 
             BaseClassExpressionNode other = arguments.get(0);
@@ -220,7 +219,7 @@ public class FloatClass extends BaseClassExpressionNode {
                 return new FloatClass(FloatClass.this.value * ((IntegerClass) other).value);
             }
 
-            throw new TypeError("Cannot apply binary operator '*' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("*", FloatClass.this.getType(), other.getType());
         }
     }
 
@@ -228,7 +227,7 @@ public class FloatClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'negate' requires 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("negate", 0, arguments.size());
             }
 
             return new FloatClass(-FloatClass.this.value);
@@ -239,7 +238,7 @@ public class FloatClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'subtract' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("subtract", 1, arguments.size());
             }
 
             BaseClassExpressionNode other = arguments.get(0);
@@ -250,7 +249,7 @@ public class FloatClass extends BaseClassExpressionNode {
                 return new FloatClass(FloatClass.this.value - ((IntegerClass) other).value);
             }
 
-            throw new TypeError("Cannot apply binary operator '-' to types '" + FloatClass.this.getType() + "' and '" + other.getType() + "'");
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("-", FloatClass.this.getType(), other.getType());
         }
     }
 
@@ -258,7 +257,7 @@ public class FloatClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'toString' requires 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("toString", 0, arguments.size());
             }
 
             return new StringClass(FloatClass.this.value.toString());

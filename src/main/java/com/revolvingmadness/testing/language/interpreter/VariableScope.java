@@ -1,8 +1,7 @@
 package com.revolvingmadness.testing.language.interpreter;
 
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
-import com.revolvingmadness.testing.language.errors.NameError;
-import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
+import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 
 import java.io.Serializable;
@@ -21,13 +20,13 @@ public class VariableScope implements Serializable {
         Optional<Variable> optionalVariable = this.getOptional(name);
 
         if (optionalVariable.isEmpty()) {
-            throw new NameError("Variable '" + name + "' has not been declared");
+            throw ErrorHolder.variableHasNotBeenDeclared(name);
         }
 
         Variable variable = optionalVariable.get();
 
         if (variable.isConstant) {
-            throw new ValueError("Cannot assign value to variable '" + variable.name + "' because it is constant");
+            throw ErrorHolder.cannotAssignValueToVariableBecauseItIsAConstant(variable.name);
         }
 
         variable.value = value;
@@ -42,20 +41,10 @@ public class VariableScope implements Serializable {
         Optional<Variable> optionalVariable = this.getOptional(name);
 
         if (optionalVariable.isPresent()) {
-            throw new ValueError("Variable '" + name + "' has already been declared");
+            throw ErrorHolder.variableHasAlreadyBeenDeclared(name);
         }
 
         this.variables.add(new Variable(accessModifiers, isConstant, name, value));
-    }
-
-    public Optional<Variable> getOptional(String name) {
-        for (Variable variable : this.variables) {
-            if (variable.name.equals(name)) {
-                return Optional.of(variable);
-            }
-        }
-
-        return Optional.empty();
     }
 
     public void deleteOrThrow(String name) {
@@ -68,7 +57,7 @@ public class VariableScope implements Serializable {
             }
         }
 
-        throw new NameError("Variable '" + name + "' has not been declared");
+        throw ErrorHolder.variableHasNotBeenDeclared(name);
     }
 
     public boolean exists(String name) {
@@ -79,5 +68,15 @@ public class VariableScope implements Serializable {
         }
 
         return false;
+    }
+
+    public Optional<Variable> getOptional(String name) {
+        for (Variable variable : this.variables) {
+            if (variable.name.equals(name)) {
+                return Optional.of(variable);
+            }
+        }
+
+        return Optional.empty();
     }
 }

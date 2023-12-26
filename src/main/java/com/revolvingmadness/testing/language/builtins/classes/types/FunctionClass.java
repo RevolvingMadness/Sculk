@@ -4,7 +4,7 @@ import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.gamerules.TestingGamerules;
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
 import com.revolvingmadness.testing.language.builtins.classes.BaseFunctionExpressionNode;
-import com.revolvingmadness.testing.language.errors.SyntaxError;
+import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.MaxArgumentError;
 import com.revolvingmadness.testing.language.interpreter.errors.Return;
@@ -36,7 +36,7 @@ public class FunctionClass extends BaseFunctionExpressionNode {
         }
 
         if (this.arguments.size() != arguments.size()) {
-            throw new SyntaxError("Function '" + this.name + "' takes " + this.arguments.size() + " argument(s) but got " + arguments.size() + " argument(s)");
+            throw ErrorHolder.invalidArgumentCount(this.name, this.arguments.size(), arguments.size());
         }
 
         int argumentNumber = 0;

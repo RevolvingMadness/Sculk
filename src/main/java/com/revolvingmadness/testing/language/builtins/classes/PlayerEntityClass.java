@@ -3,8 +3,7 @@ package com.revolvingmadness.testing.language.builtins.classes;
 import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.IntegerClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
-import com.revolvingmadness.testing.language.errors.SyntaxError;
-import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -51,13 +50,13 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'addExperienceLevels' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("addExperienceLevels", 1, arguments.size());
             }
 
             BaseClassExpressionNode experienceLevels = arguments.get(0);
 
             if (!experienceLevels.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'addExperienceLevels' requires type 'Integer' but got '" + experienceLevels.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "addExperienceLevels", "Integer", experienceLevels.getType());
             }
 
             PlayerEntityClass.this.playerEntity.addExperienceLevels(((IntegerClass) experienceLevels).value);
@@ -70,13 +69,13 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'addExperiencePoints' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("addExperiencePoints", 1, arguments.size());
             }
 
             BaseClassExpressionNode experience = arguments.get(0);
 
             if (!experience.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'addExperiencePoints' requires type 'Integer' but got '" + experience.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "addExperiencePoints", "Integer", experience.getType());
             }
 
             PlayerEntityClass.this.playerEntity.addExperience(((IntegerClass) experience).value);
@@ -89,7 +88,7 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'isCreative' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("isCreative", 0, arguments.size());
             }
 
             return new BooleanClass(PlayerEntityClass.this.playerEntity.isCreative());
@@ -100,7 +99,7 @@ public class PlayerEntityClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'isSpectator' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("isSpectator", 0, arguments.size());
             }
 
             return new BooleanClass(PlayerEntityClass.this.playerEntity.isSpectator());

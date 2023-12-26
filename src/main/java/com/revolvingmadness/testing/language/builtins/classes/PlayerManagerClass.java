@@ -5,10 +5,8 @@ import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass
 import com.revolvingmadness.testing.language.builtins.classes.types.IntegerClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.StringClass;
-import com.revolvingmadness.testing.language.errors.SyntaxError;
-import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
-import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -62,7 +60,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'areCheatsEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("areCheatsEnabled", 0, arguments.size());
             }
 
             return new BooleanClass(PlayerManagerClass.this.playerManager.areCheatsAllowed());
@@ -73,7 +71,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'equalTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
             }
 
             BaseClassExpressionNode o = arguments.get(0);
@@ -86,7 +84,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getCurrentPlayerCount' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getCurrentPlayerCount", 0, arguments.size());
             }
 
             return new IntegerClass(PlayerManagerClass.this.playerManager.getCurrentPlayerCount());
@@ -97,7 +95,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getMaxPlayerCount' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getMaxPlayerCount", 0, arguments.size());
             }
 
             return new IntegerClass(PlayerManagerClass.this.playerManager.getMaxPlayerCount());
@@ -108,19 +106,19 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'getPlayer' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getPlayer", 0, arguments.size());
             }
 
             BaseClassExpressionNode playerName = arguments.get(0);
 
             if (!playerName.getType().equals("String")) {
-                throw new TypeError("Argument 1 for function 'getPlayer' requires type 'String' but got '" + playerName.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "getPlayer", "String", playerName.getType());
             }
 
             ServerPlayerEntity serverPlayerEntity = PlayerManagerClass.this.playerManager.getPlayer(((StringClass) playerName).value);
 
             if (serverPlayerEntity == null) {
-                throw new ValueError("There is no player named '" + playerName + "'");
+                throw ErrorHolder.thereIsNoPlayerNamed(((StringClass) playerName).value);
             }
 
             return new ServerPlayerEntityClass(serverPlayerEntity);
@@ -131,7 +129,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getSimulationDistance' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getSimulationDistance", 0, arguments.size());
             }
 
             return new IntegerClass(PlayerManagerClass.this.playerManager.getSimulationDistance());
@@ -142,7 +140,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getViewDistance' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getViewDistance", 0, arguments.size());
             }
 
             return new IntegerClass(PlayerManagerClass.this.playerManager.getViewDistance());
@@ -153,7 +151,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'isWhitelistEnabled' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("isWhitelistEnabled", 0, arguments.size());
             }
 
             return new BooleanClass(PlayerManagerClass.this.playerManager.isWhitelistEnabled());
@@ -164,7 +162,7 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'notEqualTo' requires 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("notEqualTo", 1, arguments.size());
             }
 
             BaseClassExpressionNode o = arguments.get(0);
@@ -177,13 +175,13 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setCheatsEnabled' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setCheatsEnabled", 1, arguments.size());
             }
 
             BaseClassExpressionNode cheatsEnabled = arguments.get(0);
 
             if (!cheatsEnabled.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setCheatsEnabled' requires type 'Boolean' but got '" + cheatsEnabled.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setCheatsEnabled", "Boolean", cheatsEnabled.getType());
             }
 
             PlayerManagerClass.this.playerManager.setCheatsAllowed(((BooleanClass) cheatsEnabled).value);
@@ -196,13 +194,13 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setSimulationDistance' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setSimulationDistance", 1, arguments.size());
             }
 
             BaseClassExpressionNode simulationDistance = arguments.get(0);
 
             if (!simulationDistance.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setSimulationDistance' requires type 'Integer' but got '" + simulationDistance.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setSimulationDistance", "Integer", simulationDistance.getType());
             }
 
             PlayerManagerClass.this.playerManager.setSimulationDistance(((IntegerClass) simulationDistance).value);
@@ -215,13 +213,13 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setViewDistance' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setViewDistance", 1, arguments.size());
             }
 
             BaseClassExpressionNode viewDistance = arguments.get(0);
 
             if (!viewDistance.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setViewDistance' requires type 'Integer' but got '" + viewDistance.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setViewDistance", "Integer", viewDistance.getType());
             }
 
             PlayerManagerClass.this.playerManager.setViewDistance(((IntegerClass) viewDistance).value);
@@ -234,13 +232,13 @@ public class PlayerManagerClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setWhitelistEnabled' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setWhitelistEnabled", 1, arguments.size());
             }
 
             BaseClassExpressionNode whitelistEnabled = arguments.get(0);
 
             if (!whitelistEnabled.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'setWhitelistEnabled' requires type 'Boolean' but got '" + whitelistEnabled.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setWhitelistEnabled", "Boolean", whitelistEnabled.getType());
             }
 
             PlayerManagerClass.this.playerManager.setWhitelistEnabled(((BooleanClass) whitelistEnabled).value);

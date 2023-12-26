@@ -2,8 +2,7 @@ package com.revolvingmadness.testing.language.builtins.classes;
 
 import com.revolvingmadness.testing.language.builtins.classes.types.FloatClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
-import com.revolvingmadness.testing.language.errors.SyntaxError;
-import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import net.minecraft.entity.LivingEntity;
 
@@ -47,19 +46,19 @@ public class LivingEntityClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 2) {
-                throw new SyntaxError("Function 'tiltScreen' takes 2 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("tiltScreen", 2, arguments.size());
             }
 
             BaseClassExpressionNode deltaX = arguments.get(0);
 
             if (!deltaX.getType().equals("Float")) {
-                throw new TypeError("Argument 1 for function 'tiltScreen' requires type 'Float' but got '" + deltaX.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "tiltScreen", "Float", deltaX.getType());
             }
 
             BaseClassExpressionNode deltaZ = arguments.get(1);
 
             if (!deltaZ.getType().equals("Float")) {
-                throw new TypeError("Argument 2 for function 'tiltScreen' requires type 'Float' but got '" + deltaZ.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(2, "tiltScreen", "Float", deltaZ.getType());
             }
 
             LivingEntityClass.this.livingEntity.tiltScreen(((FloatClass) deltaZ).value, ((FloatClass) deltaZ).value);
@@ -72,7 +71,7 @@ public class LivingEntityClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'wakeUp' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("wakeUp", 0, arguments.size());
             }
 
             LivingEntityClass.this.livingEntity.wakeUp();

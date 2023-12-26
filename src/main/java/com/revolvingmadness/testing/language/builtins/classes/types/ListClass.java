@@ -1,7 +1,7 @@
 package com.revolvingmadness.testing.language.builtins.classes.types;
 
 import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
-import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.List;
@@ -15,6 +15,17 @@ public class ListClass extends BaseClassExpressionNode {
     }
 
     @Override
+    public void deleteIndex(BaseClassExpressionNode index) {
+        if (!index.getType().equals("Integer")) {
+            throw ErrorHolder.cannotIndexListByType(index.getType());
+        }
+
+        int integerIndex = ((IntegerClass) index).value;
+
+        this.value.remove(integerIndex);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -25,20 +36,9 @@ public class ListClass extends BaseClassExpressionNode {
     }
 
     @Override
-    public void deleteIndex(BaseClassExpressionNode index) {
-        if (!index.getType().equals("Integer")) {
-            throw new TypeError("Cannot index list by non-integer");
-        }
-
-        int integerIndex = ((IntegerClass) index).value;
-
-        this.value.remove(integerIndex);
-    }
-
-    @Override
     public BaseClassExpressionNode getIndex(BaseClassExpressionNode index) {
         if (!index.getType().equals("Integer")) {
-            throw new TypeError("Cannot index list by non-integer");
+            throw ErrorHolder.cannotIndexListByType(index.getType());
         }
 
         return this.value.get(((IntegerClass) index).value);
@@ -57,7 +57,7 @@ public class ListClass extends BaseClassExpressionNode {
     @Override
     public void setIndex(BaseClassExpressionNode index, BaseClassExpressionNode value) {
         if (!index.getType().equals("Integer")) {
-            throw new TypeError("Cannot index list by non-integer");
+            throw ErrorHolder.cannotIndexListByType(index.getType());
         }
 
         this.value.set(((IntegerClass) index).value, value);

@@ -16,6 +16,8 @@ public interface Visitor {
 
     void visitContinueStatement(ContinueStatementNode continueStatement);
 
+    void visitDeleteStatement(DeleteStatementNode deleteStatement);
+
     BaseClassExpressionNode visitDictionaryExpression(DictionaryExpressionNode dictionaryExpression);
 
     BaseClassExpressionNode visitExpression(ExpressionNode expression);
@@ -39,8 +41,6 @@ public interface Visitor {
     BaseClassExpressionNode visitListExpression(ListExpressionNode listExpression);
 
     void visitMethodDeclarationStatement(MethodDeclarationStatementNode methodDeclarationStatement);
-
-    void visitDeleteStatement(DeleteStatementNode deleteStatement);
 
     BaseClassExpressionNode visitPostfixExpression(PostfixExpressionNode postfixExpression);
 

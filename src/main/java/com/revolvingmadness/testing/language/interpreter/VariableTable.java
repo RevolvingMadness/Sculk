@@ -7,8 +7,7 @@ import com.revolvingmadness.testing.language.builtins.classes.PlayerManagerClass
 import com.revolvingmadness.testing.language.builtins.classes.types.FloatClass;
 import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunction;
 import com.revolvingmadness.testing.language.builtins.functions.types.TypeFunction;
-import com.revolvingmadness.testing.language.errors.NameError;
-import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
+import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 
 import java.util.List;
@@ -28,13 +27,13 @@ public class VariableTable {
         Optional<Variable> optionalVariable = this.getOptional(name);
 
         if (optionalVariable.isEmpty()) {
-            throw new NameError("Variable '" + name + "' has not been declared");
+            throw ErrorHolder.variableHasNotBeenDeclared(name);
         }
 
         Variable variable = optionalVariable.get();
 
         if (variable.isConstant) {
-            throw new ValueError("Cannot assign value to variable '" + variable.name + "' because it is constant");
+            throw ErrorHolder.cannotAssignValueToVariableBecauseItIsAConstant(variable.name);
         }
 
         variable.value = value;
@@ -61,6 +60,24 @@ public class VariableTable {
 
     private void declareVariables() {
         this.declare(true, "PI", new FloatClass(Math.PI));
+    }
+
+    public void deleteOrThrow(String name) {
+        ListIterator<VariableScope> variableScopeIterator = this.variableScopes.listIterator();
+
+        while (variableScopeIterator.hasNext()) {
+            variableScopeIterator.next();
+        }
+
+        while (variableScopeIterator.hasPrevious()) {
+            VariableScope variableScope = variableScopeIterator.previous();
+
+            if (variableScope.exists(name)) {
+                variableScope.deleteOrThrow(name);
+            }
+        }
+
+        throw ErrorHolder.variableHasNotBeenDeclared(name);
     }
 
     public void enterScope() {
@@ -95,7 +112,7 @@ public class VariableTable {
         Optional<Variable> variable = this.getOptional(name);
 
         if (variable.isEmpty()) {
-            throw new NameError("Variable '" + name + "' has not been declared");
+            throw ErrorHolder.variableHasNotBeenDeclared(name);
         }
 
         return variable.get();
@@ -108,23 +125,5 @@ public class VariableTable {
         this.declareClasses();
         this.declareFunctions();
         this.declareVariables();
-    }
-
-    public void deleteOrThrow(String name) {
-        ListIterator<VariableScope> variableScopeIterator = this.variableScopes.listIterator();
-
-        while (variableScopeIterator.hasNext()) {
-            variableScopeIterator.next();
-        }
-
-        while (variableScopeIterator.hasPrevious()) {
-            VariableScope variableScope = variableScopeIterator.previous();
-
-            if (variableScope.exists(name)) {
-                variableScope.deleteOrThrow(name);
-            }
-        }
-
-        throw new NameError("Variable '" + name + "' has not been declared");
     }
 }

@@ -1,7 +1,6 @@
 package com.revolvingmadness.testing.language.builtins.classes;
 
-import com.revolvingmadness.testing.language.errors.NameError;
-import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.Variable;
 import com.revolvingmadness.testing.language.interpreter.VariableScope;
@@ -29,13 +28,21 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
     }
 
     public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
-        throw new TypeError("Type '" + this.getType() + "' is not callable");
+        throw ErrorHolder.typeIsNotCallable(this.getType());
     }
 
     public BaseClassExpressionNode call(Interpreter interpreter, String methodName, List<BaseClassExpressionNode> arguments) {
         BaseClassExpressionNode method = this.getProperty(methodName);
 
         return method.call(interpreter, arguments);
+    }
+
+    public void deleteIndex(BaseClassExpressionNode index) {
+        throw ErrorHolder.typeIsNotIndexable(this.getType());
+    }
+
+    public void deleteProperty(String propertyName) {
+        this.variableScope.deleteOrThrow(propertyName);
     }
 
     @Override
@@ -49,7 +56,7 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
     }
 
     public BaseClassExpressionNode getIndex(BaseClassExpressionNode index) {
-        throw new TypeError("Type '" + this.getType() + "' is not indexable");
+        throw ErrorHolder.typeIsNotIndexable(this.getType());
     }
 
     public BaseClassExpressionNode getProperty(String propertyName) {
@@ -66,7 +73,7 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
         }
 
         if (this.superClass == null) {
-            throw new NameError("Type '" + this.getType() + "' has no property '" + propertyName + "'");
+            throw ErrorHolder.typeHasNoProperty(this.getType(), propertyName);
         }
 
         BaseClassExpressionNode superProperty = this.superClass.getProperty(propertyName);
@@ -98,7 +105,7 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
     }
 
     public void setIndex(BaseClassExpressionNode index, BaseClassExpressionNode value) {
-        throw new TypeError("Type '" + this.getType() + "' is not indexable");
+        throw ErrorHolder.typeIsNotIndexable(this.getType());
     }
 
     public void setProperty(String propertyName, BaseClassExpressionNode value) {
@@ -111,17 +118,9 @@ public abstract class BaseClassExpressionNode extends ExpressionNode {
         }
 
         if (this.superClass == null) {
-            throw new NameError("Type '" + this.getType() + "' has no property '" + propertyName + "'");
+            throw ErrorHolder.typeHasNoProperty(this.getType(), propertyName);
         }
 
         this.superClass.setProperty(propertyName, value);
-    }
-
-    public void deleteProperty(String propertyName) {
-        this.variableScope.deleteOrThrow(propertyName);
-    }
-
-    public void deleteIndex(BaseClassExpressionNode index) {
-        throw new TypeError("Type '" + this.getType() + "' is not indexable");
     }
 }

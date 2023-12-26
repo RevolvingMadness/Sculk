@@ -4,10 +4,8 @@ import com.revolvingmadness.testing.language.builtins.classes.types.BooleanClass
 import com.revolvingmadness.testing.language.builtins.classes.types.IntegerClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
 import com.revolvingmadness.testing.language.builtins.classes.types.StringClass;
-import com.revolvingmadness.testing.language.errors.SyntaxError;
-import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
-import com.revolvingmadness.testing.language.interpreter.errors.ValueError;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameMode;
 
@@ -56,19 +54,19 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'changeGameMode' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("changeGameMode", 1, arguments.size());
             }
 
             BaseClassExpressionNode gameMode = arguments.get(0);
 
             if (!gameMode.getType().equals("String")) {
-                throw new TypeError("Argument 1 for function 'changeGameMode' requires type 'String' but got '" + gameMode.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "changeGameMode", "String", gameMode.getType());
             }
 
             GameMode gameMode1 = GameMode.byName(((StringClass) gameMode).value, null);
 
             if (gameMode1 == null) {
-                throw new ValueError("Gamemode '" + gameMode + "' does not exist");
+                throw ErrorHolder.gamemodeDoesNotExist(((StringClass) gameMode).value);
             }
 
             ServerPlayerEntityClass.this.serverPlayerEntity.changeGameMode(gameMode1);
@@ -81,13 +79,13 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'dropSelectedItem' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("dropSelectedItem", 1, arguments.size());
             }
 
             BaseClassExpressionNode entireStack = arguments.get(0);
 
             if (!entireStack.getType().equals("Boolean")) {
-                throw new TypeError("Argument 1 for function 'dropSelectedItem' requires type 'Boolean' but got '" + entireStack.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "dropSelectedItem", "Boolean", entireStack.getType());
             }
 
             ServerPlayerEntityClass.this.serverPlayerEntity.dropSelectedItem(((BooleanClass) entireStack).value);
@@ -100,7 +98,7 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getIp' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getIp", 0, arguments.size());
             }
 
             return new StringClass(ServerPlayerEntityClass.this.serverPlayerEntity.getIp());
@@ -111,7 +109,7 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {
-                throw new SyntaxError("Function 'getViewDistance' takes 0 arguments but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("getViewDistance", 0, arguments.size());
             }
 
             return new IntegerClass(ServerPlayerEntityClass.this.serverPlayerEntity.getViewDistance());
@@ -122,13 +120,13 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setExperienceLevels' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setExperienceLevels", 1, arguments.size());
             }
 
             BaseClassExpressionNode experienceLevel = arguments.get(0);
 
             if (!experienceLevel.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setExperienceLevels' requires type 'Integer' but got '" + experienceLevel.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setExperienceLevels", "Integer", experienceLevel.getType());
             }
 
             ServerPlayerEntityClass.this.serverPlayerEntity.setExperienceLevel(((IntegerClass) experienceLevel).value);
@@ -141,13 +139,13 @@ public class ServerPlayerEntityClass extends BaseClassExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 1) {
-                throw new SyntaxError("Function 'setExperiencePoints' takes 1 argument but got " + arguments.size() + " argument(s)");
+                throw ErrorHolder.invalidArgumentCount("setExperiencePoints", 1, arguments.size());
             }
 
             BaseClassExpressionNode experiencePoints = arguments.get(0);
 
             if (!experiencePoints.getType().equals("Integer")) {
-                throw new TypeError("Argument 1 for function 'setExperiencePoints' requires type 'Integer' but got '" + experiencePoints.getType() + "'");
+                throw ErrorHolder.argumentRequiresType(1, "setExperiencePoints", "Integer", experiencePoints.getType());
             }
 
             ServerPlayerEntityClass.this.serverPlayerEntity.setExperiencePoints(((IntegerClass) experiencePoints).value);
