@@ -21,6 +21,11 @@ public class ObjectClass extends BaseClassExpressionNode {
         this.variableScope.declare(true, "equalTo", new EqualTo());
         this.variableScope.declare(true, "notEqualTo", new NotEqualTo());
         this.variableScope.declare(true, "instanceOf", new InstanceOf());
+        this.variableScope.declare(true, "lessThan", new LessThan());
+        this.variableScope.declare(true, "lessThanOrEqualTo", new LessThanOrEqualTo());
+        this.variableScope.declare(true, "greaterThan", new GreaterThan());
+        this.variableScope.declare(true, "greaterThanOrEqualTo", new GreaterThanOrEqualTo());
+        this.variableScope.declare(true, "logicalNot", new LogicalNot());
     }
 
     @Override
@@ -106,6 +111,40 @@ public class ObjectClass extends BaseClassExpressionNode {
         }
     }
 
+    public class GreaterThan extends BaseFunctionExpressionNode {
+        public GreaterThan() {
+            super(ObjectClass.this);
+        }
+
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("greaterThan", 1, arguments.size());
+            }
+
+            BaseClassExpressionNode other = arguments.get(0);
+
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes(">", ObjectClass.this.getType(), other.getType());
+        }
+    }
+
+    public class GreaterThanOrEqualTo extends BaseFunctionExpressionNode {
+        public GreaterThanOrEqualTo() {
+            super(ObjectClass.this);
+        }
+
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("greaterThanOrEqualTo", 1, arguments.size());
+            }
+
+            BaseClassExpressionNode other = arguments.get(0);
+
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes(">=", ObjectClass.this.getType(), other.getType());
+        }
+    }
+
     public class InstanceOf extends BaseMethodExpressionNode {
         public InstanceOf() {
             super(ObjectClass.this);
@@ -120,6 +159,55 @@ public class ObjectClass extends BaseClassExpressionNode {
             BaseClassExpressionNode o = arguments.get(0);
 
             return new BooleanClass(this.boundClass.instanceOf(o));
+        }
+    }
+
+    public class LessThan extends BaseFunctionExpressionNode {
+        public LessThan() {
+            super(ObjectClass.this);
+        }
+
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("lessThan", 1, arguments.size());
+            }
+
+            BaseClassExpressionNode other = arguments.get(0);
+
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("<", ObjectClass.this.getType(), other.getType());
+        }
+    }
+
+    public class LessThanOrEqualTo extends BaseFunctionExpressionNode {
+        public LessThanOrEqualTo() {
+            super(ObjectClass.this);
+        }
+
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("lessThanOrEqualTo", 1, arguments.size());
+            }
+
+            BaseClassExpressionNode other = arguments.get(0);
+
+            throw ErrorHolder.cannotApplyBinaryOperatorToTypes("<=", ObjectClass.this.getType(), other.getType());
+        }
+    }
+
+    public class LogicalNot extends BaseFunctionExpressionNode {
+        public LogicalNot() {
+            super(ObjectClass.this);
+        }
+
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("logicalNot", 0, arguments.size());
+            }
+
+            throw ErrorHolder.cannotApplyUnaryOperatorToTypes("!", ObjectClass.this.getType());
         }
     }
 

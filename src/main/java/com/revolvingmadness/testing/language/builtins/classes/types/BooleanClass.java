@@ -14,6 +14,7 @@ public class BooleanClass extends BaseClassExpressionNode {
     public BooleanClass(Boolean value) {
         this.value = value;
         this.variableScope.declare(true, "toString", new ToString());
+        this.variableScope.declare(true, "logicalNot", new LogicalNot());
     }
 
     @Override
@@ -39,6 +40,17 @@ public class BooleanClass extends BaseClassExpressionNode {
     @Override
     public String toString() {
         return this.value.toString();
+    }
+
+    public class LogicalNot extends BaseFunctionExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("logicalNot", 0, arguments.size());
+            }
+
+            return new BooleanClass(!BooleanClass.this.value);
+        }
     }
 
     public class ToString extends BaseFunctionExpressionNode {
