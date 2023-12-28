@@ -32,7 +32,7 @@ public class NullClass extends BaseClassExpressionNode {
         return "null";
     }
 
-    public static class ToString extends BaseMethodExpressionNode {
+    private static class ToString extends BaseMethodExpressionNode {
         @Override
         public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
             if (arguments.size() != 0) {

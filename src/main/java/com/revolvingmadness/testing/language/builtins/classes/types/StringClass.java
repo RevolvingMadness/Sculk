@@ -14,6 +14,7 @@ public class StringClass extends BaseClassExpressionNode {
     public StringClass(String value) {
         this.value = value;
         this.variableScope.declare(true, "toString", new ToString());
+        this.variableScope.declare(true, "add", new Add());
     }
 
     @Override
@@ -39,6 +40,22 @@ public class StringClass extends BaseClassExpressionNode {
     @Override
     public String toString() {
         return this.value;
+    }
+
+    private static class Add extends BaseMethodExpressionNode {
+        @Override
+        public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("add", 1, arguments.size());
+            }
+
+            BaseClassExpressionNode other = arguments.get(0);
+
+            StringClass thisString = (StringClass) this.boundClass.call(interpreter, "toString", List.of());
+            StringClass otherString = (StringClass) other.call(interpreter, "toString", List.of());
+
+            return new StringClass(thisString.value + otherString.value);
+        }
     }
 
     public class ToString extends BaseMethodExpressionNode {
