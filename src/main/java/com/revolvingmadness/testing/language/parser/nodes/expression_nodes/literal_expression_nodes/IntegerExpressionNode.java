@@ -1,12 +1,11 @@
-package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
+package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes;
 
-import java.util.List;
 import java.util.Objects;
 
-public class ListExpressionNode extends ExpressionNode {
-    public final List<ExpressionNode> value;
+public class IntegerExpressionNode extends LiteralExpressionNode {
+    public final Integer value;
 
-    public ListExpressionNode(List<ExpressionNode> value) {
+    public IntegerExpressionNode(Integer value) {
         this.value = value;
     }
 
@@ -16,7 +15,7 @@ public class ListExpressionNode extends ExpressionNode {
             return true;
         if (o == null || this.getClass() != o.getClass())
             return false;
-        ListExpressionNode that = (ListExpressionNode) o;
+        IntegerExpressionNode that = (IntegerExpressionNode) o;
         return Objects.equals(this.value, that.value);
     }
 

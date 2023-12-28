@@ -6,6 +6,7 @@ import com.revolvingmadness.testing.language.errors.TypeError;
 import com.revolvingmadness.testing.language.interpreter.errors.InterpreterError;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.StatementNode;
 import net.minecraft.client.resource.language.I18n;
 
@@ -80,6 +81,10 @@ public class ErrorHolder {
 
     public static InterpreterError unsupportedExpressionNodeToInterpret(ExpressionNode expressionNode) {
         return new InterpreterError(I18n.translate("error.unsupported_expression_node_to_interpret", expressionNode));
+    }
+
+    public static InterpreterError unsupportedLiteralExpressionNodeToInterpret(LiteralExpressionNode literalExpression) {
+        return new InterpreterError(I18n.translate("error.unsupported_literal_expression_node_to_interpret", literalExpression));
     }
 
     public static InterpreterError unsupportedPostfixOperator(TokenType postfixOperator) {

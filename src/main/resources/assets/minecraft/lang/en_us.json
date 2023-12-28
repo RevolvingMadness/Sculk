@@ -23,6 +23,7 @@
    "error.unsupported_unary_operator": "Unsupported unary operator '%s'",
    "error.unsupported_postfix_operator": "Unsupported postfix operator '%s'",
    "error.unsupported_expression_node_to_interpret": "Unsupported expression node to interpret '%s'",
+   "error.unsupported_literal_expression_node_to_interpret": "Unsupported literal expression node to interpret '%s'",
    "error.unsupported_statement_node_to_interpret": "Unsupported statement node to interpret '%s'",
    "error.invalid_argument_count": "Function '%s' takes %s argument(s) but got %s argument(s)"
 }

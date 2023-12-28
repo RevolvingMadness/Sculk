@@ -1,12 +1,12 @@
 package com.revolvingmadness.testing.language.parser;
 
 import com.revolvingmadness.testing.backend.LangScript;
-import com.revolvingmadness.testing.language.builtins.classes.types.*;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.lexer.Token;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.*;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
@@ -108,7 +108,7 @@ public class LangParser {
         if (this.current().isIncrementOperator()) {
             TokenType incrementOperator = this.consume().type;
 
-            return new VariableAssignmentExpressionNode(expression, new BinaryExpressionNode(expression, incrementOperator, new IntegerClass(1)));
+            return new VariableAssignmentExpressionNode(expression, new BinaryExpressionNode(expression, incrementOperator, new IntegerExpressionNode(1)));
         }
 
         if (this.current().isBinaryOperator()) {
@@ -388,7 +388,7 @@ public class LangParser {
         String name = (String) this.consume(TokenType.IDENTIFIER, "Expected variable name").value;
 
         if (this.current(TokenType.SEMICOLON)) {
-            return new FieldDeclarationStatementNode(accessModifiers, isConstant, name, new NullClass());
+            return new FieldDeclarationStatementNode(accessModifiers, isConstant, name, new NullExpressionNode());
         }
 
         this.consume(TokenType.EQUALS, "Expected equals after variable name");
@@ -419,7 +419,7 @@ public class LangParser {
         ExpressionNode condition;
 
         if (this.current(TokenType.SEMICOLON)) {
-            condition = new BooleanClass(true);
+            condition = new BooleanExpressionNode(true);
             this.consume();
         } else {
             condition = this.parseExpression();
@@ -506,7 +506,7 @@ public class LangParser {
             body.addAll(this.parseBody());
         }
 
-        return new FunctionClass("anonymous", arguments, body);
+        return new FunctionExpressionNode("anonymous", arguments, body);
     }
 
     private StatementNode parseIfStatement() {
@@ -637,9 +637,9 @@ public class LangParser {
 
     private ExpressionNode parsePrimaryExpression() {
         if (this.current(TokenType.INTEGER)) {
-            return new IntegerClass((Integer) this.consume().value);
+            return new IntegerExpressionNode((Integer) this.consume().value);
         } else if (this.current(TokenType.FLOAT)) {
-            return new FloatClass((Double) this.consume().value);
+            return new FloatExpressionNode((Double) this.consume().value);
         } else if (this.current(TokenType.IDENTIFIER)) {
             return new IdentifierExpressionNode((String) this.consume().value);
         } else if (this.current(TokenType.LEFT_PARENTHESIS)) {
@@ -652,17 +652,17 @@ public class LangParser {
             return expression;
         } else if (this.current(TokenType.TRUE)) {
             this.consume();
-            return new BooleanClass(true);
+            return new BooleanExpressionNode(true);
         } else if (this.current(TokenType.FALSE)) {
             this.consume();
-            return new BooleanClass(false);
+            return new BooleanExpressionNode(false);
         } else if (this.current(TokenType.STRING)) {
-            return new StringClass((String) this.consume().value);
+            return new StringExpressionNode((String) this.consume().value);
         } else if (this.current(TokenType.RESOURCE)) {
-            return new ResourceClass(Identifier.tryParse((String) this.consume().value));
+            return new ResourceExpressionNode(Identifier.tryParse((String) this.consume().value));
         } else if (this.current(TokenType.NULL)) {
             this.consume();
-            return new NullClass();
+            return new NullExpressionNode();
         } else if (this.current(TokenType.LEFT_BRACKET)) {
             return this.parseListExpression();
         } else if (this.current(TokenType.FUNCTION)) {
@@ -692,7 +692,7 @@ public class LangParser {
         this.consume();
 
         if (this.current(TokenType.SEMICOLON)) {
-            return new ReturnStatementNode(new NullClass());
+            return new ReturnStatementNode(new NullExpressionNode());
         } else {
             ExpressionNode expression = this.parseExpression();
 
@@ -762,7 +762,7 @@ public class LangParser {
         String name = (String) this.consume(TokenType.IDENTIFIER, "Expected variable name").value;
 
         if (this.current(TokenType.SEMICOLON)) {
-            return new VariableDeclarationStatementNode(isConstant, name, new NullClass());
+            return new VariableDeclarationStatementNode(isConstant, name, new NullExpressionNode());
         }
 
         this.consume(TokenType.EQUALS, "Expected equals after variable name");

@@ -13,6 +13,7 @@ import com.revolvingmadness.testing.language.interpreter.errors.Return;
 import com.revolvingmadness.testing.language.interpreter.errors.StackOverflowError;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.*;
+import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.*;
 import com.revolvingmadness.testing.language.user_defined.UserDefinedClass;
 import net.minecraft.util.Pair;
@@ -56,6 +57,11 @@ public class Interpreter implements Visitor {
             case INSTANCE_OF -> left.call(this, "instanceOf", List.of(right));
             default -> throw ErrorHolder.unsupportedBinaryOperator(binaryExpression.operator);
         };
+    }
+
+    @Override
+    public BaseClassExpressionNode visitBooleanExpression(BooleanExpressionNode booleanExpression) {
+        return new BooleanClass(booleanExpression.value);
     }
 
     @Override
@@ -120,16 +126,11 @@ public class Interpreter implements Visitor {
 
     @Override
     public BaseClassExpressionNode visitDictionaryExpression(DictionaryExpressionNode dictionaryExpression) {
-        Map<BaseClassExpressionNode, BaseClassExpressionNode> dictionary = new HashMap<>();
+        Map<BaseClassExpressionNode, BaseClassExpressionNode> map = new HashMap<>();
 
-        dictionaryExpression.value.forEach((keyEx, valueEx) -> {
-            BaseClassExpressionNode key = this.visitExpression(keyEx);
-            BaseClassExpressionNode value = this.visitExpression(valueEx);
+        dictionaryExpression.value.forEach((key, value) -> map.put(this.visitExpression(key), this.visitExpression(value)));
 
-            dictionary.put(key, value);
-        });
-
-        return new DictionaryClass(dictionary);
+        return new DictionaryClass(map);
     }
 
     @Override
@@ -148,14 +149,12 @@ public class Interpreter implements Visitor {
             return this.visitGetExpression(getExpression);
         } else if (expression instanceof BaseClassExpressionNode baseClassExpression) {
             return baseClassExpression;
-        } else if (expression instanceof DictionaryExpressionNode dictionaryExpression) {
-            return this.visitDictionaryExpression(dictionaryExpression);
         } else if (expression instanceof IndexExpressionNode indexExpression) {
             return this.visitIndexExpression(indexExpression);
-        } else if (expression instanceof ListExpressionNode listExpression) {
-            return this.visitListExpression(listExpression);
         } else if (expression instanceof PostfixExpressionNode postfixExpression) {
             return this.visitPostfixExpression(postfixExpression);
+        } else if (expression instanceof LiteralExpressionNode literalExpression) {
+            return this.visitLiteralExpression(literalExpression);
         } else {
             throw ErrorHolder.unsupportedExpressionNodeToInterpret(expression);
         }
@@ -171,6 +170,11 @@ public class Interpreter implements Visitor {
         BaseClassExpressionNode value = this.visitExpression(fieldDeclarationStatement.value);
 
         this.variableTable.declare(fieldDeclarationStatement.accessModifiers, fieldDeclarationStatement.isConstant, fieldDeclarationStatement.name, value);
+    }
+
+    @Override
+    public BaseClassExpressionNode visitFloatExpression(FloatExpressionNode floatExpression) {
+        return new FloatClass(floatExpression.value);
     }
 
     @Override
@@ -217,6 +221,11 @@ public class Interpreter implements Visitor {
     @Override
     public void visitFunctionDeclarationStatement(FunctionDeclarationStatementNode functionDeclarationStatement) {
         this.variableTable.declare(functionDeclarationStatement.isConstant, functionDeclarationStatement.name, new FunctionClass(functionDeclarationStatement.name, functionDeclarationStatement.arguments, functionDeclarationStatement.body));
+    }
+
+    @Override
+    public BaseClassExpressionNode visitFunctionExpression(FunctionExpressionNode functionExpression) {
+        return new FunctionClass(functionExpression.name, functionExpression.arguments, functionExpression.body);
     }
 
     @Override
@@ -276,6 +285,11 @@ public class Interpreter implements Visitor {
     }
 
     @Override
+    public BaseClassExpressionNode visitIntegerExpression(IntegerExpressionNode integerExpression) {
+        return new IntegerClass(integerExpression.value);
+    }
+
+    @Override
     public BaseClassExpressionNode visitListExpression(ListExpressionNode listExpression) {
         List<BaseClassExpressionNode> list = new ArrayList<>();
 
@@ -285,8 +299,38 @@ public class Interpreter implements Visitor {
     }
 
     @Override
+    public BaseClassExpressionNode visitLiteralExpression(LiteralExpressionNode literalExpression) {
+        if (literalExpression instanceof BooleanExpressionNode booleanExpression) {
+            return this.visitBooleanExpression(booleanExpression);
+        } else if (literalExpression instanceof DictionaryExpressionNode dictionaryExpression) {
+            return this.visitDictionaryExpression(dictionaryExpression);
+        } else if (literalExpression instanceof FloatExpressionNode floatExpression) {
+            return this.visitFloatExpression(floatExpression);
+        } else if (literalExpression instanceof FunctionExpressionNode functionExpression) {
+            return this.visitFunctionExpression(functionExpression);
+        } else if (literalExpression instanceof IntegerExpressionNode integerExpression) {
+            return this.visitIntegerExpression(integerExpression);
+        } else if (literalExpression instanceof ListExpressionNode listExpression) {
+            return this.visitListExpression(listExpression);
+        } else if (literalExpression instanceof NullExpressionNode nullExpression) {
+            return this.visitNullExpression(nullExpression);
+        } else if (literalExpression instanceof ResourceExpressionNode resourceExpression) {
+            return this.visitResourceExpression(resourceExpression);
+        } else if (literalExpression instanceof StringExpressionNode stringExpression) {
+            return this.visitStringExpression(stringExpression);
+        } else {
+            throw ErrorHolder.unsupportedLiteralExpressionNodeToInterpret(literalExpression);
+        }
+    }
+
+    @Override
     public void visitMethodDeclarationStatement(MethodDeclarationStatementNode methodDeclarationStatement) {
         this.variableTable.declare(methodDeclarationStatement.isConstant, methodDeclarationStatement.name, new MethodClass(methodDeclarationStatement.accessModifiers, methodDeclarationStatement.isConstant, methodDeclarationStatement.name, methodDeclarationStatement.arguments, methodDeclarationStatement.body));
+    }
+
+    @Override
+    public BaseClassExpressionNode visitNullExpression(NullExpressionNode nullExpression) {
+        return new NullClass();
     }
 
     @Override
@@ -298,6 +342,11 @@ public class Interpreter implements Visitor {
             case DOUBLE_HYPHEN -> expression.call(this, "decrement", List.of());
             default -> throw ErrorHolder.unsupportedPostfixOperator(postfixExpression.operator);
         };
+    }
+
+    @Override
+    public BaseClassExpressionNode visitResourceExpression(ResourceExpressionNode resourceExpression) {
+        return new ResourceClass(resourceExpression.value);
     }
 
     @Override
@@ -344,6 +393,11 @@ public class Interpreter implements Visitor {
         } else {
             throw ErrorHolder.unsupportedStatementNodeToInterpret(statement);
         }
+    }
+
+    @Override
+    public BaseClassExpressionNode visitStringExpression(StringExpressionNode stringExpression) {
+        return new StringClass(stringExpression.value);
     }
 
     @Override

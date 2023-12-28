@@ -1,12 +1,11 @@
-package com.revolvingmadness.testing.language.parser.nodes.expression_nodes;
+package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes;
 
-import java.util.Map;
 import java.util.Objects;
 
-public class DictionaryExpressionNode extends ExpressionNode {
-    public final Map<ExpressionNode, ExpressionNode> value;
+public class StringExpressionNode extends LiteralExpressionNode {
+    public final String value;
 
-    public DictionaryExpressionNode(Map<ExpressionNode, ExpressionNode> value) {
+    public StringExpressionNode(String value) {
         this.value = value;
     }
 
@@ -16,7 +15,7 @@ public class DictionaryExpressionNode extends ExpressionNode {
             return true;
         if (o == null || this.getClass() != o.getClass())
             return false;
-        DictionaryExpressionNode that = (DictionaryExpressionNode) o;
+        StringExpressionNode that = (StringExpressionNode) o;
         return Objects.equals(this.value, that.value);
     }
 
