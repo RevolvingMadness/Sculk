@@ -2,9 +2,13 @@ package com.revolvingmadness.testing.language.interpreter;
 
 import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.gamerules.TestingGamerules;
-import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
-import com.revolvingmadness.testing.language.builtins.classes.ObjectClass;
-import com.revolvingmadness.testing.language.builtins.classes.types.*;
+import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
+import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
+import com.revolvingmadness.testing.language.builtins.classes.instances.*;
+import com.revolvingmadness.testing.language.builtins.classes.types.BooleanType;
+import com.revolvingmadness.testing.language.builtins.classes.types.IntegerType;
+import com.revolvingmadness.testing.language.builtins.classes.types.ObjectType;
+import com.revolvingmadness.testing.language.builtins.classes.types.UserDefinedType;
 import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.interpreter.errors.Break;
@@ -15,7 +19,6 @@ import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.*;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.*;
-import com.revolvingmadness.testing.language.user_defined.UserDefinedClass;
 import net.minecraft.util.Pair;
 
 import java.util.ArrayList;
@@ -35,9 +38,9 @@ public class Interpreter implements Visitor {
     }
 
     @Override
-    public BaseClassExpressionNode visitBinaryExpression(BinaryExpressionNode binaryExpression) {
-        BaseClassExpressionNode left = this.visitExpression(binaryExpression.left);
-        BaseClassExpressionNode right = this.visitExpression(binaryExpression.right);
+    public BuiltinClass visitBinaryExpression(BinaryExpressionNode binaryExpression) {
+        BuiltinClass left = this.visitExpression(binaryExpression.left);
+        BuiltinClass right = this.visitExpression(binaryExpression.right);
 
         return switch (binaryExpression.operator) {
             case PLUS -> left.call(this, "add", List.of(right));
@@ -60,8 +63,8 @@ public class Interpreter implements Visitor {
     }
 
     @Override
-    public BaseClassExpressionNode visitBooleanExpression(BooleanExpressionNode booleanExpression) {
-        return new BooleanClass(booleanExpression.value);
+    public BuiltinClass visitBooleanExpression(BooleanExpressionNode booleanExpression) {
+        return new BooleanInstance(booleanExpression.value);
     }
 
     @Override
@@ -70,10 +73,10 @@ public class Interpreter implements Visitor {
     }
 
     @Override
-    public BaseClassExpressionNode visitCallExpression(CallExpressionNode callExpression) {
-        BaseClassExpressionNode callee = this.visitExpression(callExpression.callee);
+    public BuiltinClass visitCallExpression(CallExpressionNode callExpression) {
+        BuiltinClass callee = this.visitExpression(callExpression.callee);
 
-        List<BaseClassExpressionNode> arguments = new ArrayList<>();
+        List<BuiltinClass> arguments = new ArrayList<>();
 
         callExpression.arguments.forEach(argumentExpression -> arguments.add(this.visitExpression(argumentExpression)));
 
@@ -88,17 +91,21 @@ public class Interpreter implements Visitor {
 
         VariableScope variableScope = this.variableTable.exitScope();
 
-        BaseClassExpressionNode superClass;
+        BuiltinType superClass;
 
         if (classDeclarationStatement.superClassName != null) {
             Variable superClassVariable = this.variableTable.getOrThrow(classDeclarationStatement.superClassName);
 
-            superClass = superClassVariable.value;
+            if (!(superClassVariable.value instanceof BuiltinType superClassType)) {
+                throw ErrorHolder.cannotExtendFromNonType(superClassVariable.value);
+            }
+
+            superClass = superClassType;
         } else {
-            superClass = new ObjectClass();
+            superClass = new ObjectType();
         }
 
-        this.variableTable.declare(classDeclarationStatement.isConstant, classDeclarationStatement.name, new UserDefinedClass(classDeclarationStatement.name, superClass, variableScope));
+        this.variableTable.declare(classDeclarationStatement.isConstant, classDeclarationStatement.name, new UserDefinedType(classDeclarationStatement.name, superClass, variableScope));
     }
 
     @Override
@@ -111,12 +118,12 @@ public class Interpreter implements Visitor {
         if (deleteStatement.expression instanceof IdentifierExpressionNode identifierExpression) {
             this.variableTable.deleteOrThrow(identifierExpression.value);
         } else if (deleteStatement.expression instanceof GetExpressionNode getExpression) {
-            BaseClassExpressionNode assignee = this.visitExpression(getExpression.expression);
+            BuiltinClass assignee = this.visitExpression(getExpression.expression);
 
             assignee.deleteProperty(getExpression.propertyName);
         } else if (deleteStatement.expression instanceof IndexExpressionNode indexExpression) {
-            BaseClassExpressionNode assignee = this.visitExpression(indexExpression.expression);
-            BaseClassExpressionNode index = this.visitExpression(indexExpression.index);
+            BuiltinClass assignee = this.visitExpression(indexExpression.expression);
+            BuiltinClass index = this.visitExpression(indexExpression.index);
 
             assignee.deleteIndex(index);
         } else {
@@ -125,16 +132,16 @@ public class Interpreter implements Visitor {
     }
 
     @Override
-    public BaseClassExpressionNode visitDictionaryExpression(DictionaryExpressionNode dictionaryExpression) {
-        Map<BaseClassExpressionNode, BaseClassExpressionNode> map = new HashMap<>();
+    public BuiltinClass visitDictionaryExpression(DictionaryExpressionNode dictionaryExpression) {
+        Map<BuiltinClass, BuiltinClass> dictionary = new HashMap<>();
 
-        dictionaryExpression.value.forEach((key, value) -> map.put(this.visitExpression(key), this.visitExpression(value)));
+        dictionaryExpression.value.forEach((key, value) -> dictionary.put(this.visitExpression(key), this.visitExpression(value)));
 
-        return new DictionaryClass(map);
+        return new DictionaryInstance(dictionary);
     }
 
     @Override
-    public BaseClassExpressionNode visitExpression(ExpressionNode expression) {
+    public BuiltinClass visitExpression(ExpressionNode expression) {
         if (expression instanceof BinaryExpressionNode binaryExpression) {
             return this.visitBinaryExpression(binaryExpression);
         } else if (expression instanceof CallExpressionNode callExpression) {
@@ -147,7 +154,7 @@ public class Interpreter implements Visitor {
             return this.visitIdentifierExpression(identifierExpression);
         } else if (expression instanceof GetExpressionNode getExpression) {
             return this.visitGetExpression(getExpression);
-        } else if (expression instanceof BaseClassExpressionNode baseClassExpression) {
+        } else if (expression instanceof BuiltinClass baseClassExpression) {
             return baseClassExpression;
         } else if (expression instanceof IndexExpressionNode indexExpression) {
             return this.visitIndexExpression(indexExpression);
@@ -167,14 +174,14 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visitFieldDeclarationStatement(FieldDeclarationStatementNode fieldDeclarationStatement) {
-        BaseClassExpressionNode value = this.visitExpression(fieldDeclarationStatement.value);
+        BuiltinClass value = this.visitExpression(fieldDeclarationStatement.value);
 
         this.variableTable.declare(fieldDeclarationStatement.accessModifiers, fieldDeclarationStatement.isConstant, fieldDeclarationStatement.name, value);
     }
 
     @Override
-    public BaseClassExpressionNode visitFloatExpression(FloatExpressionNode floatExpression) {
-        return new FloatClass(floatExpression.value);
+    public BuiltinClass visitFloatExpression(FloatExpressionNode floatExpression) {
+        return new FloatInstance(floatExpression.value);
     }
 
     @Override
@@ -188,13 +195,13 @@ public class Interpreter implements Visitor {
 
         while_loop:
         while (true) {
-            BaseClassExpressionNode condition = this.visitExpression(forStatement.condition);
+            BuiltinClass condition = this.visitExpression(forStatement.condition);
 
-            if (!condition.getType().equals("Boolean")) {
-                throw ErrorHolder.invalidForLoopUpdateType("Integer", condition.getType());
+            if (!condition.instanceOf(new BooleanType())) {
+                throw ErrorHolder.invalidForLoopUpdateType(new IntegerType(), condition.getType());
             }
 
-            if (!((BooleanClass) condition).value) {
+            if (!condition.toBoolean()) {
                 break;
             }
 
@@ -220,35 +227,35 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visitFunctionDeclarationStatement(FunctionDeclarationStatementNode functionDeclarationStatement) {
-        this.variableTable.declare(functionDeclarationStatement.isConstant, functionDeclarationStatement.name, new FunctionClass(functionDeclarationStatement.name, functionDeclarationStatement.arguments, functionDeclarationStatement.body));
+        this.variableTable.declare(functionDeclarationStatement.isConstant, functionDeclarationStatement.name, new FunctionInstance(functionDeclarationStatement.name, functionDeclarationStatement.arguments, functionDeclarationStatement.body));
     }
 
     @Override
-    public BaseClassExpressionNode visitFunctionExpression(FunctionExpressionNode functionExpression) {
-        return new FunctionClass(functionExpression.name, functionExpression.arguments, functionExpression.body);
+    public BuiltinClass visitFunctionExpression(FunctionExpressionNode functionExpression) {
+        return new FunctionInstance(functionExpression.name, functionExpression.arguments, functionExpression.body);
     }
 
     @Override
-    public BaseClassExpressionNode visitGetExpression(GetExpressionNode getExpression) {
-        BaseClassExpressionNode expression = this.visitExpression(getExpression.expression);
+    public BuiltinClass visitGetExpression(GetExpressionNode getExpression) {
+        BuiltinClass expression = this.visitExpression(getExpression.expression);
 
         return expression.getProperty(getExpression.propertyName);
     }
 
     @Override
-    public BaseClassExpressionNode visitIdentifierExpression(IdentifierExpressionNode identifierExpression) {
+    public BuiltinClass visitIdentifierExpression(IdentifierExpressionNode identifierExpression) {
         return this.variableTable.getOrThrow(identifierExpression.value).value;
     }
 
     @Override
     public void visitIfStatement(IfStatementNode ifStatement) {
-        BaseClassExpressionNode ifCondition = this.visitExpression(ifStatement.ifConditionPair.getLeft());
+        BuiltinClass ifCondition = this.visitExpression(ifStatement.ifConditionPair.getLeft());
 
-        if (!ifCondition.getType().equals("Boolean")) {
-            throw ErrorHolder.ifStatementConditionRequiresType("Boolean", ifCondition.getType());
+        if (!ifCondition.instanceOf(new BooleanType())) {
+            throw ErrorHolder.ifStatementConditionRequiresType(new BooleanType(), ifCondition.getType());
         }
 
-        if (((BooleanClass) ifCondition).value) {
+        if (ifCondition.toBoolean()) {
             for (StatementNode statement : ifStatement.ifConditionPair.getRight()) {
                 this.visitStatement(statement);
             }
@@ -256,14 +263,14 @@ public class Interpreter implements Visitor {
         }
 
         for (Pair<ExpressionNode, List<StatementNode>> elseIfConditionPair : ifStatement.elseIfConditionPairs) {
-            BaseClassExpressionNode elseIfCondition = this.visitExpression(elseIfConditionPair.getLeft());
+            BuiltinClass elseIfCondition = this.visitExpression(elseIfConditionPair.getLeft());
             List<StatementNode> elseIfBody = elseIfConditionPair.getRight();
 
-            if (!elseIfCondition.getType().equals("Boolean")) {
-                throw ErrorHolder.ifStatementConditionRequiresType("Boolean", ifCondition.getType());
+            if (!elseIfCondition.instanceOf(new BooleanType())) {
+                throw ErrorHolder.ifStatementConditionRequiresType(new BooleanType(), ifCondition.getType());
             }
 
-            if (((BooleanClass) elseIfCondition).value) {
+            if (elseIfCondition.toBoolean()) {
                 for (StatementNode statement : elseIfBody) {
                     this.visitStatement(statement);
                 }
@@ -277,29 +284,29 @@ public class Interpreter implements Visitor {
     }
 
     @Override
-    public BaseClassExpressionNode visitIndexExpression(IndexExpressionNode indexExpression) {
-        BaseClassExpressionNode expression = this.visitExpression(indexExpression.expression);
-        BaseClassExpressionNode index = this.visitExpression(indexExpression.index);
+    public BuiltinClass visitIndexExpression(IndexExpressionNode indexExpression) {
+        BuiltinClass expression = this.visitExpression(indexExpression.expression);
+        BuiltinClass index = this.visitExpression(indexExpression.index);
 
         return expression.getIndex(index);
     }
 
     @Override
-    public BaseClassExpressionNode visitIntegerExpression(IntegerExpressionNode integerExpression) {
-        return new IntegerClass(integerExpression.value);
+    public BuiltinClass visitIntegerExpression(IntegerExpressionNode integerExpression) {
+        return new IntegerInstance(integerExpression.value);
     }
 
     @Override
-    public BaseClassExpressionNode visitListExpression(ListExpressionNode listExpression) {
-        List<BaseClassExpressionNode> list = new ArrayList<>();
+    public BuiltinClass visitListExpression(ListExpressionNode listExpression) {
+        List<BuiltinClass> list = new ArrayList<>();
 
         listExpression.value.forEach(expression -> list.add(this.visitExpression(expression)));
 
-        return new ListClass(list);
+        return new ListInstance(list);
     }
 
     @Override
-    public BaseClassExpressionNode visitLiteralExpression(LiteralExpressionNode literalExpression) {
+    public BuiltinClass visitLiteralExpression(LiteralExpressionNode literalExpression) {
         if (literalExpression instanceof BooleanExpressionNode booleanExpression) {
             return this.visitBooleanExpression(booleanExpression);
         } else if (literalExpression instanceof DictionaryExpressionNode dictionaryExpression) {
@@ -325,17 +332,17 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visitMethodDeclarationStatement(MethodDeclarationStatementNode methodDeclarationStatement) {
-        this.variableTable.declare(methodDeclarationStatement.isConstant, methodDeclarationStatement.name, new MethodClass(methodDeclarationStatement.accessModifiers, methodDeclarationStatement.isConstant, methodDeclarationStatement.name, methodDeclarationStatement.arguments, methodDeclarationStatement.body));
+        this.variableTable.declare(methodDeclarationStatement.isConstant, methodDeclarationStatement.name, new MethodInstance(methodDeclarationStatement.accessModifiers, methodDeclarationStatement.isConstant, methodDeclarationStatement.name, methodDeclarationStatement.arguments, methodDeclarationStatement.body));
     }
 
     @Override
-    public BaseClassExpressionNode visitNullExpression(NullExpressionNode nullExpression) {
-        return new NullClass();
+    public BuiltinClass visitNullExpression(NullExpressionNode nullExpression) {
+        return new NullInstance();
     }
 
     @Override
-    public BaseClassExpressionNode visitPostfixExpression(PostfixExpressionNode postfixExpression) {
-        BaseClassExpressionNode expression = this.visitExpression(postfixExpression.expression);
+    public BuiltinClass visitPostfixExpression(PostfixExpressionNode postfixExpression) {
+        BuiltinClass expression = this.visitExpression(postfixExpression.expression);
 
         return switch (postfixExpression.operator) {
             case DOUBLE_PLUS -> expression.call(this, "increment", List.of());
@@ -345,13 +352,13 @@ public class Interpreter implements Visitor {
     }
 
     @Override
-    public BaseClassExpressionNode visitResourceExpression(ResourceExpressionNode resourceExpression) {
-        return new ResourceClass(resourceExpression.value);
+    public BuiltinClass visitResourceExpression(ResourceExpressionNode resourceExpression) {
+        return new ResourceInstance(resourceExpression.value);
     }
 
     @Override
     public void visitReturnStatement(ReturnStatementNode returnStatement) {
-        BaseClassExpressionNode value = this.visitExpression(returnStatement.value);
+        BuiltinClass value = this.visitExpression(returnStatement.value);
 
         throw new Return(value);
     }
@@ -396,13 +403,13 @@ public class Interpreter implements Visitor {
     }
 
     @Override
-    public BaseClassExpressionNode visitStringExpression(StringExpressionNode stringExpression) {
-        return new StringClass(stringExpression.value);
+    public BuiltinClass visitStringExpression(StringExpressionNode stringExpression) {
+        return new StringInstance(stringExpression.value);
     }
 
     @Override
-    public BaseClassExpressionNode visitUnaryExpression(UnaryExpressionNode unaryExpression) {
-        BaseClassExpressionNode value = this.visitExpression(unaryExpression.value);
+    public BuiltinClass visitUnaryExpression(UnaryExpressionNode unaryExpression) {
+        BuiltinClass value = this.visitExpression(unaryExpression.value);
 
         return switch (unaryExpression.operator) {
             case EXCLAMATION_MARK -> value.call(this, "logicalNot", List.of());
@@ -412,22 +419,22 @@ public class Interpreter implements Visitor {
     }
 
     @Override
-    public BaseClassExpressionNode visitVariableAssignmentExpression(VariableAssignmentExpressionNode variableAssignmentExpression) {
-        BaseClassExpressionNode value = this.visitExpression(variableAssignmentExpression.value);
+    public BuiltinClass visitVariableAssignmentExpression(VariableAssignmentExpressionNode variableAssignmentExpression) {
+        BuiltinClass value = this.visitExpression(variableAssignmentExpression.value);
 
         if (variableAssignmentExpression.expression instanceof IdentifierExpressionNode identifierExpression) {
             this.variableTable.assign(identifierExpression.value, value);
 
             return value;
         } else if (variableAssignmentExpression.expression instanceof GetExpressionNode getExpression) {
-            BaseClassExpressionNode assignee = this.visitExpression(getExpression.expression);
+            BuiltinClass assignee = this.visitExpression(getExpression.expression);
 
             assignee.setProperty(getExpression.propertyName, value);
 
             return value;
         } else if (variableAssignmentExpression.expression instanceof IndexExpressionNode indexExpression) {
-            BaseClassExpressionNode assignee = this.visitExpression(indexExpression.expression);
-            BaseClassExpressionNode index = this.visitExpression(indexExpression.index);
+            BuiltinClass assignee = this.visitExpression(indexExpression.expression);
+            BuiltinClass index = this.visitExpression(indexExpression.index);
 
             assignee.setIndex(index, value);
 
@@ -439,7 +446,7 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visitVariableDeclarationStatement(VariableDeclarationStatementNode variableDeclarationStatement) {
-        BaseClassExpressionNode value = this.visitExpression(variableDeclarationStatement.value);
+        BuiltinClass value = this.visitExpression(variableDeclarationStatement.value);
 
         this.variableTable.declare(variableDeclarationStatement.isConstant, variableDeclarationStatement.name, value);
     }
@@ -450,13 +457,13 @@ public class Interpreter implements Visitor {
 
         while_loop:
         while (true) {
-            BaseClassExpressionNode condition = this.visitExpression(whileStatement.condition);
+            BuiltinClass condition = this.visitExpression(whileStatement.condition);
 
-            if (!condition.getType().equals("Boolean")) {
-                throw ErrorHolder.invalidWhileLoopConditionType("Boolean", condition.getType());
+            if (!condition.instanceOf(new BooleanType())) {
+                throw ErrorHolder.invalidWhileLoopConditionType(new BooleanType(), condition.getType());
             }
 
-            if (!((BooleanClass) condition).value) {
+            if (condition.toBoolean()) {
                 break;
             }
 

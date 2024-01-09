@@ -1,6 +1,6 @@
 package com.revolvingmadness.testing.language.interpreter;
 
-import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
+import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 
 import java.io.Serializable;
@@ -10,9 +10,9 @@ public class Variable implements Serializable {
     public final List<TokenType> accessModifiers;
     public final boolean isConstant;
     public final String name;
-    public BaseClassExpressionNode value;
+    public BuiltinClass value;
 
-    public Variable(List<TokenType> accessModifiers, boolean isConstant, String name, BaseClassExpressionNode value) {
+    public Variable(List<TokenType> accessModifiers, boolean isConstant, String name, BuiltinClass value) {
         this.accessModifiers = accessModifiers;
         this.isConstant = isConstant;
         this.name = name;

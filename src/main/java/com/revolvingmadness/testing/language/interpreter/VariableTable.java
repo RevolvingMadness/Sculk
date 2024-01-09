@@ -1,10 +1,11 @@
 package com.revolvingmadness.testing.language.interpreter;
 
-import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
-import com.revolvingmadness.testing.language.builtins.classes.GameRulesClass;
-import com.revolvingmadness.testing.language.builtins.classes.MinecraftServerClass;
-import com.revolvingmadness.testing.language.builtins.classes.PlayerManagerClass;
-import com.revolvingmadness.testing.language.builtins.classes.types.FloatClass;
+import com.revolvingmadness.testing.Testing;
+import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
+import com.revolvingmadness.testing.language.builtins.classes.instances.FloatInstance;
+import com.revolvingmadness.testing.language.builtins.classes.instances.GameRulesInstance;
+import com.revolvingmadness.testing.language.builtins.classes.instances.MinecraftServerInstance;
+import com.revolvingmadness.testing.language.builtins.classes.instances.PlayerManagerInstance;
 import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunction;
 import com.revolvingmadness.testing.language.builtins.functions.types.TypeFunction;
 import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
@@ -23,7 +24,7 @@ public class VariableTable {
         this.reset();
     }
 
-    public void assign(String name, BaseClassExpressionNode value) {
+    public void assign(String name, BuiltinClass value) {
         Optional<Variable> optionalVariable = this.getOptional(name);
 
         if (optionalVariable.isEmpty()) {
@@ -39,18 +40,18 @@ public class VariableTable {
         variable.value = value;
     }
 
-    public void declare(boolean isConstant, String name, BaseClassExpressionNode value) {
+    public void declare(boolean isConstant, String name, BuiltinClass value) {
         this.declare(List.of(), isConstant, name, value);
     }
 
-    public void declare(List<TokenType> accessModifiers, boolean isConstant, String name, BaseClassExpressionNode value) {
+    public void declare(List<TokenType> accessModifiers, boolean isConstant, String name, BuiltinClass value) {
         this.variableScopes.peek().declare(accessModifiers, isConstant, name, value);
     }
 
     private void declareClasses() {
-        this.declare(true, "server", new MinecraftServerClass());
-        this.declare(true, "playerManager", new PlayerManagerClass());
-        this.declare(true, "gameRules", new GameRulesClass());
+        this.declare(true, "server", new MinecraftServerInstance(Testing.server));
+        this.declare(true, "playerManager", new PlayerManagerInstance(Testing.server.getPlayerManager()));
+        this.declare(true, "gameRules", new GameRulesInstance(Testing.server.getGameRules()));
     }
 
     private void declareFunctions() {
@@ -59,7 +60,7 @@ public class VariableTable {
     }
 
     private void declareVariables() {
-        this.declare(true, "PI", new FloatClass(Math.PI));
+        this.declare(true, "PI", new FloatInstance(Math.PI));
     }
 
     public void deleteOrThrow(String name) {

@@ -1,37 +1,27 @@
 package com.revolvingmadness.testing.language.builtins.functions.io;
 
 import com.revolvingmadness.testing.backend.Logger;
-import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
-import com.revolvingmadness.testing.language.builtins.classes.BaseFunctionExpressionNode;
-import com.revolvingmadness.testing.language.builtins.classes.types.NullClass;
-import com.revolvingmadness.testing.language.builtins.classes.types.StringClass;
+import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
+import com.revolvingmadness.testing.language.builtins.classes.BuiltinFunction;
+import com.revolvingmadness.testing.language.builtins.classes.instances.NullInstance;
 import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 
 import java.util.List;
 
-public class PrintFunction extends BaseFunctionExpressionNode {
+public class PrintFunction extends BuiltinFunction {
     @Override
-    public BaseClassExpressionNode call(Interpreter interpreter, List<BaseClassExpressionNode> arguments) {
+    public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
         if (arguments.size() != 1) {
             throw ErrorHolder.invalidArgumentCount("print", 1, arguments.size());
         }
 
-        BaseClassExpressionNode value = arguments.get(0);
-        BaseClassExpressionNode toStringResult = value.call(interpreter, "toString", List.of());
+        BuiltinClass value = arguments.get(0);
+        BuiltinClass toStringResult = value.call(interpreter, "toString", List.of());
 
-        Logger.broadcast(((StringClass) toStringResult).value, true);
+        Logger.broadcast(toStringResult.toStringType(), true);
 
-        return new NullClass();
+        return new NullInstance();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        return o instanceof PrintFunction;
-    }
-
-    @Override
-    public int hashCode() {
-        return PrintFunction.class.hashCode();
-    }
 }

@@ -1,6 +1,6 @@
 package com.revolvingmadness.testing.language.interpreter;
 
-import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
+import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 
@@ -16,7 +16,7 @@ public class VariableScope implements Serializable {
         this.variables = new ArrayList<>();
     }
 
-    public void assign(String name, BaseClassExpressionNode value) {
+    public void assign(String name, BuiltinClass value) {
         Optional<Variable> optionalVariable = this.getOptional(name);
 
         if (optionalVariable.isEmpty()) {
@@ -33,11 +33,11 @@ public class VariableScope implements Serializable {
     }
 
     // TODO to be removed and make access modifiers required
-    public void declare(boolean isConstant, String name, BaseClassExpressionNode value) {
+    public void declare(boolean isConstant, String name, BuiltinClass value) {
         this.declare(List.of(), isConstant, name, value);
     }
 
-    public void declare(List<TokenType> accessModifiers, boolean isConstant, String name, BaseClassExpressionNode value) {
+    public void declare(List<TokenType> accessModifiers, boolean isConstant, String name, BuiltinClass value) {
         Optional<Variable> optionalVariable = this.getOptional(name);
 
         if (optionalVariable.isPresent()) {

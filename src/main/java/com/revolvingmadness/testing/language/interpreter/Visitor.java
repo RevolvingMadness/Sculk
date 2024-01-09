@@ -1,19 +1,19 @@
 package com.revolvingmadness.testing.language.interpreter;
 
-import com.revolvingmadness.testing.language.builtins.classes.BaseClassExpressionNode;
+import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.*;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.*;
 
 public interface Visitor {
-    BaseClassExpressionNode visitBinaryExpression(BinaryExpressionNode binaryExpression);
+    BuiltinClass visitBinaryExpression(BinaryExpressionNode binaryExpression);
 
-    BaseClassExpressionNode visitBooleanExpression(BooleanExpressionNode booleanExpression);
+    BuiltinClass visitBooleanExpression(BooleanExpressionNode booleanExpression);
 
     void visitBreakStatement(BreakStatementNode breakStatement);
 
-    BaseClassExpressionNode visitCallExpression(CallExpressionNode callExpression);
+    BuiltinClass visitCallExpression(CallExpressionNode callExpression);
 
     void visitClassDeclarationStatement(ClassDeclarationStatementNode classDeclarationStatement);
 
@@ -21,43 +21,43 @@ public interface Visitor {
 
     void visitDeleteStatement(DeleteStatementNode deleteStatement);
 
-    BaseClassExpressionNode visitDictionaryExpression(DictionaryExpressionNode dictionaryExpression);
+    BuiltinClass visitDictionaryExpression(DictionaryExpressionNode dictionaryExpression);
 
-    BaseClassExpressionNode visitExpression(ExpressionNode expression);
+    BuiltinClass visitExpression(ExpressionNode expression);
 
     void visitExpressionStatement(ExpressionStatementNode expressionStatement);
 
     void visitFieldDeclarationStatement(FieldDeclarationStatementNode fieldDeclarationStatement);
 
-    BaseClassExpressionNode visitFloatExpression(FloatExpressionNode floatExpression);
+    BuiltinClass visitFloatExpression(FloatExpressionNode floatExpression);
 
     void visitForStatement(ForStatementNode forStatement);
 
     void visitFunctionDeclarationStatement(FunctionDeclarationStatementNode functionDeclarationStatement);
 
-    BaseClassExpressionNode visitFunctionExpression(FunctionExpressionNode functionExpression);
+    BuiltinClass visitFunctionExpression(FunctionExpressionNode functionExpression);
 
-    BaseClassExpressionNode visitGetExpression(GetExpressionNode getExpression);
+    BuiltinClass visitGetExpression(GetExpressionNode getExpression);
 
-    BaseClassExpressionNode visitIdentifierExpression(IdentifierExpressionNode identifierExpression);
+    BuiltinClass visitIdentifierExpression(IdentifierExpressionNode identifierExpression);
 
     void visitIfStatement(IfStatementNode ifStatement);
 
-    BaseClassExpressionNode visitIndexExpression(IndexExpressionNode indexExpression);
+    BuiltinClass visitIndexExpression(IndexExpressionNode indexExpression);
 
-    BaseClassExpressionNode visitIntegerExpression(IntegerExpressionNode integerExpression);
+    BuiltinClass visitIntegerExpression(IntegerExpressionNode integerExpression);
 
-    BaseClassExpressionNode visitListExpression(ListExpressionNode listExpression);
+    BuiltinClass visitListExpression(ListExpressionNode listExpression);
 
-    BaseClassExpressionNode visitLiteralExpression(LiteralExpressionNode literalExpression);
+    BuiltinClass visitLiteralExpression(LiteralExpressionNode literalExpression);
 
     void visitMethodDeclarationStatement(MethodDeclarationStatementNode methodDeclarationStatement);
 
-    BaseClassExpressionNode visitNullExpression(NullExpressionNode nullExpression);
+    BuiltinClass visitNullExpression(NullExpressionNode nullExpression);
 
-    BaseClassExpressionNode visitPostfixExpression(PostfixExpressionNode postfixExpression);
+    BuiltinClass visitPostfixExpression(PostfixExpressionNode postfixExpression);
 
-    BaseClassExpressionNode visitResourceExpression(ResourceExpressionNode resourceExpression);
+    BuiltinClass visitResourceExpression(ResourceExpressionNode resourceExpression);
 
     void visitReturnStatement(ReturnStatementNode returnStatement);
 
@@ -65,11 +65,11 @@ public interface Visitor {
 
     void visitStatement(StatementNode statement);
 
-    BaseClassExpressionNode visitStringExpression(StringExpressionNode stringExpression);
+    BuiltinClass visitStringExpression(StringExpressionNode stringExpression);
 
-    BaseClassExpressionNode visitUnaryExpression(UnaryExpressionNode unaryExpression);
+    BuiltinClass visitUnaryExpression(UnaryExpressionNode unaryExpression);
 
-    BaseClassExpressionNode visitVariableAssignmentExpression(VariableAssignmentExpressionNode variableAssignmentExpression);
+    BuiltinClass visitVariableAssignmentExpression(VariableAssignmentExpressionNode variableAssignmentExpression);
 
     void visitVariableDeclarationStatement(VariableDeclarationStatementNode variableDeclarationStatement);
 

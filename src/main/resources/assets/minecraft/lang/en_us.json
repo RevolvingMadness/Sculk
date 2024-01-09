@@ -25,5 +25,8 @@
    "error.unsupported_expression_node_to_interpret": "Unsupported expression node to interpret '%s'",
    "error.unsupported_literal_expression_node_to_interpret": "Unsupported literal expression node to interpret '%s'",
    "error.unsupported_statement_node_to_interpret": "Unsupported statement node to interpret '%s'",
-   "error.invalid_argument_count": "Function '%s' takes %s argument(s) but got %s argument(s)"
+   "error.invalid_argument_count": "Function '%s' takes %s argument(s) but got %s argument(s)",
+   "error.cannot_convert_type": "Cannot convert type '%s' to '%s'",
+   "error.cannot_extend_from_type": "Cannot extend from non-type '%s'",
+   "error.can_only_check_instance_of_types": "'instanceof' can only check types"
 }
