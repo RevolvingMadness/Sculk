@@ -24,24 +24,39 @@ public class Testing implements ModInitializer {
     public void onInitialize() {
         ServerLifecycleEvents.SERVER_STARTING.register(server1 -> Testing.server = server1);
         TestingGamerules.registerGamerules();
+
+        // Values
         Testing.keywords.put("true", TokenType.TRUE);
         Testing.keywords.put("false", TokenType.FALSE);
-        Testing.keywords.put("import", TokenType.IMPORT);
-        Testing.keywords.put("if", TokenType.IF);
-        Testing.keywords.put("while", TokenType.WHILE);
-        Testing.keywords.put("for", TokenType.FOR);
-        Testing.keywords.put("function", TokenType.FUNCTION);
         Testing.keywords.put("null", TokenType.NULL);
-        Testing.keywords.put("return", TokenType.RETURN);
-        Testing.keywords.put("break", TokenType.BREAK);
-        Testing.keywords.put("continue", TokenType.CONTINUE);
-        Testing.keywords.put("const", TokenType.CONST);
-        Testing.keywords.put("var", TokenType.VAR);
-        Testing.keywords.put("class", TokenType.CLASS);
-        Testing.keywords.put("extends", TokenType.EXTENDS);
-        Testing.keywords.put("else", TokenType.ELSE);
-        Testing.keywords.put("instanceof", TokenType.INSTANCE_OF);
+
+        // Access Modifiers
+        Testing.keywords.put("public", TokenType.PUBLIC);
+        Testing.keywords.put("private", TokenType.PRIVATE);
+        Testing.keywords.put("abstract", TokenType.ABSTRACT);
         Testing.keywords.put("static", TokenType.STATIC);
+        Testing.keywords.put("const", TokenType.CONST);
+
+        // Control flow
+        Testing.keywords.put("if", TokenType.IF);
+        Testing.keywords.put("for", TokenType.FOR);
+        Testing.keywords.put("while", TokenType.WHILE);
+
+        Testing.keywords.put("return", TokenType.RETURN);
+        Testing.keywords.put("continue", TokenType.CONTINUE);
+        Testing.keywords.put("break", TokenType.BREAK);
+
+        Testing.keywords.put("else", TokenType.ELSE);
+
+        // Declaration
+        Testing.keywords.put("class", TokenType.CLASS);
+        Testing.keywords.put("var", TokenType.VAR);
+        Testing.keywords.put("function", TokenType.FUNCTION);
+
+        // Misc
+        Testing.keywords.put("import", TokenType.IMPORT);
+        Testing.keywords.put("extends", TokenType.EXTENDS);
+        Testing.keywords.put("instanceof", TokenType.INSTANCE_OF);
         Testing.keywords.put("delete", TokenType.DELETE);
 
         EntitySleepEvents.START_SLEEPING.register((livingEntity, sleepingPos) -> EventHolder.onSleepEvents.forEach(event -> event.execute(List.of(new LivingEntityInstance(livingEntity), new BlockPosInstance(sleepingPos)))));

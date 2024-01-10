@@ -8,6 +8,7 @@ import com.revolvingmadness.testing.language.builtins.classes.instances.IntegerI
 import com.revolvingmadness.testing.language.builtins.classes.instances.NullInstance;
 import com.revolvingmadness.testing.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
+import com.revolvingmadness.testing.language.lexer.TokenType;
 import net.minecraft.world.GameMode;
 
 import java.util.List;
@@ -16,12 +17,12 @@ public class ServerPlayerEntityType extends BuiltinType {
     public ServerPlayerEntityType() {
         super("ServerPlayerEntity", new PlayerEntityType());
 
-        this.typeVariableScope.declare(true, "changeGameMode", new ChangeGameMode());
-        this.typeVariableScope.declare(true, "dropSelectedItem", new DropSelectedItem());
-        this.typeVariableScope.declare(true, "getIp", new GetIp());
-        this.typeVariableScope.declare(true, "getViewDistance", new GetViewDistance());
-        this.typeVariableScope.declare(true, "setExperienceLevels", new SetExperienceLevels());
-        this.typeVariableScope.declare(true, "setExperiencePoints", new SetExperiencePoints());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "changeGameMode", new ChangeGameMode());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "dropSelectedItem", new DropSelectedItem());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getIp", new GetIp());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getViewDistance", new GetViewDistance());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "setExperienceLevels", new SetExperienceLevels());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "setExperiencePoints", new SetExperiencePoints());
     }
 
     private static class ChangeGameMode extends BuiltinMethod {

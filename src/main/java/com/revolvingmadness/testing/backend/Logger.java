@@ -42,7 +42,7 @@ public class Logger {
 
         MutableText textError = Text.literal(error.getClass().getSimpleName() + ": ").formatted(Formatting.GRAY);
 
-        textError.append(error.message);
+        textError.append(Text.literal(error.message).formatted(Formatting.RED));
 
         Logger.broadcast(textError, true);
     }
@@ -57,7 +57,7 @@ public class Logger {
 
         MutableText textError = Text.literal(error.getClass().getSimpleName() + ": ").formatted(Formatting.GRAY);
 
-        textError.append(error.getMessage());
+        textError.append(Text.literal(error.message).formatted(Formatting.RED));
 
         Logger.broadcast(textError, true);
     }

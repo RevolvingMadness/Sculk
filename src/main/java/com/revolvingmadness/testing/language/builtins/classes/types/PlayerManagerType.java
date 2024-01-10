@@ -9,6 +9,7 @@ import com.revolvingmadness.testing.language.builtins.classes.instances.IntegerI
 import com.revolvingmadness.testing.language.builtins.classes.instances.NullInstance;
 import com.revolvingmadness.testing.language.builtins.classes.instances.ServerPlayerEntityInstance;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
+import com.revolvingmadness.testing.language.lexer.TokenType;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.List;
@@ -19,17 +20,17 @@ public class PlayerManagerType extends BuiltinType {
     public PlayerManagerType() {
         super("PlayerManager");
 
-        this.typeVariableScope.declare(true, "areCheatsEnabled", new AreCheatsEnabled());
-        this.typeVariableScope.declare(true, "getCurrentPlayerCount", new GetCurrentPlayerCount());
-        this.typeVariableScope.declare(true, "getMaxPlayerCount", new GetMaxPlayerCount());
-        this.typeVariableScope.declare(true, "getSimulationDistance", new GetSimulationDistance());
-        this.typeVariableScope.declare(true, "getViewDistance", new GetViewDistance());
-        this.typeVariableScope.declare(true, "isWhitelistEnabled", new IsWhitelistEnabled());
-        this.typeVariableScope.declare(true, "setCheatsEnabled", new SetCheatsEnabled());
-        this.typeVariableScope.declare(true, "setSimulationDistance", new SetSimulationDistance());
-        this.typeVariableScope.declare(true, "setViewDistance", new SetViewDistance());
-        this.typeVariableScope.declare(true, "setWhitelistEnabled", new SetWhitelistEnabled());
-        this.typeVariableScope.declare(true, "getPlayer", new GetPlayer());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "areCheatsEnabled", new AreCheatsEnabled());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getCurrentPlayerCount", new GetCurrentPlayerCount());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getMaxPlayerCount", new GetMaxPlayerCount());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getSimulationDistance", new GetSimulationDistance());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getViewDistance", new GetViewDistance());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "isWhitelistEnabled", new IsWhitelistEnabled());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "setCheatsEnabled", new SetCheatsEnabled());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "setSimulationDistance", new SetSimulationDistance());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "setViewDistance", new SetViewDistance());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "setWhitelistEnabled", new SetWhitelistEnabled());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getPlayer", new GetPlayer());
     }
 
     private static class AreCheatsEnabled extends BuiltinMethod {

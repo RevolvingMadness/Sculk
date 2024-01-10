@@ -7,33 +7,64 @@ import com.revolvingmadness.testing.language.builtins.classes.types.TypeType;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.Variable;
 import com.revolvingmadness.testing.language.interpreter.VariableScope;
+import com.revolvingmadness.testing.language.lexer.TokenType;
 
 import java.util.List;
 import java.util.Optional;
 
 public abstract class BuiltinType extends BuiltinClass {
+    public final List<TokenType> typeAccessModifiers;
     public final String typeName;
     public final BuiltinType typeSuperClass;
     public final VariableScope typeVariableScope;
 
     public BuiltinType(String typeName) {
-        this(typeName, new VariableScope());
-    }
-
-    public BuiltinType(String typeName, VariableScope variableScope) {
-        this(typeName, new ObjectType(), variableScope);
+        this(List.of(), typeName, new ObjectType(), new VariableScope());
     }
 
     public BuiltinType(String typeName, BuiltinType typeSuperClass) {
-        this(typeName, typeSuperClass, new VariableScope());
+        this(List.of(), typeName, typeSuperClass, new VariableScope());
     }
 
-    public BuiltinType(String typeName, BuiltinType typeSuperClass, VariableScope typeVariableScope) {
+    public BuiltinType(List<TokenType> typeAccessModifiers, String typeName, BuiltinType typeSuperClass, VariableScope typeVariableScope) {
+        this.typeAccessModifiers = typeAccessModifiers;
         this.typeName = typeName;
         this.typeSuperClass = typeSuperClass;
         this.typeVariableScope = typeVariableScope;
 
-        this.variableScope.declare(true, "toString", new ToString());
+        this.checkIfAllMethodsAreImplemented();
+
+        if (!this.isAbstract() && this.hasAbstractMethods()) {
+            throw ErrorHolder.cannotDeclareNonAbstractClassWithAbstractMethods(this.typeName);
+        }
+
+        this.variableScope.declare(List.of(TokenType.CONST), "toString", new ToString());
+    }
+
+    @Override
+    public void checkIfAllMethodsAreImplemented() {
+        if (this.typeSuperClass == null) {
+            return;
+        }
+
+        if (!this.typeSuperClass.isAbstract()) {
+            return;
+        }
+
+        for (Variable property : this.typeSuperClass.typeVariableScope.variables) {
+            if (property.isAbstract()) {
+                if (!this.typeVariableScope.exists(property.name)) {
+                    throw ErrorHolder.methodNotImplemented(property.name, this.typeName);
+                }
+            }
+        }
+
+        this.typeSuperClass.checkIfAllMethodsAreImplemented();
+    }
+
+    @Override
+    public void deleteProperty(String propertyName) {
+        this.typeVariableScope.deleteOrThrow(propertyName);
     }
 
     @Override
@@ -81,6 +112,17 @@ public abstract class BuiltinType extends BuiltinClass {
     }
 
     @Override
+    public boolean hasAbstractMethods() {
+        for (Variable variable : this.typeVariableScope.variables) {
+            if (variable.isAbstract()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public boolean instanceOf(BuiltinType type) {
         boolean isInstanceOf = this.typeName.equals(type.typeName);
 
@@ -93,6 +135,11 @@ public abstract class BuiltinType extends BuiltinClass {
         }
 
         return this.typeSuperClass.instanceOf(type);
+    }
+
+    @Override
+    public boolean isAbstract() {
+        return this.typeAccessModifiers.contains(TokenType.ABSTRACT);
     }
 
     @Override

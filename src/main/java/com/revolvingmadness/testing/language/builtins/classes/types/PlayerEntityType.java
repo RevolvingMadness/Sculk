@@ -8,6 +8,7 @@ import com.revolvingmadness.testing.language.builtins.classes.instances.BooleanI
 import com.revolvingmadness.testing.language.builtins.classes.instances.NullInstance;
 import com.revolvingmadness.testing.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
+import com.revolvingmadness.testing.language.lexer.TokenType;
 
 import java.util.List;
 
@@ -15,12 +16,12 @@ public class PlayerEntityType extends BuiltinType {
     public PlayerEntityType() {
         super("PlayerEntity", new LivingEntityType());
 
-        this.typeVariableScope.declare(true, "addExperiencePoints", new AddExperiencePoints());
-        this.typeVariableScope.declare(true, "addExperienceLevels", new AddExperienceLevels());
-        this.typeVariableScope.declare(true, "isCreative", new IsCreative());
-        this.typeVariableScope.declare(true, "isSpectator", new IsSpectator());
-        this.typeVariableScope.declare(true, "getName", new GetName());
-        this.typeVariableScope.declare(true, "getUUID", new GetUUID());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "addExperiencePoints", new AddExperiencePoints());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "addExperienceLevels", new AddExperienceLevels());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "isCreative", new IsCreative());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "isSpectator", new IsSpectator());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getName", new GetName());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getUUID", new GetUUID());
     }
 
     private static class AddExperienceLevels extends BuiltinMethod {

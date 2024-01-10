@@ -10,6 +10,7 @@ import com.revolvingmadness.testing.language.builtins.classes.instances.IntegerI
 import com.revolvingmadness.testing.language.builtins.classes.instances.NullInstance;
 import com.revolvingmadness.testing.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
+import com.revolvingmadness.testing.language.lexer.TokenType;
 import net.minecraft.world.Difficulty;
 
 import java.util.List;
@@ -18,16 +19,16 @@ public class MinecraftServerType extends BuiltinType {
     public MinecraftServerType() {
         super("MinecraftServer");
 
-        this.typeVariableScope.declare(true, "setPVPEnabled", new SetPVPEnabled());
-        this.typeVariableScope.declare(true, "setDifficultyLocked", new SetDifficultyLocked());
-        this.typeVariableScope.declare(true, "isPVPEnabled", new IsPVPEnabled());
-        this.typeVariableScope.declare(true, "isNetherEnabled", new IsNetherEnabled());
-        this.typeVariableScope.declare(true, "isFlightEnabled", new IsFlightEnabled());
-        this.typeVariableScope.declare(true, "getServerPort", new GetServerPort());
-        this.typeVariableScope.declare(true, "getServerIP", new GetServerIp());
-        this.typeVariableScope.declare(true, "isHardcore", new IsHardcore());
-        this.typeVariableScope.declare(true, "areCommandBlocksEnabled", new AreCommandBlocksEnabled());
-        this.typeVariableScope.declare(true, "setDifficulty", new SetDifficulty());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "setPVPEnabled", new SetPVPEnabled());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "setDifficultyLocked", new SetDifficultyLocked());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "isPVPEnabled", new IsPVPEnabled());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "isNetherEnabled", new IsNetherEnabled());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "isFlightEnabled", new IsFlightEnabled());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getServerPort", new GetServerPort());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getServerIP", new GetServerIp());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "isHardcore", new IsHardcore());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "areCommandBlocksEnabled", new AreCommandBlocksEnabled());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "setDifficulty", new SetDifficulty());
     }
 
     @Override

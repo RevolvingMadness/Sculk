@@ -18,11 +18,9 @@ public class MethodInstance extends BuiltinMethod {
     public final List<TokenType> accessModifiers;
     public final List<String> arguments;
     public final List<StatementNode> body;
-    public final boolean isConstant;
     public final String name;
 
-    public MethodInstance(List<TokenType> accessModifiers, boolean isConstant, String name, List<String> arguments, List<StatementNode> body) {
-        this.isConstant = isConstant;
+    public MethodInstance(List<TokenType> accessModifiers, String name, List<String> arguments, List<StatementNode> body) {
         this.accessModifiers = accessModifiers;
         this.name = name;
         this.arguments = arguments;
@@ -47,16 +45,16 @@ public class MethodInstance extends BuiltinMethod {
 
         for (String argumentName : this.arguments) {
             BuiltinClass argumentValue = arguments.get(argumentNumber);
-            interpreter.variableTable.declare(true, argumentName, argumentValue);
+            interpreter.variableTable.declare(List.of(TokenType.CONST), argumentName, argumentValue);
             argumentNumber++;
         }
 
         if (this.boundClass != null) {
-            interpreter.variableTable.declare(true, "this", this.boundClass);
+            interpreter.variableTable.declare(List.of(TokenType.CONST), "this", this.boundClass);
         }
 
         if (this.boundSuperClass != null) {
-            interpreter.variableTable.declare(true, "super", this.boundSuperClass);
+            interpreter.variableTable.declare(List.of(TokenType.CONST), "super", this.boundSuperClass);
         }
 
         try {
@@ -75,16 +73,16 @@ public class MethodInstance extends BuiltinMethod {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || this.getClass() != o.getClass())
+        if (o == null || getClass() != o.getClass())
             return false;
         if (!super.equals(o))
             return false;
         MethodInstance that = (MethodInstance) o;
-        return this.isConstant == that.isConstant && Objects.equals(this.accessModifiers, that.accessModifiers) && Objects.equals(this.arguments, that.arguments) && Objects.equals(this.body, that.body) && Objects.equals(this.name, that.name) && Objects.equals(this.boundClass, that.boundClass) && Objects.equals(this.boundSuperClass, that.boundSuperClass);
+        return Objects.equals(accessModifiers, that.accessModifiers) && Objects.equals(arguments, that.arguments) && Objects.equals(body, that.body) && Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), this.accessModifiers, this.arguments, this.body, this.isConstant, this.name, this.boundClass, this.boundSuperClass);
+        return Objects.hash(accessModifiers, arguments, body, name);
     }
 }

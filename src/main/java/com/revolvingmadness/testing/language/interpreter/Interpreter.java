@@ -105,7 +105,7 @@ public class Interpreter implements Visitor {
             superClass = new ObjectType();
         }
 
-        this.variableTable.declare(classDeclarationStatement.isConstant, classDeclarationStatement.name, new UserDefinedType(classDeclarationStatement.name, superClass, variableScope));
+        this.variableTable.declare(classDeclarationStatement.accessModifiers, classDeclarationStatement.name, new UserDefinedType(classDeclarationStatement.accessModifiers, classDeclarationStatement.name, superClass, variableScope));
     }
 
     @Override
@@ -176,7 +176,7 @@ public class Interpreter implements Visitor {
     public void visitFieldDeclarationStatement(FieldDeclarationStatementNode fieldDeclarationStatement) {
         BuiltinClass value = this.visitExpression(fieldDeclarationStatement.value);
 
-        this.variableTable.declare(fieldDeclarationStatement.accessModifiers, fieldDeclarationStatement.isConstant, fieldDeclarationStatement.name, value);
+        this.variableTable.declare(fieldDeclarationStatement.accessModifiers, fieldDeclarationStatement.name, value);
     }
 
     @Override
@@ -227,7 +227,7 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visitFunctionDeclarationStatement(FunctionDeclarationStatementNode functionDeclarationStatement) {
-        this.variableTable.declare(functionDeclarationStatement.isConstant, functionDeclarationStatement.name, new FunctionInstance(functionDeclarationStatement.name, functionDeclarationStatement.arguments, functionDeclarationStatement.body));
+        this.variableTable.declare(functionDeclarationStatement.accessModifiers, functionDeclarationStatement.name, new FunctionInstance(functionDeclarationStatement.name, functionDeclarationStatement.arguments, functionDeclarationStatement.body));
     }
 
     @Override
@@ -332,7 +332,7 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visitMethodDeclarationStatement(MethodDeclarationStatementNode methodDeclarationStatement) {
-        this.variableTable.declare(methodDeclarationStatement.isConstant, methodDeclarationStatement.name, new MethodInstance(methodDeclarationStatement.accessModifiers, methodDeclarationStatement.isConstant, methodDeclarationStatement.name, methodDeclarationStatement.arguments, methodDeclarationStatement.body));
+        this.variableTable.declare(methodDeclarationStatement.accessModifiers, methodDeclarationStatement.name, new MethodInstance(methodDeclarationStatement.accessModifiers, methodDeclarationStatement.name, methodDeclarationStatement.arguments, methodDeclarationStatement.body));
     }
 
     @Override
@@ -448,7 +448,7 @@ public class Interpreter implements Visitor {
     public void visitVariableDeclarationStatement(VariableDeclarationStatementNode variableDeclarationStatement) {
         BuiltinClass value = this.visitExpression(variableDeclarationStatement.value);
 
-        this.variableTable.declare(variableDeclarationStatement.isConstant, variableDeclarationStatement.name, value);
+        this.variableTable.declare(variableDeclarationStatement.accessModifiers, variableDeclarationStatement.name, value);
     }
 
     @Override

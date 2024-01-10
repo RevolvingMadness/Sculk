@@ -2,6 +2,7 @@ package com.revolvingmadness.testing.language;
 
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
+import com.revolvingmadness.testing.language.errors.MethodNotImplementedError;
 import com.revolvingmadness.testing.language.errors.NameError;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.errors.TypeError;
@@ -13,6 +14,10 @@ import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.Statem
 import net.minecraft.client.resource.language.I18n;
 
 public class ErrorHolder {
+    public static SyntaxError abstractMethodCannotHaveABody(String name) {
+        throw new SyntaxError(I18n.translate("error.abstract_method_cannot_have_a_body", name));
+    }
+
     public static TypeError argumentRequiresType(int argumentNumber, String functionName, BuiltinType requiredType, BuiltinType type) {
         return new TypeError(I18n.translate("error.argument_requires_type", argumentNumber, functionName, requiredType, type));
     }
@@ -37,12 +42,20 @@ public class ErrorHolder {
         return new InterpreterError(I18n.translate("error.cannot_convert_type", type, requiredType));
     }
 
+    public static SyntaxError cannotDeclareNonAbstractClassWithAbstractMethods(String className) {
+        return new SyntaxError(I18n.translate("error.cannot_declare_non_abstract_class_with_abstract_methods", className));
+    }
+
     public static TypeError cannotExtendFromNonType(BuiltinClass clazz) {
         return new TypeError(I18n.translate("error.cannot_extend_from_type", clazz.getType()));
     }
 
     public static TypeError cannotIndexListByType(BuiltinType type) {
         return new TypeError(I18n.translate("error.cannot_index_list_by_type", type));
+    }
+
+    public static SyntaxError cannotInstantiateAbstractClassWithAbstractMethods(String className) {
+        return new SyntaxError(I18n.translate("error.cannot_instantiate_abstract_class_with_abstract_methods", className));
     }
 
     public static NameError dictionaryHasNoKey(String key) {
@@ -65,12 +78,36 @@ public class ErrorHolder {
         return new SyntaxError(I18n.translate("error.invalid_argument_count", functionName, requiredArgumentCount, argumentCount));
     }
 
+    public static SyntaxError invalidClassAccessModifier(TokenType accessModifier) {
+        return new SyntaxError(I18n.translate("error.invalid_class_access_modifier", accessModifier));
+    }
+
+    public static SyntaxError invalidFieldAccessModifier(TokenType accessModifier) {
+        return new SyntaxError(I18n.translate("error.invalid_field_access_modifier", accessModifier));
+    }
+
     public static TypeError invalidForLoopUpdateType(BuiltinType requiredType, BuiltinType type) {
         return new TypeError(I18n.translate("error.invalid_for_loop_update_type", requiredType, type));
     }
 
+    public static SyntaxError invalidFunctionAccessModifier(TokenType accessModifier) {
+        return new SyntaxError(I18n.translate("error.invalid_function_access_modifier", accessModifier));
+    }
+
+    public static SyntaxError invalidMethodAccessModifier(TokenType accessModifier) {
+        return new SyntaxError(I18n.translate("error.invalid_method_access_modifier", accessModifier));
+    }
+
+    public static SyntaxError invalidVariableAccessModifier(TokenType accessModifier) {
+        return new SyntaxError(I18n.translate("error.invalid_variable_access_modifier", accessModifier));
+    }
+
     public static TypeError invalidWhileLoopConditionType(BuiltinType requiredType, BuiltinType type) {
         return new TypeError(I18n.translate("error.invalid_while_loop_condition_type", requiredType, type));
+    }
+
+    public static MethodNotImplementedError methodNotImplemented(String name, String className) {
+        return new MethodNotImplementedError(I18n.translate("error.method_not_implemented", name, className));
     }
 
     public static NameError thereIsNoPlayerNamed(String playerName) {

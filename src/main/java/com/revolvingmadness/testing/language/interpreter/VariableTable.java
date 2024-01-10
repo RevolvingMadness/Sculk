@@ -30,35 +30,31 @@ public class VariableTable {
 
         Variable variable = optionalVariable.get();
 
-        if (variable.isConstant) {
+        if (variable.isConstant()) {
             throw ErrorHolder.cannotAssignValueToVariableBecauseItIsAConstant(variable.name);
         }
 
         variable.value = value;
     }
 
-    public void declare(boolean isConstant, String name, BuiltinClass value) {
-        this.declare(List.of(), isConstant, name, value);
-    }
-
-    public void declare(List<TokenType> accessModifiers, boolean isConstant, String name, BuiltinClass value) {
-        this.variableScopes.peek().declare(accessModifiers, isConstant, name, value);
+    public void declare(List<TokenType> accessModifiers, String name, BuiltinClass value) {
+        this.variableScopes.peek().declare(accessModifiers, name, value);
     }
 
     private void declareClasses() {
-        this.declare(true, "server", new MinecraftServerInstance(Testing.server));
-        this.declare(true, "playerManager", new PlayerManagerInstance(Testing.server.getPlayerManager()));
-        this.declare(true, "gameRules", new GameRulesInstance(Testing.server.getGameRules()));
-        this.declare(true, "events", new EventsInstance());
+        this.declare(List.of(TokenType.CONST), "server", new MinecraftServerInstance(Testing.server));
+        this.declare(List.of(TokenType.CONST), "playerManager", new PlayerManagerInstance(Testing.server.getPlayerManager()));
+        this.declare(List.of(TokenType.CONST), "gameRules", new GameRulesInstance(Testing.server.getGameRules()));
+        this.declare(List.of(TokenType.CONST), "events", new EventsInstance());
     }
 
     private void declareFunctions() {
-        this.declare(true, "print", new PrintFunction());
-        this.declare(true, "type", new TypeFunction());
+        this.declare(List.of(TokenType.CONST), "print", new PrintFunction());
+        this.declare(List.of(TokenType.CONST), "type", new TypeFunction());
     }
 
     private void declareVariables() {
-        this.declare(true, "PI", new FloatInstance(Math.PI));
+        this.declare(List.of(TokenType.CONST), "PI", new FloatInstance(Math.PI));
     }
 
     public void deleteOrThrow(String name) {

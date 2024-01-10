@@ -9,24 +9,25 @@ import com.revolvingmadness.testing.language.builtins.classes.instances.FloatIns
 import com.revolvingmadness.testing.language.builtins.classes.instances.IntegerInstance;
 import com.revolvingmadness.testing.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
+import com.revolvingmadness.testing.language.lexer.TokenType;
 
 import java.util.List;
 
 public class IntegerType extends BuiltinType {
     public IntegerType() {
         super("Integer");
-        this.typeVariableScope.declare(true, "add", new Add());
-        this.typeVariableScope.declare(true, "subtract", new Subtract());
-        this.typeVariableScope.declare(true, "multiply", new Multiply());
-        this.typeVariableScope.declare(true, "divide", new Divide());
-        this.typeVariableScope.declare(true, "exponentiate", new Exponentiate());
-        this.typeVariableScope.declare(true, "mod", new Mod());
-        this.typeVariableScope.declare(true, "negate", new Negate());
-        this.typeVariableScope.declare(true, "lessThan", new LessThan());
-        this.typeVariableScope.declare(true, "lessThanOrEqualTo", new LessThanOrEqualTo());
-        this.typeVariableScope.declare(true, "greaterThan", new GreaterThan());
-        this.typeVariableScope.declare(true, "greaterThanOrEqualTo", new GreaterThanOrEqualTo());
-        this.typeVariableScope.declare(true, "toString", new ToString());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "add", new Add());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "subtract", new Subtract());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "multiply", new Multiply());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "divide", new Divide());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "exponentiate", new Exponentiate());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "mod", new Mod());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "negate", new Negate());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "lessThan", new LessThan());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "lessThanOrEqualTo", new LessThanOrEqualTo());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "greaterThan", new GreaterThan());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "greaterThanOrEqualTo", new GreaterThanOrEqualTo());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "toString", new ToString());
     }
 
     private static class Add extends BuiltinMethod {

@@ -6,13 +6,14 @@ import com.revolvingmadness.testing.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.testing.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
+import com.revolvingmadness.testing.language.lexer.TokenType;
 
 import java.util.List;
 
 public class ResourceType extends BuiltinType {
     public ResourceType() {
         super("Resource");
-        this.typeVariableScope.declare(true, "toString", new ToString());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "toString", new ToString());
     }
 
     private static class ToString extends BuiltinMethod {

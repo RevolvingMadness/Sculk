@@ -8,6 +8,7 @@ import com.revolvingmadness.testing.language.builtins.classes.BuiltinFunction;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.MaxArgumentError;
 import com.revolvingmadness.testing.language.interpreter.errors.Return;
+import com.revolvingmadness.testing.language.lexer.TokenType;
 import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.StatementNode;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public class FunctionInstance extends BuiltinFunction {
 
         for (String argumentName : this.arguments) {
             BuiltinClass argumentValue = arguments.get(argumentNumber);
-            interpreter.variableTable.declare(true, argumentName, argumentValue);
+            interpreter.variableTable.declare(List.of(TokenType.CONST), argumentName, argumentValue);
             argumentNumber++;
         }
 

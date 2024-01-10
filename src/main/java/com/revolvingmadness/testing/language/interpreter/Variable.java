@@ -5,16 +5,15 @@ import com.revolvingmadness.testing.language.lexer.TokenType;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 public class Variable implements Serializable {
     public final List<TokenType> accessModifiers;
-    public final boolean isConstant;
     public final String name;
     public BuiltinClass value;
 
-    public Variable(List<TokenType> accessModifiers, boolean isConstant, String name, BuiltinClass value) {
+    public Variable(List<TokenType> accessModifiers, String name, BuiltinClass value) {
         this.accessModifiers = accessModifiers;
-        this.isConstant = isConstant;
         this.name = name;
         this.value = value;
     }
@@ -23,20 +22,22 @@ public class Variable implements Serializable {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || this.getClass() != o.getClass())
+        if (o == null || getClass() != o.getClass())
             return false;
-
         Variable variable = (Variable) o;
-
-        if (!this.name.equals(variable.name))
-            return false;
-        return this.value.equals(variable.value);
+        return Objects.equals(accessModifiers, variable.accessModifiers) && Objects.equals(name, variable.name) && Objects.equals(value, variable.value);
     }
 
     @Override
     public int hashCode() {
-        int result = this.name.hashCode();
-        result = 31 * result + this.value.hashCode();
-        return result;
+        return Objects.hash(accessModifiers, name, value);
+    }
+
+    public boolean isAbstract() {
+        return this.accessModifiers.contains(TokenType.ABSTRACT);
+    }
+
+    public boolean isConstant() {
+        return this.accessModifiers.contains(TokenType.CONST);
     }
 }

@@ -3,7 +3,9 @@ package com.revolvingmadness.testing.language.builtins.classes;
 import com.revolvingmadness.testing.language.ErrorHolder;
 import com.revolvingmadness.testing.language.builtins.classes.types.*;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
+import com.revolvingmadness.testing.language.interpreter.Variable;
 import com.revolvingmadness.testing.language.interpreter.VariableScope;
+import com.revolvingmadness.testing.language.lexer.TokenType;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -20,13 +22,23 @@ import java.util.Map;
 import java.util.Objects;
 
 public abstract class BuiltinClass extends ExpressionNode {
+    public final List<TokenType> accessModifiers;
     public final VariableScope variableScope;
 
     public BuiltinClass() {
-        this(new VariableScope());
+        this(List.of(), new VariableScope());
+    }
+
+    public BuiltinClass(List<TokenType> accessModifiers) {
+        this(accessModifiers, new VariableScope());
     }
 
     public BuiltinClass(VariableScope variableScope) {
+        this(List.of(), variableScope);
+    }
+
+    public BuiltinClass(List<TokenType> accessModifiers, VariableScope variableScope) {
+        this.accessModifiers = accessModifiers;
         this.variableScope = variableScope;
     }
 
@@ -38,6 +50,24 @@ public abstract class BuiltinClass extends ExpressionNode {
         BuiltinClass method = this.getProperty(methodName);
 
         return method.call(interpreter, arguments);
+    }
+
+    public void checkIfAllMethodsAreImplemented() {
+        if (!this.getType().typeSuperClass.isAbstract()) {
+            return;
+        }
+
+        VariableScope methodsToImplement = this.getType().typeSuperClass.typeVariableScope;
+
+        for (Variable property : methodsToImplement.variables) {
+            if (property.isAbstract()) {
+                if (!this.getType().typeVariableScope.exists(property.name)) {
+                    throw ErrorHolder.methodNotImplemented(property.name, this.getType().typeName);
+                }
+            }
+        }
+
+        this.getType().typeSuperClass.checkIfAllMethodsAreImplemented();
     }
 
     public void deleteIndex(BuiltinClass index) {
@@ -74,8 +104,22 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public abstract BuiltinType getType();
 
+    public boolean hasAbstractMethods() {
+        for (Variable variable : this.variableScope.variables) {
+            if (variable.isAbstract()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public boolean instanceOf(BuiltinType type) {
         return this.getType().instanceOf(type);
+    }
+
+    public boolean isAbstract() {
+        return this.accessModifiers.contains(TokenType.ABSTRACT);
     }
 
     public void setIndex(BuiltinClass index, BuiltinClass value) {

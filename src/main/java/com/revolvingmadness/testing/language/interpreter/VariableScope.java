@@ -25,26 +25,21 @@ public class VariableScope implements Serializable {
 
         Variable variable = optionalVariable.get();
 
-        if (variable.isConstant) {
+        if (variable.isAbstract()) {
             throw ErrorHolder.cannotAssignValueToVariableBecauseItIsAConstant(variable.name);
         }
 
         variable.value = value;
     }
 
-    // TODO to be removed and make access modifiers required
-    public void declare(boolean isConstant, String name, BuiltinClass value) {
-        this.declare(List.of(), isConstant, name, value);
-    }
-
-    public void declare(List<TokenType> accessModifiers, boolean isConstant, String name, BuiltinClass value) {
+    public void declare(List<TokenType> accessModifiers, String name, BuiltinClass value) {
         Optional<Variable> optionalVariable = this.getOptional(name);
 
         if (optionalVariable.isPresent()) {
             throw ErrorHolder.variableHasAlreadyBeenDeclared(name);
         }
 
-        this.variables.add(new Variable(accessModifiers, isConstant, name, value));
+        this.variables.add(new Variable(accessModifiers, name, value));
     }
 
     public void deleteOrThrow(String name) {

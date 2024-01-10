@@ -9,6 +9,7 @@ import com.revolvingmadness.testing.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.testing.language.builtins.classes.instances.NullInstance;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
+import com.revolvingmadness.testing.language.lexer.TokenType;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class EventsType extends BuiltinType {
     public EventsType() {
         super("Events");
 
-        this.typeVariableScope.declare(true, "onPlayerSleep", new OnPlayerSleep());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerSleep", new OnPlayerSleep());
     }
 
     private static class OnPlayerSleep extends BuiltinMethod {

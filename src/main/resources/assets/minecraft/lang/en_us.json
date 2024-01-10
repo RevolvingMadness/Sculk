@@ -28,5 +28,14 @@
    "error.invalid_argument_count": "Function '%s' takes %s argument(s) but got %s argument(s)",
    "error.cannot_convert_type": "Cannot convert type '%s' to '%s'",
    "error.cannot_extend_from_type": "Cannot extend from non-type '%s'",
-   "error.can_only_check_instance_of_types": "'instanceof' can only check types"
+   "error.can_only_check_instance_of_types": "'instanceof' can only check types",
+   "error.invalid_class_access_modifier": "Invalid class access modifier '%s'",
+   "error.invalid_field_access_modifier": "Invalid field access modifier '%s'",
+   "error.invalid_function_access_modifier": "Invalid function access modifier '%s'",
+   "error.invalid_variable_access_modifier": "Invalid variable access modifier '%s'",
+   "error.invalid_method_access_modifier": "Invalid method access modifier '%s'",
+   "error.method_not_implemented": "Method '%s' has not been implemented on class '%s'",
+   "error.abstract_method_cannot_have_a_body": "Abstract method '%s' cannot have a body",
+   "error.cannot_instantiate_abstract_class_with_abstract_methods": "Cannot instantiate abstract class '%s' with abstract methods",
+   "error.cannot_declare_non_abstract_class_with_abstract_methods": "Cannot declare non-abstract class '%s' with abstract methods"
 }

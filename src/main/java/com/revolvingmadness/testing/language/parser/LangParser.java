@@ -1,5 +1,6 @@
 package com.revolvingmadness.testing.language.parser;
 
+import com.revolvingmadness.testing.language.ErrorHolder;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.lexer.Token;
 import com.revolvingmadness.testing.language.lexer.TokenType;
@@ -47,14 +48,6 @@ public class LangParser {
         return this.current().type == type;
     }
 
-    private boolean next(TokenType type) {
-        if (this.position + 1 >= this.input.size()) {
-            return false;
-        }
-
-        return this.input.get(this.position + 1).type == type;
-    }
-
     public ScriptNode parse() {
         ScriptNode script = new ScriptNode();
 
@@ -63,6 +56,16 @@ public class LangParser {
         }
 
         return script;
+    }
+
+    private List<TokenType> parseAccessModifiers() {
+        List<TokenType> accessModifiers = new ArrayList<>();
+
+        while (this.position < this.input.size() && this.current().isAccessModifier()) {
+            accessModifiers.add(this.consume().type);
+        }
+
+        return accessModifiers;
     }
 
     private ExpressionNode parseAdditiveExpression() {
@@ -130,7 +133,7 @@ public class LangParser {
     }
 
     private List<StatementNode> parseBody() {
-        this.consume();
+        this.consume(TokenType.LEFT_BRACE, "Expected opening brace for body");
 
         List<StatementNode> body = new ArrayList<>();
 
@@ -178,13 +181,9 @@ public class LangParser {
         List<StatementNode> body = new ArrayList<>();
 
         while (this.position < this.input.size() && !this.current(TokenType.RIGHT_BRACE)) {
-            List<TokenType> accessModifiers = new ArrayList<>();
+            List<TokenType> accessModifiers = this.parseAccessModifiers();
 
-            while (this.position < this.input.size() && this.current().isAccessModifier()) {
-                accessModifiers.add(this.consume().type);
-            }
-
-            if (this.current(TokenType.FUNCTION) || (this.current(TokenType.CONST) && this.next(TokenType.FUNCTION))) {
+            if (this.current(TokenType.FUNCTION)) {
                 StatementNode statement = this.parseMethodDeclarationStatement(accessModifiers);
 
                 if (this.current(TokenType.SEMICOLON)) {
@@ -192,7 +191,7 @@ public class LangParser {
                 }
 
                 body.add(statement);
-            } else if (this.current(TokenType.VAR) || (this.current(TokenType.CONST) && this.next(TokenType.VAR))) {
+            } else if (this.current(TokenType.VAR)) {
                 StatementNode statement = this.parseFieldDeclarationStatement(accessModifiers);
 
                 this.consume(TokenType.SEMICOLON, "Expected semicolon");
@@ -208,13 +207,8 @@ public class LangParser {
         return body;
     }
 
-    private StatementNode parseClassDeclarationStatement() {
-        boolean isConstant = false;
-
-        if (this.current(TokenType.CONST)) {
-            this.consume();
-            isConstant = true;
-        }
+    private StatementNode parseClassDeclarationStatement(List<TokenType> accessModifiers) {
+        TokenType.validateClassAccessModifiers(accessModifiers);
 
         this.consume();
 
@@ -229,7 +223,7 @@ public class LangParser {
 
         List<StatementNode> body = this.parseClassBody();
 
-        return new ClassDeclarationStatementNode(isConstant, name, superClassName, body);
+        return new ClassDeclarationStatementNode(accessModifiers, name, superClassName, body);
     }
 
     private ExpressionNode parseConditionalAndExpression() {
@@ -269,18 +263,20 @@ public class LangParser {
     private StatementNode parseDeclarationStatement() {
         StatementNode statement;
 
-        if (this.current(TokenType.FUNCTION) || (this.current(TokenType.CONST) && this.next(TokenType.FUNCTION))) {
-            statement = this.parseFunctionDeclarationStatement();
+        List<TokenType> accessModifiers = this.parseAccessModifiers();
+
+        if (this.current(TokenType.FUNCTION)) {
+            statement = this.parseFunctionDeclarationStatement(accessModifiers);
             if (this.current(TokenType.SEMICOLON)) {
                 this.consume();
             }
-        } else if (this.current(TokenType.CLASS) || (this.current(TokenType.CONST) && this.next(TokenType.CLASS))) {
-            statement = this.parseClassDeclarationStatement();
+        } else if (this.current(TokenType.CLASS)) {
+            statement = this.parseClassDeclarationStatement(accessModifiers);
             if (this.current(TokenType.SEMICOLON)) {
                 this.consume();
             }
-        } else if (this.current(TokenType.VAR) || (this.current(TokenType.CONST) && this.next(TokenType.VAR))) {
-            statement = this.parseVariableDeclarationStatement();
+        } else if (this.current(TokenType.VAR)) {
+            statement = this.parseVariableDeclarationStatement(accessModifiers);
             this.consume(TokenType.SEMICOLON, "Expected semicolon after variable declaration statement");
         } else {
             statement = this.parseExpressionStatement();
@@ -373,26 +369,21 @@ public class LangParser {
     }
 
     private FieldDeclarationStatementNode parseFieldDeclarationStatement(List<TokenType> accessModifiers) {
-        boolean isConstant = false;
+        TokenType.validateFieldAccessModifiers(accessModifiers);
 
-        if (this.current(TokenType.CONST)) {
-            this.consume();
-            isConstant = true;
-        }
-
-        this.consume(TokenType.VAR, "Expected 'var' keyword");
+        this.consume();
 
         String name = (String) this.consume(TokenType.IDENTIFIER, "Expected variable name").value;
 
         if (this.current(TokenType.SEMICOLON)) {
-            return new FieldDeclarationStatementNode(accessModifiers, isConstant, name, new NullExpressionNode());
+            return new FieldDeclarationStatementNode(accessModifiers, name, new NullExpressionNode());
         }
 
         this.consume(TokenType.EQUALS, "Expected equals after variable name");
 
         ExpressionNode expression = this.parseExpression();
 
-        return new FieldDeclarationStatementNode(accessModifiers, isConstant, name, expression);
+        return new FieldDeclarationStatementNode(accessModifiers, name, expression);
     }
 
     private StatementNode parseForStatement() {
@@ -405,9 +396,14 @@ public class LangParser {
         if (this.current(TokenType.SEMICOLON)) {
             this.consume();
         } else {
+            List<TokenType> accessModifiers = this.parseAccessModifiers();
+
             if (this.current(TokenType.VAR)) {
-                initialization = this.parseVariableDeclarationStatement();
+                initialization = this.parseVariableDeclarationStatement(accessModifiers);
             } else {
+                if (accessModifiers.size() != 0) {
+                    throw new SyntaxError("Expected expression statement, got '" + this.current().type + "'");
+                }
                 initialization = this.parseExpressionStatement();
             }
             this.consume(TokenType.SEMICOLON, "Expected semicolon after for-loop initialization");
@@ -437,13 +433,8 @@ public class LangParser {
         return new ForStatementNode(initialization, condition, update, body);
     }
 
-    private StatementNode parseFunctionDeclarationStatement() {
-        boolean isConstant = false;
-
-        if (this.current(TokenType.CONST)) {
-            this.consume();
-            isConstant = true;
-        }
+    private StatementNode parseFunctionDeclarationStatement(List<TokenType> accessModifiers) {
+        TokenType.validateFunctionAccessModifiers(accessModifiers);
 
         this.consume();
 
@@ -469,7 +460,7 @@ public class LangParser {
 
         List<StatementNode> body = this.parseBody();
 
-        return new FunctionDeclarationStatementNode(isConstant, name, arguments, body);
+        return new FunctionDeclarationStatementNode(accessModifiers, name, arguments, body);
     }
 
     private ExpressionNode parseFunctionExpression() {
@@ -572,12 +563,7 @@ public class LangParser {
     }
 
     private MethodDeclarationStatementNode parseMethodDeclarationStatement(List<TokenType> accessModifiers) {
-        boolean isConstant = false;
-
-        if (this.current(TokenType.CONST)) {
-            this.consume();
-            isConstant = true;
-        }
+        TokenType.validateMethodAccessModifiers(accessModifiers);
 
         this.consume();
 
@@ -601,9 +587,17 @@ public class LangParser {
 
         this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after method arguments");
 
-        List<StatementNode> body = this.parseBody();
+        List<StatementNode> body = new ArrayList<>();
 
-        return new MethodDeclarationStatementNode(accessModifiers, isConstant, name, arguments, body);
+        if (!accessModifiers.contains(TokenType.ABSTRACT)) {
+            body = this.parseBody();
+        }
+
+        if (this.current(TokenType.LEFT_BRACE)) {
+            throw ErrorHolder.abstractMethodCannotHaveABody(name);
+        }
+
+        return new MethodDeclarationStatementNode(accessModifiers, name, arguments, body);
     }
 
     private ExpressionNode parseMultiplicativeExpression() {
@@ -746,27 +740,22 @@ public class LangParser {
         return this.parsePostfixExpression();
     }
 
-    private VariableDeclarationStatementNode parseVariableDeclarationStatement() {
-        boolean isConstant = false;
+    private VariableDeclarationStatementNode parseVariableDeclarationStatement(List<TokenType> accessModifiers) {
+        TokenType.validateVariableAccessModifiers(accessModifiers);
 
-        if (this.current(TokenType.CONST)) {
-            this.consume();
-            isConstant = true;
-        }
-
-        this.consume(TokenType.VAR, "Expected 'var' keyword");
+        this.consume();
 
         String name = (String) this.consume(TokenType.IDENTIFIER, "Expected variable name").value;
 
         if (this.current(TokenType.SEMICOLON)) {
-            return new VariableDeclarationStatementNode(isConstant, name, new NullExpressionNode());
+            return new VariableDeclarationStatementNode(accessModifiers, name, new NullExpressionNode());
         }
 
         this.consume(TokenType.EQUALS, "Expected equals after variable name");
 
         ExpressionNode expression = this.parseExpression();
 
-        return new VariableDeclarationStatementNode(isConstant, name, expression);
+        return new VariableDeclarationStatementNode(accessModifiers, name, expression);
     }
 
     private StatementNode parseWhileStatement() {

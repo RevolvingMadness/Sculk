@@ -9,12 +9,10 @@ public class MethodDeclarationStatementNode extends StatementNode {
     public final List<TokenType> accessModifiers;
     public final List<String> arguments;
     public final List<StatementNode> body;
-    public final boolean isConstant;
     public final String name;
 
-    public MethodDeclarationStatementNode(List<TokenType> accessModifiers, boolean isConstant, String name, List<String> arguments, List<StatementNode> body) {
+    public MethodDeclarationStatementNode(List<TokenType> accessModifiers, String name, List<String> arguments, List<StatementNode> body) {
         this.accessModifiers = accessModifiers;
-        this.isConstant = isConstant;
         this.name = name;
         this.arguments = arguments;
         this.body = body;
@@ -33,5 +31,13 @@ public class MethodDeclarationStatementNode extends StatementNode {
     @Override
     public int hashCode() {
         return Objects.hash(this.accessModifiers, this.arguments, this.body, this.name);
+    }
+
+    public boolean isStatic() {
+        return this.accessModifiers.contains(TokenType.STATIC);
+    }
+
+    public boolean isAbstract() {
+        return this.accessModifiers.contains(TokenType.ABSTRACT);
     }
 }
