@@ -3,8 +3,7 @@ package com.revolvingmadness.testing.language.builtins.classes.instances;
 import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.gamerules.TestingGamerules;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
-import com.revolvingmadness.testing.language.builtins.classes.types.MethodType;
+import com.revolvingmadness.testing.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.MaxArgumentError;
@@ -15,14 +14,12 @@ import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.Statem
 import java.util.List;
 import java.util.Objects;
 
-public class MethodInstance extends BuiltinClass {
+public class MethodInstance extends BuiltinMethod {
     public final List<TokenType> accessModifiers;
     public final List<String> arguments;
     public final List<StatementNode> body;
     public final boolean isConstant;
     public final String name;
-    public BuiltinClass boundClass;
-    public BuiltinClass boundSuperClass;
 
     public MethodInstance(List<TokenType> accessModifiers, boolean isConstant, String name, List<String> arguments, List<StatementNode> body) {
         this.isConstant = isConstant;
@@ -84,11 +81,6 @@ public class MethodInstance extends BuiltinClass {
             return false;
         MethodInstance that = (MethodInstance) o;
         return this.isConstant == that.isConstant && Objects.equals(this.accessModifiers, that.accessModifiers) && Objects.equals(this.arguments, that.arguments) && Objects.equals(this.body, that.body) && Objects.equals(this.name, that.name) && Objects.equals(this.boundClass, that.boundClass) && Objects.equals(this.boundSuperClass, that.boundSuperClass);
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return new MethodType();
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.testing.language.builtins.classes.instances.BooleanInstance;
+import com.revolvingmadness.testing.language.builtins.classes.instances.NullInstance;
 import com.revolvingmadness.testing.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
@@ -30,6 +31,7 @@ public class ObjectType extends BuiltinType {
         this.typeVariableScope.declare(true, "greaterThan", new GreaterThan());
         this.typeVariableScope.declare(true, "greaterThanOrEqualTo", new GreaterThanOrEqualTo());
         this.typeVariableScope.declare(true, "logicalNot", new LogicalNot());
+        this.typeVariableScope.declare(true, "init", new Init());
     }
 
     private static class Add extends BuiltinMethod {
@@ -107,6 +109,13 @@ public class ObjectType extends BuiltinType {
             BuiltinClass other = arguments.get(0);
 
             throw ErrorHolder.cannotApplyBinaryOperatorToTypes(">=", this.boundClass.getType(), other.getType());
+        }
+    }
+
+    private static class Init extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            return new NullInstance();
         }
     }
 

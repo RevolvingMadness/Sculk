@@ -5,6 +5,7 @@ import com.revolvingmadness.testing.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.testing.language.builtins.classes.instances.BooleanInstance;
 import com.revolvingmadness.testing.language.builtins.classes.instances.NullInstance;
+import com.revolvingmadness.testing.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 
@@ -18,6 +19,8 @@ public class PlayerEntityType extends BuiltinType {
         this.typeVariableScope.declare(true, "addExperienceLevels", new AddExperienceLevels());
         this.typeVariableScope.declare(true, "isCreative", new IsCreative());
         this.typeVariableScope.declare(true, "isSpectator", new IsSpectator());
+        this.typeVariableScope.declare(true, "getName", new GetName());
+        this.typeVariableScope.declare(true, "getUUID", new GetUUID());
     }
 
     private static class AddExperienceLevels extends BuiltinMethod {
@@ -55,6 +58,28 @@ public class PlayerEntityType extends BuiltinType {
             this.boundClass.toPlayerEntity().addExperience(experience.toInteger());
 
             return new NullInstance();
+        }
+    }
+
+    private static class GetName extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("getName", 0, arguments.size());
+            }
+
+            return new StringInstance(this.boundClass.toPlayerEntity().getName().getLiteralString());
+        }
+    }
+
+    private static class GetUUID extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("getUUID", 0, arguments.size());
+            }
+
+            return new StringInstance(this.boundClass.toPlayerEntity().getUuidAsString());
         }
     }
 

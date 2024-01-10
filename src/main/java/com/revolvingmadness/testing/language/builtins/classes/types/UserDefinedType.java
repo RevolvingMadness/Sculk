@@ -15,6 +15,10 @@ public class UserDefinedType extends BuiltinType {
 
     @Override
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        return new UserDefinedInstance(this, this.typeName, this.variableScope);
+        UserDefinedInstance instance = new UserDefinedInstance(this, this.typeName, this.variableScope);
+
+        instance.call(interpreter, "init", arguments);
+
+        return instance;
     }
 }

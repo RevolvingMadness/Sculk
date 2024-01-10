@@ -96,6 +96,31 @@ public abstract class BuiltinType extends BuiltinClass {
     }
 
     @Override
+    public void setProperty(String propertyName, BuiltinClass value) {
+        Optional<Variable> optionalVariable = this.variableScope.getOptional(propertyName);
+
+        if (optionalVariable.isPresent()) {
+            this.variableScope.assign(propertyName, value);
+
+            return;
+        }
+
+        optionalVariable = this.typeVariableScope.getOptional(propertyName);
+
+        if (optionalVariable.isPresent()) {
+            this.typeVariableScope.assign(propertyName, value);
+
+            return;
+        }
+
+        if (this.typeSuperClass == null) {
+            throw ErrorHolder.typeHasNoProperty(this, propertyName);
+        }
+
+        this.typeSuperClass.setProperty(propertyName, value);
+    }
+
+    @Override
     public String toString() {
         return this.typeName;
     }

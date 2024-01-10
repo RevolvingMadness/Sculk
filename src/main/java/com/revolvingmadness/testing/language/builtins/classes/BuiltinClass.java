@@ -3,7 +3,6 @@ package com.revolvingmadness.testing.language.builtins.classes;
 import com.revolvingmadness.testing.language.builtins.classes.types.*;
 import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
-import com.revolvingmadness.testing.language.interpreter.Variable;
 import com.revolvingmadness.testing.language.interpreter.VariableScope;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
 import net.minecraft.entity.Entity;
@@ -19,7 +18,6 @@ import net.minecraft.world.GameRules;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 public abstract class BuiltinClass extends ExpressionNode {
     public final VariableScope variableScope;
@@ -85,19 +83,7 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public void setProperty(String propertyName, BuiltinClass value) {
-        Optional<Variable> optionalVariable = this.variableScope.getOptional(propertyName);
-
-        if (optionalVariable.isPresent()) {
-            this.variableScope.assign(propertyName, value);
-
-            return;
-        }
-
-        if (this.getType().typeSuperClass == null) {
-            throw ErrorHolder.typeHasNoProperty(this.getType(), propertyName);
-        }
-
-        this.getType().typeSuperClass.setProperty(propertyName, value);
+        this.getType().setProperty(propertyName, value);
     }
 
     public Boolean toBoolean() {

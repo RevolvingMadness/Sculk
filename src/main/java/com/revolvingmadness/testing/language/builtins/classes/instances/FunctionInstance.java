@@ -3,8 +3,7 @@ package com.revolvingmadness.testing.language.builtins.classes.instances;
 import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.gamerules.TestingGamerules;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
-import com.revolvingmadness.testing.language.builtins.classes.types.FunctionType;
+import com.revolvingmadness.testing.language.builtins.classes.BuiltinFunction;
 import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.errors.MaxArgumentError;
@@ -13,7 +12,7 @@ import com.revolvingmadness.testing.language.parser.nodes.statement_nodes.Statem
 
 import java.util.List;
 
-public class FunctionInstance extends BuiltinClass {
+public class FunctionInstance extends BuiltinFunction {
     public final List<String> arguments;
     public final List<StatementNode> body;
     public final String name;
@@ -56,10 +55,5 @@ public class FunctionInstance extends BuiltinClass {
         interpreter.variableTable.exitScope();
 
         return new NullInstance();
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return new FunctionType();
     }
 }
