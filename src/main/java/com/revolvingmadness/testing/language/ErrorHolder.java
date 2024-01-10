@@ -1,4 +1,4 @@
-package com.revolvingmadness.testing.language.error_holder;
+package com.revolvingmadness.testing.language;
 
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;

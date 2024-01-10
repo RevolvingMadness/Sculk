@@ -1,5 +1,6 @@
 package com.revolvingmadness.testing.language.builtins.classes.types;
 
+import com.revolvingmadness.testing.language.ErrorHolder;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
@@ -7,7 +8,6 @@ import com.revolvingmadness.testing.language.builtins.classes.instances.BooleanI
 import com.revolvingmadness.testing.language.builtins.classes.instances.IntegerInstance;
 import com.revolvingmadness.testing.language.builtins.classes.instances.NullInstance;
 import com.revolvingmadness.testing.language.builtins.classes.instances.ServerPlayerEntityInstance;
-import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import net.minecraft.server.network.ServerPlayerEntity;
 

@@ -8,7 +8,6 @@ import com.revolvingmadness.testing.language.parser.nodes.ScriptNode;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
-import java.util.Map;
 
 public class LangScript {
     public final String contents;
@@ -25,14 +24,14 @@ public class LangScript {
         this.hasBeenInitialized = false;
     }
 
-    public void initialize(Map<Identifier, LangScript> scripts) {
+    public void initialize() {
         if (this.hasBeenInitialized) {
             return;
         }
 
         LangLexer lexer = new LangLexer(this.contents);
         List<Token> tokens = lexer.lex();
-        LangParser parser = new LangParser(scripts, tokens);
+        LangParser parser = new LangParser(tokens);
         this.scriptNode = parser.parse();
         this.interpreter = new Interpreter();
         this.hasBeenInitialized = true;

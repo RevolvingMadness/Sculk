@@ -1,7 +1,7 @@
 package com.revolvingmadness.testing.language.builtins.classes;
 
+import com.revolvingmadness.testing.language.ErrorHolder;
 import com.revolvingmadness.testing.language.builtins.classes.types.*;
-import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.VariableScope;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
@@ -101,6 +101,10 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public Double toFloat() {
         throw ErrorHolder.cannotConvertType(this.getType(), new FloatType());
+    }
+
+    public BuiltinFunction toFunction() {
+        throw ErrorHolder.cannotConvertType(this.getType(), new FunctionType());
     }
 
     public GameRules toGameRules() {

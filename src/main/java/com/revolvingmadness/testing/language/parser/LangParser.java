@@ -1,6 +1,5 @@
 package com.revolvingmadness.testing.language.parser;
 
-import com.revolvingmadness.testing.backend.LangScript;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.lexer.Token;
 import com.revolvingmadness.testing.language.lexer.TokenType;
@@ -19,11 +18,9 @@ import java.util.Map;
 
 public class LangParser {
     public final List<Token> input;
-    public final Map<Identifier, LangScript> scripts;
     private Integer position;
 
-    public LangParser(Map<Identifier, LangScript> scripts, List<Token> input) {
-        this.scripts = scripts;
+    public LangParser(List<Token> input) {
         this.input = input;
         this.position = 0;
     }
@@ -59,7 +56,7 @@ public class LangParser {
     }
 
     public ScriptNode parse() {
-        ScriptNode script = new ScriptNode(this.scripts);
+        ScriptNode script = new ScriptNode();
 
         while (!this.current(TokenType.EOF)) {
             script.statements.add(this.parseStatement());

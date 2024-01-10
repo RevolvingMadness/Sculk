@@ -7,4 +7,9 @@ public abstract class BuiltinFunction extends BuiltinClass {
     public BuiltinType getType() {
         return new FunctionType();
     }
+
+    @Override
+    public BuiltinFunction toFunction() {
+        return this;
+    }
 }

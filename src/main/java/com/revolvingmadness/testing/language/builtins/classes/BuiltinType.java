@@ -1,9 +1,9 @@
 package com.revolvingmadness.testing.language.builtins.classes;
 
+import com.revolvingmadness.testing.language.ErrorHolder;
 import com.revolvingmadness.testing.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.testing.language.builtins.classes.types.ObjectType;
 import com.revolvingmadness.testing.language.builtins.classes.types.TypeType;
-import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.Variable;
 import com.revolvingmadness.testing.language.interpreter.VariableScope;

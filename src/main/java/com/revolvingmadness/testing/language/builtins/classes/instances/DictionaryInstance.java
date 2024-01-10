@@ -1,9 +1,9 @@
 package com.revolvingmadness.testing.language.builtins.classes.instances;
 
+import com.revolvingmadness.testing.language.ErrorHolder;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.testing.language.builtins.classes.types.DictionaryType;
-import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 
 import java.util.Map;
 

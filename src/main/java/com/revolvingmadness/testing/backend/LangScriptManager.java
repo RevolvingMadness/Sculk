@@ -2,6 +2,8 @@ package com.revolvingmadness.testing.backend;
 
 import com.google.common.collect.ImmutableList;
 import com.revolvingmadness.testing.Testing;
+import com.revolvingmadness.testing.language.EventHolder;
+import com.revolvingmadness.testing.language.errors.Error;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 
@@ -12,6 +14,7 @@ import java.util.Objects;
 public class LangScriptManager {
     private static final Identifier LOAD_TAG_ID = new Identifier(Testing.ID, "load");
     private static final Identifier TICK_TAG_ID = new Identifier(Testing.ID, "tick");
+    public static LangScript currentScript;
     private boolean justLoaded;
     private LangScriptLoader loader;
     private List<LangScript> tickScripts = ImmutableList.of();
@@ -25,10 +28,11 @@ public class LangScriptManager {
             return;
         }
 
+        LangScriptManager.currentScript = script;
 
         try {
             script.interpret();
-        } catch (RuntimeException exception) {
+        } catch (Error exception) {
             Logger.scriptError(script, exception);
             script.hasErrors = true;
         }
@@ -49,6 +53,7 @@ public class LangScriptManager {
     public void reload(LangScriptLoader loader) {
         this.tickScripts = List.copyOf(loader.getScriptsFromTag(TICK_TAG_ID));
         this.justLoaded = true;
+        EventHolder.clearEvents();
     }
 
     public void setLoader(LangScriptLoader loader) {
@@ -60,8 +65,8 @@ public class LangScriptManager {
         if (this.justLoaded) {
             this.loader.scripts.forEach((identifier, script) -> {
                 try {
-                    script.initialize(this.loader.scripts);
-                } catch (RuntimeException exception) {
+                    script.initialize();
+                } catch (Error exception) {
                     Logger.scriptError(script, exception);
                     script.hasErrors = true;
                 }

@@ -1,12 +1,17 @@
 package com.revolvingmadness.testing;
 
 import com.revolvingmadness.testing.gamerules.TestingGamerules;
+import com.revolvingmadness.testing.language.EventHolder;
+import com.revolvingmadness.testing.language.builtins.classes.instances.BlockPosInstance;
+import com.revolvingmadness.testing.language.builtins.classes.instances.LivingEntityInstance;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Testing implements ModInitializer {
@@ -38,5 +43,7 @@ public class Testing implements ModInitializer {
         Testing.keywords.put("instanceof", TokenType.INSTANCE_OF);
         Testing.keywords.put("static", TokenType.STATIC);
         Testing.keywords.put("delete", TokenType.DELETE);
+
+        EntitySleepEvents.START_SLEEPING.register((livingEntity, sleepingPos) -> EventHolder.onSleepEvents.forEach(event -> event.execute(List.of(new LivingEntityInstance(livingEntity), new BlockPosInstance(sleepingPos)))));
     }
 }

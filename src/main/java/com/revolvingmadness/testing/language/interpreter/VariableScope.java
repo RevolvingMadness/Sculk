@@ -1,7 +1,7 @@
 package com.revolvingmadness.testing.language.interpreter;
 
+import com.revolvingmadness.testing.language.ErrorHolder;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 
 import java.io.Serializable;

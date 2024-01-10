@@ -1,7 +1,7 @@
 package com.revolvingmadness.testing.language.errors;
 
-public class SyntaxError extends Error {
-    public SyntaxError(String message) {
+public class InternalError extends Error {
+    public InternalError(String message) {
         super(message);
     }
 }

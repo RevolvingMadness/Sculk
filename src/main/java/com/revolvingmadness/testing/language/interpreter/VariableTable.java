@@ -1,14 +1,11 @@
 package com.revolvingmadness.testing.language.interpreter;
 
 import com.revolvingmadness.testing.Testing;
+import com.revolvingmadness.testing.language.ErrorHolder;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.testing.language.builtins.classes.instances.FloatInstance;
-import com.revolvingmadness.testing.language.builtins.classes.instances.GameRulesInstance;
-import com.revolvingmadness.testing.language.builtins.classes.instances.MinecraftServerInstance;
-import com.revolvingmadness.testing.language.builtins.classes.instances.PlayerManagerInstance;
+import com.revolvingmadness.testing.language.builtins.classes.instances.*;
 import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunction;
 import com.revolvingmadness.testing.language.builtins.functions.types.TypeFunction;
-import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 
 import java.util.List;
@@ -52,6 +49,7 @@ public class VariableTable {
         this.declare(true, "server", new MinecraftServerInstance(Testing.server));
         this.declare(true, "playerManager", new PlayerManagerInstance(Testing.server.getPlayerManager()));
         this.declare(true, "gameRules", new GameRulesInstance(Testing.server.getGameRules()));
+        this.declare(true, "events", new EventsInstance());
     }
 
     private void declareFunctions() {

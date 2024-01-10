@@ -2,6 +2,7 @@ package com.revolvingmadness.testing.language.interpreter;
 
 import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.gamerules.TestingGamerules;
+import com.revolvingmadness.testing.language.ErrorHolder;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.testing.language.builtins.classes.instances.*;
@@ -9,7 +10,6 @@ import com.revolvingmadness.testing.language.builtins.classes.types.BooleanType;
 import com.revolvingmadness.testing.language.builtins.classes.types.IntegerType;
 import com.revolvingmadness.testing.language.builtins.classes.types.ObjectType;
 import com.revolvingmadness.testing.language.builtins.classes.types.UserDefinedType;
-import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 import com.revolvingmadness.testing.language.interpreter.errors.Break;
 import com.revolvingmadness.testing.language.interpreter.errors.Continue;

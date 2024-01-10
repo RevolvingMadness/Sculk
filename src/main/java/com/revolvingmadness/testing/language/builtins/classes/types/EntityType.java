@@ -1,10 +1,10 @@
 package com.revolvingmadness.testing.language.builtins.classes.types;
 
+import com.revolvingmadness.testing.language.ErrorHolder;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.testing.language.builtins.classes.instances.*;
-import com.revolvingmadness.testing.language.error_holder.ErrorHolder;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
@@ -21,6 +21,7 @@ public class EntityType extends BuiltinType {
         this.typeVariableScope.declare(true, "getBlockX", new GetBlockX());
         this.typeVariableScope.declare(true, "getBlockY", new GetBlockY());
         this.typeVariableScope.declare(true, "getBlockZ", new GetBlockZ());
+        this.typeVariableScope.declare(true, "getName", new GetName());
         this.typeVariableScope.declare(true, "getX", new GetX());
         this.typeVariableScope.declare(true, "getY", new GetY());
         this.typeVariableScope.declare(true, "getZ", new GetZ());
@@ -146,6 +147,19 @@ public class EntityType extends BuiltinType {
             int blockZ = this.boundClass.toEntity().getBlockZ();
 
             return new IntegerInstance(blockZ);
+        }
+    }
+
+    private static class GetName extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("getName", 0, arguments.size());
+            }
+
+            String name = this.boundClass.toEntity().getName().getString();
+
+            return new StringInstance(name);
         }
     }
 
