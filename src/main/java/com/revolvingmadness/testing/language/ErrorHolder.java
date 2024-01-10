@@ -1,6 +1,5 @@
 package com.revolvingmadness.testing.language;
 
-import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.testing.language.errors.MethodNotImplementedError;
 import com.revolvingmadness.testing.language.errors.NameError;
@@ -19,7 +18,7 @@ public class ErrorHolder {
     }
 
     public static TypeError argumentRequiresType(int argumentNumber, String functionName, BuiltinType requiredType, BuiltinType type) {
-        return new TypeError(I18n.translate("error.argument_requires_type", argumentNumber, functionName, requiredType, type));
+        return new TypeError(I18n.translate("error.argument_requires_type", argumentNumber, functionName, requiredType.toString(), type.toString()));
     }
 
     public static TypeError canOnlyCheckInstanceOfTypes() {
@@ -27,11 +26,11 @@ public class ErrorHolder {
     }
 
     public static TypeError cannotApplyBinaryOperatorToTypes(String operator, BuiltinType left, BuiltinType right) {
-        return new TypeError(I18n.translate("error.cannot_apply_binary_operator", operator, left, right));
+        return new TypeError(I18n.translate("error.cannot_apply_binary_operator", operator, left.toString(), right.toString()));
     }
 
     public static TypeError cannotApplyUnaryOperatorToType(String operator, BuiltinType type) {
-        return new TypeError(I18n.translate("error.cannot_apply_unary_operator", operator, type));
+        return new TypeError(I18n.translate("error.cannot_apply_unary_operator", operator, type.toString()));
     }
 
     public static TypeError cannotAssignValueToVariableBecauseItIsAConstant(String name) {
@@ -39,23 +38,23 @@ public class ErrorHolder {
     }
 
     public static InterpreterError cannotConvertType(BuiltinType type, BuiltinType requiredType) {
-        return new InterpreterError(I18n.translate("error.cannot_convert_type", type, requiredType));
+        return new InterpreterError(I18n.translate("error.cannot_convert_type", type.toString(), requiredType.toString()));
     }
 
     public static SyntaxError cannotDeclareNonAbstractClassWithAbstractMethods(String className) {
         return new SyntaxError(I18n.translate("error.cannot_declare_non_abstract_class_with_abstract_methods", className));
     }
 
-    public static TypeError cannotExtendFromNonType(BuiltinClass clazz) {
-        return new TypeError(I18n.translate("error.cannot_extend_from_type", clazz.getType()));
+    public static TypeError cannotExtendFromNonType(BuiltinType type) {
+        return new TypeError(I18n.translate("error.cannot_extend_from_type", type.toString()));
     }
 
     public static TypeError cannotIndexListByType(BuiltinType type) {
-        return new TypeError(I18n.translate("error.cannot_index_list_by_type", type));
+        return new TypeError(I18n.translate("error.cannot_index_list_by_type", type.toString()));
     }
 
-    public static SyntaxError cannotInstantiateAbstractClassWithAbstractMethods(String className) {
-        return new SyntaxError(I18n.translate("error.cannot_instantiate_abstract_class_with_abstract_methods", className));
+    public static SyntaxError cannotInstantiateAbstractClass(String className) {
+        return new SyntaxError(I18n.translate("error.cannot_instantiate_abstract_class", className));
     }
 
     public static NameError dictionaryHasNoKey(String key) {
@@ -71,7 +70,7 @@ public class ErrorHolder {
     }
 
     public static TypeError ifStatementConditionRequiresType(BuiltinType requiredType, BuiltinType type) {
-        return new TypeError(I18n.translate("error.invalid_if_statement_condition_type", requiredType, type));
+        return new TypeError(I18n.translate("error.invalid_if_statement_condition_type", requiredType.toString(), type.toString()));
     }
 
     public static SyntaxError invalidArgumentCount(String functionName, int requiredArgumentCount, int argumentCount) {
@@ -79,31 +78,31 @@ public class ErrorHolder {
     }
 
     public static SyntaxError invalidClassAccessModifier(TokenType accessModifier) {
-        return new SyntaxError(I18n.translate("error.invalid_class_access_modifier", accessModifier));
+        return new SyntaxError(I18n.translate("error.invalid_class_access_modifier", accessModifier.toString()));
     }
 
     public static SyntaxError invalidFieldAccessModifier(TokenType accessModifier) {
-        return new SyntaxError(I18n.translate("error.invalid_field_access_modifier", accessModifier));
+        return new SyntaxError(I18n.translate("error.invalid_field_access_modifier", accessModifier.toString()));
     }
 
     public static TypeError invalidForLoopUpdateType(BuiltinType requiredType, BuiltinType type) {
-        return new TypeError(I18n.translate("error.invalid_for_loop_update_type", requiredType, type));
+        return new TypeError(I18n.translate("error.invalid_for_loop_update_type", requiredType.toString(), type.toString()));
     }
 
     public static SyntaxError invalidFunctionAccessModifier(TokenType accessModifier) {
-        return new SyntaxError(I18n.translate("error.invalid_function_access_modifier", accessModifier));
+        return new SyntaxError(I18n.translate("error.invalid_function_access_modifier", accessModifier.toString()));
     }
 
     public static SyntaxError invalidMethodAccessModifier(TokenType accessModifier) {
-        return new SyntaxError(I18n.translate("error.invalid_method_access_modifier", accessModifier));
+        return new SyntaxError(I18n.translate("error.invalid_method_access_modifier", accessModifier.toString()));
     }
 
     public static SyntaxError invalidVariableAccessModifier(TokenType accessModifier) {
-        return new SyntaxError(I18n.translate("error.invalid_variable_access_modifier", accessModifier));
+        return new SyntaxError(I18n.translate("error.invalid_variable_access_modifier", accessModifier.toString()));
     }
 
     public static TypeError invalidWhileLoopConditionType(BuiltinType requiredType, BuiltinType type) {
-        return new TypeError(I18n.translate("error.invalid_while_loop_condition_type", requiredType, type));
+        return new TypeError(I18n.translate("error.invalid_while_loop_condition_type", requiredType.toString(), type.toString()));
     }
 
     public static MethodNotImplementedError methodNotImplemented(String name, String className) {
@@ -115,39 +114,39 @@ public class ErrorHolder {
     }
 
     public static NameError typeHasNoProperty(BuiltinType type, String propertyName) {
-        return new NameError(I18n.translate("error.type_has_no_property", type, propertyName));
+        return new NameError(I18n.translate("error.type_has_no_property", type.toString(), propertyName));
     }
 
     public static TypeError typeIsNotCallable(BuiltinType type) {
-        return new TypeError(I18n.translate("error.type_is_not_callable", type));
+        return new TypeError(I18n.translate("error.type_is_not_callable", type.toString()));
     }
 
     public static TypeError typeIsNotIndexable(BuiltinType type) {
-        return new TypeError(I18n.translate("error.type_is_not_indexable", type));
+        return new TypeError(I18n.translate("error.type_is_not_indexable", type.toString()));
     }
 
     public static InterpreterError unsupportedBinaryOperator(TokenType binaryOperator) {
-        return new InterpreterError(I18n.translate("error.unsupported_binary_operator", binaryOperator));
+        return new InterpreterError(I18n.translate("error.unsupported_binary_operator", binaryOperator.toString()));
     }
 
     public static InterpreterError unsupportedExpressionNodeToInterpret(ExpressionNode expressionNode) {
-        return new InterpreterError(I18n.translate("error.unsupported_expression_node_to_interpret", expressionNode));
+        return new InterpreterError(I18n.translate("error.unsupported_expression_node_to_interpret", expressionNode.toString()));
     }
 
     public static InterpreterError unsupportedLiteralExpressionNodeToInterpret(LiteralExpressionNode literalExpression) {
-        return new InterpreterError(I18n.translate("error.unsupported_literal_expression_node_to_interpret", literalExpression));
+        return new InterpreterError(I18n.translate("error.unsupported_literal_expression_node_to_interpret", literalExpression.toString()));
     }
 
     public static InterpreterError unsupportedPostfixOperator(TokenType postfixOperator) {
-        return new InterpreterError(I18n.translate("error.unsupported_postfix_operator", postfixOperator));
+        return new InterpreterError(I18n.translate("error.unsupported_postfix_operator", postfixOperator.toString()));
     }
 
     public static InterpreterError unsupportedStatementNodeToInterpret(StatementNode statementNode) {
-        return new InterpreterError(I18n.translate("error.unsupported_statement_node_to_interpret", statementNode));
+        return new InterpreterError(I18n.translate("error.unsupported_statement_node_to_interpret", statementNode.toString()));
     }
 
     public static InterpreterError unsupportedUnaryOperator(TokenType unaryOperator) {
-        return new InterpreterError(I18n.translate("error.unsupported_unary_operator", unaryOperator));
+        return new InterpreterError(I18n.translate("error.unsupported_unary_operator", unaryOperator.toString()));
     }
 
     public static NameError variableHasAlreadyBeenDeclared(String name) {

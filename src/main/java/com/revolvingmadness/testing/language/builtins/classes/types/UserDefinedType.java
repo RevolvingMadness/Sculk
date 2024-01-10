@@ -1,5 +1,6 @@
 package com.revolvingmadness.testing.language.builtins.classes.types;
 
+import com.revolvingmadness.testing.language.ErrorHolder;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.testing.language.builtins.classes.instances.UserDefinedInstance;
@@ -17,6 +18,10 @@ public class UserDefinedType extends BuiltinType {
     @Override
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
         UserDefinedInstance instance = new UserDefinedInstance(this, this.accessModifiers, this.variableScope);
+
+        if (this.isAbstract()) {
+            throw ErrorHolder.cannotInstantiateAbstractClass(this.typeName);
+        }
 
         instance.call(interpreter, "init", arguments);
 
