@@ -7,6 +7,7 @@ import com.revolvingmadness.testing.language.interpreter.VariableScope;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 
 import java.util.List;
+import java.util.Objects;
 
 public class UserDefinedInstance extends BuiltinClass {
     public final UserDefinedType classType;
@@ -17,7 +18,24 @@ public class UserDefinedInstance extends BuiltinClass {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+        UserDefinedInstance that = (UserDefinedInstance) o;
+        return Objects.equals(classType, that.classType);
+    }
+
+    @Override
     public BuiltinType getType() {
         return this.classType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(classType);
     }
 }

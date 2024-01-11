@@ -7,6 +7,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
+import java.util.Objects;
+
 @SuppressWarnings("unused")
 public class PlayerEntityInstance extends BuiltinClass {
     public final PlayerEntity value;
@@ -16,8 +18,25 @@ public class PlayerEntityInstance extends BuiltinClass {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+        PlayerEntityInstance that = (PlayerEntityInstance) o;
+        return Objects.equals(value, that.value);
+    }
+
+    @Override
     public BuiltinType getType() {
         return new PlayerEntityType();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 
     @Override

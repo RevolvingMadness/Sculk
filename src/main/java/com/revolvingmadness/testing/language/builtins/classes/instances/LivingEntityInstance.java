@@ -6,6 +6,8 @@ import com.revolvingmadness.testing.language.builtins.classes.types.LivingEntity
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 
+import java.util.Objects;
+
 @SuppressWarnings("unused")
 public class LivingEntityInstance extends BuiltinClass {
     public final LivingEntity value;
@@ -15,8 +17,25 @@ public class LivingEntityInstance extends BuiltinClass {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+        LivingEntityInstance that = (LivingEntityInstance) o;
+        return Objects.equals(value, that.value);
+    }
+
+    @Override
     public BuiltinType getType() {
         return new LivingEntityType();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 
     @Override

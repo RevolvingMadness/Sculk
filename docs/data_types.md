@@ -12,7 +12,7 @@ The Java equivalent is `Null`.
 
 ## Boolean
 
-`boolean` types can either be `true` or `false`
+`boolean` are either be `true` or `false`
 
 ```java
 var isRaining = true;
@@ -68,10 +68,10 @@ The Java equivalent is `Identifier`.
 The `list` type is a series of values.
 
 ```java
-var hrsOfSleepInPastWeek = [1, 4, 6, 5, 7, 3, 2];
+var hrsOfSleepInPastWeek = [1,4,6,5,7,3,2];
 ```
 
-The Java equivalent is `ArrayList<?>`.
+The Java equivalent is `ArrayList<Object>`.
 
 ## Dictionary
 

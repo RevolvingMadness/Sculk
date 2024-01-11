@@ -8,6 +8,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 
+import java.util.Objects;
+
 public class ServerPlayerEntityInstance extends BuiltinClass {
     public final ServerPlayerEntity value;
 
@@ -16,8 +18,25 @@ public class ServerPlayerEntityInstance extends BuiltinClass {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+        ServerPlayerEntityInstance that = (ServerPlayerEntityInstance) o;
+        return Objects.equals(value, that.value);
+    }
+
+    @Override
     public BuiltinType getType() {
         return new ServerPlayerEntityType();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 
     @Override

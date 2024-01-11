@@ -15,8 +15,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import java.util.List;
 
 public class PlayerManagerType extends BuiltinType {
-
-
     public PlayerManagerType() {
         super("PlayerManager");
 

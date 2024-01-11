@@ -7,6 +7,7 @@ import com.revolvingmadness.testing.language.builtins.classes.types.IntegerType;
 import com.revolvingmadness.testing.language.builtins.classes.types.ListType;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ListInstance extends BuiltinClass {
     public final List<BuiltinClass> value;
@@ -27,6 +28,18 @@ public class ListInstance extends BuiltinClass {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+        ListInstance that = (ListInstance) o;
+        return Objects.equals(value, that.value);
+    }
+
+    @Override
     public BuiltinClass getIndex(BuiltinClass index) {
         if (!index.instanceOf(new IntegerType())) {
             throw ErrorHolder.cannotIndexListByType(index.getType());
@@ -38,6 +51,11 @@ public class ListInstance extends BuiltinClass {
     @Override
     public BuiltinType getType() {
         return new ListType();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 
     @Override

@@ -6,12 +6,25 @@ import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.testing.language.builtins.classes.types.DictionaryType;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class DictionaryInstance extends BuiltinClass {
     public final Map<BuiltinClass, BuiltinClass> value;
 
     public DictionaryInstance(Map<BuiltinClass, BuiltinClass> value) {
         this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+        DictionaryInstance that = (DictionaryInstance) o;
+        return Objects.equals(value, that.value);
     }
 
     @Override
@@ -28,6 +41,11 @@ public class DictionaryInstance extends BuiltinClass {
     @Override
     public BuiltinType getType() {
         return new DictionaryType();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 
     @Override

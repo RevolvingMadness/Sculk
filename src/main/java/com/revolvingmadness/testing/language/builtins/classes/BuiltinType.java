@@ -10,6 +10,7 @@ import com.revolvingmadness.testing.language.interpreter.VariableScope;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public abstract class BuiltinType extends BuiltinClass {
@@ -68,6 +69,18 @@ public abstract class BuiltinType extends BuiltinClass {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+        BuiltinType that = (BuiltinType) o;
+        return Objects.equals(typeAccessModifiers, that.typeAccessModifiers) && Objects.equals(typeName, that.typeName) && Objects.equals(typeSuperClass, that.typeSuperClass) && Objects.equals(typeVariableScope, that.typeVariableScope);
+    }
+
+    @Override
     public BuiltinClass getProperty(String propertyName) {
         Optional<Variable> optionalProperty = this.typeVariableScope.getOptional(propertyName);
 
@@ -120,6 +133,11 @@ public abstract class BuiltinType extends BuiltinClass {
         }
 
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(typeAccessModifiers, typeName, typeSuperClass, typeVariableScope);
     }
 
     @Override
