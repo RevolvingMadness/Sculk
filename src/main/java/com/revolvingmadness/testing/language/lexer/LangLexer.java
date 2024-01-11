@@ -1,6 +1,7 @@
 package com.revolvingmadness.testing.language.lexer;
 
 import com.revolvingmadness.testing.Testing;
+import com.revolvingmadness.testing.language.errors.LexError;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
 
 import java.util.ArrayList;
@@ -17,6 +18,17 @@ public class LangLexer {
 
     public Character consume() {
         return this.input.charAt(this.position++);
+    }
+
+    @SuppressWarnings({"UnusedReturnValue", "SameParameterValue"})
+    private char consume(Character character) {
+        Character current = this.consume();
+
+        if (current.charValue() != character) {
+            throw new LexError("Expected '" + character + "' got '" + current + "'");
+        }
+
+        return current;
     }
 
     public boolean current(Character character) {
@@ -68,6 +80,9 @@ public class LangLexer {
                 if (this.current('/')) {
                     this.consume();
                     this.lexComment();
+                } else if (this.current('*')) {
+                    this.consume();
+                    this.lexMultilineComment();
                 } else {
                     tokens.add(new Token(TokenType.FSLASH));
                 }
@@ -255,6 +270,15 @@ public class LangLexer {
         }
 
         return new Token(TokenType.IDENTIFIER, identifierString);
+    }
+
+    private void lexMultilineComment() {
+        while (this.position < this.input.length() && !this.current('*')) {
+            this.consume();
+        }
+
+        this.consume();
+        this.consume('/');
     }
 
     private Token lexString() {
