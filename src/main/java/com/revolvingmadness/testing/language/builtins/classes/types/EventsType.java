@@ -18,6 +18,7 @@ public class EventsType extends BuiltinType {
         super("Events");
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerSleep", new OnPlayerSleep());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "onSendChatMessage", new OnSendChatMessage());
     }
 
     private static class OnPlayerSleep extends BuiltinMethod {
@@ -35,7 +36,28 @@ public class EventsType extends BuiltinType {
 
             BuiltinFunction function = onPlayerSleepFunction.toFunction();
 
-            EventHolder.onSleepEvents.add(new Event(function));
+            EventHolder.onSleep.add(new Event(function));
+
+            return new NullInstance();
+        }
+    }
+
+    private static class OnSendChatMessage extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("onSendChatMessage", 1, arguments.size());
+            }
+
+            BuiltinClass onSendChatMessageFunction = arguments.get(0);
+
+            if (!onSendChatMessageFunction.instanceOf(new FunctionType())) {
+                throw ErrorHolder.argumentRequiresType(1, "onSendChatMessage", new FunctionType(), onSendChatMessageFunction.getType());
+            }
+
+            BuiltinFunction function = onSendChatMessageFunction.toFunction();
+
+            EventHolder.onSendChatMessage.add(new Event(function));
 
             return new NullInstance();
         }

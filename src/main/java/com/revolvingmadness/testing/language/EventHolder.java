@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventHolder {
-    public static List<Event> onSleepEvents = new ArrayList<>();
+    public static List<Event> onSendChatMessage = new ArrayList<>();
+    public static List<Event> onSleep = new ArrayList<>();
 
     public static void clearEvents() {
-        EventHolder.onSleepEvents.clear();
+        EventHolder.onSendChatMessage.clear();
+        EventHolder.onSleep.clear();
     }
 }
