@@ -18,8 +18,11 @@ public class EventsType extends BuiltinType {
     public EventsType() {
         super("Events");
 
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlaceBlock", new OnPlaceBlock());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerAttackEntity", new OnPlayerAttackEntity());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerBreakBlock", new OnPlayerBreakBlock());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerJump", new OnPlayerJump());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerPickupItem", new OnPlayerPickupItem());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerSleep", new OnPlayerSleep());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerUseItem", new OnPlayerUseItem());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "whilePlayerSneak", new WhilePlayerSneak());
@@ -45,6 +48,27 @@ public class EventsType extends BuiltinType {
         }
     }
 
+    private static class OnPlaceBlock extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("onPlaceBlock", 1, arguments.size());
+            }
+
+            BuiltinClass onPlaceBlockFunction = arguments.get(0);
+
+            if (!onPlaceBlockFunction.instanceOf(new FunctionType())) {
+                throw ErrorHolder.argumentRequiresType(1, "onPlaceBlock", new FunctionType(), onPlaceBlockFunction.getType());
+            }
+
+            BuiltinFunction function = onPlaceBlockFunction.toFunction();
+
+            EventHolder.onPlaceBlock.add(new Event(function));
+
+            return new NullInstance();
+        }
+    }
+
     private static class OnPlayerAttackEntity extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -66,6 +90,27 @@ public class EventsType extends BuiltinType {
         }
     }
 
+    private static class OnPlayerBreakBlock extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("onPlayerBreakBlock", 1, arguments.size());
+            }
+
+            BuiltinClass onPlayerBreakBlockFunction = arguments.get(0);
+
+            if (!onPlayerBreakBlockFunction.instanceOf(new FunctionType())) {
+                throw ErrorHolder.argumentRequiresType(1, "onPlayerBreakBlock", new FunctionType(), onPlayerBreakBlockFunction.getType());
+            }
+
+            BuiltinFunction function = onPlayerBreakBlockFunction.toFunction();
+
+            EventHolder.onPlayerBlockBreak.add(new Event(function));
+
+            return new NullInstance();
+        }
+    }
+
     private static class OnPlayerJump extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -82,6 +127,27 @@ public class EventsType extends BuiltinType {
             BuiltinFunction function = onPlayerJumpFunction.toFunction();
 
             EventHolder.onPlayerJump.add(new Event(function));
+
+            return new NullInstance();
+        }
+    }
+
+    private static class OnPlayerPickupItem extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("onPlayerPickupItem", 1, arguments.size());
+            }
+
+            BuiltinClass onPlayerPickupItemFunction = arguments.get(0);
+
+            if (!onPlayerPickupItemFunction.instanceOf(new FunctionType())) {
+                throw ErrorHolder.argumentRequiresType(1, "onPlayerPickupItem", new FunctionType(), onPlayerPickupItemFunction.getType());
+            }
+
+            BuiltinFunction function = onPlayerPickupItemFunction.toFunction();
+
+            EventHolder.onPlayerPickupItem.add(new Event(function));
 
             return new NullInstance();
         }

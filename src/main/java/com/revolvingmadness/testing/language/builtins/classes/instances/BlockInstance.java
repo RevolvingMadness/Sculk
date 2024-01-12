@@ -2,7 +2,7 @@ package com.revolvingmadness.testing.language.builtins.classes.instances;
 
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
-import com.revolvingmadness.testing.language.builtins.classes.types.BlockPosType;
+import com.revolvingmadness.testing.language.builtins.classes.types.BlockType;
 import net.minecraft.block.Block;
 
 import java.util.Objects;
@@ -28,7 +28,7 @@ public class BlockInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new BlockPosType();
+        return new BlockType();
     }
 
     @Override

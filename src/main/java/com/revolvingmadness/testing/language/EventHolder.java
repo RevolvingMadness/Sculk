@@ -1,10 +1,7 @@
 package com.revolvingmadness.testing.language;
 
 import com.revolvingmadness.testing.backend.Logger;
-import com.revolvingmadness.testing.events.PlayerJumpCallback;
-import com.revolvingmadness.testing.events.PlayerSneakCallback;
-import com.revolvingmadness.testing.events.RingBellCallback;
-import com.revolvingmadness.testing.events.SendChatMessageCallback;
+import com.revolvingmadness.testing.events.*;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.instances.*;
 import com.revolvingmadness.testing.language.builtins.classes.types.BooleanType;
@@ -19,8 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventHolder {
+    public static final List<Event> onPlaceBlock = new ArrayList<>();
     public static final List<Event> onPlayerAttackEntity = new ArrayList<>();
+    public static final List<Event> onPlayerBlockBreak = new ArrayList<>();
     public static final List<Event> onPlayerJump = new ArrayList<>();
+    public static final List<Event> onPlayerPickupItem = new ArrayList<>();
     public static final List<Event> onPlayerSleep = new ArrayList<>();
     public static final List<Event> onPlayerUseItem = new ArrayList<>();
     public static final List<Event> onRingBell = new ArrayList<>();
@@ -28,8 +28,11 @@ public class EventHolder {
     public static final List<Event> whilePlayerSneak = new ArrayList<>();
 
     public static void clearEvents() {
+        EventHolder.onPlaceBlock.clear();
         EventHolder.onPlayerAttackEntity.clear();
+        EventHolder.onPlayerBlockBreak.clear();
         EventHolder.onPlayerJump.clear();
+        EventHolder.onPlayerPickupItem.clear();
         EventHolder.onPlayerSleep.clear();
         EventHolder.onPlayerUseItem.clear();
         EventHolder.onRingBell.clear();
@@ -56,7 +59,20 @@ public class EventHolder {
                     }
                 } catch (Error error) {
                     Logger.error(error.message);
-                    return ActionResult.FAIL;
+                }
+            }
+
+            return ActionResult.PASS;
+        });
+
+        BreakBlockCallback.EVENT.register((player, block) -> {
+            if (!player.getWorld().isClient) {
+                try {
+                    for (Event event : EventHolder.onPlayerBlockBreak) {
+                        event.execute(List.of(new PlayerEntityInstance(player), new BlockInstance(block)));
+                    }
+                } catch (Error error) {
+                    Logger.error(error.message);
                 }
             }
 
@@ -68,18 +84,53 @@ public class EventHolder {
                 for (Event event : EventHolder.onPlayerJump) {
                     event.execute(List.of(new PlayerEntityInstance(player)));
                 }
-
-                return ActionResult.PASS;
             } catch (Error error) {
                 Logger.error(error.message);
-                return ActionResult.FAIL;
             }
+
+            return ActionResult.PASS;
+        });
+
+        ItemPickupCallback.EVENT.register((player, itemStack) -> {
+            try {
+                for (Event event : EventHolder.onPlayerPickupItem) {
+                    BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new ItemStackInstance(itemStack)));
+
+                    if (!eventResultClass.instanceOf(new BooleanType())) {
+                        throw ErrorHolder.functionRequiresReturnType("onPlayerPickupItem", new BooleanType(), eventResultClass.getType());
+                    }
+
+                    Boolean eventResult = eventResultClass.toBoolean();
+
+                    if (!eventResult) {
+                        return ActionResult.FAIL;
+                    }
+                }
+            } catch (Error error) {
+                Logger.error(error.message);
+            }
+
+            return ActionResult.PASS;
+        });
+
+        PlaceBlockCallback.EVENT.register((livingEntity, block) -> {
+            if (!livingEntity.getWorld().isClient) {
+                try {
+                    for (Event event : EventHolder.onPlaceBlock) {
+                        event.execute(List.of(new LivingEntityInstance(livingEntity), new BlockInstance(block)));
+                    }
+                } catch (Error error) {
+                    Logger.error(error.message);
+                }
+            }
+
+            return ActionResult.PASS;
         });
 
         EntitySleepEvents.START_SLEEPING.register((livingEntity, sleepingPos) -> {
             try {
                 for (Event event : EventHolder.onPlayerSleep) {
-                    event.execute(List.of(new LivingEntityInstance(livingEntity), new BlockPosInstance(sleepingPos)));
+                    event.execute(List.of(new LivingEntityInstance(livingEntity)));
                 }
             } catch (Error error) {
                 Logger.error(error.message);
@@ -91,12 +142,11 @@ public class EventHolder {
                 for (Event event : EventHolder.onRingBell) {
                     event.execute(List.of(new PlayerEntityInstance(player)));
                 }
-
-                return ActionResult.PASS;
             } catch (Error error) {
                 Logger.error(error.message);
-                return ActionResult.FAIL;
             }
+
+            return ActionResult.PASS;
         });
 
         SendChatMessageCallback.EVENT.register((player, message) -> {
@@ -114,12 +164,11 @@ public class EventHolder {
                         return ActionResult.FAIL;
                     }
                 }
-
-                return ActionResult.PASS;
             } catch (Error error) {
                 Logger.error(error.message);
-                return ActionResult.FAIL;
             }
+
+            return ActionResult.PASS;
         });
 
         UseItemCallback.EVENT.register((player, world, hand) -> {
@@ -140,7 +189,6 @@ public class EventHolder {
                     }
                 } catch (Error error) {
                     Logger.error(error.message);
-                    return TypedActionResult.fail(player.getStackInHand(hand));
                 }
             }
 
@@ -152,12 +200,11 @@ public class EventHolder {
                 for (Event event : EventHolder.whilePlayerSneak) {
                     event.execute(List.of(new ServerPlayerEntityInstance(player)));
                 }
-
-                return ActionResult.PASS;
             } catch (Error error) {
                 Logger.error(error.message);
-                return ActionResult.FAIL;
             }
+
+            return ActionResult.PASS;
         });
     }
 }
