@@ -1,21 +1,13 @@
 package com.revolvingmadness.testing;
 
-import com.revolvingmadness.testing.events.SendChatMessageCallback;
 import com.revolvingmadness.testing.gamerules.TestingGamerules;
 import com.revolvingmadness.testing.language.EventHolder;
-import com.revolvingmadness.testing.language.builtins.classes.instances.BlockPosInstance;
-import com.revolvingmadness.testing.language.builtins.classes.instances.LivingEntityInstance;
-import com.revolvingmadness.testing.language.builtins.classes.instances.ServerPlayerEntityInstance;
-import com.revolvingmadness.testing.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ActionResult;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Testing implements ModInitializer {
@@ -27,7 +19,9 @@ public class Testing implements ModInitializer {
     @Override
     public void onInitialize() {
         ServerLifecycleEvents.SERVER_STARTING.register(server1 -> Testing.server = server1);
+        
         TestingGamerules.registerGamerules();
+        EventHolder.registerEvents();
 
         // Values
         Testing.keywords.put("true", TokenType.TRUE);
@@ -62,13 +56,5 @@ public class Testing implements ModInitializer {
         Testing.keywords.put("extends", TokenType.EXTENDS);
         Testing.keywords.put("instanceof", TokenType.INSTANCE_OF);
         Testing.keywords.put("delete", TokenType.DELETE);
-
-        EntitySleepEvents.START_SLEEPING.register((livingEntity, sleepingPos) -> EventHolder.onSleep.forEach(event -> event.execute(List.of(new LivingEntityInstance(livingEntity), new BlockPosInstance(sleepingPos)))));
-
-        SendChatMessageCallback.EVENT.register((player, message) -> {
-            EventHolder.onSendChatMessage.forEach(event -> event.execute(List.of(new ServerPlayerEntityInstance(player), new StringInstance(message.content().getString()))));
-
-            return ActionResult.PASS;
-        });
     }
 }

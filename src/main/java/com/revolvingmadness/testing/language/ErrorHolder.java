@@ -1,6 +1,7 @@
 package com.revolvingmadness.testing.language;
 
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
+import com.revolvingmadness.testing.language.builtins.classes.types.BooleanType;
 import com.revolvingmadness.testing.language.errors.MethodNotImplementedError;
 import com.revolvingmadness.testing.language.errors.NameError;
 import com.revolvingmadness.testing.language.errors.SyntaxError;
@@ -63,6 +64,10 @@ public class ErrorHolder {
 
     public static TypeError difficultyDoesNotExist(String difficulty) {
         return new TypeError(I18n.translate("error.difficulty_does_not_exist", difficulty));
+    }
+
+    public static TypeError functionRequiresReturnType(String functionName, BooleanType type, BuiltinType requiredType) {
+        return new TypeError(I18n.translate("error.function_requires_return_type", functionName, type.toString(), requiredType.toString()));
     }
 
     public static TypeError gamemodeDoesNotExist(String gamemode) {

@@ -37,5 +37,6 @@
    "error.method_not_implemented": "Method '%s' has not been implemented on class '%s'",
    "error.abstract_method_cannot_have_a_body": "Abstract method '%s' cannot have a body",
    "error.cannot_instantiate_abstract_class": "Cannot instantiate abstract class '%s'",
-   "error.cannot_declare_non_abstract_class_with_abstract_methods": "Cannot declare non-abstract class '%s' with abstract methods"
+   "error.cannot_declare_non_abstract_class_with_abstract_methods": "Cannot declare non-abstract class '%s' with abstract methods",
+   "error.function_requires_return_type": "Function '%s' requires return type '%s' but got '%s'"
 }

@@ -5,6 +5,7 @@ import com.revolvingmadness.testing.backend.LangScriptManager;
 import com.revolvingmadness.testing.backend.Logger;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinFunction;
+import com.revolvingmadness.testing.language.builtins.classes.instances.BooleanInstance;
 import com.revolvingmadness.testing.language.errors.Error;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 
@@ -21,11 +22,12 @@ public class Event {
         this.function = function;
     }
 
-    public void execute(List<BuiltinClass> arguments) {
+    public BuiltinClass execute(List<BuiltinClass> arguments) {
         try {
-            this.function.call(this.interpreter, arguments);
+            return this.function.call(this.interpreter, arguments);
         } catch (Error error) {
             Logger.scriptError(this.script, error);
+            return new BooleanInstance(false);
         }
     }
 }
