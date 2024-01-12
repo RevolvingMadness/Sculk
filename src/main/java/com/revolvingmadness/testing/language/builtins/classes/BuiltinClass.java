@@ -10,6 +10,7 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Expre
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -144,6 +145,10 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public Integer toInteger() {
         throw ErrorHolder.cannotConvertType(this.getType(), new IntegerType());
+    }
+
+    public Item toItem() {
+        throw ErrorHolder.cannotConvertType(this.getType(), new ItemType());
     }
 
     public List<BuiltinClass> toList() {
