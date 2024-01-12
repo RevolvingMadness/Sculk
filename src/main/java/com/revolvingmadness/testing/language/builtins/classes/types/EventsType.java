@@ -21,6 +21,7 @@ public class EventsType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerAttackEntity", new OnPlayerAttackEntity());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerJump", new OnPlayerJump());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerSleep", new OnPlayerSleep());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerUseItem", new OnPlayerUseItem());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "whilePlayerSneak", new WhilePlayerSneak());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onRingBell", new OnRingBell());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onSendChatMessage", new OnSendChatMessage());
@@ -102,6 +103,27 @@ public class EventsType extends BuiltinType {
             BuiltinFunction function = onPlayerSleepFunction.toFunction();
 
             EventHolder.onPlayerSleep.add(new Event(function));
+
+            return new NullInstance();
+        }
+    }
+
+    private static class OnPlayerUseItem extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("onPlayerUseItem", 1, arguments.size());
+            }
+
+            BuiltinClass onPlayerUseItemFunction = arguments.get(0);
+
+            if (!onPlayerUseItemFunction.instanceOf(new FunctionType())) {
+                throw ErrorHolder.argumentRequiresType(1, "onPlayerUseItem", new FunctionType(), onPlayerUseItemFunction.getType());
+            }
+
+            BuiltinFunction function = onPlayerUseItemFunction.toFunction();
+
+            EventHolder.onPlayerUseItem.add(new Event(function));
 
             return new NullInstance();
         }

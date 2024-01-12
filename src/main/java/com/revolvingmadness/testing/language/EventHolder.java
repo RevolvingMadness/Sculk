@@ -11,7 +11,9 @@ import com.revolvingmadness.testing.language.builtins.classes.types.BooleanType;
 import com.revolvingmadness.testing.language.errors.Error;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
+import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.TypedActionResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,7 @@ public class EventHolder {
     public static final List<Event> onPlayerAttackEntity = new ArrayList<>();
     public static final List<Event> onPlayerJump = new ArrayList<>();
     public static final List<Event> onPlayerSleep = new ArrayList<>();
+    public static final List<Event> onPlayerUseItem = new ArrayList<>();
     public static final List<Event> onRingBell = new ArrayList<>();
     public static final List<Event> onSendChatMessage = new ArrayList<>();
     public static final List<Event> whilePlayerSneak = new ArrayList<>();
@@ -28,6 +31,7 @@ public class EventHolder {
         EventHolder.onPlayerAttackEntity.clear();
         EventHolder.onPlayerJump.clear();
         EventHolder.onPlayerSleep.clear();
+        EventHolder.onPlayerUseItem.clear();
         EventHolder.onRingBell.clear();
         EventHolder.onSendChatMessage.clear();
         EventHolder.whilePlayerSneak.clear();
@@ -38,7 +42,7 @@ public class EventHolder {
             if (!world.isClient) {
                 try {
                     for (Event event : EventHolder.onPlayerAttackEntity) {
-                        BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new EntityInstance(entity)));
+                        BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new EntityInstance(entity), new ItemStackInstance(player.getStackInHand(hand))));
 
                         if (!eventResultClass.instanceOf(new BooleanType())) {
                             throw ErrorHolder.functionRequiresReturnType("onPlayerAttackEntity", new BooleanType(), eventResultClass.getType());
@@ -50,8 +54,6 @@ public class EventHolder {
                             return ActionResult.FAIL;
                         }
                     }
-
-                    return ActionResult.PASS;
                 } catch (Error error) {
                     Logger.error(error.message);
                     return ActionResult.FAIL;
@@ -120,20 +122,35 @@ public class EventHolder {
             }
         });
 
+        UseItemCallback.EVENT.register((player, world, hand) -> {
+            if (!world.isClient) {
+                try {
+                    for (Event event : EventHolder.onPlayerUseItem) {
+                        BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new ItemStackInstance(player.getStackInHand(hand))));
+
+                        if (!eventResultClass.instanceOf(new BooleanType())) {
+                            throw ErrorHolder.functionRequiresReturnType("onPlayerUseItem", new BooleanType(), eventResultClass.getType());
+                        }
+
+                        Boolean eventResult = eventResultClass.toBoolean();
+
+                        if (!eventResult) {
+                            return TypedActionResult.fail(player.getStackInHand(hand));
+                        }
+                    }
+                } catch (Error error) {
+                    Logger.error(error.message);
+                    return TypedActionResult.fail(player.getStackInHand(hand));
+                }
+            }
+
+            return TypedActionResult.pass(player.getStackInHand(hand));
+        });
+
         PlayerSneakCallback.EVENT.register((player) -> {
             try {
                 for (Event event : EventHolder.whilePlayerSneak) {
-                    BuiltinClass eventResultClass = event.execute(List.of(new ServerPlayerEntityInstance(player)));
-
-                    if (!eventResultClass.instanceOf(new BooleanType())) {
-                        throw ErrorHolder.functionRequiresReturnType("whilePlayerSneak", new BooleanType(), eventResultClass.getType());
-                    }
-
-                    Boolean eventResult = eventResultClass.toBoolean();
-
-                    if (!eventResult) {
-                        return ActionResult.FAIL;
-                    }
+                    event.execute(List.of(new ServerPlayerEntityInstance(player)));
                 }
 
                 return ActionResult.PASS;
