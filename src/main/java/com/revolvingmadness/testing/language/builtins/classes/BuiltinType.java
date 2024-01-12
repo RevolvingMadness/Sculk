@@ -52,7 +52,7 @@ public abstract class BuiltinType extends BuiltinClass {
             return;
         }
 
-        for (Variable property : this.typeSuperClass.typeVariableScope.variables) {
+        for (Variable property : this.typeSuperClass.typeVariableScope.variables.values()) {
             if (property.isAbstract()) {
                 if (!this.typeVariableScope.exists(property.name)) {
                     throw ErrorHolder.methodNotImplemented(property.name, this.typeName);
@@ -126,7 +126,7 @@ public abstract class BuiltinType extends BuiltinClass {
 
     @Override
     public boolean hasAbstractMethods() {
-        for (Variable variable : this.typeVariableScope.variables) {
+        for (Variable variable : this.typeVariableScope.variables.values()) {
             if (variable.isAbstract()) {
                 return true;
             }

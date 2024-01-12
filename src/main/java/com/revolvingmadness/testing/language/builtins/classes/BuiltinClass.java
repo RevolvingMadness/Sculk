@@ -59,7 +59,7 @@ public abstract class BuiltinClass extends ExpressionNode {
 
         VariableScope methodsToImplement = this.getType().typeSuperClass.typeVariableScope;
 
-        for (Variable property : methodsToImplement.variables) {
+        for (Variable property : methodsToImplement.variables.values()) {
             if (property.isAbstract()) {
                 if (!this.getType().typeVariableScope.exists(property.name)) {
                     throw ErrorHolder.methodNotImplemented(property.name, this.getType().typeName);
@@ -105,7 +105,7 @@ public abstract class BuiltinClass extends ExpressionNode {
     public abstract BuiltinType getType();
 
     public boolean hasAbstractMethods() {
-        for (Variable variable : this.variableScope.variables) {
+        for (Variable variable : this.variableScope.variables.values()) {
             if (variable.isAbstract()) {
                 return true;
             }

@@ -69,6 +69,7 @@ public class VariableTable {
 
             if (variableScope.exists(name)) {
                 variableScope.deleteOrThrow(name);
+                return;
             }
         }
 
