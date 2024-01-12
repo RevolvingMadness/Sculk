@@ -18,6 +18,7 @@ public class EventsType extends BuiltinType {
     public EventsType() {
         super("Events");
 
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerAttackEntity", new OnPlayerAttackEntity());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerJump", new OnPlayerJump());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerSleep", new OnPlayerSleep());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "whilePlayerSneak", new WhilePlayerSneak());
@@ -40,6 +41,27 @@ public class EventsType extends BuiltinType {
             }
 
             return new BooleanInstance(false);
+        }
+    }
+
+    private static class OnPlayerAttackEntity extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("onPlayerAttackEntity", 1, arguments.size());
+            }
+
+            BuiltinClass onPlayerAttackEntityFunction = arguments.get(0);
+
+            if (!onPlayerAttackEntityFunction.instanceOf(new FunctionType())) {
+                throw ErrorHolder.argumentRequiresType(1, "onPlayerAttackEntity", new FunctionType(), onPlayerAttackEntityFunction.getType());
+            }
+
+            BuiltinFunction function = onPlayerAttackEntityFunction.toFunction();
+
+            EventHolder.onPlayerAttackEntity.add(new Event(function));
+
+            return new NullInstance();
         }
     }
 
