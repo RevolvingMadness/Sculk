@@ -4,6 +4,7 @@ import com.revolvingmadness.testing.language.ErrorHolder;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
+import com.revolvingmadness.testing.language.builtins.classes.instances.BooleanInstance;
 import com.revolvingmadness.testing.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.lexer.TokenType;
@@ -15,6 +16,7 @@ public class StringType extends BuiltinType {
         super("String");
         this.typeVariableScope.declare(List.of(TokenType.CONST), "toString", new ToString());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "add", new Add());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
     private static class Add extends BuiltinMethod {
@@ -30,6 +32,23 @@ public class StringType extends BuiltinType {
             String otherString = other.call(interpreter, "toString", List.of()).toStringType();
 
             return new StringInstance(thisString + otherString);
+        }
+    }
+
+    private static class EqualTo extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
+            }
+
+            BuiltinClass other = arguments.get(0);
+
+            if (other.instanceOf(new StringType())) {
+                return new BooleanInstance(other.toStringType().equals(this.boundClass.toStringType()));
+            }
+
+            return new BooleanInstance(false);
         }
     }
 

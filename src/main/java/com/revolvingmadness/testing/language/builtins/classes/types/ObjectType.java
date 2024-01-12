@@ -67,9 +67,13 @@ public class ObjectType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
             }
 
-            BuiltinClass o = arguments.get(0);
+            BuiltinClass other = arguments.get(0);
 
-            return new BooleanInstance(this.boundClass.equals(o));
+            if (other.instanceOf(new ObjectType())) {
+                return new BooleanInstance(other.toObjectInstance().equals(this.boundClass.toObjectInstance()));
+            }
+
+            return new BooleanInstance(false);
         }
     }
 

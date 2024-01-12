@@ -17,6 +17,24 @@ public class BooleanType extends BuiltinType {
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), "toString", new ToString());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "logicalNot", new LogicalNot());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
+    }
+
+    private static class EqualTo extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
+            }
+
+            BuiltinClass other = arguments.get(0);
+
+            if (other.instanceOf(new BooleanType())) {
+                return new BooleanInstance(other.toBoolean().equals(this.boundClass.toBoolean()));
+            }
+
+            return new BooleanInstance(false);
+        }
     }
 
     private static class LogicalNot extends BuiltinMethod {

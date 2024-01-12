@@ -1,6 +1,7 @@
 package com.revolvingmadness.testing.language.builtins.classes;
 
 import com.revolvingmadness.testing.language.ErrorHolder;
+import com.revolvingmadness.testing.language.builtins.classes.instances.*;
 import com.revolvingmadness.testing.language.builtins.classes.types.*;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.Variable;
@@ -9,7 +10,6 @@ import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.Expre
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -110,17 +110,24 @@ public abstract class BuiltinClass extends ExpressionNode {
         this.getType().setProperty(propertyName, value);
     }
 
+    public BlockPosInstance toBlockPos() {
+        throw ErrorHolder.cannotConvertType(this.getType(), new BlockPosType());
+    }
+
     public Boolean toBoolean() {
         throw ErrorHolder.cannotConvertType(this.getType(), new BooleanType());
     }
 
-    @SuppressWarnings("unused")
     public Map<BuiltinClass, BuiltinClass> toDictionary() {
         throw ErrorHolder.cannotConvertType(this.getType(), new DictionaryType());
     }
 
     public Entity toEntity() {
         throw ErrorHolder.cannotConvertType(this.getType(), new EntityType());
+    }
+
+    public EventsInstance toEvents() {
+        throw ErrorHolder.cannotConvertType(this.getType(), new EventsType());
     }
 
     public Double toFloat() {
@@ -139,7 +146,6 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.cannotConvertType(this.getType(), new IntegerType());
     }
 
-    @SuppressWarnings("unused")
     public List<BuiltinClass> toList() {
         throw ErrorHolder.cannotConvertType(this.getType(), new ListType());
     }
@@ -148,9 +154,16 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.cannotConvertType(this.getType(), new LivingEntityType());
     }
 
-    @SuppressWarnings("unused")
-    public MinecraftServer toMinecraftServer() {
+    public MinecraftServerInstance toMinecraftServerInstance() {
         throw ErrorHolder.cannotConvertType(this.getType(), new MinecraftServerType());
+    }
+
+    public NullInstance toNullInstance() {
+        throw ErrorHolder.cannotConvertType(this.getType(), new NullType());
+    }
+
+    public ObjectInstance toObjectInstance() {
+        throw ErrorHolder.cannotConvertType(this.getType(), new ObjectType());
     }
 
     public PlayerEntity toPlayerEntity() {
@@ -173,7 +186,6 @@ public abstract class BuiltinClass extends ExpressionNode {
         return "<Class '" + this.getType().typeName + "'>";
     }
 
-    @SuppressWarnings("unused")
     public Vec3d toVec3d() {
         throw ErrorHolder.cannotConvertType(this.getType(), new Vec3dType());
     }

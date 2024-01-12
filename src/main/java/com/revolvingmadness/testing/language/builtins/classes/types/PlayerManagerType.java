@@ -29,6 +29,7 @@ public class PlayerManagerType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setViewDistance", new SetViewDistance());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setWhitelistEnabled", new SetWhitelistEnabled());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getPlayer", new GetPlayer());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
     private static class AreCheatsEnabled extends BuiltinMethod {
@@ -39,6 +40,23 @@ public class PlayerManagerType extends BuiltinType {
             }
 
             return new BooleanInstance(this.boundClass.toPlayerManager().areCheatsAllowed());
+        }
+    }
+
+    private static class EqualTo extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
+            }
+
+            BuiltinClass other = arguments.get(0);
+
+            if (other.instanceOf(new PlayerManagerType())) {
+                return new BooleanInstance(other.toPlayerManager().equals(this.boundClass.toPlayerManager()));
+            }
+
+            return new BooleanInstance(false);
         }
     }
 

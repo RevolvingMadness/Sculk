@@ -117,6 +117,25 @@ public class GameRulesType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setScriptLogsEnabled", new SetScriptLogsEnabled());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setMaxArgumentCount", new SetMaxArgumentCount());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setMaxLoops", new SetMaxLoops());
+
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
+    }
+
+    private static class EqualTo extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
+            }
+
+            BuiltinClass other = arguments.get(0);
+
+            if (other.instanceOf(new GameRulesType())) {
+                return new BooleanInstance(other.toGameRules().equals(this.boundClass.toGameRules()));
+            }
+
+            return new BooleanInstance(false);
+        }
     }
 
     private static class GetAnnounceAdvancements extends BuiltinMethod {

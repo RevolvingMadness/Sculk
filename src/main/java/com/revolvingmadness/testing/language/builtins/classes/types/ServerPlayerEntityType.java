@@ -4,6 +4,7 @@ import com.revolvingmadness.testing.language.ErrorHolder;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
+import com.revolvingmadness.testing.language.builtins.classes.instances.BooleanInstance;
 import com.revolvingmadness.testing.language.builtins.classes.instances.IntegerInstance;
 import com.revolvingmadness.testing.language.builtins.classes.instances.NullInstance;
 import com.revolvingmadness.testing.language.builtins.classes.instances.StringInstance;
@@ -23,6 +24,7 @@ public class ServerPlayerEntityType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getViewDistance", new GetViewDistance());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setExperienceLevels", new SetExperienceLevels());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setExperiencePoints", new SetExperiencePoints());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
     private static class ChangeGameMode extends BuiltinMethod {
@@ -66,6 +68,23 @@ public class ServerPlayerEntityType extends BuiltinType {
             this.boundClass.toServerPlayerEntity().dropSelectedItem(entireStack.toBoolean());
 
             return new NullInstance();
+        }
+    }
+
+    private static class EqualTo extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
+            }
+
+            BuiltinClass other = arguments.get(0);
+
+            if (other.instanceOf(new ServerPlayerEntityType())) {
+                return new BooleanInstance(other.toServerPlayerEntity().equals(this.boundClass.toServerPlayerEntity()));
+            }
+
+            return new BooleanInstance(false);
         }
     }
 

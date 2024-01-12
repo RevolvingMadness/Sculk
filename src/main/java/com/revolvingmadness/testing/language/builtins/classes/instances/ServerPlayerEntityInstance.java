@@ -51,7 +51,7 @@ public class ServerPlayerEntityInstance extends BuiltinClass {
 
     @Override
     public PlayerEntity toPlayerEntity() {
-        return this.toServerPlayerEntity();
+        return this.value;
     }
 
     @Override

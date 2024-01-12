@@ -29,6 +29,7 @@ public class MinecraftServerType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "isHardcore", new IsHardcore());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "areCommandBlocksEnabled", new AreCommandBlocksEnabled());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setDifficulty", new SetDifficulty());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
     @Override
@@ -44,6 +45,23 @@ public class MinecraftServerType extends BuiltinType {
             }
 
             return new BooleanInstance(Testing.server.areCommandBlocksEnabled());
+        }
+    }
+
+    private static class EqualTo extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
+            }
+
+            BuiltinClass other = arguments.get(0);
+
+            if (other.instanceOf(new MinecraftServerType())) {
+                return new BooleanInstance(other.toMinecraftServerInstance().equals(this.boundClass.toMinecraftServerInstance()));
+            }
+
+            return new BooleanInstance(false);
         }
     }
 

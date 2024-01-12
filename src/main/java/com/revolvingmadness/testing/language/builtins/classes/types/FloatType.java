@@ -27,6 +27,7 @@ public class FloatType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "greaterThan", new GreaterThan());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "greaterThanOrEqualTo", new GreaterThanOrEqualTo());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "toString", new ToString());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
     private static class Add extends BuiltinMethod {
@@ -65,6 +66,23 @@ public class FloatType extends BuiltinType {
             }
 
             throw ErrorHolder.cannotApplyBinaryOperatorToTypes("/", new FloatType(), other.getType());
+        }
+    }
+
+    private static class EqualTo extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
+            }
+
+            BuiltinClass other = arguments.get(0);
+
+            if (other.instanceOf(new FloatType())) {
+                return new BooleanInstance(other.toFloat().equals(this.boundClass.toFloat()));
+            }
+
+            return new BooleanInstance(false);
         }
     }
 

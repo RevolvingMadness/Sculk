@@ -65,6 +65,7 @@ public class EntityType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "shouldDismountUnderwater", new ShouldDismountUnderwater());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "stopRiding", new StopRiding());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "teleport", new Teleport());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
     private static class AddCommandTag extends BuiltinMethod {
@@ -96,6 +97,23 @@ public class EntityType extends BuiltinType {
             this.boundClass.toEntity().dismountVehicle();
 
             return new NullInstance();
+        }
+    }
+
+    private static class EqualTo extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
+            }
+
+            BuiltinClass other = arguments.get(0);
+
+            if (other.instanceOf(new EntityType())) {
+                return new BooleanInstance(other.toEntity().equals(this.boundClass.toEntity()));
+            }
+
+            return new BooleanInstance(false);
         }
     }
 

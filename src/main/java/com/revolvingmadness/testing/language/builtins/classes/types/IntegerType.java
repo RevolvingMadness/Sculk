@@ -28,6 +28,7 @@ public class IntegerType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "greaterThan", new GreaterThan());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "greaterThanOrEqualTo", new GreaterThanOrEqualTo());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "toString", new ToString());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
     private static class Add extends BuiltinMethod {
@@ -65,6 +66,23 @@ public class IntegerType extends BuiltinType {
             }
 
             throw ErrorHolder.cannotApplyBinaryOperatorToTypes("/", new IntegerType(), other.getType());
+        }
+    }
+
+    private static class EqualTo extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
+            }
+
+            BuiltinClass other = arguments.get(0);
+
+            if (other.instanceOf(new IntegerType())) {
+                return new BooleanInstance(other.toInteger().equals(this.boundClass.toInteger()));
+            }
+
+            return new BooleanInstance(false);
         }
     }
 
