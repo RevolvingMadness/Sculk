@@ -4,16 +4,14 @@ import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.testing.language.builtins.classes.types.UserDefinedType;
 import com.revolvingmadness.testing.language.interpreter.VariableScope;
-import com.revolvingmadness.testing.language.lexer.TokenType;
 
-import java.util.List;
 import java.util.Objects;
 
 public class UserDefinedInstance extends BuiltinClass {
     public final UserDefinedType classType;
 
-    public UserDefinedInstance(UserDefinedType classType, List<TokenType> accessModifiers, VariableScope variableScope) {
-        super(accessModifiers, variableScope);
+    public UserDefinedInstance(UserDefinedType classType, VariableScope variableScope) {
+        super(variableScope);
         this.classType = classType;
     }
 

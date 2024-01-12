@@ -17,7 +17,7 @@ public class UserDefinedType extends BuiltinType {
 
     @Override
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        UserDefinedInstance instance = new UserDefinedInstance(this, this.accessModifiers, this.variableScope);
+        UserDefinedInstance instance = new UserDefinedInstance(this, this.variableScope);
 
         if (this.isAbstract()) {
             throw ErrorHolder.cannotInstantiateAbstractClass(this.typeName);

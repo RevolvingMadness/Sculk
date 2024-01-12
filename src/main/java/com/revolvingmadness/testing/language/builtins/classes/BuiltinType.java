@@ -161,6 +161,11 @@ public abstract class BuiltinType extends BuiltinClass {
     }
 
     @Override
+    public boolean isConstant() {
+        return this.typeAccessModifiers.contains(TokenType.CONST);
+    }
+
+    @Override
     public void setProperty(String propertyName, BuiltinClass value) {
         Optional<Variable> optionalVariable = this.variableScope.getOptional(propertyName);
 
