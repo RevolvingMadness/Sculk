@@ -8,12 +8,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LangLexer {
-    public final String input;
+    private final String input;
+    private final List<Token> tokens;
+    private Integer currentColumnNumber;
+    private Integer currentLineNumber;
     private Integer position;
 
     public LangLexer(String input) {
         this.input = input;
+
+        this.tokens = new ArrayList<>();
+        this.currentColumnNumber = 1;
+        this.currentLineNumber = 1;
         this.position = 0;
+    }
+
+    public void addToken(TokenType type, Object value) {
+        this.tokens.add(new Token(this.currentLineNumber, this.currentColumnNumber, type, value));
+    }
+
+    public void addToken(TokenType type) {
+        this.addToken(type, null);
     }
 
     public Character consume() {
@@ -44,36 +59,34 @@ public class LangLexer {
     }
 
     public List<Token> lex() {
-        List<Token> tokens = new ArrayList<>();
-
         while (this.position < this.input.length()) {
             if (Character.isDigit(this.current()) || (this.current('.') && Character.isDigit(this.next()))) {
-                tokens.add(this.lexDigit());
+                this.tokens.add(this.lexDigit());
             } else if (this.current('+')) {
                 this.consume();
 
                 if (this.current('+')) {
                     this.consume();
 
-                    tokens.add(new Token(TokenType.DOUBLE_PLUS));
+                    this.addToken(TokenType.DOUBLE_PLUS);
                 } else {
-                    tokens.add(new Token(TokenType.PLUS));
+                    this.addToken(TokenType.PLUS);
                 }
             } else if (this.current('-')) {
                 this.consume();
 
                 if (this.current('-')) {
                     this.consume();
-                    tokens.add(new Token(TokenType.DOUBLE_HYPHEN));
+                    this.addToken(TokenType.DOUBLE_HYPHEN);
                 } else if (this.current('>')) {
                     this.consume();
-                    tokens.add(new Token(TokenType.RIGHT_ARROW));
+                    this.addToken(TokenType.RIGHT_ARROW);
                 } else {
-                    tokens.add(new Token(TokenType.HYPHEN));
+                    this.addToken(TokenType.HYPHEN);
                 }
             } else if (this.current('*')) {
                 this.consume();
-                tokens.add(new Token(TokenType.STAR));
+                this.addToken(TokenType.STAR);
             } else if (this.current('/')) {
                 this.consume();
 
@@ -84,120 +97,127 @@ public class LangLexer {
                     this.consume();
                     this.lexMultilineComment();
                 } else {
-                    tokens.add(new Token(TokenType.FSLASH));
+                    this.addToken(TokenType.FSLASH);
                 }
             } else if (this.current('^')) {
                 this.consume();
-                tokens.add(new Token(TokenType.CARET));
+                this.addToken(TokenType.CARET);
             } else if (this.current('%')) {
                 this.consume();
-                tokens.add(new Token(TokenType.PERCENT));
+                this.addToken(TokenType.PERCENT);
             } else if (Character.isWhitespace(this.current())) {
+                if (this.current('\n')) {
+                    this.currentLineNumber++;
+                    this.currentColumnNumber = 1;
+                }
+
                 this.consume();
             } else if (Character.isAlphabetic(this.current())) {
-                tokens.add(this.lexIdentifier());
+                this.tokens.add(this.lexIdentifier());
             } else if (this.current(';')) {
                 this.consume();
-                tokens.add(new Token(TokenType.SEMICOLON));
+                this.addToken(TokenType.SEMICOLON);
             } else if (this.current('=')) {
                 this.consume();
 
                 if (this.current('=')) {
                     this.consume();
-                    tokens.add(new Token(TokenType.EQUAL_TO));
+                    this.addToken(TokenType.EQUAL_TO);
                 } else {
-                    tokens.add(new Token(TokenType.EQUALS));
+                    this.addToken(TokenType.EQUALS);
                 }
             } else if (this.current('(')) {
                 this.consume();
-                tokens.add(new Token(TokenType.LEFT_PARENTHESIS));
+                this.addToken(TokenType.LEFT_PARENTHESIS);
             } else if (this.current(')')) {
                 this.consume();
-                tokens.add(new Token(TokenType.RIGHT_PARENTHESIS));
+                this.addToken(TokenType.RIGHT_PARENTHESIS);
             } else if (this.current('!')) {
                 this.consume();
 
                 if (this.current('=')) {
                     this.consume();
-                    tokens.add(new Token(TokenType.NOT_EQUAL_TO));
+                    this.addToken(TokenType.NOT_EQUAL_TO);
                 } else {
-                    tokens.add(new Token(TokenType.EXCLAMATION_MARK));
+                    this.addToken(TokenType.EXCLAMATION_MARK);
                 }
             } else if (this.current('"')) {
                 this.consume();
-                tokens.add(this.lexString());
+                this.tokens.add(this.lexString());
                 this.consume();
             } else if (this.current('\'')) {
                 this.consume();
-                tokens.add(new Token(TokenType.SINGLE_QUOTE));
+                this.addToken(TokenType.SINGLE_QUOTE);
             } else if (this.current(':')) {
                 this.consume();
-                tokens.add(new Token(TokenType.COLON));
+                this.addToken(TokenType.COLON);
             } else if (this.current('>')) {
                 this.consume();
 
                 if (this.current('=')) {
                     this.consume();
-                    tokens.add(new Token(TokenType.GREATER_THAN_OR_EQUAL_TO));
+                    this.addToken(TokenType.GREATER_THAN_OR_EQUAL_TO);
                 } else {
-                    tokens.add(new Token(TokenType.GREATER_THAN));
+                    this.addToken(TokenType.GREATER_THAN);
                 }
             } else if (this.current('<')) {
                 this.consume();
 
                 if (this.current('=')) {
                     this.consume();
-                    tokens.add(new Token(TokenType.LESS_THAN_OR_EQUAL_TO));
+                    this.addToken(TokenType.LESS_THAN_OR_EQUAL_TO);
                 } else if (this.current('-')) {
                     this.consume();
-                    tokens.add(new Token(TokenType.LEFT_ARROW));
+                    this.addToken(TokenType.LEFT_ARROW);
                 } else {
-                    tokens.add(new Token(TokenType.LESS_THAN));
+                    this.addToken(TokenType.LESS_THAN);
                 }
             } else if (this.current('{')) {
                 this.consume();
-                tokens.add(new Token(TokenType.LEFT_BRACE));
+                this.addToken(TokenType.LEFT_BRACE);
             } else if (this.current('}')) {
                 this.consume();
-                tokens.add(new Token(TokenType.RIGHT_BRACE));
+                this.addToken(TokenType.RIGHT_BRACE);
             } else if (this.current(',')) {
                 this.consume();
-                tokens.add(new Token(TokenType.COMMA));
+                this.addToken(TokenType.COMMA);
             } else if (this.current('[')) {
                 this.consume();
-                tokens.add(new Token(TokenType.LEFT_BRACKET));
+                this.addToken(TokenType.LEFT_BRACKET);
             } else if (this.current(']')) {
                 this.consume();
-                tokens.add(new Token(TokenType.RIGHT_BRACKET));
+                this.addToken(TokenType.RIGHT_BRACKET);
             } else if (this.current('&')) {
                 this.consume();
 
                 if (this.current('&')) {
                     this.consume();
-                    tokens.add(new Token(TokenType.DOUBLE_AMPERSAND));
+                    this.addToken(TokenType.DOUBLE_AMPERSAND);
                 } else {
-                    tokens.add(new Token(TokenType.AMPERSAND));
+                    this.addToken(TokenType.AMPERSAND);
                 }
             } else if (this.current('|')) {
                 this.consume();
 
                 if (this.current('|')) {
                     this.consume();
-                    tokens.add(new Token(TokenType.DOUBLE_PIPE));
+                    this.addToken(TokenType.DOUBLE_PIPE);
                 } else {
-                    tokens.add(new Token(TokenType.PIPE));
+                    this.addToken(TokenType.PIPE);
                 }
             } else if (this.current('.')) {
                 this.consume();
-                tokens.add(new Token(TokenType.PERIOD));
+                this.addToken(TokenType.PERIOD);
             } else {
                 throw new SyntaxError("Unexpected character '" + this.current() + "'");
             }
+
+            this.currentColumnNumber++;
         }
 
-        tokens.add(new Token(TokenType.EOF));
+        this.addToken(TokenType.EOF);
 
-        return tokens;
+        return this.tokens;
     }
 
     private void lexComment() {
@@ -225,10 +245,10 @@ public class LangLexer {
         String digitString = digit.toString();
 
         if (isFloat) {
-            return new Token(TokenType.FLOAT, Double.parseDouble(digitString));
+            return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.FLOAT, Double.parseDouble(digitString));
         }
 
-        return new Token(TokenType.INTEGER, Integer.parseInt(digitString));
+        return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.INTEGER, Integer.parseInt(digitString));
     }
 
     private Character lexEscapeSequence() {
@@ -258,7 +278,7 @@ public class LangLexer {
         String identifierString = identifier.toString();
 
         if (Testing.keywords.containsKey(identifierString)) {
-            return new Token(Testing.keywords.get(identifierString));
+            return new Token(this.currentLineNumber, this.currentColumnNumber, Testing.keywords.get(identifierString));
         }
 
         if (this.current(':')) {
@@ -266,10 +286,10 @@ public class LangLexer {
 
             Token resourcePath = this.lexIdentifier();
 
-            return new Token(TokenType.RESOURCE, identifierString + ":" + resourcePath.value);
+            return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.RESOURCE, identifierString + ":" + resourcePath.value);
         }
 
-        return new Token(TokenType.IDENTIFIER, identifierString);
+        return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.IDENTIFIER, identifierString);
     }
 
     private void lexMultilineComment() {
@@ -292,7 +312,7 @@ public class LangLexer {
             }
         }
 
-        return new Token(TokenType.STRING, string.toString());
+        return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.STRING, string.toString());
     }
 
     public Character next() {

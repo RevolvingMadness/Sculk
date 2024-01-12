@@ -18,7 +18,10 @@ public class EventsType extends BuiltinType {
     public EventsType() {
         super("Events");
 
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerJump", new OnPlayerJump());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerSleep", new OnPlayerSleep());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "whilePlayerSneak", new WhilePlayerSneak());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "onRingBell", new OnRingBell());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onSendChatMessage", new OnSendChatMessage());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
@@ -40,6 +43,27 @@ public class EventsType extends BuiltinType {
         }
     }
 
+    private static class OnPlayerJump extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("onPlayerJump", 1, arguments.size());
+            }
+
+            BuiltinClass onPlayerJumpFunction = arguments.get(0);
+
+            if (!onPlayerJumpFunction.instanceOf(new FunctionType())) {
+                throw ErrorHolder.argumentRequiresType(1, "onPlayerJump", new FunctionType(), onPlayerJumpFunction.getType());
+            }
+
+            BuiltinFunction function = onPlayerJumpFunction.toFunction();
+
+            EventHolder.onPlayerJump.add(new Event(function));
+
+            return new NullInstance();
+        }
+    }
+
     private static class OnPlayerSleep extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -55,7 +79,28 @@ public class EventsType extends BuiltinType {
 
             BuiltinFunction function = onPlayerSleepFunction.toFunction();
 
-            EventHolder.onSleep.add(new Event(function));
+            EventHolder.onPlayerSleep.add(new Event(function));
+
+            return new NullInstance();
+        }
+    }
+
+    private static class OnRingBell extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("onRingBell", 1, arguments.size());
+            }
+
+            BuiltinClass onRingBellFunction = arguments.get(0);
+
+            if (!onRingBellFunction.instanceOf(new FunctionType())) {
+                throw ErrorHolder.argumentRequiresType(1, "onRingBell", new FunctionType(), onRingBellFunction.getType());
+            }
+
+            BuiltinFunction function = onRingBellFunction.toFunction();
+
+            EventHolder.onRingBell.add(new Event(function));
 
             return new NullInstance();
         }
@@ -77,6 +122,27 @@ public class EventsType extends BuiltinType {
             BuiltinFunction function = onSendChatMessageFunction.toFunction();
 
             EventHolder.onSendChatMessage.add(new Event(function));
+
+            return new NullInstance();
+        }
+    }
+
+    private static class WhilePlayerSneak extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("whilePlayerSneak", 1, arguments.size());
+            }
+
+            BuiltinClass onPlayerSneakFunction = arguments.get(0);
+
+            if (!onPlayerSneakFunction.instanceOf(new FunctionType())) {
+                throw ErrorHolder.argumentRequiresType(1, "whilePlayerSneak", new FunctionType(), onPlayerSneakFunction.getType());
+            }
+
+            BuiltinFunction function = onPlayerSneakFunction.toFunction();
+
+            EventHolder.whilePlayerSneak.add(new Event(function));
 
             return new NullInstance();
         }

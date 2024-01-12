@@ -3,8 +3,10 @@
    "package": "com.revolvingmadness.testing.mixin",
    "compatibilityLevel": "JAVA_17",
    "mixins": [
+      "BellBlockMixin",
       "DatapackContentsMixin",
       "MinecraftServerMixin",
+      "PlayerEntityMixin",
       "ServerPlayerEntityMixin"
    ],
    "injectors": {
