@@ -7,6 +7,7 @@ import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.Variable;
 import com.revolvingmadness.testing.language.interpreter.VariableScope;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -109,6 +110,10 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public void setProperty(String propertyName, BuiltinClass value) {
         this.getType().setProperty(propertyName, value);
+    }
+
+    public Block toBlock() {
+        throw ErrorHolder.cannotConvertType(this.getType(), new BlockType());
     }
 
     public BlockPosInstance toBlockPos() {

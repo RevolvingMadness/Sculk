@@ -17,12 +17,12 @@ public abstract class BuiltinMethod extends BuiltinClass {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
         if (!super.equals(o))
             return false;
         BuiltinMethod that = (BuiltinMethod) o;
-        return Objects.equals(boundClass, that.boundClass) && Objects.equals(boundSuperClass, that.boundSuperClass);
+        return Objects.equals(this.boundClass, that.boundClass) && Objects.equals(this.boundSuperClass, that.boundSuperClass);
     }
 
     @Override
@@ -32,6 +32,6 @@ public abstract class BuiltinMethod extends BuiltinClass {
 
     @Override
     public int hashCode() {
-        return Objects.hash(boundClass, boundSuperClass);
+        return Objects.hash(this.boundClass, this.boundSuperClass);
     }
 }

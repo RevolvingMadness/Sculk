@@ -72,12 +72,12 @@ public abstract class BuiltinType extends BuiltinClass {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
         if (!super.equals(o))
             return false;
         BuiltinType that = (BuiltinType) o;
-        return Objects.equals(typeAccessModifiers, that.typeAccessModifiers) && Objects.equals(typeName, that.typeName) && Objects.equals(typeSuperClass, that.typeSuperClass) && Objects.equals(typeVariableScope, that.typeVariableScope);
+        return Objects.equals(this.typeAccessModifiers, that.typeAccessModifiers) && Objects.equals(this.typeName, that.typeName) && Objects.equals(this.typeSuperClass, that.typeSuperClass) && Objects.equals(this.typeVariableScope, that.typeVariableScope);
     }
 
     @Override
@@ -137,7 +137,7 @@ public abstract class BuiltinType extends BuiltinClass {
 
     @Override
     public int hashCode() {
-        return Objects.hash(typeAccessModifiers, typeName, typeSuperClass, typeVariableScope);
+        return Objects.hash(this.typeAccessModifiers, this.typeName, this.typeSuperClass, this.typeVariableScope);
     }
 
     @Override

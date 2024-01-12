@@ -73,16 +73,16 @@ public class MethodInstance extends BuiltinMethod {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
         if (!super.equals(o))
             return false;
         MethodInstance that = (MethodInstance) o;
-        return Objects.equals(accessModifiers, that.accessModifiers) && Objects.equals(arguments, that.arguments) && Objects.equals(body, that.body) && Objects.equals(name, that.name);
+        return Objects.equals(this.accessModifiers, that.accessModifiers) && Objects.equals(this.arguments, that.arguments) && Objects.equals(this.body, that.body) && Objects.equals(this.name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accessModifiers, arguments, body, name);
+        return Objects.hash(this.accessModifiers, this.arguments, this.body, this.name);
     }
 }

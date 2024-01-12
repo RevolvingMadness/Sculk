@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class ClassDeclarationStatementNode extends StatementNode {
-    public final List<StatementNode> body;
     public final List<TokenType> accessModifiers;
+    public final List<StatementNode> body;
     public final String name;
     public final String superClassName;
 
@@ -22,14 +22,14 @@ public class ClassDeclarationStatementNode extends StatementNode {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
         ClassDeclarationStatementNode that = (ClassDeclarationStatementNode) o;
-        return Objects.equals(body, that.body) && Objects.equals(accessModifiers, that.accessModifiers) && Objects.equals(name, that.name) && Objects.equals(superClassName, that.superClassName);
+        return Objects.equals(this.body, that.body) && Objects.equals(this.accessModifiers, that.accessModifiers) && Objects.equals(this.name, that.name) && Objects.equals(this.superClassName, that.superClassName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(body, accessModifiers, name, superClassName);
+        return Objects.hash(this.body, this.accessModifiers, this.name, this.superClassName);
     }
 }

@@ -13,6 +13,10 @@ public class FloatInstance extends BuiltinClass {
         this.value = value;
     }
 
+    public FloatInstance(Float value) {
+        this(value.doubleValue());
+    }
+
 
     @Override
     public boolean equals(Object o) {

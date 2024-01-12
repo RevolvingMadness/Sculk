@@ -10,5 +10,6 @@ public class TestingGamerules {
     public static final GameRules.Key<GameRules.BooleanRule> SCRIPT_LOGS_ENABLED = GameRuleRegistry.register("scriptLogsEnabled", GameRules.Category.CHAT, GameRuleFactory.createBooleanRule(false));
 
     public static void registerGamerules() {
+        
     }
 }

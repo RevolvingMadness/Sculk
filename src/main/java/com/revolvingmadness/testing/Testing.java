@@ -19,7 +19,7 @@ public class Testing implements ModInitializer {
     @Override
     public void onInitialize() {
         ServerLifecycleEvents.SERVER_STARTING.register(server1 -> Testing.server = server1);
-        
+
         TestingGamerules.registerGamerules();
         EventHolder.registerEvents();
 

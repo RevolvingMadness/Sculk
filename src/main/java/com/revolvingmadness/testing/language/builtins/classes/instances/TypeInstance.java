@@ -21,12 +21,12 @@ public class TypeInstance extends BuiltinClass {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
         if (!super.equals(o))
             return false;
         TypeInstance that = (TypeInstance) o;
-        return Objects.equals(typeName, that.typeName) && Objects.equals(typeVariableScope, that.typeVariableScope);
+        return Objects.equals(this.typeName, that.typeName) && Objects.equals(this.typeVariableScope, that.typeVariableScope);
     }
 
     @Override
@@ -36,6 +36,6 @@ public class TypeInstance extends BuiltinClass {
 
     @Override
     public int hashCode() {
-        return Objects.hash(typeName, typeVariableScope);
+        return Objects.hash(this.typeName, this.typeVariableScope);
     }
 }

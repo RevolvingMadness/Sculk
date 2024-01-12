@@ -33,11 +33,11 @@ public class MethodDeclarationStatementNode extends StatementNode {
         return Objects.hash(this.accessModifiers, this.arguments, this.body, this.name);
     }
 
-    public boolean isStatic() {
-        return this.accessModifiers.contains(TokenType.STATIC);
-    }
-
     public boolean isAbstract() {
         return this.accessModifiers.contains(TokenType.ABSTRACT);
+    }
+
+    public boolean isStatic() {
+        return this.accessModifiers.contains(TokenType.STATIC);
     }
 }

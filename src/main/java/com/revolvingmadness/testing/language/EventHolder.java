@@ -17,12 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventHolder {
-    public static List<Event> onPlayerAttackEntity = new ArrayList<>();
-    public static List<Event> onPlayerJump = new ArrayList<>();
-    public static List<Event> onPlayerSleep = new ArrayList<>();
-    public static List<Event> onRingBell = new ArrayList<>();
-    public static List<Event> onSendChatMessage = new ArrayList<>();
-    public static List<Event> whilePlayerSneak = new ArrayList<>();
+    public static final List<Event> onPlayerAttackEntity = new ArrayList<>();
+    public static final List<Event> onPlayerJump = new ArrayList<>();
+    public static final List<Event> onPlayerSleep = new ArrayList<>();
+    public static final List<Event> onRingBell = new ArrayList<>();
+    public static final List<Event> onSendChatMessage = new ArrayList<>();
+    public static final List<Event> whilePlayerSneak = new ArrayList<>();
 
     public static void clearEvents() {
         EventHolder.onPlayerAttackEntity.clear();

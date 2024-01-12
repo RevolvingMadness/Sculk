@@ -63,16 +63,16 @@ public class FunctionInstance extends BuiltinFunction {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
         if (!super.equals(o))
             return false;
         FunctionInstance that = (FunctionInstance) o;
-        return Objects.equals(arguments, that.arguments) && Objects.equals(body, that.body) && Objects.equals(name, that.name);
+        return Objects.equals(this.arguments, that.arguments) && Objects.equals(this.body, that.body) && Objects.equals(this.name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(arguments, body, name);
+        return Objects.hash(this.arguments, this.body, this.name);
     }
 }

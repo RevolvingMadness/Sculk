@@ -18,12 +18,12 @@ public class Vec3dInstance extends BuiltinClass {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
         if (!super.equals(o))
             return false;
         Vec3dInstance that = (Vec3dInstance) o;
-        return Objects.equals(value, that.value);
+        return Objects.equals(this.value, that.value);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class Vec3dInstance extends BuiltinClass {
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return Objects.hash(this.value);
     }
 
     @Override

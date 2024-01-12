@@ -21,14 +21,14 @@ public class VariableDeclarationStatementNode extends StatementNode {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
         VariableDeclarationStatementNode that = (VariableDeclarationStatementNode) o;
-        return Objects.equals(accessModifiers, that.accessModifiers) && Objects.equals(name, that.name) && Objects.equals(value, that.value);
+        return Objects.equals(this.accessModifiers, that.accessModifiers) && Objects.equals(this.name, that.name) && Objects.equals(this.value, that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accessModifiers, name, value);
+        return Objects.hash(this.accessModifiers, this.name, this.value);
     }
 }

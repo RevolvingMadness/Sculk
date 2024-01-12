@@ -22,15 +22,15 @@ public class Variable implements Serializable {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
         Variable variable = (Variable) o;
-        return Objects.equals(accessModifiers, variable.accessModifiers) && Objects.equals(name, variable.name) && Objects.equals(value, variable.value);
+        return Objects.equals(this.accessModifiers, variable.accessModifiers) && Objects.equals(this.name, variable.name) && Objects.equals(this.value, variable.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accessModifiers, name, value);
+        return Objects.hash(this.accessModifiers, this.name, this.value);
     }
 
     public boolean isAbstract() {

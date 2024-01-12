@@ -21,12 +21,12 @@ public class ServerPlayerEntityInstance extends BuiltinClass {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
         if (!super.equals(o))
             return false;
         ServerPlayerEntityInstance that = (ServerPlayerEntityInstance) o;
-        return Objects.equals(value, that.value);
+        return Objects.equals(this.value, that.value);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ServerPlayerEntityInstance extends BuiltinClass {
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return Objects.hash(this.value);
     }
 
     @Override

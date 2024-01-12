@@ -19,12 +19,12 @@ public class UserDefinedInstance extends BuiltinClass {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null || this.getClass() != o.getClass())
             return false;
         if (!super.equals(o))
             return false;
         UserDefinedInstance that = (UserDefinedInstance) o;
-        return Objects.equals(classType, that.classType);
+        return Objects.equals(this.classType, that.classType);
     }
 
     @Override
@@ -34,6 +34,6 @@ public class UserDefinedInstance extends BuiltinClass {
 
     @Override
     public int hashCode() {
-        return Objects.hash(classType);
+        return Objects.hash(this.classType);
     }
 }
