@@ -19,6 +19,8 @@ public class EventHolder {
     public static final List<Event> onPlaceBlock = new ArrayList<>();
     public static final List<Event> onPlayerAttackEntity = new ArrayList<>();
     public static final List<Event> onPlayerBlockBreak = new ArrayList<>();
+    public static final List<Event> onPlayerCraftItem = new ArrayList<>();
+    public static final List<Event> onPlayerDropItem = new ArrayList<>();
     public static final List<Event> onPlayerJump = new ArrayList<>();
     public static final List<Event> onPlayerPickupItem = new ArrayList<>();
     public static final List<Event> onPlayerSleep = new ArrayList<>();
@@ -31,6 +33,8 @@ public class EventHolder {
         EventHolder.onPlaceBlock.clear();
         EventHolder.onPlayerAttackEntity.clear();
         EventHolder.onPlayerBlockBreak.clear();
+        EventHolder.onPlayerCraftItem.clear();
+        EventHolder.onPlayerDropItem.clear();
         EventHolder.onPlayerJump.clear();
         EventHolder.onPlayerPickupItem.clear();
         EventHolder.onPlayerSleep.clear();
@@ -70,6 +74,34 @@ public class EventHolder {
                 try {
                     for (Event event : EventHolder.onPlayerBlockBreak) {
                         event.execute(List.of(new PlayerEntityInstance(player), new BlockInstance(block)));
+                    }
+                } catch (Error error) {
+                    Logger.error(error.message);
+                }
+            }
+
+            return ActionResult.PASS;
+        });
+
+        CraftItemCallback.EVENT.register((player, itemStack) -> {
+            if (!player.getWorld().isClient) {
+                try {
+                    for (Event event : EventHolder.onPlayerCraftItem) {
+                        event.execute(List.of(new PlayerEntityInstance(player), new ItemStackInstance(itemStack)));
+                    }
+                } catch (Error error) {
+                    Logger.error(error.message);
+                }
+            }
+
+            return ActionResult.PASS;
+        });
+
+        ItemDropCallback.EVENT.register((player, itemStack) -> {
+            if (!player.getWorld().isClient) {
+                try {
+                    for (Event event : EventHolder.onPlayerDropItem) {
+                        event.execute(List.of(new PlayerEntityInstance(player), new ItemStackInstance(itemStack)));
                     }
                 } catch (Error error) {
                     Logger.error(error.message);

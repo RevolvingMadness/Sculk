@@ -21,6 +21,8 @@ public class EventsType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlaceBlock", new OnPlaceBlock());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerAttackEntity", new OnPlayerAttackEntity());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerBreakBlock", new OnPlayerBreakBlock());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerCraftItem", new OnPlayerCraftItem());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerDropItem", new OnPlayerDropItem());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerJump", new OnPlayerJump());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerPickupItem", new OnPlayerPickupItem());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "onPlayerSleep", new OnPlayerSleep());
@@ -106,6 +108,48 @@ public class EventsType extends BuiltinType {
             BuiltinFunction function = onPlayerBreakBlockFunction.toFunction();
 
             EventHolder.onPlayerBlockBreak.add(new Event(function));
+
+            return new NullInstance();
+        }
+    }
+
+    private static class OnPlayerCraftItem extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("onPlayerCraftItem", 1, arguments.size());
+            }
+
+            BuiltinClass onPlayerCraftItemFunction = arguments.get(0);
+
+            if (!onPlayerCraftItemFunction.instanceOf(new FunctionType())) {
+                throw ErrorHolder.argumentRequiresType(1, "onPlayerCraftItem", new FunctionType(), onPlayerCraftItemFunction.getType());
+            }
+
+            BuiltinFunction function = onPlayerCraftItemFunction.toFunction();
+
+            EventHolder.onPlayerCraftItem.add(new Event(function));
+
+            return new NullInstance();
+        }
+    }
+
+    private static class OnPlayerDropItem extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("onPlayerDropItem", 1, arguments.size());
+            }
+
+            BuiltinClass onPlayerDropItemFunction = arguments.get(0);
+
+            if (!onPlayerDropItemFunction.instanceOf(new FunctionType())) {
+                throw ErrorHolder.argumentRequiresType(1, "onPlayerDropItem", new FunctionType(), onPlayerDropItemFunction.getType());
+            }
+
+            BuiltinFunction function = onPlayerDropItemFunction.toFunction();
+
+            EventHolder.onPlayerDropItem.add(new Event(function));
 
             return new NullInstance();
         }
