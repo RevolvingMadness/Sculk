@@ -3,15 +3,15 @@
    "id": "testing",
    "version": "${version}",
    "name": "testing",
-   "description": "This is an example description! Tell everyone what your mod is about!",
+   "description": "The Testing programming language",
    "authors": [
-      "Me!"
+      "RevolvingMadness"
    ],
    "contact": {
-      "homepage": "https://fabricmc.net/",
-      "sources": "https://github.com/FabricMC/fabric-example-mod"
+      "homepage": "",
+      "sources": "https://github.com/RevolvingMadness/Testing"
    },
-   "license": "CC0-1.0",
+   "license": "MIT",
    "icon": "assets/testing/icon.png",
    "environment": "*",
    "entrypoints": {
