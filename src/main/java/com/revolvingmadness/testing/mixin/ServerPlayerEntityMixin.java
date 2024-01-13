@@ -1,6 +1,6 @@
 package com.revolvingmadness.testing.mixin;
 
-import com.revolvingmadness.testing.events.ItemDropCallback;
+import com.revolvingmadness.testing.events.DropItemCallback;
 import com.revolvingmadness.testing.events.PlayerSneakCallback;
 import com.revolvingmadness.testing.events.SendChatMessageCallback;
 import net.minecraft.entity.ItemEntity;
@@ -20,7 +20,7 @@ public class ServerPlayerEntityMixin {
     @Inject(at = @At("HEAD"), method = "dropItem")
     public void injectDropItem(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
         if (!((ServerPlayerEntity) (Object) this).getWorld().isClient) {
-            ItemDropCallback.EVENT.invoker().interact((ServerPlayerEntity) (Object) this, stack);
+            DropItemCallback.EVENT.invoker().interact((ServerPlayerEntity) (Object) this, stack);
         }
     }
 

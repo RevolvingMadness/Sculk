@@ -1,6 +1,6 @@
 package com.revolvingmadness.testing.mixin;
 
-import com.revolvingmadness.testing.events.RingBellCallback;
+import com.revolvingmadness.testing.events.PlayerRingBellCallback;
 import net.minecraft.block.BellBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,7 +20,7 @@ public class BellBlockMixin {
         Direction direction = hitResult.getSide();
         BlockPos blockPos = hitResult.getBlockPos();
         if (!world.isClient && ((BellBlock) (Object) this).isPointOnBell(state, direction, hitResult.getPos().y - (double) blockPos.getY())) {
-            RingBellCallback.EVENT.invoker().interact(player);
+            PlayerRingBellCallback.EVENT.invoker().interact(player);
         }
     }
 }

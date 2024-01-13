@@ -18,7 +18,7 @@ import java.util.List;
 public class EventHolder {
     public static final List<Event> onPlaceBlock = new ArrayList<>();
     public static final List<Event> onPlayerAttackEntity = new ArrayList<>();
-    public static final List<Event> onPlayerBlockBreak = new ArrayList<>();
+    public static final List<Event> onPlayerBreakBlock = new ArrayList<>();
     public static final List<Event> onPlayerCraftItem = new ArrayList<>();
     public static final List<Event> onPlayerDropItem = new ArrayList<>();
     public static final List<Event> onPlayerJump = new ArrayList<>();
@@ -32,7 +32,7 @@ public class EventHolder {
     public static void clearEvents() {
         EventHolder.onPlaceBlock.clear();
         EventHolder.onPlayerAttackEntity.clear();
-        EventHolder.onPlayerBlockBreak.clear();
+        EventHolder.onPlayerBreakBlock.clear();
         EventHolder.onPlayerCraftItem.clear();
         EventHolder.onPlayerDropItem.clear();
         EventHolder.onPlayerJump.clear();
@@ -72,7 +72,7 @@ public class EventHolder {
         BreakBlockCallback.EVENT.register((player, block) -> {
             if (!player.getWorld().isClient) {
                 try {
-                    for (Event event : EventHolder.onPlayerBlockBreak) {
+                    for (Event event : EventHolder.onPlayerBreakBlock) {
                         event.execute(List.of(new PlayerEntityInstance(player), new BlockInstance(block)));
                     }
                 } catch (Error error) {
@@ -97,7 +97,7 @@ public class EventHolder {
             return ActionResult.PASS;
         });
 
-        ItemDropCallback.EVENT.register((player, itemStack) -> {
+        DropItemCallback.EVENT.register((player, itemStack) -> {
             if (!player.getWorld().isClient) {
                 try {
                     for (Event event : EventHolder.onPlayerDropItem) {
@@ -123,7 +123,7 @@ public class EventHolder {
             return ActionResult.PASS;
         });
 
-        ItemPickupCallback.EVENT.register((player, itemStack) -> {
+        PickupItemCallback.EVENT.register((player, itemStack) -> {
             try {
                 for (Event event : EventHolder.onPlayerPickupItem) {
                     BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new ItemStackInstance(itemStack)));
@@ -169,7 +169,7 @@ public class EventHolder {
             }
         });
 
-        RingBellCallback.EVENT.register((player) -> {
+        PlayerRingBellCallback.EVENT.register((player) -> {
             try {
                 for (Event event : EventHolder.onRingBell) {
                     event.execute(List.of(new PlayerEntityInstance(player)));

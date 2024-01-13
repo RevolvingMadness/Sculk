@@ -1,6 +1,6 @@
 package com.revolvingmadness.testing.mixin;
 
-import com.revolvingmadness.testing.events.ItemPickupCallback;
+import com.revolvingmadness.testing.events.PickupItemCallback;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
@@ -14,7 +14,7 @@ public class ItemEntityMixin {
     @Inject(at = @At("HEAD"), method = "onPlayerCollision", cancellable = true)
     public void injectOnPlayerCollision(PlayerEntity player, CallbackInfo ci) {
         if (!((ItemEntity) (Object) this).getWorld().isClient) {
-            ActionResult result = ItemPickupCallback.EVENT.invoker().interact(player, ((ItemEntity) (Object) this).getStack());
+            ActionResult result = PickupItemCallback.EVENT.invoker().interact(player, ((ItemEntity) (Object) this).getStack());
 
             if (result == ActionResult.FAIL) {
                 ci.cancel();
