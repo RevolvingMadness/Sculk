@@ -42,10 +42,6 @@ public class VariableTable {
     }
 
     private void declareClasses() {
-        this.declare(List.of(TokenType.CONST), "server", new MinecraftServerInstance(Testing.server));
-        this.declare(List.of(TokenType.CONST), "playerManager", new PlayerManagerInstance(Testing.server.getPlayerManager()));
-        this.declare(List.of(TokenType.CONST), "gameRules", new GameRulesInstance(Testing.server.getGameRules()));
-        this.declare(List.of(TokenType.CONST), "events", new EventsInstance());
     }
 
     private void declareFunctions() {
@@ -55,6 +51,10 @@ public class VariableTable {
 
     private void declareVariables() {
         this.declare(List.of(TokenType.CONST), "PI", new FloatInstance(Math.PI));
+        this.declare(List.of(TokenType.CONST), "server", new MinecraftServerInstance(Testing.server));
+        this.declare(List.of(TokenType.CONST), "playerManager", new PlayerManagerInstance(Testing.server.getPlayerManager()));
+        this.declare(List.of(TokenType.CONST), "gameRules", new GameRulesInstance(Testing.server.getGameRules()));
+        this.declare(List.of(TokenType.CONST), "events", new EventsInstance());
     }
 
     public void deleteOrThrow(String name) {

@@ -34,7 +34,7 @@ public class EventsType extends BuiltinType {
     }
 
     public void registerEvent(String name, List<Event> events) {
-        events.add(new Event(new BuiltinFunction() {
+        BuiltinFunction eventFunction = new BuiltinFunction() {
             @Override
             public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
                 if (arguments.size() != 1) {
@@ -58,7 +58,8 @@ public class EventsType extends BuiltinType {
             public BuiltinType getType() {
                 return super.getType();
             }
-        }));
+        };
+        this.typeVariableScope.declare(List.of(TokenType.CONST), name, eventFunction);
     }
 
     private static class EqualTo extends BuiltinMethod {
