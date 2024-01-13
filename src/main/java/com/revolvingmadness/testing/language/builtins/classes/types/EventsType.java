@@ -27,9 +27,9 @@ public class EventsType extends BuiltinType {
         this.registerEvent("onPlayerPickupItem", EventHolder.onPlayerPickupItem);
         this.registerEvent("onPlayerSleep", EventHolder.onPlayerSleep);
         this.registerEvent("onPlayerUseItem", EventHolder.onPlayerUseItem);
-        this.registerEvent("whilePlayerSneak", EventHolder.whilePlayerSneak);
         this.registerEvent("onRingBell", EventHolder.onRingBell);
         this.registerEvent("onSendChatMessage", EventHolder.onSendChatMessage);
+        this.registerEvent("whilePlayerSneak", EventHolder.whilePlayerSneak);
         this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
