@@ -22,9 +22,9 @@ public class ListInstance extends BuiltinClass {
             throw ErrorHolder.cannotIndexListByType(index.getType());
         }
 
-        int integerIndex = index.toInteger();
+        long integerIndex = index.toInteger();
 
-        this.value.remove(integerIndex);
+        this.value.remove((int) integerIndex);
     }
 
     @Override
@@ -45,7 +45,12 @@ public class ListInstance extends BuiltinClass {
             throw ErrorHolder.cannotIndexListByType(index.getType());
         }
 
-        return this.value.get(index.toInteger());
+        int indexInteger = (int) index.toInteger();
+
+        if (indexInteger < 0 || indexInteger >= this.value.size())
+            throw ErrorHolder.indexOutOfBounds(indexInteger, this.value.size());
+
+        return this.value.get(indexInteger);
     }
 
     @Override
@@ -64,7 +69,7 @@ public class ListInstance extends BuiltinClass {
             throw ErrorHolder.cannotIndexListByType(index.getType());
         }
 
-        this.value.set(index.toInteger(), value);
+        this.value.set((int) index.toInteger(), value);
     }
 
     @Override

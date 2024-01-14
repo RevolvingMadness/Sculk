@@ -7,10 +7,15 @@ import com.revolvingmadness.testing.language.builtins.classes.types.IntegerType;
 import java.util.Objects;
 
 public class IntegerInstance extends BuiltinClass {
-    public final Integer value;
+    public final long value;
 
-    public IntegerInstance(Integer value) {
+    public IntegerInstance(long value) {
         this.value = value;
+    }
+
+    @Override
+    public double toFloat() {
+        return this.value;
     }
 
     @Override
@@ -36,22 +41,17 @@ public class IntegerInstance extends BuiltinClass {
     }
 
     @Override
-    public Boolean toBoolean() {
+    public boolean toBoolean() {
         return this.value != 0;
     }
 
     @Override
-    public Double toFloat() {
-        return this.value.doubleValue();
-    }
-
-    @Override
-    public Integer toInteger() {
+    public long toInteger() {
         return this.value;
     }
 
     @Override
     public String toStringType() {
-        return this.value.toString();
+        return String.valueOf(this.value);
     }
 }

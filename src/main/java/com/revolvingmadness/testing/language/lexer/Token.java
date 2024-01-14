@@ -1,8 +1,8 @@
 package com.revolvingmadness.testing.language.lexer;
 
 public class Token {
-    public final Integer columnNumber;
-    public final Integer lineNumber;
+    public final int columnNumber;
+    public final int lineNumber;
     public final TokenType type;
     public final Object value;
 

@@ -747,7 +747,7 @@ public class GameRulesType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setCommandModificationBlockLimit", new IntegerType(), commandModificationBlockLimit.getType());
             }
 
-            this.boundClass.toGameRules().get(GameRules.COMMAND_MODIFICATION_BLOCK_LIMIT).set(commandModificationBlockLimit.toInteger(), Testing.server);
+            this.boundClass.toGameRules().get(GameRules.COMMAND_MODIFICATION_BLOCK_LIMIT).set((int) commandModificationBlockLimit.toInteger(), Testing.server);
 
             return new NullInstance();
         }
@@ -1279,7 +1279,7 @@ public class GameRulesType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setMaxArgumentCount", new IntegerType(), maxArgumentCount.getType());
             }
 
-            this.boundClass.toGameRules().get(TestingGamerules.MAX_ARGUMENTS).set(maxArgumentCount.toInteger(), Testing.server);
+            this.boundClass.toGameRules().get(TestingGamerules.MAX_ARGUMENTS).set((int) maxArgumentCount.toInteger(), Testing.server);
 
             return new NullInstance();
         }
@@ -1298,7 +1298,7 @@ public class GameRulesType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setMaxCommandChainLength", new IntegerType(), maxCommandChainLength.getType());
             }
 
-            this.boundClass.toGameRules().get(GameRules.MAX_COMMAND_CHAIN_LENGTH).set(maxCommandChainLength.toInteger(), Testing.server);
+            this.boundClass.toGameRules().get(GameRules.MAX_COMMAND_CHAIN_LENGTH).set((int) maxCommandChainLength.toInteger(), Testing.server);
 
             return new NullInstance();
         }
@@ -1317,7 +1317,7 @@ public class GameRulesType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setMaxEntityCramming", new IntegerType(), maxEntityCramming.getType());
             }
 
-            this.boundClass.toGameRules().get(GameRules.MAX_ENTITY_CRAMMING).set(maxEntityCramming.toInteger(), Testing.server);
+            this.boundClass.toGameRules().get(GameRules.MAX_ENTITY_CRAMMING).set((int) maxEntityCramming.toInteger(), Testing.server);
 
             return new NullInstance();
         }
@@ -1336,7 +1336,7 @@ public class GameRulesType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setMaxLoops", new IntegerType(), maxLoops.getType());
             }
 
-            this.boundClass.toGameRules().get(TestingGamerules.MAX_LOOPS).set(maxLoops.toInteger(), Testing.server);
+            this.boundClass.toGameRules().get(TestingGamerules.MAX_LOOPS).set((int) maxLoops.toInteger(), Testing.server);
 
             return new NullInstance();
         }
@@ -1393,7 +1393,7 @@ public class GameRulesType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setPlayersSleepingPercentage", new IntegerType(), playerSleepingPercentage.getType());
             }
 
-            this.boundClass.toGameRules().get(GameRules.PLAYERS_SLEEPING_PERCENTAGE).set(playerSleepingPercentage.toInteger(), Testing.server);
+            this.boundClass.toGameRules().get(GameRules.PLAYERS_SLEEPING_PERCENTAGE).set((int) playerSleepingPercentage.toInteger(), Testing.server);
 
             return new NullInstance();
         }
@@ -1412,7 +1412,7 @@ public class GameRulesType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setRandomTickSpeed", new IntegerType(), randomTickSpeed.getType());
             }
 
-            this.boundClass.toGameRules().get(GameRules.RANDOM_TICK_SPEED).set(randomTickSpeed.toInteger(), Testing.server);
+            this.boundClass.toGameRules().get(GameRules.RANDOM_TICK_SPEED).set((int) randomTickSpeed.toInteger(), Testing.server);
 
             return new NullInstance();
         }
@@ -1507,7 +1507,7 @@ public class GameRulesType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setSnowAccumulationHeight", new IntegerType(), snowAccumulationHeight.getType());
             }
 
-            this.boundClass.toGameRules().get(GameRules.SNOW_ACCUMULATION_HEIGHT).set(snowAccumulationHeight.toInteger(), Testing.server);
+            this.boundClass.toGameRules().get(GameRules.SNOW_ACCUMULATION_HEIGHT).set((int) snowAccumulationHeight.toInteger(), Testing.server);
 
             return new NullInstance();
         }
@@ -1526,7 +1526,7 @@ public class GameRulesType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setSpawnRadius", new IntegerType(), spawnRadius.getType());
             }
 
-            this.boundClass.toGameRules().get(GameRules.SPAWN_RADIUS).set(spawnRadius.toInteger(), Testing.server);
+            this.boundClass.toGameRules().get(GameRules.SPAWN_RADIUS).set((int) spawnRadius.toInteger(), Testing.server);
 
             return new NullInstance();
         }

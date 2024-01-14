@@ -1,7 +1,9 @@
 package com.revolvingmadness.testing.language.builtins.classes;
 
 import com.revolvingmadness.testing.language.builtins.classes.types.MethodType;
+import com.revolvingmadness.testing.language.interpreter.Interpreter;
 
+import java.util.List;
 import java.util.Objects;
 
 public abstract class BuiltinMethod extends BuiltinClass {
@@ -34,4 +36,6 @@ public abstract class BuiltinMethod extends BuiltinClass {
     public int hashCode() {
         return Objects.hash(this.boundClass, this.boundSuperClass);
     }
+
+    public abstract BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments);
 }

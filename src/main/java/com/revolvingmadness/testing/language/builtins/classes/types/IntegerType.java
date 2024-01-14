@@ -28,6 +28,8 @@ public class IntegerType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "greaterThan", new GreaterThan());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "greaterThanOrEqualTo", new GreaterThanOrEqualTo());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "toString", new ToString());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "increment", new Increment());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "decrement", new Decrement());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
@@ -79,7 +81,7 @@ public class IntegerType extends BuiltinType {
             BuiltinClass other = arguments.get(0);
 
             if (other.instanceOf(new IntegerType())) {
-                return new BooleanInstance(other.toInteger().equals(this.boundClass.toInteger()));
+                return new BooleanInstance(other.toInteger() == this.boundClass.toInteger());
             }
 
             return new BooleanInstance(false);
@@ -249,6 +251,28 @@ public class IntegerType extends BuiltinType {
         }
     }
 
+    private static class Increment extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("increment", 0, arguments.size());
+            }
+
+            return new IntegerInstance(this.boundClass.toInteger() + 1);
+        }
+    }
+
+    private static class Decrement extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("decrement", 0, arguments.size());
+            }
+
+            return new IntegerInstance(this.boundClass.toInteger() - 1);
+        }
+    }
+
     private static class ToString extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -256,7 +280,7 @@ public class IntegerType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("toString", 0, arguments.size());
             }
 
-            return new StringInstance(this.boundClass.toInteger().toString());
+            return new StringInstance(String.valueOf(this.boundClass.toInteger()));
         }
     }
 }

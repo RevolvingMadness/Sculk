@@ -123,7 +123,7 @@ public class ServerPlayerEntityType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setExperienceLevels", new IntegerType(), experienceLevel.getType());
             }
 
-            this.boundClass.toServerPlayerEntity().setExperienceLevel(experienceLevel.toInteger());
+            this.boundClass.toServerPlayerEntity().setExperienceLevel((int) experienceLevel.toInteger());
 
             return new NullInstance();
         }
@@ -142,7 +142,7 @@ public class ServerPlayerEntityType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setExperiencePoints", new IntegerType(), experiencePoints.getType());
             }
 
-            this.boundClass.toServerPlayerEntity().setExperiencePoints(experiencePoints.toInteger());
+            this.boundClass.toServerPlayerEntity().setExperiencePoints((int) experiencePoints.toInteger());
 
             return new NullInstance();
         }

@@ -30,7 +30,7 @@ public class BooleanType extends BuiltinType {
             BuiltinClass other = arguments.get(0);
 
             if (other.instanceOf(new BooleanType())) {
-                return new BooleanInstance(other.toBoolean().equals(this.boundClass.toBoolean()));
+                return new BooleanInstance(other.toBoolean() == this.boundClass.toBoolean());
             }
 
             return new BooleanInstance(false);
@@ -55,7 +55,7 @@ public class BooleanType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("toString", 0, arguments.size());
             }
 
-            return new StringInstance(this.boundClass.toBoolean().toString());
+            return new StringInstance(String.valueOf(this.boundClass.toBoolean()));
         }
     }
 }

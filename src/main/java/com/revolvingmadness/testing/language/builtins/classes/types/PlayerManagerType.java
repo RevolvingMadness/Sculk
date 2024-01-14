@@ -170,7 +170,7 @@ public class PlayerManagerType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setSimulationDistance", new IntegerType(), simulationDistance.getType());
             }
 
-            this.boundClass.toPlayerManager().setSimulationDistance(simulationDistance.toInteger());
+            this.boundClass.toPlayerManager().setSimulationDistance((int) simulationDistance.toInteger());
 
             return new NullInstance();
         }
@@ -189,7 +189,7 @@ public class PlayerManagerType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setViewDistance", new IntegerType(), viewDistance.getType());
             }
 
-            this.boundClass.toPlayerManager().setViewDistance(viewDistance.toInteger());
+            this.boundClass.toPlayerManager().setViewDistance((int) viewDistance.toInteger());
 
             return new NullInstance();
         }

@@ -4,11 +4,13 @@ import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.language.ErrorHolder;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.instances.*;
+import com.revolvingmadness.testing.language.builtins.classes.types.BlockPosType;
 import com.revolvingmadness.testing.language.builtins.classes.types.BlocksType;
 import com.revolvingmadness.testing.language.builtins.classes.types.ItemsType;
 import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunction;
 import com.revolvingmadness.testing.language.builtins.functions.types.TypeFunction;
 import com.revolvingmadness.testing.language.lexer.TokenType;
+import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.ListIterator;
@@ -46,6 +48,7 @@ public class VariableTable {
     private void declareClasses() {
         this.declare(List.of(TokenType.CONST), "Blocks", new BlocksType());
         this.declare(List.of(TokenType.CONST), "Items", new ItemsType());
+        this.declare(List.of(TokenType.CONST), "BlockPos", new BlockPosType());
     }
 
     private void declareFunctions() {
@@ -59,6 +62,7 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "playerManager", new PlayerManagerInstance(Testing.server.getPlayerManager()));
         this.declare(List.of(TokenType.CONST), "gameRules", new GameRulesInstance(Testing.server.getGameRules()));
         this.declare(List.of(TokenType.CONST), "events", new EventsInstance());
+        this.declare(List.of(TokenType.CONST), "overworld", new WorldInstance(Testing.server.getWorld(World.OVERWORLD)));
     }
 
     public void deleteOrThrow(String name) {

@@ -7,16 +7,17 @@ import com.revolvingmadness.testing.language.builtins.classes.types.FloatType;
 import java.util.Objects;
 
 public class FloatInstance extends BuiltinClass {
-    public final Double value;
+    public final double value;
 
-    public FloatInstance(Double value) {
+    public FloatInstance(double value) {
         this.value = value;
     }
 
-    public FloatInstance(Float value) {
-        this(value.doubleValue());
-    }
 
+    @Override
+    public double toFloat() {
+        return this.value;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -41,22 +42,17 @@ public class FloatInstance extends BuiltinClass {
     }
 
     @Override
-    public Boolean toBoolean() {
+    public boolean toBoolean() {
         return this.value != 0.0;
     }
 
     @Override
-    public Double toFloat() {
-        return this.value;
-    }
-
-    @Override
-    public Integer toInteger() {
-        return this.value.intValue();
+    public long toInteger() {
+        return (long) this.value;
     }
 
     @Override
     public String toStringType() {
-        return this.value.toString();
+        return String.valueOf(this.value);
     }
 }

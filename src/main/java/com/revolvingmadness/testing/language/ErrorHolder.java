@@ -2,10 +2,7 @@ package com.revolvingmadness.testing.language;
 
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.testing.language.builtins.classes.types.BooleanType;
-import com.revolvingmadness.testing.language.errors.MethodNotImplementedError;
-import com.revolvingmadness.testing.language.errors.NameError;
-import com.revolvingmadness.testing.language.errors.SyntaxError;
-import com.revolvingmadness.testing.language.errors.TypeError;
+import com.revolvingmadness.testing.language.errors.*;
 import com.revolvingmadness.testing.language.interpreter.errors.InterpreterError;
 import com.revolvingmadness.testing.language.lexer.TokenType;
 import com.revolvingmadness.testing.language.parser.nodes.expression_nodes.ExpressionNode;
@@ -160,5 +157,9 @@ public class ErrorHolder {
 
     public static NameError variableHasNotBeenDeclared(String name) {
         return new NameError(I18n.translate("error.variable_has_not_been_declared", name));
+    }
+
+    public static IndexOutOfBoundsError indexOutOfBounds(int index, int length) {
+        return new IndexOutOfBoundsError(I18n.translate("error.index_out_of_bounds", index, length));
     }
 }

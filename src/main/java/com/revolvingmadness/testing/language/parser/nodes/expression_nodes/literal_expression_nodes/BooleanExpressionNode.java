@@ -3,9 +3,9 @@ package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.lite
 import java.util.Objects;
 
 public class BooleanExpressionNode extends LiteralExpressionNode {
-    public final Boolean value;
+    public final boolean value;
 
-    public BooleanExpressionNode(Boolean value) {
+    public BooleanExpressionNode(boolean value) {
         this.value = value;
     }
 

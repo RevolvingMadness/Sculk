@@ -3,9 +3,9 @@ package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.lite
 import java.util.Objects;
 
 public class IntegerExpressionNode extends LiteralExpressionNode {
-    public final Integer value;
+    public final long value;
 
-    public IntegerExpressionNode(Integer value) {
+    public IntegerExpressionNode(long value) {
         this.value = value;
     }
 

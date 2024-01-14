@@ -3,9 +3,9 @@ package com.revolvingmadness.testing.language.parser.nodes.expression_nodes.lite
 import java.util.Objects;
 
 public class FloatExpressionNode extends LiteralExpressionNode {
-    public final Double value;
+    public final double value;
 
-    public FloatExpressionNode(Double value) {
+    public FloatExpressionNode(double value) {
         this.value = value;
     }
 

@@ -27,7 +27,31 @@ public class FloatType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "greaterThan", new GreaterThan());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "greaterThanOrEqualTo", new GreaterThanOrEqualTo());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "toString", new ToString());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "increment", new Increment());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "decrement", new Decrement());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
+    }
+
+    private static class Increment extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("increment", 0, arguments.size());
+            }
+
+            return new FloatInstance(this.boundClass.toFloat() + 1);
+        }
+    }
+
+    private static class Decrement extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("decrement", 0, arguments.size());
+            }
+
+            return new FloatInstance(this.boundClass.toFloat() - 1);
+        }
     }
 
     private static class Add extends BuiltinMethod {
@@ -79,7 +103,7 @@ public class FloatType extends BuiltinType {
             BuiltinClass other = arguments.get(0);
 
             if (other.instanceOf(new FloatType())) {
-                return new BooleanInstance(other.toFloat().equals(this.boundClass.toFloat()));
+                return new BooleanInstance(other.toFloat() == this.boundClass.toFloat());
             }
 
             return new BooleanInstance(false);
@@ -252,7 +276,6 @@ public class FloatType extends BuiltinType {
         }
     }
 
-
     private static class ToString extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -260,7 +283,7 @@ public class FloatType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("toString", 0, arguments.size());
             }
 
-            return new StringInstance(this.boundClass.toFloat().toString());
+            return new StringInstance(String.valueOf(this.boundClass.toFloat()));
         }
     }
 }

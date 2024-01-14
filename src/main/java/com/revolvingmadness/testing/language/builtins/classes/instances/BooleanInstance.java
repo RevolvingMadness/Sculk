@@ -7,10 +7,15 @@ import com.revolvingmadness.testing.language.builtins.classes.types.BooleanType;
 import java.util.Objects;
 
 public class BooleanInstance extends BuiltinClass {
-    public final Boolean value;
+    public final boolean value;
 
-    public BooleanInstance(Boolean value) {
+    public BooleanInstance(boolean value) {
         this.value = value;
+    }
+
+    @Override
+    public double toFloat() {
+        return this.value ? 1.0 : 0.0;
     }
 
     @Override
@@ -36,22 +41,17 @@ public class BooleanInstance extends BuiltinClass {
     }
 
     @Override
-    public Boolean toBoolean() {
+    public boolean toBoolean() {
         return this.value;
     }
 
     @Override
-    public Double toFloat() {
-        return this.value ? 1.0 : 0.0;
-    }
-
-    @Override
-    public Integer toInteger() {
-        return this.value ? 1 : 0;
+    public long toInteger() {
+        return this.value ? 1L : 0L;
     }
 
     @Override
     public String toStringType() {
-        return this.value.toString();
+        return String.valueOf(this.value);
     }
 }

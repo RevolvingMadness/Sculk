@@ -27,13 +27,13 @@ import java.util.List;
 import java.util.Map;
 
 public class Interpreter implements Visitor {
-    public final Integer maxArguments;
-    public final Integer maxLoops;
+    public final long maxArguments;
+    public final long maxLoops;
     public final VariableTable variableTable;
 
     public Interpreter() {
-        this.maxArguments = Testing.server.getGameRules().getInt(TestingGamerules.MAX_LOOPS);
-        this.maxLoops = Testing.server.getGameRules().getInt(TestingGamerules.MAX_ARGUMENTS);
+        this.maxArguments = Testing.server.getGameRules().getInt(TestingGamerules.MAX_ARGUMENTS);
+        this.maxLoops = Testing.server.getGameRules().getInt(TestingGamerules.MAX_LOOPS);
         this.variableTable = new VariableTable();
     }
 
@@ -463,7 +463,7 @@ public class Interpreter implements Visitor {
                 throw ErrorHolder.invalidWhileLoopConditionType(new BooleanType(), condition.getType());
             }
 
-            if (condition.toBoolean()) {
+            if (!condition.toBoolean()) {
                 break;
             }
 

@@ -51,9 +51,9 @@ public class ItemStackType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "decrement", new IntegerType(), amountClass.getType());
             }
 
-            Integer amount = amountClass.toInteger();
+            long amount = amountClass.toInteger();
 
-            this.boundClass.toItemStack().decrement(amount);
+            this.boundClass.toItemStack().decrement((int) amount);
 
             return new NullInstance();
         }
@@ -188,9 +188,9 @@ public class ItemStackType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "increment", new IntegerType(), amountClass.getType());
             }
 
-            Integer amount = amountClass.toInteger();
+            long amount = amountClass.toInteger();
 
-            this.boundClass.toItemStack().increment(amount);
+            this.boundClass.toItemStack().increment((int) amount);
 
             return new NullInstance();
         }
@@ -294,9 +294,9 @@ public class ItemStackType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setCount", new IntegerType(), countClass.getType());
             }
 
-            Integer count = countClass.toInteger();
+            long count = countClass.toInteger();
 
-            this.boundClass.toItemStack().setCount(count);
+            this.boundClass.toItemStack().setCount((int) count);
 
             return new NullInstance();
         }
@@ -315,9 +315,9 @@ public class ItemStackType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setDamage", new IntegerType(), damageClass.getType());
             }
 
-            Integer damage = damageClass.toInteger();
+            long damage = damageClass.toInteger();
 
-            this.boundClass.toItemStack().setDamage(damage);
+            this.boundClass.toItemStack().setDamage((int) damage);
 
             return new NullInstance();
         }
@@ -336,9 +336,9 @@ public class ItemStackType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setRepairCost", new IntegerType(), repairCostClass.getType());
             }
 
-            Integer repairCost = repairCostClass.toInteger();
+            long repairCost = repairCostClass.toInteger();
 
-            this.boundClass.toItemStack().setRepairCost(repairCost);
+            this.boundClass.toItemStack().setRepairCost((int) repairCost);
 
             return new NullInstance();
         }

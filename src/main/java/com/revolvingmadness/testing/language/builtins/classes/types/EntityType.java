@@ -126,7 +126,7 @@ public class EntityType extends BuiltinType {
 
             BlockPos blockPos = this.boundClass.toEntity().getBlockPos();
 
-            return new Vec3dInstance(blockPos.toCenterPos());
+            return new BlockPosInstance(blockPos);
         }
     }
 
@@ -137,7 +137,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("getBlockX", 0, arguments.size());
             }
 
-            int blockX = this.boundClass.toEntity().getBlockX();
+            long blockX = this.boundClass.toEntity().getBlockX();
 
             return new IntegerInstance(blockX);
         }
@@ -150,7 +150,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("getBlockY", 0, arguments.size());
             }
 
-            int blockY = this.boundClass.toEntity().getBlockY();
+            long blockY = this.boundClass.toEntity().getBlockY();
 
             return new IntegerInstance(blockY);
         }
@@ -163,7 +163,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("getBlockZ", 0, arguments.size());
             }
 
-            int blockZ = this.boundClass.toEntity().getBlockZ();
+            long blockZ = this.boundClass.toEntity().getBlockZ();
 
             return new IntegerInstance(blockZ);
         }
@@ -660,7 +660,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setPortalCooldown", new BooleanType(), portalCooldown.getType());
             }
 
-            this.boundClass.toEntity().setPortalCooldown(portalCooldown.toInteger());
+            this.boundClass.toEntity().setPortalCooldown((int) portalCooldown.toInteger());
 
             return new NullInstance();
         }

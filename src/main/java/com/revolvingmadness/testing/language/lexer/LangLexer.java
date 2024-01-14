@@ -10,9 +10,9 @@ import java.util.List;
 public class LangLexer {
     private final String input;
     private final List<Token> tokens;
-    private Integer currentColumnNumber;
-    private Integer currentLineNumber;
-    private Integer position;
+    private int currentColumnNumber;
+    private int currentLineNumber;
+    private int position;
 
     public LangLexer(String input) {
         this.input = input;

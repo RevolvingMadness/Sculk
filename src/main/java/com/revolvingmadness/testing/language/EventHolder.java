@@ -8,6 +8,7 @@ import com.revolvingmadness.testing.language.builtins.classes.types.BooleanType;
 import com.revolvingmadness.testing.language.errors.Error;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.TypedActionResult;
@@ -55,7 +56,7 @@ public class EventHolder {
                             throw ErrorHolder.functionRequiresReturnType("onPlayerAttackEntity", new BooleanType(), eventResultClass.getType());
                         }
 
-                        Boolean eventResult = eventResultClass.toBoolean();
+                        boolean eventResult = eventResultClass.toBoolean();
 
                         if (!eventResult) {
                             return ActionResult.FAIL;
@@ -69,18 +70,28 @@ public class EventHolder {
             return ActionResult.PASS;
         });
 
-        BreakBlockCallback.EVENT.register((player, block) -> {
+        PlayerBlockBreakEvents.BEFORE.register((world, player, pos, blockState, blockEntity) -> {
             if (!player.getWorld().isClient) {
                 try {
                     for (Event event : EventHolder.onPlayerBreakBlock) {
-                        event.execute(List.of(new PlayerEntityInstance(player), new BlockInstance(block)));
+                        BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new BlockInstance(world.getBlockState(pos).getBlock())));
+
+                        if (!eventResultClass.instanceOf(new BooleanType())) {
+                            throw ErrorHolder.functionRequiresReturnType("onPlayerBreakBlock", new BooleanType(), eventResultClass.getType());
+                        }
+
+                        boolean eventResult = eventResultClass.toBoolean();
+
+                        if (!eventResult) {
+                            return false;
+                        }
                     }
                 } catch (Error error) {
                     Logger.error(error.message);
                 }
             }
 
-            return ActionResult.PASS;
+            return true;
         });
 
         CraftItemCallback.EVENT.register((player, itemStack) -> {
@@ -132,7 +143,7 @@ public class EventHolder {
                         throw ErrorHolder.functionRequiresReturnType("onPlayerPickupItem", new BooleanType(), eventResultClass.getType());
                     }
 
-                    Boolean eventResult = eventResultClass.toBoolean();
+                    boolean eventResult = eventResultClass.toBoolean();
 
                     if (!eventResult) {
                         return ActionResult.FAIL;
@@ -190,7 +201,7 @@ public class EventHolder {
                         throw ErrorHolder.functionRequiresReturnType("onSendChatMessage", new BooleanType(), eventResultClass.getType());
                     }
 
-                    Boolean eventResult = eventResultClass.toBoolean();
+                    boolean eventResult = eventResultClass.toBoolean();
 
                     if (!eventResult) {
                         return ActionResult.FAIL;
@@ -213,7 +224,7 @@ public class EventHolder {
                             throw ErrorHolder.functionRequiresReturnType("onPlayerUseItem", new BooleanType(), eventResultClass.getType());
                         }
 
-                        Boolean eventResult = eventResultClass.toBoolean();
+                        boolean eventResult = eventResultClass.toBoolean();
 
                         if (!eventResult) {
                             return TypedActionResult.fail(player.getStackInHand(hand));

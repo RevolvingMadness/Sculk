@@ -45,7 +45,7 @@ public class BlockType extends BuiltinType {
             BuiltinClass other = arguments.get(0);
 
             if (other.instanceOf(new BlockType())) {
-                return new BooleanInstance(other.toBlock().equals(this.boundClass.toBlock()));
+                return new BooleanInstance(this.boundClass.toBlock().equals(other.toBlock()));
             }
 
             return new BooleanInstance(false);

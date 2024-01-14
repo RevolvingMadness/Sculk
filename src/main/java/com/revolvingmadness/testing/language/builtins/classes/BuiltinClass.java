@@ -1,7 +1,10 @@
 package com.revolvingmadness.testing.language.builtins.classes;
 
 import com.revolvingmadness.testing.language.ErrorHolder;
-import com.revolvingmadness.testing.language.builtins.classes.instances.*;
+import com.revolvingmadness.testing.language.builtins.classes.instances.EventsInstance;
+import com.revolvingmadness.testing.language.builtins.classes.instances.MinecraftServerInstance;
+import com.revolvingmadness.testing.language.builtins.classes.instances.NullInstance;
+import com.revolvingmadness.testing.language.builtins.classes.instances.ObjectInstance;
 import com.revolvingmadness.testing.language.builtins.classes.types.*;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.interpreter.Variable;
@@ -15,13 +18,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 public abstract class BuiltinClass extends ExpressionNode {
     public final VariableScope variableScope;
@@ -71,6 +77,18 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public BuiltinClass getProperty(String propertyName) {
+        Optional<Variable> optionalProperty = this.variableScope.getOptional(propertyName);
+
+        if (optionalProperty.isPresent()) {
+            BuiltinClass property = optionalProperty.get().value;
+
+            if (property instanceof BuiltinMethod method) {
+                method.bind(this, this.getType().typeSuperClass);
+            }
+
+            return property;
+        }
+
         BuiltinClass property = this.getType().getProperty(propertyName);
 
         if (property instanceof BuiltinMethod method) {
@@ -117,11 +135,11 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.cannotConvertType(this.getType(), new BlockType());
     }
 
-    public BlockPosInstance toBlockPos() {
+    public BlockPos toBlockPos() {
         throw ErrorHolder.cannotConvertType(this.getType(), new BlockPosType());
     }
 
-    public Boolean toBoolean() {
+    public boolean toBoolean() {
         throw ErrorHolder.cannotConvertType(this.getType(), new BooleanType());
     }
 
@@ -137,7 +155,7 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.cannotConvertType(this.getType(), new EventsType());
     }
 
-    public Double toFloat() {
+    public double toFloat() {
         throw ErrorHolder.cannotConvertType(this.getType(), new FloatType());
     }
 
@@ -149,7 +167,7 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.cannotConvertType(this.getType(), new GameRulesType());
     }
 
-    public Integer toInteger() {
+    public long toInteger() {
         throw ErrorHolder.cannotConvertType(this.getType(), new IntegerType());
     }
 
@@ -203,5 +221,9 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public Vec3d toVec3d() {
         throw ErrorHolder.cannotConvertType(this.getType(), new Vec3dType());
+    }
+
+    public ServerWorld toWorld() {
+        throw ErrorHolder.cannotConvertType(this.getType(), new WorldType());
     }
 }

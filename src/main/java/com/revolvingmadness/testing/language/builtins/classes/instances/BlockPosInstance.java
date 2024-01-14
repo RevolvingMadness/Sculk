@@ -3,8 +3,10 @@ package com.revolvingmadness.testing.language.builtins.classes.instances;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.testing.language.builtins.classes.types.BlockPosType;
+import com.revolvingmadness.testing.language.lexer.TokenType;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.List;
 import java.util.Objects;
 
 public class BlockPosInstance extends BuiltinClass {
@@ -12,6 +14,15 @@ public class BlockPosInstance extends BuiltinClass {
 
     public BlockPosInstance(BlockPos value) {
         this.value = value;
+
+        this.variableScope.declare(List.of(TokenType.CONST), "x", new IntegerInstance(value.getX()));
+        this.variableScope.declare(List.of(TokenType.CONST), "y", new IntegerInstance(value.getY()));
+        this.variableScope.declare(List.of(TokenType.CONST), "z", new IntegerInstance(value.getZ()));
+    }
+
+    @Override
+    public BlockPos toBlockPos() {
+        return this.value;
     }
 
     @Override

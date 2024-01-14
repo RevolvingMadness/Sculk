@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class LangParser {
     public final List<Token> input;
-    private Integer position;
+    private int position;
 
     public LangParser(List<Token> input) {
         this.input = input;
@@ -108,7 +108,7 @@ public class LangParser {
         if (this.current().isIncrementOperator()) {
             TokenType incrementOperator = this.consume().type;
 
-            return new VariableAssignmentExpressionNode(expression, new BinaryExpressionNode(expression, incrementOperator, new IntegerExpressionNode(1)));
+            return new VariableAssignmentExpressionNode(expression, new BinaryExpressionNode(expression, incrementOperator, new IntegerExpressionNode(1L)));
         }
 
         if (this.current().isBinaryOperator()) {
@@ -628,9 +628,9 @@ public class LangParser {
 
     private ExpressionNode parsePrimaryExpression() {
         if (this.current(TokenType.INTEGER)) {
-            return new IntegerExpressionNode((Integer) this.consume().value);
+            return new IntegerExpressionNode((int) this.consume().value);
         } else if (this.current(TokenType.FLOAT)) {
-            return new FloatExpressionNode((Double) this.consume().value);
+            return new FloatExpressionNode((double) this.consume().value);
         } else if (this.current(TokenType.IDENTIFIER)) {
             return new IdentifierExpressionNode((String) this.consume().value);
         } else if (this.current(TokenType.LEFT_PARENTHESIS)) {
