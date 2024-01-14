@@ -17,7 +17,7 @@ import java.util.concurrent.CompletionException;
 import java.util.concurrent.Executor;
 
 public class SculkScriptLoader implements ResourceReloader {
-    private static final ResourceFinder FINDER = new ResourceFinder("scripts", ".script");
+    private static final ResourceFinder FINDER = new ResourceFinder("scripts", ".sk");
     public Map<Identifier, SculkScript> scripts = new HashMap<>();
     public final TagGroupLoader<SculkScript> TAG_LOADER = new TagGroupLoader<>(this::get, "tags/scripts");
     public Map<Identifier, Collection<SculkScript>> taggedScripts = Map.of();
