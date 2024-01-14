@@ -4,6 +4,8 @@ import com.revolvingmadness.testing.Testing;
 import com.revolvingmadness.testing.language.ErrorHolder;
 import com.revolvingmadness.testing.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.testing.language.builtins.classes.instances.*;
+import com.revolvingmadness.testing.language.builtins.classes.types.BlocksType;
+import com.revolvingmadness.testing.language.builtins.classes.types.ItemsType;
 import com.revolvingmadness.testing.language.builtins.functions.io.PrintFunction;
 import com.revolvingmadness.testing.language.builtins.functions.types.TypeFunction;
 import com.revolvingmadness.testing.language.lexer.TokenType;
@@ -42,6 +44,8 @@ public class VariableTable {
     }
 
     private void declareClasses() {
+        this.declare(List.of(TokenType.CONST), "Blocks", new BlocksType());
+        this.declare(List.of(TokenType.CONST), "Items", new ItemsType());
     }
 
     private void declareFunctions() {
