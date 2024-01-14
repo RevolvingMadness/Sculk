@@ -162,4 +162,8 @@ public class ErrorHolder {
     public static IndexOutOfBoundsError indexOutOfBounds(int index, int length) {
         return new IndexOutOfBoundsError(I18n.translate("error.index_out_of_bounds", index, length));
     }
+
+    public static TypeError elseIfStatementConditionRequiresType(BuiltinType requiredType, BuiltinType type) {
+        return new TypeError(I18n.translate("error.invalid_else_if_statement_condition_type", requiredType.toString(), type.toString()));
+    }
 }

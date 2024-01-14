@@ -10,6 +10,7 @@
     "error.invalid_for_loop_update_type": "For loop update requires type '%s' but got '%s'",
     "error.invalid_while_loop_condition_type": "While loop condition requires type '%s' but got '%s'",
     "error.invalid_if_statement_condition_type": "If statement requires type '%s' but got '%s'",
+    "error.invalid_else_if_statement_condition_type": "Else if statement requires type '%s' but got '%s'",
     "error.argument_requires_type": "Argument %s for function '%s' requires type '%s' but got '%s'",
     "error.difficulty_does_not_exist": "Difficulty '%s' does not exist",
     "error.gamemode_does_not_exist": "Gamemode '%s' does not exist",

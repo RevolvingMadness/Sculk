@@ -195,6 +195,8 @@ public class Interpreter implements Visitor {
 
         while_loop:
         while (true) {
+            this.variableTable.enterScope();
+
             BuiltinClass condition = this.visitExpression(forStatement.condition);
 
             if (!condition.instanceOf(new BooleanType())) {
@@ -222,6 +224,8 @@ public class Interpreter implements Visitor {
             if (++loops > maxLoops) {
                 throw new StackOverflowError("For-loop ran more than " + maxLoops + " times");
             }
+
+            this.variableTable.exitScope();
         }
     }
 
@@ -267,7 +271,7 @@ public class Interpreter implements Visitor {
             List<StatementNode> elseIfBody = elseIfConditionPair.getRight();
 
             if (!elseIfCondition.instanceOf(new BooleanType())) {
-                throw ErrorHolder.ifStatementConditionRequiresType(new BooleanType(), ifCondition.getType());
+                throw ErrorHolder.elseIfStatementConditionRequiresType(new BooleanType(), elseIfCondition.getType());
             }
 
             if (elseIfCondition.toBoolean()) {
@@ -342,13 +346,16 @@ public class Interpreter implements Visitor {
 
     @Override
     public BuiltinClass visitPostfixExpression(PostfixExpressionNode postfixExpression) {
-        BuiltinClass expression = this.visitExpression(postfixExpression.expression);
+//        BuiltinClass expression = this.visitExpression(postfixExpression.expression);
 
-        return switch (postfixExpression.operator) {
-            case DOUBLE_PLUS -> expression.call(this, "increment", List.of());
-            case DOUBLE_HYPHEN -> expression.call(this, "decrement", List.of());
-            default -> throw ErrorHolder.unsupportedPostfixOperator(postfixExpression.operator);
-        };
+        // x-- returns x and increments x
+
+//        return switch (postfixExpression.operator) {
+//            case DOUBLE_PLUS -> expression.call(this, "increment", List.of());
+//            case DOUBLE_HYPHEN -> expression.call(this, "decrement", List.of());
+//            default -> throw ErrorHolder.unsupportedPostfixOperator(postfixExpression.operator);
+//        };
+        throw ErrorHolder.unsupportedPostfixOperator(postfixExpression.operator);
     }
 
     @Override
@@ -457,6 +464,8 @@ public class Interpreter implements Visitor {
 
         while_loop:
         while (true) {
+            this.variableTable.enterScope();
+
             BuiltinClass condition = this.visitExpression(whileStatement.condition);
 
             if (!condition.instanceOf(new BooleanType())) {
@@ -480,6 +489,8 @@ public class Interpreter implements Visitor {
             if (++loops > this.maxLoops) {
                 throw new StackOverflowError("While-loop ran more than " + this.maxLoops + " times");
             }
+
+            this.variableTable.exitScope();
         }
     }
 }
