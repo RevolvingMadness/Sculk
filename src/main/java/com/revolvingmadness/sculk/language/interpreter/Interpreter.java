@@ -1,5 +1,8 @@
 package com.revolvingmadness.sculk.language.interpreter;
 
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.ParseResults;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.revolvingmadness.sculk.Sculk;
 import com.revolvingmadness.sculk.gamerules.SculkGamerules;
 import com.revolvingmadness.sculk.language.ErrorHolder;
@@ -18,6 +21,7 @@ import com.revolvingmadness.sculk.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.sculk.language.parser.nodes.expression_nodes.*;
 import com.revolvingmadness.sculk.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
 import com.revolvingmadness.sculk.language.parser.nodes.statement_nodes.*;
+import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.Pair;
 
 import java.util.*;
@@ -179,6 +183,8 @@ public class Interpreter implements Visitor {
             return this.visitPostfixExpression(postfixExpression);
         } else if (expression instanceof LiteralExpressionNode literalExpression) {
             return this.visitLiteralExpression(literalExpression);
+        } else if (expression instanceof CommandExpressionNode commandExpression) {
+            return this.visitCommandExpression(commandExpression);
         } else {
             throw ErrorHolder.unsupportedExpressionNodeToInterpret(expression);
         }
@@ -392,6 +398,21 @@ public class Interpreter implements Visitor {
     @Override
     public BuiltinClass visitNullExpression(NullExpressionNode nullExpression) {
         return new NullInstance();
+    }
+
+    @Override
+    public BuiltinClass visitCommandExpression(CommandExpressionNode commandExpression) {
+        CommandDispatcher<ServerCommandSource> commandDispatcher = Sculk.server.getCommandManager().getDispatcher();
+        ParseResults<ServerCommandSource> parseResults = commandDispatcher.parse(commandExpression.command, Sculk.server.getCommandSource());
+        int result;
+
+        try {
+            result = commandDispatcher.execute(parseResults);
+        } catch (CommandSyntaxException e) {
+            return new CommandResultInstance(new NullInstance(), new BooleanInstance(false), new StringInstance(e.getMessage()));
+        }
+
+        return new CommandResultInstance(new IntegerInstance(result), new BooleanInstance(true), new NullInstance());
     }
 
     @Override

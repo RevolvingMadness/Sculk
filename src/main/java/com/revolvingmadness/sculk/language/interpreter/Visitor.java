@@ -57,6 +57,8 @@ public interface Visitor {
 
     BuiltinClass visitNullExpression(NullExpressionNode nullExpression);
 
+    BuiltinClass visitCommandExpression(CommandExpressionNode commandExpression);
+
     BuiltinClass visitPostfixExpression(PostfixExpressionNode postfixExpression);
 
     BuiltinClass visitResourceExpression(ResourceExpressionNode resourceExpression);

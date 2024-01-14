@@ -215,6 +215,10 @@ public class SculkLexer {
             } else if (this.current('.')) {
                 this.consume();
                 this.addToken(TokenType.PERIOD);
+            } else if (this.current('`')) {
+                this.consume();
+                this.tokens.add(this.lexCommand());
+                this.consume();
             } else {
                 throw new SyntaxError("Unexpected character '" + this.current() + "'");
             }
@@ -225,6 +229,20 @@ public class SculkLexer {
         this.addToken(TokenType.EOF);
 
         return this.tokens;
+    }
+
+    private Token lexCommand() {
+        StringBuilder command = new StringBuilder();
+
+        while (this.position < this.input.length() && !this.current('`')) {
+            if (this.current('\\')) {
+                command.append(this.lexEscapeSequence());
+            } else {
+                command.append(this.consume());
+            }
+        }
+
+        return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.COMMAND, command.toString());
     }
 
     private void lexComment() {

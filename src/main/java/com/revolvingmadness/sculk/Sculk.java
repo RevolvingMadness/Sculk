@@ -36,6 +36,7 @@ public class Sculk implements ModInitializer {
 
         // Control flow
         Sculk.keywords.put("if", TokenType.IF);
+        Sculk.keywords.put("else", TokenType.ELSE);
         Sculk.keywords.put("for", TokenType.FOR);
         Sculk.keywords.put("foreach", TokenType.FOREACH);
         Sculk.keywords.put("while", TokenType.WHILE);
@@ -43,8 +44,6 @@ public class Sculk implements ModInitializer {
         Sculk.keywords.put("return", TokenType.RETURN);
         Sculk.keywords.put("continue", TokenType.CONTINUE);
         Sculk.keywords.put("break", TokenType.BREAK);
-
-        Sculk.keywords.put("else", TokenType.ELSE);
 
         // Declaration
         Sculk.keywords.put("class", TokenType.CLASS);
