@@ -11,7 +11,7 @@ base {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/testing.accesswidener")
+    accessWidenerPath = file("src/main/resources/sculk.accesswidener")
 }
 
 repositories {
