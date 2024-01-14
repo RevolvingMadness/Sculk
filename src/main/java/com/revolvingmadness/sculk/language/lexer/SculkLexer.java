@@ -165,7 +165,14 @@ public class SculkLexer {
 
                 if (this.current('=')) {
                     this.consume();
-                    this.addToken(TokenType.LESS_THAN_OR_EQUAL_TO);
+
+                    if (this.current('>')) {
+                        this.consume();
+
+                        this.addToken(TokenType.SPACESHIP);
+                    } else {
+                        this.addToken(TokenType.LESS_THAN_OR_EQUAL_TO);
+                    }
                 } else if (this.current('-')) {
                     this.consume();
                     this.addToken(TokenType.LEFT_ARROW);

@@ -54,7 +54,7 @@ public class Token {
     }
 
     public boolean isRelationOperator() {
-        return this.type == TokenType.GREATER_THAN || this.type == TokenType.GREATER_THAN_OR_EQUAL_TO || this.type == TokenType.LESS_THAN || this.type == TokenType.LESS_THAN_OR_EQUAL_TO || this.type == TokenType.INSTANCE_OF;
+        return this.type == TokenType.GREATER_THAN || this.type == TokenType.GREATER_THAN_OR_EQUAL_TO || this.type == TokenType.LESS_THAN || this.type == TokenType.LESS_THAN_OR_EQUAL_TO || this.type == TokenType.INSTANCE_OF || this.type == TokenType.SPACESHIP;
     }
 
     public boolean isUnaryOperator() {

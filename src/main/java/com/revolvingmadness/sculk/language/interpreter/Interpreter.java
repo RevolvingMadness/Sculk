@@ -11,10 +11,8 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.IntegerType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.ObjectType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.UserDefinedType;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
-import com.revolvingmadness.sculk.language.interpreter.errors.Break;
-import com.revolvingmadness.sculk.language.interpreter.errors.Continue;
-import com.revolvingmadness.sculk.language.interpreter.errors.Return;
 import com.revolvingmadness.sculk.language.interpreter.errors.StackOverflowError;
+import com.revolvingmadness.sculk.language.interpreter.errors.*;
 import com.revolvingmadness.sculk.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.sculk.language.parser.nodes.expression_nodes.*;
 import com.revolvingmadness.sculk.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
@@ -58,6 +56,27 @@ public class Interpreter implements Visitor {
             case DOUBLE_AMPERSAND -> left.call(this, "booleanAnd", List.of(right));
             case DOUBLE_PIPE -> left.call(this, "booleanOr", List.of(right));
             case INSTANCE_OF -> left.call(this, "instanceOf", List.of(right));
+            case SPACESHIP -> {
+                BuiltinClass lessThan = left.call(this, "lessThan", List.of(right));
+
+                if (lessThan.toBoolean()) {
+                    yield new IntegerInstance(-1);
+                }
+
+                BuiltinClass equalTo = left.call(this, "equalTo", List.of(right));
+
+                if (equalTo.toBoolean()) {
+                    yield new IntegerInstance(0);
+                }
+
+                BuiltinClass greaterThan = left.call(this, "greaterThan", List.of(right));
+
+                if (greaterThan.toBoolean()) {
+                    yield new IntegerInstance(1);
+                }
+
+                throw new InterpreterError("Unreachable");
+            }
             default -> throw ErrorHolder.unsupportedBinaryOperator(binaryExpression.operator);
         };
     }
