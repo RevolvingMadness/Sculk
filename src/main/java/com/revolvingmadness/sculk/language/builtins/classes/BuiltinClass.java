@@ -24,10 +24,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public abstract class BuiltinClass extends ExpressionNode {
     public final VariableScope variableScope;
@@ -225,5 +222,9 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public ServerWorld toWorld() {
         throw ErrorHolder.cannotConvertType(this.getType(), new WorldType());
+    }
+
+    public Iterator<BuiltinClass> asIterator() {
+        throw ErrorHolder.typeIsNotIterable(this.getType());
     }
 }

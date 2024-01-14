@@ -49,6 +49,8 @@ public interface Visitor {
 
     BuiltinClass visitListExpression(ListExpressionNode listExpression);
 
+    void visitForeachStatement(ForeachStatementNode foreachStatement);
+
     BuiltinClass visitLiteralExpression(LiteralExpressionNode literalExpression);
 
     void visitMethodDeclarationStatement(MethodDeclarationStatementNode methodDeclarationStatement);

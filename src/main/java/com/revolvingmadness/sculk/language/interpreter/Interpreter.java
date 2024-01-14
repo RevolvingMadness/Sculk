@@ -13,16 +13,14 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.UserDefinedTyp
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.interpreter.errors.StackOverflowError;
 import com.revolvingmadness.sculk.language.interpreter.errors.*;
+import com.revolvingmadness.sculk.language.lexer.TokenType;
 import com.revolvingmadness.sculk.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.sculk.language.parser.nodes.expression_nodes.*;
 import com.revolvingmadness.sculk.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
 import com.revolvingmadness.sculk.language.parser.nodes.statement_nodes.*;
 import net.minecraft.util.Pair;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Interpreter implements Visitor {
     public final long maxArguments;
@@ -329,6 +327,39 @@ public class Interpreter implements Visitor {
     }
 
     @Override
+    public void visitForeachStatement(ForeachStatementNode foreachStatement) {
+        int loops = 0;
+        long maxLoops = Sculk.server.getGameRules().getInt(SculkGamerules.MAX_LOOPS);
+
+        Iterator<BuiltinClass> variableIterator = this.visitExpression(foreachStatement.variableToIterate).asIterator();
+
+        while_loop:
+        while (variableIterator.hasNext()) {
+            this.variableTable.enterScope();
+
+            BuiltinClass iteratorValue = variableIterator.next();
+
+            this.variableTable.declare(List.of(TokenType.CONST), foreachStatement.variableName, iteratorValue);
+
+            for (StatementNode statement : foreachStatement.body) {
+                try {
+                    this.visitStatement(statement);
+                } catch (Break ignored) {
+                    break while_loop;
+                } catch (Continue ignored) {
+                    break;
+                }
+            }
+
+            if (++loops > maxLoops) {
+                throw new StackOverflowError("Foreach-loop ran more than " + maxLoops + " times");
+            }
+
+            this.variableTable.exitScope();
+        }
+    }
+
+    @Override
     public BuiltinClass visitLiteralExpression(LiteralExpressionNode literalExpression) {
         if (literalExpression instanceof BooleanExpressionNode booleanExpression) {
             return this.visitBooleanExpression(booleanExpression);
@@ -423,6 +454,8 @@ public class Interpreter implements Visitor {
             this.visitFieldDeclarationStatement(fieldDeclarationStatement);
         } else if (statement instanceof DeleteStatementNode deleteStatement) {
             this.visitDeleteStatement(deleteStatement);
+        } else if (statement instanceof ForeachStatementNode foreachStatement) {
+            this.visitForeachStatement(foreachStatement);
         } else {
             throw ErrorHolder.unsupportedStatementNodeToInterpret(statement);
         }

@@ -389,7 +389,7 @@ public class SculkParser {
     private StatementNode parseForStatement() {
         this.consume();
 
-        this.consume(TokenType.LEFT_PARENTHESIS, "Expected left parenthesis after 'for'");
+        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'for'");
 
         StatementNode initialization = null;
 
@@ -431,6 +431,24 @@ public class SculkParser {
         List<StatementNode> body = this.parseBody();
 
         return new ForStatementNode(initialization, condition, update, body);
+    }
+
+    private StatementNode parseForeachStatement() {
+        this.consume();
+
+        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'foreach'");
+
+        String variableName = (String) this.consume(TokenType.IDENTIFIER, "Expected foreach variable name").value;
+
+        this.consume(TokenType.COLON, "Expected colon");
+
+        ExpressionNode variableToIterate = this.parseExpression();
+
+        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after expression");
+
+        List<StatementNode> body = this.parseBody();
+
+        return new ForeachStatementNode(variableName, variableToIterate, body);
     }
 
     private StatementNode parseFunctionDeclarationStatement(List<TokenType> accessModifiers) {
@@ -706,6 +724,11 @@ public class SculkParser {
             }
         } else if (this.current(TokenType.FOR)) {
             statement = this.parseForStatement();
+            if (this.current(TokenType.SEMICOLON)) {
+                this.consume();
+            }
+        } else if (this.current(TokenType.FOREACH)) {
+            statement = this.parseForeachStatement();
             if (this.current(TokenType.SEMICOLON)) {
                 this.consume();
             }

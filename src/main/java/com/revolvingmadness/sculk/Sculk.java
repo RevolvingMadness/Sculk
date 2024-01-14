@@ -37,6 +37,7 @@ public class Sculk implements ModInitializer {
         // Control flow
         Sculk.keywords.put("if", TokenType.IF);
         Sculk.keywords.put("for", TokenType.FOR);
+        Sculk.keywords.put("foreach", TokenType.FOREACH);
         Sculk.keywords.put("while", TokenType.WHILE);
 
         Sculk.keywords.put("return", TokenType.RETURN);
