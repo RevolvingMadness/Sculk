@@ -37,13 +37,13 @@ public class BlocksType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("get", 1, arguments.size());
             }
 
-            BuiltinClass id = arguments.get(0);
+            BuiltinClass identifierClass = arguments.get(0);
 
-            if (!id.instanceOf(new ResourceType())) {
-                throw ErrorHolder.argumentRequiresType(1, "get", new ResourceType(), id.getType());
+            if (!identifierClass.instanceOf(new ResourceType())) {
+                throw ErrorHolder.argumentRequiresType(1, "get", new ResourceType(), identifierClass.getType());
             }
 
-            Identifier identifier = id.toResource();
+            Identifier identifier = identifierClass.toResource();
 
             if (Objects.equals(identifier, new Identifier("air"))) {
                 return new BlockInstance(Blocks.AIR);

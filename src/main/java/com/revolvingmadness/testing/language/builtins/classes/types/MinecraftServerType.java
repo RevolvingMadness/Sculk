@@ -11,6 +11,7 @@ import com.revolvingmadness.testing.language.builtins.classes.instances.NullInst
 import com.revolvingmadness.testing.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.testing.language.interpreter.Interpreter;
 import com.revolvingmadness.testing.language.lexer.TokenType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.Difficulty;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class MinecraftServerType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "areCommandBlocksEnabled", new AreCommandBlocksEnabled());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setDifficulty", new SetDifficulty());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "isModInstalled", new IsModInstalled());
     }
 
     @Override
@@ -62,6 +64,25 @@ public class MinecraftServerType extends BuiltinType {
             }
 
             return new BooleanInstance(false);
+        }
+    }
+
+    private static class IsModInstalled extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("isModInstalled", 1, arguments.size());
+            }
+
+            BuiltinClass modIDClass = arguments.get(0);
+
+            if (!modIDClass.instanceOf(new StringType())) {
+                throw ErrorHolder.argumentRequiresType(1, "isModInstalled", new StringType(), modIDClass.getType());
+            }
+
+            String modID = modIDClass.toStringType();
+
+            return new BooleanInstance(FabricLoader.getInstance().isModLoaded(modID));
         }
     }
 
