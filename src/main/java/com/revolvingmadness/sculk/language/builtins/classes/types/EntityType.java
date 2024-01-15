@@ -68,6 +68,16 @@ public class EntityType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "shouldDismountUnderwater", new ShouldDismountUnderwater());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "stopRiding", new StopRiding());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "teleport", new Teleport());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "canFreeze", new CanFreeze());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "canUsePortals", new CanUsePortals());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "extinguish", new Extinguish());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "extinguishWithSound", new ExtinguishWithSound());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getPassengers", new GetPassengers());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getVehicle", new GetVehicle());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "hasControllingPassenger", new HasControllingPassenger());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "hasNoGravity", new HasNoGravity());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "hasPassenger", new HasPassenger());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "hasPassengers", new HasPassengers());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
@@ -87,6 +97,28 @@ public class EntityType extends BuiltinType {
             this.boundClass.toEntity().addCommandTag(commandTag.toStringType());
 
             return new NullInstance();
+        }
+    }
+
+    private static class CanFreeze extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("canFreeze", 0, arguments.size());
+            }
+
+            return new BooleanInstance(this.boundClass.toEntity().canFreeze());
+        }
+    }
+
+    private static class CanUsePortals extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("canUsePortals", 0, arguments.size());
+            }
+
+            return new BooleanInstance(this.boundClass.toEntity().canUsePortals());
         }
     }
 
@@ -117,6 +149,32 @@ public class EntityType extends BuiltinType {
             }
 
             return new BooleanInstance(false);
+        }
+    }
+
+    private static class Extinguish extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("extinguish", 0, arguments.size());
+            }
+
+            this.boundClass.toEntity().extinguish();
+
+            return new NullInstance();
+        }
+    }
+
+    private static class ExtinguishWithSound extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("extinguishWithSound", 0, arguments.size());
+            }
+
+            this.boundClass.toEntity().extinguishWithSound();
+
+            return new NullInstance();
         }
     }
 
@@ -178,7 +236,7 @@ public class EntityType extends BuiltinType {
             if (arguments.size() != 0) {
                 throw ErrorHolder.invalidArgumentCount("getCommandTags", 0, arguments.size());
             }
-            
+
             List<BuiltinClass> commandTags = new ArrayList<>();
 
             this.boundClass.toEntity().getCommandTags().forEach(commandTag -> {
@@ -199,6 +257,34 @@ public class EntityType extends BuiltinType {
             String name = this.boundClass.toEntity().getName().getString();
 
             return new StringInstance(name);
+        }
+    }
+
+    private static class GetPassengers extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("getPassengers", 0, arguments.size());
+            }
+
+            List<BuiltinClass> passengers = new ArrayList<>();
+
+            this.boundClass.toEntity().getPassengerList().forEach(passenger -> {
+                passengers.add(new EntityInstance(passenger));
+            });
+
+            return new ListInstance(passengers);
+        }
+    }
+
+    private static class GetVehicle extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("getVehicle", 0, arguments.size());
+            }
+
+            return new EntityInstance(this.boundClass.toEntity().getVehicle());
         }
     }
 
@@ -241,6 +327,56 @@ public class EntityType extends BuiltinType {
         }
     }
 
+    private static class HasControllingPassenger extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("hasControllingPassenger", 0, arguments.size());
+            }
+
+            return new BooleanInstance(this.boundClass.toEntity().hasControllingPassenger());
+        }
+    }
+
+    private static class HasNoGravity extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("hasNoGravity", 0, arguments.size());
+            }
+
+            return new BooleanInstance(this.boundClass.toEntity().hasNoGravity());
+        }
+    }
+
+    private static class HasPassenger extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("hasPassenger", 1, arguments.size());
+            }
+
+            BuiltinClass passengerClass = arguments.get(0);
+
+            if (!passengerClass.instanceOf(new BooleanType())) {
+                throw ErrorHolder.argumentRequiresType(1, "hasPassenger", new BooleanType(), passengerClass.getType());
+            }
+
+            return new BooleanInstance(this.boundClass.toEntity().hasPassenger(passengerClass.toEntity()));
+        }
+    }
+
+    private static class HasPassengers extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("hasPassengers", 0, arguments.size());
+            }
+
+            return new BooleanInstance(this.boundClass.toEntity().hasPassengers());
+        }
+    }
+
     private static class HasVehicle extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -248,9 +384,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("hasVehicle", 0, arguments.size());
             }
 
-            boolean hasVehicle = this.boundClass.toEntity().hasVehicle();
-
-            return new BooleanInstance(hasVehicle);
+            return new BooleanInstance(this.boundClass.toEntity().hasVehicle());
         }
     }
 
@@ -261,9 +395,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isCrawling", 0, arguments.size());
             }
 
-            boolean isCrawling = this.boundClass.toEntity().isCrawling();
-
-            return new BooleanInstance(isCrawling);
+            return new BooleanInstance(this.boundClass.toEntity().isCrawling());
         }
     }
 
@@ -274,9 +406,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isDecending", 0, arguments.size());
             }
 
-            boolean isDescending = this.boundClass.toEntity().isDescending();
-
-            return new BooleanInstance(isDescending);
+            return new BooleanInstance(this.boundClass.toEntity().isDescending());
         }
     }
 
@@ -287,9 +417,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isFireImmune", 0, arguments.size());
             }
 
-            boolean isFireImmune = this.boundClass.toEntity().isFireImmune();
-
-            return new BooleanInstance(isFireImmune);
+            return new BooleanInstance(this.boundClass.toEntity().isFireImmune());
         }
     }
 
@@ -300,9 +428,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isFrozen", 0, arguments.size());
             }
 
-            boolean isFrozen = this.boundClass.toEntity().isFrozen();
-
-            return new BooleanInstance(isFrozen);
+            return new BooleanInstance(this.boundClass.toEntity().isFrozen());
         }
     }
 
@@ -313,9 +439,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isGlowing", 0, arguments.size());
             }
 
-            boolean isGlowing = this.boundClass.toEntity().isGlowing();
-
-            return new BooleanInstance(isGlowing);
+            return new BooleanInstance(this.boundClass.toEntity().isGlowing());
         }
     }
 
@@ -326,9 +450,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isInFluid", 0, arguments.size());
             }
 
-            boolean isInFluid = this.boundClass.toEntity().isInFluid();
-
-            return new BooleanInstance(isInFluid);
+            return new BooleanInstance(this.boundClass.toEntity().isInFluid());
         }
     }
 
@@ -339,9 +461,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isInLava", 0, arguments.size());
             }
 
-            boolean isInLava = this.boundClass.toEntity().isInLava();
-
-            return new BooleanInstance(isInLava);
+            return new BooleanInstance(this.boundClass.toEntity().isInLava());
         }
     }
 
@@ -352,9 +472,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isInsideWall", 0, arguments.size());
             }
 
-            boolean isInsideWall = this.boundClass.toEntity().isInsideWall();
-
-            return new BooleanInstance(isInsideWall);
+            return new BooleanInstance(this.boundClass.toEntity().isInsideWall());
         }
     }
 
@@ -365,9 +483,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isInvisible", 0, arguments.size());
             }
 
-            boolean isInvisible = this.boundClass.toEntity().isInvisible();
-
-            return new BooleanInstance(isInvisible);
+            return new BooleanInstance(this.boundClass.toEntity().isInvisible());
         }
     }
 
@@ -378,9 +494,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isInvulnerable", 0, arguments.size());
             }
 
-            boolean isInvulnerable = this.boundClass.toEntity().isInvulnerable();
-
-            return new BooleanInstance(isInvulnerable);
+            return new BooleanInstance(this.boundClass.toEntity().isInvulnerable());
         }
     }
 
@@ -391,9 +505,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isOnFire", 0, arguments.size());
             }
 
-            boolean isOnFire = this.boundClass.toEntity().isOnFire();
-
-            return new BooleanInstance(isOnFire);
+            return new BooleanInstance(this.boundClass.toEntity().isOnFire());
         }
     }
 
@@ -404,9 +516,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isOnGround", 0, arguments.size());
             }
 
-            boolean isOnGround = this.boundClass.toEntity().isOnGround();
-
-            return new BooleanInstance(isOnGround);
+            return new BooleanInstance(this.boundClass.toEntity().isOnGround());
         }
     }
 
@@ -417,9 +527,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isOnRail", 0, arguments.size());
             }
 
-            boolean isOnRail = this.boundClass.toEntity().isOnRail();
-
-            return new BooleanInstance(isOnRail);
+            return new BooleanInstance(this.boundClass.toEntity().isOnRail());
         }
     }
 
@@ -430,9 +538,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isSilent", 0, arguments.size());
             }
 
-            boolean isSilent = this.boundClass.toEntity().isSilent();
-
-            return new BooleanInstance(isSilent);
+            return new BooleanInstance(this.boundClass.toEntity().isSilent());
         }
     }
 
@@ -443,9 +549,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isSneaking", 0, arguments.size());
             }
 
-            boolean isSneaking = this.boundClass.toEntity().isSneaking();
-
-            return new BooleanInstance(isSneaking);
+            return new BooleanInstance(this.boundClass.toEntity().isSneaking());
         }
     }
 
@@ -456,9 +560,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isSprinting", 0, arguments.size());
             }
 
-            boolean isSprinting = this.boundClass.toEntity().isSprinting();
-
-            return new BooleanInstance(isSprinting);
+            return new BooleanInstance(this.boundClass.toEntity().isSprinting());
         }
     }
 
@@ -469,9 +571,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isSwimming", 0, arguments.size());
             }
 
-            boolean isSwimming = this.boundClass.toEntity().isSwimming();
-
-            return new BooleanInstance(isSwimming);
+            return new BooleanInstance(this.boundClass.toEntity().isSwimming());
         }
     }
 
@@ -482,9 +582,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isTouchingWater", 0, arguments.size());
             }
 
-            boolean isTouchingWater = this.boundClass.toEntity().isTouchingWater();
-
-            return new BooleanInstance(isTouchingWater);
+            return new BooleanInstance(this.boundClass.toEntity().isTouchingWater());
         }
     }
 
@@ -495,9 +593,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isTouchingWaterOrRain", 0, arguments.size());
             }
 
-            boolean isTouchingWaterOrRain = this.boundClass.toEntity().isTouchingWaterOrRain();
-
-            return new BooleanInstance(isTouchingWaterOrRain);
+            return new BooleanInstance(this.boundClass.toEntity().isTouchingWaterOrRain());
         }
     }
 
@@ -508,9 +604,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("isWet", 0, arguments.size());
             }
 
-            boolean isWet = this.boundClass.toEntity().isWet();
-
-            return new BooleanInstance(isWet);
+            return new BooleanInstance(this.boundClass.toEntity().isWet());
         }
     }
 
@@ -819,9 +913,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("shouldDismountUnderwater", 0, arguments.size());
             }
 
-            boolean shouldDismountUnderwater = this.boundClass.toEntity().shouldDismountUnderwater();
-
-            return new BooleanInstance(shouldDismountUnderwater);
+            return new BooleanInstance(this.boundClass.toEntity().shouldDismountUnderwater());
         }
     }
 
