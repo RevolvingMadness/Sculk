@@ -10,6 +10,7 @@ import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EntityType extends BuiltinType {
@@ -17,6 +18,8 @@ public class EntityType extends BuiltinType {
         super("Entity");
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), "addCommandTag", new AddCommandTag());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getCommandTags", new GetCommandTags());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "removeCommandTag", new RemoveCommandTag());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "dismountVehicle", new DismountVehicle());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getBlockPos", new GetBlockPos());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getBlockX", new GetBlockX());
@@ -166,6 +169,23 @@ public class EntityType extends BuiltinType {
             long blockZ = this.boundClass.toEntity().getBlockZ();
 
             return new IntegerInstance(blockZ);
+        }
+    }
+
+    private static class GetCommandTags extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("getCommandTags", 0, arguments.size());
+            }
+            
+            List<BuiltinClass> commandTags = new ArrayList<>();
+
+            this.boundClass.toEntity().getCommandTags().forEach(commandTag -> {
+                commandTags.add(new StringInstance(commandTag));
+            });
+
+            return new ListInstance(commandTags);
         }
     }
 
@@ -515,6 +535,25 @@ public class EntityType extends BuiltinType {
             }
 
             this.boundClass.toEntity().removeAllPassengers();
+
+            return new NullInstance();
+        }
+    }
+
+    private static class RemoveCommandTag extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("removeCommandTag", 1, arguments.size());
+            }
+
+            BuiltinClass commandTag = arguments.get(0);
+
+            if (!commandTag.instanceOf(new StringType())) {
+                throw ErrorHolder.argumentRequiresType(1, "removeCommandTag", new StringType(), commandTag.getType());
+            }
+
+            this.boundClass.toEntity().removeCommandTag(commandTag.toStringType());
 
             return new NullInstance();
         }

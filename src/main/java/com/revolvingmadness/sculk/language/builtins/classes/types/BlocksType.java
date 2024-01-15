@@ -20,14 +20,7 @@ public class BlocksType extends BuiltinType {
     public BlocksType() {
         super("Blocks");
 
-        Registries.BLOCK.forEach(this::registerBlock);
         this.variableScope.declare(List.of(TokenType.CONST), "get", new Get());
-    }
-
-    private void registerBlock(Block block) {
-        String blockID = Registries.BLOCK.getId(block).getPath();
-
-        this.variableScope.declare(List.of(TokenType.CONST), blockID.toUpperCase(), new BlockInstance(block));
     }
 
     private static class Get extends BuiltinMethod {

@@ -20,14 +20,7 @@ public class ItemsType extends BuiltinType {
     public ItemsType() {
         super("Items");
 
-        Registries.ITEM.forEach(this::registerItem);
         this.variableScope.declare(List.of(TokenType.CONST), "get", new Get());
-    }
-
-    private void registerItem(Item item) {
-        String itemID = Registries.ITEM.getId(item).getPath();
-
-        this.variableScope.declare(List.of(TokenType.CONST), itemID.toUpperCase(), new ItemInstance(item));
     }
 
     private static class Get extends BuiltinMethod {
