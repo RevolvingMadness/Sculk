@@ -27,6 +27,10 @@ public abstract class BuiltinType extends BuiltinClass {
         this(List.of(), typeName, typeSuperClass, new VariableScope());
     }
 
+    public BuiltinType(List<TokenType> typeAccessModifiers, String typeName) {
+        this(typeAccessModifiers, typeName, new ObjectType(), new VariableScope());
+    }
+
     public BuiltinType(List<TokenType> typeAccessModifiers, String typeName, BuiltinType typeSuperClass, VariableScope typeVariableScope) {
         this.typeAccessModifiers = typeAccessModifiers;
         this.typeName = typeName;

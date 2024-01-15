@@ -7,14 +7,14 @@ import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SculkLexer {
+public class Lexer {
     private final String input;
     private final List<Token> tokens;
     private int currentColumnNumber;
     private int currentLineNumber;
     private int position;
 
-    public SculkLexer(String input) {
+    public Lexer(String input) {
         this.input = input;
 
         this.tokens = new ArrayList<>();

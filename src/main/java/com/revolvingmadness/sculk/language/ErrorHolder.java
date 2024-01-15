@@ -63,6 +63,10 @@ public class ErrorHolder {
         return new TypeError(I18n.translate("error.difficulty_does_not_exist", difficulty));
     }
 
+    public static TypeError elseIfStatementConditionRequiresType(BuiltinType requiredType, BuiltinType type) {
+        return new TypeError(I18n.translate("error.invalid_else_if_statement_condition_type", requiredType.toString(), type.toString()));
+    }
+
     public static TypeError functionRequiresReturnType(String functionName, BooleanType type, BuiltinType requiredType) {
         return new TypeError(I18n.translate("error.function_requires_return_type", functionName, type.toString(), requiredType.toString()));
     }
@@ -75,12 +79,20 @@ public class ErrorHolder {
         return new TypeError(I18n.translate("error.invalid_if_statement_condition_type", requiredType.toString(), type.toString()));
     }
 
+    public static IndexOutOfBoundsError indexOutOfBounds(int index, int length) {
+        return new IndexOutOfBoundsError(I18n.translate("error.index_out_of_bounds", index, length));
+    }
+
     public static SyntaxError invalidArgumentCount(String functionName, int requiredArgumentCount, int argumentCount) {
         return new SyntaxError(I18n.translate("error.invalid_argument_count", functionName, requiredArgumentCount, argumentCount));
     }
 
     public static SyntaxError invalidClassAccessModifier(TokenType accessModifier) {
         return new SyntaxError(I18n.translate("error.invalid_class_access_modifier", accessModifier.toString()));
+    }
+
+    public static SyntaxError invalidEnumAccessModifier(TokenType accessModifier) {
+        return new SyntaxError(I18n.translate("error.invalid_enum_access_modifier", accessModifier.toString()));
     }
 
     public static SyntaxError invalidFieldAccessModifier(TokenType accessModifier) {
@@ -127,6 +139,10 @@ public class ErrorHolder {
         return new TypeError(I18n.translate("error.type_is_not_indexable", type.toString()));
     }
 
+    public static TypeError typeIsNotIterable(BuiltinType type) {
+        return new TypeError(I18n.translate("error.type_is_not_iterable", type.toString()));
+    }
+
     public static InterpreterError unsupportedBinaryOperator(TokenType binaryOperator) {
         return new InterpreterError(I18n.translate("error.unsupported_binary_operator", binaryOperator.toString()));
     }
@@ -157,17 +173,5 @@ public class ErrorHolder {
 
     public static NameError variableHasNotBeenDeclared(String name) {
         return new NameError(I18n.translate("error.variable_has_not_been_declared", name));
-    }
-
-    public static IndexOutOfBoundsError indexOutOfBounds(int index, int length) {
-        return new IndexOutOfBoundsError(I18n.translate("error.index_out_of_bounds", index, length));
-    }
-
-    public static TypeError elseIfStatementConditionRequiresType(BuiltinType requiredType, BuiltinType type) {
-        return new TypeError(I18n.translate("error.invalid_else_if_statement_condition_type", requiredType.toString(), type.toString()));
-    }
-
-    public static TypeError typeIsNotIterable(BuiltinType type) {
-        return new TypeError(I18n.translate("error.type_is_not_iterable", type));
     }
 }

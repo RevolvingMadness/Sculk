@@ -9,10 +9,7 @@ import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
-import com.revolvingmadness.sculk.language.builtins.classes.types.BooleanType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.IntegerType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.ObjectType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.UserDefinedType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.*;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.interpreter.errors.StackOverflowError;
 import com.revolvingmadness.sculk.language.interpreter.errors.*;
@@ -130,6 +127,21 @@ public class Interpreter implements Visitor {
     }
 
     @Override
+    public BuiltinClass visitCommandExpression(CommandExpressionNode commandExpression) {
+        CommandDispatcher<ServerCommandSource> commandDispatcher = Sculk.server.getCommandManager().getDispatcher();
+        ParseResults<ServerCommandSource> parseResults = commandDispatcher.parse(commandExpression.command, Sculk.server.getCommandSource());
+        int result;
+
+        try {
+            result = commandDispatcher.execute(parseResults);
+        } catch (CommandSyntaxException e) {
+            return new CommandResultInstance(new NullInstance(), new BooleanInstance(false), new StringInstance(e.getMessage()));
+        }
+
+        return new CommandResultInstance(new IntegerInstance(result), new BooleanInstance(true), new NullInstance());
+    }
+
+    @Override
     public void visitContinueStatement(ContinueStatementNode continueStatement) {
         throw new Continue();
     }
@@ -159,6 +171,11 @@ public class Interpreter implements Visitor {
         dictionaryExpression.value.forEach((key, value) -> dictionary.put(this.visitExpression(key), this.visitExpression(value)));
 
         return new DictionaryInstance(dictionary);
+    }
+
+    @Override
+    public void visitEnumDeclarationStatement(EnumDeclarationStatementNode enumDeclarationStatement) {
+        this.variableTable.declare(enumDeclarationStatement.accessModifiers, enumDeclarationStatement.name, new UserDefinedEnumType(enumDeclarationStatement.accessModifiers, enumDeclarationStatement.name, enumDeclarationStatement.values));
     }
 
     @Override
@@ -253,6 +270,39 @@ public class Interpreter implements Visitor {
     }
 
     @Override
+    public void visitForeachStatement(ForeachStatementNode foreachStatement) {
+        int loops = 0;
+        long maxLoops = Sculk.server.getGameRules().getInt(SculkGamerules.MAX_LOOPS);
+
+        Iterator<BuiltinClass> variableIterator = this.visitExpression(foreachStatement.variableToIterate).asIterator();
+
+        while_loop:
+        while (variableIterator.hasNext()) {
+            this.variableTable.enterScope();
+
+            BuiltinClass iteratorValue = variableIterator.next();
+
+            this.variableTable.declare(List.of(TokenType.CONST), foreachStatement.variableName, iteratorValue);
+
+            for (StatementNode statement : foreachStatement.body) {
+                try {
+                    this.visitStatement(statement);
+                } catch (Break ignored) {
+                    break while_loop;
+                } catch (Continue ignored) {
+                    break;
+                }
+            }
+
+            if (++loops > maxLoops) {
+                throw new StackOverflowError("Foreach-loop ran more than " + maxLoops + " times");
+            }
+
+            this.variableTable.exitScope();
+        }
+    }
+
+    @Override
     public void visitFunctionDeclarationStatement(FunctionDeclarationStatementNode functionDeclarationStatement) {
         this.variableTable.declare(functionDeclarationStatement.accessModifiers, functionDeclarationStatement.name, new FunctionInstance(functionDeclarationStatement.name, functionDeclarationStatement.arguments, functionDeclarationStatement.body));
     }
@@ -333,39 +383,6 @@ public class Interpreter implements Visitor {
     }
 
     @Override
-    public void visitForeachStatement(ForeachStatementNode foreachStatement) {
-        int loops = 0;
-        long maxLoops = Sculk.server.getGameRules().getInt(SculkGamerules.MAX_LOOPS);
-
-        Iterator<BuiltinClass> variableIterator = this.visitExpression(foreachStatement.variableToIterate).asIterator();
-
-        while_loop:
-        while (variableIterator.hasNext()) {
-            this.variableTable.enterScope();
-
-            BuiltinClass iteratorValue = variableIterator.next();
-
-            this.variableTable.declare(List.of(TokenType.CONST), foreachStatement.variableName, iteratorValue);
-
-            for (StatementNode statement : foreachStatement.body) {
-                try {
-                    this.visitStatement(statement);
-                } catch (Break ignored) {
-                    break while_loop;
-                } catch (Continue ignored) {
-                    break;
-                }
-            }
-
-            if (++loops > maxLoops) {
-                throw new StackOverflowError("Foreach-loop ran more than " + maxLoops + " times");
-            }
-
-            this.variableTable.exitScope();
-        }
-    }
-
-    @Override
     public BuiltinClass visitLiteralExpression(LiteralExpressionNode literalExpression) {
         if (literalExpression instanceof BooleanExpressionNode booleanExpression) {
             return this.visitBooleanExpression(booleanExpression);
@@ -401,31 +418,16 @@ public class Interpreter implements Visitor {
     }
 
     @Override
-    public BuiltinClass visitCommandExpression(CommandExpressionNode commandExpression) {
-        CommandDispatcher<ServerCommandSource> commandDispatcher = Sculk.server.getCommandManager().getDispatcher();
-        ParseResults<ServerCommandSource> parseResults = commandDispatcher.parse(commandExpression.command, Sculk.server.getCommandSource());
-        int result;
-
-        try {
-            result = commandDispatcher.execute(parseResults);
-        } catch (CommandSyntaxException e) {
-            return new CommandResultInstance(new NullInstance(), new BooleanInstance(false), new StringInstance(e.getMessage()));
-        }
-
-        return new CommandResultInstance(new IntegerInstance(result), new BooleanInstance(true), new NullInstance());
-    }
-
-    @Override
     public BuiltinClass visitPostfixExpression(PostfixExpressionNode postfixExpression) {
-//        BuiltinClass expression = this.visitExpression(postfixExpression.expression);
+        //        BuiltinClass expression = this.visitExpression(postfixExpression.expression);
 
         // x-- returns x and increments x
 
-//        return switch (postfixExpression.operator) {
-//            case DOUBLE_PLUS -> expression.call(this, "increment", List.of());
-//            case DOUBLE_HYPHEN -> expression.call(this, "decrement", List.of());
-//            default -> throw ErrorHolder.unsupportedPostfixOperator(postfixExpression.operator);
-//        };
+        //        return switch (postfixExpression.operator) {
+        //            case DOUBLE_PLUS -> expression.call(this, "increment", List.of());
+        //            case DOUBLE_HYPHEN -> expression.call(this, "decrement", List.of());
+        //            default -> throw ErrorHolder.unsupportedPostfixOperator(postfixExpression.operator);
+        //        };
         throw ErrorHolder.unsupportedPostfixOperator(postfixExpression.operator);
     }
 
@@ -477,6 +479,8 @@ public class Interpreter implements Visitor {
             this.visitDeleteStatement(deleteStatement);
         } else if (statement instanceof ForeachStatementNode foreachStatement) {
             this.visitForeachStatement(foreachStatement);
+        } else if (statement instanceof EnumDeclarationStatementNode enumDeclarationStatement) {
+            this.visitEnumDeclarationStatement(enumDeclarationStatement);
         } else {
             throw ErrorHolder.unsupportedStatementNodeToInterpret(statement);
         }

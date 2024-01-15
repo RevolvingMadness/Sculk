@@ -1,9 +1,9 @@
 package com.revolvingmadness.sculk.backend;
 
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
-import com.revolvingmadness.sculk.language.lexer.SculkLexer;
+import com.revolvingmadness.sculk.language.lexer.Lexer;
 import com.revolvingmadness.sculk.language.lexer.Token;
-import com.revolvingmadness.sculk.language.parser.SculkParser;
+import com.revolvingmadness.sculk.language.parser.Parser;
 import com.revolvingmadness.sculk.language.parser.nodes.ScriptNode;
 import net.minecraft.util.Identifier;
 
@@ -29,9 +29,9 @@ public class SculkScript {
             return;
         }
 
-        SculkLexer lexer = new SculkLexer(this.contents);
+        Lexer lexer = new Lexer(this.contents);
         List<Token> tokens = lexer.lex();
-        SculkParser parser = new SculkParser(tokens);
+        Parser parser = new Parser(tokens);
         this.scriptNode = parser.parse();
         this.interpreter = new Interpreter();
         this.hasBeenInitialized = true;

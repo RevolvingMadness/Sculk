@@ -17,11 +17,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SculkParser {
+public class Parser {
     public final List<Token> input;
     private int position;
 
-    public SculkParser(List<Token> input) {
+    public Parser(List<Token> input) {
         this.input = input;
         this.position = 0;
     }
@@ -275,6 +275,11 @@ public class SculkParser {
             if (this.current(TokenType.SEMICOLON)) {
                 this.consume();
             }
+        } else if (this.current(TokenType.ENUM)) {
+            statement = this.parseEnumDeclarationStatement(accessModifiers);
+            if (this.current(TokenType.SEMICOLON)) {
+                this.consume();
+            }
         } else if (this.current(TokenType.VAR)) {
             statement = this.parseVariableDeclarationStatement(accessModifiers);
             this.consume(TokenType.SEMICOLON, "Expected semicolon after variable declaration statement");
@@ -328,6 +333,38 @@ public class SculkParser {
         this.consume(TokenType.RIGHT_BRACE, "Expected closing brace for dictionary");
 
         return new DictionaryExpressionNode(dictionary);
+    }
+
+    private List<String> parseEnumBody() {
+        this.consume(TokenType.LEFT_BRACE, "Expected opening brace after enum name");
+
+        List<String> values = new ArrayList<>();
+
+        values.add((String) this.consume(TokenType.IDENTIFIER, "Expected enum constant name").value);
+
+        while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
+            this.consume();
+
+            values.add((String) this.consume(TokenType.IDENTIFIER, "Expected enum constant name").value);
+        }
+
+        this.consume(TokenType.SEMICOLON, "Expected semicolon");
+
+        this.consume(TokenType.RIGHT_BRACE, "Expected closing brace after class body");
+
+        return values;
+    }
+
+    private StatementNode parseEnumDeclarationStatement(List<TokenType> accessModifiers) {
+        TokenType.validateEnumAccessModifiers(accessModifiers);
+
+        this.consume();
+
+        String name = (String) this.consume(TokenType.IDENTIFIER, "Expected enum name").value;
+
+        List<String> values = this.parseEnumBody();
+
+        return new EnumDeclarationStatementNode(accessModifiers, name, values);
     }
 
     private ExpressionNode parseEqualityExpression() {

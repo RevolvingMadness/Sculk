@@ -17,11 +17,15 @@ public interface Visitor {
 
     void visitClassDeclarationStatement(ClassDeclarationStatementNode classDeclarationStatement);
 
+    BuiltinClass visitCommandExpression(CommandExpressionNode commandExpression);
+
     void visitContinueStatement(ContinueStatementNode continueStatement);
 
     void visitDeleteStatement(DeleteStatementNode deleteStatement);
 
     BuiltinClass visitDictionaryExpression(DictionaryExpressionNode dictionaryExpression);
+
+    void visitEnumDeclarationStatement(EnumDeclarationStatementNode enumDeclarationStatement);
 
     BuiltinClass visitExpression(ExpressionNode expression);
 
@@ -32,6 +36,8 @@ public interface Visitor {
     BuiltinClass visitFloatExpression(FloatExpressionNode floatExpression);
 
     void visitForStatement(ForStatementNode forStatement);
+
+    void visitForeachStatement(ForeachStatementNode foreachStatement);
 
     void visitFunctionDeclarationStatement(FunctionDeclarationStatementNode functionDeclarationStatement);
 
@@ -49,15 +55,11 @@ public interface Visitor {
 
     BuiltinClass visitListExpression(ListExpressionNode listExpression);
 
-    void visitForeachStatement(ForeachStatementNode foreachStatement);
-
     BuiltinClass visitLiteralExpression(LiteralExpressionNode literalExpression);
 
     void visitMethodDeclarationStatement(MethodDeclarationStatementNode methodDeclarationStatement);
 
     BuiltinClass visitNullExpression(NullExpressionNode nullExpression);
-
-    BuiltinClass visitCommandExpression(CommandExpressionNode commandExpression);
 
     BuiltinClass visitPostfixExpression(PostfixExpressionNode postfixExpression);
 

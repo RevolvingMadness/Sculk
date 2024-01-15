@@ -31,6 +31,7 @@
     "error.cannot_extend_from_type": "Cannot extend from non-type '%s'",
     "error.can_only_check_instance_of_types": "'instanceof' can only check types",
     "error.invalid_class_access_modifier": "Invalid class access modifier '%s'",
+    "error.invalid_enum_access_modifier": "Invalid enum access modifier '%s'",
     "error.invalid_field_access_modifier": "Invalid field access modifier '%s'",
     "error.invalid_function_access_modifier": "Invalid function access modifier '%s'",
     "error.invalid_variable_access_modifier": "Invalid variable access modifier '%s'",

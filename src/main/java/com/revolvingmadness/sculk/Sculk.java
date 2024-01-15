@@ -47,6 +47,7 @@ public class Sculk implements ModInitializer {
 
         // Declaration
         Sculk.keywords.put("class", TokenType.CLASS);
+        Sculk.keywords.put("enum", TokenType.ENUM);
         Sculk.keywords.put("var", TokenType.VAR);
         Sculk.keywords.put("function", TokenType.FUNCTION);
 

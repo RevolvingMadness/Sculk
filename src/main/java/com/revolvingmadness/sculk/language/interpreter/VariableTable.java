@@ -6,6 +6,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.BlockPosType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.BlocksType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.GameModesEnumType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.ItemsType;
 import com.revolvingmadness.sculk.language.builtins.functions.io.PrintFunction;
 import com.revolvingmadness.sculk.language.builtins.functions.types.TypeFunction;
@@ -49,6 +50,8 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "Blocks", new BlocksType());
         this.declare(List.of(TokenType.CONST), "Items", new ItemsType());
         this.declare(List.of(TokenType.CONST), "BlockPos", new BlockPosType());
+        
+        this.declare(List.of(TokenType.CONST), "GameModes", new GameModesEnumType());
     }
 
     private void declareFunctions() {
