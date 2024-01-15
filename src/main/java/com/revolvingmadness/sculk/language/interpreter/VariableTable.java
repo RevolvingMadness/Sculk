@@ -50,7 +50,7 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "Blocks", new BlocksType());
         this.declare(List.of(TokenType.CONST), "Items", new ItemsType());
         this.declare(List.of(TokenType.CONST), "BlockPos", new BlockPosType());
-        
+
         this.declare(List.of(TokenType.CONST), "GameModes", new GameModesEnumType());
     }
 
@@ -66,6 +66,8 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "gameRules", new GameRulesInstance(Sculk.server.getGameRules()));
         this.declare(List.of(TokenType.CONST), "events", new EventsInstance());
         this.declare(List.of(TokenType.CONST), "overworld", new WorldInstance(Sculk.server.getWorld(World.OVERWORLD)));
+        this.declare(List.of(TokenType.CONST), "nether", new WorldInstance(Sculk.server.getWorld(World.NETHER)));
+        this.declare(List.of(TokenType.CONST), "end", new WorldInstance(Sculk.server.getWorld(World.END)));
     }
 
     public void deleteOrThrow(String name) {
