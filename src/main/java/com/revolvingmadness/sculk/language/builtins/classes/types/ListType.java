@@ -5,6 +5,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.IntegerInstance;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 
@@ -14,6 +15,7 @@ public class ListType extends BuiltinType {
     public ListType() {
         super("List");
         this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "length", new Length());
     }
 
     private static class EqualTo extends BuiltinMethod {
@@ -30,6 +32,17 @@ public class ListType extends BuiltinType {
             }
 
             return new BooleanInstance(false);
+        }
+    }
+
+    private static class Length extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("length", 0, arguments.size());
+            }
+
+            return new IntegerInstance(this.boundClass.toList().size());
         }
     }
 }
