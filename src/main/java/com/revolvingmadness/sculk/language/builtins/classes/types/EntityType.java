@@ -824,7 +824,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setPos", new FloatType(), z.getType());
             }
 
-            this.boundClass.toEntity().setPos(x.toInteger(), y.toInteger(), z.toInteger());
+            this.boundClass.toEntity().setPos(x.toFloat(), y.toFloat(), z.toFloat());
 
             return new NullInstance();
         }
