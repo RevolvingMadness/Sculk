@@ -64,10 +64,6 @@ public class ErrorHolder {
         return new NameError(I18n.translate("error.dictionary_has_no_key", key));
     }
 
-    public static TypeError difficultyDoesNotExist(String difficulty) {
-        return new TypeError(I18n.translate("error.difficulty_does_not_exist", difficulty));
-    }
-
     public static TypeError elseIfStatementConditionRequiresType(BuiltinType requiredType, BuiltinType type) {
         return new TypeError(I18n.translate("error.invalid_else_if_statement_condition_type", requiredType.toString(), type.toString()));
     }

@@ -7,7 +7,6 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
-import net.minecraft.item.Item;
 
 import java.util.List;
 
@@ -31,7 +30,6 @@ public class ItemStackType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "isEnchantable", new IsEnchantable());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "isFood", new IsFood());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "isInFrame", new IsInFrame());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isOf", new IsOf());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "isStackable", new IsStackable());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setCount", new SetCount());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setDamage", new SetDamage());
@@ -248,25 +246,6 @@ public class ItemStackType extends BuiltinType {
             }
 
             return new BooleanInstance(this.boundClass.toItemStack().isInFrame());
-        }
-    }
-
-    private static class IsOf extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("isOf", 1, arguments.size());
-            }
-
-            BuiltinClass itemClass = arguments.get(0);
-
-            if (itemClass.instanceOf(new ItemType())) {
-                throw ErrorHolder.argumentRequiresType(1, "isOf", new ItemType(), itemClass.getType());
-            }
-
-            Item item = itemClass.toItem();
-
-            return new BooleanInstance(this.boundClass.toItemStack().isOf(item));
         }
     }
 
