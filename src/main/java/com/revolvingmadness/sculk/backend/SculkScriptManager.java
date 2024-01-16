@@ -13,14 +13,18 @@ import java.util.Objects;
 
 public class SculkScriptManager {
     private static final Identifier LOAD_TAG_ID = new Identifier(Sculk.ID, "load");
+    private static final Identifier RELOAD_TAG_ID = new Identifier(Sculk.ID, "reload");
     private static final Identifier TICK_TAG_ID = new Identifier(Sculk.ID, "tick");
     public static SculkScript currentScript;
-    private boolean justLoaded;
     private SculkScriptLoader loader;
+    private boolean shouldRunLoadScripts;
+    private boolean shouldRunReloadScripts;
     private List<SculkScript> tickScripts = ImmutableList.of();
 
     public SculkScriptManager(SculkScriptLoader loader) {
         this.setLoader(loader);
+
+        this.shouldRunLoadScripts = true;
     }
 
     private void execute(SculkScript script) {
@@ -53,7 +57,7 @@ public class SculkScriptManager {
 
     public void reload(SculkScriptLoader loader) {
         this.tickScripts = List.copyOf(loader.getScriptsFromTag(TICK_TAG_ID));
-        this.justLoaded = true;
+        this.shouldRunReloadScripts = true;
         EventHolder.clearEvents();
     }
 
@@ -63,7 +67,15 @@ public class SculkScriptManager {
     }
 
     public void tick() {
-        if (this.justLoaded) {
+        if (this.shouldRunLoadScripts) {
+            Collection<SculkScript> loadScripts = this.loader.getScriptsFromTag(LOAD_TAG_ID);
+
+            this.executeAll(loadScripts, LOAD_TAG_ID);
+
+            this.shouldRunLoadScripts = false;
+        }
+
+        if (this.shouldRunReloadScripts) {
             this.loader.scripts.forEach((identifier, script) -> {
                 try {
                     script.initialize();
@@ -74,9 +86,11 @@ public class SculkScriptManager {
             });
 
 
-            Collection<SculkScript> loadScripts = this.loader.getScriptsFromTag(LOAD_TAG_ID);
-            this.executeAll(loadScripts, LOAD_TAG_ID);
-            this.justLoaded = false;
+            Collection<SculkScript> reloadScripts = this.loader.getScriptsFromTag(RELOAD_TAG_ID);
+
+            this.executeAll(reloadScripts, RELOAD_TAG_ID);
+
+            this.shouldRunReloadScripts = false;
         }
 
         this.executeAll(this.tickScripts, TICK_TAG_ID);
