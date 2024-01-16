@@ -6,6 +6,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinFunction;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.NullInstance;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
+import net.minecraft.text.Text;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class PrintFunction extends BuiltinFunction {
         BuiltinClass value = arguments.get(0);
         BuiltinClass toStringResult = value.call(interpreter, "toString", List.of());
 
-        Logger.broadcast(toStringResult.toStringType(), true);
+        Logger.broadcast(Text.literal(toStringResult.toStringType()));
 
         return new NullInstance();
     }
