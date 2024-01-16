@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventHolder {
+    public static final List<Event> onEntitySleep = new ArrayList<>();
     public static final List<Event> onPlaceBlock = new ArrayList<>();
     public static final List<Event> onPlayerAttackEntity = new ArrayList<>();
     public static final List<Event> onPlayerBreakBlock = new ArrayList<>();
@@ -24,11 +25,10 @@ public class EventHolder {
     public static final List<Event> onPlayerDropItem = new ArrayList<>();
     public static final List<Event> onPlayerJump = new ArrayList<>();
     public static final List<Event> onPlayerPickupItem = new ArrayList<>();
-    public static final List<Event> onPlayerSleep = new ArrayList<>();
+    public static final List<Event> onPlayerRingBell = new ArrayList<>();
+    public static final List<Event> onPlayerSendChatMessage = new ArrayList<>();
+    public static final List<Event> onPlayerSneak = new ArrayList<>();
     public static final List<Event> onPlayerUseItem = new ArrayList<>();
-    public static final List<Event> onRingBell = new ArrayList<>();
-    public static final List<Event> onSendChatMessage = new ArrayList<>();
-    public static final List<Event> whilePlayerSneak = new ArrayList<>();
 
     public static void clearEvents() {
         EventHolder.onPlaceBlock.clear();
@@ -38,11 +38,11 @@ public class EventHolder {
         EventHolder.onPlayerDropItem.clear();
         EventHolder.onPlayerJump.clear();
         EventHolder.onPlayerPickupItem.clear();
-        EventHolder.onPlayerSleep.clear();
+        EventHolder.onEntitySleep.clear();
         EventHolder.onPlayerUseItem.clear();
-        EventHolder.onRingBell.clear();
-        EventHolder.onSendChatMessage.clear();
-        EventHolder.whilePlayerSneak.clear();
+        EventHolder.onPlayerRingBell.clear();
+        EventHolder.onPlayerSendChatMessage.clear();
+        EventHolder.onPlayerSneak.clear();
     }
 
     public static void registerEvents() {
@@ -172,7 +172,7 @@ public class EventHolder {
 
         EntitySleepEvents.START_SLEEPING.register((livingEntity, sleepingPos) -> {
             try {
-                for (Event event : EventHolder.onPlayerSleep) {
+                for (Event event : EventHolder.onEntitySleep) {
                     event.execute(List.of(new LivingEntityInstance(livingEntity)));
                 }
             } catch (Error error) {
@@ -182,7 +182,7 @@ public class EventHolder {
 
         PlayerRingBellCallback.EVENT.register((player) -> {
             try {
-                for (Event event : EventHolder.onRingBell) {
+                for (Event event : EventHolder.onPlayerRingBell) {
                     event.execute(List.of(new PlayerEntityInstance(player)));
                 }
             } catch (Error error) {
@@ -194,7 +194,7 @@ public class EventHolder {
 
         SendChatMessageCallback.EVENT.register((player, message) -> {
             try {
-                for (Event event : EventHolder.onSendChatMessage) {
+                for (Event event : EventHolder.onPlayerSendChatMessage) {
                     BuiltinClass eventResultClass = event.execute(List.of(new ServerPlayerEntityInstance(player), new StringInstance(message.content().getString())));
 
                     if (!eventResultClass.instanceOf(new BooleanType())) {
@@ -240,7 +240,7 @@ public class EventHolder {
 
         PlayerSneakCallback.EVENT.register((player) -> {
             try {
-                for (Event event : EventHolder.whilePlayerSneak) {
+                for (Event event : EventHolder.onPlayerSneak) {
                     event.execute(List.of(new ServerPlayerEntityInstance(player)));
                 }
             } catch (Error error) {
