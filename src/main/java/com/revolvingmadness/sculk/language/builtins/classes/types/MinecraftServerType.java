@@ -12,7 +12,6 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.StringInst
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.world.Difficulty;
 
 import java.util.List;
 
@@ -67,25 +66,6 @@ public class MinecraftServerType extends BuiltinType {
         }
     }
 
-    private static class IsModInstalled extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("isModInstalled", 1, arguments.size());
-            }
-
-            BuiltinClass modIDClass = arguments.get(0);
-
-            if (!modIDClass.instanceOf(new StringType())) {
-                throw ErrorHolder.argumentRequiresType(1, "isModInstalled", new StringType(), modIDClass.getType());
-            }
-
-            String modID = modIDClass.toStringType();
-
-            return new BooleanInstance(FabricLoader.getInstance().isModLoaded(modID));
-        }
-    }
-
     private static class GetServerIp extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -130,6 +110,25 @@ public class MinecraftServerType extends BuiltinType {
         }
     }
 
+    private static class IsModInstalled extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("isModInstalled", 1, arguments.size());
+            }
+
+            BuiltinClass modIDClass = arguments.get(0);
+
+            if (!modIDClass.instanceOf(new StringType())) {
+                throw ErrorHolder.argumentRequiresType(1, "isModInstalled", new StringType(), modIDClass.getType());
+            }
+
+            String modID = modIDClass.toStringType();
+
+            return new BooleanInstance(FabricLoader.getInstance().isModLoaded(modID));
+        }
+    }
+
     private static class IsNetherEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -161,17 +160,11 @@ public class MinecraftServerType extends BuiltinType {
 
             BuiltinClass difficulty = arguments.get(0);
 
-            if (!difficulty.instanceOf(new StringType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDifficulty", new StringType(), difficulty.getType());
+            if (!difficulty.instanceOf(new DifficultiesEnumType())) {
+                throw ErrorHolder.argumentRequiresType(1, "setDifficulty", new DifficultiesEnumType(), difficulty.getType());
             }
 
-            Difficulty difficulty1 = Difficulty.byName(difficulty.toStringType());
-
-            if (difficulty1 == null) {
-                throw ErrorHolder.difficultyDoesNotExist(difficulty.toStringType());
-            }
-
-            Sculk.server.setDifficulty(difficulty1, true);
+            Sculk.server.setDifficulty(difficulty.toDifficulty(), true);
 
             return new NullInstance();
         }

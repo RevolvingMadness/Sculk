@@ -12,9 +12,9 @@ public class GameModesEnumType extends BuiltinEnum {
         super(List.of(TokenType.CONST), "GameModes");
 
         this.addValue("SURVIVAL", GameMode.SURVIVAL);
-        this.addValue("CREATIVE", GameMode.SURVIVAL);
-        this.addValue("ADVENTURE", GameMode.SURVIVAL);
-        this.addValue("SPECTATOR", GameMode.SURVIVAL);
+        this.addValue("CREATIVE", GameMode.CREATIVE);
+        this.addValue("ADVENTURE", GameMode.ADVENTURE);
+        this.addValue("SPECTATOR", GameMode.SPECTATOR);
     }
 
     public void addValue(String name, GameMode gameMode) {

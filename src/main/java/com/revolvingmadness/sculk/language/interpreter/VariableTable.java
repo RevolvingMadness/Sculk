@@ -4,10 +4,7 @@ import com.revolvingmadness.sculk.Sculk;
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
-import com.revolvingmadness.sculk.language.builtins.classes.types.BlockPosType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.BlocksType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.GameModesEnumType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.ItemsType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.*;
 import com.revolvingmadness.sculk.language.builtins.functions.io.PrintFunction;
 import com.revolvingmadness.sculk.language.builtins.functions.types.TypeFunction;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -52,6 +49,7 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "BlockPos", new BlockPosType());
 
         this.declare(List.of(TokenType.CONST), "GameModes", new GameModesEnumType());
+        this.declare(List.of(TokenType.CONST), "Difficulties", new DifficultiesEnumType());
     }
 
     private void declareFunctions() {

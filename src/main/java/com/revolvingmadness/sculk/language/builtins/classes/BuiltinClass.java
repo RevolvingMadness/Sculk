@@ -22,6 +22,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.GameRules;
 
@@ -147,6 +148,10 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public Map<BuiltinClass, BuiltinClass> toDictionary() {
         throw ErrorHolder.cannotConvertType(this.getType(), new DictionaryType());
+    }
+
+    public Difficulty toDifficulty() {
+        throw ErrorHolder.cannotConvertType(this.getType(), new DifficultiesEnumType());
     }
 
     public Entity toEntity() {
