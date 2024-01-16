@@ -67,7 +67,6 @@ public class GameRulesType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getEnderPearlsVanishOnDeath", new GetEnderPearlsVanishOnDeath());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getMaxArgumentCount", new GetMaxArgumentCount());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getMaxLoops", new GetMaxLoops());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getScriptLogsEnabled", new GetScriptLogsEnabled());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setDoFireTick", new SetDoFireTick());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setDoMobGriefing", new SetDoMobGriefing());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setKeepInventory", new SetKeepInventory());
@@ -114,7 +113,6 @@ public class GameRulesType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setGlobalSoundEvents", new SetGlobalSoundEvents());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setDoVinesSpread", new SetDoVinesSpread());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setEnderPearlsVanishOnDeath", new SetEnderPearlsVanishOnDeath());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setScriptLogsEnabled", new SetScriptLogsEnabled());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setMaxArgumentCount", new SetMaxArgumentCount());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setMaxLoops", new SetMaxLoops());
 
@@ -575,17 +573,6 @@ public class GameRulesType extends BuiltinType {
             }
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.REDUCED_DEBUG_INFO));
-        }
-    }
-
-    private static class GetScriptLogsEnabled extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getScriptLogsEnabled", 0, arguments.size());
-            }
-
-            return new BooleanInstance(this.boundClass.toGameRules().getBoolean(SculkGamerules.SCRIPT_LOGS_ENABLED));
         }
     }
 
@@ -1432,25 +1419,6 @@ public class GameRulesType extends BuiltinType {
             }
 
             this.boundClass.toGameRules().get(GameRules.REDUCED_DEBUG_INFO).set(reducedDebugInfo.toBoolean(), Sculk.server);
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SetScriptLogsEnabled extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setScriptLogsEnabled", 1, arguments.size());
-            }
-
-            BuiltinClass scriptLogsEnabled = arguments.get(0);
-
-            if (!scriptLogsEnabled.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setScriptLogsEnabled", new BooleanType(), scriptLogsEnabled.getType());
-            }
-
-            this.boundClass.toGameRules().get(SculkGamerules.SCRIPT_LOGS_ENABLED).set(scriptLogsEnabled.toBoolean(), Sculk.server);
 
             return new NullInstance();
         }
