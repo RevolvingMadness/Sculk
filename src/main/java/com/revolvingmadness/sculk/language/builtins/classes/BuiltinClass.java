@@ -22,6 +22,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.GameMode;
 import net.minecraft.world.GameRules;
 
 import java.util.*;
@@ -35,6 +36,10 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public BuiltinClass(VariableScope variableScope) {
         this.variableScope = variableScope;
+    }
+
+    public Iterator<BuiltinClass> asIterator() {
+        throw ErrorHolder.typeIsNotIterable(this.getType());
     }
 
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -160,6 +165,10 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.cannotConvertType(this.getType(), new FunctionType());
     }
 
+    public GameMode toGameMode() {
+        throw ErrorHolder.cannotConvertType(this.getType(), new GameModesEnumType());
+    }
+
     public GameRules toGameRules() {
         throw ErrorHolder.cannotConvertType(this.getType(), new GameRulesType());
     }
@@ -222,9 +231,5 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public ServerWorld toWorld() {
         throw ErrorHolder.cannotConvertType(this.getType(), new WorldType());
-    }
-
-    public Iterator<BuiltinClass> asIterator() {
-        throw ErrorHolder.typeIsNotIterable(this.getType());
     }
 }

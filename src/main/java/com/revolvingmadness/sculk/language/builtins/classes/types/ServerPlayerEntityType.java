@@ -10,7 +10,6 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.NullInstan
 import com.revolvingmadness.sculk.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
-import net.minecraft.world.GameMode;
 
 import java.util.List;
 
@@ -36,17 +35,11 @@ public class ServerPlayerEntityType extends BuiltinType {
 
             BuiltinClass gameMode = arguments.get(0);
 
-            if (!gameMode.instanceOf(new StringType())) {
-                throw ErrorHolder.argumentRequiresType(1, "changeGameMode", new StringType(), gameMode.getType());
+            if (!gameMode.instanceOf(new GameModesEnumType())) {
+                throw ErrorHolder.argumentRequiresType(1, "changeGameMode", new GameModesEnumType(), gameMode.getType());
             }
 
-            GameMode gameMode1 = GameMode.byName(gameMode.toStringType(), null);
-
-            if (gameMode1 == null) {
-                throw ErrorHolder.gamemodeDoesNotExist(gameMode.toStringType());
-            }
-
-            this.boundClass.toServerPlayerEntity().changeGameMode(gameMode1);
+            this.boundClass.toServerPlayerEntity().changeGameMode(gameMode.toGameMode());
 
             return new NullInstance();
         }
