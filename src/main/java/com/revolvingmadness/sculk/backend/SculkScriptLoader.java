@@ -70,7 +70,7 @@ public class SculkScriptLoader implements ResourceReloader {
                 identifiedCompletableScripts.put(scriptResourceIdentifier, CompletableFuture.supplyAsync(() -> {
                     List<String> scriptContentsList = readResource(scriptResource);
 
-                    return new SculkScript(scriptIdentifier, scriptContentsList);
+                    return new SculkScript(scriptIdentifier, scriptContentsList, this);
                 }, prepareExecutor));
             });
 

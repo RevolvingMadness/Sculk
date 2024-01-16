@@ -9,6 +9,7 @@ import com.revolvingmadness.sculk.language.parser.nodes.expression_nodes.Express
 import com.revolvingmadness.sculk.language.parser.nodes.expression_nodes.literal_expression_nodes.LiteralExpressionNode;
 import com.revolvingmadness.sculk.language.parser.nodes.statement_nodes.StatementNode;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.util.Identifier;
 
 public class ErrorHolder {
     public static SyntaxError abstractMethodCannotHaveABody(String name) {
@@ -47,6 +48,10 @@ public class ErrorHolder {
         return new TypeError(I18n.translate("error.cannot_extend_from_type", type.toString()));
     }
 
+    public static NameError cannotFindScript(Identifier scriptIdentifier) {
+        return new NameError(I18n.translate("error.cannot_find_script", scriptIdentifier.toString()));
+    }
+
     public static TypeError cannotIndexListByType(BuiltinType type) {
         return new TypeError(I18n.translate("error.cannot_index_list_by_type", type.toString()));
     }
@@ -69,10 +74,6 @@ public class ErrorHolder {
 
     public static TypeError functionRequiresReturnType(String functionName, BooleanType type, BuiltinType requiredType) {
         return new TypeError(I18n.translate("error.function_requires_return_type", functionName, type.toString(), requiredType.toString()));
-    }
-
-    public static TypeError gamemodeDoesNotExist(String gamemode) {
-        return new TypeError(I18n.translate("error.gamemode_does_not_exist", gamemode));
     }
 
     public static TypeError ifStatementConditionRequiresType(BuiltinType requiredType, BuiltinType type) {

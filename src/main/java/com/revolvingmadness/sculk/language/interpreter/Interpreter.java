@@ -4,6 +4,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.revolvingmadness.sculk.Sculk;
+import com.revolvingmadness.sculk.backend.SculkScript;
+import com.revolvingmadness.sculk.backend.SculkScriptLoader;
 import com.revolvingmadness.sculk.gamerules.SculkGamerules;
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
@@ -24,11 +26,14 @@ import net.minecraft.util.Pair;
 import java.util.*;
 
 public class Interpreter implements Visitor {
+    public final SculkScriptLoader loader;
     public final long maxArguments;
     public final long maxLoops;
     public final VariableTable variableTable;
 
-    public Interpreter() {
+    public Interpreter(SculkScriptLoader loader) {
+        this.loader = loader;
+
         this.maxArguments = Sculk.server.getGameRules().getInt(SculkGamerules.MAX_ARGUMENTS);
         this.maxLoops = Sculk.server.getGameRules().getInt(SculkGamerules.MAX_LOOPS);
         this.variableTable = new VariableTable();
@@ -361,6 +366,17 @@ public class Interpreter implements Visitor {
     }
 
     @Override
+    public void visitImportStatement(ImportStatementNode importStatement) {
+        SculkScript script = this.loader.scripts.get(importStatement.identifier);
+
+        if (script == null) {
+            throw ErrorHolder.cannotFindScript(importStatement.identifier);
+        }
+
+        script.interpretWithInterpreter(this);
+    }
+
+    @Override
     public BuiltinClass visitIndexExpression(IndexExpressionNode indexExpression) {
         BuiltinClass expression = this.visitExpression(indexExpression.expression);
         BuiltinClass index = this.visitExpression(indexExpression.index);
@@ -446,7 +462,6 @@ public class Interpreter implements Visitor {
     @Override
     public void visitScript(ScriptNode script) {
         script.statements.forEach(this::visitStatement);
-        this.variableTable.reset();
     }
 
     @Override
@@ -481,6 +496,8 @@ public class Interpreter implements Visitor {
             this.visitForeachStatement(foreachStatement);
         } else if (statement instanceof EnumDeclarationStatementNode enumDeclarationStatement) {
             this.visitEnumDeclarationStatement(enumDeclarationStatement);
+        } else if (statement instanceof ImportStatementNode importStatement) {
+            this.visitImportStatement(importStatement);
         } else {
             throw ErrorHolder.unsupportedStatementNodeToInterpret(statement);
         }

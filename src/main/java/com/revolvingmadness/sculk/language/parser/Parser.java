@@ -593,6 +593,14 @@ public class Parser {
         return new IfStatementNode(ifConditionPair, elseIfConditionPairs, elseBody);
     }
 
+    private StatementNode parseImportStatement() {
+        this.consume();
+
+        Identifier identifier = (Identifier) this.consume(TokenType.RESOURCE, "Expected resource").value;
+
+        return new ImportStatementNode(identifier);
+    }
+
     private ExpressionNode parseListExpression() {
         this.consume();
 
@@ -782,6 +790,9 @@ public class Parser {
             this.consume(TokenType.SEMICOLON, "Expected semicolon after continue statement");
         } else if (this.current(TokenType.DELETE)) {
             statement = this.parseDeleteStatement();
+            this.consume(TokenType.SEMICOLON, "Expected semicolon after delete statement");
+        } else if (this.current(TokenType.IMPORT)) {
+            statement = this.parseImportStatement();
             this.consume(TokenType.SEMICOLON, "Expected semicolon after delete statement");
         } else {
             return this.parseDeclarationStatement();

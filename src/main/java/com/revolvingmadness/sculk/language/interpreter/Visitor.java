@@ -49,6 +49,8 @@ public interface Visitor {
 
     void visitIfStatement(IfStatementNode ifStatement);
 
+    void visitImportStatement(ImportStatementNode importStatement);
+
     BuiltinClass visitIndexExpression(IndexExpressionNode indexExpression);
 
     BuiltinClass visitIntegerExpression(IntegerExpressionNode integerExpression);

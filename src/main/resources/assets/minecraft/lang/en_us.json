@@ -42,5 +42,6 @@
     "error.cannot_declare_non_abstract_class_with_abstract_methods": "Cannot declare non-abstract class '%s' with abstract methods",
     "error.function_requires_return_type": "Function '%s' requires return type '%s' but got '%s'",
     "error.index_out_of_bounds": "Index %s out of bounds for length %s",
-    "error.type_is_not_iterable": "Type '%s' is not iterable"
+    "error.type_is_not_iterable": "Type '%s' is not iterable",
+    "error.cannot_find_script": "Cannot find script '%s'"
 }

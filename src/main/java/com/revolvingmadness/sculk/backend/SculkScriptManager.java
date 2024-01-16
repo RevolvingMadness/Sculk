@@ -32,6 +32,7 @@ public class SculkScriptManager {
 
         try {
             script.interpret();
+            script.reset();
         } catch (Error exception) {
             Logger.scriptError(script, exception);
             script.hasErrors = true;
