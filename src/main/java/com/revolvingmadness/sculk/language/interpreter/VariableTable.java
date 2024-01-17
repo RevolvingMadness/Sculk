@@ -20,7 +20,11 @@ public class VariableTable {
 
     public VariableTable() {
         this.variableScopes = new Stack<>();
-        this.reset();
+        this.variableScopes.add(new VariableScope());
+
+        this.declareClasses();
+        this.declareFunctions();
+        this.declareVariables();
     }
 
     public void assign(String name, BuiltinClass value) {
@@ -123,14 +127,5 @@ public class VariableTable {
         }
 
         return variable.get();
-    }
-
-    public void reset() {
-        this.variableScopes.clear();
-        this.variableScopes.add(new VariableScope());
-
-        this.declareClasses();
-        this.declareFunctions();
-        this.declareVariables();
     }
 }

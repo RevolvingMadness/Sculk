@@ -17,6 +17,7 @@ public class SculkScriptManager {
     private static final Identifier TICK_TAG_ID = new Identifier(Sculk.ID, "tick");
     public static SculkScript currentScript;
     private SculkScriptLoader loader;
+    private boolean shouldInitializeScripts;
     private boolean shouldRunLoadScripts;
     private boolean shouldRunReloadScripts;
     private List<SculkScript> tickScripts = ImmutableList.of();
@@ -58,6 +59,7 @@ public class SculkScriptManager {
     public void reload(SculkScriptLoader loader) {
         this.tickScripts = List.copyOf(loader.getScriptsFromTag(TICK_TAG_ID));
         this.shouldRunReloadScripts = true;
+        this.shouldInitializeScripts = true;
         EventHolder.clearEvents();
     }
 
@@ -67,15 +69,7 @@ public class SculkScriptManager {
     }
 
     public void tick() {
-        if (this.shouldRunLoadScripts) {
-            Collection<SculkScript> loadScripts = this.loader.getScriptsFromTag(LOAD_TAG_ID);
-
-            this.executeAll(loadScripts, LOAD_TAG_ID);
-
-            this.shouldRunLoadScripts = false;
-        }
-
-        if (this.shouldRunReloadScripts) {
+        if (this.shouldInitializeScripts) {
             this.loader.scripts.forEach((identifier, script) -> {
                 try {
                     script.initialize();
@@ -85,7 +79,18 @@ public class SculkScriptManager {
                 }
             });
 
+            this.shouldInitializeScripts = false;
+        }
 
+        if (this.shouldRunLoadScripts) {
+            Collection<SculkScript> loadScripts = this.loader.getScriptsFromTag(LOAD_TAG_ID);
+
+            this.executeAll(loadScripts, LOAD_TAG_ID);
+
+            this.shouldRunLoadScripts = false;
+        }
+
+        if (this.shouldRunReloadScripts) {
             Collection<SculkScript> reloadScripts = this.loader.getScriptsFromTag(RELOAD_TAG_ID);
 
             this.executeAll(reloadScripts, RELOAD_TAG_ID);

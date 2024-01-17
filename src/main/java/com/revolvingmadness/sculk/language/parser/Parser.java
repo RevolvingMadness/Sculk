@@ -723,8 +723,6 @@ public class Parser {
             return this.parseFunctionExpression();
         } else if (this.current(TokenType.LEFT_BRACE)) {
             return this.parseDictionaryExpression();
-        } else if (this.current(TokenType.COMMAND)) {
-            return new CommandExpressionNode((String) this.consume().value);
         }
 
         throw new SyntaxError("Unknown expression type '" + this.current().type + "'");

@@ -4,7 +4,6 @@ import com.revolvingmadness.sculk.gamerules.SculkGamerules;
 import com.revolvingmadness.sculk.language.EventHolder;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
 
 import java.util.HashMap;
@@ -17,8 +16,6 @@ public class Sculk implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ServerLifecycleEvents.SERVER_STARTING.register(server1 -> Sculk.server = server1);
-
         SculkGamerules.registerGamerules();
         EventHolder.registerEvents();
 

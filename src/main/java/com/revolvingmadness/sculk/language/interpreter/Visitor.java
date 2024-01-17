@@ -17,8 +17,6 @@ public interface Visitor {
 
     void visitClassDeclarationStatement(ClassDeclarationStatementNode classDeclarationStatement);
 
-    BuiltinClass visitCommandExpression(CommandExpressionNode commandExpression);
-
     void visitContinueStatement(ContinueStatementNode continueStatement);
 
     void visitDeleteStatement(DeleteStatementNode deleteStatement);

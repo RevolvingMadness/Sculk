@@ -2,6 +2,7 @@ package com.revolvingmadness.sculk.mixin;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.DataFixer;
+import com.revolvingmadness.sculk.Sculk;
 import com.revolvingmadness.sculk.accessors.DatapackContentsAccessor;
 import com.revolvingmadness.sculk.backend.SculkScriptManager;
 import net.minecraft.network.QueryableServer;
@@ -50,12 +51,12 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
     @Shadow
     @Final
     private ResourcePackManager dataPackManager;
-    @Unique
-    private SculkScriptManager sculkScriptManager;
     @Shadow
     private Profiler profiler;
     @Shadow
     private MinecraftServer.ResourceManagerHolder resourceManagerHolder;
+    @Unique
+    private SculkScriptManager sculkScriptManager;
     @Shadow
     @Final
     private StructureTemplateManager structureTemplateManager;
@@ -75,19 +76,20 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
     @Shadow
     public abstract int getFunctionPermissionLevel();
 
-    @Unique
-    private SculkScriptManager getLangScriptManager() {
-        return this.sculkScriptManager;
-    }
-
     @Shadow
     public abstract PlayerManager getPlayerManager();
 
     @Shadow
     public abstract DynamicRegistryManager.Immutable getRegistryManager();
 
+    @Unique
+    private SculkScriptManager getSculkScriptManager() {
+        return this.sculkScriptManager;
+    }
+
     @Inject(at = @At("TAIL"), method = "<init>")
     public void injectInit(Thread serverThread, LevelStorage.Session session, ResourcePackManager dataPackManager, SaveLoader saveLoader, Proxy proxy, DataFixer dataFixer, ApiServices apiServices, WorldGenerationProgressListenerFactory worldGenerationProgressListenerFactory, CallbackInfo ci) {
+        Sculk.server = (MinecraftServer) (Object) this;
         this.sculkScriptManager = new SculkScriptManager(((DatapackContentsAccessor) this.resourceManagerHolder.dataPackContents()).sculk$getSculkScriptLoader());
     }
 
@@ -133,8 +135,9 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
 
     @Inject(at = @At("HEAD"), method = "tickWorlds")
     public void injectTickWorlds(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
-        this.profiler.push("langScripts");
-        this.getLangScriptManager().tick();
+        this.profiler.push("sculkScripts");
+        this.getSculkScriptManager().tick();
+        this.profiler.pop();
     }
 
     @Shadow

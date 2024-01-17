@@ -1,8 +1,5 @@
 package com.revolvingmadness.sculk.language.interpreter;
 
-import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.ParseResults;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.revolvingmadness.sculk.Sculk;
 import com.revolvingmadness.sculk.backend.SculkScript;
 import com.revolvingmadness.sculk.backend.SculkScriptLoader;
@@ -20,22 +17,17 @@ import com.revolvingmadness.sculk.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.sculk.language.parser.nodes.expression_nodes.*;
 import com.revolvingmadness.sculk.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
 import com.revolvingmadness.sculk.language.parser.nodes.statement_nodes.*;
-import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.Pair;
 
 import java.util.*;
 
 public class Interpreter implements Visitor {
     public final SculkScriptLoader loader;
-    public final long maxArguments;
-    public final long maxLoops;
     public final VariableTable variableTable;
 
     public Interpreter(SculkScriptLoader loader) {
         this.loader = loader;
 
-        this.maxArguments = Sculk.server.getGameRules().getInt(SculkGamerules.MAX_ARGUMENTS);
-        this.maxLoops = Sculk.server.getGameRules().getInt(SculkGamerules.MAX_LOOPS);
         this.variableTable = new VariableTable();
     }
 
@@ -132,21 +124,6 @@ public class Interpreter implements Visitor {
     }
 
     @Override
-    public BuiltinClass visitCommandExpression(CommandExpressionNode commandExpression) {
-        CommandDispatcher<ServerCommandSource> commandDispatcher = Sculk.server.getCommandManager().getDispatcher();
-        ParseResults<ServerCommandSource> parseResults = commandDispatcher.parse(commandExpression.command, Sculk.server.getCommandSource());
-        int result;
-
-        try {
-            result = commandDispatcher.execute(parseResults);
-        } catch (CommandSyntaxException e) {
-            return new CommandResultInstance(new NullInstance(), new BooleanInstance(false), new StringInstance(e.getMessage()));
-        }
-
-        return new CommandResultInstance(new IntegerInstance(result), new BooleanInstance(true), new NullInstance());
-    }
-
-    @Override
     public void visitContinueStatement(ContinueStatementNode continueStatement) {
         throw new Continue();
     }
@@ -205,8 +182,6 @@ public class Interpreter implements Visitor {
             return this.visitPostfixExpression(postfixExpression);
         } else if (expression instanceof LiteralExpressionNode literalExpression) {
             return this.visitLiteralExpression(literalExpression);
-        } else if (expression instanceof CommandExpressionNode commandExpression) {
-            return this.visitCommandExpression(commandExpression);
         } else {
             throw ErrorHolder.unsupportedExpressionNodeToInterpret(expression);
         }
@@ -555,6 +530,7 @@ public class Interpreter implements Visitor {
     @Override
     public void visitWhileStatement(WhileStatementNode whileStatement) {
         int loops = 0;
+        int maxLoops = Sculk.server.getGameRules().getInt(SculkGamerules.MAX_LOOPS);
 
         while_loop:
         while (true) {
@@ -580,8 +556,8 @@ public class Interpreter implements Visitor {
                 }
             }
 
-            if (++loops > this.maxLoops) {
-                throw new StackOverflowError("While-loop ran more than " + this.maxLoops + " times");
+            if (++loops > maxLoops) {
+                throw new StackOverflowError("While-loop ran more than " + maxLoops + " times");
             }
 
             this.variableTable.exitScope();

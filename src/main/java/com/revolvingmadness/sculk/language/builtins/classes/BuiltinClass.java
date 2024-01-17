@@ -2,7 +2,6 @@ package com.revolvingmadness.sculk.language.builtins.classes;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.EventsInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.MinecraftServerInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.NullInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.ObjectInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
@@ -16,6 +15,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -198,7 +198,7 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.cannotConvertType(this.getType(), new LivingEntityType());
     }
 
-    public MinecraftServerInstance toMinecraftServerInstance() {
+    public MinecraftServer toMinecraftServer() {
         throw ErrorHolder.cannotConvertType(this.getType(), new MinecraftServerType());
     }
 

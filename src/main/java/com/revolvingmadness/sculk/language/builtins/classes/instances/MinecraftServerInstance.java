@@ -37,7 +37,7 @@ public class MinecraftServerInstance extends BuiltinClass {
     }
 
     @Override
-    public MinecraftServerInstance toMinecraftServerInstance() {
-        return this;
+    public MinecraftServer toMinecraftServer() {
+        return this.value;
     }
 }
