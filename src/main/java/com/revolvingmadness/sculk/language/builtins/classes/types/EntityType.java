@@ -71,7 +71,6 @@ public class EntityType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "canFreeze", new CanFreeze());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "canUsePortals", new CanUsePortals());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "extinguish", new Extinguish());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "extinguishWithSound", new ExtinguishWithSound());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getPassengers", new GetPassengers());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getVehicle", new GetVehicle());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "hasControllingPassenger", new HasControllingPassenger());
@@ -155,24 +154,21 @@ public class EntityType extends BuiltinType {
     private static class Extinguish extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("extinguish", 0, arguments.size());
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("extinguish", 1, arguments.size());
             }
 
-            this.boundClass.toEntity().extinguish();
+            BuiltinClass other = arguments.get(0);
 
-            return new NullInstance();
-        }
-    }
-
-    private static class ExtinguishWithSound extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("extinguishWithSound", 0, arguments.size());
+            if (!other.instanceOf(new BooleanType())) {
+                throw ErrorHolder.argumentRequiresType(1, "extinguish", new BooleanType(), other.getType());
             }
 
-            this.boundClass.toEntity().extinguishWithSound();
+            if (other.toBoolean()) {
+                this.boundClass.toEntity().extinguishWithSound();
+            } else {
+                this.boundClass.toEntity().extinguish();
+            }
 
             return new NullInstance();
         }
