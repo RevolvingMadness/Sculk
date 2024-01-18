@@ -33,7 +33,20 @@ public class Lexer {
     }
 
     public Character consume() {
-        return this.input.charAt(this.position++);
+        if (this.position >= this.input.length()) {
+            return '\0';
+        }
+
+        char character = this.input.charAt(this.position++);
+
+        if (character == '\n') {
+            this.currentLineNumber++;
+            this.currentColumnNumber = 1;
+        } else {
+            this.currentColumnNumber++;
+        }
+
+        return character;
     }
 
     @SuppressWarnings({"UnusedReturnValue", "SameParameterValue"})
@@ -41,7 +54,11 @@ public class Lexer {
         Character current = this.consume();
 
         if (current.charValue() != character) {
-            throw new LexError("Expected '" + character + "' got '" + current + "'");
+            if (current == '\0') {
+                throw new LexError("Expected '" + character + "' got 'EOF' at " + this.currentLineNumber + ":" + this.currentColumnNumber);
+            }
+
+            throw new LexError("Expected '" + character + "' got '" + current + "' at " + this.currentLineNumber + ":" + this.currentColumnNumber);
         }
 
         return current;
@@ -53,7 +70,7 @@ public class Lexer {
 
     public Character current() {
         if (this.position >= this.input.length()) {
-            return null;
+            return '\0';
         }
 
         return this.input.charAt(this.position);
@@ -107,13 +124,8 @@ public class Lexer {
                 this.consume();
                 this.addToken(TokenType.PERCENT);
             } else if (Character.isWhitespace(this.current())) {
-                if (this.current('\n')) {
-                    this.currentLineNumber++;
-                    this.currentColumnNumber = 1;
-                }
-
                 this.consume();
-            } else if (Character.isAlphabetic(this.current())) {
+            } else if (Character.isAlphabetic(this.current()) || this.current('_')) {
                 this.tokens.add(this.lexIdentifier());
             } else if (this.current(';')) {
                 this.consume();
@@ -219,8 +231,6 @@ public class Lexer {
             } else {
                 throw new SyntaxError("Unexpected character '" + this.current() + "'");
             }
-
-            this.currentColumnNumber++;
         }
 
         this.addToken(TokenType.EOF);
@@ -285,6 +295,10 @@ public class Lexer {
 
         String identifierString = identifier.toString();
 
+        if (identifierString.isEmpty()) {
+            throw new SyntaxError("Expected identifier at " + this.currentLineNumber + ":" + this.currentColumnNumber);
+        }
+
         if (Sculk.keywords.containsKey(identifierString)) {
             return new Token(this.currentLineNumber, this.currentColumnNumber, Sculk.keywords.get(identifierString));
         }
@@ -292,9 +306,9 @@ public class Lexer {
         if (this.current(':')) {
             this.consume();
 
-            Token path = this.lexIdentifier();
+            String path = (String) this.lexIdentifier().value;
 
-            return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.RESOURCE, new Identifier(identifierString, (String) path.value));
+            return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.RESOURCE, new Identifier(identifierString, path));
         }
 
         return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.IDENTIFIER, identifierString);
