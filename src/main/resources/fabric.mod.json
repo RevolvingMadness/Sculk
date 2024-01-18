@@ -11,7 +11,7 @@
         "homepage": "",
         "sources": "https://github.com/RevolvingMadness/Sculk"
     },
-    "license": "MIT",
+    "license": "Apache-2.0",
     "icon": "assets/sculk/icon.png",
     "environment": "*",
     "entrypoints": {
