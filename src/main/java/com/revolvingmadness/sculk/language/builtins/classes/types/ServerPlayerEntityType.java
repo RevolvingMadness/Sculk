@@ -7,7 +7,6 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.IntegerInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.NullInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 
@@ -19,7 +18,6 @@ public class ServerPlayerEntityType extends BuiltinType {
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), "changeGameMode", new ChangeGameMode());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "dropSelectedItem", new DropSelectedItem());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getIp", new GetIp());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getViewDistance", new GetViewDistance());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setExperienceLevels", new SetExperienceLevels());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setExperiencePoints", new SetExperiencePoints());
@@ -78,17 +76,6 @@ public class ServerPlayerEntityType extends BuiltinType {
             }
 
             return new BooleanInstance(false);
-        }
-    }
-
-    private static class GetIp extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getIp", 0, arguments.size());
-            }
-
-            return new StringInstance(this.boundClass.toServerPlayerEntity().getIp());
         }
     }
 
