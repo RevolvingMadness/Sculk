@@ -306,9 +306,16 @@ public class Lexer {
         if (this.current(':')) {
             this.consume();
 
-            String path = (String) this.lexIdentifier().value;
+            StringBuilder path = new StringBuilder((String) this.lexIdentifier().value);
 
-            return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.RESOURCE, new Identifier(identifierString, path));
+            while (this.current('/')) {
+                this.consume();
+
+                path.append("/");
+                path.append((String) this.lexIdentifier().value);
+            }
+
+            return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.RESOURCE, new Identifier(identifierString, path.toString()));
         }
 
         return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.IDENTIFIER, identifierString);
