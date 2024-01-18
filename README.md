@@ -18,7 +18,7 @@
   <p align="center">
     A programming language for Minecraft
     <br />
-    <a href="https://www.RevolvingMadness.github.io/Sculk"><strong>Explore the docs »</strong></a>
+    <a href="https://revolvingmadness.github.io/Sculk-Docs"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/RevolvingMadness/Sculk/issues">Report Bug</a>
