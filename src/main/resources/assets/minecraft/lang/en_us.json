@@ -43,5 +43,6 @@
     "error.function_requires_return_type": "Function '%s' requires return type '%s' but got '%s'",
     "error.index_out_of_bounds": "Index %s out of bounds for length %s",
     "error.type_is_not_iterable": "Type '%s' is not iterable",
-    "error.cannot_find_script": "Cannot find script '%s'"
+    "error.cannot_find_script": "Cannot find script '%s'",
+    "error.events_can_only_be_registered_in_a_load_script": "Events can only be registered in a load script"
 }

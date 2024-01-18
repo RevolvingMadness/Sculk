@@ -8,6 +8,7 @@ import com.revolvingmadness.sculk.language.parser.nodes.ScriptNode;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SculkScript {
     public final String contents;
@@ -24,6 +25,21 @@ public class SculkScript {
         this.loader = loader;
         this.hasErrors = false;
         this.hasBeenInitialized = false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        SculkScript that = (SculkScript) o;
+        return this.hasBeenInitialized == that.hasBeenInitialized && this.hasErrors == that.hasErrors && Objects.equals(this.contents, that.contents) && Objects.equals(this.identifier, that.identifier) && Objects.equals(this.loader, that.loader) && Objects.equals(this.interpreter, that.interpreter) && Objects.equals(this.scriptNode, that.scriptNode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.contents, this.identifier, this.loader, this.hasBeenInitialized, this.hasErrors, this.interpreter, this.scriptNode);
     }
 
     public void initialize() {

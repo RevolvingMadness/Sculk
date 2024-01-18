@@ -30,21 +30,6 @@ public class EventHolder {
     public static final List<Event> onPlayerSneak = new ArrayList<>();
     public static final List<Event> onPlayerUseItem = new ArrayList<>();
 
-    public static void clearEvents() {
-        EventHolder.onPlaceBlock.clear();
-        EventHolder.onPlayerAttackEntity.clear();
-        EventHolder.onPlayerBreakBlock.clear();
-        EventHolder.onPlayerCraftItem.clear();
-        EventHolder.onPlayerDropItem.clear();
-        EventHolder.onPlayerJump.clear();
-        EventHolder.onPlayerPickupItem.clear();
-        EventHolder.onEntitySleep.clear();
-        EventHolder.onPlayerUseItem.clear();
-        EventHolder.onPlayerRingBell.clear();
-        EventHolder.onPlayerSendChatMessage.clear();
-        EventHolder.onPlayerSneak.clear();
-    }
-
     public static void registerEvents() {
         AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
             if (!world.isClient) {

@@ -1,5 +1,7 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
+import com.revolvingmadness.sculk.backend.SculkScript;
+import com.revolvingmadness.sculk.backend.SculkScriptManager;
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.Event;
 import com.revolvingmadness.sculk.language.EventHolder;
@@ -12,6 +14,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.NullInstan
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 
+import java.util.Collection;
 import java.util.List;
 
 public class EventsType extends BuiltinType {
@@ -34,6 +37,12 @@ public class EventsType extends BuiltinType {
     }
 
     public void registerEvent(String name, List<Event> events) {
+        Collection<SculkScript> loadScripts = SculkScriptManager.currentScript.loader.taggedScripts.get(SculkScriptManager.LOAD_TAG_ID);
+
+        if (loadScripts == null || !loadScripts.contains(SculkScriptManager.currentScript)) {
+            throw ErrorHolder.eventsCanOnlyBeRegisteredInALoadScript();
+        }
+
         BuiltinFunction eventFunction = new BuiltinFunction() {
             @Override
             public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -53,12 +62,8 @@ public class EventsType extends BuiltinType {
 
                 return new NullInstance();
             }
-
-            @Override
-            public BuiltinType getType() {
-                return super.getType();
-            }
         };
+
         this.typeVariableScope.declare(List.of(TokenType.CONST), name, eventFunction);
     }
 

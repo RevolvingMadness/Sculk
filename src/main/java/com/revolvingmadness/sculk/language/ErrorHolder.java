@@ -68,6 +68,10 @@ public class ErrorHolder {
         return new TypeError(I18n.translate("error.invalid_else_if_statement_condition_type", requiredType.toString(), type.toString()));
     }
 
+    public static FileError eventsCanOnlyBeRegisteredInALoadScript() {
+        return new FileError(I18n.translate("error.events_can_only_be_registered_in_a_load_script"));
+    }
+
     public static TypeError functionRequiresReturnType(String functionName, BooleanType type, BuiltinType requiredType) {
         return new TypeError(I18n.translate("error.function_requires_return_type", functionName, type.toString(), requiredType.toString()));
     }

@@ -2,7 +2,6 @@ package com.revolvingmadness.sculk.backend;
 
 import com.google.common.collect.ImmutableList;
 import com.revolvingmadness.sculk.Sculk;
-import com.revolvingmadness.sculk.language.EventHolder;
 import com.revolvingmadness.sculk.language.errors.Error;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
@@ -12,9 +11,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class SculkScriptManager {
-    private static final Identifier LOAD_TAG_ID = new Identifier(Sculk.ID, "load");
-    private static final Identifier RELOAD_TAG_ID = new Identifier(Sculk.ID, "reload");
-    private static final Identifier TICK_TAG_ID = new Identifier(Sculk.ID, "tick");
+    public static final Identifier LOAD_TAG_ID = new Identifier(Sculk.ID, "load");
+    public static final Identifier RELOAD_TAG_ID = new Identifier(Sculk.ID, "reload");
+    public static final Identifier TICK_TAG_ID = new Identifier(Sculk.ID, "tick");
     public static SculkScript currentScript;
     private SculkScriptLoader loader;
     private boolean shouldInitializeScripts;
@@ -60,7 +59,6 @@ public class SculkScriptManager {
         this.tickScripts = List.copyOf(loader.getScriptsFromTag(TICK_TAG_ID));
         this.shouldRunReloadScripts = true;
         this.shouldInitializeScripts = true;
-        EventHolder.clearEvents();
     }
 
     public void setLoader(SculkScriptLoader loader) {
