@@ -36,7 +36,7 @@ public class Parser {
         Token token = this.input.get(this.position++);
 
         if (token.type != type) {
-            throw new SyntaxError(message);
+            throw new SyntaxError(message + " (at " + token.lineNumber + ":" + token.columnNumber + ")");
         }
 
         return token;
@@ -85,8 +85,6 @@ public class Parser {
     }
 
     private List<ExpressionNode> parseArguments() {
-        this.consume();
-
         List<ExpressionNode> arguments = new ArrayList<>();
 
         if (!this.current(TokenType.RIGHT_PARENTHESIS)) {
@@ -98,8 +96,6 @@ public class Parser {
 
             arguments.add(this.parseExpression());
         }
-
-        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis for arguments");
 
         return arguments;
     }
@@ -149,7 +145,7 @@ public class Parser {
     }
 
     private StatementNode parseBreakStatement() {
-        this.consume();
+        this.consume(TokenType.BREAK, "Expected 'break'");
 
         return new BreakStatementNode();
     }
@@ -160,7 +156,12 @@ public class Parser {
 
         while (this.position < this.input.size() && (this.current(TokenType.LEFT_PARENTHESIS) || this.current(TokenType.PERIOD) || this.current(TokenType.LEFT_BRACKET))) {
             if (this.current(TokenType.LEFT_PARENTHESIS)) {
+                this.consume();
+
                 List<ExpressionNode> arguments = this.parseArguments();
+
+                this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis for arguments");
+
                 expression = new CallExpressionNode(expression, arguments);
             } else if (this.current(TokenType.PERIOD)) {
                 this.consume();
@@ -257,7 +258,7 @@ public class Parser {
     }
 
     private StatementNode parseContinueStatement() {
-        this.consume();
+        this.consume(TokenType.CONTINUE, "Expected 'continue'");
 
         return new ContinueStatementNode();
     }
@@ -294,7 +295,7 @@ public class Parser {
     }
 
     private StatementNode parseDeleteStatement() {
-        this.consume();
+        this.consume(TokenType.DELETE, "Expected 'delete'");
 
         ExpressionNode expression = this.parseExpression();
 
@@ -302,7 +303,7 @@ public class Parser {
     }
 
     private ExpressionNode parseDictionaryExpression() {
-        this.consume();
+        this.consume(TokenType.LEFT_BRACE, "Expected '{'");
 
         Map<ExpressionNode, ExpressionNode> dictionary = new HashMap<>();
 
@@ -426,7 +427,7 @@ public class Parser {
     }
 
     private StatementNode parseForStatement() {
-        this.consume();
+        this.consume(TokenType.FOR, "Expected 'for'");
 
         this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'for'");
 
@@ -473,7 +474,7 @@ public class Parser {
     }
 
     private StatementNode parseForeachStatement() {
-        this.consume();
+        this.consume(TokenType.FOREACH, "Expected 'foreach'");
 
         this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'foreach'");
 
@@ -491,7 +492,7 @@ public class Parser {
     }
 
     private StatementNode parseFromStatement() {
-        this.consume();
+        this.consume(TokenType.FROM, "Expected 'from'");
 
         Identifier identifier = (Identifier) this.consume(TokenType.RESOURCE, "Expected resource").value;
 
@@ -541,7 +542,7 @@ public class Parser {
     }
 
     private ExpressionNode parseFunctionExpression() {
-        this.consume();
+        this.consume(TokenType.FUNCTION, "Expected 'function'");
 
         this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis for function expression");
 
@@ -575,7 +576,7 @@ public class Parser {
     }
 
     private StatementNode parseIfStatement() {
-        this.consume();
+        this.consume(TokenType.IF, "Expected 'if'");
 
         this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'if'");
 
@@ -616,7 +617,7 @@ public class Parser {
     }
 
     private StatementNode parseImportStatement() {
-        this.consume();
+        this.consume(TokenType.IMPORT, "Expected 'import'");
 
         Identifier identifier = (Identifier) this.consume(TokenType.RESOURCE, "Expected resource").value;
 
@@ -632,7 +633,7 @@ public class Parser {
     }
 
     private ExpressionNode parseListExpression() {
-        this.consume();
+        this.consume(TokenType.LEFT_BRACKET, "Expected '['");
 
         List<ExpressionNode> elements = new ArrayList<>();
 
@@ -773,7 +774,7 @@ public class Parser {
     }
 
     private StatementNode parseReturnStatement() {
-        this.consume();
+        this.consume(TokenType.RETURN, "Expected 'return'");
 
         if (this.current(TokenType.SEMICOLON)) {
             return new ReturnStatementNode(new NullExpressionNode());
@@ -839,7 +840,7 @@ public class Parser {
     }
 
     private StatementNode parseSwitchStatement() {
-        this.consume();
+        this.consume(TokenType.SWITCH, "Expected 'switch'");
 
         this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'switch'");
 
@@ -960,7 +961,7 @@ public class Parser {
     }
 
     private StatementNode parseWhileStatement() {
-        this.consume();
+        this.consume(TokenType.WHILE, "Expected 'while'");
 
         this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'while'");
 
