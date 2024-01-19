@@ -902,9 +902,13 @@ public class Parser {
     }
 
     private List<StatementNode> parseSwitchExpressionCaseBody() {
-        this.consume(TokenType.RIGHT_ARROW, "Expected '->'");
+        if (this.current(TokenType.RIGHT_ARROW)) {
+            this.consume();
 
-        if (this.current(TokenType.LEFT_BRACE)) {
+            ExpressionNode expression = this.parseExpression();
+
+            return List.of(new YieldStatementNode(expression));
+        } else if (this.current(TokenType.LEFT_BRACE)) {
             this.consume();
 
             List<StatementNode> body = new ArrayList<>();
@@ -920,13 +924,9 @@ public class Parser {
             }
 
             return body;
+        } else {
+            throw new SyntaxError("Expected '->' or '{'");
         }
-
-        ExpressionNode expression = this.parseExpression();
-
-        this.consume(TokenType.SEMICOLON, "Expected semicolon");
-
-        return List.of(new YieldStatementNode(expression));
     }
 
     private StatementNode parseSwitchStatement() {
