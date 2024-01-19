@@ -598,7 +598,15 @@ public class Parser {
 
         Identifier identifier = (Identifier) this.consume(TokenType.RESOURCE, "Expected resource").value;
 
-        return new ImportStatementNode(identifier);
+        String importAs = null;
+
+        if (this.current(TokenType.AS)) {
+            this.consume();
+
+            importAs = (String) this.consume(TokenType.IDENTIFIER, "Expected identifier").value;
+        }
+
+        return new ImportStatementNode(identifier, importAs);
     }
 
     private ExpressionNode parseListExpression() {

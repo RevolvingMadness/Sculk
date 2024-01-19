@@ -348,7 +348,13 @@ public class Interpreter implements Visitor {
             throw ErrorHolder.cannotFindScript(importStatement.identifier);
         }
 
+        this.variableTable.enterScope();
         script.import_(this);
+        VariableScope variableScope = this.variableTable.exitScope();
+
+        if (importStatement.importAs != null) {
+            this.variableTable.declare(List.of(), importStatement.importAs, new ImportAsType(importStatement.importAs, variableScope));
+        }
     }
 
     @Override

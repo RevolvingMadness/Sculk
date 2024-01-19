@@ -17,6 +17,10 @@ public class VariableScope implements Serializable {
         this.variables = new HashMap<>();
     }
 
+    public void addAll(VariableScope variableScope) {
+        this.variables.putAll(variableScope.variables);
+    }
+
     public void assign(String name, BuiltinClass value) {
         Optional<Variable> optionalVariable = this.getOptional(name);
 
