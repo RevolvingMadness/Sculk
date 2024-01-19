@@ -907,6 +907,8 @@ public class Parser {
 
             ExpressionNode expression = this.parseExpression();
 
+            this.consume(TokenType.SEMICOLON, "Expected semicolon");
+
             return List.of(new YieldStatementNode(expression));
         } else if (this.current(TokenType.LEFT_BRACE)) {
             this.consume();
