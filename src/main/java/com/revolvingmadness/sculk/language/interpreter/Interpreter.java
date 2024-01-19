@@ -5,6 +5,7 @@ import com.revolvingmadness.sculk.backend.SculkScript;
 import com.revolvingmadness.sculk.backend.SculkScriptLoader;
 import com.revolvingmadness.sculk.gamerules.SculkGamerules;
 import com.revolvingmadness.sculk.language.ErrorHolder;
+import com.revolvingmadness.sculk.language.SwitchExpressionCase;
 import com.revolvingmadness.sculk.language.SwitchStatementCase;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
@@ -183,6 +184,8 @@ public class Interpreter implements Visitor {
             return this.visitPostfixExpression(postfixExpression);
         } else if (expression instanceof LiteralExpressionNode literalExpression) {
             return this.visitLiteralExpression(literalExpression);
+        } else if (expression instanceof SwitchExpressionNode switchExpression) {
+            return this.visitSwitchExpression(switchExpression);
         } else {
             throw ErrorHolder.unsupportedExpressionNodeToInterpret(expression);
         }
@@ -499,6 +502,8 @@ public class Interpreter implements Visitor {
             this.visitFromStatement(fromStatementNode);
         } else if (statement instanceof SwitchStatementNode switchStatementNode) {
             this.visitSwitchStatement(switchStatementNode);
+        } else if (statement instanceof YieldStatementNode yieldStatement) {
+            this.visitYieldStatement(yieldStatement);
         } else {
             throw ErrorHolder.unsupportedStatementNodeToInterpret(statement);
         }
@@ -507,6 +512,33 @@ public class Interpreter implements Visitor {
     @Override
     public BuiltinClass visitStringExpression(StringExpressionNode stringExpression) {
         return new StringInstance(stringExpression.value);
+    }
+
+    @Override
+    public BuiltinClass visitSwitchExpression(SwitchExpressionNode switchExpression) {
+        BuiltinClass expression = this.visitExpression(switchExpression.toSwitch);
+
+        for (SwitchExpressionCase switchCase : switchExpression.switchBody.body) {
+            for (ExpressionNode condition : switchCase.expressionNodes) {
+                if (expression.equals(this.visitExpression(condition))) {
+                    try {
+                        switchCase.statementNodes.forEach(this::visitStatement);
+                    } catch (Yield yield) {
+                        return this.visitExpression(yield.expression);
+                    }
+                }
+            }
+        }
+
+        if (switchExpression.switchBody.defaultCase != null) {
+            try {
+                switchExpression.switchBody.defaultCase.forEach(this::visitStatement);
+            } catch (Yield yield) {
+                return this.visitExpression(yield.expression);
+            }
+        }
+
+        throw new InterpreterError("Unreachable");
     }
 
     @Override
@@ -607,5 +639,10 @@ public class Interpreter implements Visitor {
 
             this.variableTable.exitScope();
         }
+    }
+
+    @Override
+    public void visitYieldStatement(YieldStatementNode yieldStatement) {
+        throw new Yield(yieldStatement.expression);
     }
 }

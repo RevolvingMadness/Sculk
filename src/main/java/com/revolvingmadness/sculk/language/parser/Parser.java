@@ -1,8 +1,6 @@
 package com.revolvingmadness.sculk.language.parser;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
-import com.revolvingmadness.sculk.language.SwitchStatementBody;
-import com.revolvingmadness.sculk.language.SwitchStatementCase;
+import com.revolvingmadness.sculk.language.*;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.lexer.Token;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -754,6 +752,8 @@ public class Parser {
             return this.parseFunctionExpression();
         } else if (this.current(TokenType.LEFT_BRACE)) {
             return this.parseDictionaryExpression();
+        } else if (this.current(TokenType.SWITCH)) {
+            return this.parseSwitchExpression();
         }
 
         throw new SyntaxError("Unknown expression type '" + this.current().type + "'");
@@ -832,11 +832,101 @@ public class Parser {
             if (this.current(TokenType.SEMICOLON)) {
                 this.consume();
             }
+        } else if (this.current(TokenType.YIELD)) {
+            statement = this.parseYieldStatement();
+            this.consume(TokenType.SEMICOLON, "Expected semicolon after yield statement");
         } else {
             return this.parseDeclarationStatement();
         }
 
         return statement;
+    }
+
+    private ExpressionNode parseSwitchExpression() {
+        this.consume(TokenType.SWITCH, "Expected 'switch'");
+
+        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'switch'");
+
+        ExpressionNode toSwitch = this.parseExpression();
+
+        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after 'switch' condition");
+
+        SwitchExpressionBody switchBody = this.parseSwitchExpressionBody();
+
+        return new SwitchExpressionNode(toSwitch, switchBody);
+    }
+
+    private SwitchExpressionBody parseSwitchExpressionBody() {
+        List<SwitchExpressionCase> body = new ArrayList<>();
+        List<StatementNode> defaultCase = null;
+
+        this.consume(TokenType.LEFT_BRACE, "Expected opening brace after switch expression");
+
+        while (this.position < this.input.size() && (this.current(TokenType.CASE) || this.current(TokenType.DEFAULT))) {
+            if (this.current(TokenType.DEFAULT)) {
+                if (defaultCase != null) {
+                    throw ErrorHolder.aSwitchStatementCanOnlyHave1DefaultCase();
+                }
+
+                this.consume();
+
+                defaultCase = this.parseSwitchExpressionCaseBody();
+
+                continue;
+            }
+
+            SwitchExpressionCase switchCase = this.parseSwitchExpressionCase();
+
+            body.add(switchCase);
+        }
+
+        this.consume(TokenType.RIGHT_BRACE, "Expected closing brace after switch body");
+
+        return new SwitchExpressionBody(body, defaultCase);
+    }
+
+    private SwitchExpressionCase parseSwitchExpressionCase() {
+        this.consume();
+
+        List<ExpressionNode> expressions = new ArrayList<>();
+
+        expressions.add(this.parseExpression());
+
+        while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
+            this.consume();
+
+            expressions.add(this.parseExpression());
+        }
+
+        return new SwitchExpressionCase(expressions, this.parseSwitchExpressionCaseBody());
+    }
+
+    private List<StatementNode> parseSwitchExpressionCaseBody() {
+        this.consume(TokenType.RIGHT_ARROW, "Expected '->'");
+
+        if (this.current(TokenType.LEFT_BRACE)) {
+            this.consume();
+
+            List<StatementNode> body = new ArrayList<>();
+
+            while (this.position < this.input.size() && !this.current(TokenType.RIGHT_BRACE)) {
+                body.add(this.parseStatement());
+            }
+
+            this.consume();
+
+            if (this.current(TokenType.SEMICOLON)) {
+                this.consume();
+            }
+
+            return body;
+        }
+
+        ExpressionNode expression = this.parseExpression();
+
+        this.consume(TokenType.SEMICOLON, "Expected semicolon");
+
+        return List.of(new YieldStatementNode(expression));
     }
 
     private StatementNode parseSwitchStatement() {
@@ -867,17 +957,7 @@ public class Parser {
 
                 this.consume();
 
-                if (this.current(TokenType.RIGHT_ARROW)) {
-                    this.consume();
-
-                    defaultCase = List.of(this.parseStatement());
-                } else if (this.current(TokenType.COLON)) {
-                    this.consume();
-
-                    defaultCase = this.parseSwitchStatementCaseBlock();
-                } else {
-                    throw new SyntaxError("Expected ':' or '->'");
-                }
+                defaultCase = this.parseSwitchStatementCaseBody();
 
                 continue;
             }
@@ -911,23 +991,35 @@ public class Parser {
             StatementNode statement = this.parseStatement();
 
             return new SwitchStatementCase(expressions, List.of(statement));
-        } else {
-            this.consume(TokenType.COLON, "Expected colon");
+        } else if (this.current(TokenType.COLON)) {
+            this.consume();
 
-            List<StatementNode> block = this.parseSwitchStatementCaseBlock();
+            List<StatementNode> block = this.parseSwitchStatementCaseBody();
 
             return new SwitchStatementCase(expressions, block);
+        } else {
+            throw new SyntaxError("Expected ':' or '->'");
         }
     }
 
-    private List<StatementNode> parseSwitchStatementCaseBlock() {
-        List<StatementNode> block = new ArrayList<>();
+    private List<StatementNode> parseSwitchStatementCaseBody() {
+        if (this.current(TokenType.RIGHT_ARROW)) {
+            this.consume();
 
-        while (this.position < this.input.size() && !(this.current(TokenType.CASE) || this.current(TokenType.DEFAULT) || this.current(TokenType.RIGHT_BRACE))) {
-            block.add(this.parseStatement());
+            return List.of(this.parseStatement());
+        } else if (this.current(TokenType.COLON)) {
+            this.consume();
+
+            List<StatementNode> body = new ArrayList<>();
+
+            while (this.position < this.input.size() && !(this.current(TokenType.CASE) || this.current(TokenType.DEFAULT) || this.current(TokenType.RIGHT_BRACE))) {
+                body.add(this.parseStatement());
+            }
+
+            return body;
+        } else {
+            throw new SyntaxError("Expected ':' or '->'");
         }
-
-        return block;
     }
 
     private ExpressionNode parseUnaryExpression() {
@@ -972,5 +1064,13 @@ public class Parser {
         List<StatementNode> body = this.parseBody();
 
         return new WhileStatementNode(expression, body);
+    }
+
+    private StatementNode parseYieldStatement() {
+        this.consume(TokenType.YIELD, "Expected 'yield'");
+
+        ExpressionNode expression = this.parseExpression();
+
+        return new YieldStatementNode(expression);
     }
 }
