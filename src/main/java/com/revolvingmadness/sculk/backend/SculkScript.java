@@ -17,6 +17,7 @@ public class SculkScript {
     public boolean hasBeenInitialized;
     public boolean hasErrors;
     public Interpreter interpreter;
+    public boolean isBeingImported;
     public ScriptNode scriptNode;
 
     public SculkScript(Identifier identifier, List<String> contentsList, SculkScriptLoader loader) {
@@ -25,6 +26,7 @@ public class SculkScript {
         this.loader = loader;
         this.hasErrors = false;
         this.hasBeenInitialized = false;
+        this.isBeingImported = false;
     }
 
     @Override
@@ -34,12 +36,22 @@ public class SculkScript {
         if (o == null || this.getClass() != o.getClass())
             return false;
         SculkScript that = (SculkScript) o;
-        return this.hasBeenInitialized == that.hasBeenInitialized && this.hasErrors == that.hasErrors && Objects.equals(this.contents, that.contents) && Objects.equals(this.identifier, that.identifier) && Objects.equals(this.loader, that.loader) && Objects.equals(this.interpreter, that.interpreter) && Objects.equals(this.scriptNode, that.scriptNode);
+        return this.hasBeenInitialized == that.hasBeenInitialized && this.hasErrors == that.hasErrors && this.isBeingImported == that.isBeingImported && Objects.equals(this.contents, that.contents) && Objects.equals(this.identifier, that.identifier) && Objects.equals(this.loader, that.loader) && Objects.equals(this.interpreter, that.interpreter) && Objects.equals(this.scriptNode, that.scriptNode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.contents, this.identifier, this.loader, this.hasBeenInitialized, this.hasErrors, this.interpreter, this.scriptNode);
+        return Objects.hash(this.contents, this.identifier, this.loader, this.hasBeenInitialized, this.hasErrors, this.interpreter, this.isBeingImported, this.scriptNode);
+    }
+
+    public void import_(Interpreter interpreter) {
+        if (this.isBeingImported) {
+            return;
+        }
+        
+        this.isBeingImported = true;
+        interpreter.visitScript(this.scriptNode);
+        this.isBeingImported = false;
     }
 
     public void initialize() {
@@ -57,10 +69,6 @@ public class SculkScript {
 
     public void interpret() {
         this.interpreter.visitScript(this.scriptNode);
-    }
-
-    public void interpretWithInterpreter(Interpreter interpreter) {
-        interpreter.visitScript(this.scriptNode);
     }
 
     public void reset() {

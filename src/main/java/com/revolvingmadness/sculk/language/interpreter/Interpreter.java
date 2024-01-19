@@ -348,7 +348,7 @@ public class Interpreter implements Visitor {
             throw ErrorHolder.cannotFindScript(importStatement.identifier);
         }
 
-        script.interpretWithInterpreter(this);
+        script.import_(this);
     }
 
     @Override
