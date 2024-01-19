@@ -226,6 +226,11 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.cannotConvertType(this.getType(), new ServerPlayerEntityType());
     }
 
+    @Override
+    public String toString() {
+        return this.toStringType();
+    }
+
     public String toStringType() {
         return "<Class '" + this.getType().typeName + "'>";
     }

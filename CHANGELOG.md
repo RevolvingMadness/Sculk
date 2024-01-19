@@ -14,3 +14,4 @@
 - Add `as` keyword to import statements
 - Add from statement
 - Add switch statement
+- Add switch expression

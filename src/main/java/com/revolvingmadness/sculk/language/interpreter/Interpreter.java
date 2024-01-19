@@ -520,13 +520,16 @@ public class Interpreter implements Visitor {
 
         for (SwitchExpressionCase switchCase : switchExpression.switchBody.body) {
             for (ExpressionNode condition : switchCase.expressionNodes) {
-                if (expression.equals(this.visitExpression(condition))) {
+                BuiltinClass conditionClass = this.visitExpression(condition);
+
+                if (expression.equals(conditionClass)) {
                     try {
                         switchCase.statementNodes.forEach(this::visitStatement);
                     } catch (Yield yield) {
                         return this.visitExpression(yield.expression);
                     }
-                    throw ErrorHolder.switchExpressionCaseDoesntYield();
+
+                    throw ErrorHolder.switchCaseDoesntYieldAValue(conditionClass);
                 }
             }
         }

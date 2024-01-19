@@ -1,5 +1,6 @@
 package com.revolvingmadness.sculk.language;
 
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.BooleanType;
 import com.revolvingmadness.sculk.language.errors.*;
@@ -128,8 +129,8 @@ public class ErrorHolder {
         return new MethodNotImplementedError(I18n.translate("error.method_not_implemented", name, className));
     }
 
-    public static SyntaxError switchExpressionCaseDoesntYield() {
-        return new SyntaxError(I18n.translate("error.switch_expression_doesnt_yield"));
+    public static SyntaxError switchCaseDoesntYieldAValue(BuiltinClass caseClass) {
+        return new SyntaxError(I18n.translate("error.switch_case_doesnt_yield_a_value", caseClass.toString()));
     }
 
     public static NameError thereIsNoPlayerNamed(String playerName) {

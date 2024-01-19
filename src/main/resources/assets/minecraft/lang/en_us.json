@@ -46,5 +46,5 @@
     "error.cannot_find_script": "Cannot find script '%s'",
     "error.events_can_only_be_registered_in_a_load_script": "Events can only be registered in a load script",
     "error.a_switch_statement_can_only_have_1_default_case": "A switch statement can only have 1 default case",
-    "error.switch_expression_doesnt_yield": "Switch expression doesn't yield"
+    "error.switch_case_doesnt_yield_a_value": "Switch case '%s' doesn't yield a value"
 }
