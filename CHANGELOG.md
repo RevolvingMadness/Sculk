@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.1
+
+- Initial release
+- The entire programming language
+
 ## 0.0.2
 
 - Added folder support for resources
@@ -8,3 +13,4 @@
 - Fix circular imports
 - Add `as` keyword to import statements
 - Add from statement
+- Add switch statement

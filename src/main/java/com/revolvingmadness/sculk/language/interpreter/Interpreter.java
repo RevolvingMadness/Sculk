@@ -496,6 +496,8 @@ public class Interpreter implements Visitor {
             this.visitImportStatement(importStatement);
         } else if (statement instanceof FromStatementNode fromStatementNode) {
             this.visitFromStatement(fromStatementNode);
+        } else if (statement instanceof SwitchStatementNode switchStatementNode) {
+            this.visitSwitchStatement(switchStatementNode);
         } else {
             throw ErrorHolder.unsupportedStatementNodeToInterpret(statement);
         }
@@ -504,6 +506,28 @@ public class Interpreter implements Visitor {
     @Override
     public BuiltinClass visitStringExpression(StringExpressionNode stringExpression) {
         return new StringInstance(stringExpression.value);
+    }
+
+    @Override
+    public void visitSwitchStatement(SwitchStatementNode switchStatement) {
+        BuiltinClass expression = this.visitExpression(switchStatement.toSwitch);
+
+        for (Map.Entry<List<ExpressionNode>, List<StatementNode>> entry : switchStatement.switchBody.body.entrySet()) {
+            List<ExpressionNode> expressions = entry.getKey();
+            List<StatementNode> statements = entry.getValue();
+
+            for (ExpressionNode condition : expressions) {
+                if (expression.equals(this.visitExpression(condition))) {
+                    statements.forEach(this::visitStatement);
+
+                    return;
+                }
+            }
+        }
+
+        if (switchStatement.switchBody.defaultCase != null) {
+            switchStatement.switchBody.defaultCase.forEach(this::visitStatement);
+        }
     }
 
     @Override

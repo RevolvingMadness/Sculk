@@ -266,7 +266,7 @@ public class Lexer {
             return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.FLOAT, Double.parseDouble(digitString));
         }
 
-        return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.INTEGER, Integer.parseInt(digitString));
+        return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.INTEGER, Long.parseLong(digitString));
     }
 
     private Character lexEscapeSequence() {

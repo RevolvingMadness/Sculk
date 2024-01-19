@@ -12,6 +12,10 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.util.Identifier;
 
 public class ErrorHolder {
+    public static SyntaxError aSwitchStatementCanOnlyHave1DefaultCase() {
+        return new SyntaxError(I18n.translate("error.a_switch_statement_can_only_have_1_default_case"));
+    }
+
     public static SyntaxError abstractMethodCannotHaveABody(String name) {
         throw new SyntaxError(I18n.translate("error.abstract_method_cannot_have_a_body", name));
     }

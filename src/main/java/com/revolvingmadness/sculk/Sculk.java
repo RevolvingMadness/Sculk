@@ -50,6 +50,9 @@ public class Sculk implements ModInitializer {
 
         // Misc
         Sculk.keywords.put("import", TokenType.IMPORT);
+        Sculk.keywords.put("switch", TokenType.SWITCH);
+        Sculk.keywords.put("case", TokenType.CASE);
+        Sculk.keywords.put("default", TokenType.DEFAULT);
         Sculk.keywords.put("as", TokenType.AS);
         Sculk.keywords.put("from", TokenType.FROM);
         Sculk.keywords.put("extends", TokenType.EXTENDS);

@@ -1,6 +1,7 @@
 package com.revolvingmadness.sculk.language.parser;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
+import com.revolvingmadness.sculk.language.SwitchBody;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.lexer.Token;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -719,7 +720,7 @@ public class Parser {
 
     private ExpressionNode parsePrimaryExpression() {
         if (this.current(TokenType.INTEGER)) {
-            return new IntegerExpressionNode((int) this.consume().value);
+            return new IntegerExpressionNode((long) this.consume().value);
         } else if (this.current(TokenType.FLOAT)) {
             return new FloatExpressionNode((double) this.consume().value);
         } else if (this.current(TokenType.IDENTIFIER)) {
@@ -823,11 +824,86 @@ public class Parser {
         } else if (this.current(TokenType.FROM)) {
             statement = this.parseFromStatement();
             this.consume(TokenType.SEMICOLON, "Expected semicolon after from statement");
+        } else if (this.current(TokenType.SWITCH)) {
+            statement = this.parseSwitchStatement();
+
+            if (this.current(TokenType.SEMICOLON)) {
+                this.consume();
+            }
         } else {
             return this.parseDeclarationStatement();
         }
 
         return statement;
+    }
+
+    private List<StatementNode> parseSwitchBlock() {
+        List<StatementNode> block = new ArrayList<>();
+
+        while (this.position < this.input.size() && !(this.current(TokenType.CASE) || this.current(TokenType.DEFAULT) || this.current(TokenType.RIGHT_BRACE))) {
+            block.add(this.parseStatement());
+        }
+
+        return block;
+    }
+
+    private SwitchBody parseSwitchBody() {
+        Map<List<ExpressionNode>, List<StatementNode>> body = new HashMap<>();
+        List<StatementNode> defaultCase = null;
+
+        this.consume(TokenType.LEFT_BRACE, "Expected opening brace after switch expression");
+
+        while (this.position < this.input.size() && (this.current(TokenType.CASE) || this.current(TokenType.DEFAULT))) {
+            if (this.current(TokenType.DEFAULT)) {
+                if (defaultCase != null) {
+                    throw ErrorHolder.aSwitchStatementCanOnlyHave1DefaultCase();
+                }
+
+                this.consume();
+
+                this.consume(TokenType.COLON, "Expected colon");
+
+                defaultCase = this.parseSwitchBlock();
+
+                continue;
+            }
+
+            this.consume();
+
+            List<ExpressionNode> expressions = new ArrayList<>();
+
+            expressions.add(this.parseExpression());
+
+            while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
+                this.consume();
+
+                expressions.add(this.parseExpression());
+            }
+
+            this.consume(TokenType.COLON, "Expected colon");
+
+            List<StatementNode> block = this.parseSwitchBlock();
+
+            body.put(expressions, block);
+        }
+
+        this.consume(TokenType.RIGHT_BRACE, "Expected closing brace after switch body");
+
+        return new SwitchBody(body, defaultCase);
+    }
+
+    private StatementNode parseSwitchStatement() {
+        this.consume();
+
+        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'switch'");
+
+        ExpressionNode toSwitch = this.parseExpression();
+
+        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after 'switch' condition");
+
+        SwitchBody switchBody = this.parseSwitchBody();
+
+        return new SwitchStatementNode(toSwitch, switchBody);
     }
 
     private ExpressionNode parseUnaryExpression() {

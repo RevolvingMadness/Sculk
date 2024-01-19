@@ -13,12 +13,6 @@ public class FloatInstance extends BuiltinClass {
         this.value = value;
     }
 
-
-    @Override
-    public double toFloat() {
-        return this.value;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -28,7 +22,7 @@ public class FloatInstance extends BuiltinClass {
         if (!super.equals(o))
             return false;
         FloatInstance that = (FloatInstance) o;
-        return Objects.equals(this.value, that.value);
+        return Double.compare(this.value, that.value) == 0;
     }
 
     @Override
@@ -38,12 +32,17 @@ public class FloatInstance extends BuiltinClass {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), this.value);
+        return Objects.hash(this.value);
     }
 
     @Override
     public boolean toBoolean() {
         return this.value != 0.0;
+    }
+
+    @Override
+    public double toFloat() {
+        return this.value;
     }
 
     @Override

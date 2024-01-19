@@ -5,10 +5,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class VariableScope implements Serializable {
     public final Map<String, Variable> variables;
@@ -53,6 +50,16 @@ public class VariableScope implements Serializable {
         this.variables.remove(name);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        VariableScope that = (VariableScope) o;
+        return Objects.equals(this.variables, that.variables);
+    }
+
     public boolean exists(String name) {
         return this.variables.containsKey(name);
     }
@@ -69,5 +76,10 @@ public class VariableScope implements Serializable {
         }
 
         return variable.get();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.variables);
     }
 }

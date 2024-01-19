@@ -14,11 +14,6 @@ public class BooleanInstance extends BuiltinClass {
     }
 
     @Override
-    public double toFloat() {
-        return this.value ? 1.0 : 0.0;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -27,7 +22,7 @@ public class BooleanInstance extends BuiltinClass {
         if (!super.equals(o))
             return false;
         BooleanInstance that = (BooleanInstance) o;
-        return Objects.equals(this.value, that.value);
+        return this.value == that.value;
     }
 
     @Override
@@ -37,12 +32,17 @@ public class BooleanInstance extends BuiltinClass {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), this.value);
+        return Objects.hash(this.value);
     }
 
     @Override
     public boolean toBoolean() {
         return this.value;
+    }
+
+    @Override
+    public double toFloat() {
+        return this.value ? 1.0 : 0.0;
     }
 
     @Override

@@ -75,6 +75,8 @@ public interface Visitor {
 
     BuiltinClass visitStringExpression(StringExpressionNode stringExpression);
 
+    void visitSwitchStatement(SwitchStatementNode switchStatement);
+
     BuiltinClass visitUnaryExpression(UnaryExpressionNode unaryExpression);
 
     BuiltinClass visitVariableAssignmentExpression(VariableAssignmentExpressionNode variableAssignmentExpression);

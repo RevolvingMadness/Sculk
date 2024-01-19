@@ -32,7 +32,7 @@ public class StringInstance extends BuiltinClass {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), this.value);
+        return Objects.hash(this.value);
     }
 
     @Override

@@ -14,11 +14,6 @@ public class IntegerInstance extends BuiltinClass {
     }
 
     @Override
-    public double toFloat() {
-        return this.value;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -27,7 +22,7 @@ public class IntegerInstance extends BuiltinClass {
         if (!super.equals(o))
             return false;
         IntegerInstance that = (IntegerInstance) o;
-        return Objects.equals(this.value, that.value);
+        return this.value == that.value;
     }
 
     @Override
@@ -37,12 +32,17 @@ public class IntegerInstance extends BuiltinClass {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), this.value);
+        return Objects.hash(this.value);
     }
 
     @Override
     public boolean toBoolean() {
         return this.value != 0;
+    }
+
+    @Override
+    public double toFloat() {
+        return this.value;
     }
 
     @Override
