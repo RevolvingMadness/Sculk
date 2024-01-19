@@ -37,6 +37,8 @@ public interface Visitor {
 
     void visitForeachStatement(ForeachStatementNode foreachStatement);
 
+    void visitFromStatement(FromStatementNode fromStatement);
+
     void visitFunctionDeclarationStatement(FunctionDeclarationStatementNode functionDeclarationStatement);
 
     BuiltinClass visitFunctionExpression(FunctionExpressionNode functionExpression);

@@ -283,6 +283,21 @@ public class Interpreter implements Visitor {
     }
 
     @Override
+    public void visitFromStatement(FromStatementNode fromStatement) {
+        SculkScript script = this.loader.scripts.get(fromStatement.identifier);
+
+        if (script == null) {
+            throw ErrorHolder.cannotFindScript(fromStatement.identifier);
+        }
+
+        this.variableTable.enterScope();
+        script.import_(this);
+        VariableScope variableScope = this.variableTable.exitScope();
+
+        fromStatement.variablesToImport.forEach(name -> this.variableTable.declare(List.of(), name, variableScope.getOrThrow(name).value));
+    }
+
+    @Override
     public void visitFunctionDeclarationStatement(FunctionDeclarationStatementNode functionDeclarationStatement) {
         this.variableTable.declare(functionDeclarationStatement.accessModifiers, functionDeclarationStatement.name, new FunctionInstance(functionDeclarationStatement.name, functionDeclarationStatement.arguments, functionDeclarationStatement.body));
     }
@@ -479,6 +494,8 @@ public class Interpreter implements Visitor {
             this.visitEnumDeclarationStatement(enumDeclarationStatement);
         } else if (statement instanceof ImportStatementNode importStatement) {
             this.visitImportStatement(importStatement);
+        } else if (statement instanceof FromStatementNode fromStatementNode) {
+            this.visitFromStatement(fromStatementNode);
         } else {
             throw ErrorHolder.unsupportedStatementNodeToInterpret(statement);
         }

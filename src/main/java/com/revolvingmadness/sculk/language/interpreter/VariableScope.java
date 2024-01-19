@@ -60,4 +60,14 @@ public class VariableScope implements Serializable {
     public Optional<Variable> getOptional(String name) {
         return Optional.ofNullable(this.variables.get(name));
     }
+
+    public Variable getOrThrow(String name) {
+        Optional<Variable> variable = this.getOptional(name);
+
+        if (variable.isEmpty()) {
+            throw ErrorHolder.variableHasNotBeenDeclared(name);
+        }
+
+        return variable.get();
+    }
 }

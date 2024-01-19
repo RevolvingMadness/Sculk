@@ -71,7 +71,7 @@ public class Parser {
     private ExpressionNode parseAdditiveExpression() {
         ExpressionNode left = this.parseMultiplicativeExpression();
 
-        while (this.current().isAdditiveOperator()) {
+        while (this.position < this.input.size() && this.current().isAdditiveOperator()) {
             TokenType operator = this.consume().type;
 
             ExpressionNode right = this.parseMultiplicativeExpression();
@@ -229,7 +229,7 @@ public class Parser {
     private ExpressionNode parseConditionalAndExpression() {
         ExpressionNode left = this.parseEqualityExpression();
 
-        while (this.current().isAndOperator()) {
+        while (this.position < this.input.size() && this.current().isAndOperator()) {
             TokenType operator = this.consume().type;
 
             ExpressionNode right = this.parseEqualityExpression();
@@ -243,7 +243,7 @@ public class Parser {
     private ExpressionNode parseConditionalOrExpression() {
         ExpressionNode left = this.parseConditionalAndExpression();
 
-        while (this.current(TokenType.DOUBLE_PIPE)) {
+        while (this.position < this.input.size() && this.current(TokenType.DOUBLE_PIPE)) {
             TokenType operator = this.consume().type;
 
             ExpressionNode right = this.parseConditionalAndExpression();
@@ -370,7 +370,7 @@ public class Parser {
     private ExpressionNode parseEqualityExpression() {
         ExpressionNode left = this.parseRelationalExpression();
 
-        while (this.current().isEqualityOperator()) {
+        while (this.position < this.input.size() && this.current().isEqualityOperator()) {
             TokenType operator = this.consume().type;
 
             ExpressionNode right = this.parseRelationalExpression();
@@ -384,7 +384,7 @@ public class Parser {
     private ExpressionNode parseExponentiationExpression() {
         ExpressionNode left = this.parseCallExpression();
 
-        while (this.current().isExponentiationOperator()) {
+        while (this.position < this.input.size() && this.current().isExponentiationOperator()) {
             TokenType operator = this.consume().type;
 
             ExpressionNode right = this.parseCallExpression();
@@ -486,6 +486,26 @@ public class Parser {
         List<StatementNode> body = this.parseBody();
 
         return new ForeachStatementNode(variableName, variableToIterate, body);
+    }
+
+    private StatementNode parseFromStatement() {
+        this.consume();
+
+        Identifier identifier = (Identifier) this.consume(TokenType.RESOURCE, "Expected resource").value;
+
+        this.consume(TokenType.IMPORT, "Expected 'import'");
+
+        List<String> variablesToImport = new ArrayList<>();
+
+        variablesToImport.add((String) this.consume(TokenType.IDENTIFIER, "Expected variable name").value);
+
+        while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
+            this.consume();
+
+            variablesToImport.add((String) this.consume(TokenType.IDENTIFIER, "Expected variable name").value);
+        }
+
+        return new FromStatementNode(identifier, variablesToImport);
     }
 
     private StatementNode parseFunctionDeclarationStatement(List<TokenType> accessModifiers) {
@@ -674,7 +694,7 @@ public class Parser {
     private ExpressionNode parseMultiplicativeExpression() {
         ExpressionNode left = this.parseUnaryExpression();
 
-        while (this.current().isMultiplicativeOperator()) {
+        while (this.position < this.input.size() && this.current().isMultiplicativeOperator()) {
             TokenType operator = this.consume().type;
 
             ExpressionNode right = this.parseUnaryExpression();
@@ -739,7 +759,7 @@ public class Parser {
     private ExpressionNode parseRelationalExpression() {
         ExpressionNode left = this.parseAdditiveExpression();
 
-        while (this.current().isRelationOperator()) {
+        while (this.position < this.input.size() && this.current().isRelationOperator()) {
             TokenType operator = this.consume().type;
 
             ExpressionNode right = this.parseAdditiveExpression();
@@ -799,7 +819,10 @@ public class Parser {
             this.consume(TokenType.SEMICOLON, "Expected semicolon after delete statement");
         } else if (this.current(TokenType.IMPORT)) {
             statement = this.parseImportStatement();
-            this.consume(TokenType.SEMICOLON, "Expected semicolon after delete statement");
+            this.consume(TokenType.SEMICOLON, "Expected semicolon after import statement");
+        } else if (this.current(TokenType.FROM)) {
+            statement = this.parseFromStatement();
+            this.consume(TokenType.SEMICOLON, "Expected semicolon after from statement");
         } else {
             return this.parseDeclarationStatement();
         }

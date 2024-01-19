@@ -308,7 +308,7 @@ public class Lexer {
 
             StringBuilder path = new StringBuilder((String) this.lexIdentifier().value);
 
-            while (this.current('/')) {
+            while (this.position < this.input.length() && this.current('/')) {
                 this.consume();
 
                 path.append("/");
