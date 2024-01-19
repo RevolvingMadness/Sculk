@@ -128,6 +128,10 @@ public class ErrorHolder {
         return new MethodNotImplementedError(I18n.translate("error.method_not_implemented", name, className));
     }
 
+    public static SyntaxError switchExpressionCaseDoesntYield() {
+        return new SyntaxError(I18n.translate("error.switch_expression_doesnt_yield"));
+    }
+
     public static NameError thereIsNoPlayerNamed(String playerName) {
         return new NameError(I18n.translate("error.there_is_no_player_named", playerName));
     }

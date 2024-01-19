@@ -526,6 +526,7 @@ public class Interpreter implements Visitor {
                     } catch (Yield yield) {
                         return this.visitExpression(yield.expression);
                     }
+                    throw ErrorHolder.switchExpressionCaseDoesntYield();
                 }
             }
         }
