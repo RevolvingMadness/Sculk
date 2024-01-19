@@ -1,7 +1,8 @@
 package com.revolvingmadness.sculk.language.parser;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
-import com.revolvingmadness.sculk.language.SwitchBody;
+import com.revolvingmadness.sculk.language.SwitchStatementBody;
+import com.revolvingmadness.sculk.language.SwitchStatementCase;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.lexer.Token;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -837,18 +838,22 @@ public class Parser {
         return statement;
     }
 
-    private List<StatementNode> parseSwitchBlock() {
-        List<StatementNode> block = new ArrayList<>();
+    private StatementNode parseSwitchStatement() {
+        this.consume();
 
-        while (this.position < this.input.size() && !(this.current(TokenType.CASE) || this.current(TokenType.DEFAULT) || this.current(TokenType.RIGHT_BRACE))) {
-            block.add(this.parseStatement());
-        }
+        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'switch'");
 
-        return block;
+        ExpressionNode toSwitch = this.parseExpression();
+
+        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after 'switch' condition");
+
+        SwitchStatementBody switchBody = this.parseSwitchStatementBody();
+
+        return new SwitchStatementNode(toSwitch, switchBody);
     }
 
-    private SwitchBody parseSwitchBody() {
-        Map<List<ExpressionNode>, List<StatementNode>> body = new HashMap<>();
+    private SwitchStatementBody parseSwitchStatementBody() {
+        List<SwitchStatementCase> body = new ArrayList<>();
         List<StatementNode> defaultCase = null;
 
         this.consume(TokenType.LEFT_BRACE, "Expected opening brace after switch expression");
@@ -861,49 +866,67 @@ public class Parser {
 
                 this.consume();
 
-                this.consume(TokenType.COLON, "Expected colon");
+                if (this.current(TokenType.RIGHT_ARROW)) {
+                    this.consume();
 
-                defaultCase = this.parseSwitchBlock();
+                    defaultCase = List.of(this.parseStatement());
+                } else if (this.current(TokenType.COLON)) {
+                    this.consume();
+
+                    defaultCase = this.parseSwitchStatementCaseBlock();
+                } else {
+                    throw new SyntaxError("Expected ':' or '->'");
+                }
 
                 continue;
             }
 
-            this.consume();
+            SwitchStatementCase switchCase = this.parseSwitchStatementCase();
 
-            List<ExpressionNode> expressions = new ArrayList<>();
-
-            expressions.add(this.parseExpression());
-
-            while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
-                this.consume();
-
-                expressions.add(this.parseExpression());
-            }
-
-            this.consume(TokenType.COLON, "Expected colon");
-
-            List<StatementNode> block = this.parseSwitchBlock();
-
-            body.put(expressions, block);
+            body.add(switchCase);
         }
 
         this.consume(TokenType.RIGHT_BRACE, "Expected closing brace after switch body");
 
-        return new SwitchBody(body, defaultCase);
+        return new SwitchStatementBody(body, defaultCase);
     }
 
-    private StatementNode parseSwitchStatement() {
+    private SwitchStatementCase parseSwitchStatementCase() {
         this.consume();
 
-        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'switch'");
+        List<ExpressionNode> expressions = new ArrayList<>();
 
-        ExpressionNode toSwitch = this.parseExpression();
+        expressions.add(this.parseExpression());
 
-        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after 'switch' condition");
+        while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
+            this.consume();
 
-        SwitchBody switchBody = this.parseSwitchBody();
+            expressions.add(this.parseExpression());
+        }
 
-        return new SwitchStatementNode(toSwitch, switchBody);
+        if (this.current(TokenType.RIGHT_ARROW)) {
+            this.consume();
+
+            StatementNode statement = this.parseStatement();
+
+            return new SwitchStatementCase(expressions, List.of(statement));
+        } else {
+            this.consume(TokenType.COLON, "Expected colon");
+
+            List<StatementNode> block = this.parseSwitchStatementCaseBlock();
+
+            return new SwitchStatementCase(expressions, block);
+        }
+    }
+
+    private List<StatementNode> parseSwitchStatementCaseBlock() {
+        List<StatementNode> block = new ArrayList<>();
+
+        while (this.position < this.input.size() && !(this.current(TokenType.CASE) || this.current(TokenType.DEFAULT) || this.current(TokenType.RIGHT_BRACE))) {
+            block.add(this.parseStatement());
+        }
+
+        return block;
     }
 
     private ExpressionNode parseUnaryExpression() {

@@ -5,6 +5,7 @@ import com.revolvingmadness.sculk.backend.SculkScript;
 import com.revolvingmadness.sculk.backend.SculkScriptLoader;
 import com.revolvingmadness.sculk.gamerules.SculkGamerules;
 import com.revolvingmadness.sculk.language.ErrorHolder;
+import com.revolvingmadness.sculk.language.SwitchStatementCase;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
@@ -512,13 +513,10 @@ public class Interpreter implements Visitor {
     public void visitSwitchStatement(SwitchStatementNode switchStatement) {
         BuiltinClass expression = this.visitExpression(switchStatement.toSwitch);
 
-        for (Map.Entry<List<ExpressionNode>, List<StatementNode>> entry : switchStatement.switchBody.body.entrySet()) {
-            List<ExpressionNode> expressions = entry.getKey();
-            List<StatementNode> statements = entry.getValue();
-
-            for (ExpressionNode condition : expressions) {
+        for (SwitchStatementCase switchCase : switchStatement.switchBody.body) {
+            for (ExpressionNode condition : switchCase.expressionNodes) {
                 if (expression.equals(this.visitExpression(condition))) {
-                    statements.forEach(this::visitStatement);
+                    switchCase.statementNodes.forEach(this::visitStatement);
 
                     return;
                 }
