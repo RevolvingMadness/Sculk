@@ -987,21 +987,7 @@ public class Parser {
             expressions.add(this.parseExpression());
         }
 
-        if (this.current(TokenType.RIGHT_ARROW)) {
-            this.consume();
-
-            StatementNode statement = this.parseStatement();
-
-            return new SwitchStatementCase(expressions, List.of(statement));
-        } else if (this.current(TokenType.COLON)) {
-            this.consume();
-
-            List<StatementNode> block = this.parseSwitchStatementCaseBody();
-
-            return new SwitchStatementCase(expressions, block);
-        } else {
-            throw new SyntaxError("Expected ':' or '->'");
-        }
+        return new SwitchStatementCase(expressions, this.parseSwitchStatementCaseBody());
     }
 
     private List<StatementNode> parseSwitchStatementCaseBody() {
@@ -1009,18 +995,24 @@ public class Parser {
             this.consume();
 
             return List.of(this.parseStatement());
-        } else if (this.current(TokenType.COLON)) {
+        } else if (this.current(TokenType.LEFT_BRACE)) {
             this.consume();
 
             List<StatementNode> body = new ArrayList<>();
 
-            while (this.position < this.input.size() && !(this.current(TokenType.CASE) || this.current(TokenType.DEFAULT) || this.current(TokenType.RIGHT_BRACE))) {
+            while (this.position < this.input.size() && !this.current(TokenType.RIGHT_BRACE)) {
                 body.add(this.parseStatement());
+            }
+
+            this.consume();
+
+            if (this.current(TokenType.SEMICOLON)) {
+                this.consume();
             }
 
             return body;
         } else {
-            throw new SyntaxError("Expected ':' or '->'");
+            throw new SyntaxError("Expected '{' or '->'");
         }
     }
 
