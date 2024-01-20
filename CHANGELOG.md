@@ -22,3 +22,4 @@
 - `Entity.extinguish(): Null` and `Entity.extinguishWithSound(): Null` have been merged into one
   function `Entity.extinguish(Boolean): Null`
 - Fix circular imports
+- Reverted custom load script

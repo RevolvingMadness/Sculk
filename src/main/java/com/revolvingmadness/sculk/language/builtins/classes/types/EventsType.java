@@ -39,10 +39,8 @@ public class EventsType extends BuiltinType {
     public void registerEvent(String name, List<Event> events) {
         Collection<SculkScript> loadScripts = SculkScriptManager.currentScript.loader.taggedScripts.get(SculkScriptManager.LOAD_TAG_ID);
 
-        Collection<SculkScript> reloadScripts = SculkScriptManager.currentScript.loader.taggedScripts.get(SculkScriptManager.RELOAD_TAG_ID);
-
-        if (!(loadScripts == null || !loadScripts.contains(SculkScriptManager.currentScript) || reloadScripts == null || !reloadScripts.contains(SculkScriptManager.currentScript))) {
-            throw ErrorHolder.eventsCanOnlyBeRegisteredInALoadOrReloadScript();
+        if (loadScripts == null || !loadScripts.contains(SculkScriptManager.currentScript)) {
+            throw ErrorHolder.eventsCanOnlyBeRegisteredInALoadScript();
         }
 
         BuiltinFunction eventFunction = new BuiltinFunction() {
