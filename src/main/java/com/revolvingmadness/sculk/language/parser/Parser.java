@@ -742,7 +742,7 @@ public class Parser {
         } else if (this.current(TokenType.STRING)) {
             return new StringExpressionNode((String) this.consume().value);
         } else if (this.current(TokenType.RESOURCE)) {
-            return new ResourceExpressionNode(Identifier.tryParse((String) this.consume().value));
+            return new ResourceExpressionNode((Identifier) this.consume().value);
         } else if (this.current(TokenType.NULL)) {
             this.consume();
             return new NullExpressionNode();
