@@ -7,12 +7,18 @@
 
 ## 0.0.2
 
+### Added
+
 - Added folder support for resources
     - `foo:bar` now supports `foo:foo/foobar`
-- Entity.extinguish() and Entity.extinguishWithSound() are now merged to 1 function Entity.extinguish(boolean)
-- Fix circular imports
 - Add `as` keyword to import statements
 - Add from statement
 - Add switch statement
 - Add switch expression
 - Add increment/decrement operators `x++` / `x--`
+
+### Changed
+
+- `Entity.extinguish(): Null` and `Entity.extinguishWithSound(): Null` have been merged into one
+  function `Entity.extinguish(Boolean): Null`
+- Fix circular imports
