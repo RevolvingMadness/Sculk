@@ -5,12 +5,12 @@ import com.revolvingmadness.sculk.language.lexer.TokenType;
 import java.util.Objects;
 
 public class UnaryExpressionNode extends ExpressionNode {
+    public final ExpressionNode expression;
     public final TokenType operator;
-    public final ExpressionNode value;
 
-    public UnaryExpressionNode(TokenType operator, ExpressionNode value) {
+    public UnaryExpressionNode(TokenType operator, ExpressionNode expression) {
         this.operator = operator;
-        this.value = value;
+        this.expression = expression;
     }
 
     @Override
@@ -20,11 +20,11 @@ public class UnaryExpressionNode extends ExpressionNode {
         if (o == null || this.getClass() != o.getClass())
             return false;
         UnaryExpressionNode that = (UnaryExpressionNode) o;
-        return this.operator == that.operator && Objects.equals(this.value, that.value);
+        return this.operator == that.operator && Objects.equals(this.expression, that.expression);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.operator, this.value);
+        return Objects.hash(this.operator, this.expression);
     }
 }

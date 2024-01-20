@@ -15,3 +15,4 @@
 - Add from statement
 - Add switch statement
 - Add switch expression
+- Add increment/decrement operators `x++` / `x--`

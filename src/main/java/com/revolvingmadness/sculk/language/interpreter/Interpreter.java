@@ -435,16 +435,74 @@ public class Interpreter implements Visitor {
 
     @Override
     public BuiltinClass visitPostfixExpression(PostfixExpressionNode postfixExpression) {
-        //        BuiltinClass expression = this.visitExpression(postfixExpression.expression);
+        if (postfixExpression.expression instanceof IdentifierExpressionNode identifierExpression) {
+            Variable variable = this.variableTable.getOrThrow(identifierExpression.value);
+            BuiltinClass value = this.visitExpression(variable.value);
 
-        // x-- returns x and increments x
+            return switch (postfixExpression.operator) {
+                case DOUBLE_PLUS -> {
+                    BuiltinClass incrementedValue = value.call(this, "increment", List.of());
 
-        //        return switch (postfixExpression.operator) {
-        //            case DOUBLE_PLUS -> expression.call(this, "increment", List.of());
-        //            case DOUBLE_HYPHEN -> expression.call(this, "decrement", List.of());
-        //            default -> throw ErrorHolder.unsupportedPostfixOperator(postfixExpression.operator);
-        //        };
-        throw ErrorHolder.unsupportedPostfixOperator(postfixExpression.operator);
+                    this.variableTable.assign(identifierExpression.value, incrementedValue);
+
+                    yield value;
+                }
+                case DOUBLE_HYPHEN -> {
+                    BuiltinClass decrementedValue = value.call(this, "decrement", List.of());
+
+                    this.variableTable.assign(identifierExpression.value, decrementedValue);
+
+                    yield value;
+                }
+                default -> throw ErrorHolder.unsupportedPostfixOperator(postfixExpression.operator);
+            };
+        } else if (postfixExpression.expression instanceof GetExpressionNode getExpression) {
+            BuiltinClass value = this.visitExpression(getExpression.expression);
+
+            return switch (postfixExpression.operator) {
+                case DOUBLE_PLUS -> {
+                    BuiltinClass incrementedValue = value.call(this, "increment", List.of());
+
+                    value.setProperty(getExpression.propertyName, incrementedValue);
+
+                    yield value;
+                }
+                case DOUBLE_HYPHEN -> {
+                    BuiltinClass decrementedValue = value.call(this, "decrement", List.of());
+
+                    value.setProperty(getExpression.propertyName, decrementedValue);
+
+                    yield value;
+                }
+                default -> throw ErrorHolder.unsupportedPostfixOperator(postfixExpression.operator);
+            };
+        } else if (postfixExpression.expression instanceof IndexExpressionNode indexExpression) {
+            BuiltinClass value = this.visitExpression(indexExpression.expression);
+
+            return switch (postfixExpression.operator) {
+                case DOUBLE_PLUS -> {
+                    BuiltinClass incrementedValue = value.call(this, "increment", List.of());
+
+                    BuiltinClass index = this.visitExpression(indexExpression.index);
+
+                    value.setIndex(index, incrementedValue);
+
+                    yield value;
+                }
+                case DOUBLE_HYPHEN -> {
+                    BuiltinClass decrementedValue = value.call(this, "decrement", List.of());
+
+                    BuiltinClass index = this.visitExpression(indexExpression.index);
+
+                    value.setIndex(index, decrementedValue);
+
+                    yield value;
+                }
+                default -> throw ErrorHolder.unsupportedPostfixOperator(postfixExpression.operator);
+            };
+        } else {
+            throw new SyntaxError("Cannot apply postfix operator to r-value");
+        }
     }
 
     @Override
@@ -566,13 +624,80 @@ public class Interpreter implements Visitor {
 
     @Override
     public BuiltinClass visitUnaryExpression(UnaryExpressionNode unaryExpression) {
-        BuiltinClass value = this.visitExpression(unaryExpression.value);
+        if (unaryExpression.expression instanceof IdentifierExpressionNode identifierExpression) {
+            Variable variable = this.variableTable.getOrThrow(identifierExpression.value);
+            BuiltinClass value = this.visitExpression(variable.value);
 
-        return switch (unaryExpression.operator) {
-            case EXCLAMATION_MARK -> value.call(this, "logicalNot", List.of());
-            case HYPHEN -> value.call(this, "negate", List.of());
-            default -> throw ErrorHolder.unsupportedUnaryOperator(unaryExpression.operator);
-        };
+            return switch (unaryExpression.operator) {
+                case DOUBLE_PLUS -> {
+                    BuiltinClass incrementedValue = value.call(this, "increment", List.of());
+
+                    this.variableTable.assign(identifierExpression.value, incrementedValue);
+
+                    yield incrementedValue;
+                }
+                case DOUBLE_HYPHEN -> {
+                    BuiltinClass decrementedValue = value.call(this, "decrement", List.of());
+
+                    this.variableTable.assign(identifierExpression.value, decrementedValue);
+
+                    yield decrementedValue;
+                }
+                default -> throw ErrorHolder.unsupportedPostfixOperator(unaryExpression.operator);
+            };
+        } else if (unaryExpression.expression instanceof GetExpressionNode getExpression) {
+            BuiltinClass value = this.visitExpression(getExpression.expression);
+
+            return switch (unaryExpression.operator) {
+                case DOUBLE_PLUS -> {
+                    BuiltinClass incrementedValue = value.call(this, "increment", List.of());
+
+                    value.setProperty(getExpression.propertyName, incrementedValue);
+
+                    yield incrementedValue;
+                }
+                case DOUBLE_HYPHEN -> {
+                    BuiltinClass decrementedValue = value.call(this, "decrement", List.of());
+
+                    value.setProperty(getExpression.propertyName, decrementedValue);
+
+                    yield decrementedValue;
+                }
+                default -> throw ErrorHolder.unsupportedPostfixOperator(unaryExpression.operator);
+            };
+        } else if (unaryExpression.expression instanceof IndexExpressionNode indexExpression) {
+            BuiltinClass value = this.visitExpression(indexExpression.expression);
+
+            return switch (unaryExpression.operator) {
+                case DOUBLE_PLUS -> {
+                    BuiltinClass incrementedValue = value.call(this, "increment", List.of());
+
+                    BuiltinClass index = this.visitExpression(indexExpression.index);
+
+                    value.setIndex(index, incrementedValue);
+
+                    yield incrementedValue;
+                }
+                case DOUBLE_HYPHEN -> {
+                    BuiltinClass decrementedValue = value.call(this, "decrement", List.of());
+
+                    BuiltinClass index = this.visitExpression(indexExpression.index);
+
+                    value.setIndex(index, decrementedValue);
+
+                    yield decrementedValue;
+                }
+                default -> throw ErrorHolder.unsupportedPostfixOperator(unaryExpression.operator);
+            };
+        } else {
+            BuiltinClass value = this.visitExpression(unaryExpression.expression);
+
+            return switch (unaryExpression.operator) {
+                case EXCLAMATION_MARK -> value.call(this, "logicalNot", List.of());
+                case HYPHEN -> value.call(this, "negate", List.of());
+                default -> throw ErrorHolder.unsupportedUnaryOperator(unaryExpression.operator);
+            };
+        }
     }
 
     @Override
