@@ -14,7 +14,7 @@ import java.util.List;
 
 public class FloatType extends BuiltinType {
     public FloatType() {
-        super("Float");
+        super("Float", new IntegerType());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "add", new Add());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "subtract", new Subtract());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "multiply", new Multiply());

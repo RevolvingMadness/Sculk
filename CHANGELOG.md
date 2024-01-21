@@ -28,3 +28,4 @@
   function `Entity.extinguish(Boolean): Null`
 - Fix circular imports
 - Reverted custom load script
+- Float extends Integer

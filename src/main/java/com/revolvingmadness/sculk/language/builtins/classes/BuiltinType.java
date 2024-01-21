@@ -152,11 +152,11 @@ public abstract class BuiltinType extends BuiltinClass {
             return true;
         }
 
-        if (this.typeSuperClass == null) {
+        if (type.typeSuperClass == null) {
             return false;
         }
 
-        return this.typeSuperClass.instanceOf(type);
+        return this.instanceOf(type.typeSuperClass);
     }
 
     @Override
