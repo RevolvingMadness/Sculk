@@ -6,8 +6,8 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinFunction;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.StringType;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
-import org.apache.commons.codec.binary.Base64;
 
+import java.util.Base64;
 import java.util.List;
 
 public class Base64EncodeFunction extends BuiltinFunction {
@@ -23,6 +23,6 @@ public class Base64EncodeFunction extends BuiltinFunction {
             throw ErrorHolder.argumentRequiresType(1, "base64encode", new StringType(), value.getType());
         }
 
-        return new StringInstance(Base64.encodeBase64String(value.toString().getBytes()));
+        return new StringInstance(Base64.getEncoder().encodeToString(value.toString().getBytes()));
     }
 }
