@@ -49,6 +49,10 @@ public class ErrorHolder {
         return new SyntaxError(I18n.translate("error.cannot_declare_non_abstract_class_with_abstract_methods", className));
     }
 
+    public static DivisionByZeroError cannotDivideByZero() {
+        return new DivisionByZeroError();
+    }
+
     public static TypeError cannotExtendFromNonType(BuiltinType type) {
         return new TypeError(I18n.translate("error.cannot_extend_from_type", type.toString()));
     }

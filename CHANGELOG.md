@@ -19,6 +19,7 @@
 - Access to builtin classes
 - Constructors for builtin classes
 - Add ternary expressions
+- Division by zero error
 
 ### Changed
 

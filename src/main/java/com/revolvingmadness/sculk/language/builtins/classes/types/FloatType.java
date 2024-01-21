@@ -78,7 +78,6 @@ public class FloatType extends BuiltinType {
     }
 
     private static class Divide extends BuiltinMethod {
-
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
             if (arguments.size() != 1) {
@@ -88,8 +87,16 @@ public class FloatType extends BuiltinType {
             BuiltinClass other = arguments.get(0);
 
             if (other.instanceOf(new FloatType())) {
+                if (other.toFloat() == 0.0) {
+                    throw ErrorHolder.cannotDivideByZero();
+                }
+
                 return new FloatInstance(this.boundClass.toFloat() / other.toFloat());
             } else if (other.instanceOf(new IntegerType())) {
+                if (other.toInteger() == 0) {
+                    throw ErrorHolder.cannotDivideByZero();
+                }
+
                 return new FloatInstance(this.boundClass.toFloat() / other.toInteger());
             }
 
