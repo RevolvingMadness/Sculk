@@ -17,6 +17,7 @@ public class ListType extends BuiltinType {
         super("List");
         this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "length", new Length());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "contains", new Contains());
     }
 
     @Override
@@ -32,6 +33,19 @@ public class ListType extends BuiltinType {
         }
 
         return new ListInstance(listClass.toList());
+    }
+
+    private static class Contains extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("contains", 1, arguments.size());
+            }
+
+            BuiltinClass other = arguments.get(0);
+
+            return new BooleanInstance(this.boundClass.toList().contains(other));
+        }
     }
 
     private static class EqualTo extends BuiltinMethod {

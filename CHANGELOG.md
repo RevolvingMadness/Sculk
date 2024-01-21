@@ -24,6 +24,7 @@
 - `base64encode(input: String): String`
 - `base64decode(input: String): String`
 - `EntityTypes`
+- `List.contains(object: Object): Boolean`
 
 ### Changed
 
