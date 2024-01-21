@@ -58,6 +58,8 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "Dictionary", new DictionaryType());
         this.declare(List.of(TokenType.CONST), "Difficulties", new DifficultiesEnumType());
         this.declare(List.of(TokenType.CONST), "Entity", new EntityType());
+        this.declare(List.of(TokenType.CONST), "EntityTypes", new EntityTypesType());
+        this.declare(List.of(TokenType.CONST), "EntityType", new EntityTypeType());
         this.declare(List.of(TokenType.CONST), "Enum", new EnumType());
         this.declare(List.of(TokenType.CONST), "Events", new EventsType());
         this.declare(List.of(TokenType.CONST), "Float", new FloatType());
