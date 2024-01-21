@@ -1,4 +1,4 @@
-package com.revolvingmadness.sculk.language.builtins.functions.types;
+package com.revolvingmadness.sculk.language.builtins.functions;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;

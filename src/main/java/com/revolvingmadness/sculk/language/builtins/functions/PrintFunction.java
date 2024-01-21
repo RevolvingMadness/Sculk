@@ -1,4 +1,4 @@
-package com.revolvingmadness.sculk.language.builtins.functions.io;
+package com.revolvingmadness.sculk.language.builtins.functions;
 
 import com.revolvingmadness.sculk.backend.Logger;
 import com.revolvingmadness.sculk.language.ErrorHolder;

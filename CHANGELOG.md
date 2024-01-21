@@ -21,6 +21,8 @@
 - Add ternary expressions
 - Division by zero error
 - `Entity.raycast(distance: Float, target: Block, check_fluids: Boolean): Boolean`
+- base64encode(input: String): String
+- base64decode(input: String): String
 
 ### Changed
 
