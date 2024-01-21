@@ -228,6 +228,9 @@ public class Lexer {
             } else if (this.current('.')) {
                 this.consume();
                 this.addToken(TokenType.PERIOD);
+            } else if (this.current('?')) {
+                this.consume();
+                this.addToken(TokenType.QUESTION_MARK);
             } else {
                 throw new SyntaxError("Unexpected character '" + this.current() + "'");
             }

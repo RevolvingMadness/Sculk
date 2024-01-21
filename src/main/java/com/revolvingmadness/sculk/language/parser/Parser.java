@@ -99,7 +99,7 @@ public class Parser {
     }
 
     private ExpressionNode parseAssignmentExpression() {
-        ExpressionNode expression = this.parseConditionalOrExpression();
+        ExpressionNode expression = this.parseTernaryExpression();
 
         if (this.current().isIncrementOperator()) {
             TokenType incrementOperator = this.consume().type;
@@ -120,7 +120,7 @@ public class Parser {
         if (this.current(TokenType.EQUALS)) {
             this.consume();
 
-            ExpressionNode value = this.parseConditionalOrExpression();
+            ExpressionNode value = this.parseTernaryExpression();
 
             return new VariableAssignmentExpressionNode(expression, value);
         }
@@ -1014,6 +1014,24 @@ public class Parser {
         } else {
             throw new SyntaxError("Expected '{' or '->'");
         }
+    }
+
+    private ExpressionNode parseTernaryExpression() {
+        ExpressionNode condition = this.parseConditionalOrExpression();
+
+        if (this.current(TokenType.QUESTION_MARK)) {
+            this.consume(TokenType.QUESTION_MARK, "Expected question mark");
+
+            ExpressionNode ifTrue = this.parseExpression();
+
+            this.consume(TokenType.COLON, "Expected colon");
+
+            ExpressionNode ifFalse = this.parseExpression();
+
+            return new TernaryExpressionNode(condition, ifTrue, ifFalse);
+        }
+
+        return condition;
     }
 
     private ExpressionNode parseUnaryExpression() {

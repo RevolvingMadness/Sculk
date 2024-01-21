@@ -186,6 +186,8 @@ public class Interpreter implements Visitor {
             return this.visitLiteralExpression(literalExpression);
         } else if (expression instanceof SwitchExpressionNode switchExpression) {
             return this.visitSwitchExpression(switchExpression);
+        } else if (expression instanceof TernaryExpressionNode ternaryExpression) {
+            return this.visitTernaryExpression(ternaryExpression);
         } else {
             throw ErrorHolder.unsupportedExpressionNodeToInterpret(expression);
         }
@@ -620,6 +622,11 @@ public class Interpreter implements Visitor {
         if (switchStatement.switchBody.defaultCase != null) {
             switchStatement.switchBody.defaultCase.forEach(this::visitStatement);
         }
+    }
+
+    @Override
+    public BuiltinClass visitTernaryExpression(TernaryExpressionNode ternaryExpression) {
+        return this.visitExpression(ternaryExpression.condition).toBoolean() ? this.visitExpression(ternaryExpression.ifTrue) : this.visitExpression(ternaryExpression.ifFalse);
     }
 
     @Override

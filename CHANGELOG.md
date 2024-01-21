@@ -18,6 +18,7 @@
 - Increment/decrement operators `x++` / `x--`
 - Access to builtin classes
 - Constructors for builtin classes
+- Add ternary expressions
 
 ### Changed
 
