@@ -9,13 +9,15 @@
 
 ### Added
 
-- Added folder support for resources
+- Folder support for resources
     - `foo:bar` now supports `foo:foo/foobar`
-- Add `as` keyword to import statements
-- Add from statement
-- Add switch statement
-- Add switch expression
-- Add increment/decrement operators `x++` / `x--`
+- `as` keyword to import statements
+- From statement
+- Switch statement
+- Switch expression
+- Increment/decrement operators `x++` / `x--`
+- Access to builtin classes
+- Constructors for builtin classes
 
 ### Changed
 

@@ -33,16 +33,11 @@ public class EventsType extends BuiltinType {
         this.registerEvent("onPlayerRingBell", EventHolder.onPlayerRingBell);
         this.registerEvent("onPlayerSendChatMessage", EventHolder.onPlayerSendChatMessage);
         this.registerEvent("onPlayerSneak", EventHolder.onPlayerSneak);
+
         this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
     public void registerEvent(String name, List<Event> events) {
-        Collection<SculkScript> loadScripts = SculkScriptManager.currentScript.loader.taggedScripts.get(SculkScriptManager.LOAD_TAG_ID);
-
-        if (loadScripts == null || !loadScripts.contains(SculkScriptManager.currentScript)) {
-            throw ErrorHolder.eventsCanOnlyBeRegisteredInALoadScript();
-        }
-
         BuiltinFunction eventFunction = new BuiltinFunction() {
             @Override
             public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -58,6 +53,12 @@ public class EventsType extends BuiltinType {
 
                 BuiltinFunction function = functionClass.toFunction();
 
+                Collection<SculkScript> loadScripts = SculkScriptManager.loader.getScriptsFromTag(SculkScriptManager.LOAD_TAG_ID);
+
+                if (loadScripts == null || !loadScripts.contains(SculkScriptManager.currentScript)) {
+                    throw ErrorHolder.eventsCanOnlyBeRegisteredInALoadScript();
+                }
+                
                 events.add(new Event(function));
 
                 return new NullInstance();

@@ -48,12 +48,39 @@ public class VariableTable {
     }
 
     private void declareClasses() {
-        this.declare(List.of(TokenType.CONST), "Blocks", new BlocksType());
-        this.declare(List.of(TokenType.CONST), "Items", new ItemsType());
         this.declare(List.of(TokenType.CONST), "BlockPos", new BlockPosType());
-
-        this.declare(List.of(TokenType.CONST), "GameModes", new GameModesEnumType());
+        this.declare(List.of(TokenType.CONST), "Blocks", new BlocksType());
+        this.declare(List.of(TokenType.CONST), "Block", new BlockType());
+        this.declare(List.of(TokenType.CONST), "Boolean", new BooleanType());
+        this.declare(List.of(TokenType.CONST), "CommandResult", new CommandResultType());
+        this.declare(List.of(TokenType.CONST), "Dictionary", new DictionaryType());
         this.declare(List.of(TokenType.CONST), "Difficulties", new DifficultiesEnumType());
+        this.declare(List.of(TokenType.CONST), "Entity", new EntityType());
+        this.declare(List.of(TokenType.CONST), "Enum", new EnumType());
+        this.declare(List.of(TokenType.CONST), "Events", new EventsType());
+        this.declare(List.of(TokenType.CONST), "Float", new FloatType());
+        this.declare(List.of(TokenType.CONST), "Function", new FunctionType());
+        this.declare(List.of(TokenType.CONST), "GameModes", new GameModesEnumType());
+        this.declare(List.of(TokenType.CONST), "GameRules", new GameRulesType());
+        this.declare(List.of(TokenType.CONST), "Module", new ModuleType());
+        this.declare(List.of(TokenType.CONST), "Integer", new IntegerType());
+        this.declare(List.of(TokenType.CONST), "ItemStack", new ItemStackType());
+        this.declare(List.of(TokenType.CONST), "Items", new ItemsType());
+        this.declare(List.of(TokenType.CONST), "Item", new ItemType());
+        this.declare(List.of(TokenType.CONST), "List", new ListType());
+        this.declare(List.of(TokenType.CONST), "LivingEntity", new LivingEntityType());
+        this.declare(List.of(TokenType.CONST), "Method", new MethodType());
+        this.declare(List.of(TokenType.CONST), "MinecraftServer", new MinecraftServerType());
+        this.declare(List.of(TokenType.CONST), "Null", new NullType());
+        this.declare(List.of(TokenType.CONST), "Object", new ObjectType());
+        this.declare(List.of(TokenType.CONST), "PlayerEntity", new PlayerEntityType());
+        this.declare(List.of(TokenType.CONST), "PlayerManager", new PlayerManagerType());
+        this.declare(List.of(TokenType.CONST), "Resource", new ResourceType());
+        this.declare(List.of(TokenType.CONST), "ServerPlayerEntity", new ServerPlayerEntityType());
+        this.declare(List.of(TokenType.CONST), "String", new StringType());
+        this.declare(List.of(TokenType.CONST), "Type", new TypeType());
+        this.declare(List.of(TokenType.CONST), "Vec3d", new Vec3dType());
+        this.declare(List.of(TokenType.CONST), "World", new WorldType());
     }
 
     private void declareFunctions() {

@@ -33,6 +33,21 @@ public class IntegerType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
+    @Override
+    public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+        if (arguments.size() != 1) {
+            throw ErrorHolder.invalidArgumentCount("init", 1, arguments.size());
+        }
+
+        BuiltinClass integerClass = arguments.get(0);
+
+        if (!integerClass.instanceOf(new IntegerType())) {
+            throw ErrorHolder.argumentRequiresType(1, "init", new IntegerType(), integerClass.getType());
+        }
+
+        return new IntegerInstance(integerClass.toInteger());
+    }
+
     private static class Add extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -49,6 +64,17 @@ public class IntegerType extends BuiltinType {
             }
 
             throw ErrorHolder.cannotApplyBinaryOperatorToTypes("+", new IntegerType(), other.getType());
+        }
+    }
+
+    private static class Decrement extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("decrement", 0, arguments.size());
+            }
+
+            return new IntegerInstance(this.boundClass.toInteger() - 1);
         }
     }
 
@@ -142,6 +168,17 @@ public class IntegerType extends BuiltinType {
             }
 
             throw ErrorHolder.cannotApplyBinaryOperatorToTypes(">=", new IntegerType(), other.getType());
+        }
+    }
+
+    private static class Increment extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("increment", 0, arguments.size());
+            }
+
+            return new IntegerInstance(this.boundClass.toInteger() + 1);
         }
     }
 
@@ -248,28 +285,6 @@ public class IntegerType extends BuiltinType {
             }
 
             throw ErrorHolder.cannotApplyBinaryOperatorToTypes("-", new IntegerType(), other.getType());
-        }
-    }
-
-    private static class Increment extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("increment", 0, arguments.size());
-            }
-
-            return new IntegerInstance(this.boundClass.toInteger() + 1);
-        }
-    }
-
-    private static class Decrement extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("decrement", 0, arguments.size());
-            }
-
-            return new IntegerInstance(this.boundClass.toInteger() - 1);
         }
     }
 

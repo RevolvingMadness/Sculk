@@ -372,7 +372,7 @@ public class Interpreter implements Visitor {
         VariableScope variableScope = this.variableTable.exitScope();
 
         if (importStatement.importAs != null) {
-            this.variableTable.declare(List.of(), importStatement.importAs, new ImportAsType(importStatement.importAs, variableScope));
+            this.variableTable.declare(List.of(), importStatement.importAs, new ModuleInstance(variableScope));
         }
     }
 

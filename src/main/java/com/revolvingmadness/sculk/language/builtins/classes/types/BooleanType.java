@@ -22,21 +22,19 @@ public class BooleanType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
-    private static class EqualTo extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
-            }
-
-            BuiltinClass other = arguments.get(0);
-
-            if (other.instanceOf(new BooleanType())) {
-                return new BooleanInstance(other.toBoolean() == this.boundClass.toBoolean());
-            }
-
-            return new BooleanInstance(false);
+    @Override
+    public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+        if (arguments.size() != 1) {
+            throw ErrorHolder.invalidArgumentCount("init", 1, arguments.size());
         }
+
+        BuiltinClass booleanClass = arguments.get(0);
+
+        if (!booleanClass.instanceOf(new BooleanType())) {
+            throw ErrorHolder.argumentRequiresType(1, "init", new BooleanType(), booleanClass.getType());
+        }
+
+        return new BooleanInstance(booleanClass.toBoolean());
     }
 
     private static class BooleanAnd extends BuiltinMethod {
@@ -70,6 +68,23 @@ public class BooleanType extends BuiltinType {
             }
 
             return new BooleanInstance(this.boundClass.toBoolean() || other.toBoolean());
+        }
+    }
+
+    private static class EqualTo extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
+            }
+
+            BuiltinClass other = arguments.get(0);
+
+            if (other.instanceOf(new BooleanType())) {
+                return new BooleanInstance(other.toBoolean() == this.boundClass.toBoolean());
+            }
+
+            return new BooleanInstance(false);
         }
     }
 

@@ -14,7 +14,7 @@ public class SculkScriptManager {
     public static final Identifier LOAD_TAG_ID = new Identifier(Sculk.ID, "load");
     public static final Identifier TICK_TAG_ID = new Identifier(Sculk.ID, "tick");
     public static SculkScript currentScript;
-    private SculkScriptLoader loader;
+    public static SculkScriptLoader loader;
     private boolean shouldRunLoadScripts;
     private List<SculkScript> tickScripts = ImmutableList.of();
 
@@ -54,17 +54,18 @@ public class SculkScriptManager {
 
     public void reload(SculkScriptLoader loader) {
         this.tickScripts = List.copyOf(loader.getScriptsFromTag(TICK_TAG_ID));
+        SculkScriptManager.currentScript = null;
         this.shouldRunLoadScripts = true;
     }
 
     public void setLoader(SculkScriptLoader loader) {
-        this.loader = loader;
+        SculkScriptManager.loader = loader;
         this.reload(loader);
     }
 
     public void tick() {
         if (this.shouldRunLoadScripts) {
-            this.loader.scripts.forEach((identifier, script) -> {
+            SculkScriptManager.loader.scripts.forEach((identifier, script) -> {
                 try {
                     script.initialize();
                 } catch (Error exception) {
@@ -73,7 +74,7 @@ public class SculkScriptManager {
                 }
             });
 
-            Collection<SculkScript> loadScripts = this.loader.getScriptsFromTag(LOAD_TAG_ID);
+            Collection<SculkScript> loadScripts = SculkScriptManager.loader.getScriptsFromTag(LOAD_TAG_ID);
 
             this.executeAll(loadScripts, LOAD_TAG_ID);
 

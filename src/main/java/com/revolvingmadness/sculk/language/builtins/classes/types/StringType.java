@@ -19,6 +19,21 @@ public class StringType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
+    @Override
+    public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+        if (arguments.size() != 1) {
+            throw ErrorHolder.invalidArgumentCount("init", 1, arguments.size());
+        }
+
+        BuiltinClass stringClass = arguments.get(0);
+
+        if (!stringClass.instanceOf(new StringType())) {
+            throw ErrorHolder.argumentRequiresType(1, "init", new StringType(), stringClass.getType());
+        }
+
+        return new StringInstance(stringClass.toString());
+    }
+
     private static class Add extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {

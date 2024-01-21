@@ -36,6 +36,21 @@ public class ItemStackType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setRepairCost", new SetRepairCost());
     }
 
+    @Override
+    public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+        if (arguments.size() != 1) {
+            throw ErrorHolder.invalidArgumentCount("init", 1, arguments.size());
+        }
+
+        BuiltinClass itemStackClass = arguments.get(0);
+
+        if (!itemStackClass.instanceOf(new ItemType())) {
+            throw ErrorHolder.argumentRequiresType(1, "init", new ItemType(), itemStackClass.getType());
+        }
+
+        return new ItemStackInstance(itemStackClass.toItem().getDefaultStack());
+    }
+
     private static class Decrement extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {

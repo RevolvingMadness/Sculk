@@ -32,26 +32,19 @@ public class FloatType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
-    private static class Increment extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("increment", 0, arguments.size());
-            }
-
-            return new FloatInstance(this.boundClass.toFloat() + 1);
+    @Override
+    public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+        if (arguments.size() != 1) {
+            throw ErrorHolder.invalidArgumentCount("init", 1, arguments.size());
         }
-    }
 
-    private static class Decrement extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("decrement", 0, arguments.size());
-            }
+        BuiltinClass floatClass = arguments.get(0);
 
-            return new FloatInstance(this.boundClass.toFloat() - 1);
+        if (!floatClass.instanceOf(new FloatType())) {
+            throw ErrorHolder.argumentRequiresType(1, "init", new FloatType(), floatClass.getType());
         }
+
+        return new FloatInstance(floatClass.toFloat());
     }
 
     private static class Add extends BuiltinMethod {
@@ -70,6 +63,17 @@ public class FloatType extends BuiltinType {
             }
 
             throw ErrorHolder.cannotApplyBinaryOperatorToTypes("+", new FloatType(), other.getType());
+        }
+    }
+
+    private static class Decrement extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("decrement", 0, arguments.size());
+            }
+
+            return new FloatInstance(this.boundClass.toFloat() - 1);
         }
     }
 
@@ -164,6 +168,17 @@ public class FloatType extends BuiltinType {
             }
 
             throw ErrorHolder.cannotApplyBinaryOperatorToTypes(">=", new FloatType(), other.getType());
+        }
+    }
+
+    private static class Increment extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("increment", 0, arguments.size());
+            }
+
+            return new FloatInstance(this.boundClass.toFloat() + 1);
         }
     }
 

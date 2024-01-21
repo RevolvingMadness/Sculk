@@ -114,6 +114,10 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public boolean instanceOf(BuiltinType type) {
+        if (type.equals(new NullType())) {
+            return true;
+        }
+
         return this.getType().instanceOf(type);
     }
 
