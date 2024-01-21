@@ -20,6 +20,7 @@
 - Constructors for builtin classes
 - Add ternary expressions
 - Division by zero error
+- `Entity.raycast(distance: Float, target: Block, check_fluids: Boolean): Boolean`
 
 ### Changed
 

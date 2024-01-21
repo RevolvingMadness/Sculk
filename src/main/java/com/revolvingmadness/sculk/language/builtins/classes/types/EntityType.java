@@ -7,7 +7,10 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
+import net.minecraft.block.BlockState;
 import net.minecraft.text.Text;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
@@ -77,6 +80,7 @@ public class EntityType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "hasNoGravity", new HasNoGravity());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "hasPassenger", new HasPassenger());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "hasPassengers", new HasPassengers());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "raycast", new Raycast());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
@@ -614,6 +618,43 @@ public class EntityType extends BuiltinType {
             this.boundClass.toEntity().kill();
 
             return new NullInstance();
+        }
+    }
+
+    private static class Raycast extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 3) {
+                throw ErrorHolder.invalidArgumentCount("raycast", 3, arguments.size());
+            }
+
+            BuiltinClass distance = arguments.get(0);
+            BuiltinClass block = arguments.get(1);
+            BuiltinClass includeFluids = arguments.get(2);
+
+            if (!distance.instanceOf(new FloatType())) {
+                throw ErrorHolder.argumentRequiresType(1, "raycast", new FloatType(), distance.getType());
+            }
+
+            if (!block.instanceOf(new BlockType())) {
+                throw ErrorHolder.argumentRequiresType(2, "raycast", new BlockType(), block.getType());
+            }
+
+            if (!includeFluids.instanceOf(new BooleanType())) {
+                throw ErrorHolder.argumentRequiresType(3, "raycast", new BooleanType(), includeFluids.getType());
+            }
+
+            HitResult result = this.boundClass.toEntity().raycast(distance.toFloat(), 1f, includeFluids.toBoolean());
+
+            if (result.getType() != HitResult.Type.BLOCK) {
+                return new BooleanInstance(false);
+            }
+
+            BlockHitResult blockHit = (BlockHitResult) result;
+            BlockPos blockPos = blockHit.getBlockPos();
+            BlockState blockState = this.boundClass.toEntity().getWorld().getBlockState(blockPos);
+
+            return new BooleanInstance(blockState.getBlock().equals(block.toBlock()));
         }
     }
 
