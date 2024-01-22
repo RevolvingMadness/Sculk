@@ -28,8 +28,6 @@ public class DatapackContentsMixin implements DatapackContentsAccessor {
     @Shadow
     @Final
     private FunctionLoader functionLoader;
-    @Unique
-    private SculkScriptLoader sculkScriptLoader;
     @Shadow
     @Final
     private LootManager lootManager;
@@ -39,6 +37,8 @@ public class DatapackContentsMixin implements DatapackContentsAccessor {
     @Shadow
     @Final
     private TagManagerLoader registryTagManager;
+    @Unique
+    private SculkScriptLoader sculkScriptLoader;
     @Shadow
     @Final
     private ServerAdvancementLoader serverAdvancementLoader;

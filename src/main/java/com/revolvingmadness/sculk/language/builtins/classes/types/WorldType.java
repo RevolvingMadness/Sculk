@@ -53,25 +53,6 @@ public class WorldType extends BuiltinType {
         }
     }
 
-    private static class HasRain extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("hasRain", 1, arguments.size());
-            }
-
-            BuiltinClass blockPosClass = arguments.get(0);
-
-            if (!blockPosClass.instanceOf(new BlockPosType())) {
-                throw ErrorHolder.argumentRequiresType(1, "hasRain", new BlockPosType(), blockPosClass.getType());
-            }
-
-            BlockPos blockPos = blockPosClass.toBlockPos();
-
-            return new BooleanInstance(this.boundClass.toWorld().hasRain(blockPos));
-        }
-    }
-
     private static class GetPlayers extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -100,6 +81,58 @@ public class WorldType extends BuiltinType {
         }
     }
 
+    private static class GetTime extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("getTime", 0, arguments.size());
+            }
+
+            return new IntegerInstance(this.boundClass.toWorld().getTime());
+        }
+    }
+
+    private static class GetTimeOfDay extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("getTimeOfDay", 0, arguments.size());
+            }
+
+            return new IntegerInstance(this.boundClass.toWorld().getTimeOfDay());
+        }
+    }
+
+    private static class HasRain extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("hasRain", 1, arguments.size());
+            }
+
+            BuiltinClass blockPosClass = arguments.get(0);
+
+            if (!blockPosClass.instanceOf(new BlockPosType())) {
+                throw ErrorHolder.argumentRequiresType(1, "hasRain", new BlockPosType(), blockPosClass.getType());
+            }
+
+            BlockPos blockPos = blockPosClass.toBlockPos();
+
+            return new BooleanInstance(this.boundClass.toWorld().hasRain(blockPos));
+        }
+    }
+
+    private static class IsDay extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("isDay", 0, arguments.size());
+            }
+
+            return new BooleanInstance(this.boundClass.toWorld().isDay());
+        }
+    }
+
     private static class IsFlat extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -111,6 +144,28 @@ public class WorldType extends BuiltinType {
         }
     }
 
+    private static class IsNight extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("isNight", 0, arguments.size());
+            }
+
+            return new BooleanInstance(this.boundClass.toWorld().isNight());
+        }
+    }
+
+    private static class IsRaining extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("isRaining", 0, arguments.size());
+            }
+
+            return new BooleanInstance(this.boundClass.toWorld().isRaining());
+        }
+    }
+
     private static class IsSleepingEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -119,6 +174,17 @@ public class WorldType extends BuiltinType {
             }
 
             return new BooleanInstance(this.boundClass.toWorld().isSleepingEnabled());
+        }
+    }
+
+    private static class IsThundering extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("isThundering", 0, arguments.size());
+            }
+
+            return new BooleanInstance(this.boundClass.toWorld().isThundering());
         }
     }
 
@@ -194,72 +260,6 @@ public class WorldType extends BuiltinType {
             this.boundClass.toWorld().setTimeOfDay(timeOfDay);
 
             return new NullInstance();
-        }
-    }
-
-    private static class GetTime extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getTime", 0, arguments.size());
-            }
-
-            return new IntegerInstance(this.boundClass.toWorld().getTime());
-        }
-    }
-
-    private static class GetTimeOfDay extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getTimeOfDay", 0, arguments.size());
-            }
-
-            return new IntegerInstance(this.boundClass.toWorld().getTimeOfDay());
-        }
-    }
-
-    private static class IsDay extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isDay", 0, arguments.size());
-            }
-
-            return new BooleanInstance(this.boundClass.toWorld().isDay());
-        }
-    }
-
-    private static class IsNight extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isNight", 0, arguments.size());
-            }
-
-            return new BooleanInstance(this.boundClass.toWorld().isNight());
-        }
-    }
-
-    private static class IsRaining extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isRaining", 0, arguments.size());
-            }
-
-            return new BooleanInstance(this.boundClass.toWorld().isRaining());
-        }
-    }
-
-    private static class IsThundering extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isThundering", 0, arguments.size());
-            }
-
-            return new BooleanInstance(this.boundClass.toWorld().isThundering());
         }
     }
 }

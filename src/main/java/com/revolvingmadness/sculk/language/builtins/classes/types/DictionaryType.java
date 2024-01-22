@@ -6,5 +6,4 @@ public class DictionaryType extends BuiltinType {
     public DictionaryType() {
         super("Dictionary");
     }
-
 }

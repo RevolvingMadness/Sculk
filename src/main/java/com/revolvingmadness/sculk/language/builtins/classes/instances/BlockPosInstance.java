@@ -21,11 +21,6 @@ public class BlockPosInstance extends BuiltinClass {
     }
 
     @Override
-    public BlockPos toBlockPos() {
-        return this.value;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -45,6 +40,11 @@ public class BlockPosInstance extends BuiltinClass {
     @Override
     public int hashCode() {
         return Objects.hash(this.value);
+    }
+
+    @Override
+    public BlockPos toBlockPos() {
+        return this.value;
     }
 
     @Override

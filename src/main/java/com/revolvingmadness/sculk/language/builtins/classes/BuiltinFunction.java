@@ -6,6 +6,8 @@ import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import java.util.List;
 
 public abstract class BuiltinFunction extends BuiltinClass {
+    public abstract BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments);
+
     @Override
     public BuiltinType getType() {
         return new FunctionType();
@@ -15,6 +17,4 @@ public abstract class BuiltinFunction extends BuiltinClass {
     public BuiltinFunction toFunction() {
         return this;
     }
-
-    public abstract BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments);
 }

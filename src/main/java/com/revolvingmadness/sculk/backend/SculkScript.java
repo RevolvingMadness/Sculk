@@ -48,7 +48,7 @@ public class SculkScript {
         if (this.isBeingImported) {
             return;
         }
-        
+
         this.isBeingImported = true;
         interpreter.visitScript(this.scriptNode);
         this.isBeingImported = false;

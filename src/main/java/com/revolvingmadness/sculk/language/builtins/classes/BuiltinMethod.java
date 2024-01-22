@@ -15,6 +15,8 @@ public abstract class BuiltinMethod extends BuiltinClass {
         this.boundSuperClass = superClass;
     }
 
+    public abstract BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments);
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -36,6 +38,4 @@ public abstract class BuiltinMethod extends BuiltinClass {
     public int hashCode() {
         return Objects.hash(this.boundClass, this.boundSuperClass);
     }
-
-    public abstract BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments);
 }
