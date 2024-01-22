@@ -81,7 +81,6 @@ public class EntityType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "hasPassenger", new HasPassenger());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "hasPassengers", new HasPassengers());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "raycast", new Raycast());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
     private static class AddCommandTag extends BuiltinMethod {
@@ -135,23 +134,6 @@ public class EntityType extends BuiltinType {
             this.boundClass.toEntity().dismountVehicle();
 
             return new NullInstance();
-        }
-    }
-
-    private static class EqualTo extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
-            }
-
-            BuiltinClass other = arguments.get(0);
-
-            if (other.instanceOf(new EntityType())) {
-                return new BooleanInstance(other.toEntity().equals(this.boundClass.toEntity()));
-            }
-
-            return new BooleanInstance(false);
         }
     }
 
@@ -239,9 +221,7 @@ public class EntityType extends BuiltinType {
 
             List<BuiltinClass> commandTags = new ArrayList<>();
 
-            this.boundClass.toEntity().getCommandTags().forEach(commandTag -> {
-                commandTags.add(new StringInstance(commandTag));
-            });
+            this.boundClass.toEntity().getCommandTags().forEach(commandTag -> commandTags.add(new StringInstance(commandTag)));
 
             return new ListInstance(commandTags);
         }
@@ -269,9 +249,7 @@ public class EntityType extends BuiltinType {
 
             List<BuiltinClass> passengers = new ArrayList<>();
 
-            this.boundClass.toEntity().getPassengerList().forEach(passenger -> {
-                passengers.add(new EntityInstance(passenger));
-            });
+            this.boundClass.toEntity().getPassengerList().forEach(passenger -> passengers.add(new EntityInstance(passenger)));
 
             return new ListInstance(passengers);
         }

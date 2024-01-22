@@ -39,35 +39,35 @@ public class Interpreter implements Visitor {
         BuiltinClass right = this.visitExpression(binaryExpression.right);
 
         return switch (binaryExpression.operator) {
-            case PLUS -> left.call(this, "add", List.of(right));
-            case HYPHEN -> left.call(this, "subtract", List.of(right));
-            case STAR -> left.call(this, "multiply", List.of(right));
-            case FSLASH -> left.call(this, "divide", List.of(right));
-            case CARET -> left.call(this, "exponentiate", List.of(right));
-            case PERCENT -> left.call(this, "mod", List.of(right));
-            case EQUAL_TO -> left.call(this, "equalTo", List.of(right));
-            case NOT_EQUAL_TO -> left.call(this, "notEqualTo", List.of(right));
-            case GREATER_THAN -> left.call(this, "greaterThan", List.of(right));
-            case GREATER_THAN_OR_EQUAL_TO -> left.call(this, "greaterThanOrEqualTo", List.of(right));
-            case LESS_THAN -> left.call(this, "lessThan", List.of(right));
-            case LESS_THAN_OR_EQUAL_TO -> left.call(this, "lessThanOrEqualTo", List.of(right));
-            case DOUBLE_AMPERSAND -> left.call(this, "booleanAnd", List.of(right));
-            case DOUBLE_PIPE -> left.call(this, "booleanOr", List.of(right));
-            case INSTANCE_OF -> left.call(this, "instanceOf", List.of(right));
+            case PLUS -> left.add(right);
+            case HYPHEN -> left.subtract(right);
+            case STAR -> left.multiply(right);
+            case FSLASH -> left.divide(right);
+            case CARET -> left.exponentiate(right);
+            case PERCENT -> left.mod(right);
+            case EQUAL_TO -> left.equalToMethod(right);
+            case NOT_EQUAL_TO -> left.notEqualToMethod(right);
+            case GREATER_THAN -> left.greaterThan(right);
+            case GREATER_THAN_OR_EQUAL_TO -> left.greaterThanOrEqualTo(right);
+            case LESS_THAN -> left.lessThan(right);
+            case LESS_THAN_OR_EQUAL_TO -> left.lessThanOrEqualTo(right);
+            case DOUBLE_AMPERSAND -> left.booleanAnd(right);
+            case DOUBLE_PIPE -> left.booleanOr(right);
+            case INSTANCE_OF -> new BooleanInstance(left.instanceOf(right.getType()));
             case SPACESHIP -> {
-                BuiltinClass lessThan = left.call(this, "lessThan", List.of(right));
+                BuiltinClass lessThan = left.lessThan(right);
 
                 if (lessThan.toBoolean()) {
                     yield new IntegerInstance(-1);
                 }
 
-                BuiltinClass equalTo = left.call(this, "equalTo", List.of(right));
+                BuiltinClass equalTo = left.equalToMethod(right);
 
                 if (equalTo.toBoolean()) {
                     yield new IntegerInstance(0);
                 }
 
-                BuiltinClass greaterThan = left.call(this, "greaterThan", List.of(right));
+                BuiltinClass greaterThan = left.greaterThan(right);
 
                 if (greaterThan.toBoolean()) {
                     yield new IntegerInstance(1);
@@ -443,14 +443,14 @@ public class Interpreter implements Visitor {
 
             return switch (postfixExpression.operator) {
                 case DOUBLE_PLUS -> {
-                    BuiltinClass incrementedValue = value.call(this, "increment", List.of());
+                    BuiltinClass incrementedValue = value.increment();
 
                     this.variableTable.assign(identifierExpression.value, incrementedValue);
 
                     yield value;
                 }
                 case DOUBLE_HYPHEN -> {
-                    BuiltinClass decrementedValue = value.call(this, "decrement", List.of());
+                    BuiltinClass decrementedValue = value.decrement();
 
                     this.variableTable.assign(identifierExpression.value, decrementedValue);
 
@@ -463,14 +463,14 @@ public class Interpreter implements Visitor {
 
             return switch (postfixExpression.operator) {
                 case DOUBLE_PLUS -> {
-                    BuiltinClass incrementedValue = value.call(this, "increment", List.of());
+                    BuiltinClass incrementedValue = value.increment();
 
                     value.setProperty(getExpression.propertyName, incrementedValue);
 
                     yield value;
                 }
                 case DOUBLE_HYPHEN -> {
-                    BuiltinClass decrementedValue = value.call(this, "decrement", List.of());
+                    BuiltinClass decrementedValue = value.decrement();
 
                     value.setProperty(getExpression.propertyName, decrementedValue);
 
@@ -483,7 +483,7 @@ public class Interpreter implements Visitor {
 
             return switch (postfixExpression.operator) {
                 case DOUBLE_PLUS -> {
-                    BuiltinClass incrementedValue = value.call(this, "increment", List.of());
+                    BuiltinClass incrementedValue = value.increment();
 
                     BuiltinClass index = this.visitExpression(indexExpression.index);
 
@@ -492,7 +492,7 @@ public class Interpreter implements Visitor {
                     yield value;
                 }
                 case DOUBLE_HYPHEN -> {
-                    BuiltinClass decrementedValue = value.call(this, "decrement", List.of());
+                    BuiltinClass decrementedValue = value.decrement();
 
                     BuiltinClass index = this.visitExpression(indexExpression.index);
 
@@ -637,14 +637,14 @@ public class Interpreter implements Visitor {
 
             return switch (unaryExpression.operator) {
                 case DOUBLE_PLUS -> {
-                    BuiltinClass incrementedValue = value.call(this, "increment", List.of());
+                    BuiltinClass incrementedValue = value.increment();
 
                     this.variableTable.assign(identifierExpression.value, incrementedValue);
 
                     yield incrementedValue;
                 }
                 case DOUBLE_HYPHEN -> {
-                    BuiltinClass decrementedValue = value.call(this, "decrement", List.of());
+                    BuiltinClass decrementedValue = value.decrement();
 
                     this.variableTable.assign(identifierExpression.value, decrementedValue);
 
@@ -657,14 +657,14 @@ public class Interpreter implements Visitor {
 
             return switch (unaryExpression.operator) {
                 case DOUBLE_PLUS -> {
-                    BuiltinClass incrementedValue = value.call(this, "increment", List.of());
+                    BuiltinClass incrementedValue = value.increment();
 
                     value.setProperty(getExpression.propertyName, incrementedValue);
 
                     yield incrementedValue;
                 }
                 case DOUBLE_HYPHEN -> {
-                    BuiltinClass decrementedValue = value.call(this, "decrement", List.of());
+                    BuiltinClass decrementedValue = value.decrement();
 
                     value.setProperty(getExpression.propertyName, decrementedValue);
 
@@ -677,7 +677,7 @@ public class Interpreter implements Visitor {
 
             return switch (unaryExpression.operator) {
                 case DOUBLE_PLUS -> {
-                    BuiltinClass incrementedValue = value.call(this, "increment", List.of());
+                    BuiltinClass incrementedValue = value.increment();
 
                     BuiltinClass index = this.visitExpression(indexExpression.index);
 
@@ -686,7 +686,7 @@ public class Interpreter implements Visitor {
                     yield incrementedValue;
                 }
                 case DOUBLE_HYPHEN -> {
-                    BuiltinClass decrementedValue = value.call(this, "decrement", List.of());
+                    BuiltinClass decrementedValue = value.decrement();
 
                     BuiltinClass index = this.visitExpression(indexExpression.index);
 
@@ -700,8 +700,8 @@ public class Interpreter implements Visitor {
             BuiltinClass value = this.visitExpression(unaryExpression.expression);
 
             return switch (unaryExpression.operator) {
-                case EXCLAMATION_MARK -> value.call(this, "logicalNot", List.of());
-                case HYPHEN -> value.call(this, "negate", List.of());
+                case EXCLAMATION_MARK -> value.logicalNot();
+                case HYPHEN -> value.negate();
                 default -> throw ErrorHolder.unsupportedUnaryOperator(unaryExpression.operator);
             };
         }

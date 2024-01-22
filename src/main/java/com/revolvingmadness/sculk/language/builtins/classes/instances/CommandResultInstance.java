@@ -6,11 +6,12 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.CommandResultT
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CommandResultInstance extends BuiltinClass {
+    public final BuiltinClass errorMessage;
     public final BuiltinClass result;
     public final BooleanInstance succeeded;
-    public final BuiltinClass errorMessage;
 
     public CommandResultInstance(BuiltinClass result, BooleanInstance succeeded, BuiltinClass errorMessage) {
         this.result = result;
@@ -23,7 +24,24 @@ public class CommandResultInstance extends BuiltinClass {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+        CommandResultInstance that = (CommandResultInstance) o;
+        return Objects.equals(this.result, that.result) && Objects.equals(this.succeeded, that.succeeded) && Objects.equals(this.errorMessage, that.errorMessage);
+    }
+
+    @Override
     public BuiltinType getType() {
         return new CommandResultType();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.result, this.succeeded, this.errorMessage);
     }
 }

@@ -36,8 +36,4 @@ public class MinecraftServerInstance extends BuiltinClass {
         return Objects.hash(this.value);
     }
 
-    @Override
-    public MinecraftServer toMinecraftServer() {
-        return this.value;
-    }
 }

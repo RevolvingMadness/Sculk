@@ -7,9 +7,7 @@ import com.revolvingmadness.sculk.language.Event;
 import com.revolvingmadness.sculk.language.EventHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinFunction;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.NullInstance;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -33,8 +31,6 @@ public class EventsType extends BuiltinType {
         this.registerEvent("onPlayerRingBell", EventHolder.onPlayerRingBell);
         this.registerEvent("onPlayerSendChatMessage", EventHolder.onPlayerSendChatMessage);
         this.registerEvent("onPlayerSneak", EventHolder.onPlayerSneak);
-
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
     public void registerEvent(String name, List<Event> events) {
@@ -58,7 +54,7 @@ public class EventsType extends BuiltinType {
                 if (loadScripts == null || !loadScripts.contains(SculkScriptManager.currentScript)) {
                     throw ErrorHolder.eventsCanOnlyBeRegisteredInALoadScript();
                 }
-                
+
                 events.add(new Event(function));
 
                 return new NullInstance();
@@ -66,22 +62,5 @@ public class EventsType extends BuiltinType {
         };
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), name, eventFunction);
-    }
-
-    private static class EqualTo extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
-            }
-
-            BuiltinClass other = arguments.get(0);
-
-            if (other.instanceOf(new EventsType())) {
-                return new BooleanInstance(other.toEvents().equals(this.boundClass.toEvents()));
-            }
-
-            return new BooleanInstance(false);
-        }
     }
 }

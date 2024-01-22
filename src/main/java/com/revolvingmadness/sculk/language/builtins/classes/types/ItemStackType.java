@@ -14,7 +14,6 @@ public class ItemStackType extends BuiltinType {
     public ItemStackType() {
         super("ItemStack");
         this.typeVariableScope.declare(List.of(TokenType.CONST), "decrement", new Decrement());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getCount", new GetCount());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getDamage", new GetDamage());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getHolder", new GetHolder());
@@ -69,23 +68,6 @@ public class ItemStackType extends BuiltinType {
             this.boundClass.toItemStack().decrement((int) amount);
 
             return new NullInstance();
-        }
-    }
-
-    private static class EqualTo extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
-            }
-
-            BuiltinClass other = arguments.get(0);
-
-            if (other.instanceOf(new ItemStackType())) {
-                return new BooleanInstance(other.toItem().equals(this.boundClass.toItem()));
-            }
-
-            return new BooleanInstance(false);
         }
     }
 

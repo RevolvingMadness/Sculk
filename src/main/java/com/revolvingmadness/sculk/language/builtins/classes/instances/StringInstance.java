@@ -36,6 +36,11 @@ public class StringInstance extends BuiltinClass {
     }
 
     @Override
+    public StringInstance toStringMethod() {
+        return new StringInstance(this.value);
+    }
+
+    @Override
     public String toStringType() {
         return this.value;
     }

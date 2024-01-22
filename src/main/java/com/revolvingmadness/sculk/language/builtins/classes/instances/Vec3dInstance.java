@@ -41,8 +41,4 @@ public class Vec3dInstance extends BuiltinClass {
         return this.value.toString();
     }
 
-    @Override
-    public Vec3d toVec3d() {
-        return this.value;
-    }
 }

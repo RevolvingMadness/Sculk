@@ -2,12 +2,9 @@ package com.revolvingmadness.sculk.language.builtins.classes.types;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.Vec3dInstance;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
-import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.List;
@@ -15,7 +12,6 @@ import java.util.List;
 public class Vec3dType extends BuiltinType {
     public Vec3dType() {
         super("Vec3d");
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
     @Override
@@ -47,20 +43,4 @@ public class Vec3dType extends BuiltinType {
         return new Vec3dInstance(new Vec3d(x, y, z));
     }
 
-    private static class EqualTo extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
-            }
-
-            BuiltinClass other = arguments.get(0);
-
-            if (other.instanceOf(new Vec3dType())) {
-                return new BooleanInstance(other.toVec3d().equals(this.boundClass.toVec3d()));
-            }
-
-            return new BooleanInstance(false);
-        }
-    }
 }

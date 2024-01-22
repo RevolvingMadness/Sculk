@@ -1,9 +1,8 @@
 package com.revolvingmadness.sculk.language.builtins.classes;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.EventsInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.NullInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.ObjectInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.interpreter.Variable;
@@ -15,18 +14,19 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.GameRules;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public abstract class BuiltinClass extends ExpressionNode {
     public final VariableScope variableScope;
@@ -39,8 +39,20 @@ public abstract class BuiltinClass extends ExpressionNode {
         this.variableScope = variableScope;
     }
 
+    public BuiltinClass add(BuiltinClass other) {
+        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("+", this.getType(), other.getType());
+    }
+
     public Iterator<BuiltinClass> asIterator() {
         throw ErrorHolder.typeIsNotIterable(this.getType());
+    }
+
+    public BooleanInstance booleanAnd(BuiltinClass other) {
+        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("&&", this.getType(), other.getType());
+    }
+
+    public BooleanInstance booleanOr(BuiltinClass other) {
+        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("||", this.getType(), other.getType());
     }
 
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -57,12 +69,24 @@ public abstract class BuiltinClass extends ExpressionNode {
         this.getType().checkIfAllMethodsAreImplemented();
     }
 
+    public BuiltinClass decrement() {
+        throw ErrorHolder.cannotApplyUnaryOperatorToType("--", this.getType());
+    }
+
     public void deleteIndex(BuiltinClass index) {
         throw ErrorHolder.typeIsNotIndexable(this.getType());
     }
 
     public void deleteProperty(String propertyName) {
         this.variableScope.deleteOrThrow(propertyName);
+    }
+
+    public BuiltinClass divide(BuiltinClass other) {
+        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("/", this.getType(), other.getType());
+    }
+
+    public BooleanInstance equalToMethod(BuiltinClass other) {
+        return new BooleanInstance(this.equals(other));
     }
 
     @Override
@@ -73,6 +97,10 @@ public abstract class BuiltinClass extends ExpressionNode {
             return false;
         BuiltinClass that = (BuiltinClass) o;
         return Objects.equals(this.variableScope, that.variableScope);
+    }
+
+    public BuiltinClass exponentiate(BuiltinClass other) {
+        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("^", this.getType(), other.getType());
     }
 
     public BuiltinClass getIndex(BuiltinClass index) {
@@ -103,6 +131,14 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public abstract BuiltinType getType();
 
+    public BooleanInstance greaterThan(BuiltinClass other) {
+        throw ErrorHolder.cannotApplyBinaryOperatorToTypes(">", this.getType(), other.getType());
+    }
+
+    public BooleanInstance greaterThanOrEqualTo(BuiltinClass other) {
+        return new BooleanInstance(this.greaterThan(other).value || this.equalToMethod(other).value);
+    }
+
     public boolean hasAbstractMethods() {
         for (Variable variable : this.variableScope.variables.values()) {
             if (variable.isAbstract()) {
@@ -111,6 +147,10 @@ public abstract class BuiltinClass extends ExpressionNode {
         }
 
         return false;
+    }
+
+    public BuiltinClass increment() {
+        throw ErrorHolder.cannotApplyUnaryOperatorToType("++", this.getType());
     }
 
     public boolean instanceOf(BuiltinType type) {
@@ -130,12 +170,44 @@ public abstract class BuiltinClass extends ExpressionNode {
         return this.getType().isConstant();
     }
 
+    public BooleanInstance lessThan(BuiltinClass other) {
+        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("<", this.getType(), other.getType());
+    }
+
+    public BooleanInstance lessThanOrEqualTo(BuiltinClass other) {
+        return new BooleanInstance(this.lessThan(other).value || this.equalToMethod(other).value);
+    }
+
+    public BuiltinClass logicalNot() {
+        throw ErrorHolder.cannotApplyUnaryOperatorToType("!", this.getType());
+    }
+
+    public BuiltinClass mod(BuiltinClass other) {
+        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("%", this.getType(), other.getType());
+    }
+
+    public BuiltinClass multiply(BuiltinClass other) {
+        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("*", this.getType(), other.getType());
+    }
+
+    public BuiltinClass negate() {
+        throw ErrorHolder.cannotApplyUnaryOperatorToType("-", this.getType());
+    }
+
+    public BooleanInstance notEqualToMethod(BuiltinClass other) {
+        return new BooleanInstance(!this.equalToMethod(other).value);
+    }
+
     public void setIndex(BuiltinClass index, BuiltinClass value) {
         throw ErrorHolder.typeIsNotIndexable(this.getType());
     }
 
     public void setProperty(String propertyName, BuiltinClass value) {
         this.getType().setProperty(propertyName, value);
+    }
+
+    public BuiltinClass subtract(BuiltinClass other) {
+        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("-", this.getType(), other.getType());
     }
 
     public Block toBlock() {
@@ -150,20 +222,12 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.cannotConvertType(this.getType(), new BooleanType());
     }
 
-    public Map<BuiltinClass, BuiltinClass> toDictionary() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new DictionaryType());
-    }
-
     public Difficulty toDifficulty() {
         throw ErrorHolder.cannotConvertType(this.getType(), new DifficultiesEnumType());
     }
 
     public Entity toEntity() {
         throw ErrorHolder.cannotConvertType(this.getType(), new EntityType());
-    }
-
-    public EventsInstance toEvents() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new EventsType());
     }
 
     public double toFloat() {
@@ -202,18 +266,6 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.cannotConvertType(this.getType(), new LivingEntityType());
     }
 
-    public MinecraftServer toMinecraftServer() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new MinecraftServerType());
-    }
-
-    public NullInstance toNullInstance() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new NullType());
-    }
-
-    public ObjectInstance toObjectInstance() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new ObjectType());
-    }
-
     public PlayerEntity toPlayerEntity() {
         throw ErrorHolder.cannotConvertType(this.getType(), new PlayerEntityType());
     }
@@ -235,12 +287,12 @@ public abstract class BuiltinClass extends ExpressionNode {
         return this.toStringType();
     }
 
-    public String toStringType() {
-        return "<Class '" + this.getType().typeName + "'>";
+    public StringInstance toStringMethod() {
+        return new StringInstance("<Class '" + this.getType().typeName + "'>");
     }
 
-    public Vec3d toVec3d() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new Vec3dType());
+    public String toStringType() {
+        return "<Class '" + this.getType().typeName + "'>";
     }
 
     public ServerWorld toWorld() {

@@ -14,6 +14,16 @@ public class BooleanInstance extends BuiltinClass {
     }
 
     @Override
+    public BooleanInstance booleanAnd(BuiltinClass other) {
+        return new BooleanInstance(this.value && other.toBoolean());
+    }
+
+    @Override
+    public BooleanInstance booleanOr(BuiltinClass other) {
+        return new BooleanInstance(this.value || other.toBoolean());
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -36,6 +46,11 @@ public class BooleanInstance extends BuiltinClass {
     }
 
     @Override
+    public BuiltinClass logicalNot() {
+        return new BooleanInstance(!this.value);
+    }
+
+    @Override
     public boolean toBoolean() {
         return this.value;
     }
@@ -48,6 +63,11 @@ public class BooleanInstance extends BuiltinClass {
     @Override
     public long toInteger() {
         return this.value ? 1L : 0L;
+    }
+
+    @Override
+    public StringInstance toStringMethod() {
+        return new StringInstance(String.valueOf(this.value));
     }
 
     @Override

@@ -15,30 +15,12 @@ import java.util.List;
 public class ItemType extends BuiltinType {
     public ItemType() {
         super("Item");
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getMaxCount", new GetMaxCount());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getMaxDamage", new GetMaxDamage());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getName", new GetName());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "isDamageable", new IsDamageable());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "isFireproof", new IsFireproof());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "isFood", new IsFood());
-    }
-
-    private static class EqualTo extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
-            }
-
-            BuiltinClass other = arguments.get(0);
-
-            if (other.instanceOf(new ItemType())) {
-                return new BooleanInstance(other.toItem().equals(this.boundClass.toItem()));
-            }
-
-            return new BooleanInstance(false);
-        }
     }
 
     private static class GetMaxCount extends BuiltinMethod {

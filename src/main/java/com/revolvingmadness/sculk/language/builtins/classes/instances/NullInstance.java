@@ -9,4 +9,9 @@ public class NullInstance extends BuiltinClass {
     public BuiltinType getType() {
         return new NullType();
     }
+
+    @Override
+    public StringInstance toStringMethod() {
+        return new StringInstance("null");
+    }
 }

@@ -4,7 +4,6 @@ import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.FloatInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.ItemInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.StringInstance;
@@ -17,7 +16,6 @@ public class BlockType extends BuiltinType {
     public BlockType() {
         super("Block");
 
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "asItem", new AsItem());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getBlastResistance", new GetBlastResistance());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getName", new GetName());
@@ -32,23 +30,6 @@ public class BlockType extends BuiltinType {
             }
 
             return new ItemInstance(this.boundClass.toBlock().asItem());
-        }
-    }
-
-    private static class EqualTo extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
-            }
-
-            BuiltinClass other = arguments.get(0);
-
-            if (other.instanceOf(new BlockType())) {
-                return new BooleanInstance(this.boundClass.toBlock().equals(other.toBlock()));
-            }
-
-            return new BooleanInstance(false);
         }
     }
 

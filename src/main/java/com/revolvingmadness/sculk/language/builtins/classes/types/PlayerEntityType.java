@@ -22,7 +22,6 @@ public class PlayerEntityType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "isSpectator", new IsSpectator());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getName", new GetName());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getUUID", new GetUUID());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "equalTo", new EqualTo());
     }
 
     private static class AddExperienceLevels extends BuiltinMethod {
@@ -60,23 +59,6 @@ public class PlayerEntityType extends BuiltinType {
             this.boundClass.toPlayerEntity().addExperience((int) experience.toInteger());
 
             return new NullInstance();
-        }
-    }
-
-    private static class EqualTo extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("equalTo", 1, arguments.size());
-            }
-
-            BuiltinClass other = arguments.get(0);
-
-            if (other.instanceOf(new PlayerEntityType())) {
-                return new BooleanInstance(other.toPlayerEntity().equals(this.boundClass.toPlayerEntity()));
-            }
-
-            return new BooleanInstance(false);
         }
     }
 

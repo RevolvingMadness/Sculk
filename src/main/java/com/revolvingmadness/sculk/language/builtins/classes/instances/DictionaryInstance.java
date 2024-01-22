@@ -53,8 +53,4 @@ public class DictionaryInstance extends BuiltinClass {
         this.value.put(index, value);
     }
 
-    @Override
-    public Map<BuiltinClass, BuiltinClass> toDictionary() {
-        return this.value;
-    }
 }
