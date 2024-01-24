@@ -1,5 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
+import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.StringType;
@@ -11,6 +12,15 @@ public class StringInstance extends BuiltinClass {
 
     public StringInstance(String value) {
         this.value = value;
+    }
+
+    @Override
+    public BuiltinClass add(BuiltinClass other) {
+        if (other.instanceOf(new StringType())) {
+            return new StringInstance(this.value + other.toStringType());
+        }
+
+        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("+", this.getType(), other.getType());
     }
 
     @Override

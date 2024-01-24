@@ -33,3 +33,9 @@
 - Fix circular imports
 - Reverted custom load script
 - Float extends Integer
+
+## 0.0.3
+
+### Fixed
+
+- String concatenation
