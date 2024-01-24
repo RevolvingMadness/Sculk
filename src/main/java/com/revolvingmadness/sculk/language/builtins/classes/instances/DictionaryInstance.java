@@ -32,7 +32,7 @@ public class DictionaryInstance extends BuiltinClass {
         BuiltinClass value = this.value.get(key);
 
         if (value == null) {
-            throw ErrorHolder.dictionaryHasNoKey(key.toStringType());
+            throw ErrorHolder.dictionaryHasNoKey(key.toString());
         }
 
         return value;

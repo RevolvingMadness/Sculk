@@ -180,12 +180,7 @@ public class IntegerInstance extends BuiltinClass {
     }
 
     @Override
-    public StringInstance toStringMethod() {
-        return new StringInstance(String.valueOf(this.value));
-    }
-
-    @Override
-    public String toStringType() {
+    public String toString() {
         return String.valueOf(this.value);
     }
 }

@@ -77,10 +77,10 @@ public class PlayerManagerType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "getPlayer", new StringType(), playerName.getType());
             }
 
-            ServerPlayerEntity serverPlayerEntity = this.boundClass.toPlayerManager().getPlayer(playerName.toStringType());
+            ServerPlayerEntity serverPlayerEntity = this.boundClass.toPlayerManager().getPlayer(playerName.toString());
 
             if (serverPlayerEntity == null) {
-                throw ErrorHolder.thereIsNoPlayerNamed(playerName.toStringType());
+                throw ErrorHolder.thereIsNoPlayerNamed(playerName.toString());
             }
 
             return new ServerPlayerEntityInstance(serverPlayerEntity);

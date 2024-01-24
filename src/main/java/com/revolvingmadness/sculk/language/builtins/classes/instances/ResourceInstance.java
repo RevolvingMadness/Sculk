@@ -42,12 +42,7 @@ public class ResourceInstance extends BuiltinClass {
     }
 
     @Override
-    public StringInstance toStringMethod() {
-        return new StringInstance(this.value.toString());
-    }
-
-    @Override
-    public String toStringType() {
+    public String toString() {
         return this.value.toString();
     }
 }

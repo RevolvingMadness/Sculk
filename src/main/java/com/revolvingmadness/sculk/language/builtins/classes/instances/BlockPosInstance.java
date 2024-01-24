@@ -48,7 +48,7 @@ public class BlockPosInstance extends BuiltinClass {
     }
 
     @Override
-    public String toStringType() {
+    public String toString() {
         return this.value.toString();
     }
 }

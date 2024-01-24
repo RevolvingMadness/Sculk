@@ -19,7 +19,7 @@ public class PrintFunction extends BuiltinFunction {
 
         BuiltinClass value = arguments.get(0);
 
-        Logger.broadcast(Text.literal(value.toStringMethod().toStringType()));
+        Logger.broadcast(Text.literal(value.toString()));
 
         return new NullInstance();
     }

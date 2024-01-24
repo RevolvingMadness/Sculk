@@ -284,15 +284,11 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     @Override
     public String toString() {
-        return this.toStringType();
+        return "<Class '" + this.getType().typeName + "'>";
     }
 
     public StringInstance toStringMethod() {
-        return new StringInstance("<Class '" + this.getType().typeName + "'>");
-    }
-
-    public String toStringType() {
-        return "<Class '" + this.getType().typeName + "'>";
+        return new StringInstance(this.toString());
     }
 
     public ServerWorld toWorld() {

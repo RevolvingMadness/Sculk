@@ -11,7 +11,7 @@ public class NullInstance extends BuiltinClass {
     }
 
     @Override
-    public StringInstance toStringMethod() {
-        return new StringInstance("null");
+    public String toString() {
+        return "null";
     }
 }

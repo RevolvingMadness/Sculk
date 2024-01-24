@@ -96,7 +96,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "addCommandTag", new StringType(), commandTag.getType());
             }
 
-            this.boundClass.toEntity().addCommandTag(commandTag.toStringType());
+            this.boundClass.toEntity().addCommandTag(commandTag.toString());
 
             return new NullInstance();
         }
@@ -662,7 +662,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "removeCommandTag", new StringType(), commandTag.getType());
             }
 
-            this.boundClass.toEntity().removeCommandTag(commandTag.toStringType());
+            this.boundClass.toEntity().removeCommandTag(commandTag.toString());
 
             return new NullInstance();
         }
@@ -694,7 +694,7 @@ public class EntityType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "sendMessage", new StringType(), message.getType());
             }
 
-            this.boundClass.toEntity().sendMessage(Text.literal(message.toStringType()));
+            this.boundClass.toEntity().sendMessage(Text.literal(message.toString()));
 
             return new NullInstance();
         }

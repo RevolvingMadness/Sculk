@@ -107,7 +107,7 @@ public class MinecraftServerType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "isModInstalled", new StringType(), modIDClass.getType());
             }
 
-            String modID = modIDClass.toStringType();
+            String modID = modIDClass.toString();
 
             return new BooleanInstance(FabricLoader.getInstance().isModLoaded(modID));
         }
@@ -149,7 +149,7 @@ public class MinecraftServerType extends BuiltinType {
             }
 
             CommandDispatcher<ServerCommandSource> commandDispatcher = Sculk.server.getCommandManager().getDispatcher();
-            ParseResults<ServerCommandSource> parseResults = commandDispatcher.parse(commandClass.toStringType(), Sculk.server.getCommandSource());
+            ParseResults<ServerCommandSource> parseResults = commandDispatcher.parse(commandClass.toString(), Sculk.server.getCommandSource());
             int result;
 
             try {

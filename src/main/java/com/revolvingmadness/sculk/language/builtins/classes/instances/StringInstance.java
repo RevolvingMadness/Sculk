@@ -17,7 +17,7 @@ public class StringInstance extends BuiltinClass {
     @Override
     public BuiltinClass add(BuiltinClass other) {
         if (other.instanceOf(new StringType())) {
-            return new StringInstance(this.value + other.toStringType());
+            return new StringInstance(this.value + other);
         }
 
         throw ErrorHolder.cannotApplyBinaryOperatorToTypes("+", this.getType(), other.getType());
@@ -46,12 +46,7 @@ public class StringInstance extends BuiltinClass {
     }
 
     @Override
-    public StringInstance toStringMethod() {
-        return new StringInstance(this.value);
-    }
-
-    @Override
-    public String toStringType() {
+    public String toString() {
         return this.value;
     }
 }
