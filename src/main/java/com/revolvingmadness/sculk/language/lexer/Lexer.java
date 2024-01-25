@@ -282,7 +282,6 @@ public class Lexer {
             case 'n' -> '\n';
             case 'r' -> '\r';
             case 'f' -> '\f';
-            case '\'' -> '\'';
             case '"' -> '"';
             case '\\' -> '\\';
             default -> throw new SyntaxError("Unsupported escape character '" + escapeChar + "'");
