@@ -78,7 +78,7 @@ public class Lexer {
 
     public List<Token> lex() {
         while (this.position < this.input.length()) {
-            if (Character.isDigit(this.current()) || (this.current('.') && Character.isDigit(this.next()))) {
+            if (Character.isDigit(this.current())) {
                 this.tokens.add(this.lexDigit());
             } else if (this.current('+')) {
                 this.consume();
@@ -227,7 +227,12 @@ public class Lexer {
                 }
             } else if (this.current('.')) {
                 this.consume();
-                this.addToken(TokenType.PERIOD);
+
+                if (Character.isDigit(this.current())) {
+                    this.tokens.add(this.lexDigit());
+                } else {
+                    this.addToken(TokenType.PERIOD);
+                }
             } else if (this.current('?')) {
                 this.consume();
                 this.addToken(TokenType.QUESTION_MARK);
@@ -344,13 +349,5 @@ public class Lexer {
         }
 
         return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.STRING, string.toString());
-    }
-
-    public Character next() {
-        if (this.position + 1 >= this.input.length()) {
-            return null;
-        }
-
-        return this.input.charAt(this.position + 1);
     }
 }
