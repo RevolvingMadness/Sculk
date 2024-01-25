@@ -236,8 +236,6 @@ public class Lexer {
             }
         }
 
-        this.addToken(TokenType.EOF);
-
         return this.tokens;
     }
 
