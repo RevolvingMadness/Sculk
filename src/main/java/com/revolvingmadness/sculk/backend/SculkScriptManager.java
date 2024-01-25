@@ -2,6 +2,7 @@ package com.revolvingmadness.sculk.backend;
 
 import com.google.common.collect.ImmutableList;
 import com.revolvingmadness.sculk.Sculk;
+import com.revolvingmadness.sculk.language.EventHolder;
 import com.revolvingmadness.sculk.language.errors.Error;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
@@ -56,6 +57,8 @@ public class SculkScriptManager {
         this.tickScripts = List.copyOf(loader.getScriptsFromTag(TICK_TAG_ID));
         SculkScriptManager.currentScript = null;
         this.shouldRunLoadScripts = true;
+
+        EventHolder.clearEvents();
     }
 
     public void setLoader(SculkScriptLoader loader) {

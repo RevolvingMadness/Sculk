@@ -46,6 +46,7 @@
 ### Fixed
 
 - String concatenation
+- Event registration not clearing on reload
 
 ### Removed
 

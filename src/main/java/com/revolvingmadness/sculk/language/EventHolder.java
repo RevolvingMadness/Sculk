@@ -30,6 +30,21 @@ public class EventHolder {
     public static final List<Event> onPlayerSneak = new ArrayList<>();
     public static final List<Event> onPlayerUseItem = new ArrayList<>();
 
+    public static void clearEvents() {
+        EventHolder.onEntitySleep.clear();
+        EventHolder.onPlaceBlock.clear();
+        EventHolder.onPlayerAttackEntity.clear();
+        EventHolder.onPlayerBreakBlock.clear();
+        EventHolder.onPlayerCraftItem.clear();
+        EventHolder.onPlayerDropItem.clear();
+        EventHolder.onPlayerJump.clear();
+        EventHolder.onPlayerPickupItem.clear();
+        EventHolder.onPlayerRingBell.clear();
+        EventHolder.onPlayerSendChatMessage.clear();
+        EventHolder.onPlayerSneak.clear();
+        EventHolder.onPlayerUseItem.clear();
+    }
+
     public static void registerEvents() {
         AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
             if (!world.isClient) {
@@ -183,7 +198,7 @@ public class EventHolder {
                     BuiltinClass eventResultClass = event.execute(List.of(new ServerPlayerEntityInstance(player), new StringInstance(message.content().getString())));
 
                     if (!eventResultClass.instanceOf(new BooleanType())) {
-                        throw ErrorHolder.functionRequiresReturnType("onSendChatMessage", new BooleanType(), eventResultClass.getType());
+                        throw ErrorHolder.functionRequiresReturnType("onPlayerSendChatMessage", new BooleanType(), eventResultClass.getType());
                     }
 
                     boolean eventResult = eventResultClass.toBoolean();
