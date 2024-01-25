@@ -30,11 +30,11 @@ public class Parser {
         return this.input.get(this.position++);
     }
 
-    private Token consume(TokenType type, String message) {
-        Token token = this.input.get(this.position++);
+    private Token consume(TokenType type) {
+        Token token = this.consume();
 
         if (token.type != type) {
-            throw new SyntaxError(message + " (at " + token.lineNumber + ":" + token.columnNumber + ")");
+            throw new SyntaxError("Expected '" + type + "' at " + token.lineNumber + ":" + token.columnNumber + ", got '" + token.type + "'");
         }
 
         return token;
@@ -110,7 +110,7 @@ public class Parser {
         if (this.current().isBinaryOperator()) {
             TokenType binaryOperator = this.consume().type;
 
-            this.consume(TokenType.EQUALS, "Expected equals after binary operator");
+            this.consume(TokenType.EQUALS);
 
             ExpressionNode right = this.parseExpression();
 
@@ -129,7 +129,7 @@ public class Parser {
     }
 
     private List<StatementNode> parseBody() {
-        this.consume(TokenType.LEFT_BRACE, "Expected opening brace for body");
+        this.consume(TokenType.LEFT_BRACE);
 
         List<StatementNode> body = new ArrayList<>();
 
@@ -137,13 +137,13 @@ public class Parser {
             body.add(this.parseStatement());
         }
 
-        this.consume(TokenType.RIGHT_BRACE, "Expected closing brace for body");
+        this.consume(TokenType.RIGHT_BRACE);
 
         return body;
     }
 
     private StatementNode parseBreakStatement() {
-        this.consume(TokenType.BREAK, "Expected 'break'");
+        this.consume(TokenType.BREAK);
 
         return new BreakStatementNode();
     }
@@ -158,17 +158,17 @@ public class Parser {
 
                 List<ExpressionNode> arguments = this.parseArguments();
 
-                this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis for arguments");
+                this.consume(TokenType.RIGHT_PARENTHESIS);
 
                 expression = new CallExpressionNode(expression, arguments);
             } else if (this.current(TokenType.PERIOD)) {
                 this.consume();
-                String propertyName = (String) this.consume(TokenType.IDENTIFIER, "Expected property name").value;
+                String propertyName = (String) this.consume(TokenType.IDENTIFIER).value;
                 expression = new GetExpressionNode(expression, propertyName);
             } else if (this.current(TokenType.LEFT_BRACKET)) {
                 this.consume();
                 ExpressionNode indexExpression = this.parseExpression();
-                this.consume(TokenType.RIGHT_BRACKET, "Expected closing bracket for list indexing");
+                this.consume(TokenType.RIGHT_BRACKET);
                 expression = new IndexExpressionNode(expression, indexExpression);
             }
         }
@@ -177,7 +177,7 @@ public class Parser {
     }
 
     private List<StatementNode> parseClassBody() {
-        this.consume(TokenType.LEFT_BRACE, "Expected opening brace after class name");
+        this.consume(TokenType.LEFT_BRACE);
 
         List<StatementNode> body = new ArrayList<>();
 
@@ -195,7 +195,7 @@ public class Parser {
             } else if (this.current(TokenType.VAR)) {
                 StatementNode statement = this.parseFieldDeclarationStatement(accessModifiers);
 
-                this.consume(TokenType.SEMICOLON, "Expected semicolon");
+                this.consume(TokenType.SEMICOLON);
 
                 body.add(statement);
             } else {
@@ -203,7 +203,7 @@ public class Parser {
             }
         }
 
-        this.consume(TokenType.RIGHT_BRACE, "Expected closing brace after class body");
+        this.consume(TokenType.RIGHT_BRACE);
 
         return body;
     }
@@ -213,13 +213,13 @@ public class Parser {
 
         this.consume();
 
-        String name = (String) this.consume(TokenType.IDENTIFIER, "Expected class name").value;
+        String name = (String) this.consume(TokenType.IDENTIFIER).value;
 
         String superClassName = null;
 
         if (this.current(TokenType.EXTENDS)) {
             this.consume();
-            superClassName = (String) this.consume(TokenType.IDENTIFIER, "Expected super class name").value;
+            superClassName = (String) this.consume(TokenType.IDENTIFIER).value;
         }
 
         List<StatementNode> body = this.parseClassBody();
@@ -256,7 +256,7 @@ public class Parser {
     }
 
     private StatementNode parseContinueStatement() {
-        this.consume(TokenType.CONTINUE, "Expected 'continue'");
+        this.consume(TokenType.CONTINUE);
 
         return new ContinueStatementNode();
     }
@@ -283,17 +283,17 @@ public class Parser {
             }
         } else if (this.current(TokenType.VAR)) {
             statement = this.parseVariableDeclarationStatement(accessModifiers);
-            this.consume(TokenType.SEMICOLON, "Expected semicolon after variable declaration statement");
+            this.consume(TokenType.SEMICOLON);
         } else {
             statement = this.parseExpressionStatement();
-            this.consume(TokenType.SEMICOLON, "Expected semicolon after expression statement");
+            this.consume(TokenType.SEMICOLON);
         }
 
         return statement;
     }
 
     private StatementNode parseDeleteStatement() {
-        this.consume(TokenType.DELETE, "Expected 'delete'");
+        this.consume(TokenType.DELETE);
 
         ExpressionNode expression = this.parseExpression();
 
@@ -301,14 +301,14 @@ public class Parser {
     }
 
     private ExpressionNode parseDictionaryExpression() {
-        this.consume(TokenType.LEFT_BRACE, "Expected '{'");
+        this.consume(TokenType.LEFT_BRACE);
 
         Map<ExpressionNode, ExpressionNode> dictionary = new HashMap<>();
 
         if (!this.current(TokenType.RIGHT_BRACE)) {
             ExpressionNode key = this.parseExpression();
 
-            this.consume(TokenType.COLON, "Expected colon");
+            this.consume(TokenType.COLON);
 
             ExpressionNode value = this.parseExpression();
 
@@ -324,34 +324,34 @@ public class Parser {
 
             ExpressionNode key = this.parseExpression();
 
-            this.consume(TokenType.COLON, "Expected colon");
+            this.consume(TokenType.COLON);
 
             ExpressionNode value = this.parseExpression();
 
             dictionary.put(key, value);
         }
 
-        this.consume(TokenType.RIGHT_BRACE, "Expected closing brace for dictionary");
+        this.consume(TokenType.RIGHT_BRACE);
 
         return new DictionaryExpressionNode(dictionary);
     }
 
     private List<String> parseEnumBody() {
-        this.consume(TokenType.LEFT_BRACE, "Expected opening brace after enum name");
+        this.consume(TokenType.LEFT_BRACE);
 
         List<String> values = new ArrayList<>();
 
-        values.add((String) this.consume(TokenType.IDENTIFIER, "Expected enum constant name").value);
+        values.add((String) this.consume(TokenType.IDENTIFIER).value);
 
         while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
             this.consume();
 
-            values.add((String) this.consume(TokenType.IDENTIFIER, "Expected enum constant name").value);
+            values.add((String) this.consume(TokenType.IDENTIFIER).value);
         }
 
-        this.consume(TokenType.SEMICOLON, "Expected semicolon");
+        this.consume(TokenType.SEMICOLON);
 
-        this.consume(TokenType.RIGHT_BRACE, "Expected closing brace after class body");
+        this.consume(TokenType.RIGHT_BRACE);
 
         return values;
     }
@@ -361,7 +361,7 @@ public class Parser {
 
         this.consume();
 
-        String name = (String) this.consume(TokenType.IDENTIFIER, "Expected enum name").value;
+        String name = (String) this.consume(TokenType.IDENTIFIER).value;
 
         List<String> values = this.parseEnumBody();
 
@@ -411,13 +411,13 @@ public class Parser {
 
         this.consume();
 
-        String name = (String) this.consume(TokenType.IDENTIFIER, "Expected variable name").value;
+        String name = (String) this.consume(TokenType.IDENTIFIER).value;
 
         if (this.current(TokenType.SEMICOLON)) {
             return new FieldDeclarationStatementNode(accessModifiers, name, new NullExpressionNode());
         }
 
-        this.consume(TokenType.EQUALS, "Expected equals after variable name");
+        this.consume(TokenType.EQUALS);
 
         ExpressionNode expression = this.parseExpression();
 
@@ -425,9 +425,9 @@ public class Parser {
     }
 
     private StatementNode parseForStatement() {
-        this.consume(TokenType.FOR, "Expected 'for'");
+        this.consume(TokenType.FOR);
 
-        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'for'");
+        this.consume(TokenType.LEFT_PARENTHESIS);
 
         StatementNode initialization = null;
 
@@ -444,7 +444,7 @@ public class Parser {
                 }
                 initialization = this.parseExpressionStatement();
             }
-            this.consume(TokenType.SEMICOLON, "Expected semicolon after for-loop initialization");
+            this.consume(TokenType.SEMICOLON);
         }
 
         ExpressionNode condition;
@@ -454,7 +454,7 @@ public class Parser {
             this.consume();
         } else {
             condition = this.parseExpression();
-            this.consume(TokenType.SEMICOLON, "Expected semicolon after for-loop condition");
+            this.consume(TokenType.SEMICOLON);
         }
 
         ExpressionNode update = null;
@@ -463,7 +463,7 @@ public class Parser {
             this.consume();
         } else {
             update = this.parseExpression();
-            this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after for-loop update");
+            this.consume(TokenType.RIGHT_PARENTHESIS);
         }
 
         List<StatementNode> body = this.parseBody();
@@ -472,17 +472,17 @@ public class Parser {
     }
 
     private StatementNode parseForeachStatement() {
-        this.consume(TokenType.FOREACH, "Expected 'foreach'");
+        this.consume(TokenType.FOREACH);
 
-        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'foreach'");
+        this.consume(TokenType.LEFT_PARENTHESIS);
 
-        String variableName = (String) this.consume(TokenType.IDENTIFIER, "Expected foreach variable name").value;
+        String variableName = (String) this.consume(TokenType.IDENTIFIER).value;
 
-        this.consume(TokenType.COLON, "Expected colon");
+        this.consume(TokenType.COLON);
 
         ExpressionNode variableToIterate = this.parseExpression();
 
-        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after expression");
+        this.consume(TokenType.RIGHT_PARENTHESIS);
 
         List<StatementNode> body = this.parseBody();
 
@@ -490,20 +490,20 @@ public class Parser {
     }
 
     private StatementNode parseFromStatement() {
-        this.consume(TokenType.FROM, "Expected 'from'");
+        this.consume(TokenType.FROM);
 
-        Identifier identifier = (Identifier) this.consume(TokenType.RESOURCE, "Expected resource").value;
+        Identifier identifier = (Identifier) this.consume(TokenType.RESOURCE).value;
 
-        this.consume(TokenType.IMPORT, "Expected 'import'");
+        this.consume(TokenType.IMPORT);
 
         List<String> variablesToImport = new ArrayList<>();
 
-        variablesToImport.add((String) this.consume(TokenType.IDENTIFIER, "Expected variable name").value);
+        variablesToImport.add((String) this.consume(TokenType.IDENTIFIER).value);
 
         while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
             this.consume();
 
-            variablesToImport.add((String) this.consume(TokenType.IDENTIFIER, "Expected variable name").value);
+            variablesToImport.add((String) this.consume(TokenType.IDENTIFIER).value);
         }
 
         return new FromStatementNode(identifier, variablesToImport);
@@ -514,25 +514,25 @@ public class Parser {
 
         this.consume();
 
-        String name = (String) this.consume(TokenType.IDENTIFIER, "Expected function name").value;
+        String name = (String) this.consume(TokenType.IDENTIFIER).value;
 
-        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after function name");
+        this.consume(TokenType.LEFT_PARENTHESIS);
 
         List<String> arguments = new ArrayList<>();
 
         if (this.current(TokenType.IDENTIFIER)) {
-            String argumentName = (String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value;
+            String argumentName = (String) this.consume(TokenType.IDENTIFIER).value;
             arguments.add(argumentName);
         }
 
         while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
             this.consume();
 
-            String argumentName = (String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value;
+            String argumentName = (String) this.consume(TokenType.IDENTIFIER).value;
             arguments.add(argumentName);
         }
 
-        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after function declaration");
+        this.consume(TokenType.RIGHT_PARENTHESIS);
 
         List<StatementNode> body = this.parseBody();
 
@@ -540,23 +540,23 @@ public class Parser {
     }
 
     private ExpressionNode parseFunctionExpression() {
-        this.consume(TokenType.FUNCTION, "Expected 'function'");
+        this.consume(TokenType.FUNCTION);
 
-        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis for function expression");
+        this.consume(TokenType.LEFT_PARENTHESIS);
 
         List<String> arguments = new ArrayList<>();
 
         if (!this.current(TokenType.RIGHT_PARENTHESIS)) {
-            arguments.add((String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value);
+            arguments.add((String) this.consume(TokenType.IDENTIFIER).value);
         }
 
         while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
             this.consume();
 
-            arguments.add((String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value);
+            arguments.add((String) this.consume(TokenType.IDENTIFIER).value);
         }
 
-        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis for function expression");
+        this.consume(TokenType.RIGHT_PARENTHESIS);
 
         List<StatementNode> body = new ArrayList<>();
 
@@ -574,13 +574,13 @@ public class Parser {
     }
 
     private StatementNode parseIfStatement() {
-        this.consume(TokenType.IF, "Expected 'if'");
+        this.consume(TokenType.IF);
 
-        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'if'");
+        this.consume(TokenType.LEFT_PARENTHESIS);
 
         ExpressionNode ifCondition = this.parseExpression();
 
-        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after 'if' condition");
+        this.consume(TokenType.RIGHT_PARENTHESIS);
 
         List<StatementNode> ifConditionBody = this.parseBody();
 
@@ -596,11 +596,11 @@ public class Parser {
             if (this.current(TokenType.IF)) {
                 this.consume();
 
-                this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'else if'");
+                this.consume(TokenType.LEFT_PARENTHESIS);
 
                 ExpressionNode elseIfCondition = this.parseExpression();
 
-                this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after 'else if' condition");
+                this.consume(TokenType.RIGHT_PARENTHESIS);
 
                 List<StatementNode> elseIfBody = this.parseBody();
 
@@ -615,23 +615,23 @@ public class Parser {
     }
 
     private StatementNode parseImportStatement() {
-        this.consume(TokenType.IMPORT, "Expected 'import'");
+        this.consume(TokenType.IMPORT);
 
-        Identifier identifier = (Identifier) this.consume(TokenType.RESOURCE, "Expected resource").value;
+        Identifier identifier = (Identifier) this.consume(TokenType.RESOURCE).value;
 
         String importAs = null;
 
         if (this.current(TokenType.AS)) {
             this.consume();
 
-            importAs = (String) this.consume(TokenType.IDENTIFIER, "Expected identifier").value;
+            importAs = (String) this.consume(TokenType.IDENTIFIER).value;
         }
 
         return new ImportStatementNode(identifier, importAs);
     }
 
     private ExpressionNode parseListExpression() {
-        this.consume(TokenType.LEFT_BRACKET, "Expected '['");
+        this.consume(TokenType.LEFT_BRACKET);
 
         List<ExpressionNode> elements = new ArrayList<>();
 
@@ -649,7 +649,7 @@ public class Parser {
             elements.add(element);
         }
 
-        this.consume(TokenType.RIGHT_BRACKET, "Expected closing bracket for list");
+        this.consume(TokenType.RIGHT_BRACKET);
 
         return new ListExpressionNode(elements);
     }
@@ -659,25 +659,25 @@ public class Parser {
 
         this.consume();
 
-        String name = (String) this.consume(TokenType.IDENTIFIER, "Expected method name").value;
+        String name = (String) this.consume(TokenType.IDENTIFIER).value;
 
-        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after method name");
+        this.consume(TokenType.LEFT_PARENTHESIS);
 
         List<String> arguments = new ArrayList<>();
 
         if (this.current(TokenType.IDENTIFIER)) {
-            String argumentName = (String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value;
+            String argumentName = (String) this.consume(TokenType.IDENTIFIER).value;
             arguments.add(argumentName);
         }
 
         while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
             this.consume();
 
-            String argumentName = (String) this.consume(TokenType.IDENTIFIER, "Expected argument name").value;
+            String argumentName = (String) this.consume(TokenType.IDENTIFIER).value;
             arguments.add(argumentName);
         }
 
-        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after method arguments");
+        this.consume(TokenType.RIGHT_PARENTHESIS);
 
         List<StatementNode> body = new ArrayList<>();
 
@@ -730,7 +730,7 @@ public class Parser {
 
             ExpressionNode expression = this.parseExpression();
 
-            this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after grouped expression");
+            this.consume(TokenType.RIGHT_PARENTHESIS);
 
             return expression;
         } else if (this.current(TokenType.TRUE)) {
@@ -774,7 +774,7 @@ public class Parser {
     }
 
     private StatementNode parseReturnStatement() {
-        this.consume(TokenType.RETURN, "Expected 'return'");
+        this.consume(TokenType.RETURN);
 
         if (this.current(TokenType.SEMICOLON)) {
             return new ReturnStatementNode(new NullExpressionNode());
@@ -810,22 +810,22 @@ public class Parser {
             }
         } else if (this.current(TokenType.RETURN)) {
             statement = this.parseReturnStatement();
-            this.consume(TokenType.SEMICOLON, "Expected semicolon after return statement");
+            this.consume(TokenType.SEMICOLON);
         } else if (this.current(TokenType.BREAK)) {
             statement = this.parseBreakStatement();
-            this.consume(TokenType.SEMICOLON, "Expected semicolon after break statement");
+            this.consume(TokenType.SEMICOLON);
         } else if (this.current(TokenType.CONTINUE)) {
             statement = this.parseContinueStatement();
-            this.consume(TokenType.SEMICOLON, "Expected semicolon after continue statement");
+            this.consume(TokenType.SEMICOLON);
         } else if (this.current(TokenType.DELETE)) {
             statement = this.parseDeleteStatement();
-            this.consume(TokenType.SEMICOLON, "Expected semicolon after delete statement");
+            this.consume(TokenType.SEMICOLON);
         } else if (this.current(TokenType.IMPORT)) {
             statement = this.parseImportStatement();
-            this.consume(TokenType.SEMICOLON, "Expected semicolon after import statement");
+            this.consume(TokenType.SEMICOLON);
         } else if (this.current(TokenType.FROM)) {
             statement = this.parseFromStatement();
-            this.consume(TokenType.SEMICOLON, "Expected semicolon after from statement");
+            this.consume(TokenType.SEMICOLON);
         } else if (this.current(TokenType.SWITCH)) {
             statement = this.parseSwitchStatement();
 
@@ -834,7 +834,7 @@ public class Parser {
             }
         } else if (this.current(TokenType.YIELD)) {
             statement = this.parseYieldStatement();
-            this.consume(TokenType.SEMICOLON, "Expected semicolon after yield statement");
+            this.consume(TokenType.SEMICOLON);
         } else {
             return this.parseDeclarationStatement();
         }
@@ -843,13 +843,13 @@ public class Parser {
     }
 
     private ExpressionNode parseSwitchExpression() {
-        this.consume(TokenType.SWITCH, "Expected 'switch'");
+        this.consume(TokenType.SWITCH);
 
-        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'switch'");
+        this.consume(TokenType.LEFT_PARENTHESIS);
 
         ExpressionNode toSwitch = this.parseExpression();
 
-        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after 'switch' condition");
+        this.consume(TokenType.RIGHT_PARENTHESIS);
 
         SwitchExpressionBody switchBody = this.parseSwitchExpressionBody();
 
@@ -860,7 +860,7 @@ public class Parser {
         List<SwitchExpressionCase> body = new ArrayList<>();
         List<StatementNode> defaultCase = null;
 
-        this.consume(TokenType.LEFT_BRACE, "Expected opening brace after switch expression");
+        this.consume(TokenType.LEFT_BRACE);
 
         while (this.position < this.input.size() && (this.current(TokenType.CASE) || this.current(TokenType.DEFAULT))) {
             if (this.current(TokenType.DEFAULT)) {
@@ -880,7 +880,7 @@ public class Parser {
             body.add(switchCase);
         }
 
-        this.consume(TokenType.RIGHT_BRACE, "Expected closing brace after switch body");
+        this.consume(TokenType.RIGHT_BRACE);
 
         return new SwitchExpressionBody(body, defaultCase);
     }
@@ -907,7 +907,7 @@ public class Parser {
 
             ExpressionNode expression = this.parseExpression();
 
-            this.consume(TokenType.SEMICOLON, "Expected semicolon");
+            this.consume(TokenType.SEMICOLON);
 
             return List.of(new YieldStatementNode(expression));
         } else if (this.current(TokenType.LEFT_BRACE)) {
@@ -932,13 +932,13 @@ public class Parser {
     }
 
     private StatementNode parseSwitchStatement() {
-        this.consume(TokenType.SWITCH, "Expected 'switch'");
+        this.consume(TokenType.SWITCH);
 
-        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'switch'");
+        this.consume(TokenType.LEFT_PARENTHESIS);
 
         ExpressionNode toSwitch = this.parseExpression();
 
-        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after 'switch' condition");
+        this.consume(TokenType.RIGHT_PARENTHESIS);
 
         SwitchStatementBody switchBody = this.parseSwitchStatementBody();
 
@@ -949,7 +949,7 @@ public class Parser {
         List<SwitchStatementCase> body = new ArrayList<>();
         List<StatementNode> defaultCase = null;
 
-        this.consume(TokenType.LEFT_BRACE, "Expected opening brace after switch expression");
+        this.consume(TokenType.LEFT_BRACE);
 
         while (this.position < this.input.size() && (this.current(TokenType.CASE) || this.current(TokenType.DEFAULT))) {
             if (this.current(TokenType.DEFAULT)) {
@@ -969,7 +969,7 @@ public class Parser {
             body.add(switchCase);
         }
 
-        this.consume(TokenType.RIGHT_BRACE, "Expected closing brace after switch body");
+        this.consume(TokenType.RIGHT_BRACE);
 
         return new SwitchStatementBody(body, defaultCase);
     }
@@ -1020,11 +1020,11 @@ public class Parser {
         ExpressionNode condition = this.parseConditionalOrExpression();
 
         if (this.current(TokenType.QUESTION_MARK)) {
-            this.consume(TokenType.QUESTION_MARK, "Expected question mark");
+            this.consume(TokenType.QUESTION_MARK);
 
             ExpressionNode ifTrue = this.parseExpression();
 
-            this.consume(TokenType.COLON, "Expected colon");
+            this.consume(TokenType.COLON);
 
             ExpressionNode ifFalse = this.parseExpression();
 
@@ -1051,13 +1051,13 @@ public class Parser {
 
         this.consume();
 
-        String name = (String) this.consume(TokenType.IDENTIFIER, "Expected variable name").value;
+        String name = (String) this.consume(TokenType.IDENTIFIER).value;
 
         if (this.current(TokenType.SEMICOLON)) {
             return new VariableDeclarationStatementNode(accessModifiers, name, new NullExpressionNode());
         }
 
-        this.consume(TokenType.EQUALS, "Expected equals after variable name");
+        this.consume(TokenType.EQUALS);
 
         ExpressionNode expression = this.parseExpression();
 
@@ -1065,13 +1065,13 @@ public class Parser {
     }
 
     private StatementNode parseWhileStatement() {
-        this.consume(TokenType.WHILE, "Expected 'while'");
+        this.consume(TokenType.WHILE);
 
-        this.consume(TokenType.LEFT_PARENTHESIS, "Expected opening parenthesis after 'while'");
+        this.consume(TokenType.LEFT_PARENTHESIS);
 
         ExpressionNode expression = this.parseExpression();
 
-        this.consume(TokenType.RIGHT_PARENTHESIS, "Expected closing parenthesis after while condition");
+        this.consume(TokenType.RIGHT_PARENTHESIS);
 
         List<StatementNode> body = this.parseBody();
 
@@ -1079,7 +1079,7 @@ public class Parser {
     }
 
     private StatementNode parseYieldStatement() {
-        this.consume(TokenType.YIELD, "Expected 'yield'");
+        this.consume(TokenType.YIELD);
 
         ExpressionNode expression = this.parseExpression();
 

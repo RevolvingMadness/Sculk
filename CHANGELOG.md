@@ -46,3 +46,9 @@
 ### Fixed
 
 - String concatenation
+
+### Removed
+
+### Improved
+
+- Error messages

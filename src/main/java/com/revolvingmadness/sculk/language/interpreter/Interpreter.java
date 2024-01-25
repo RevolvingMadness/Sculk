@@ -53,7 +53,7 @@ public class Interpreter implements Visitor {
             case LESS_THAN_OR_EQUAL_TO -> left.lessThanOrEqualTo(right);
             case DOUBLE_AMPERSAND -> left.booleanAnd(right);
             case DOUBLE_PIPE -> left.booleanOr(right);
-            case INSTANCE_OF -> new BooleanInstance(left.instanceOf(right.getType()));
+            case INSTANCEOF -> new BooleanInstance(left.instanceOf(right.getType()));
             case SPACESHIP -> {
                 BuiltinClass lessThan = left.lessThan(right);
 

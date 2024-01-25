@@ -57,7 +57,7 @@ public class Sculk implements ModInitializer {
         Sculk.keywords.put("as", TokenType.AS);
         Sculk.keywords.put("from", TokenType.FROM);
         Sculk.keywords.put("extends", TokenType.EXTENDS);
-        Sculk.keywords.put("instanceof", TokenType.INSTANCE_OF);
+        Sculk.keywords.put("instanceof", TokenType.INSTANCEOF);
         Sculk.keywords.put("delete", TokenType.DELETE);
     }
 }
