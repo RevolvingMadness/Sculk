@@ -51,7 +51,7 @@ public class Parser {
     public ScriptNode parse() {
         ScriptNode script = new ScriptNode();
 
-        while (this.position < this.input.size()) {
+        while (!this.current(TokenType.EOF)) {
             script.statements.add(this.parseStatement());
         }
 
