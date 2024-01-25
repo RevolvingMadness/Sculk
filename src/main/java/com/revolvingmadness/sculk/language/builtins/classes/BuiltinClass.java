@@ -23,7 +23,6 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.GameRules;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,10 +44,6 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public BuiltinClass add(BuiltinClass other) {
         throw ErrorHolder.cannotApplyBinaryOperatorToTypes("+", this.getType(), other.getType());
-    }
-
-    public Iterator<BuiltinClass> asIterator() {
-        throw ErrorHolder.typeIsNotIterable(this.getType());
     }
 
     public BooleanInstance booleanAnd(BuiltinClass other) {

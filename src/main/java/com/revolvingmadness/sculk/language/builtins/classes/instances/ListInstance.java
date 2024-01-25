@@ -6,7 +6,6 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.IntegerType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.ListType;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,11 +14,6 @@ public class ListInstance extends BuiltinClass {
 
     public ListInstance(List<BuiltinClass> value) {
         this.value = value;
-    }
-
-    @Override
-    public Iterator<BuiltinClass> asIterator() {
-        return this.value.iterator();
     }
 
     @Override

@@ -260,7 +260,7 @@ public class Interpreter implements Visitor {
         int loops = 0;
         long maxLoops = Sculk.server.getGameRules().getInt(SculkGamerules.MAX_LOOPS);
 
-        Iterator<BuiltinClass> variableIterator = this.visitExpression(foreachStatement.variableToIterate).asIterator();
+        Iterator<BuiltinClass> variableIterator = this.visitExpression(foreachStatement.variableToIterate).toList().iterator();
 
         while_loop:
         while (variableIterator.hasNext()) {

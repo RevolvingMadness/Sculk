@@ -39,6 +39,7 @@
 ### Added
 
 - `abs(object: Object): Object`
+- `String` is now iterable
 
 ### Changed
 

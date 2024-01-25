@@ -5,6 +5,8 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.StringType;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class StringInstance extends BuiltinClass {
@@ -43,6 +45,17 @@ public class StringInstance extends BuiltinClass {
     @Override
     public int hashCode() {
         return Objects.hash(this.value);
+    }
+
+    @Override
+    public List<BuiltinClass> toList() {
+        List<BuiltinClass> list = new ArrayList<>();
+
+        for (char character : this.value.toCharArray()) {
+            list.add(new StringInstance(String.valueOf(character)));
+        }
+
+        return list;
     }
 
     @Override
