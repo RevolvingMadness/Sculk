@@ -25,10 +25,6 @@ public class ErrorHolder {
         return new TypeError(I18n.translate("error.argument_requires_type", argumentNumber, functionName, requiredType.toString(), type.toString()));
     }
 
-    public static TypeError canOnlyCheckInstanceOfTypes() {
-        return new TypeError(I18n.translate("error.can_only_check_instance_of_types"));
-    }
-
     public static TypeError cannotApplyBinaryOperatorToTypes(String operator, BuiltinType left, BuiltinType right) {
         return new TypeError(I18n.translate("error.cannot_apply_binary_operator", operator, left.toString(), right.toString()));
     }
@@ -59,6 +55,10 @@ public class ErrorHolder {
 
     public static NameError cannotFindScript(Identifier scriptIdentifier) {
         return new NameError(I18n.translate("error.cannot_find_script", scriptIdentifier.toString()));
+    }
+
+    public static TypeError cannotGetAbsoluteValueOfType(BuiltinType type) {
+        return new TypeError(I18n.translate("error.cannot_get_absolute_value_of_type", type.toString()));
     }
 
     public static TypeError cannotIndexListByType(BuiltinType type) {

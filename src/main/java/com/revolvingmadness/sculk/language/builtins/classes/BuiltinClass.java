@@ -39,6 +39,10 @@ public abstract class BuiltinClass extends ExpressionNode {
         this.variableScope = variableScope;
     }
 
+    public BuiltinClass absoluteValue(BuiltinType type) {
+        throw ErrorHolder.cannotGetAbsoluteValueOfType(type);
+    }
+
     public BuiltinClass add(BuiltinClass other) {
         throw ErrorHolder.cannotApplyBinaryOperatorToTypes("+", this.getType(), other.getType());
     }

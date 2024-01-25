@@ -36,6 +36,12 @@
 
 ## 0.0.3
 
+### Added
+
+- `abs(object: Object): Object`
+
+### Changed
+
 ### Fixed
 
 - String concatenation

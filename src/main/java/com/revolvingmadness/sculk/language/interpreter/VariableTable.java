@@ -5,10 +5,7 @@ import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
-import com.revolvingmadness.sculk.language.builtins.functions.Base64DecodeFunction;
-import com.revolvingmadness.sculk.language.builtins.functions.Base64EncodeFunction;
-import com.revolvingmadness.sculk.language.builtins.functions.PrintFunction;
-import com.revolvingmadness.sculk.language.builtins.functions.TypeFunction;
+import com.revolvingmadness.sculk.language.builtins.functions.*;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.world.World;
 
@@ -92,6 +89,7 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "base64encode", new Base64EncodeFunction());
         this.declare(List.of(TokenType.CONST), "print", new PrintFunction());
         this.declare(List.of(TokenType.CONST), "type", new TypeFunction());
+        this.declare(List.of(TokenType.CONST), "abs", new AbsFunction());
     }
 
     private void declareVariables() {

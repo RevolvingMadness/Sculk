@@ -21,6 +21,11 @@ public class BlockPosInstance extends BuiltinClass {
     }
 
     @Override
+    public BuiltinClass absoluteValue(BuiltinType type) {
+        return new BlockPosInstance(new BlockPos(Math.abs(this.value.getX()), Math.abs(this.value.getY()), Math.abs(this.value.getZ())));
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
