@@ -43,6 +43,7 @@
 - Data can now be written to an entity
 - `String.startsWith(text: String): Boolean`
 - `String.endsWith(text: String): Boolean`
+- `break` can now be used in switch statement/expression
 
 ### Changed
 

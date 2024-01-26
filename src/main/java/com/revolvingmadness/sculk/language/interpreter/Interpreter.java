@@ -612,7 +612,11 @@ public class Interpreter implements Visitor {
         for (SwitchStatementCase switchCase : switchStatement.switchBody.body) {
             for (ExpressionNode condition : switchCase.expressionNodes) {
                 if (expression.equals(this.visitExpression(condition))) {
-                    switchCase.statementNodes.forEach(this::visitStatement);
+                    try {
+                        switchCase.statementNodes.forEach(this::visitStatement);
+                    } catch (Break ignored) {
+                        
+                    }
 
                     return;
                 }
