@@ -5,9 +5,12 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.ListInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StringType extends BuiltinType {
@@ -16,6 +19,7 @@ public class StringType extends BuiltinType {
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), "startsWith", new StartsWith());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "endsWith", new EndsWith());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "split", new Split());
     }
 
     @Override
@@ -47,6 +51,31 @@ public class StringType extends BuiltinType {
             }
 
             return new BooleanInstance(this.boundClass.toString().endsWith(text.toString()));
+        }
+    }
+
+    private static class Split extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("splitter", 1, arguments.size());
+            }
+
+            BuiltinClass splitter = arguments.get(0);
+
+            if (!splitter.instanceOf(new StringType())) {
+                throw ErrorHolder.argumentRequiresType(1, "splitter", new StringType(), splitter.getType());
+            }
+
+            List<BuiltinClass> list = new ArrayList<>();
+
+            String[] split = this.boundClass.toString().split(splitter.toString());
+
+            for (String s : split) {
+                list.add(new StringInstance(s));
+            }
+
+            return new ListInstance(list);
         }
     }
 

@@ -44,6 +44,7 @@
 - `String.startsWith(text: String): Boolean`
 - `String.endsWith(text: String): Boolean`
 - `break` can now be used in switch statement/expression
+- `String.split(splitter: String): List[String]`
 
 ### Changed
 
