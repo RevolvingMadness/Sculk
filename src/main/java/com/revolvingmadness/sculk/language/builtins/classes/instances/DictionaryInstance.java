@@ -4,6 +4,8 @@ import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.DictionaryType;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 
 import java.util.Map;
 import java.util.Objects;
@@ -28,14 +30,14 @@ public class DictionaryInstance extends BuiltinClass {
     }
 
     @Override
-    public BuiltinClass getIndex(BuiltinClass key) {
-        BuiltinClass value = this.value.get(key);
+    public BuiltinClass getIndex(BuiltinClass index) {
+        BuiltinClass result = this.value.get(index);
 
-        if (value == null) {
-            throw ErrorHolder.dictionaryHasNoKey(key.toString());
+        if (result == null) {
+            throw ErrorHolder.dictionaryHasNoKey(index.toString());
         }
 
-        return value;
+        return result;
     }
 
     @Override
@@ -51,6 +53,15 @@ public class DictionaryInstance extends BuiltinClass {
     @Override
     public void setIndex(BuiltinClass index, BuiltinClass value) {
         this.value.put(index, value);
+    }
+
+    @Override
+    public NbtElement toNbtElement() {
+        NbtCompound nbtCompound = new NbtCompound();
+
+        this.value.forEach((key, value) -> nbtCompound.put(key.toString(), value.toNbtElement()));
+
+        return nbtCompound;
     }
 
 }

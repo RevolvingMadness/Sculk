@@ -3,6 +3,8 @@ package com.revolvingmadness.sculk.language.builtins.classes.instances;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.BooleanType;
+import net.minecraft.nbt.NbtByte;
+import net.minecraft.nbt.NbtElement;
 
 import java.util.Objects;
 
@@ -63,6 +65,11 @@ public class BooleanInstance extends BuiltinClass {
     @Override
     public long toInteger() {
         return this.value ? 1L : 0L;
+    }
+
+    @Override
+    public NbtElement toNbtElement() {
+        return NbtByte.of(this.value);
     }
 
     @Override

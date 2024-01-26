@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.LivingEntityType;
 import net.minecraft.entity.Entity;
@@ -9,10 +8,11 @@ import net.minecraft.entity.LivingEntity;
 import java.util.Objects;
 
 @SuppressWarnings("unused")
-public class LivingEntityInstance extends BuiltinClass {
+public class LivingEntityInstance extends EntityInstance {
     public final LivingEntity value;
 
     public LivingEntityInstance(LivingEntity value) {
+        super(value);
         this.value = value;
     }
 

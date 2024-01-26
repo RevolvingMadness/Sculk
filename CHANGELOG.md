@@ -40,6 +40,7 @@
 
 - `abs(object: Object): Object`
 - `String` is now iterable
+- Data can now be written to an entity
 
 ### Changed
 

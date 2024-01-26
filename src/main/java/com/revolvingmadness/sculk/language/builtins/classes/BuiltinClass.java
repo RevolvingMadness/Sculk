@@ -1,9 +1,9 @@
 package com.revolvingmadness.sculk.language.builtins.classes;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.StringInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
+import com.revolvingmadness.sculk.language.errors.TypeError;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.interpreter.Variable;
 import com.revolvingmadness.sculk.language.interpreter.VariableScope;
@@ -14,6 +14,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.*;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -23,6 +24,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.GameRules;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -36,6 +38,24 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public BuiltinClass(VariableScope variableScope) {
         this.variableScope = variableScope;
+    }
+
+    public static BuiltinClass fromNbtElement(NbtElement result) {
+        if (result instanceof NbtByte nbtByte) {
+            return new IntegerInstance(nbtByte.byteValue());
+        } else if (result instanceof NbtDouble nbtDouble) {
+            return new FloatInstance(nbtDouble.doubleValue());
+        } else if (result instanceof NbtLong nbtLong) {
+            return new IntegerInstance(nbtLong.longValue());
+        } else if (result instanceof NbtList nbtList) {
+            List<BuiltinClass> list = new ArrayList<>();
+
+            nbtList.forEach(nbtElement -> list.add(BuiltinClass.fromNbtElement(nbtElement)));
+
+            return new ListInstance(list);
+        }
+
+        throw new TypeError("Cannot convert nbt element '" + result + "' to class");
     }
 
     public BuiltinClass absoluteValue(BuiltinType type) {
@@ -263,6 +283,10 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public LivingEntity toLivingEntity() {
         throw ErrorHolder.cannotConvertType(this.getType(), new LivingEntityType());
+    }
+
+    public NbtElement toNbtElement() {
+        throw new TypeError("Cannot convert type '" + this.getType() + "' to nbt element");
     }
 
     public PlayerEntity toPlayerEntity() {

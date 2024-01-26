@@ -4,6 +4,8 @@ import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.StringType;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +58,11 @@ public class StringInstance extends BuiltinClass {
         }
 
         return list;
+    }
+
+    @Override
+    public NbtElement toNbtElement() {
+        return NbtString.of(this.value);
     }
 
     @Override

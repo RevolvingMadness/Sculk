@@ -6,6 +6,7 @@
         "BellBlockMixin",
         "BlockMixin",
         "DatapackContentsMixin",
+        "EntityMixin",
         "ItemEntityMixin",
         "ItemStackMixin",
         "MinecraftServerMixin",

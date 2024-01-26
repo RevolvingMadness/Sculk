@@ -61,8 +61,8 @@ public class ErrorHolder {
         return new TypeError(I18n.translate("error.cannot_get_absolute_value_of_type", type.toString()));
     }
 
-    public static TypeError cannotIndexListByType(BuiltinType type) {
-        return new TypeError(I18n.translate("error.cannot_index_list_by_type", type.toString()));
+    public static TypeError cannotIndexTypeByType(BuiltinType requiredType, BuiltinType type) {
+        return new TypeError(I18n.translate("error.cannot_index_type_by_type", requiredType.toString(), type.toString()));
     }
 
     public static SyntaxError cannotInstantiateAbstractClass(String className) {
@@ -151,10 +151,6 @@ public class ErrorHolder {
 
     public static TypeError typeIsNotIndexable(BuiltinType type) {
         return new TypeError(I18n.translate("error.type_is_not_indexable", type.toString()));
-    }
-
-    public static TypeError typeIsNotIterable(BuiltinType type) {
-        return new TypeError(I18n.translate("error.type_is_not_iterable", type.toString()));
     }
 
     public static InterpreterError unsupportedBinaryOperator(TokenType binaryOperator) {

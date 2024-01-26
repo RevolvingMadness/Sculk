@@ -5,13 +5,16 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.FloatType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.IntegerType;
+import net.minecraft.nbt.NbtDouble;
+import net.minecraft.nbt.NbtElement;
 
 import java.util.Objects;
 
-public class FloatInstance extends BuiltinClass {
+public class FloatInstance extends IntegerInstance {
     public final double value;
 
     public FloatInstance(double value) {
+        super((long) value);
         this.value = value;
     }
 
@@ -174,6 +177,11 @@ public class FloatInstance extends BuiltinClass {
     @Override
     public long toInteger() {
         return (long) this.value;
+    }
+
+    @Override
+    public NbtElement toNbtElement() {
+        return NbtDouble.of(this.value);
     }
 
     @Override

@@ -5,6 +5,8 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.IntegerType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.ListType;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +21,7 @@ public class ListInstance extends BuiltinClass {
     @Override
     public void deleteIndex(BuiltinClass index) {
         if (!index.instanceOf(new IntegerType())) {
-            throw ErrorHolder.cannotIndexListByType(index.getType());
+            throw ErrorHolder.cannotIndexTypeByType(this.getType(), index.getType());
         }
 
         long integerIndex = index.toInteger();
@@ -42,7 +44,7 @@ public class ListInstance extends BuiltinClass {
     @Override
     public BuiltinClass getIndex(BuiltinClass index) {
         if (!index.instanceOf(new IntegerType())) {
-            throw ErrorHolder.cannotIndexListByType(index.getType());
+            throw ErrorHolder.cannotIndexTypeByType(this.getType(), index.getType());
         }
 
         int indexInteger = (int) index.toInteger();
@@ -50,7 +52,13 @@ public class ListInstance extends BuiltinClass {
         if (indexInteger < 0 || indexInteger >= this.value.size())
             throw ErrorHolder.indexOutOfBounds(indexInteger, this.value.size());
 
-        return this.value.get(indexInteger);
+        BuiltinClass result = this.value.get(indexInteger);
+
+        if (result == null) {
+            throw ErrorHolder.dictionaryHasNoKey(index.toString());
+        }
+
+        return result;
     }
 
     @Override
@@ -66,7 +74,7 @@ public class ListInstance extends BuiltinClass {
     @Override
     public void setIndex(BuiltinClass index, BuiltinClass value) {
         if (!index.instanceOf(new IntegerType())) {
-            throw ErrorHolder.cannotIndexListByType(index.getType());
+            throw ErrorHolder.cannotIndexTypeByType(this.getType(), index.getType());
         }
 
         this.value.set((int) index.toInteger(), value);
@@ -75,5 +83,14 @@ public class ListInstance extends BuiltinClass {
     @Override
     public List<BuiltinClass> toList() {
         return this.value;
+    }
+
+    @Override
+    public NbtElement toNbtElement() {
+        NbtList list = new NbtList();
+
+        this.value.forEach(value -> list.add(value.toNbtElement()));
+
+        return list;
     }
 }

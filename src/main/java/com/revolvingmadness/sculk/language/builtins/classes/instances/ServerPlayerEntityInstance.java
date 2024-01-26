@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.ServerPlayerEntityType;
 import net.minecraft.entity.Entity;
@@ -10,10 +9,11 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.Objects;
 
-public class ServerPlayerEntityInstance extends BuiltinClass {
+public class ServerPlayerEntityInstance extends PlayerEntityInstance {
     public final ServerPlayerEntity value;
 
     public ServerPlayerEntityInstance(ServerPlayerEntity value) {
+        super(value);
         this.value = value;
     }
 

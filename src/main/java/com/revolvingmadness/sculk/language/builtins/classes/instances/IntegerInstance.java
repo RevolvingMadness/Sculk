@@ -5,6 +5,8 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.FloatType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.IntegerType;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtLong;
 
 import java.util.Objects;
 
@@ -182,6 +184,11 @@ public class IntegerInstance extends BuiltinClass {
     @Override
     public long toInteger() {
         return this.value;
+    }
+
+    @Override
+    public NbtElement toNbtElement() {
+        return NbtLong.of(this.value);
     }
 
     @Override
