@@ -41,6 +41,8 @@
 - `abs(object: Object): Object`
 - `String` is now iterable
 - Data can now be written to an entity
+- `String.startsWith(text: String): Boolean`
+- `String.endsWith(text: String): Boolean`
 
 ### Changed
 

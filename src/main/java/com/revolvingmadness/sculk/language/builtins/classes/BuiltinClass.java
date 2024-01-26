@@ -286,7 +286,7 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public NbtElement toNbtElement() {
-        throw new TypeError("Cannot convert type '" + this.getType() + "' to nbt element");
+        throw new TypeError("Type '" + this.getType() + "' is not part of Minecraft NBT");
     }
 
     public PlayerEntity toPlayerEntity() {
