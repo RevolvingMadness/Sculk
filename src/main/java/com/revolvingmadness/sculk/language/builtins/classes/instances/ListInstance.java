@@ -5,6 +5,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.IntegerType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.ListType;
+import com.revolvingmadness.sculk.language.errors.TypeError;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 
@@ -16,6 +17,22 @@ public class ListInstance extends BuiltinClass {
 
     public ListInstance(List<BuiltinClass> value) {
         this.value = value;
+    }
+
+    private boolean containsOnlyOneType() {
+        if (this.value.size() == 0 || this.value.size() == 1) {
+            return true;
+        }
+
+        BuiltinType type = this.value.get(0).getType();
+
+        for (BuiltinClass item : this.value) {
+            if (item.getType() != type) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Override
@@ -88,6 +105,10 @@ public class ListInstance extends BuiltinClass {
     @Override
     public NbtElement toNbtElement() {
         NbtList list = new NbtList();
+
+        if (!this.containsOnlyOneType()) {
+            throw new TypeError("List NBT element can only contain one type");
+        }
 
         this.value.forEach(value -> list.add(value.toNbtElement()));
 
