@@ -85,11 +85,13 @@ public class VariableTable {
     }
 
     private void declareFunctions() {
+        this.declare(List.of(TokenType.CONST), "abs", new AbsFunction());
         this.declare(List.of(TokenType.CONST), "base64decode", new Base64DecodeFunction());
         this.declare(List.of(TokenType.CONST), "base64encode", new Base64EncodeFunction());
+        this.declare(List.of(TokenType.CONST), "ceil", new CeilFunction());
+        this.declare(List.of(TokenType.CONST), "floor", new FloorFunction());
         this.declare(List.of(TokenType.CONST), "print", new PrintFunction());
         this.declare(List.of(TokenType.CONST), "type", new TypeFunction());
-        this.declare(List.of(TokenType.CONST), "abs", new AbsFunction());
     }
 
     private void declareVariables() {

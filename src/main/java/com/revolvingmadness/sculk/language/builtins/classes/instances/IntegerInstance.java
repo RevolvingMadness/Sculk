@@ -47,7 +47,7 @@ public class IntegerInstance extends BuiltinClass {
                 throw ErrorHolder.cannotDivideByZero();
             }
 
-            return new IntegerInstance(this.value / other.toInteger());
+            return new FloatInstance((double) this.value / other.toInteger());
         }
 
         if (other.instanceOf(new FloatType())) {

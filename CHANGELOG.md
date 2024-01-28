@@ -47,6 +47,8 @@
 - `String.split(splitter: String): List[String]`
 - `Integer.parseInteger(integer: String): Integer`
 - `Float.parseFloat(float: String): Float`
+- `ceil(object: Integer | Float): Integer`
+- `floor(object: Integer | Float): Integer`
 
 ### Changed
 
