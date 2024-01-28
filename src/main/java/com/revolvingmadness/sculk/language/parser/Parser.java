@@ -83,6 +83,8 @@ public class Parser {
     }
 
     private List<ExpressionNode> parseArguments() {
+        this.consume();
+
         List<ExpressionNode> arguments = new ArrayList<>();
 
         if (!this.current(TokenType.RIGHT_PARENTHESIS)) {
@@ -94,6 +96,8 @@ public class Parser {
 
             arguments.add(this.parseExpression());
         }
+
+        this.consume(TokenType.RIGHT_PARENTHESIS);
 
         return arguments;
     }
@@ -154,11 +158,7 @@ public class Parser {
 
         while (this.position < this.input.size() && (this.current(TokenType.LEFT_PARENTHESIS) || this.current(TokenType.PERIOD) || this.current(TokenType.LEFT_BRACKET))) {
             if (this.current(TokenType.LEFT_PARENTHESIS)) {
-                this.consume();
-
                 List<ExpressionNode> arguments = this.parseArguments();
-
-                this.consume(TokenType.RIGHT_PARENTHESIS);
 
                 expression = new CallExpressionNode(expression, arguments);
             } else if (this.current(TokenType.PERIOD)) {
@@ -643,6 +643,10 @@ public class Parser {
 
         while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
             this.consume();
+
+            if (this.current(TokenType.RIGHT_BRACKET)) {
+                throw new SyntaxError("Found trailing comma in list");
+            }
 
             ExpressionNode element = this.parseExpression();
 

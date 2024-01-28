@@ -1,12 +1,12 @@
 package com.revolvingmadness.sculk.language.interpreter.errors;
 
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.errors.Error;
-import com.revolvingmadness.sculk.language.parser.nodes.expression_nodes.ExpressionNode;
 
 public class Yield extends Error {
-    public final ExpressionNode expression;
+    public final BuiltinClass expression;
 
-    public Yield(ExpressionNode expression) {
+    public Yield(BuiltinClass expression) {
         super("Unexpected yield");
 
         this.expression = expression;

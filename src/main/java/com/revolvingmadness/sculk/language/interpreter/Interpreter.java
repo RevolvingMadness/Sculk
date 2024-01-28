@@ -615,7 +615,7 @@ public class Interpreter implements Visitor {
                     try {
                         switchCase.statementNodes.forEach(this::visitStatement);
                     } catch (Break ignored) {
-                        
+
                     }
 
                     return;
@@ -783,6 +783,6 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visitYieldStatement(YieldStatementNode yieldStatement) {
-        throw new Yield(yieldStatement.expression);
+        throw new Yield(this.visitExpression(yieldStatement.expression));
     }
 }
