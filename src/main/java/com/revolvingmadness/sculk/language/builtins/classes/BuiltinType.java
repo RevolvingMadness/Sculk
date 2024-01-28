@@ -1,10 +1,8 @@
 package com.revolvingmadness.sculk.language.builtins.classes;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.ObjectType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.TypeType;
-import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.interpreter.Variable;
 import com.revolvingmadness.sculk.language.interpreter.VariableScope;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -42,8 +40,6 @@ public abstract class BuiltinType extends BuiltinClass {
         if (!this.isAbstract() && this.hasAbstractMethods()) {
             throw ErrorHolder.cannotDeclareNonAbstractClassWithAbstractMethods(this.typeName);
         }
-
-        this.variableScope.declare(List.of(TokenType.CONST), "toString", new ToString());
     }
 
     @Override
@@ -197,16 +193,5 @@ public abstract class BuiltinType extends BuiltinClass {
     @Override
     public String toString() {
         return this.typeName;
-    }
-
-    private static class ToString extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("toString", 0, arguments.size());
-            }
-
-            return new StringInstance("<Class '" + this.boundClass.getType().typeName + "'>");
-        }
     }
 }

@@ -53,6 +53,8 @@ public abstract class BuiltinClass extends ExpressionNode {
             nbtList.forEach(nbtElement -> list.add(BuiltinClass.fromNbtElement(nbtElement)));
 
             return new ListInstance(list);
+        } else if (result instanceof NbtString nbtString) {
+            return new StringInstance(nbtString.asString());
         }
 
         throw new TypeError("Cannot convert nbt element '" + result + "' to class");

@@ -43,8 +43,10 @@
 - Data can now be written to an entity
 - `String.startsWith(text: String): Boolean`
 - `String.endsWith(text: String): Boolean`
-- `break` can now be used in switch statement/expression
+- `break` can now be used in switch statement
 - `String.split(splitter: String): List[String]`
+- `Integer.parseInteger(integer: String): Integer`
+- `Float.parseFloat(float: String): Float`
 
 ### Changed
 
