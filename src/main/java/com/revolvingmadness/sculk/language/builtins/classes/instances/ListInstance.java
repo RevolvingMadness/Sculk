@@ -27,7 +27,7 @@ public class ListInstance extends BuiltinClass {
         BuiltinType type = this.value.get(0).getType();
 
         for (BuiltinClass item : this.value) {
-            if (item.getType() != type) {
+            if (!item.getType().equals(type)) {
                 return false;
             }
         }
