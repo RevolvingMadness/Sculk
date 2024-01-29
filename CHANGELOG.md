@@ -59,6 +59,7 @@
 - `events.onPlayerBreakBlock(function: Function[Boolean, PlayerEntity, Block]): Null` is
   now `events.onPlayerBreakBlock(function: Function[Boolean, PlayerEntity, BlockPos, Block]): Null`
 - `World.setBlock` renamed to `World.placeBlock`
+- `maxArguments` renamed to `maxArgumentCount`
 
 ### Fixed
 
