@@ -74,7 +74,7 @@ public class EventHolder {
             if (!player.getWorld().isClient) {
                 try {
                     for (Event event : EventHolder.onPlayerBreakBlock) {
-                        BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new BlockInstance(world.getBlockState(pos).getBlock())));
+                        BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new BlockPosInstance(pos), new BlockInstance(world.getBlockState(pos).getBlock())));
 
                         if (!eventResultClass.instanceOf(new BooleanType())) {
                             throw ErrorHolder.functionRequiresReturnType("onPlayerBreakBlock", new BooleanType(), eventResultClass.getType());

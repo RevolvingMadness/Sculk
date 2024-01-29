@@ -7,6 +7,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
@@ -607,15 +608,15 @@ public class EntityType extends BuiltinType {
             }
 
             BuiltinClass distance = arguments.get(0);
-            BuiltinClass block = arguments.get(1);
+            BuiltinClass blockClass = arguments.get(1);
             BuiltinClass includeFluids = arguments.get(2);
 
             if (!distance.instanceOf(new FloatType())) {
                 throw ErrorHolder.argumentRequiresType(1, "raycast", new FloatType(), distance.getType());
             }
 
-            if (!block.instanceOf(new BlockType())) {
-                throw ErrorHolder.argumentRequiresType(2, "raycast", new BlockType(), block.getType());
+            if (!blockClass.instanceOf(new BlockType())) {
+                throw ErrorHolder.argumentRequiresType(2, "raycast", new BlockType(), blockClass.getType());
             }
 
             if (!includeFluids.instanceOf(new BooleanType())) {
@@ -628,11 +629,12 @@ public class EntityType extends BuiltinType {
                 return new BooleanInstance(false);
             }
 
-            BlockHitResult blockHit = (BlockHitResult) result;
-            BlockPos blockPos = blockHit.getBlockPos();
+            BlockHitResult blockHitResult = (BlockHitResult) result;
+            BlockPos blockPos = blockHitResult.getBlockPos();
             BlockState blockState = this.boundClass.toEntity().getWorld().getBlockState(blockPos);
+            Block block = blockState.getBlock();
 
-            return new BooleanInstance(blockState.getBlock().equals(block.toBlock()));
+            return new BlockHitResultInstance(blockPos, block, block.equals(blockClass.toBlock()));
         }
     }
 

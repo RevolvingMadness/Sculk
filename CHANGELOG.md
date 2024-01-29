@@ -49,8 +49,12 @@
 - `Float.parseFloat(float: String): Float`
 - `ceil(object: Integer | Float): Integer`
 - `floor(object: Integer | Float): Integer`
+- `BlockHitResult`
 
 ### Changed
+
+- `events.onPlayerBreakBlock(function: Function[Boolean, PlayerEntity, Block]): Null` is
+  now `events.onPlayerBreakBlock(function: Function[Boolean, PlayerEntity, BlockPos, Block]): Null`
 
 ### Fixed
 

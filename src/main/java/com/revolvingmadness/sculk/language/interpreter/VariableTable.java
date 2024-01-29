@@ -47,6 +47,7 @@ public class VariableTable {
     }
 
     private void declareClasses() {
+        this.declare(List.of(TokenType.CONST), "BlockHitResult", new BlockHitResultType());
         this.declare(List.of(TokenType.CONST), "BlockPos", new BlockPosType());
         this.declare(List.of(TokenType.CONST), "Blocks", new BlocksType());
         this.declare(List.of(TokenType.CONST), "Block", new BlockType());
