@@ -465,7 +465,7 @@ public class GameRulesType extends BuiltinType {
                 throw ErrorHolder.invalidArgumentCount("getMaxArgumentCount", 0, arguments.size());
             }
 
-            return new IntegerInstance(this.boundClass.toGameRules().getInt(SculkGamerules.MAX_ARGUMENTS));
+            return new IntegerInstance(this.boundClass.toGameRules().getInt(SculkGamerules.MAX_ARGUMENT_COUNT));
         }
     }
 
@@ -1247,7 +1247,7 @@ public class GameRulesType extends BuiltinType {
                 throw ErrorHolder.argumentRequiresType(1, "setMaxArgumentCount", new IntegerType(), maxArgumentCount.getType());
             }
 
-            this.boundClass.toGameRules().get(SculkGamerules.MAX_ARGUMENTS).set((int) maxArgumentCount.toInteger(), Sculk.server);
+            this.boundClass.toGameRules().get(SculkGamerules.MAX_ARGUMENT_COUNT).set((int) maxArgumentCount.toInteger(), Sculk.server);
 
             return new NullInstance();
         }

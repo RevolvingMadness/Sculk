@@ -29,7 +29,7 @@ public class FunctionInstance extends BuiltinFunction {
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
         interpreter.variableTable.enterScope();
 
-        int maxArguments = Sculk.server.getGameRules().getInt(SculkGamerules.MAX_ARGUMENTS);
+        int maxArguments = Sculk.server.getGameRules().getInt(SculkGamerules.MAX_ARGUMENT_COUNT);
 
         if (arguments.size() > maxArguments) {
             throw new MaxArgumentError("Function '" + this.name + "' has more than " + maxArguments + " argument(s)");

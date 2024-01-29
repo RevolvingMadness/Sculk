@@ -38,7 +38,7 @@
 
 ### Added
 
-- `abs(object: Object): Object`
+- `abs(number: Integer | Float): Object`
 - `String` is now iterable
 - Data can now be written to an entity
 - `String.startsWith(text: String): Boolean`
@@ -47,8 +47,8 @@
 - `String.split(splitter: String): List[String]`
 - `Integer.parseInteger(integer: String): Integer`
 - `Float.parseFloat(float: String): Float`
-- `ceil(object: Integer | Float): Integer`
-- `floor(object: Integer | Float): Integer`
+- `ceil(number: Integer | Float): Integer`
+- `floor(number: Integer | Float): Integer`
 - `BlockHitResult`
 - `World.breakBlock(pos: BlockPos, drop_items: Boolean): Boolean`
 - `World.getBlock(pos: BlockPos): Block`
