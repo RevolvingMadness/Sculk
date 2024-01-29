@@ -52,6 +52,7 @@
 - `BlockHitResult`
 - `World.breakBlock(pos: BlockPos, drop_items: Boolean): Boolean`
 - `World.getBlock(pos: BlockPos): Block`
+- `List.append(object: Object): Null`
 
 ### Changed
 
