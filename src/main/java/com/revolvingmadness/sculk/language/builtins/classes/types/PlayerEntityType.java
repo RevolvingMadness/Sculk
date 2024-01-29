@@ -7,8 +7,11 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.NullInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.StringInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.WorldInstance;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.world.World;
 
 import java.util.List;
 
@@ -22,6 +25,24 @@ public class PlayerEntityType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "isSpectator", new IsSpectator());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getName", new GetName());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getUUID", new GetUUID());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getWorld", new GetWorld());
+    }
+
+    private static class GetWorld extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("getWorld", 0, arguments.size());
+            }
+
+            World world = this.boundClass.toPlayerEntity().getWorld();
+
+            if (!(world instanceof ServerWorld serverWorld)) {
+                throw new RuntimeException("World is on client");
+            }
+
+            return new WorldInstance(serverWorld);
+        }
     }
 
     private static class AddExperienceLevels extends BuiltinMethod {

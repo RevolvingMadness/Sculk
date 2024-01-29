@@ -31,7 +31,9 @@ public class WorldType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getSeed", new GetSeed());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setSpawnPos", new SetSpawnPos());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setTimeOfDay", new SetTimeOfDay());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setBlock", new SetBlock());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "placeBlock", new PlaceBlock());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "breakBlock", new BreakBlock());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getBlock", new GetBlock());
     }
 
     private static class CanSetBlock extends BuiltinMethod {
@@ -188,29 +190,74 @@ public class WorldType extends BuiltinType {
         }
     }
 
-    private static class SetBlock extends BuiltinMethod {
+    private static class PlaceBlock extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
             if (arguments.size() != 2) {
-                throw ErrorHolder.invalidArgumentCount("setBlock", 2, arguments.size());
+                throw ErrorHolder.invalidArgumentCount("placeBlock", 2, arguments.size());
             }
 
             BuiltinClass blockPosClass = arguments.get(0);
 
             if (!blockPosClass.instanceOf(new BlockPosType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setBlock", new BlockPosType(), blockPosClass.getType());
+                throw ErrorHolder.argumentRequiresType(1, "placeBlock", new BlockPosType(), blockPosClass.getType());
             }
 
             BuiltinClass blockClass = arguments.get(1);
 
             if (!blockClass.instanceOf(new BlockType())) {
-                throw ErrorHolder.argumentRequiresType(2, "setBlock", new BlockType(), blockClass.getType());
+                throw ErrorHolder.argumentRequiresType(2, "placeBlock", new BlockType(), blockClass.getType());
             }
 
             BlockPos blockPos = blockPosClass.toBlockPos();
             Block block = blockClass.toBlock();
 
             return new BooleanInstance(this.boundClass.toWorld().setBlockState(blockPos, block.getDefaultState()));
+        }
+    }
+
+    private static class BreakBlock extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 2) {
+                throw ErrorHolder.invalidArgumentCount("breakBlock", 2, arguments.size());
+            }
+
+            BuiltinClass blockPosClass = arguments.get(0);
+
+            if (!blockPosClass.instanceOf(new BlockPosType())) {
+                throw ErrorHolder.argumentRequiresType(1, "breakBlock", new BlockPosType(), blockPosClass.getType());
+            }
+
+            BuiltinClass dropItemsClass = arguments.get(1);
+
+            if (!dropItemsClass.instanceOf(new BooleanType())) {
+                throw ErrorHolder.argumentRequiresType(2, "breakBlock", new BooleanType(), dropItemsClass.getType());
+            }
+
+            BlockPos blockPos = blockPosClass.toBlockPos();
+            boolean dropItems = dropItemsClass.toBoolean();
+
+            return new BooleanInstance(this.boundClass.toWorld().breakBlock(blockPos, dropItems));
+        }
+    }
+
+    private static class GetBlock extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("getBlock", 1, arguments.size());
+            }
+
+            BuiltinClass blockPosClass = arguments.get(0);
+
+            if (!blockPosClass.instanceOf(new BlockPosType())) {
+                throw ErrorHolder.argumentRequiresType(1, "getBlock", new BlockPosType(), blockPosClass.getType());
+            }
+
+            BlockPos blockPos = blockPosClass.toBlockPos();
+
+            return new BlockInstance(this.boundClass.toWorld().getBlockState(blockPos).getBlock());
         }
     }
 

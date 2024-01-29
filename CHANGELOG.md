@@ -50,11 +50,14 @@
 - `ceil(object: Integer | Float): Integer`
 - `floor(object: Integer | Float): Integer`
 - `BlockHitResult`
+- `World.breakBlock(pos: BlockPos, drop_items: Boolean): Boolean`
+- `World.getBlock(pos: BlockPos): Block`
 
 ### Changed
 
 - `events.onPlayerBreakBlock(function: Function[Boolean, PlayerEntity, Block]): Null` is
   now `events.onPlayerBreakBlock(function: Function[Boolean, PlayerEntity, BlockPos, Block]): Null`
+- `World.setBlock` renamed to `World.placeBlock`
 
 ### Fixed
 
