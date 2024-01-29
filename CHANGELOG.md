@@ -66,8 +66,6 @@
 - String concatenation
 - Event registration not clearing on reload
 
-### Removed
-
 ### Improved
 
 - Error messages
