@@ -18,11 +18,6 @@ public class IntegerInstance extends BuiltinClass {
     }
 
     @Override
-    public BuiltinClass absoluteValue(BuiltinType type) {
-        return new IntegerInstance(Math.abs(this.value));
-    }
-
-    @Override
     public BuiltinClass add(BuiltinClass other) {
         if (other.instanceOf(new IntegerType())) {
             return new IntegerInstance(this.value + other.toInteger());

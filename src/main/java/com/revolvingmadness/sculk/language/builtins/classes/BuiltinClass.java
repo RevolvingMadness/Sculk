@@ -24,10 +24,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.GameRules;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public abstract class BuiltinClass extends ExpressionNode {
     public final VariableScope variableScope;
@@ -41,9 +38,7 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public static BuiltinClass fromNbtElement(NbtElement result) {
-        if (result instanceof NbtByte nbtByte) {
-            return new IntegerInstance(nbtByte.byteValue());
-        } else if (result instanceof NbtDouble nbtDouble) {
+        if (result instanceof NbtDouble nbtDouble) {
             return new FloatInstance(nbtDouble.doubleValue());
         } else if (result instanceof NbtLong nbtLong) {
             return new IntegerInstance(nbtLong.longValue());
@@ -55,13 +50,21 @@ public abstract class BuiltinClass extends ExpressionNode {
             return new ListInstance(list);
         } else if (result instanceof NbtString nbtString) {
             return new StringInstance(nbtString.asString());
+        } else if (result instanceof NbtCompound nbtCompound) {
+            Map<BuiltinClass, BuiltinClass> dictionary = new HashMap<>();
+
+            Set<String> keys = nbtCompound.getKeys();
+
+            keys.forEach(key -> {
+                BuiltinClass value = BuiltinClass.fromNbtElement(nbtCompound.get(key));
+
+                dictionary.put(new StringInstance(key), value);
+            });
+
+            return new DictionaryInstance(dictionary);
         }
 
         throw new TypeError("Cannot convert nbt element '" + result + "' to class");
-    }
-
-    public BuiltinClass absoluteValue(BuiltinType type) {
-        throw ErrorHolder.cannotGetAbsoluteValueOfType(type);
     }
 
     public BuiltinClass add(BuiltinClass other) {

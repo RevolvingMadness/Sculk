@@ -69,3 +69,9 @@
 ### Improved
 
 - Error messages
+
+## 0.0.4
+
+### Fixed
+
+- Dictionaries don't work in nbt elements

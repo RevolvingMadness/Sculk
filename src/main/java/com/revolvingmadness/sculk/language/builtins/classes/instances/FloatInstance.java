@@ -19,11 +19,6 @@ public class FloatInstance extends IntegerInstance {
     }
 
     @Override
-    public BuiltinClass absoluteValue(BuiltinType type) {
-        return new FloatInstance(Math.abs(this.value));
-    }
-
-    @Override
     public BuiltinClass add(BuiltinClass other) {
         if (other.instanceOf(new FloatType())) {
             return new FloatInstance(this.value + other.toFloat());
