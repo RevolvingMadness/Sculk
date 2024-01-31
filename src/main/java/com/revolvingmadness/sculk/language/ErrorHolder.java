@@ -57,10 +57,6 @@ public class ErrorHolder {
         return new NameError(I18n.translate("error.cannot_find_script", scriptIdentifier.toString()));
     }
 
-    public static TypeError cannotGetAbsoluteValueOfType(BuiltinType type) {
-        return new TypeError(I18n.translate("error.cannot_get_absolute_value_of_type", type.toString()));
-    }
-
     public static TypeError cannotIndexTypeByType(BuiltinType requiredType, BuiltinType type) {
         return new TypeError(I18n.translate("error.cannot_index_type_by_type", requiredType.toString(), type.toString()));
     }
@@ -91,6 +87,10 @@ public class ErrorHolder {
 
     public static IndexOutOfBoundsError indexOutOfBounds(int index, int length) {
         return new IndexOutOfBoundsError(I18n.translate("error.index_out_of_bounds", index, length));
+    }
+
+    public static TypeError instanceOfCanOnlyCheckTypes() {
+        return new TypeError(I18n.translate("error.instanceof_can_only_check_types"));
     }
 
     public static SyntaxError invalidArgumentCount(String functionName, int requiredArgumentCount, int argumentCount) {
