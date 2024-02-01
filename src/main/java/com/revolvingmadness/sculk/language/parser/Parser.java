@@ -690,7 +690,7 @@ public class Parser {
         }
 
         if (this.current(TokenType.LEFT_BRACE)) {
-            throw ErrorHolder.abstractMethodCannotHaveABody(name);
+            throw new SyntaxError("Abstract method '" + name + "' cannot have a body");
         }
 
         return new MethodDeclarationStatementNode(accessModifiers, name, arguments, body);

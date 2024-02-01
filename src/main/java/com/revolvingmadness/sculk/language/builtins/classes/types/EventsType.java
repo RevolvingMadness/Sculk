@@ -9,6 +9,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinFunction;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.NullInstance;
+import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 
@@ -52,7 +53,7 @@ public class EventsType extends BuiltinType {
                 Collection<SculkScript> loadScripts = SculkScriptManager.loader.getScriptsFromTag(SculkScriptManager.LOAD_TAG_ID);
 
                 if (loadScripts == null || !loadScripts.contains(SculkScriptManager.currentScript)) {
-                    throw ErrorHolder.eventsCanOnlyBeRegisteredInALoadScript();
+                    throw new SyntaxError("Events can only be registered in load scripts");
                 }
 
                 events.add(new Event(function));

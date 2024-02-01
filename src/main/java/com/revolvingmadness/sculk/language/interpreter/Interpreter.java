@@ -12,6 +12,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
+import com.revolvingmadness.sculk.language.errors.TypeError;
 import com.revolvingmadness.sculk.language.interpreter.errors.StackOverflowError;
 import com.revolvingmadness.sculk.language.interpreter.errors.*;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -57,7 +58,7 @@ public class Interpreter implements Visitor {
                 new BooleanInstance(left.instanceOf(right.getType()));
 
                 if (!(right instanceof BuiltinType type)) {
-                    throw ErrorHolder.instanceOfCanOnlyCheckTypes();
+                    throw new SyntaxError("'instanceof' can only check types");
                 }
 
                 yield new BooleanInstance(left.instanceOf(type));
@@ -83,7 +84,7 @@ public class Interpreter implements Visitor {
 
                 throw new InterpreterError("Unreachable");
             }
-            default -> throw ErrorHolder.unsupportedBinaryOperator(binaryExpression.operator);
+            default -> throw new InterpreterError("Unsupported binary operator '" + binaryExpression.operator + "'");
         };
     }
 
@@ -122,7 +123,7 @@ public class Interpreter implements Visitor {
             Variable superClassVariable = this.variableTable.getOrThrow(classDeclarationStatement.superClassName);
 
             if (!(superClassVariable.value instanceof BuiltinType superClassType)) {
-                throw ErrorHolder.cannotExtendFromNonType(superClassVariable.value.getType());
+                throw new TypeError("Cannot extend from non-type '" + superClassVariable.value.getType().typeName + "'");
             }
 
             superClass = superClassType;
@@ -197,7 +198,7 @@ public class Interpreter implements Visitor {
         } else if (expression instanceof TernaryExpressionNode ternaryExpression) {
             return this.visitTernaryExpression(ternaryExpression);
         } else {
-            throw ErrorHolder.unsupportedExpressionNodeToInterpret(expression);
+            throw new RuntimeException("Unreachable");
         }
     }
 
@@ -234,7 +235,7 @@ public class Interpreter implements Visitor {
             BuiltinClass condition = this.visitExpression(forStatement.condition);
 
             if (!condition.instanceOf(new BooleanType())) {
-                throw ErrorHolder.invalidForLoopUpdateType(new IntegerType(), condition.getType());
+                throw new TypeError("For loop update requires type '" + new IntegerType() + "' but got '" + condition.getType() + "'");
             }
 
             if (!condition.toBoolean()) {
@@ -338,7 +339,7 @@ public class Interpreter implements Visitor {
         BuiltinClass ifCondition = this.visitExpression(ifStatement.ifConditionPair.getLeft());
 
         if (!ifCondition.instanceOf(new BooleanType())) {
-            throw ErrorHolder.ifStatementConditionRequiresType(new BooleanType(), ifCondition.getType());
+            throw new TypeError("If statement requires type '" + new BooleanType() + "' but got '" + ifCondition.getType() + "'");
         }
 
         if (ifCondition.toBoolean()) {
@@ -353,7 +354,7 @@ public class Interpreter implements Visitor {
             List<StatementNode> elseIfBody = elseIfConditionPair.getRight();
 
             if (!elseIfCondition.instanceOf(new BooleanType())) {
-                throw ErrorHolder.elseIfStatementConditionRequiresType(new BooleanType(), elseIfCondition.getType());
+                throw new TypeError("Else if statement requires type '" + new BooleanType() + "' but got '" + elseIfCondition.getType() + "'");
             }
 
             if (elseIfCondition.toBoolean()) {
@@ -429,7 +430,7 @@ public class Interpreter implements Visitor {
         } else if (literalExpression instanceof StringExpressionNode stringExpression) {
             return this.visitStringExpression(stringExpression);
         } else {
-            throw ErrorHolder.unsupportedLiteralExpressionNodeToInterpret(literalExpression);
+            throw new RuntimeException("Unreachable");
         }
     }
 
@@ -573,7 +574,7 @@ public class Interpreter implements Visitor {
         } else if (statement instanceof YieldStatementNode yieldStatement) {
             this.visitYieldStatement(yieldStatement);
         } else {
-            throw ErrorHolder.unsupportedStatementNodeToInterpret(statement);
+            throw new RuntimeException("Unreachable");
         }
     }
 
@@ -597,7 +598,7 @@ public class Interpreter implements Visitor {
                         return this.visitExpression(yield.expression);
                     }
 
-                    throw ErrorHolder.switchCaseDoesntYieldAValue(conditionClass);
+                    throw new SyntaxError("Switch case '" + conditionClass + "' doesn't yield a value");
                 }
             }
         }
@@ -714,7 +715,7 @@ public class Interpreter implements Visitor {
             return switch (unaryExpression.operator) {
                 case EXCLAMATION_MARK -> value.logicalNot();
                 case HYPHEN -> value.negate();
-                default -> throw ErrorHolder.unsupportedUnaryOperator(unaryExpression.operator);
+                default -> throw new InterpreterError("Unsupported unary operator '" + unaryExpression.operator + "'");
             };
         }
     }
@@ -764,7 +765,7 @@ public class Interpreter implements Visitor {
             BuiltinClass condition = this.visitExpression(whileStatement.condition);
 
             if (!condition.instanceOf(new BooleanType())) {
-                throw ErrorHolder.invalidWhileLoopConditionType(new BooleanType(), condition.getType());
+                throw new TypeError("A while loop requires 'Boolean' but got '" + condition.getType() + "'");
             }
 
             if (!condition.toBoolean()) {

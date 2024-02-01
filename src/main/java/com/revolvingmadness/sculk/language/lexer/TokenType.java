@@ -1,6 +1,6 @@
 package com.revolvingmadness.sculk.language.lexer;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
+import com.revolvingmadness.sculk.language.errors.SyntaxError;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public enum TokenType {
     public static void validateClassAccessModifiers(List<TokenType> accessModifiers) {
         accessModifiers.forEach(accessModifier -> {
             if (!accessModifier.isClassAccessModifier()) {
-                throw ErrorHolder.invalidClassAccessModifier(accessModifier);
+                throw new SyntaxError("Invalid class access modifier '" + accessModifier + "'");
             }
         });
     }
@@ -18,7 +18,7 @@ public enum TokenType {
     public static void validateEnumAccessModifiers(List<TokenType> accessModifiers) {
         accessModifiers.forEach(accessModifier -> {
             if (!accessModifier.isEnumAccessModifier()) {
-                throw ErrorHolder.invalidEnumAccessModifier(accessModifier);
+                throw new SyntaxError("Invalid enum access modifier '" + accessModifier + "'");
             }
         });
     }
@@ -26,7 +26,7 @@ public enum TokenType {
     public static void validateFieldAccessModifiers(List<TokenType> accessModifiers) {
         accessModifiers.forEach(accessModifier -> {
             if (!accessModifier.isFieldAccessModifier()) {
-                throw ErrorHolder.invalidFieldAccessModifier(accessModifier);
+                throw new SyntaxError("Invalid field access modifier '" + accessModifier + "'");
             }
         });
     }
@@ -34,7 +34,7 @@ public enum TokenType {
     public static void validateFunctionAccessModifiers(List<TokenType> accessModifiers) {
         accessModifiers.forEach(accessModifier -> {
             if (!accessModifier.isFunctionAccessModifier()) {
-                throw ErrorHolder.invalidFunctionAccessModifier(accessModifier);
+                throw new SyntaxError("Invalid function access modifier '" + accessModifier + "'");
             }
         });
     }
@@ -42,7 +42,7 @@ public enum TokenType {
     public static void validateMethodAccessModifiers(List<TokenType> accessModifiers) {
         accessModifiers.forEach(accessModifier -> {
             if (!accessModifier.isMethodAccessModifier()) {
-                throw ErrorHolder.invalidMethodAccessModifier(accessModifier);
+                throw new SyntaxError("Invalid method access modifier '" + accessModifier + "'");
             }
         });
     }
@@ -50,7 +50,7 @@ public enum TokenType {
     public static void validateVariableAccessModifiers(List<TokenType> accessModifiers) {
         accessModifiers.forEach(accessModifier -> {
             if (!accessModifier.isVariableAccessModifier()) {
-                throw ErrorHolder.invalidVariableAccessModifier(accessModifier);
+                throw new SyntaxError("Invalid variable access modifier '" + accessModifier + "'");
             }
         });
     }

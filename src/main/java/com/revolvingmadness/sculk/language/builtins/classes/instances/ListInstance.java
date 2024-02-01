@@ -5,6 +5,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.IntegerType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.ListType;
+import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.errors.TypeError;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -66,8 +67,9 @@ public class ListInstance extends BuiltinClass {
 
         int indexInteger = (int) index.toInteger();
 
-        if (indexInteger < 0 || indexInteger >= this.value.size())
-            throw ErrorHolder.indexOutOfBounds(indexInteger, this.value.size());
+        if (indexInteger < 0 || indexInteger >= this.value.size()) {
+            throw new SyntaxError("Index out of bounds " + indexInteger + " for length " + this.value.size());
+        }
 
         BuiltinClass result = this.value.get(indexInteger);
 

@@ -1,9 +1,9 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.UserDefinedInstance;
+import com.revolvingmadness.sculk.language.errors.TypeError;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.interpreter.VariableScope;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -20,7 +20,7 @@ public class UserDefinedType extends BuiltinType {
         UserDefinedInstance instance = new UserDefinedInstance(this, this.variableScope);
 
         if (this.isAbstract()) {
-            throw ErrorHolder.cannotInstantiateAbstractClass(this.typeName);
+            throw new TypeError("Cannot instantiate abstract class '" + this.typeName + "'");
         }
 
         instance.call(interpreter, "init", arguments);

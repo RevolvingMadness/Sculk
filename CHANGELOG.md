@@ -75,3 +75,7 @@
 ### Fixed
 
 - Dictionaries don't work in nbt elements
+
+### Improved
+
+- Error messages

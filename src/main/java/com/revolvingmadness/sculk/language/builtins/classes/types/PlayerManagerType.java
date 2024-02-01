@@ -8,6 +8,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanIns
 import com.revolvingmadness.sculk.language.builtins.classes.instances.IntegerInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.NullInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.ServerPlayerEntityInstance;
+import com.revolvingmadness.sculk.language.errors.NameError;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -80,7 +81,7 @@ public class PlayerManagerType extends BuiltinType {
             ServerPlayerEntity serverPlayerEntity = this.boundClass.toPlayerManager().getPlayer(playerName.toString());
 
             if (serverPlayerEntity == null) {
-                throw ErrorHolder.thereIsNoPlayerNamed(playerName.toString());
+                throw new NameError("Cannot find player named '" + playerName + "'");
             }
 
             return new ServerPlayerEntityInstance(serverPlayerEntity);

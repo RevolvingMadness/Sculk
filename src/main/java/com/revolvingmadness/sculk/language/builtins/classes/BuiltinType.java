@@ -3,6 +3,7 @@ package com.revolvingmadness.sculk.language.builtins.classes;
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.types.ObjectType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.TypeType;
+import com.revolvingmadness.sculk.language.errors.TypeError;
 import com.revolvingmadness.sculk.language.interpreter.Variable;
 import com.revolvingmadness.sculk.language.interpreter.VariableScope;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -38,7 +39,7 @@ public abstract class BuiltinType extends BuiltinClass {
         this.checkIfAllMethodsAreImplemented();
 
         if (!this.isAbstract() && this.hasAbstractMethods()) {
-            throw ErrorHolder.cannotDeclareNonAbstractClassWithAbstractMethods(this.typeName);
+            throw new TypeError("Cannot declare a non-abstract class with abstract methods");
         }
     }
 
@@ -55,7 +56,7 @@ public abstract class BuiltinType extends BuiltinClass {
         for (Variable property : this.typeSuperClass.typeVariableScope.variables.values()) {
             if (property.isAbstract()) {
                 if (!this.typeVariableScope.exists(property.name)) {
-                    throw ErrorHolder.methodNotImplemented(property.name, this.typeName);
+                    throw new TypeError("Class '" + this.typeName + "' does not implement method '" + property.name + "'");
                 }
             }
         }

@@ -13,12 +13,14 @@ public class Logger {
     }
 
     public static void error(String message) {
-        Logger.broadcast(Text.literal(message).formatted(Formatting.RED));
+        Logger.broadcast(Text.literal(message).withColor(Colors.ERROR));
     }
 
     @SuppressWarnings("unused")
-    public static void info(String text) {
-        Logger.broadcast(Text.literal(text));
+    public static void info(SculkScript script, String text) {
+        Logger.broadcast(Text.literal(script.identifier.toString()).formatted(Formatting.GRAY));
+
+        Logger.broadcast(Text.literal(text).withColor(Colors.INFO));
     }
 
     public static void scriptError(SculkScript script, Error error) {
@@ -27,27 +29,26 @@ public class Logger {
             return;
         }
 
-        Logger.broadcast(Text.literal("The script '" + script.identifier + "' encountered an error:").formatted(Formatting.GRAY));
+        Logger.broadcast(Text.literal(script.identifier.toString()).formatted(Formatting.GRAY));
 
-        MutableText textError = Text.literal(error.getClass().getSimpleName() + ": ").formatted(Formatting.GRAY);
-
-        textError.append(Text.literal(error.message).formatted(Formatting.RED));
-
-        Logger.broadcast(textError);
+        Logger.broadcast(Text.literal(error.message).withColor(Colors.ERROR));
     }
 
     @SuppressWarnings("unused")
-    public static void warn(String text) {
-        Logger.broadcast(Text.literal(text).formatted(Formatting.YELLOW));
+    public static void scriptWarn(SculkScript script, Error warning) {
+        Logger.broadcast(Text.literal(script.identifier.toString()).formatted(Formatting.GRAY));
+
+        Logger.broadcast(Text.literal(warning.message).withColor(Colors.WARN));
+    }
+
+    @SuppressWarnings("unused")
+    public static void warn(String warning) {
+        Logger.broadcast(Text.literal(warning).withColor(Colors.WARN));
     }
 
     private static void internalScriptError(SculkScript script, InternalError error) {
-        Logger.broadcast(Text.literal("The script '" + script.identifier + "' encountered an internal error:").formatted(Formatting.GRAY));
+        Logger.broadcast(Text.literal(script.identifier.toString()).formatted(Formatting.GRAY));
 
-        MutableText textError = Text.literal(error.getClass().getSimpleName() + ": ").formatted(Formatting.GRAY);
-
-        textError.append(Text.literal(error.message).formatted(Formatting.RED));
-
-        Logger.broadcast(textError);
+        Logger.broadcast(Text.literal(error.message).withColor(Colors.INTERNAL_ERROR));
     }
 }

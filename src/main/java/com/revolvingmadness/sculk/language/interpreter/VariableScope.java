@@ -2,6 +2,7 @@ package com.revolvingmadness.sculk.language.interpreter;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
+import com.revolvingmadness.sculk.language.errors.NameError;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 
 import java.io.Serializable;
@@ -12,10 +13,6 @@ public class VariableScope implements Serializable {
 
     public VariableScope() {
         this.variables = new HashMap<>();
-    }
-
-    public void addAll(VariableScope variableScope) {
-        this.variables.putAll(variableScope.variables);
     }
 
     public void assign(String name, BuiltinClass value) {
@@ -36,7 +33,7 @@ public class VariableScope implements Serializable {
 
     public void declare(List<TokenType> accessModifiers, String name, BuiltinClass value) {
         if (this.exists(name)) {
-            throw ErrorHolder.variableHasAlreadyBeenDeclared(name);
+            throw new NameError("Variable '" + name + "' has already been declared");
         }
 
         this.variables.put(name, new Variable(accessModifiers, name, value));

@@ -80,7 +80,7 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        throw ErrorHolder.typeIsNotCallable(this.getType());
+        throw new TypeError("Type '" + this.getType().typeName + "' is not callable");
     }
 
     public BuiltinClass call(Interpreter interpreter, String methodName, List<BuiltinClass> arguments) {
@@ -291,7 +291,7 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public NbtElement toNbtElement() {
-        throw new TypeError("Type '" + this.getType() + "' is not part of Minecraft NBT");
+        throw new TypeError("Type '" + this.getType().typeName + "' is not part of Minecraft NBT");
     }
 
     public PlayerEntity toPlayerEntity() {
