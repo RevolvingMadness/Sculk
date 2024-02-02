@@ -92,6 +92,8 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "ceil", new CeilFunction());
         this.declare(List.of(TokenType.CONST), "floor", new FloorFunction());
         this.declare(List.of(TokenType.CONST), "print", new PrintFunction());
+        this.declare(List.of(TokenType.CONST), "randomFloat", new RandomFloatFunction());
+        this.declare(List.of(TokenType.CONST), "randomInteger", new RandomIntegerFunction());
         this.declare(List.of(TokenType.CONST), "type", new TypeFunction());
     }
 

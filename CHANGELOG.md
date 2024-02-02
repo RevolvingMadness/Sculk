@@ -72,6 +72,11 @@
 
 ## 0.0.4
 
+### Added
+
+- `randomInteger(min: Integer, max: Integer): Integer`
+- `randomFloat(min: Float, max: Float): Float`
+
 ### Fixed
 
 - Dictionaries don't work in nbt elements
