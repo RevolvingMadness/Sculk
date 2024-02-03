@@ -5,6 +5,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.IntegerInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.ListInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.StringInstance;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
@@ -20,6 +21,9 @@ public class StringType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "startsWith", new StartsWith());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "endsWith", new EndsWith());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "split", new Split());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "length", new Length());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "lowercase", new Lowercase());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "uppercase", new Uppercase());
     }
 
     @Override
@@ -51,6 +55,28 @@ public class StringType extends BuiltinType {
             }
 
             return new BooleanInstance(this.boundClass.toString().endsWith(text.toString()));
+        }
+    }
+
+    private static class Length extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("length", 0, arguments.size());
+            }
+
+            return new IntegerInstance(this.boundClass.toString().length());
+        }
+    }
+
+    private static class Lowercase extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("lowercase", 0, arguments.size());
+            }
+
+            return new StringInstance(this.boundClass.toString().toLowerCase());
         }
     }
 
@@ -93,6 +119,17 @@ public class StringType extends BuiltinType {
             }
 
             return new BooleanInstance(this.boundClass.toString().startsWith(text.toString()));
+        }
+    }
+
+    private static class Uppercase extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("uppercase", 0, arguments.size());
+            }
+
+            return new StringInstance(this.boundClass.toString().toUpperCase());
         }
     }
 }

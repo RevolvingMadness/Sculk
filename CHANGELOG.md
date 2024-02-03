@@ -76,6 +76,9 @@
 
 - `randomInteger(min: Integer, max: Integer): Integer`
 - `randomFloat(min: Float, max: Float): Float`
+- `String.length(): Integer`
+- `String.uppercase(): String`
+- `String.lowercase(): String`
 
 ### Fixed
 
