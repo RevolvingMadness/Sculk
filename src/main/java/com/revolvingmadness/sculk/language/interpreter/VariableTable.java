@@ -102,7 +102,6 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "server", new MinecraftServerInstance(Sculk.server));
         this.declare(List.of(TokenType.CONST), "playerManager", new PlayerManagerInstance(Sculk.server.getPlayerManager()));
         this.declare(List.of(TokenType.CONST), "gameRules", new GameRulesInstance(Sculk.server.getGameRules()));
-        this.declare(List.of(TokenType.CONST), "events", new EventsInstance());
         this.declare(List.of(TokenType.CONST), "overworld", new WorldInstance(Sculk.server.getWorld(World.OVERWORLD)));
         this.declare(List.of(TokenType.CONST), "nether", new WorldInstance(Sculk.server.getWorld(World.NETHER)));
         this.declare(List.of(TokenType.CONST), "end", new WorldInstance(Sculk.server.getWorld(World.END)));

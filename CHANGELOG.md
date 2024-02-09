@@ -80,6 +80,16 @@
 - `String.uppercase(): String`
 - `String.lowercase(): String`
 
+### Changed
+
+- `Events` is now accessed from a static context
+- `Entity.addCommandTag` -> `Entity.addTag`
+- `Entity.getCommandTags` -> `Entity.getTags`
+- `Entity.removeCommandTag` -> `Entity.removeTag`
+- `Entity.dismountVehicle` -> `Entity.dismount`
+- `Entity.removeAllPassengers` -> `Entity.removePassengers`
+- `ServerPlayerEntity.changeGameMode` -> `ServerPlayerEntity.setGameMode`
+
 ### Fixed
 
 - Dictionaries don't work in nbt elements

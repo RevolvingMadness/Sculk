@@ -21,10 +21,10 @@ public class EntityType extends BuiltinType {
     public EntityType() {
         super("Entity");
 
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "addCommandTag", new AddCommandTag());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getCommandTags", new GetCommandTags());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "removeCommandTag", new RemoveCommandTag());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "dismountVehicle", new DismountVehicle());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "addTag", new AddTag());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getTags", new GetTags());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "removeTag", new RemoveTag());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "dismount", new Dismount());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getBlockPos", new GetBlockPos());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getBlockX", new GetBlockX());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getBlockY", new GetBlockY());
@@ -55,7 +55,7 @@ public class EntityType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "isTouchingWaterOrRain", new IsTouchingWaterOrRain());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "isWet", new IsWet());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "kill", new Kill());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "removeAllPassengers", new RemoveAllPassengers());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "removePassengers", new RemovePassengers());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "resetPortalCooldown", new ResetPortalCooldown());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "sendMessage", new SendMessage());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setInvisible", new SetInvisible());
@@ -84,17 +84,17 @@ public class EntityType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "raycast", new Raycast());
     }
 
-    private static class AddCommandTag extends BuiltinMethod {
+    private static class AddTag extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
             if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("addCommandTag", 1, arguments.size());
+                throw ErrorHolder.invalidArgumentCount("addTag", 1, arguments.size());
             }
 
             BuiltinClass commandTag = arguments.get(0);
 
             if (!commandTag.instanceOf(new StringType())) {
-                throw ErrorHolder.argumentRequiresType(1, "addCommandTag", new StringType(), commandTag.getType());
+                throw ErrorHolder.argumentRequiresType(1, "addTag", new StringType(), commandTag.getType());
             }
 
             this.boundClass.toEntity().addCommandTag(commandTag.toString());
@@ -125,11 +125,11 @@ public class EntityType extends BuiltinType {
         }
     }
 
-    private static class DismountVehicle extends BuiltinMethod {
+    private static class Dismount extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
             if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("dismountVehicle", 0, arguments.size());
+                throw ErrorHolder.invalidArgumentCount("dismount", 0, arguments.size());
             }
 
             this.boundClass.toEntity().dismountVehicle();
@@ -213,21 +213,6 @@ public class EntityType extends BuiltinType {
         }
     }
 
-    private static class GetCommandTags extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getCommandTags", 0, arguments.size());
-            }
-
-            List<BuiltinClass> commandTags = new ArrayList<>();
-
-            this.boundClass.toEntity().getCommandTags().forEach(commandTag -> commandTags.add(new StringInstance(commandTag)));
-
-            return new ListInstance(commandTags);
-        }
-    }
-
     private static class GetName extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -253,6 +238,21 @@ public class EntityType extends BuiltinType {
             this.boundClass.toEntity().getPassengerList().forEach(passenger -> passengers.add(new EntityInstance(passenger)));
 
             return new ListInstance(passengers);
+        }
+    }
+
+    private static class GetTags extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("getTags", 0, arguments.size());
+            }
+
+            List<BuiltinClass> commandTags = new ArrayList<>();
+
+            this.boundClass.toEntity().getCommandTags().forEach(commandTag -> commandTags.add(new StringInstance(commandTag)));
+
+            return new ListInstance(commandTags);
         }
     }
 
@@ -638,11 +638,11 @@ public class EntityType extends BuiltinType {
         }
     }
 
-    private static class RemoveAllPassengers extends BuiltinMethod {
+    private static class RemovePassengers extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
             if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("removeAllPassengers", 0, arguments.size());
+                throw ErrorHolder.invalidArgumentCount("removePassengers", 0, arguments.size());
             }
 
             this.boundClass.toEntity().removeAllPassengers();
@@ -651,17 +651,17 @@ public class EntityType extends BuiltinType {
         }
     }
 
-    private static class RemoveCommandTag extends BuiltinMethod {
+    private static class RemoveTag extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
             if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("removeCommandTag", 1, arguments.size());
+                throw ErrorHolder.invalidArgumentCount("removeTag", 1, arguments.size());
             }
 
             BuiltinClass commandTag = arguments.get(0);
 
             if (!commandTag.instanceOf(new StringType())) {
-                throw ErrorHolder.argumentRequiresType(1, "removeCommandTag", new StringType(), commandTag.getType());
+                throw ErrorHolder.argumentRequiresType(1, "removeTag", new StringType(), commandTag.getType());
             }
 
             this.boundClass.toEntity().removeCommandTag(commandTag.toString());

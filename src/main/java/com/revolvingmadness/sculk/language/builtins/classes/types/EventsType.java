@@ -62,6 +62,6 @@ public class EventsType extends BuiltinType {
             }
         };
 
-        this.typeVariableScope.declare(List.of(TokenType.CONST), name, eventFunction);
+        this.variableScope.declare(List.of(TokenType.CONST), name, eventFunction);
     }
 }

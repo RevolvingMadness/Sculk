@@ -15,30 +15,11 @@ public class ServerPlayerEntityType extends BuiltinType {
     public ServerPlayerEntityType() {
         super("ServerPlayerEntity", new PlayerEntityType());
 
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "changeGameMode", new ChangeGameMode());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "setGameMode", new SetGameMode());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "dropSelectedItem", new DropSelectedItem());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getViewDistance", new GetViewDistance());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setExperienceLevels", new SetExperienceLevels());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setExperiencePoints", new SetExperiencePoints());
-    }
-
-    private static class ChangeGameMode extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("changeGameMode", 1, arguments.size());
-            }
-
-            BuiltinClass gameMode = arguments.get(0);
-
-            if (!gameMode.instanceOf(new GameModesEnumType())) {
-                throw ErrorHolder.argumentRequiresType(1, "changeGameMode", new GameModesEnumType(), gameMode.getType());
-            }
-
-            this.boundClass.toServerPlayerEntity().changeGameMode(gameMode.toGameMode());
-
-            return new NullInstance();
-        }
     }
 
     private static class DropSelectedItem extends BuiltinMethod {
@@ -104,6 +85,25 @@ public class ServerPlayerEntityType extends BuiltinType {
             }
 
             this.boundClass.toServerPlayerEntity().setExperiencePoints((int) experiencePoints.toInteger());
+
+            return new NullInstance();
+        }
+    }
+
+    private static class SetGameMode extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("setGameMode", 1, arguments.size());
+            }
+
+            BuiltinClass gameMode = arguments.get(0);
+
+            if (!gameMode.instanceOf(new GameModesEnumType())) {
+                throw ErrorHolder.argumentRequiresType(1, "setGameMode", new GameModesEnumType(), gameMode.getType());
+            }
+
+            this.boundClass.toServerPlayerEntity().changeGameMode(gameMode.toGameMode());
 
             return new NullInstance();
         }
