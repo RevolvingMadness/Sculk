@@ -38,7 +38,7 @@ public class StringType extends BuiltinType {
             throw ErrorHolder.argumentRequiresType(1, "init", new StringType(), stringClass.getType());
         }
 
-        return stringClass.toStringMethod();
+        return new StringInstance(stringClass.toString());
     }
 
     private static class EndsWith extends BuiltinMethod {

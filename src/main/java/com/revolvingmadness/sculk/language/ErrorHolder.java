@@ -1,7 +1,7 @@
 package com.revolvingmadness.sculk.language;
 
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.BooleanType;
 import com.revolvingmadness.sculk.language.errors.DivisionByZeroError;
 import com.revolvingmadness.sculk.language.errors.NameError;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
@@ -52,7 +52,7 @@ public class ErrorHolder {
         return new NameError(I18n.translate("error.dictionary_has_no_key", key));
     }
 
-    public static TypeError functionRequiresReturnType(String functionName, BooleanType type, BuiltinType requiredType) {
+    public static TypeError functionRequiresReturnType(String functionName, BuiltinClass type, BuiltinType requiredType) {
         return new TypeError(I18n.translate("error.function_requires_return_type", functionName, type.toString(), requiredType.toString()));
     }
 

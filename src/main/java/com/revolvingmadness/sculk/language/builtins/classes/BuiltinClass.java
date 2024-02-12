@@ -315,10 +315,6 @@ public abstract class BuiltinClass extends ExpressionNode {
         return "<Class '" + this.getType().typeName + "'>";
     }
 
-    public StringInstance toStringMethod() {
-        return new StringInstance(this.toString());
-    }
-
     public ServerWorld toWorld() {
         throw ErrorHolder.cannotConvertType(this.getType(), new WorldType());
     }

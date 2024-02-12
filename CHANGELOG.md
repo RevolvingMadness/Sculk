@@ -93,6 +93,7 @@
 ### Fixed
 
 - Dictionaries don't work in nbt elements
+- Overriding `toString` does nothing
 
 ### Improved
 
