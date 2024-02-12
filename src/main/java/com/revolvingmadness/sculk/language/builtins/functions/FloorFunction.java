@@ -20,11 +20,11 @@ public class FloorFunction extends BuiltinFunction {
 
         BuiltinClass object = arguments.get(0);
 
-        if (object.instanceOf(new IntegerType())) {
+        if (object.instanceOf(IntegerType.TYPE)) {
             return new IntegerInstance((long) Math.floor(object.toInteger()));
         }
 
-        if (object.instanceOf(new FloatType())) {
+        if (object.instanceOf(FloatType.TYPE)) {
             return new IntegerInstance((long) Math.floor(object.toFloat()));
         }
 

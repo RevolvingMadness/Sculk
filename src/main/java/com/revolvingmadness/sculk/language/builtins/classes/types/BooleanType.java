@@ -9,7 +9,9 @@ import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import java.util.List;
 
 public class BooleanType extends BuiltinType {
-    public BooleanType() {
+    public static final BooleanType TYPE = new BooleanType();
+
+    private BooleanType() {
         super("Boolean");
     }
 
@@ -21,10 +23,12 @@ public class BooleanType extends BuiltinType {
 
         BuiltinClass booleanClass = arguments.get(0);
 
-        if (!booleanClass.instanceOf(new BooleanType())) {
-            throw ErrorHolder.argumentRequiresType(1, "init", new BooleanType(), booleanClass.getType());
+        if (!booleanClass.instanceOf(BooleanType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(1, "init", BooleanType.TYPE, booleanClass.getType());
         }
 
         return new BooleanInstance(booleanClass.toBoolean());
     }
+
+
 }

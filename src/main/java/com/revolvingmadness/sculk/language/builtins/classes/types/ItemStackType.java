@@ -11,7 +11,9 @@ import com.revolvingmadness.sculk.language.lexer.TokenType;
 import java.util.List;
 
 public class ItemStackType extends BuiltinType {
-    public ItemStackType() {
+    public static final ItemStackType TYPE = new ItemStackType();
+
+    private ItemStackType() {
         super("ItemStack");
         this.typeVariableScope.declare(List.of(TokenType.CONST), "decrement", new Decrement());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getCount", new GetCount());
@@ -43,8 +45,8 @@ public class ItemStackType extends BuiltinType {
 
         BuiltinClass itemStackClass = arguments.get(0);
 
-        if (!itemStackClass.instanceOf(new ItemType())) {
-            throw ErrorHolder.argumentRequiresType(1, "init", new ItemType(), itemStackClass.getType());
+        if (!itemStackClass.instanceOf(ItemType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(1, "init", ItemType.TYPE, itemStackClass.getType());
         }
 
         return new ItemStackInstance(itemStackClass.toItem().getDefaultStack());
@@ -59,8 +61,8 @@ public class ItemStackType extends BuiltinType {
 
             BuiltinClass amountClass = arguments.get(0);
 
-            if (amountClass.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "decrement", new IntegerType(), amountClass.getType());
+            if (amountClass.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "decrement", IntegerType.TYPE, amountClass.getType());
             }
 
             long amount = amountClass.toInteger();
@@ -179,8 +181,8 @@ public class ItemStackType extends BuiltinType {
 
             BuiltinClass amountClass = arguments.get(0);
 
-            if (amountClass.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "increment", new IntegerType(), amountClass.getType());
+            if (amountClass.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "increment", IntegerType.TYPE, amountClass.getType());
             }
 
             long amount = amountClass.toInteger();
@@ -266,8 +268,8 @@ public class ItemStackType extends BuiltinType {
 
             BuiltinClass countClass = arguments.get(0);
 
-            if (countClass.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setCount", new IntegerType(), countClass.getType());
+            if (countClass.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setCount", IntegerType.TYPE, countClass.getType());
             }
 
             long count = countClass.toInteger();
@@ -287,8 +289,8 @@ public class ItemStackType extends BuiltinType {
 
             BuiltinClass damageClass = arguments.get(0);
 
-            if (damageClass.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDamage", new IntegerType(), damageClass.getType());
+            if (damageClass.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDamage", IntegerType.TYPE, damageClass.getType());
             }
 
             long damage = damageClass.toInteger();
@@ -308,8 +310,8 @@ public class ItemStackType extends BuiltinType {
 
             BuiltinClass repairCostClass = arguments.get(0);
 
-            if (repairCostClass.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setRepairCost", new IntegerType(), repairCostClass.getType());
+            if (repairCostClass.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setRepairCost", IntegerType.TYPE, repairCostClass.getType());
             }
 
             long repairCost = repairCostClass.toInteger();

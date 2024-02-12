@@ -28,7 +28,7 @@ public class ItemInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new ItemType();
+        return ItemType.TYPE;
     }
 
     @Override

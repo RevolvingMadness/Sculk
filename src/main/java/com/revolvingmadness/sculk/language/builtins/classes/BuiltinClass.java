@@ -178,7 +178,7 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public boolean instanceOf(BuiltinType type) {
-        if (type.equals(new NullType())) {
+        if (type.equals(NullType.TYPE)) {
             return true;
         }
 
@@ -235,59 +235,59 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public Block toBlock() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new BlockType());
+        throw ErrorHolder.cannotConvertType(this.getType(), BlockType.TYPE);
     }
 
     public BlockPos toBlockPos() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new BlockPosType());
+        throw ErrorHolder.cannotConvertType(this.getType(), BlockPosType.TYPE);
     }
 
     public boolean toBoolean() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new BooleanType());
+        throw ErrorHolder.cannotConvertType(this.getType(), BooleanType.TYPE);
     }
 
     public Difficulty toDifficulty() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new DifficultiesEnumType());
+        throw ErrorHolder.cannotConvertType(this.getType(), DifficultiesEnumType.TYPE);
     }
 
     public Entity toEntity() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new EntityType());
+        throw ErrorHolder.cannotConvertType(this.getType(), EntityType.TYPE);
     }
 
     public double toFloat() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new FloatType());
+        throw ErrorHolder.cannotConvertType(this.getType(), FloatType.TYPE);
     }
 
     public BuiltinFunction toFunction() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new FunctionType());
+        throw ErrorHolder.cannotConvertType(this.getType(), FunctionType.TYPE);
     }
 
     public GameMode toGameMode() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new GameModesEnumType());
+        throw ErrorHolder.cannotConvertType(this.getType(), GameModesEnumType.TYPE);
     }
 
     public GameRules toGameRules() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new GameRulesType());
+        throw ErrorHolder.cannotConvertType(this.getType(), GameRulesType.TYPE);
     }
 
     public long toInteger() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new IntegerType());
+        throw ErrorHolder.cannotConvertType(this.getType(), IntegerType.TYPE);
     }
 
     public Item toItem() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new ItemType());
+        throw ErrorHolder.cannotConvertType(this.getType(), ItemType.TYPE);
     }
 
     public ItemStack toItemStack() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new ItemStackType());
+        throw ErrorHolder.cannotConvertType(this.getType(), ItemStackType.TYPE);
     }
 
     public List<BuiltinClass> toList() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new ListType());
+        throw ErrorHolder.cannotConvertType(this.getType(), ListType.TYPE);
     }
 
     public LivingEntity toLivingEntity() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new LivingEntityType());
+        throw ErrorHolder.cannotConvertType(this.getType(), LivingEntityType.TYPE);
     }
 
     public NbtElement toNbtElement() {
@@ -295,19 +295,19 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public PlayerEntity toPlayerEntity() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new PlayerEntityType());
+        throw ErrorHolder.cannotConvertType(this.getType(), PlayerEntityType.TYPE);
     }
 
     public PlayerManager toPlayerManager() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new PlayerManagerType());
+        throw ErrorHolder.cannotConvertType(this.getType(), PlayerManagerType.TYPE);
     }
 
     public Identifier toResource() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new ResourceType());
+        throw ErrorHolder.cannotConvertType(this.getType(), ResourceType.TYPE);
     }
 
     public ServerPlayerEntity toServerPlayerEntity() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new ServerPlayerEntityType());
+        throw ErrorHolder.cannotConvertType(this.getType(), ServerPlayerEntityType.TYPE);
     }
 
     @Override
@@ -316,6 +316,6 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public ServerWorld toWorld() {
-        throw ErrorHolder.cannotConvertType(this.getType(), new WorldType());
+        throw ErrorHolder.cannotConvertType(this.getType(), WorldType.TYPE);
     }
 }

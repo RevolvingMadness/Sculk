@@ -17,7 +17,9 @@ import java.util.Collection;
 import java.util.List;
 
 public class EventsType extends BuiltinType {
-    public EventsType() {
+    public static final EventsType TYPE = new EventsType();
+
+    private EventsType() {
         super("Events");
 
         this.registerEvent("onPlaceBlock", EventHolder.onPlaceBlock);
@@ -44,8 +46,8 @@ public class EventsType extends BuiltinType {
 
                 BuiltinClass functionClass = arguments.get(0);
 
-                if (!functionClass.instanceOf(new FunctionType())) {
-                    throw ErrorHolder.argumentRequiresType(1, name, new FunctionType(), functionClass.getType());
+                if (!functionClass.instanceOf(FunctionType.TYPE)) {
+                    throw ErrorHolder.argumentRequiresType(1, name, FunctionType.TYPE, functionClass.getType());
                 }
 
                 BuiltinFunction function = functionClass.toFunction();

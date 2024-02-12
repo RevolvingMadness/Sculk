@@ -10,7 +10,7 @@ public abstract class BuiltinFunction extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new FunctionType();
+        return FunctionType.TYPE;
     }
 
     @Override

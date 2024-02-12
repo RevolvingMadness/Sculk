@@ -9,7 +9,9 @@ import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import java.util.List;
 
 public class ResourceType extends BuiltinType {
-    public ResourceType() {
+    public static final ResourceType TYPE = new ResourceType();
+
+    private ResourceType() {
         super("Resource");
     }
 
@@ -21,10 +23,12 @@ public class ResourceType extends BuiltinType {
 
         BuiltinClass resourceClass = arguments.get(0);
 
-        if (!resourceClass.instanceOf(new ResourceType())) {
-            throw ErrorHolder.argumentRequiresType(1, "init", new ResourceType(), resourceClass.getType());
+        if (!resourceClass.instanceOf(ResourceType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(1, "init", ResourceType.TYPE, resourceClass.getType());
         }
 
         return new ResourceInstance(resourceClass.toResource());
     }
+
+
 }

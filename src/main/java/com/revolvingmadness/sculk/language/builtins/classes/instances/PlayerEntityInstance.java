@@ -31,7 +31,7 @@ public class PlayerEntityInstance extends LivingEntityInstance {
 
     @Override
     public BuiltinType getType() {
-        return new PlayerEntityType();
+        return PlayerEntityType.TYPE;
     }
 
     @Override

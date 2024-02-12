@@ -20,7 +20,7 @@ public class StringInstance extends BuiltinClass {
 
     @Override
     public BuiltinClass add(BuiltinClass other) {
-        if (other.instanceOf(new StringType())) {
+        if (other.instanceOf(StringType.TYPE)) {
             return new StringInstance(this.value + other);
         }
 
@@ -41,7 +41,7 @@ public class StringInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new StringType();
+        return StringType.TYPE;
     }
 
     @Override

@@ -128,7 +128,7 @@ public class Interpreter implements Visitor {
 
             superClass = superClassType;
         } else {
-            superClass = new ObjectType();
+            superClass = ObjectType.TYPE;
         }
 
         this.variableTable.declare(classDeclarationStatement.accessModifiers, classDeclarationStatement.name, new UserDefinedType(classDeclarationStatement.accessModifiers, classDeclarationStatement.name, superClass, variableScope));
@@ -234,8 +234,8 @@ public class Interpreter implements Visitor {
 
             BuiltinClass condition = this.visitExpression(forStatement.condition);
 
-            if (!condition.instanceOf(new BooleanType())) {
-                throw new TypeError("For loop update requires type '" + new IntegerType() + "' but got '" + condition.getType() + "'");
+            if (!condition.instanceOf(BooleanType.TYPE)) {
+                throw new TypeError("For loop update requires type '" + IntegerType.TYPE + "' but got '" + condition.getType() + "'");
             }
 
             if (!condition.toBoolean()) {
@@ -338,8 +338,8 @@ public class Interpreter implements Visitor {
     public void visitIfStatement(IfStatementNode ifStatement) {
         BuiltinClass ifCondition = this.visitExpression(ifStatement.ifConditionPair.getLeft());
 
-        if (!ifCondition.instanceOf(new BooleanType())) {
-            throw new TypeError("If statement requires type '" + new BooleanType() + "' but got '" + ifCondition.getType() + "'");
+        if (!ifCondition.instanceOf(BooleanType.TYPE)) {
+            throw new TypeError("If statement requires type '" + BooleanType.TYPE + "' but got '" + ifCondition.getType() + "'");
         }
 
         if (ifCondition.toBoolean()) {
@@ -353,8 +353,8 @@ public class Interpreter implements Visitor {
             BuiltinClass elseIfCondition = this.visitExpression(elseIfConditionPair.getLeft());
             List<StatementNode> elseIfBody = elseIfConditionPair.getRight();
 
-            if (!elseIfCondition.instanceOf(new BooleanType())) {
-                throw new TypeError("Else if statement requires type '" + new BooleanType() + "' but got '" + elseIfCondition.getType() + "'");
+            if (!elseIfCondition.instanceOf(BooleanType.TYPE)) {
+                throw new TypeError("Else if statement requires type '" + BooleanType.TYPE + "' but got '" + elseIfCondition.getType() + "'");
             }
 
             if (elseIfCondition.toBoolean()) {
@@ -764,7 +764,7 @@ public class Interpreter implements Visitor {
 
             BuiltinClass condition = this.visitExpression(whileStatement.condition);
 
-            if (!condition.instanceOf(new BooleanType())) {
+            if (!condition.instanceOf(BooleanType.TYPE)) {
                 throw new TypeError("A while loop requires 'Boolean' but got '" + condition.getType() + "'");
             }
 

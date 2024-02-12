@@ -42,7 +42,7 @@ public class DictionaryInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new DictionaryType();
+        return DictionaryType.TYPE;
     }
 
     @Override

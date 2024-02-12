@@ -18,7 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntityType extends BuiltinType {
-    public EntityType() {
+    public static final EntityType TYPE = new EntityType();
+
+    private EntityType() {
         super("Entity");
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), "addTag", new AddTag());
@@ -93,8 +95,8 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass commandTag = arguments.get(0);
 
-            if (!commandTag.instanceOf(new StringType())) {
-                throw ErrorHolder.argumentRequiresType(1, "addTag", new StringType(), commandTag.getType());
+            if (!commandTag.instanceOf(StringType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "addTag", StringType.TYPE, commandTag.getType());
             }
 
             this.boundClass.toEntity().addCommandTag(commandTag.toString());
@@ -147,8 +149,8 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass other = arguments.get(0);
 
-            if (!other.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "extinguish", new BooleanType(), other.getType());
+            if (!other.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "extinguish", BooleanType.TYPE, other.getType());
             }
 
             if (other.toBoolean()) {
@@ -337,8 +339,8 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass passengerClass = arguments.get(0);
 
-            if (!passengerClass.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "hasPassenger", new BooleanType(), passengerClass.getType());
+            if (!passengerClass.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "hasPassenger", BooleanType.TYPE, passengerClass.getType());
             }
 
             return new BooleanInstance(this.boundClass.toEntity().hasPassenger(passengerClass.toEntity()));
@@ -611,16 +613,16 @@ public class EntityType extends BuiltinType {
             BuiltinClass blockClass = arguments.get(1);
             BuiltinClass includeFluids = arguments.get(2);
 
-            if (!distance.instanceOf(new FloatType())) {
-                throw ErrorHolder.argumentRequiresType(1, "raycast", new FloatType(), distance.getType());
+            if (!distance.instanceOf(FloatType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "raycast", FloatType.TYPE, distance.getType());
             }
 
-            if (!blockClass.instanceOf(new BlockType())) {
-                throw ErrorHolder.argumentRequiresType(2, "raycast", new BlockType(), blockClass.getType());
+            if (!blockClass.instanceOf(BlockType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(2, "raycast", BlockType.TYPE, blockClass.getType());
             }
 
-            if (!includeFluids.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(3, "raycast", new BooleanType(), includeFluids.getType());
+            if (!includeFluids.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(3, "raycast", BooleanType.TYPE, includeFluids.getType());
             }
 
             HitResult result = this.boundClass.toEntity().raycast(distance.toFloat(), 1f, includeFluids.toBoolean());
@@ -660,8 +662,8 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass commandTag = arguments.get(0);
 
-            if (!commandTag.instanceOf(new StringType())) {
-                throw ErrorHolder.argumentRequiresType(1, "removeTag", new StringType(), commandTag.getType());
+            if (!commandTag.instanceOf(StringType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "removeTag", StringType.TYPE, commandTag.getType());
             }
 
             this.boundClass.toEntity().removeCommandTag(commandTag.toString());
@@ -692,8 +694,8 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass message = arguments.get(0);
 
-            if (!message.instanceOf(new StringType())) {
-                throw ErrorHolder.argumentRequiresType(1, "sendMessage", new StringType(), message.getType());
+            if (!message.instanceOf(StringType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "sendMessage", StringType.TYPE, message.getType());
             }
 
             this.boundClass.toEntity().sendMessage(Text.literal(message.toString()));
@@ -711,8 +713,8 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass invisible = arguments.get(0);
 
-            if (!invisible.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setInvisible", new BooleanType(), invisible.getType());
+            if (!invisible.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setInvisible", BooleanType.TYPE, invisible.getType());
             }
 
             this.boundClass.toEntity().setInvisible(invisible.toBoolean());
@@ -730,8 +732,8 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass invulnerable = arguments.get(0);
 
-            if (!invulnerable.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setInvulnerable", new BooleanType(), invulnerable.getType());
+            if (!invulnerable.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setInvulnerable", BooleanType.TYPE, invulnerable.getType());
             }
 
             this.boundClass.toEntity().setInvulnerable(invulnerable.toBoolean());
@@ -749,8 +751,8 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass noGravity = arguments.get(0);
 
-            if (!noGravity.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setNoGravity", new BooleanType(), noGravity.getType());
+            if (!noGravity.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setNoGravity", BooleanType.TYPE, noGravity.getType());
             }
 
             this.boundClass.toEntity().setNoGravity(noGravity.toBoolean());
@@ -768,8 +770,8 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass onFire = arguments.get(0);
 
-            if (!onFire.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setOnFire", new BooleanType(), onFire.getType());
+            if (!onFire.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setOnFire", BooleanType.TYPE, onFire.getType());
             }
 
             this.boundClass.toEntity().setOnFire(onFire.toBoolean());
@@ -787,8 +789,8 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass onGround = arguments.get(0);
 
-            if (!onGround.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setOnGround", new BooleanType(), onGround.getType());
+            if (!onGround.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setOnGround", BooleanType.TYPE, onGround.getType());
             }
 
             this.boundClass.toEntity().setOnGround(onGround.toBoolean());
@@ -806,8 +808,8 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass portalCooldown = arguments.get(0);
 
-            if (!portalCooldown.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setPortalCooldown", new BooleanType(), portalCooldown.getType());
+            if (!portalCooldown.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setPortalCooldown", BooleanType.TYPE, portalCooldown.getType());
             }
 
             this.boundClass.toEntity().setPortalCooldown((int) portalCooldown.toInteger());
@@ -825,20 +827,20 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass x = arguments.get(0);
 
-            if (!x.instanceOf(new FloatType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setPos", new FloatType(), x.getType());
+            if (!x.instanceOf(FloatType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setPos", FloatType.TYPE, x.getType());
             }
 
             BuiltinClass y = arguments.get(1);
 
-            if (!y.instanceOf(new FloatType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setPos", new FloatType(), y.getType());
+            if (!y.instanceOf(FloatType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setPos", FloatType.TYPE, y.getType());
             }
 
             BuiltinClass z = arguments.get(2);
 
-            if (!z.instanceOf(new FloatType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setPos", new FloatType(), z.getType());
+            if (!z.instanceOf(FloatType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setPos", FloatType.TYPE, z.getType());
             }
 
             this.boundClass.toEntity().setPos(x.toFloat(), y.toFloat(), z.toFloat());
@@ -856,8 +858,8 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass silent = arguments.get(0);
 
-            if (!silent.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setSilent", new BooleanType(), silent.getType());
+            if (!silent.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setSilent", BooleanType.TYPE, silent.getType());
             }
 
             this.boundClass.toEntity().setSilent(silent.toBoolean());
@@ -875,8 +877,8 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass sneaking = arguments.get(0);
 
-            if (!sneaking.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setSneaking", new BooleanType(), sneaking.getType());
+            if (!sneaking.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setSneaking", BooleanType.TYPE, sneaking.getType());
             }
 
             this.boundClass.toEntity().setSneaking(sneaking.toBoolean());
@@ -894,8 +896,8 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass sprinting = arguments.get(0);
 
-            if (!sprinting.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setSprinting", new BooleanType(), sprinting.getType());
+            if (!sprinting.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setSprinting", BooleanType.TYPE, sprinting.getType());
             }
 
             this.boundClass.toEntity().setSprinting(sprinting.toBoolean());
@@ -913,8 +915,8 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass swimming = arguments.get(0);
 
-            if (!swimming.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setSwimming", new BooleanType(), swimming.getType());
+            if (!swimming.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setSwimming", BooleanType.TYPE, swimming.getType());
             }
 
             this.boundClass.toEntity().setSwimming(swimming.toBoolean());
@@ -956,20 +958,20 @@ public class EntityType extends BuiltinType {
 
             BuiltinClass destX = arguments.get(0);
 
-            if (!destX.instanceOf(new FloatType())) {
-                throw ErrorHolder.argumentRequiresType(1, "teleport", new FloatType(), destX.getType());
+            if (!destX.instanceOf(FloatType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "teleport", FloatType.TYPE, destX.getType());
             }
 
             BuiltinClass destY = arguments.get(1);
 
-            if (!destY.instanceOf(new FloatType())) {
-                throw ErrorHolder.argumentRequiresType(2, "teleport", new FloatType(), destY.getType());
+            if (!destY.instanceOf(FloatType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(2, "teleport", FloatType.TYPE, destY.getType());
             }
 
             BuiltinClass destZ = arguments.get(2);
 
-            if (!destZ.instanceOf(new FloatType())) {
-                throw ErrorHolder.argumentRequiresType(3, "teleport", new FloatType(), destZ.getType());
+            if (!destZ.instanceOf(FloatType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(3, "teleport", FloatType.TYPE, destZ.getType());
             }
 
             this.boundClass.toEntity().teleport(destX.toFloat(), destY.toFloat(), destZ.toFloat());

@@ -31,7 +31,7 @@ public abstract class BuiltinMethod extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new MethodType();
+        return MethodType.TYPE;
     }
 
     @Override

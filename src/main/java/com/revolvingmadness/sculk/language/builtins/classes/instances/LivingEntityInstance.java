@@ -30,7 +30,7 @@ public class LivingEntityInstance extends EntityInstance {
 
     @Override
     public BuiltinType getType() {
-        return new LivingEntityType();
+        return LivingEntityType.TYPE;
     }
 
     @Override

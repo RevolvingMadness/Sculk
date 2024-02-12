@@ -31,7 +31,7 @@ public class TypeInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new TypeType();
+        return TypeType.TYPE;
     }
 
     @Override

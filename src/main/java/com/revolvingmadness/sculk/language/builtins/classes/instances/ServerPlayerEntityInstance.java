@@ -31,7 +31,7 @@ public class ServerPlayerEntityInstance extends PlayerEntityInstance {
 
     @Override
     public BuiltinType getType() {
-        return new ServerPlayerEntityType();
+        return ServerPlayerEntityType.TYPE;
     }
 
     @Override

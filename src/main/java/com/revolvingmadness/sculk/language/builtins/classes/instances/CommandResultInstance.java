@@ -37,7 +37,7 @@ public class CommandResultInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new CommandResultType();
+        return CommandResultType.TYPE;
     }
 
     @Override

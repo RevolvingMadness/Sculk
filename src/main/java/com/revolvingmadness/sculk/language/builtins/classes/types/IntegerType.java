@@ -12,7 +12,9 @@ import com.revolvingmadness.sculk.language.lexer.TokenType;
 import java.util.List;
 
 public class IntegerType extends BuiltinType {
-    public IntegerType() {
+    public static final IntegerType TYPE = new IntegerType();
+
+    private IntegerType() {
         super("Integer");
 
         this.variableScope.declare(List.of(TokenType.CONST), "parseInteger", new ParseInteger());
@@ -26,8 +28,8 @@ public class IntegerType extends BuiltinType {
 
         BuiltinClass integerClass = arguments.get(0);
 
-        if (!integerClass.instanceOf(new IntegerType())) {
-            throw ErrorHolder.argumentRequiresType(1, "init", new IntegerType(), integerClass.getType());
+        if (!integerClass.instanceOf(IntegerType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(1, "init", IntegerType.TYPE, integerClass.getType());
         }
 
         return new IntegerInstance(integerClass.toInteger());
@@ -42,8 +44,8 @@ public class IntegerType extends BuiltinType {
 
             BuiltinClass stringClass = arguments.get(0);
 
-            if (!stringClass.instanceOf(new StringType())) {
-                throw ErrorHolder.argumentRequiresType(1, "parseInteger", new StringType(), stringClass.getType());
+            if (!stringClass.instanceOf(StringType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "parseInteger", StringType.TYPE, stringClass.getType());
             }
 
             long integer;
@@ -57,4 +59,6 @@ public class IntegerType extends BuiltinType {
             return new IntegerInstance(integer);
         }
     }
+
+
 }

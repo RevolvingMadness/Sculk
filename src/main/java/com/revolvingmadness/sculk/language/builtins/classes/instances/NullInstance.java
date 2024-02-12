@@ -7,7 +7,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.NullType;
 public class NullInstance extends BuiltinClass {
     @Override
     public BuiltinType getType() {
-        return new NullType();
+        return NullType.TYPE;
     }
 
     @Override

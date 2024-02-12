@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringType extends BuiltinType {
-    public StringType() {
+    public static final StringType TYPE = new StringType();
+
+    private StringType() {
         super("String");
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), "startsWith", new StartsWith());
@@ -34,8 +36,8 @@ public class StringType extends BuiltinType {
 
         BuiltinClass stringClass = arguments.get(0);
 
-        if (!stringClass.instanceOf(new StringType())) {
-            throw ErrorHolder.argumentRequiresType(1, "init", new StringType(), stringClass.getType());
+        if (!stringClass.instanceOf(StringType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(1, "init", StringType.TYPE, stringClass.getType());
         }
 
         return new StringInstance(stringClass.toString());
@@ -50,8 +52,8 @@ public class StringType extends BuiltinType {
 
             BuiltinClass text = arguments.get(0);
 
-            if (!text.instanceOf(new StringType())) {
-                throw ErrorHolder.argumentRequiresType(1, "endsWith", new StringType(), text.getType());
+            if (!text.instanceOf(StringType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "endsWith", StringType.TYPE, text.getType());
             }
 
             return new BooleanInstance(this.boundClass.toString().endsWith(text.toString()));
@@ -89,8 +91,8 @@ public class StringType extends BuiltinType {
 
             BuiltinClass splitter = arguments.get(0);
 
-            if (!splitter.instanceOf(new StringType())) {
-                throw ErrorHolder.argumentRequiresType(1, "splitter", new StringType(), splitter.getType());
+            if (!splitter.instanceOf(StringType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "splitter", StringType.TYPE, splitter.getType());
             }
 
             List<BuiltinClass> list = new ArrayList<>();
@@ -114,8 +116,8 @@ public class StringType extends BuiltinType {
 
             BuiltinClass text = arguments.get(0);
 
-            if (!text.instanceOf(new StringType())) {
-                throw ErrorHolder.argumentRequiresType(1, "startsWith", new StringType(), text.getType());
+            if (!text.instanceOf(StringType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "startsWith", StringType.TYPE, text.getType());
             }
 
             return new BooleanInstance(this.boundClass.toString().startsWith(text.toString()));
@@ -132,4 +134,6 @@ public class StringType extends BuiltinType {
             return new StringInstance(this.boundClass.toString().toUpperCase());
         }
     }
+
+
 }

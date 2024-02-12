@@ -28,7 +28,7 @@ public class ResourceInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new ResourceType();
+        return ResourceType.TYPE;
     }
 
     @Override

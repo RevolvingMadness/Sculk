@@ -34,7 +34,7 @@ public class BlockPosInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new BlockPosType();
+        return BlockPosType.TYPE;
     }
 
     @Override

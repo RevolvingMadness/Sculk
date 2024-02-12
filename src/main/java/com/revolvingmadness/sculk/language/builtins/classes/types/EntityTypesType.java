@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class EntityTypesType extends BuiltinType {
-    public EntityTypesType() {
+    public static final EntityTypesType TYPE = new EntityTypesType();
+
+    private EntityTypesType() {
         super("EntityTypes");
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), "get", new Get());
@@ -31,8 +33,8 @@ public class EntityTypesType extends BuiltinType {
 
             BuiltinClass identifierClass = arguments.get(0);
 
-            if (!identifierClass.instanceOf(new ResourceType())) {
-                throw ErrorHolder.argumentRequiresType(1, "get", new ResourceType(), identifierClass.getType());
+            if (!identifierClass.instanceOf(ResourceType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "get", ResourceType.TYPE, identifierClass.getType());
             }
 
             Identifier identifier = identifierClass.toResource();

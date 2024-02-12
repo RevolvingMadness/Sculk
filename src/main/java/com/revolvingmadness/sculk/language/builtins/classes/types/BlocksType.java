@@ -17,7 +17,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class BlocksType extends BuiltinType {
-    public BlocksType() {
+    public static final BlocksType TYPE = new BlocksType();
+
+    private BlocksType() {
         super("Blocks");
 
         this.variableScope.declare(List.of(TokenType.CONST), "get", new Get());
@@ -32,8 +34,8 @@ public class BlocksType extends BuiltinType {
 
             BuiltinClass identifierClass = arguments.get(0);
 
-            if (!identifierClass.instanceOf(new ResourceType())) {
-                throw ErrorHolder.argumentRequiresType(1, "get", new ResourceType(), identifierClass.getType());
+            if (!identifierClass.instanceOf(ResourceType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "get", ResourceType.TYPE, identifierClass.getType());
             }
 
             Identifier identifier = identifierClass.toResource();

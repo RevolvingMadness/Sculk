@@ -22,8 +22,8 @@ public class PrintFunction extends BuiltinFunction {
 
         BuiltinClass stringClass = value.call(interpreter, "toString", List.of());
 
-        if (!stringClass.instanceOf(new StringType())) {
-            throw ErrorHolder.functionRequiresReturnType("print", new StringType(), stringClass.getType());
+        if (!stringClass.instanceOf(StringType.TYPE)) {
+            throw ErrorHolder.functionRequiresReturnType("print", StringType.TYPE, stringClass.getType());
         }
 
         Logger.broadcast(Text.literal(stringClass.toString()));

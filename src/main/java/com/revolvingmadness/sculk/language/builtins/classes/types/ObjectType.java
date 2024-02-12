@@ -12,7 +12,9 @@ import com.revolvingmadness.sculk.language.lexer.TokenType;
 import java.util.List;
 
 public class ObjectType extends BuiltinType {
-    public ObjectType() {
+    public static final ObjectType TYPE = new ObjectType();
+
+    private ObjectType() {
         super("Object", null);
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), "init", new Init());

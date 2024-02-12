@@ -28,7 +28,7 @@ public class MinecraftServerInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new MinecraftServerType();
+        return MinecraftServerType.TYPE;
     }
 
     @Override

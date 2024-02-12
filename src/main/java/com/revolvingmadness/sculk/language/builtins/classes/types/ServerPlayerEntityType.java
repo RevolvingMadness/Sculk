@@ -12,8 +12,10 @@ import com.revolvingmadness.sculk.language.lexer.TokenType;
 import java.util.List;
 
 public class ServerPlayerEntityType extends BuiltinType {
-    public ServerPlayerEntityType() {
-        super("ServerPlayerEntity", new PlayerEntityType());
+    public static final ServerPlayerEntityType TYPE = new ServerPlayerEntityType();
+
+    private ServerPlayerEntityType() {
+        super("ServerPlayerEntity", PlayerEntityType.TYPE);
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setGameMode", new SetGameMode());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "dropSelectedItem", new DropSelectedItem());
@@ -31,8 +33,8 @@ public class ServerPlayerEntityType extends BuiltinType {
 
             BuiltinClass entireStack = arguments.get(0);
 
-            if (!entireStack.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "dropSelectedItem", new BooleanType(), entireStack.getType());
+            if (!entireStack.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "dropSelectedItem", BooleanType.TYPE, entireStack.getType());
             }
 
             this.boundClass.toServerPlayerEntity().dropSelectedItem(entireStack.toBoolean());
@@ -61,8 +63,8 @@ public class ServerPlayerEntityType extends BuiltinType {
 
             BuiltinClass experienceLevel = arguments.get(0);
 
-            if (!experienceLevel.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setExperienceLevels", new IntegerType(), experienceLevel.getType());
+            if (!experienceLevel.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setExperienceLevels", IntegerType.TYPE, experienceLevel.getType());
             }
 
             this.boundClass.toServerPlayerEntity().setExperienceLevel((int) experienceLevel.toInteger());
@@ -80,8 +82,8 @@ public class ServerPlayerEntityType extends BuiltinType {
 
             BuiltinClass experiencePoints = arguments.get(0);
 
-            if (!experiencePoints.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setExperiencePoints", new IntegerType(), experiencePoints.getType());
+            if (!experiencePoints.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setExperiencePoints", IntegerType.TYPE, experiencePoints.getType());
             }
 
             this.boundClass.toServerPlayerEntity().setExperiencePoints((int) experiencePoints.toInteger());
@@ -99,8 +101,8 @@ public class ServerPlayerEntityType extends BuiltinType {
 
             BuiltinClass gameMode = arguments.get(0);
 
-            if (!gameMode.instanceOf(new GameModesEnumType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setGameMode", new GameModesEnumType(), gameMode.getType());
+            if (!gameMode.instanceOf(GameModesEnumType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setGameMode", GameModesEnumType.TYPE, gameMode.getType());
             }
 
             this.boundClass.toServerPlayerEntity().changeGameMode(gameMode.toGameMode());

@@ -16,8 +16,10 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class PlayerEntityType extends BuiltinType {
-    public PlayerEntityType() {
-        super("PlayerEntity", new LivingEntityType());
+    public static final PlayerEntityType TYPE = new PlayerEntityType();
+
+    private PlayerEntityType() {
+        super("PlayerEntity", LivingEntityType.TYPE);
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), "addExperiencePoints", new AddExperiencePoints());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "addExperienceLevels", new AddExperienceLevels());
@@ -26,23 +28,6 @@ public class PlayerEntityType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getName", new GetName());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getUUID", new GetUUID());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getWorld", new GetWorld());
-    }
-
-    private static class GetWorld extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getWorld", 0, arguments.size());
-            }
-
-            World world = this.boundClass.toPlayerEntity().getWorld();
-
-            if (!(world instanceof ServerWorld serverWorld)) {
-                throw new RuntimeException("World is on client");
-            }
-
-            return new WorldInstance(serverWorld);
-        }
     }
 
     private static class AddExperienceLevels extends BuiltinMethod {
@@ -54,8 +39,8 @@ public class PlayerEntityType extends BuiltinType {
 
             BuiltinClass experienceLevels = arguments.get(0);
 
-            if (!experienceLevels.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "addExperienceLevels", new IntegerType(), experienceLevels.getType());
+            if (!experienceLevels.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "addExperienceLevels", IntegerType.TYPE, experienceLevels.getType());
             }
 
             this.boundClass.toPlayerEntity().addExperienceLevels((int) experienceLevels.toInteger());
@@ -73,8 +58,8 @@ public class PlayerEntityType extends BuiltinType {
 
             BuiltinClass experience = arguments.get(0);
 
-            if (!experience.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "addExperiencePoints", new IntegerType(), experience.getType());
+            if (!experience.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "addExperiencePoints", IntegerType.TYPE, experience.getType());
             }
 
             this.boundClass.toPlayerEntity().addExperience((int) experience.toInteger());
@@ -102,6 +87,23 @@ public class PlayerEntityType extends BuiltinType {
             }
 
             return new StringInstance(this.boundClass.toPlayerEntity().getUuidAsString());
+        }
+    }
+
+    private static class GetWorld extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 0) {
+                throw ErrorHolder.invalidArgumentCount("getWorld", 0, arguments.size());
+            }
+
+            World world = this.boundClass.toPlayerEntity().getWorld();
+
+            if (!(world instanceof ServerWorld serverWorld)) {
+                throw new RuntimeException("World is on client");
+            }
+
+            return new WorldInstance(serverWorld);
         }
     }
 

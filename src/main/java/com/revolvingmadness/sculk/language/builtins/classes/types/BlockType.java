@@ -13,7 +13,9 @@ import com.revolvingmadness.sculk.language.lexer.TokenType;
 import java.util.List;
 
 public class BlockType extends BuiltinType {
-    public BlockType() {
+    public static final BlockType TYPE = new BlockType();
+
+    private BlockType() {
         super("Block");
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), "asItem", new AsItem());

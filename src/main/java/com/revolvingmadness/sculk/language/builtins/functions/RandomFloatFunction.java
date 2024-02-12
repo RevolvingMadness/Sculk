@@ -20,12 +20,12 @@ public class RandomFloatFunction extends BuiltinFunction {
         BuiltinClass min = arguments.get(0);
         BuiltinClass max = arguments.get(1);
 
-        if (!min.instanceOf(new FloatType())) {
-            throw ErrorHolder.argumentRequiresType(1, "randomFloat", new FloatType(), min.getType());
+        if (!min.instanceOf(FloatType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(1, "randomFloat", FloatType.TYPE, min.getType());
         }
 
-        if (!max.instanceOf(new FloatType())) {
-            throw ErrorHolder.argumentRequiresType(1, "randomFloat", new FloatType(), max.getType());
+        if (!max.instanceOf(FloatType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(1, "randomFloat", FloatType.TYPE, max.getType());
         }
 
         Random random = new Random();

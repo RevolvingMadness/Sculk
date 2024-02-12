@@ -20,11 +20,11 @@ public class FloatInstance extends IntegerInstance {
 
     @Override
     public BuiltinClass add(BuiltinClass other) {
-        if (other.instanceOf(new FloatType())) {
+        if (other.instanceOf(FloatType.TYPE)) {
             return new FloatInstance(this.value + other.toFloat());
         }
 
-        if (other.instanceOf(new IntegerType())) {
+        if (other.instanceOf(IntegerType.TYPE)) {
             return new FloatInstance(this.value + other.toInteger());
         }
 
@@ -38,11 +38,11 @@ public class FloatInstance extends IntegerInstance {
 
     @Override
     public BuiltinClass divide(BuiltinClass other) {
-        if (other.instanceOf(new FloatType())) {
+        if (other.instanceOf(FloatType.TYPE)) {
             return new FloatInstance(this.value / other.toFloat());
         }
 
-        if (other.instanceOf(new IntegerType())) {
+        if (other.instanceOf(IntegerType.TYPE)) {
             return new FloatInstance(this.value / other.toInteger());
         }
 
@@ -63,11 +63,11 @@ public class FloatInstance extends IntegerInstance {
 
     @Override
     public BuiltinClass exponentiate(BuiltinClass other) {
-        if (other.instanceOf(new FloatType())) {
+        if (other.instanceOf(FloatType.TYPE)) {
             return new FloatInstance(Math.pow(this.value, other.toFloat()));
         }
 
-        if (other.instanceOf(new IntegerType())) {
+        if (other.instanceOf(IntegerType.TYPE)) {
             return new FloatInstance(Math.pow(this.value, other.toInteger()));
         }
 
@@ -76,16 +76,16 @@ public class FloatInstance extends IntegerInstance {
 
     @Override
     public BuiltinType getType() {
-        return new FloatType();
+        return FloatType.TYPE;
     }
 
     @Override
     public BooleanInstance greaterThan(BuiltinClass other) {
-        if (other.instanceOf(new FloatType())) {
+        if (other.instanceOf(FloatType.TYPE)) {
             return new BooleanInstance(this.value > other.toFloat());
         }
 
-        if (other.instanceOf(new IntegerType())) {
+        if (other.instanceOf(IntegerType.TYPE)) {
             return new BooleanInstance(this.value > other.toInteger());
         }
 
@@ -104,11 +104,11 @@ public class FloatInstance extends IntegerInstance {
 
     @Override
     public BooleanInstance lessThan(BuiltinClass other) {
-        if (other.instanceOf(new FloatType())) {
+        if (other.instanceOf(FloatType.TYPE)) {
             return new BooleanInstance(this.value < other.toFloat());
         }
 
-        if (other.instanceOf(new IntegerType())) {
+        if (other.instanceOf(IntegerType.TYPE)) {
             return new BooleanInstance(this.value < other.toInteger());
         }
 
@@ -117,11 +117,11 @@ public class FloatInstance extends IntegerInstance {
 
     @Override
     public BuiltinClass mod(BuiltinClass other) {
-        if (other.instanceOf(new FloatType())) {
+        if (other.instanceOf(FloatType.TYPE)) {
             return new FloatInstance(this.value % other.toFloat());
         }
 
-        if (other.instanceOf(new IntegerType())) {
+        if (other.instanceOf(IntegerType.TYPE)) {
             return new FloatInstance(this.value % other.toInteger());
         }
 
@@ -130,11 +130,11 @@ public class FloatInstance extends IntegerInstance {
 
     @Override
     public BuiltinClass multiply(BuiltinClass other) {
-        if (other.instanceOf(new FloatType())) {
+        if (other.instanceOf(FloatType.TYPE)) {
             return new FloatInstance(this.value * other.toFloat());
         }
 
-        if (other.instanceOf(new IntegerType())) {
+        if (other.instanceOf(IntegerType.TYPE)) {
             return new FloatInstance(this.value * other.toInteger());
         }
 
@@ -148,11 +148,11 @@ public class FloatInstance extends IntegerInstance {
 
     @Override
     public BuiltinClass subtract(BuiltinClass other) {
-        if (other.instanceOf(new FloatType())) {
+        if (other.instanceOf(FloatType.TYPE)) {
             return new FloatInstance(this.value - other.toFloat());
         }
 
-        if (other.instanceOf(new IntegerType())) {
+        if (other.instanceOf(IntegerType.TYPE)) {
             return new FloatInstance(this.value - other.toInteger());
         }
 

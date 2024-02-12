@@ -17,7 +17,9 @@ import net.minecraft.server.command.ServerCommandSource;
 import java.util.List;
 
 public class MinecraftServerType extends BuiltinType {
-    public MinecraftServerType() {
+    public static final MinecraftServerType TYPE = new MinecraftServerType();
+
+    private MinecraftServerType() {
         super("MinecraftServer");
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setPVPEnabled", new SetPVPEnabled());
@@ -103,8 +105,8 @@ public class MinecraftServerType extends BuiltinType {
 
             BuiltinClass modIDClass = arguments.get(0);
 
-            if (!modIDClass.instanceOf(new StringType())) {
-                throw ErrorHolder.argumentRequiresType(1, "isModInstalled", new StringType(), modIDClass.getType());
+            if (!modIDClass.instanceOf(StringType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "isModInstalled", StringType.TYPE, modIDClass.getType());
             }
 
             String modID = modIDClass.toString();
@@ -144,8 +146,8 @@ public class MinecraftServerType extends BuiltinType {
 
             BuiltinClass commandClass = arguments.get(0);
 
-            if (!commandClass.instanceOf(new StringType())) {
-                throw ErrorHolder.argumentRequiresType(1, "runCommand", new StringType(), commandClass.getType());
+            if (!commandClass.instanceOf(StringType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "runCommand", StringType.TYPE, commandClass.getType());
             }
 
             CommandDispatcher<ServerCommandSource> commandDispatcher = Sculk.server.getCommandManager().getDispatcher();
@@ -171,8 +173,8 @@ public class MinecraftServerType extends BuiltinType {
 
             BuiltinClass difficulty = arguments.get(0);
 
-            if (!difficulty.instanceOf(new DifficultiesEnumType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDifficulty", new DifficultiesEnumType(), difficulty.getType());
+            if (!difficulty.instanceOf(DifficultiesEnumType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDifficulty", DifficultiesEnumType.TYPE, difficulty.getType());
             }
 
             Sculk.server.setDifficulty(difficulty.toDifficulty(), true);
@@ -190,8 +192,8 @@ public class MinecraftServerType extends BuiltinType {
 
             BuiltinClass difficultyLocked = arguments.get(0);
 
-            if (!difficultyLocked.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDifficultyLocked", new BooleanType(), difficultyLocked.getType());
+            if (!difficultyLocked.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDifficultyLocked", BooleanType.TYPE, difficultyLocked.getType());
             }
 
             Sculk.server.setDifficultyLocked(difficultyLocked.toBoolean());
@@ -209,8 +211,8 @@ public class MinecraftServerType extends BuiltinType {
 
             BuiltinClass pvpEnabled = arguments.get(0);
 
-            if (!pvpEnabled.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setPVPEnabled", new BooleanType(), pvpEnabled.getType());
+            if (!pvpEnabled.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setPVPEnabled", BooleanType.TYPE, pvpEnabled.getType());
             }
 
             Sculk.server.setPvpEnabled(pvpEnabled.toBoolean());

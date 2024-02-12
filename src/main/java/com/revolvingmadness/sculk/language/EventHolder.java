@@ -52,8 +52,8 @@ public class EventHolder {
                     for (Event event : EventHolder.onPlayerAttackEntity) {
                         BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new EntityInstance(entity), new ItemStackInstance(player.getStackInHand(hand))));
 
-                        if (!eventResultClass.instanceOf(new BooleanType())) {
-                            throw ErrorHolder.functionRequiresReturnType("onPlayerAttackEntity", new BooleanType(), eventResultClass.getType());
+                        if (!eventResultClass.instanceOf(BooleanType.TYPE)) {
+                            throw ErrorHolder.functionRequiresReturnType("onPlayerAttackEntity", BooleanType.TYPE, eventResultClass.getType());
                         }
 
                         boolean eventResult = eventResultClass.toBoolean();
@@ -76,8 +76,8 @@ public class EventHolder {
                     for (Event event : EventHolder.onPlayerBreakBlock) {
                         BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new BlockPosInstance(pos), new BlockInstance(world.getBlockState(pos).getBlock())));
 
-                        if (!eventResultClass.instanceOf(new BooleanType())) {
-                            throw ErrorHolder.functionRequiresReturnType("onPlayerBreakBlock", new BooleanType(), eventResultClass.getType());
+                        if (!eventResultClass.instanceOf(BooleanType.TYPE)) {
+                            throw ErrorHolder.functionRequiresReturnType("onPlayerBreakBlock", BooleanType.TYPE, eventResultClass.getType());
                         }
 
                         boolean eventResult = eventResultClass.toBoolean();
@@ -139,8 +139,8 @@ public class EventHolder {
                 for (Event event : EventHolder.onPlayerPickupItem) {
                     BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new ItemStackInstance(itemStack)));
 
-                    if (!eventResultClass.instanceOf(new BooleanType())) {
-                        throw ErrorHolder.functionRequiresReturnType("onPlayerPickupItem", new BooleanType(), eventResultClass.getType());
+                    if (!eventResultClass.instanceOf(BooleanType.TYPE)) {
+                        throw ErrorHolder.functionRequiresReturnType("onPlayerPickupItem", BooleanType.TYPE, eventResultClass.getType());
                     }
 
                     boolean eventResult = eventResultClass.toBoolean();
@@ -197,8 +197,8 @@ public class EventHolder {
                 for (Event event : EventHolder.onPlayerSendChatMessage) {
                     BuiltinClass eventResultClass = event.execute(List.of(new ServerPlayerEntityInstance(player), new StringInstance(message.content().getString())));
 
-                    if (!eventResultClass.instanceOf(new BooleanType())) {
-                        throw ErrorHolder.functionRequiresReturnType("onPlayerSendChatMessage", new BooleanType(), eventResultClass.getType());
+                    if (!eventResultClass.instanceOf(BooleanType.TYPE)) {
+                        throw ErrorHolder.functionRequiresReturnType("onPlayerSendChatMessage", BooleanType.TYPE, eventResultClass.getType());
                     }
 
                     boolean eventResult = eventResultClass.toBoolean();
@@ -220,8 +220,8 @@ public class EventHolder {
                     for (Event event : EventHolder.onPlayerUseItem) {
                         BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new ItemStackInstance(player.getStackInHand(hand))));
 
-                        if (!eventResultClass.instanceOf(new BooleanType())) {
-                            throw ErrorHolder.functionRequiresReturnType("onPlayerUseItem", new BooleanType(), eventResultClass.getType());
+                        if (!eventResultClass.instanceOf(BooleanType.TYPE)) {
+                            throw ErrorHolder.functionRequiresReturnType("onPlayerUseItem", BooleanType.TYPE, eventResultClass.getType());
                         }
 
                         boolean eventResult = eventResultClass.toBoolean();

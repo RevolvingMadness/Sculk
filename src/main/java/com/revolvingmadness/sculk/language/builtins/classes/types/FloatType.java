@@ -12,8 +12,10 @@ import com.revolvingmadness.sculk.language.lexer.TokenType;
 import java.util.List;
 
 public class FloatType extends BuiltinType {
-    public FloatType() {
-        super("Float", new IntegerType());
+    public static final FloatType TYPE = new FloatType();
+
+    private FloatType() {
+        super("Float", IntegerType.TYPE);
 
         this.variableScope.declare(List.of(TokenType.CONST), "parseFloat", new ParseFloat());
     }
@@ -26,8 +28,8 @@ public class FloatType extends BuiltinType {
 
         BuiltinClass floatClass = arguments.get(0);
 
-        if (!floatClass.instanceOf(new FloatType())) {
-            throw ErrorHolder.argumentRequiresType(1, "init", new FloatType(), floatClass.getType());
+        if (!floatClass.instanceOf(FloatType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(1, "init", FloatType.TYPE, floatClass.getType());
         }
 
         return new FloatInstance(floatClass.toFloat());
@@ -42,8 +44,8 @@ public class FloatType extends BuiltinType {
 
             BuiltinClass stringClass = arguments.get(0);
 
-            if (!stringClass.instanceOf(new StringType())) {
-                throw ErrorHolder.argumentRequiresType(1, "parseFloat", new StringType(), stringClass.getType());
+            if (!stringClass.instanceOf(StringType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "parseFloat", StringType.TYPE, stringClass.getType());
             }
 
             double float_;
@@ -57,4 +59,6 @@ public class FloatType extends BuiltinType {
             return new FloatInstance(float_);
         }
     }
+
+
 }

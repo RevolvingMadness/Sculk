@@ -31,7 +31,7 @@ public class EntityTypeInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new EntityTypeType();
+        return EntityTypeType.TYPE;
     }
 
     @Override

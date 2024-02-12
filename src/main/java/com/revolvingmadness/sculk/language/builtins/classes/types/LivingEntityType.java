@@ -11,8 +11,10 @@ import com.revolvingmadness.sculk.language.lexer.TokenType;
 import java.util.List;
 
 public class LivingEntityType extends BuiltinType {
-    public LivingEntityType() {
-        super("LivingEntity", new EntityType());
+    public static final LivingEntityType TYPE = new LivingEntityType();
+
+    private LivingEntityType() {
+        super("LivingEntity", EntityType.TYPE);
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), "tiltScreen", new TiltScreen());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "wakeUp", new WakeUp());
@@ -27,14 +29,14 @@ public class LivingEntityType extends BuiltinType {
 
             BuiltinClass deltaX = arguments.get(0);
 
-            if (!deltaX.instanceOf(new FloatType())) {
-                throw ErrorHolder.argumentRequiresType(1, "tiltScreen", new FloatType(), deltaX.getType());
+            if (!deltaX.instanceOf(FloatType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "tiltScreen", FloatType.TYPE, deltaX.getType());
             }
 
             BuiltinClass deltaZ = arguments.get(1);
 
-            if (!deltaZ.instanceOf(new FloatType())) {
-                throw ErrorHolder.argumentRequiresType(2, "tiltScreen", new FloatType(), deltaZ.getType());
+            if (!deltaZ.instanceOf(FloatType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(2, "tiltScreen", FloatType.TYPE, deltaZ.getType());
             }
 
             this.boundClass.toLivingEntity().tiltScreen(deltaX.toFloat(), deltaZ.toFloat());

@@ -28,7 +28,7 @@ public class WorldInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new WorldType();
+        return WorldType.TYPE;
     }
 
     @Override

@@ -19,8 +19,8 @@ public class Base64EncodeFunction extends BuiltinFunction {
 
         BuiltinClass value = arguments.get(0);
 
-        if (!value.instanceOf(new StringType())) {
-            throw ErrorHolder.argumentRequiresType(1, "base64encode", new StringType(), value.getType());
+        if (!value.instanceOf(StringType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(1, "base64encode", StringType.TYPE, value.getType());
         }
 
         return new StringInstance(Base64.getEncoder().encodeToString(value.toString().getBytes()));

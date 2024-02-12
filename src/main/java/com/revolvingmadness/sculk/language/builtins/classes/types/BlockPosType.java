@@ -10,7 +10,9 @@ import net.minecraft.util.math.BlockPos;
 import java.util.List;
 
 public class BlockPosType extends BuiltinType {
-    public BlockPosType() {
+    public static final BlockPosType TYPE = new BlockPosType();
+    
+    private BlockPosType() {
         super("BlockPos");
     }
 
@@ -24,16 +26,16 @@ public class BlockPosType extends BuiltinType {
         BuiltinClass yClass = arguments.get(1);
         BuiltinClass zClass = arguments.get(2);
 
-        if (!xClass.instanceOf(new IntegerType())) {
-            throw ErrorHolder.argumentRequiresType(1, "init", new IntegerType(), xClass.getType());
+        if (!xClass.instanceOf(IntegerType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(1, "init", IntegerType.TYPE, xClass.getType());
         }
 
-        if (!yClass.instanceOf(new IntegerType())) {
-            throw ErrorHolder.argumentRequiresType(2, "init", new IntegerType(), yClass.getType());
+        if (!yClass.instanceOf(IntegerType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(2, "init", IntegerType.TYPE, yClass.getType());
         }
 
-        if (!zClass.instanceOf(new IntegerType())) {
-            throw ErrorHolder.argumentRequiresType(3, "init", new IntegerType(), zClass.getType());
+        if (!zClass.instanceOf(IntegerType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(3, "init", IntegerType.TYPE, zClass.getType());
         }
 
         long x = xClass.toInteger();
@@ -42,4 +44,6 @@ public class BlockPosType extends BuiltinType {
 
         return new BlockPosInstance(new BlockPos((int) x, (int) y, (int) z));
     }
+
+
 }

@@ -16,6 +16,6 @@ public abstract class BuiltinEnum extends BuiltinType {
 
     @Override
     public BuiltinType getType() {
-        return new EnumType();
+        return EnumType.TYPE;
     }
 }

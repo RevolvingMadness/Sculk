@@ -16,7 +16,9 @@ import net.minecraft.world.GameRules;
 import java.util.List;
 
 public class GameRulesType extends BuiltinType {
-    public GameRulesType() {
+    public static final GameRulesType TYPE = new GameRulesType();
+
+    private GameRulesType() {
         super("GameRules");
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getDoFireTick", new GetDoFireTick());
@@ -654,8 +656,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass announceAdvancements = arguments.get(0);
 
-            if (!announceAdvancements.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setAnnounceAdvancements", new BooleanType(), announceAdvancements.getType());
+            if (!announceAdvancements.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setAnnounceAdvancements", BooleanType.TYPE, announceAdvancements.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.ANNOUNCE_ADVANCEMENTS).set(announceAdvancements.toBoolean(), Sculk.server);
@@ -673,8 +675,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass blockExplosionDropDecay = arguments.get(0);
 
-            if (!blockExplosionDropDecay.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setBlockExplosionDropDecay", new BooleanType(), blockExplosionDropDecay.getType());
+            if (!blockExplosionDropDecay.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setBlockExplosionDropDecay", BooleanType.TYPE, blockExplosionDropDecay.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.BLOCK_EXPLOSION_DROP_DECAY).set(blockExplosionDropDecay.toBoolean(), Sculk.server);
@@ -692,8 +694,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass commandBlockOutput = arguments.get(0);
 
-            if (!commandBlockOutput.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setCommandBlockOutput", new BooleanType(), commandBlockOutput.getType());
+            if (!commandBlockOutput.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setCommandBlockOutput", BooleanType.TYPE, commandBlockOutput.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.COMMAND_BLOCK_OUTPUT).set(commandBlockOutput.toBoolean(), Sculk.server);
@@ -711,8 +713,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass commandModificationBlockLimit = arguments.get(0);
 
-            if (!commandModificationBlockLimit.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setCommandModificationBlockLimit", new IntegerType(), commandModificationBlockLimit.getType());
+            if (!commandModificationBlockLimit.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setCommandModificationBlockLimit", IntegerType.TYPE, commandModificationBlockLimit.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.COMMAND_MODIFICATION_BLOCK_LIMIT).set((int) commandModificationBlockLimit.toInteger(), Sculk.server);
@@ -730,8 +732,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass disableElytraMovementCheck = arguments.get(0);
 
-            if (!disableElytraMovementCheck.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDisableElytraMovementCheck", new BooleanType(), disableElytraMovementCheck.getType());
+            if (!disableElytraMovementCheck.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDisableElytraMovementCheck", BooleanType.TYPE, disableElytraMovementCheck.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DISABLE_ELYTRA_MOVEMENT_CHECK).set(disableElytraMovementCheck.toBoolean(), Sculk.server);
@@ -749,8 +751,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass disableRaids = arguments.get(0);
 
-            if (!disableRaids.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDisableRaids", new BooleanType(), disableRaids.getType());
+            if (!disableRaids.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDisableRaids", BooleanType.TYPE, disableRaids.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DISABLE_RAIDS).set(disableRaids.toBoolean(), Sculk.server);
@@ -768,8 +770,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass doDaylightCycle = arguments.get(0);
 
-            if (!doDaylightCycle.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDoDaylightCycle", new BooleanType(), doDaylightCycle.getType());
+            if (!doDaylightCycle.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDoDaylightCycle", BooleanType.TYPE, doDaylightCycle.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).set(doDaylightCycle.toBoolean(), Sculk.server);
@@ -787,8 +789,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass doEntityDrops = arguments.get(0);
 
-            if (!doEntityDrops.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDoEntityDrops", new BooleanType(), doEntityDrops.getType());
+            if (!doEntityDrops.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDoEntityDrops", BooleanType.TYPE, doEntityDrops.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DO_ENTITY_DROPS).set(doEntityDrops.toBoolean(), Sculk.server);
@@ -806,8 +808,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass doFireTick = arguments.get(0);
 
-            if (!doFireTick.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDoFireTick", new BooleanType(), doFireTick.getType());
+            if (!doFireTick.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDoFireTick", BooleanType.TYPE, doFireTick.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DO_FIRE_TICK).set(doFireTick.toBoolean(), Sculk.server);
@@ -825,8 +827,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass immediateRespawn = arguments.get(0);
 
-            if (!immediateRespawn.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDoImmediateRespawn", new BooleanType(), immediateRespawn.getType());
+            if (!immediateRespawn.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDoImmediateRespawn", BooleanType.TYPE, immediateRespawn.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DO_IMMEDIATE_RESPAWN).set(immediateRespawn.toBoolean(), Sculk.server);
@@ -844,8 +846,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass doInsomnia = arguments.get(0);
 
-            if (!doInsomnia.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDoInsomnia", new BooleanType(), doInsomnia.getType());
+            if (!doInsomnia.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDoInsomnia", BooleanType.TYPE, doInsomnia.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DO_INSOMNIA).set(doInsomnia.toBoolean(), Sculk.server);
@@ -863,8 +865,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass doLimitedCrafting = arguments.get(0);
 
-            if (!doLimitedCrafting.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDoLimitedCrafting", new BooleanType(), doLimitedCrafting.getType());
+            if (!doLimitedCrafting.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDoLimitedCrafting", BooleanType.TYPE, doLimitedCrafting.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DO_LIMITED_CRAFTING).set(doLimitedCrafting.toBoolean(), Sculk.server);
@@ -882,8 +884,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass doMobGriefing = arguments.get(0);
 
-            if (!doMobGriefing.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDoMobGriefing", new BooleanType(), doMobGriefing.getType());
+            if (!doMobGriefing.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDoMobGriefing", BooleanType.TYPE, doMobGriefing.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DO_MOB_GRIEFING).set(doMobGriefing.toBoolean(), Sculk.server);
@@ -901,8 +903,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass doMobLoot = arguments.get(0);
 
-            if (!doMobLoot.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDoMobLoot", new BooleanType(), doMobLoot.getType());
+            if (!doMobLoot.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDoMobLoot", BooleanType.TYPE, doMobLoot.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DO_MOB_LOOT).set(doMobLoot.toBoolean(), Sculk.server);
@@ -920,8 +922,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass doMobSpawning = arguments.get(0);
 
-            if (!doMobSpawning.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDoMobSpawning", new BooleanType(), doMobSpawning.getType());
+            if (!doMobSpawning.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDoMobSpawning", BooleanType.TYPE, doMobSpawning.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DO_MOB_SPAWNING).set(doMobSpawning.toBoolean(), Sculk.server);
@@ -939,8 +941,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass doPatrolSpawning = arguments.get(0);
 
-            if (!doPatrolSpawning.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDoPatrolSpawning", new BooleanType(), doPatrolSpawning.getType());
+            if (!doPatrolSpawning.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDoPatrolSpawning", BooleanType.TYPE, doPatrolSpawning.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DO_PATROL_SPAWNING).set(doPatrolSpawning.toBoolean(), Sculk.server);
@@ -958,8 +960,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass doTileDrops = arguments.get(0);
 
-            if (!doTileDrops.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDoTileDrops", new BooleanType(), doTileDrops.getType());
+            if (!doTileDrops.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDoTileDrops", BooleanType.TYPE, doTileDrops.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DO_TILE_DROPS).set(doTileDrops.toBoolean(), Sculk.server);
@@ -977,8 +979,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass doTraderSpawning = arguments.get(0);
 
-            if (!doTraderSpawning.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDoTraderSpawning", new BooleanType(), doTraderSpawning.getType());
+            if (!doTraderSpawning.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDoTraderSpawning", BooleanType.TYPE, doTraderSpawning.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DO_TRADER_SPAWNING).set(doTraderSpawning.toBoolean(), Sculk.server);
@@ -996,8 +998,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass doVinesSpread = arguments.get(0);
 
-            if (!doVinesSpread.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDoVinesSpread", new BooleanType(), doVinesSpread.getType());
+            if (!doVinesSpread.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDoVinesSpread", BooleanType.TYPE, doVinesSpread.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DO_VINES_SPREAD).set(doVinesSpread.toBoolean(), Sculk.server);
@@ -1015,8 +1017,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass doWardenSpawning = arguments.get(0);
 
-            if (!doWardenSpawning.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDoWardenSpawning", new BooleanType(), doWardenSpawning.getType());
+            if (!doWardenSpawning.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDoWardenSpawning", BooleanType.TYPE, doWardenSpawning.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DO_WARDEN_SPAWNING).set(doWardenSpawning.toBoolean(), Sculk.server);
@@ -1034,8 +1036,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass doWeatherCycle = arguments.get(0);
 
-            if (!doWeatherCycle.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDoWeatherCycle", new BooleanType(), doWeatherCycle.getType());
+            if (!doWeatherCycle.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDoWeatherCycle", BooleanType.TYPE, doWeatherCycle.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DO_WEATHER_CYCLE).set(doWeatherCycle.toBoolean(), Sculk.server);
@@ -1053,8 +1055,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass drowningDamage = arguments.get(0);
 
-            if (!drowningDamage.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setDrowningDamage", new BooleanType(), drowningDamage.getType());
+            if (!drowningDamage.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setDrowningDamage", BooleanType.TYPE, drowningDamage.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.DROWNING_DAMAGE).set(drowningDamage.toBoolean(), Sculk.server);
@@ -1072,8 +1074,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass enderPearlsVanishOnDeath = arguments.get(0);
 
-            if (!enderPearlsVanishOnDeath.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setEnderPearlsVanishOnDeath", new BooleanType(), enderPearlsVanishOnDeath.getType());
+            if (!enderPearlsVanishOnDeath.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setEnderPearlsVanishOnDeath", BooleanType.TYPE, enderPearlsVanishOnDeath.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.ENDER_PEARLS_VANISH_ON_DEATH).set(enderPearlsVanishOnDeath.toBoolean(), Sculk.server);
@@ -1091,8 +1093,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass fallDamage = arguments.get(0);
 
-            if (!fallDamage.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setFallDamage", new BooleanType(), fallDamage.getType());
+            if (!fallDamage.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setFallDamage", BooleanType.TYPE, fallDamage.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.FALL_DAMAGE).set(fallDamage.toBoolean(), Sculk.server);
@@ -1110,8 +1112,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass fireDamage = arguments.get(0);
 
-            if (!fireDamage.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setFireDamage", new BooleanType(), fireDamage.getType());
+            if (!fireDamage.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setFireDamage", BooleanType.TYPE, fireDamage.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.FIRE_DAMAGE).set(fireDamage.toBoolean(), Sculk.server);
@@ -1129,8 +1131,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass forgiveDeadPlayers = arguments.get(0);
 
-            if (!forgiveDeadPlayers.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setForgiveDeadPlayers", new BooleanType(), forgiveDeadPlayers.getType());
+            if (!forgiveDeadPlayers.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setForgiveDeadPlayers", BooleanType.TYPE, forgiveDeadPlayers.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.FORGIVE_DEAD_PLAYERS).set(forgiveDeadPlayers.toBoolean(), Sculk.server);
@@ -1148,8 +1150,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass freezeDamage = arguments.get(0);
 
-            if (!freezeDamage.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setFreezeDamage", new BooleanType(), freezeDamage.getType());
+            if (!freezeDamage.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setFreezeDamage", BooleanType.TYPE, freezeDamage.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.FREEZE_DAMAGE).set(freezeDamage.toBoolean(), Sculk.server);
@@ -1167,8 +1169,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass globalSoundEvents = arguments.get(0);
 
-            if (!globalSoundEvents.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setGlobalSoundEvents", new BooleanType(), globalSoundEvents.getType());
+            if (!globalSoundEvents.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setGlobalSoundEvents", BooleanType.TYPE, globalSoundEvents.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.GLOBAL_SOUND_EVENTS).set(globalSoundEvents.toBoolean(), Sculk.server);
@@ -1186,8 +1188,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass keepInventory = arguments.get(0);
 
-            if (!keepInventory.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setKeepInventory", new BooleanType(), keepInventory.getType());
+            if (!keepInventory.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setKeepInventory", BooleanType.TYPE, keepInventory.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.KEEP_INVENTORY).set(keepInventory.toBoolean(), Sculk.server);
@@ -1205,8 +1207,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass lavaSourceConversion = arguments.get(0);
 
-            if (!lavaSourceConversion.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setLavaSourceConversion", new BooleanType(), lavaSourceConversion.getType());
+            if (!lavaSourceConversion.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setLavaSourceConversion", BooleanType.TYPE, lavaSourceConversion.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.LAVA_SOURCE_CONVERSION).set(lavaSourceConversion.toBoolean(), Sculk.server);
@@ -1224,8 +1226,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass logAdminCommands = arguments.get(0);
 
-            if (!logAdminCommands.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setLogAdminCommands", new BooleanType(), logAdminCommands.getType());
+            if (!logAdminCommands.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setLogAdminCommands", BooleanType.TYPE, logAdminCommands.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.LOG_ADMIN_COMMANDS).set(logAdminCommands.toBoolean(), Sculk.server);
@@ -1243,8 +1245,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass maxArgumentCount = arguments.get(0);
 
-            if (!maxArgumentCount.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setMaxArgumentCount", new IntegerType(), maxArgumentCount.getType());
+            if (!maxArgumentCount.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setMaxArgumentCount", IntegerType.TYPE, maxArgumentCount.getType());
             }
 
             this.boundClass.toGameRules().get(SculkGamerules.MAX_ARGUMENT_COUNT).set((int) maxArgumentCount.toInteger(), Sculk.server);
@@ -1262,8 +1264,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass maxCommandChainLength = arguments.get(0);
 
-            if (!maxCommandChainLength.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setMaxCommandChainLength", new IntegerType(), maxCommandChainLength.getType());
+            if (!maxCommandChainLength.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setMaxCommandChainLength", IntegerType.TYPE, maxCommandChainLength.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.MAX_COMMAND_CHAIN_LENGTH).set((int) maxCommandChainLength.toInteger(), Sculk.server);
@@ -1281,8 +1283,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass maxEntityCramming = arguments.get(0);
 
-            if (!maxEntityCramming.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setMaxEntityCramming", new IntegerType(), maxEntityCramming.getType());
+            if (!maxEntityCramming.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setMaxEntityCramming", IntegerType.TYPE, maxEntityCramming.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.MAX_ENTITY_CRAMMING).set((int) maxEntityCramming.toInteger(), Sculk.server);
@@ -1300,8 +1302,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass maxLoops = arguments.get(0);
 
-            if (!maxLoops.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setMaxLoops", new IntegerType(), maxLoops.getType());
+            if (!maxLoops.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setMaxLoops", IntegerType.TYPE, maxLoops.getType());
             }
 
             this.boundClass.toGameRules().get(SculkGamerules.MAX_LOOPS).set((int) maxLoops.toInteger(), Sculk.server);
@@ -1319,8 +1321,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass mobExplosionDropDecay = arguments.get(0);
 
-            if (!mobExplosionDropDecay.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setMobExplosionDropDecay", new BooleanType(), mobExplosionDropDecay.getType());
+            if (!mobExplosionDropDecay.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setMobExplosionDropDecay", BooleanType.TYPE, mobExplosionDropDecay.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.MOB_EXPLOSION_DROP_DECAY).set(mobExplosionDropDecay.toBoolean(), Sculk.server);
@@ -1338,8 +1340,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass naturalRegeneration = arguments.get(0);
 
-            if (!naturalRegeneration.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setNaturalRegeneration", new BooleanType(), naturalRegeneration.getType());
+            if (!naturalRegeneration.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setNaturalRegeneration", BooleanType.TYPE, naturalRegeneration.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.NATURAL_REGENERATION).set(naturalRegeneration.toBoolean(), Sculk.server);
@@ -1357,8 +1359,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass playerSleepingPercentage = arguments.get(0);
 
-            if (!playerSleepingPercentage.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setPlayersSleepingPercentage", new IntegerType(), playerSleepingPercentage.getType());
+            if (!playerSleepingPercentage.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setPlayersSleepingPercentage", IntegerType.TYPE, playerSleepingPercentage.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.PLAYERS_SLEEPING_PERCENTAGE).set((int) playerSleepingPercentage.toInteger(), Sculk.server);
@@ -1376,8 +1378,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass randomTickSpeed = arguments.get(0);
 
-            if (!randomTickSpeed.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setRandomTickSpeed", new IntegerType(), randomTickSpeed.getType());
+            if (!randomTickSpeed.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setRandomTickSpeed", IntegerType.TYPE, randomTickSpeed.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.RANDOM_TICK_SPEED).set((int) randomTickSpeed.toInteger(), Sculk.server);
@@ -1395,8 +1397,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass reducedDebugInfo = arguments.get(0);
 
-            if (!reducedDebugInfo.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setReducedDebugInfo", new BooleanType(), reducedDebugInfo.getType());
+            if (!reducedDebugInfo.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setReducedDebugInfo", BooleanType.TYPE, reducedDebugInfo.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.REDUCED_DEBUG_INFO).set(reducedDebugInfo.toBoolean(), Sculk.server);
@@ -1414,8 +1416,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass sendCommandFeedback = arguments.get(0);
 
-            if (!sendCommandFeedback.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setSendCommandFeedback", new BooleanType(), sendCommandFeedback.getType());
+            if (!sendCommandFeedback.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setSendCommandFeedback", BooleanType.TYPE, sendCommandFeedback.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.SEND_COMMAND_FEEDBACK).set(sendCommandFeedback.toBoolean(), Sculk.server);
@@ -1433,8 +1435,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass showDeathMessages = arguments.get(0);
 
-            if (!showDeathMessages.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setShowDeathMessages", new BooleanType(), showDeathMessages.getType());
+            if (!showDeathMessages.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setShowDeathMessages", BooleanType.TYPE, showDeathMessages.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.SHOW_DEATH_MESSAGES).set(showDeathMessages.toBoolean(), Sculk.server);
@@ -1452,8 +1454,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass snowAccumulationHeight = arguments.get(0);
 
-            if (!snowAccumulationHeight.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setSnowAccumulationHeight", new IntegerType(), snowAccumulationHeight.getType());
+            if (!snowAccumulationHeight.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setSnowAccumulationHeight", IntegerType.TYPE, snowAccumulationHeight.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.SNOW_ACCUMULATION_HEIGHT).set((int) snowAccumulationHeight.toInteger(), Sculk.server);
@@ -1471,8 +1473,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass spawnRadius = arguments.get(0);
 
-            if (!spawnRadius.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setSpawnRadius", new IntegerType(), spawnRadius.getType());
+            if (!spawnRadius.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setSpawnRadius", IntegerType.TYPE, spawnRadius.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.SPAWN_RADIUS).set((int) spawnRadius.toInteger(), Sculk.server);
@@ -1490,8 +1492,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass spectatorsGenerateChunks = arguments.get(0);
 
-            if (!spectatorsGenerateChunks.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setSpectatorsGenerateChunks", new BooleanType(), spectatorsGenerateChunks.getType());
+            if (!spectatorsGenerateChunks.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setSpectatorsGenerateChunks", BooleanType.TYPE, spectatorsGenerateChunks.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.SPECTATORS_GENERATE_CHUNKS).set(spectatorsGenerateChunks.toBoolean(), Sculk.server);
@@ -1509,8 +1511,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass tntExplosionDropDecay = arguments.get(0);
 
-            if (!tntExplosionDropDecay.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setTntExplosionDropDecay", new BooleanType(), tntExplosionDropDecay.getType());
+            if (!tntExplosionDropDecay.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setTntExplosionDropDecay", BooleanType.TYPE, tntExplosionDropDecay.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.TNT_EXPLOSION_DROP_DECAY).set(tntExplosionDropDecay.toBoolean(), Sculk.server);
@@ -1528,8 +1530,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass universalAnger = arguments.get(0);
 
-            if (!universalAnger.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setUniversalAnger", new BooleanType(), universalAnger.getType());
+            if (!universalAnger.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setUniversalAnger", BooleanType.TYPE, universalAnger.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.UNIVERSAL_ANGER).set(universalAnger.toBoolean(), Sculk.server);
@@ -1547,8 +1549,8 @@ public class GameRulesType extends BuiltinType {
 
             BuiltinClass waterSourceConversion = arguments.get(0);
 
-            if (!waterSourceConversion.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setWaterSourceConversion", new BooleanType(), waterSourceConversion.getType());
+            if (!waterSourceConversion.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setWaterSourceConversion", BooleanType.TYPE, waterSourceConversion.getType());
             }
 
             this.boundClass.toGameRules().get(GameRules.WATER_SOURCE_CONVERSION).set(waterSourceConversion.toBoolean(), Sculk.server);

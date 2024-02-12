@@ -20,12 +20,12 @@ public class RandomIntegerFunction extends BuiltinFunction {
         BuiltinClass min = arguments.get(0);
         BuiltinClass max = arguments.get(1);
 
-        if (!min.instanceOf(new IntegerType())) {
-            throw ErrorHolder.argumentRequiresType(1, "randomInteger", new IntegerType(), min.getType());
+        if (!min.instanceOf(IntegerType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(1, "randomInteger", IntegerType.TYPE, min.getType());
         }
 
-        if (!max.instanceOf(new IntegerType())) {
-            throw ErrorHolder.argumentRequiresType(1, "randomInteger", new IntegerType(), max.getType());
+        if (!max.instanceOf(IntegerType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(1, "randomInteger", IntegerType.TYPE, max.getType());
         }
 
         Random random = new Random();

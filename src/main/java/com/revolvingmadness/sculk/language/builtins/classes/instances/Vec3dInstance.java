@@ -28,7 +28,7 @@ public class Vec3dInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new Vec3dType();
+        return Vec3dType.TYPE;
     }
 
     @Override

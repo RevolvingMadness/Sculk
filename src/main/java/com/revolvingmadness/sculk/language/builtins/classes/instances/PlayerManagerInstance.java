@@ -28,7 +28,7 @@ public class PlayerManagerInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new PlayerManagerType();
+        return PlayerManagerType.TYPE;
     }
 
     @Override

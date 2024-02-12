@@ -39,7 +39,7 @@ public class BooleanInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new BooleanType();
+        return BooleanType.TYPE;
     }
 
     @Override

@@ -8,6 +8,6 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.ObjectType;
 public class ObjectInstance extends BuiltinClass {
     @Override
     public BuiltinType getType() {
-        return new ObjectType();
+        return ObjectType.TYPE;
     }
 }

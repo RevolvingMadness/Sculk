@@ -28,7 +28,7 @@ public class GameRulesInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new GameRulesType();
+        return GameRulesType.TYPE;
     }
 
     @Override

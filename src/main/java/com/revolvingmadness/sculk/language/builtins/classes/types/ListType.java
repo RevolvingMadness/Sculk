@@ -14,7 +14,9 @@ import com.revolvingmadness.sculk.language.lexer.TokenType;
 import java.util.List;
 
 public class ListType extends BuiltinType {
-    public ListType() {
+    public static final ListType TYPE = new ListType();
+
+    private ListType() {
         super("List");
         this.typeVariableScope.declare(List.of(TokenType.CONST), "length", new Length());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "contains", new Contains());
@@ -36,19 +38,6 @@ public class ListType extends BuiltinType {
         return new ListInstance(listClass.toList());
     }
 
-    private static class Contains extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("contains", 1, arguments.size());
-            }
-
-            BuiltinClass other = arguments.get(0);
-
-            return new BooleanInstance(this.boundClass.toList().contains(other));
-        }
-    }
-
     private static class Append extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -61,6 +50,19 @@ public class ListType extends BuiltinType {
             this.boundClass.toList().add(object);
 
             return new NullInstance();
+        }
+    }
+
+    private static class Contains extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            if (arguments.size() != 1) {
+                throw ErrorHolder.invalidArgumentCount("contains", 1, arguments.size());
+            }
+
+            BuiltinClass other = arguments.get(0);
+
+            return new BooleanInstance(this.boundClass.toList().contains(other));
         }
     }
 

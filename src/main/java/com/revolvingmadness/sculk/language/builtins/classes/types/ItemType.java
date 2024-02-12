@@ -13,7 +13,9 @@ import com.revolvingmadness.sculk.language.lexer.TokenType;
 import java.util.List;
 
 public class ItemType extends BuiltinType {
-    public ItemType() {
+    public static final ItemType TYPE = new ItemType();
+
+    private ItemType() {
         super("Item");
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getMaxCount", new GetMaxCount());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getMaxDamage", new GetMaxDamage());

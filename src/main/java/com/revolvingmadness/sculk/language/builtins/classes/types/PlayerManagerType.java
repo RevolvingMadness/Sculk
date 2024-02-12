@@ -16,7 +16,9 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import java.util.List;
 
 public class PlayerManagerType extends BuiltinType {
-    public PlayerManagerType() {
+    public static final PlayerManagerType TYPE = new PlayerManagerType();
+
+    private PlayerManagerType() {
         super("PlayerManager");
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), "areCheatsEnabled", new AreCheatsEnabled());
@@ -74,8 +76,8 @@ public class PlayerManagerType extends BuiltinType {
 
             BuiltinClass playerName = arguments.get(0);
 
-            if (!playerName.instanceOf(new StringType())) {
-                throw ErrorHolder.argumentRequiresType(1, "getPlayer", new StringType(), playerName.getType());
+            if (!playerName.instanceOf(StringType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "getPlayer", StringType.TYPE, playerName.getType());
             }
 
             ServerPlayerEntity serverPlayerEntity = this.boundClass.toPlayerManager().getPlayer(playerName.toString());
@@ -130,8 +132,8 @@ public class PlayerManagerType extends BuiltinType {
 
             BuiltinClass cheatsEnabled = arguments.get(0);
 
-            if (!cheatsEnabled.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setCheatsEnabled", new BooleanType(), cheatsEnabled.getType());
+            if (!cheatsEnabled.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setCheatsEnabled", BooleanType.TYPE, cheatsEnabled.getType());
             }
 
             this.boundClass.toPlayerManager().setCheatsAllowed(cheatsEnabled.toBoolean());
@@ -149,8 +151,8 @@ public class PlayerManagerType extends BuiltinType {
 
             BuiltinClass simulationDistance = arguments.get(0);
 
-            if (!simulationDistance.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setSimulationDistance", new IntegerType(), simulationDistance.getType());
+            if (!simulationDistance.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setSimulationDistance", IntegerType.TYPE, simulationDistance.getType());
             }
 
             this.boundClass.toPlayerManager().setSimulationDistance((int) simulationDistance.toInteger());
@@ -168,8 +170,8 @@ public class PlayerManagerType extends BuiltinType {
 
             BuiltinClass viewDistance = arguments.get(0);
 
-            if (!viewDistance.instanceOf(new IntegerType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setViewDistance", new IntegerType(), viewDistance.getType());
+            if (!viewDistance.instanceOf(IntegerType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setViewDistance", IntegerType.TYPE, viewDistance.getType());
             }
 
             this.boundClass.toPlayerManager().setViewDistance((int) viewDistance.toInteger());
@@ -188,8 +190,8 @@ public class PlayerManagerType extends BuiltinType {
 
             BuiltinClass whitelistEnabled = arguments.get(0);
 
-            if (!whitelistEnabled.instanceOf(new BooleanType())) {
-                throw ErrorHolder.argumentRequiresType(1, "setWhitelistEnabled", new BooleanType(), whitelistEnabled.getType());
+            if (!whitelistEnabled.instanceOf(BooleanType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "setWhitelistEnabled", BooleanType.TYPE, whitelistEnabled.getType());
             }
 
             this.boundClass.toPlayerManager().setWhitelistEnabled(whitelistEnabled.toBoolean());

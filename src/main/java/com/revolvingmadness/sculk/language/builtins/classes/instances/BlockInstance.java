@@ -28,7 +28,7 @@ public class BlockInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new BlockType();
+        return BlockType.TYPE;
     }
 
     @Override

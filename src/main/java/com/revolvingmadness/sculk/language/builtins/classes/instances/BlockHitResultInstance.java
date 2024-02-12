@@ -10,8 +10,8 @@ import net.minecraft.util.math.BlockPos;
 import java.util.List;
 
 public class BlockHitResultInstance extends BuiltinClass {
-    public final BlockPos pos;
     public final Block block;
+    public final BlockPos pos;
     public final boolean succeeded;
 
     public BlockHitResultInstance(BlockPos pos, Block block, boolean succeeded) {
@@ -26,6 +26,6 @@ public class BlockHitResultInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new BlockHitResultType();
+        return BlockHitResultType.TYPE;
     }
 }

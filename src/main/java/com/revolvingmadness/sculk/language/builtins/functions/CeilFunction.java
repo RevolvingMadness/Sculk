@@ -20,11 +20,11 @@ public class CeilFunction extends BuiltinFunction {
 
         BuiltinClass object = arguments.get(0);
 
-        if (object.instanceOf(new IntegerType())) {
+        if (object.instanceOf(IntegerType.TYPE)) {
             return new FloatInstance(Math.ceil(object.toInteger()));
         }
 
-        if (object.instanceOf(new FloatType())) {
+        if (object.instanceOf(FloatType.TYPE)) {
             return new FloatInstance(Math.ceil(object.toFloat()));
         }
 

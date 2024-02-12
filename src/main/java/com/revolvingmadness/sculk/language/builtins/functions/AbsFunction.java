@@ -20,14 +20,14 @@ public class AbsFunction extends BuiltinFunction {
 
         BuiltinClass object = arguments.get(0);
 
-        if (object.instanceOf(new IntegerType())) {
+        if (object.instanceOf(IntegerType.TYPE)) {
             return new IntegerInstance(Math.abs(object.toInteger()));
         }
 
-        if (object.instanceOf(new FloatType())) {
+        if (object.instanceOf(FloatType.TYPE)) {
             return new FloatInstance(Math.abs(object.toFloat()));
         }
 
-        throw ErrorHolder.argumentRequiresType(1, "abs", new IntegerType(), object.getType());
+        throw ErrorHolder.argumentRequiresType(1, "abs", IntegerType.TYPE, object.getType());
     }
 }

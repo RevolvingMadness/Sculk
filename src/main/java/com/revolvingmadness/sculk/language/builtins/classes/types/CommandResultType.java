@@ -10,7 +10,9 @@ import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import java.util.List;
 
 public class CommandResultType extends BuiltinType {
-    public CommandResultType() {
+    public static final CommandResultType TYPE = new CommandResultType();
+
+    private CommandResultType() {
         super("CommandResult");
     }
 
@@ -24,16 +26,16 @@ public class CommandResultType extends BuiltinType {
         BuiltinClass succeeded = arguments.get(1);
         BuiltinClass errorMessage = arguments.get(2);
 
-        if (!result.instanceOf(new IntegerType())) {
-            throw ErrorHolder.argumentRequiresType(1, "init", new IntegerType(), result.getType());
+        if (!result.instanceOf(IntegerType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(1, "init", IntegerType.TYPE, result.getType());
         }
 
-        if (!succeeded.instanceOf(new BooleanType())) {
-            throw ErrorHolder.argumentRequiresType(2, "init", new BooleanType(), succeeded.getType());
+        if (!succeeded.instanceOf(BooleanType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(2, "init", BooleanType.TYPE, succeeded.getType());
         }
 
-        if (!errorMessage.instanceOf(new StringType())) {
-            throw ErrorHolder.argumentRequiresType(3, "init", new StringType(), errorMessage.getType());
+        if (!errorMessage.instanceOf(StringType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(3, "init", StringType.TYPE, errorMessage.getType());
         }
 
         return new CommandResultInstance(result, new BooleanInstance(succeeded.toBoolean()), errorMessage);

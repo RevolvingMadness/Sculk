@@ -19,7 +19,7 @@ public abstract class BuiltinType extends BuiltinClass {
     public final VariableScope typeVariableScope;
 
     public BuiltinType(String typeName) {
-        this(List.of(), typeName, new ObjectType(), new VariableScope());
+        this(List.of(), typeName, ObjectType.TYPE, new VariableScope());
     }
 
     public BuiltinType(String typeName, BuiltinType typeSuperClass) {
@@ -27,7 +27,7 @@ public abstract class BuiltinType extends BuiltinClass {
     }
 
     public BuiltinType(List<TokenType> typeAccessModifiers, String typeName) {
-        this(typeAccessModifiers, typeName, new ObjectType(), new VariableScope());
+        this(typeAccessModifiers, typeName, ObjectType.TYPE, new VariableScope());
     }
 
     public BuiltinType(List<TokenType> typeAccessModifiers, String typeName, BuiltinType typeSuperClass, VariableScope typeVariableScope) {
@@ -122,7 +122,7 @@ public abstract class BuiltinType extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new TypeType();
+        return TypeType.TYPE;
     }
 
     @Override

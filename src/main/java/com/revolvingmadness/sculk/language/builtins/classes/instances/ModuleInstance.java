@@ -12,6 +12,6 @@ public class ModuleInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new ModuleType();
+        return ModuleType.TYPE;
     }
 }

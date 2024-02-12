@@ -8,7 +8,9 @@ import net.minecraft.world.Difficulty;
 import java.util.List;
 
 public class DifficultiesEnumType extends BuiltinEnum {
-    public DifficultiesEnumType() {
+    public static final DifficultiesEnumType TYPE = new DifficultiesEnumType();
+
+    private DifficultiesEnumType() {
         super(List.of(TokenType.CONST), "Difficulties");
 
         this.addValue("EASY", Difficulty.EASY);

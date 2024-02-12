@@ -21,7 +21,7 @@ public class EntityInstance extends BuiltinClass {
 
     @Override
     public void deleteIndex(BuiltinClass index) {
-        if (!index.instanceOf(new StringType())) {
+        if (!index.instanceOf(StringType.TYPE)) {
             throw ErrorHolder.cannotIndexTypeByType(this.getType(), index.getType());
         }
 
@@ -42,7 +42,7 @@ public class EntityInstance extends BuiltinClass {
 
     @Override
     public BuiltinClass getIndex(BuiltinClass index) {
-        if (!index.instanceOf(new StringType())) {
+        if (!index.instanceOf(StringType.TYPE)) {
             throw ErrorHolder.cannotIndexTypeByType(this.getType(), index.getType());
         }
 
@@ -57,7 +57,7 @@ public class EntityInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new EntityType();
+        return EntityType.TYPE;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class EntityInstance extends BuiltinClass {
 
     @Override
     public void setIndex(BuiltinClass index, BuiltinClass value) {
-        if (!index.instanceOf(new StringType())) {
+        if (!index.instanceOf(StringType.TYPE)) {
             throw ErrorHolder.cannotIndexTypeByType(this.getType(), index.getType());
         }
 

@@ -10,7 +10,9 @@ import net.minecraft.util.math.Vec3d;
 import java.util.List;
 
 public class Vec3dType extends BuiltinType {
-    public Vec3dType() {
+    public static final Vec3dType TYPE = new Vec3dType();
+
+    private Vec3dType() {
         super("Vec3d");
     }
 
@@ -24,16 +26,16 @@ public class Vec3dType extends BuiltinType {
         BuiltinClass yClass = arguments.get(1);
         BuiltinClass zClass = arguments.get(2);
 
-        if (!xClass.instanceOf(new FloatType())) {
-            throw ErrorHolder.argumentRequiresType(1, "init", new FloatType(), xClass.getType());
+        if (!xClass.instanceOf(FloatType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(1, "init", FloatType.TYPE, xClass.getType());
         }
 
-        if (!yClass.instanceOf(new FloatType())) {
-            throw ErrorHolder.argumentRequiresType(2, "init", new FloatType(), yClass.getType());
+        if (!yClass.instanceOf(FloatType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(2, "init", FloatType.TYPE, yClass.getType());
         }
 
-        if (!zClass.instanceOf(new FloatType())) {
-            throw ErrorHolder.argumentRequiresType(3, "init", new FloatType(), zClass.getType());
+        if (!zClass.instanceOf(FloatType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(3, "init", FloatType.TYPE, zClass.getType());
         }
 
         double x = xClass.toFloat();

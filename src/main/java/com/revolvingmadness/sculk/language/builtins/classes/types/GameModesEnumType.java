@@ -8,7 +8,9 @@ import net.minecraft.world.GameMode;
 import java.util.List;
 
 public class GameModesEnumType extends BuiltinEnum {
-    public GameModesEnumType() {
+    public static final GameModesEnumType TYPE = new GameModesEnumType();
+
+    private GameModesEnumType() {
         super(List.of(TokenType.CONST), "GameModes");
 
         this.addValue("SURVIVAL", GameMode.SURVIVAL);

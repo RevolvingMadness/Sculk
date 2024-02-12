@@ -19,8 +19,8 @@ public class Base64DecodeFunction extends BuiltinFunction {
 
         BuiltinClass value = arguments.get(0);
 
-        if (!value.instanceOf(new StringType())) {
-            throw ErrorHolder.argumentRequiresType(1, "base64decode", new StringType(), value.getType());
+        if (!value.instanceOf(StringType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(1, "base64decode", StringType.TYPE, value.getType());
         }
 
         return new StringInstance(new String(Base64.getDecoder().decode(value.toString())));

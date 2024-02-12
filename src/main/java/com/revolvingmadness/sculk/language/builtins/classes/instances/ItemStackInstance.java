@@ -28,7 +28,7 @@ public class ItemStackInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new ItemStackType();
+        return ItemStackType.TYPE;
     }
 
     @Override

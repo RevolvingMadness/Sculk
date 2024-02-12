@@ -38,7 +38,7 @@ public class ListInstance extends BuiltinClass {
 
     @Override
     public void deleteIndex(BuiltinClass index) {
-        if (!index.instanceOf(new IntegerType())) {
+        if (!index.instanceOf(IntegerType.TYPE)) {
             throw ErrorHolder.cannotIndexTypeByType(this.getType(), index.getType());
         }
 
@@ -61,7 +61,7 @@ public class ListInstance extends BuiltinClass {
 
     @Override
     public BuiltinClass getIndex(BuiltinClass index) {
-        if (!index.instanceOf(new IntegerType())) {
+        if (!index.instanceOf(IntegerType.TYPE)) {
             throw ErrorHolder.cannotIndexTypeByType(this.getType(), index.getType());
         }
 
@@ -82,7 +82,7 @@ public class ListInstance extends BuiltinClass {
 
     @Override
     public BuiltinType getType() {
-        return new ListType();
+        return ListType.TYPE;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class ListInstance extends BuiltinClass {
 
     @Override
     public void setIndex(BuiltinClass index, BuiltinClass value) {
-        if (!index.instanceOf(new IntegerType())) {
+        if (!index.instanceOf(IntegerType.TYPE)) {
             throw ErrorHolder.cannotIndexTypeByType(this.getType(), index.getType());
         }
 
