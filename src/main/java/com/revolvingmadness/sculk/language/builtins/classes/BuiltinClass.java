@@ -181,7 +181,17 @@ public abstract class BuiltinClass extends ExpressionNode {
             return true;
         }
 
-        return this.getType().instanceOf(type);
+        boolean instanceOf = this.getType().equals(type);
+
+        if (instanceOf) {
+            return true;
+        }
+
+        if (type.typeSuperClass == null) {
+            return false;
+        }
+
+        return this.instanceOf(type.typeSuperClass);
     }
 
     public boolean isAbstract() {

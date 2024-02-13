@@ -2,7 +2,10 @@ package com.revolvingmadness.sculk.language.interpreter;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.errors.NameError;
+import com.revolvingmadness.sculk.language.errors.SyntaxError;
+import com.revolvingmadness.sculk.language.errors.TypeError;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 
 import java.io.Serializable;
@@ -24,19 +27,31 @@ public class VariableScope implements Serializable {
 
         Variable variable = optionalVariable.get();
 
-        if (variable.isAbstract()) {
+        if (variable.isConstant()) {
             throw ErrorHolder.cannotAssignValueToVariableBecauseItIsAConstant(variable.name);
+        }
+
+        if (!value.instanceOf(variable.type)) {
+            throw new SyntaxError("Cannot assign a value with type '" + variable.type.typeName + "' to a variable that requires the type '" + value.getType().typeName + "'");
         }
 
         variable.value = value;
     }
 
-    public void declare(List<TokenType> accessModifiers, String name, BuiltinClass value) {
+    public void declare(List<TokenType> accessModifiers, BuiltinType type, String name, BuiltinClass value) {
         if (this.exists(name)) {
             throw new NameError("Variable '" + name + "' has already been declared");
         }
 
-        this.variables.put(name, new Variable(accessModifiers, name, value));
+        if (!value.instanceOf(type)) {
+            throw new TypeError("Cannot declare a variable with type '" + value.getType().typeName + "' that requires type '" + type.typeName + "'");
+        }
+
+        this.variables.put(name, new Variable(accessModifiers, type, name, value));
+    }
+
+    public void declare(List<TokenType> accessModifiers, String name, BuiltinClass value) {
+        this.declare(accessModifiers, value.getType(), name, value);
     }
 
     public void deleteOrThrow(String name) {

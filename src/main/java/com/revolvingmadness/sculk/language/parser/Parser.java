@@ -1067,15 +1067,19 @@ public class Parser {
 
         String name = (String) this.consume(TokenType.IDENTIFIER).value;
 
+        this.consume(TokenType.COLON);
+
+        String type = (String) this.consume(TokenType.IDENTIFIER).value;
+
         if (this.current(TokenType.SEMICOLON)) {
-            return new VariableDeclarationStatementNode(accessModifiers, name, new NullExpressionNode());
+            return new VariableDeclarationStatementNode(accessModifiers, type, name, new NullExpressionNode());
         }
 
         this.consume(TokenType.EQUALS);
 
         ExpressionNode expression = this.parseExpression();
 
-        return new VariableDeclarationStatementNode(accessModifiers, name, expression);
+        return new VariableDeclarationStatementNode(accessModifiers, type, name, expression);
     }
 
     private StatementNode parseWhileStatement() {

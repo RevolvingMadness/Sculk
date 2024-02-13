@@ -142,21 +142,6 @@ public abstract class BuiltinType extends BuiltinClass {
     }
 
     @Override
-    public boolean instanceOf(BuiltinType type) {
-        boolean isInstanceOf = this.typeName.equals(type.typeName);
-
-        if (isInstanceOf) {
-            return true;
-        }
-
-        if (type.typeSuperClass == null) {
-            return false;
-        }
-
-        return this.instanceOf(type.typeSuperClass);
-    }
-
-    @Override
     public boolean isAbstract() {
         return this.typeAccessModifiers.contains(TokenType.ABSTRACT);
     }

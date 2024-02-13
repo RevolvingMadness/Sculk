@@ -9,10 +9,12 @@ import java.util.Objects;
 public class VariableDeclarationStatementNode extends StatementNode {
     public final List<TokenType> accessModifiers;
     public final String name;
+    public final String type;
     public final ExpressionNode value;
 
-    public VariableDeclarationStatementNode(List<TokenType> accessModifiers, String name, ExpressionNode value) {
+    public VariableDeclarationStatementNode(List<TokenType> accessModifiers, String type, String name, ExpressionNode value) {
         this.accessModifiers = accessModifiers;
+        this.type = type;
         this.name = name;
         this.value = value;
     }

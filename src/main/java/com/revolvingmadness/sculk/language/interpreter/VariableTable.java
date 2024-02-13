@@ -3,9 +3,11 @@ package com.revolvingmadness.sculk.language.interpreter;
 import com.revolvingmadness.sculk.Sculk;
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
 import com.revolvingmadness.sculk.language.builtins.functions.*;
+import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.world.World;
 
@@ -39,11 +41,19 @@ public class VariableTable {
             throw ErrorHolder.cannotAssignValueToVariableBecauseItIsAConstant(variable.name);
         }
 
+        if (!value.instanceOf(variable.type)) {
+            throw new SyntaxError("Cannot assign a value with type '" + value.getType().typeName + "' to a variable that requires type '" + variable.type.typeName + "'");
+        }
+
         variable.value = value;
     }
 
+    public void declare(List<TokenType> accessModifiers, BuiltinType type, String name, BuiltinClass value) {
+        this.variableScopes.peek().declare(accessModifiers, type, name, value);
+    }
+
     public void declare(List<TokenType> accessModifiers, String name, BuiltinClass value) {
-        this.variableScopes.peek().declare(accessModifiers, name, value);
+        this.declare(accessModifiers, value.getType(), name, value);
     }
 
     private void declareClasses() {
