@@ -98,3 +98,11 @@
 ### Improved
 
 - Error messages
+
+### Removed
+
+- Resource syntax due to conflict with variable declaration parsing
+
+  New syntax: `namespace:path` -> `"namespace:path"`
+
+  Resources are just strings.

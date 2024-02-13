@@ -65,8 +65,6 @@ public interface Visitor {
 
     BuiltinClass visitPostfixExpression(PostfixExpressionNode postfixExpression);
 
-    BuiltinClass visitResourceExpression(ResourceExpressionNode resourceExpression);
-
     void visitReturnStatement(ReturnStatementNode returnStatement);
 
     void visitScript(ScriptNode script);

@@ -60,6 +60,10 @@ public class ErrorHolder {
         return new SyntaxError(I18n.translate("error.invalid_argument_count", functionName, requiredArgumentCount, argumentCount));
     }
 
+    public static SyntaxError invalidIdentifier(String identifier) {
+        return new SyntaxError("Invalid identifier '" + identifier + "'");
+    }
+
     public static NameError typeHasNoProperty(BuiltinType type, String propertyName) {
         return new NameError(I18n.translate("error.type_has_no_property", type.toString(), propertyName));
     }

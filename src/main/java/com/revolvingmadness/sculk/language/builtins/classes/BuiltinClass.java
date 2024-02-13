@@ -18,7 +18,6 @@ import net.minecraft.nbt.*;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameMode;
@@ -300,10 +299,6 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public PlayerManager toPlayerManager() {
         throw ErrorHolder.cannotConvertType(this.getType(), PlayerManagerType.TYPE);
-    }
-
-    public Identifier toResource() {
-        throw ErrorHolder.cannotConvertType(this.getType(), ResourceType.TYPE);
     }
 
     public ServerPlayerEntity toServerPlayerEntity() {

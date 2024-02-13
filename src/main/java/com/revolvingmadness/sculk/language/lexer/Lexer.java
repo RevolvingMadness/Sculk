@@ -3,7 +3,6 @@ package com.revolvingmadness.sculk.language.lexer;
 import com.revolvingmadness.sculk.Sculk;
 import com.revolvingmadness.sculk.language.errors.LexError;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
-import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -308,21 +307,6 @@ public class Lexer {
 
         if (Sculk.keywords.containsKey(identifierString)) {
             return new Token(this.currentLineNumber, this.currentColumnNumber, Sculk.keywords.get(identifierString));
-        }
-
-        if (this.current(':')) {
-            this.consume();
-
-            StringBuilder path = new StringBuilder((String) this.lexIdentifier().value);
-
-            while (this.position < this.input.length() && this.current('/')) {
-                this.consume();
-
-                path.append("/");
-                path.append((String) this.lexIdentifier().value);
-            }
-
-            return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.RESOURCE, new Identifier(identifierString, path.toString()));
         }
 
         return new Token(this.currentLineNumber, this.currentColumnNumber, TokenType.IDENTIFIER, identifierString);

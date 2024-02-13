@@ -492,7 +492,13 @@ public class Parser {
     private StatementNode parseFromStatement() {
         this.consume(TokenType.FROM);
 
-        Identifier identifier = (Identifier) this.consume(TokenType.RESOURCE).value;
+        String identifierString = (String) this.consume(TokenType.STRING).value;
+
+        Identifier identifier = Identifier.tryParse(identifierString);
+
+        if (identifier == null) {
+            throw ErrorHolder.invalidIdentifier(identifierString);
+        }
 
         this.consume(TokenType.IMPORT);
 
@@ -617,7 +623,13 @@ public class Parser {
     private StatementNode parseImportStatement() {
         this.consume(TokenType.IMPORT);
 
-        Identifier identifier = (Identifier) this.consume(TokenType.RESOURCE).value;
+        String identifierString = (String) this.consume(TokenType.STRING).value;
+
+        Identifier identifier = Identifier.tryParse(identifierString);
+
+        if (identifier == null) {
+            throw ErrorHolder.invalidIdentifier(identifierString);
+        }
 
         String importAs = null;
 
@@ -745,8 +757,6 @@ public class Parser {
             return new BooleanExpressionNode(false);
         } else if (this.current(TokenType.STRING)) {
             return new StringExpressionNode((String) this.consume().value);
-        } else if (this.current(TokenType.RESOURCE)) {
-            return new ResourceExpressionNode((Identifier) this.consume().value);
         } else if (this.current(TokenType.NULL)) {
             this.consume();
             return new NullExpressionNode();

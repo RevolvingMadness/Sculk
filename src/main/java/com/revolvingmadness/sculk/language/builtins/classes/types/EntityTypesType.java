@@ -33,11 +33,15 @@ public class EntityTypesType extends BuiltinType {
 
             BuiltinClass identifierClass = arguments.get(0);
 
-            if (!identifierClass.instanceOf(ResourceType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "get", ResourceType.TYPE, identifierClass.getType());
+            if (!identifierClass.instanceOf(StringType.TYPE)) {
+                throw ErrorHolder.argumentRequiresType(1, "get", StringType.TYPE, identifierClass.getType());
             }
 
-            Identifier identifier = identifierClass.toResource();
+            Identifier identifier = Identifier.tryParse(identifierClass.toString());
+
+            if (identifier == null) {
+                throw ErrorHolder.invalidIdentifier(identifierClass.toString());
+            }
 
             Optional<EntityType<?>> entityType = Registries.ENTITY_TYPE.getOrEmpty(identifier);
 

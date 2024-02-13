@@ -77,7 +77,6 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "Object", ObjectType.TYPE);
         this.declare(List.of(TokenType.CONST), "PlayerEntity", PlayerEntityType.TYPE);
         this.declare(List.of(TokenType.CONST), "PlayerManager", PlayerManagerType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Resource", ResourceType.TYPE);
         this.declare(List.of(TokenType.CONST), "ServerPlayerEntity", ServerPlayerEntityType.TYPE);
         this.declare(List.of(TokenType.CONST), "String", StringType.TYPE);
         this.declare(List.of(TokenType.CONST), "Type", TypeType.TYPE);

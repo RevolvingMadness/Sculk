@@ -425,8 +425,6 @@ public class Interpreter implements Visitor {
             return this.visitListExpression(listExpression);
         } else if (literalExpression instanceof NullExpressionNode nullExpression) {
             return this.visitNullExpression(nullExpression);
-        } else if (literalExpression instanceof ResourceExpressionNode resourceExpression) {
-            return this.visitResourceExpression(resourceExpression);
         } else if (literalExpression instanceof StringExpressionNode stringExpression) {
             return this.visitStringExpression(stringExpression);
         } else {
@@ -514,11 +512,6 @@ public class Interpreter implements Visitor {
         } else {
             throw new SyntaxError("Cannot apply postfix operator to r-value");
         }
-    }
-
-    @Override
-    public BuiltinClass visitResourceExpression(ResourceExpressionNode resourceExpression) {
-        return new ResourceInstance(resourceExpression.value);
     }
 
     @Override
