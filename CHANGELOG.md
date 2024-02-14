@@ -79,6 +79,7 @@
 - `String.length(): Integer`
 - `String.uppercase(): String`
 - `String.lowercase(): String`
+- `Number` type/class
 
 ### Changed
 
@@ -89,6 +90,7 @@
 - `Entity.dismountVehicle` -> `Entity.dismount`
 - `Entity.removeAllPassengers` -> `Entity.removePassengers`
 - `ServerPlayerEntity.changeGameMode` -> `ServerPlayerEntity.setGameMode`
+- Integer now extends Float instead of Float extending Integer
 
 ### Fixed
 
@@ -106,4 +108,3 @@
   New syntax: `namespace:path` -> `"namespace:path"`
 
   Resources are just strings.
-- Float no longer inherits from Integer

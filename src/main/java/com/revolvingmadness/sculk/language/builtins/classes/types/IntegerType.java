@@ -15,7 +15,7 @@ public class IntegerType extends BuiltinType {
     public static final IntegerType TYPE = new IntegerType();
 
     private IntegerType() {
-        super("Integer");
+        super("Integer", FloatType.TYPE);
 
         this.variableScope.declare(List.of(TokenType.CONST), "parseInteger", new ParseInteger());
     }

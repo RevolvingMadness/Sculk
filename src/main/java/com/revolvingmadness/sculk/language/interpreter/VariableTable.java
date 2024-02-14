@@ -84,6 +84,7 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "Method", MethodType.TYPE);
         this.declare(List.of(TokenType.CONST), "MinecraftServer", MinecraftServerType.TYPE);
         this.declare(List.of(TokenType.CONST), "Null", NullType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Number", NumberType.TYPE);
         this.declare(List.of(TokenType.CONST), "Object", ObjectType.TYPE);
         this.declare(List.of(TokenType.CONST), "PlayerEntity", PlayerEntityType.TYPE);
         this.declare(List.of(TokenType.CONST), "PlayerManager", PlayerManagerType.TYPE);

@@ -15,7 +15,7 @@ public class FloatType extends BuiltinType {
     public static final FloatType TYPE = new FloatType();
 
     private FloatType() {
-        super("Float");
+        super("Float", NumberType.TYPE);
 
         this.variableScope.declare(List.of(TokenType.CONST), "parseFloat", new ParseFloat());
     }
