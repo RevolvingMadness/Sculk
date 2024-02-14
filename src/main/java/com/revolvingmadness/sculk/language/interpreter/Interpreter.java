@@ -208,8 +208,17 @@ public class Interpreter implements Visitor {
     @Override
     public void visitFieldDeclarationStatement(FieldDeclarationStatementNode fieldDeclarationStatement) {
         BuiltinClass value = this.visitExpression(fieldDeclarationStatement.value);
+        BuiltinClass typeClass = value.getType();
 
-        this.variableTable.declare(fieldDeclarationStatement.accessModifiers, fieldDeclarationStatement.name, value);
+        if (fieldDeclarationStatement.type != null) {
+            typeClass = this.variableTable.getOrThrow(fieldDeclarationStatement.type).value;
+        }
+
+        if (!(typeClass instanceof BuiltinType type)) {
+            throw new TypeError("The type of a field cannot be an instance");
+        }
+
+        this.variableTable.declare(fieldDeclarationStatement.accessModifiers, type, fieldDeclarationStatement.name, value);
     }
 
     @Override

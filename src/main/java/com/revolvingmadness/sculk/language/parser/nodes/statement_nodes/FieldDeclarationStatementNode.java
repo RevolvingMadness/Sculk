@@ -9,10 +9,12 @@ import java.util.Objects;
 public class FieldDeclarationStatementNode extends StatementNode {
     public final List<TokenType> accessModifiers;
     public final String name;
+    public final String type;
     public final ExpressionNode value;
 
-    public FieldDeclarationStatementNode(List<TokenType> accessModifiers, String name, ExpressionNode value) {
+    public FieldDeclarationStatementNode(List<TokenType> accessModifiers, String type, String name, ExpressionNode value) {
         this.accessModifiers = accessModifiers;
+        this.type = type;
         this.name = name;
         this.value = value;
     }
@@ -24,11 +26,11 @@ public class FieldDeclarationStatementNode extends StatementNode {
         if (o == null || this.getClass() != o.getClass())
             return false;
         FieldDeclarationStatementNode that = (FieldDeclarationStatementNode) o;
-        return Objects.equals(this.name, that.name) && Objects.equals(this.value, that.value);
+        return Objects.equals(this.accessModifiers, that.accessModifiers) && Objects.equals(this.name, that.name) && Objects.equals(this.type, that.type) && Objects.equals(this.value, that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.name, this.value);
+        return Objects.hash(this.accessModifiers, this.name, this.type, this.value);
     }
 }

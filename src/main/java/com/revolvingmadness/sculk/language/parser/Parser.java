@@ -413,15 +413,23 @@ public class Parser {
 
         String name = (String) this.consume(TokenType.IDENTIFIER).value;
 
+        String type = null;
+
+        if (this.current(TokenType.COLON)) {
+            this.consume(TokenType.COLON);
+
+            type = (String) this.consume(TokenType.IDENTIFIER).value;
+        }
+
         if (this.current(TokenType.SEMICOLON)) {
-            return new FieldDeclarationStatementNode(accessModifiers, name, new NullExpressionNode());
+            return new FieldDeclarationStatementNode(accessModifiers, type, name, new NullExpressionNode());
         }
 
         this.consume(TokenType.EQUALS);
 
         ExpressionNode expression = this.parseExpression();
 
-        return new FieldDeclarationStatementNode(accessModifiers, name, expression);
+        return new FieldDeclarationStatementNode(accessModifiers, type, name, expression);
     }
 
     private StatementNode parseForStatement() {
