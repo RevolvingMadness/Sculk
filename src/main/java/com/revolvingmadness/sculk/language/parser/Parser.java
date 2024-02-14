@@ -711,6 +711,10 @@ public class Parser {
 
         this.consume(TokenType.RIGHT_PARENTHESIS);
 
+        this.consume(TokenType.RIGHT_ARROW);
+
+        String returnType = (String) this.consume(TokenType.IDENTIFIER).value;
+
         List<StatementNode> body = new ArrayList<>();
 
         if (!accessModifiers.contains(TokenType.ABSTRACT)) {
@@ -721,7 +725,7 @@ public class Parser {
             throw new SyntaxError("Abstract method '" + name + "' cannot have a body");
         }
 
-        return new MethodDeclarationStatementNode(accessModifiers, name, arguments, body);
+        return new MethodDeclarationStatementNode(accessModifiers, name, arguments, returnType, body);
     }
 
     private ExpressionNode parseMultiplicativeExpression() {

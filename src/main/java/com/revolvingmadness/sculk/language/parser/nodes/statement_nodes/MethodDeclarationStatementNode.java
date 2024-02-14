@@ -10,11 +10,13 @@ public class MethodDeclarationStatementNode extends StatementNode {
     public final List<String> arguments;
     public final List<StatementNode> body;
     public final String name;
+    public final String returnType;
 
-    public MethodDeclarationStatementNode(List<TokenType> accessModifiers, String name, List<String> arguments, List<StatementNode> body) {
+    public MethodDeclarationStatementNode(List<TokenType> accessModifiers, String name, List<String> arguments, String returnType, List<StatementNode> body) {
         this.accessModifiers = accessModifiers;
         this.name = name;
         this.arguments = arguments;
+        this.returnType = returnType;
         this.body = body;
     }
 
@@ -25,12 +27,12 @@ public class MethodDeclarationStatementNode extends StatementNode {
         if (o == null || this.getClass() != o.getClass())
             return false;
         MethodDeclarationStatementNode that = (MethodDeclarationStatementNode) o;
-        return Objects.equals(this.accessModifiers, that.accessModifiers) && Objects.equals(this.arguments, that.arguments) && Objects.equals(this.body, that.body) && Objects.equals(this.name, that.name);
+        return Objects.equals(this.accessModifiers, that.accessModifiers) && Objects.equals(this.arguments, that.arguments) && Objects.equals(this.body, that.body) && Objects.equals(this.name, that.name) && Objects.equals(this.returnType, that.returnType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.accessModifiers, this.arguments, this.body, this.name);
+        return Objects.hash(this.accessModifiers, this.arguments, this.body, this.name, this.returnType);
     }
 
     public boolean isAbstract() {
