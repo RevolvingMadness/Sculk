@@ -261,6 +261,32 @@ public class Parser {
         return new ContinueStatementNode();
     }
 
+    private Argument parseDeclarationArgument() {
+        String name = (String) this.consume(TokenType.IDENTIFIER).value;
+
+        this.consume(TokenType.COLON);
+
+        String type = (String) this.consume(TokenType.IDENTIFIER).value;
+
+        return new Argument(name, type);
+    }
+
+    private List<Argument> parseDeclarationArguments() {
+        List<Argument> arguments = new ArrayList<>();
+
+        if (this.current(TokenType.IDENTIFIER)) {
+            arguments.add(this.parseDeclarationArgument());
+        }
+
+        while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
+            this.consume();
+
+            arguments.add(this.parseDeclarationArgument());
+        }
+
+        return arguments;
+    }
+
     private StatementNode parseDeclarationStatement() {
         StatementNode statement;
 
@@ -532,19 +558,7 @@ public class Parser {
 
         this.consume(TokenType.LEFT_PARENTHESIS);
 
-        List<String> arguments = new ArrayList<>();
-
-        if (this.current(TokenType.IDENTIFIER)) {
-            String argumentName = (String) this.consume(TokenType.IDENTIFIER).value;
-            arguments.add(argumentName);
-        }
-
-        while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
-            this.consume();
-
-            String argumentName = (String) this.consume(TokenType.IDENTIFIER).value;
-            arguments.add(argumentName);
-        }
+        List<Argument> arguments = this.parseDeclarationArguments();
 
         this.consume(TokenType.RIGHT_PARENTHESIS);
 
@@ -562,17 +576,7 @@ public class Parser {
 
         this.consume(TokenType.LEFT_PARENTHESIS);
 
-        List<String> arguments = new ArrayList<>();
-
-        if (!this.current(TokenType.RIGHT_PARENTHESIS)) {
-            arguments.add((String) this.consume(TokenType.IDENTIFIER).value);
-        }
-
-        while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
-            this.consume();
-
-            arguments.add((String) this.consume(TokenType.IDENTIFIER).value);
-        }
+        List<Argument> arguments = this.parseDeclarationArguments();
 
         this.consume(TokenType.RIGHT_PARENTHESIS);
 

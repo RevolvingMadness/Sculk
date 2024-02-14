@@ -1,5 +1,6 @@
 package com.revolvingmadness.sculk.language.parser.nodes.statement_nodes;
 
+import com.revolvingmadness.sculk.language.Argument;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 
 import java.util.List;
@@ -7,12 +8,12 @@ import java.util.Objects;
 
 public class FunctionDeclarationStatementNode extends StatementNode {
     public final List<TokenType> accessModifiers;
-    public final List<String> arguments;
+    public final List<Argument> arguments;
     public final List<StatementNode> body;
     public final String name;
     public final String returnType;
 
-    public FunctionDeclarationStatementNode(List<TokenType> accessModifiers, String name, List<String> arguments, String returnType, List<StatementNode> body) {
+    public FunctionDeclarationStatementNode(List<TokenType> accessModifiers, String name, List<Argument> arguments, String returnType, List<StatementNode> body) {
         this.accessModifiers = accessModifiers;
         this.name = name;
         this.arguments = arguments;

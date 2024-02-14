@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.functions;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinFunction;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.IntegerInstance;
@@ -13,24 +12,14 @@ import java.util.Random;
 public class RandomIntegerFunction extends BuiltinFunction {
     @Override
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        if (arguments.size() != 2) {
-            throw ErrorHolder.invalidArgumentCount("randomInteger", 2, arguments.size());
-        }
+        this.validate("randomInteger", arguments, List.of(IntegerType.TYPE, IntegerType.TYPE));
 
-        BuiltinClass min = arguments.get(0);
-        BuiltinClass max = arguments.get(1);
-
-        if (!min.instanceOf(IntegerType.TYPE)) {
-            throw ErrorHolder.argumentRequiresType(1, "randomInteger", IntegerType.TYPE, min.getType());
-        }
-
-        if (!max.instanceOf(IntegerType.TYPE)) {
-            throw ErrorHolder.argumentRequiresType(1, "randomInteger", IntegerType.TYPE, max.getType());
-        }
+        long min = arguments.get(0).toInteger();
+        long max = arguments.get(1).toInteger();
 
         Random random = new Random();
 
-        long range = max.toInteger() - min.toInteger() + 1;
-        return new IntegerInstance(random.nextLong(range) + min.toInteger());
+        long range = max - min + 1;
+        return new IntegerInstance(random.nextLong(range) + min);
     }
 }

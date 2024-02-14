@@ -6,7 +6,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinFunction;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.FloatInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.FloatType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.IntegerType;
-import com.revolvingmadness.sculk.language.errors.TypeError;
+import com.revolvingmadness.sculk.language.builtins.classes.types.NumberType;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 
 import java.util.List;
@@ -14,20 +14,18 @@ import java.util.List;
 public class CeilFunction extends BuiltinFunction {
     @Override
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        if (arguments.size() != 1) {
-            throw ErrorHolder.invalidArgumentCount("ceil", 1, arguments.size());
+        this.validate("ceil", arguments, List.of(NumberType.TYPE));
+
+        BuiltinClass number = arguments.get(0);
+
+        if (number.instanceOf(IntegerType.TYPE)) {
+            return new FloatInstance(Math.ceil(number.toInteger()));
         }
 
-        BuiltinClass object = arguments.get(0);
-
-        if (object.instanceOf(IntegerType.TYPE)) {
-            return new FloatInstance(Math.ceil(object.toInteger()));
+        if (number.instanceOf(FloatType.TYPE)) {
+            return new FloatInstance(Math.ceil(number.toFloat()));
         }
 
-        if (object.instanceOf(FloatType.TYPE)) {
-            return new FloatInstance(Math.ceil(object.toFloat()));
-        }
-
-        throw new TypeError("Function 'ceil' requires integer or float");
+        throw ErrorHolder.argumentRequiresType(1, "ceil", NumberType.TYPE, number.getType());
     }
 }

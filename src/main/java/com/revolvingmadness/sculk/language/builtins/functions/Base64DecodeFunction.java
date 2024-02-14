@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.functions;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinFunction;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.StringInstance;
@@ -13,16 +12,10 @@ import java.util.List;
 public class Base64DecodeFunction extends BuiltinFunction {
     @Override
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        if (arguments.size() != 1) {
-            throw ErrorHolder.invalidArgumentCount("base64decode", 1, arguments.size());
-        }
+        this.validate("base64decode", arguments, List.of(StringType.TYPE));
 
-        BuiltinClass value = arguments.get(0);
+        String value = arguments.get(0).toString();
 
-        if (!value.instanceOf(StringType.TYPE)) {
-            throw ErrorHolder.argumentRequiresType(1, "base64decode", StringType.TYPE, value.getType());
-        }
-
-        return new StringInstance(new String(Base64.getDecoder().decode(value.toString())));
+        return new StringInstance(new String(Base64.getDecoder().decode(value)));
     }
 }

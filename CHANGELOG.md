@@ -82,6 +82,7 @@
 - `Number` type/class
 - variables/fields have optional required types
 - functions have required return types
+- function arguments have required argument types
 - methods have required return types
 
 ### Changed
