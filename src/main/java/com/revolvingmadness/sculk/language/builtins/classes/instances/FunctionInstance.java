@@ -5,6 +5,7 @@ import com.revolvingmadness.sculk.gamerules.SculkGamerules;
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinFunction;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.interpreter.errors.MaxArgumentError;
 import com.revolvingmadness.sculk.language.interpreter.errors.Return;
@@ -18,10 +19,12 @@ public class FunctionInstance extends BuiltinFunction {
     public final List<String> arguments;
     public final List<StatementNode> body;
     public final String name;
+    public final BuiltinType returnType;
 
-    public FunctionInstance(String name, List<String> arguments, List<StatementNode> body) {
+    public FunctionInstance(String name, List<String> arguments, BuiltinType returnType, List<StatementNode> body) {
         this.name = name;
         this.arguments = arguments;
+        this.returnType = returnType;
         this.body = body;
     }
 
@@ -50,8 +53,14 @@ public class FunctionInstance extends BuiltinFunction {
         try {
             this.body.forEach(interpreter::visitStatement);
         } catch (Return returnException) {
+            BuiltinClass value = returnException.value;
+
+            if (!value.instanceOf(this.returnType)) {
+                throw ErrorHolder.functionRequiresReturnType(this.name, value.getType(), this.returnType);
+            }
+
             interpreter.variableTable.exitScope();
-            return returnException.value;
+            return value;
         }
 
         interpreter.variableTable.exitScope();

@@ -16,7 +16,7 @@ public class ErrorHolder {
         return new SyntaxError(I18n.translate("error.a_switch_statement_can_only_have_1_default_case"));
     }
 
-    public static TypeError argumentRequiresType(int argumentNumber, String functionName, BuiltinType requiredType, BuiltinType type) {
+    public static TypeError argumentRequiresType(int argumentNumber, String functionName, BuiltinType type, BuiltinType requiredType) {
         return new TypeError(I18n.translate("error.argument_requires_type", argumentNumber, functionName, requiredType.toString(), type.toString()));
     }
 
@@ -53,7 +53,7 @@ public class ErrorHolder {
     }
 
     public static TypeError functionRequiresReturnType(String functionName, BuiltinClass type, BuiltinType requiredType) {
-        return new TypeError(I18n.translate("error.function_requires_return_type", functionName, type.toString(), requiredType.toString()));
+        return new TypeError(I18n.translate("error.function_requires_return_type", functionName, requiredType.toString(), type.toString()));
     }
 
     public static SyntaxError invalidArgumentCount(String functionName, int requiredArgumentCount, int argumentCount) {

@@ -548,9 +548,13 @@ public class Parser {
 
         this.consume(TokenType.RIGHT_PARENTHESIS);
 
+        this.consume(TokenType.RIGHT_ARROW);
+
+        String returnType = (String) this.consume(TokenType.IDENTIFIER).value;
+
         List<StatementNode> body = this.parseBody();
 
-        return new FunctionDeclarationStatementNode(accessModifiers, name, arguments, body);
+        return new FunctionDeclarationStatementNode(accessModifiers, name, arguments, returnType, body);
     }
 
     private ExpressionNode parseFunctionExpression() {
@@ -572,6 +576,10 @@ public class Parser {
 
         this.consume(TokenType.RIGHT_PARENTHESIS);
 
+        this.consume(TokenType.RIGHT_ARROW);
+
+        String returnType = (String) this.consume(TokenType.IDENTIFIER).value;
+
         List<StatementNode> body = new ArrayList<>();
 
         if (this.current(TokenType.RIGHT_ARROW)) {
@@ -584,7 +592,7 @@ public class Parser {
             body.addAll(this.parseBody());
         }
 
-        return new FunctionExpressionNode("anonymous", arguments, body);
+        return new FunctionExpressionNode("anonymous", arguments, returnType, body);
     }
 
     private StatementNode parseIfStatement() {

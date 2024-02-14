@@ -80,6 +80,8 @@
 - `String.uppercase(): String`
 - `String.lowercase(): String`
 - `Number` type/class
+- variables/fields have optional required types
+- functions have required return types
 
 ### Changed
 

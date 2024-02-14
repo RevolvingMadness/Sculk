@@ -321,12 +321,24 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visitFunctionDeclarationStatement(FunctionDeclarationStatementNode functionDeclarationStatement) {
-        this.variableTable.declare(functionDeclarationStatement.accessModifiers, functionDeclarationStatement.name, new FunctionInstance(functionDeclarationStatement.name, functionDeclarationStatement.arguments, functionDeclarationStatement.body));
+        BuiltinClass typeClass = this.variableTable.getOrThrow(functionDeclarationStatement.returnType).value;
+
+        if (!(typeClass instanceof BuiltinType returnType)) {
+            throw new TypeError("The return type of a function cannot be an instance");
+        }
+
+        this.variableTable.declare(functionDeclarationStatement.accessModifiers, functionDeclarationStatement.name, new FunctionInstance(functionDeclarationStatement.name, functionDeclarationStatement.arguments, returnType, functionDeclarationStatement.body));
     }
 
     @Override
     public BuiltinClass visitFunctionExpression(FunctionExpressionNode functionExpression) {
-        return new FunctionInstance(functionExpression.name, functionExpression.arguments, functionExpression.body);
+        BuiltinClass typeClass = this.variableTable.getOrThrow(functionExpression.returnType).value;
+
+        if (!(typeClass instanceof BuiltinType returnType)) {
+            throw new TypeError("The return type of a function cannot be an instance");
+        }
+
+        return new FunctionInstance(functionExpression.name, functionExpression.arguments, returnType, functionExpression.body);
     }
 
     @Override
