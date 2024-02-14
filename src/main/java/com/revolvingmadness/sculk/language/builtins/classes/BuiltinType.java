@@ -13,27 +13,27 @@ import java.util.Objects;
 import java.util.Optional;
 
 public abstract class BuiltinType extends BuiltinClass {
-    public final List<TokenType> typeAccessModifiers;
-    public final String typeName;
-    public final BuiltinType typeSuperClass;
+    public final List<TokenType> accessModifiers;
+    public final String name;
+    public final BuiltinType superClass;
     public final VariableScope typeVariableScope;
 
-    public BuiltinType(String typeName) {
-        this(List.of(), typeName, ObjectType.TYPE, new VariableScope());
+    public BuiltinType(String name) {
+        this(List.of(), name, ObjectType.TYPE, new VariableScope());
     }
 
-    public BuiltinType(String typeName, BuiltinType typeSuperClass) {
-        this(List.of(), typeName, typeSuperClass, new VariableScope());
+    public BuiltinType(String name, BuiltinType superClass) {
+        this(List.of(), name, superClass, new VariableScope());
     }
 
-    public BuiltinType(List<TokenType> typeAccessModifiers, String typeName) {
-        this(typeAccessModifiers, typeName, ObjectType.TYPE, new VariableScope());
+    public BuiltinType(List<TokenType> accessModifiers, String name) {
+        this(accessModifiers, name, ObjectType.TYPE, new VariableScope());
     }
 
-    public BuiltinType(List<TokenType> typeAccessModifiers, String typeName, BuiltinType typeSuperClass, VariableScope typeVariableScope) {
-        this.typeAccessModifiers = typeAccessModifiers;
-        this.typeName = typeName;
-        this.typeSuperClass = typeSuperClass;
+    public BuiltinType(List<TokenType> accessModifiers, String name, BuiltinType superClass, VariableScope typeVariableScope) {
+        this.accessModifiers = accessModifiers;
+        this.name = name;
+        this.superClass = superClass;
         this.typeVariableScope = typeVariableScope;
 
         this.checkIfAllMethodsAreImplemented();
@@ -45,23 +45,23 @@ public abstract class BuiltinType extends BuiltinClass {
 
     @Override
     public void checkIfAllMethodsAreImplemented() {
-        if (this.typeSuperClass == null) {
+        if (this.superClass == null) {
             return;
         }
 
-        if (!this.typeSuperClass.isAbstract()) {
+        if (!this.superClass.isAbstract()) {
             return;
         }
 
-        for (Variable property : this.typeSuperClass.typeVariableScope.variables.values()) {
+        for (Variable property : this.superClass.typeVariableScope.variables.values()) {
             if (property.isAbstract()) {
                 if (!this.typeVariableScope.exists(property.name)) {
-                    throw new TypeError("Class '" + this.typeName + "' does not implement method '" + property.name + "'");
+                    throw new TypeError("Class '" + this.name + "' does not implement method '" + property.name + "'");
                 }
             }
         }
 
-        this.typeSuperClass.checkIfAllMethodsAreImplemented();
+        this.superClass.checkIfAllMethodsAreImplemented();
     }
 
     @Override
@@ -78,7 +78,7 @@ public abstract class BuiltinType extends BuiltinClass {
         if (!super.equals(o))
             return false;
         BuiltinType that = (BuiltinType) o;
-        return Objects.equals(this.typeAccessModifiers, that.typeAccessModifiers) && Objects.equals(this.typeName, that.typeName) && Objects.equals(this.typeSuperClass, that.typeSuperClass) && Objects.equals(this.typeVariableScope, that.typeVariableScope);
+        return Objects.equals(this.accessModifiers, that.accessModifiers) && Objects.equals(this.name, that.name) && Objects.equals(this.superClass, that.superClass) && Objects.equals(this.typeVariableScope, that.typeVariableScope);
     }
 
     @Override
@@ -89,7 +89,7 @@ public abstract class BuiltinType extends BuiltinClass {
             BuiltinClass property = optionalProperty.get().value;
 
             if (property instanceof BuiltinMethod method) {
-                method.bind(this, this.typeSuperClass);
+                method.bind(this, this.superClass);
             }
 
             return property;
@@ -101,20 +101,20 @@ public abstract class BuiltinType extends BuiltinClass {
             BuiltinClass property = optionalProperty.get().value;
 
             if (property instanceof BuiltinMethod method) {
-                method.bind(this, this.typeSuperClass);
+                method.bind(this, this.superClass);
             }
 
             return property;
         }
 
-        if (this.typeSuperClass == null) {
+        if (this.superClass == null) {
             throw ErrorHolder.typeHasNoProperty(this, propertyName);
         }
 
-        BuiltinClass superProperty = this.typeSuperClass.getProperty(propertyName);
+        BuiltinClass superProperty = this.superClass.getProperty(propertyName);
 
         if (superProperty instanceof BuiltinMethod superMethod) {
-            superMethod.bind(this, this.typeSuperClass);
+            superMethod.bind(this, this.superClass);
         }
 
         return superProperty;
@@ -138,17 +138,17 @@ public abstract class BuiltinType extends BuiltinClass {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.typeAccessModifiers, this.typeName, this.typeSuperClass, this.typeVariableScope);
+        return Objects.hash(this.accessModifiers, this.name, this.superClass, this.typeVariableScope);
     }
 
     @Override
     public boolean isAbstract() {
-        return this.typeAccessModifiers.contains(TokenType.ABSTRACT);
+        return this.accessModifiers.contains(TokenType.ABSTRACT);
     }
 
     @Override
     public boolean isConstant() {
-        return this.typeAccessModifiers.contains(TokenType.CONST);
+        return this.accessModifiers.contains(TokenType.CONST);
     }
 
     @Override
@@ -169,15 +169,15 @@ public abstract class BuiltinType extends BuiltinClass {
             return;
         }
 
-        if (this.typeSuperClass == null) {
+        if (this.superClass == null) {
             throw ErrorHolder.typeHasNoProperty(this, propertyName);
         }
 
-        this.typeSuperClass.setProperty(propertyName, value);
+        this.superClass.setProperty(propertyName, value);
     }
 
     @Override
     public String toString() {
-        return this.typeName;
+        return this.name;
     }
 }

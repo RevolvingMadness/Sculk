@@ -55,8 +55,6 @@ public class Interpreter implements Visitor {
             case DOUBLE_AMPERSAND -> left.booleanAnd(right);
             case DOUBLE_PIPE -> left.booleanOr(right);
             case INSTANCEOF -> {
-                new BooleanInstance(left.instanceOf(right.getType()));
-
                 if (!(right instanceof BuiltinType type)) {
                     throw new SyntaxError("'instanceof' can only check types");
                 }
@@ -123,7 +121,7 @@ public class Interpreter implements Visitor {
             Variable superClassVariable = this.variableTable.getOrThrow(classDeclarationStatement.superClassName);
 
             if (!(superClassVariable.value instanceof BuiltinType superClassType)) {
-                throw new TypeError("Cannot extend from non-type '" + superClassVariable.value.getType().typeName + "'");
+                throw new TypeError("Cannot extend from non-type '" + superClassVariable.value.getType().name + "'");
             }
 
             superClass = superClassType;

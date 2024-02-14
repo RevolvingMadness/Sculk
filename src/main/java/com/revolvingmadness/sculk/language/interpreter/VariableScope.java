@@ -32,7 +32,7 @@ public class VariableScope implements Serializable {
         }
 
         if (!value.instanceOf(variable.type)) {
-            throw new SyntaxError("Cannot assign a value with type '" + variable.type.typeName + "' to a variable that requires the type '" + value.getType().typeName + "'");
+            throw new SyntaxError("Cannot assign a value with type '" + variable.type.name + "' to a variable that requires the type '" + value.getType().name + "'");
         }
 
         variable.value = value;
@@ -44,7 +44,7 @@ public class VariableScope implements Serializable {
         }
 
         if (!value.instanceOf(type)) {
-            throw new TypeError("Cannot declare a variable with type '" + value.getType().typeName + "' that requires type '" + type.typeName + "'");
+            throw new TypeError("Cannot declare a variable with type '" + value.getType().name + "' that requires type '" + type.name + "'");
         }
 
         this.variables.put(name, new Variable(accessModifiers, type, name, value));

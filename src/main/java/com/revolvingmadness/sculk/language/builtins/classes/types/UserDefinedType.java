@@ -20,7 +20,7 @@ public class UserDefinedType extends BuiltinType {
         UserDefinedInstance instance = new UserDefinedInstance(this, this.variableScope);
 
         if (this.isAbstract()) {
-            throw new TypeError("Cannot instantiate abstract class '" + this.typeName + "'");
+            throw new TypeError("Cannot instantiate abstract class '" + this.name + "'");
         }
 
         instance.call(interpreter, "init", arguments);

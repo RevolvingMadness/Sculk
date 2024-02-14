@@ -79,7 +79,7 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        throw new TypeError("Type '" + this.getType().typeName + "' is not callable");
+        throw new TypeError("Type '" + this.getType().name + "' is not callable");
     }
 
     public BuiltinClass call(Interpreter interpreter, String methodName, List<BuiltinClass> arguments) {
@@ -137,7 +137,7 @@ public abstract class BuiltinClass extends ExpressionNode {
             BuiltinClass property = optionalProperty.get().value;
 
             if (property instanceof BuiltinMethod method) {
-                method.bind(this, this.getType().typeSuperClass);
+                method.bind(this, this.getType().superClass);
             }
 
             return property;
@@ -146,7 +146,7 @@ public abstract class BuiltinClass extends ExpressionNode {
         BuiltinClass property = this.getType().getProperty(propertyName);
 
         if (property instanceof BuiltinMethod method) {
-            method.bind(this, this.getType().typeSuperClass);
+            method.bind(this, this.getType().superClass);
         }
 
         return property;
@@ -177,21 +177,21 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public boolean instanceOf(BuiltinType type) {
-        if (type.equals(NullType.TYPE)) {
+        if (this.getType().equals(NullType.TYPE)) {
             return true;
         }
 
-        boolean instanceOf = this.getType().equals(type);
+        BuiltinType valueType = this.getType();
 
-        if (instanceOf) {
-            return true;
+        while (valueType != null) {
+            if (valueType.name.equals(type.name)) {
+                return true;
+            }
+
+            valueType = valueType.superClass;
         }
 
-        if (type.typeSuperClass == null) {
-            return false;
-        }
-
-        return this.instanceOf(type.typeSuperClass);
+        return false;
     }
 
     public boolean isAbstract() {
@@ -300,7 +300,7 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public NbtElement toNbtElement() {
-        throw new TypeError("Type '" + this.getType().typeName + "' is not part of Minecraft NBT");
+        throw new TypeError("Type '" + this.getType().name + "' is not part of Minecraft NBT");
     }
 
     public PlayerEntity toPlayerEntity() {
@@ -317,7 +317,7 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     @Override
     public String toString() {
-        return "<Class '" + this.getType().typeName + "'>";
+        return "<Class '" + this.getType().name + "'>";
     }
 
     public ServerWorld toWorld() {

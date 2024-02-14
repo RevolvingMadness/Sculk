@@ -106,3 +106,4 @@
   New syntax: `namespace:path` -> `"namespace:path"`
 
   Resources are just strings.
+- Float no longer inherits from Integer

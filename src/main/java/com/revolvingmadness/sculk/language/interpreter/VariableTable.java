@@ -42,7 +42,7 @@ public class VariableTable {
         }
 
         if (!value.instanceOf(variable.type)) {
-            throw new SyntaxError("Cannot assign a value with type '" + value.getType().typeName + "' to a variable that requires type '" + variable.type.typeName + "'");
+            throw new SyntaxError("Cannot assign a value with type '" + value.getType().name + "' to a variable that requires type '" + variable.type.name + "'");
         }
 
         variable.value = value;

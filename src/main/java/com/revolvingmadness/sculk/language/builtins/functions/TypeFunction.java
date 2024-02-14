@@ -19,6 +19,6 @@ public class TypeFunction extends BuiltinFunction {
         BuiltinClass object = arguments.get(0);
         BuiltinType type = object.getType();
 
-        return new StringInstance(type.typeName);
+        return new StringInstance(type.name);
     }
 }
