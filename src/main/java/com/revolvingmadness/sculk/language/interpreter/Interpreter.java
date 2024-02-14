@@ -739,8 +739,12 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visitVariableDeclarationStatement(VariableDeclarationStatementNode variableDeclarationStatement) {
-        BuiltinClass typeClass = this.variableTable.getOrThrow(variableDeclarationStatement.type).value;
         BuiltinClass value = this.visitExpression(variableDeclarationStatement.value);
+        BuiltinClass typeClass = value.getType();
+
+        if (variableDeclarationStatement.type != null) {
+            typeClass = this.variableTable.getOrThrow(variableDeclarationStatement.type).value;
+        }
 
         if (!(typeClass instanceof BuiltinType type)) {
             throw new TypeError("The type of a variable cannot be an instance");

@@ -1067,9 +1067,13 @@ public class Parser {
 
         String name = (String) this.consume(TokenType.IDENTIFIER).value;
 
-        this.consume(TokenType.COLON);
+        String type = null;
 
-        String type = (String) this.consume(TokenType.IDENTIFIER).value;
+        if (this.current(TokenType.COLON)) {
+            this.consume(TokenType.COLON);
+
+            type = (String) this.consume(TokenType.IDENTIFIER).value;
+        }
 
         if (this.current(TokenType.SEMICOLON)) {
             return new VariableDeclarationStatementNode(accessModifiers, type, name, new NullExpressionNode());
