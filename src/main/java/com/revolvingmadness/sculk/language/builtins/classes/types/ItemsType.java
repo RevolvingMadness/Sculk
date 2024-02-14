@@ -28,20 +28,14 @@ public class ItemsType extends BuiltinType {
     private static class Get extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("get", 1, arguments.size());
-            }
+            this.validate("get", arguments, List.of(StringType.TYPE));
 
-            BuiltinClass identifierClass = arguments.get(0);
+            String identifierClass = arguments.get(0).toString();
 
-            if (!identifierClass.instanceOf(StringType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "get", StringType.TYPE, identifierClass.getType());
-            }
-
-            Identifier identifier = Identifier.tryParse(identifierClass.toString());
+            Identifier identifier = Identifier.tryParse(identifierClass);
 
             if (identifier == null) {
-                throw ErrorHolder.invalidIdentifier(identifierClass.toString());
+                throw ErrorHolder.invalidIdentifier(identifierClass);
             }
 
             if (Objects.equals(identifier, new Identifier("air"))) {

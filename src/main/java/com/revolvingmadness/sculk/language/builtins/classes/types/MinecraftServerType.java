@@ -4,7 +4,6 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.revolvingmadness.sculk.Sculk;
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
@@ -13,6 +12,7 @@ import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.world.Difficulty;
 
 import java.util.List;
 
@@ -44,9 +44,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class AreCommandBlocksEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("areCommandBlocksEnabled", 0, arguments.size());
-            }
+            this.validate("areCommandBlocksEnabled", arguments);
 
             return new BooleanInstance(Sculk.server.areCommandBlocksEnabled());
         }
@@ -55,9 +53,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class GetServerIp extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getServerIP", 0, arguments.size());
-            }
+            this.validate("getServerIP", arguments);
 
             return new StringInstance(Sculk.server.getServerIp());
         }
@@ -66,9 +62,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class GetServerPort extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getServerPort", 0, arguments.size());
-            }
+            this.validate("getServerPort", arguments);
 
             return new IntegerInstance(Sculk.server.getServerPort());
         }
@@ -77,9 +71,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class IsFlightEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isFlightEnabled", 0, arguments.size());
-            }
+            this.validate("isFlightEnabled", arguments);
 
             return new BooleanInstance(Sculk.server.isFlightEnabled());
         }
@@ -88,9 +80,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class IsHardcore extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isHardcore", 0, arguments.size());
-            }
+            this.validate("isHardcore", arguments);
 
             return new BooleanInstance(Sculk.server.isHardcore());
         }
@@ -99,17 +89,9 @@ public class MinecraftServerType extends BuiltinType {
     private static class IsModInstalled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("isModInstalled", 1, arguments.size());
-            }
+            this.validate("isModInstalled", arguments, List.of(StringType.TYPE));
 
-            BuiltinClass modIDClass = arguments.get(0);
-
-            if (!modIDClass.instanceOf(StringType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "isModInstalled", StringType.TYPE, modIDClass.getType());
-            }
-
-            String modID = modIDClass.toString();
+            String modID = arguments.get(0).toString();
 
             return new BooleanInstance(FabricLoader.getInstance().isModLoaded(modID));
         }
@@ -118,9 +100,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class IsNetherEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isNetherEnabled", 0, arguments.size());
-            }
+            this.validate("isNetherEnabled", arguments);
 
             return new BooleanInstance(Sculk.server.isNetherAllowed());
         }
@@ -129,9 +109,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class IsPVPEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isPVPEnabled", 0, arguments.size());
-            }
+            this.validate("isPVPEnabled", arguments);
 
             return new BooleanInstance(Sculk.server.isPvpEnabled());
         }
@@ -140,18 +118,11 @@ public class MinecraftServerType extends BuiltinType {
     private static class RunCommand extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("runCommand", 1, arguments.size());
-            }
-
-            BuiltinClass commandClass = arguments.get(0);
-
-            if (!commandClass.instanceOf(StringType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "runCommand", StringType.TYPE, commandClass.getType());
-            }
+            this.validate("runCommand", arguments, List.of(StringType.TYPE));
+            String command = arguments.get(0).toString();
 
             CommandDispatcher<ServerCommandSource> commandDispatcher = Sculk.server.getCommandManager().getDispatcher();
-            ParseResults<ServerCommandSource> parseResults = commandDispatcher.parse(commandClass.toString(), Sculk.server.getCommandSource());
+            ParseResults<ServerCommandSource> parseResults = commandDispatcher.parse(command, Sculk.server.getCommandSource());
             int result;
 
             try {
@@ -167,17 +138,11 @@ public class MinecraftServerType extends BuiltinType {
     private static class SetDifficulty extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setDifficulty", 1, arguments.size());
-            }
+            this.validate("setDifficulty", arguments, List.of(DifficultiesEnumType.TYPE));
 
-            BuiltinClass difficulty = arguments.get(0);
+            Difficulty difficulty = arguments.get(0).toDifficulty();
 
-            if (!difficulty.instanceOf(DifficultiesEnumType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setDifficulty", DifficultiesEnumType.TYPE, difficulty.getType());
-            }
-
-            Sculk.server.setDifficulty(difficulty.toDifficulty(), true);
+            Sculk.server.setDifficulty(difficulty, true);
 
             return new NullInstance();
         }
@@ -186,17 +151,11 @@ public class MinecraftServerType extends BuiltinType {
     private static class SetDifficultyLocked extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setDifficultyLocked", 1, arguments.size());
-            }
+            this.validate("setDifficultyLocked", arguments, List.of(BooleanType.TYPE));
 
-            BuiltinClass difficultyLocked = arguments.get(0);
+            boolean difficultyLocked = arguments.get(0).toBoolean();
 
-            if (!difficultyLocked.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setDifficultyLocked", BooleanType.TYPE, difficultyLocked.getType());
-            }
-
-            Sculk.server.setDifficultyLocked(difficultyLocked.toBoolean());
+            Sculk.server.setDifficultyLocked(difficultyLocked);
 
             return new NullInstance();
         }
@@ -205,17 +164,11 @@ public class MinecraftServerType extends BuiltinType {
     private static class SetPVPEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setPVPEnabled", 1, arguments.size());
-            }
+            this.validate("setPVPEnabled", arguments, List.of(BooleanType.TYPE));
 
-            BuiltinClass pvpEnabled = arguments.get(0);
+            boolean pvpEnabled = arguments.get(0).toBoolean();
 
-            if (!pvpEnabled.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setPVPEnabled", BooleanType.TYPE, pvpEnabled.getType());
-            }
-
-            Sculk.server.setPvpEnabled(pvpEnabled.toBoolean());
+            Sculk.server.setPvpEnabled(pvpEnabled);
 
             return new NullInstance();
         }

@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
@@ -27,9 +26,7 @@ public class BlockType extends BuiltinType {
     private static class AsItem extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("asItem", 0, arguments.size());
-            }
+            this.validate("asItem", arguments);
 
             return new ItemInstance(this.boundClass.toBlock().asItem());
         }
@@ -38,9 +35,7 @@ public class BlockType extends BuiltinType {
     private static class GetBlastResistance extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getBlastResistance", 0, arguments.size());
-            }
+            this.validate("getBlastResistance", arguments);
 
             return new FloatInstance(this.boundClass.toBlock().getBlastResistance());
         }
@@ -49,9 +44,7 @@ public class BlockType extends BuiltinType {
     private static class GetName extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getName", 0, arguments.size());
-            }
+            this.validate("getName", arguments);
 
             return new StringInstance(this.boundClass.toBlock().getName().getString());
         }
@@ -60,9 +53,7 @@ public class BlockType extends BuiltinType {
     private static class GetSlipperiness extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getSlipperiness", 0, arguments.size());
-            }
+            this.validate("getSlipperiness", arguments);
 
             return new FloatInstance(this.boundClass.toBlock().getSlipperiness());
         }

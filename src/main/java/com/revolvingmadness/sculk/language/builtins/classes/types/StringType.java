@@ -46,26 +46,18 @@ public class StringType extends BuiltinType {
     private static class EndsWith extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("endsWith", 1, arguments.size());
-            }
+            this.validate("endsWith", arguments, List.of(StringType.TYPE));
 
-            BuiltinClass text = arguments.get(0);
+            String text = arguments.get(0).toString();
 
-            if (!text.instanceOf(StringType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "endsWith", StringType.TYPE, text.getType());
-            }
-
-            return new BooleanInstance(this.boundClass.toString().endsWith(text.toString()));
+            return new BooleanInstance(this.boundClass.toString().endsWith(text));
         }
     }
 
     private static class Length extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("length", 0, arguments.size());
-            }
+            this.validate("length", arguments);
 
             return new IntegerInstance(this.boundClass.toString().length());
         }
@@ -74,9 +66,7 @@ public class StringType extends BuiltinType {
     private static class Lowercase extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("lowercase", 0, arguments.size());
-            }
+            this.validate("lowercase", arguments);
 
             return new StringInstance(this.boundClass.toString().toLowerCase());
         }
@@ -85,19 +75,13 @@ public class StringType extends BuiltinType {
     private static class Split extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("splitter", 1, arguments.size());
-            }
+            this.validate("split", arguments, List.of(StringType.TYPE));
 
-            BuiltinClass splitter = arguments.get(0);
-
-            if (!splitter.instanceOf(StringType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "splitter", StringType.TYPE, splitter.getType());
-            }
+            String splitter = arguments.get(0).toString();
 
             List<BuiltinClass> list = new ArrayList<>();
 
-            String[] split = this.boundClass.toString().split(splitter.toString());
+            String[] split = this.boundClass.toString().split(splitter);
 
             for (String s : split) {
                 list.add(new StringInstance(s));
@@ -110,30 +94,20 @@ public class StringType extends BuiltinType {
     private static class StartsWith extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("startsWith", 1, arguments.size());
-            }
+            this.validate("startsWith", arguments, List.of(StringType.TYPE));
 
-            BuiltinClass text = arguments.get(0);
+            String text = arguments.get(0).toString();
 
-            if (!text.instanceOf(StringType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "startsWith", StringType.TYPE, text.getType());
-            }
-
-            return new BooleanInstance(this.boundClass.toString().startsWith(text.toString()));
+            return new BooleanInstance(this.boundClass.toString().startsWith(text));
         }
     }
 
     private static class Uppercase extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("uppercase", 0, arguments.size());
-            }
+            this.validate("uppercase", arguments);
 
             return new StringInstance(this.boundClass.toString().toUpperCase());
         }
     }
-
-
 }

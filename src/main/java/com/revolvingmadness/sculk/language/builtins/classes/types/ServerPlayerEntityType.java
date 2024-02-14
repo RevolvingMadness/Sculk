@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
@@ -8,6 +7,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.IntegerIns
 import com.revolvingmadness.sculk.language.builtins.classes.instances.NullInstance;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
+import net.minecraft.world.GameMode;
 
 import java.util.List;
 
@@ -27,17 +27,11 @@ public class ServerPlayerEntityType extends BuiltinType {
     private static class DropSelectedItem extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("dropSelectedItem", 1, arguments.size());
-            }
+            this.validate("dropSelectedItem", arguments, List.of(BooleanType.TYPE));
 
-            BuiltinClass entireStack = arguments.get(0);
+            boolean entireStack = arguments.get(0).toBoolean();
 
-            if (!entireStack.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "dropSelectedItem", BooleanType.TYPE, entireStack.getType());
-            }
-
-            this.boundClass.toServerPlayerEntity().dropSelectedItem(entireStack.toBoolean());
+            this.boundClass.toServerPlayerEntity().dropSelectedItem(entireStack);
 
             return new NullInstance();
         }
@@ -46,9 +40,7 @@ public class ServerPlayerEntityType extends BuiltinType {
     private static class GetViewDistance extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getViewDistance", 0, arguments.size());
-            }
+            this.validate("getViewDistance", arguments);
 
             return new IntegerInstance(this.boundClass.toServerPlayerEntity().getViewDistance());
         }
@@ -57,17 +49,11 @@ public class ServerPlayerEntityType extends BuiltinType {
     private static class SetExperienceLevels extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setExperienceLevels", 1, arguments.size());
-            }
+            this.validate("setExperienceLevels", arguments, List.of(IntegerType.TYPE));
 
-            BuiltinClass experienceLevel = arguments.get(0);
+            long experienceLevel = arguments.get(0).toInteger();
 
-            if (!experienceLevel.instanceOf(IntegerType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setExperienceLevels", IntegerType.TYPE, experienceLevel.getType());
-            }
-
-            this.boundClass.toServerPlayerEntity().setExperienceLevel((int) experienceLevel.toInteger());
+            this.boundClass.toServerPlayerEntity().setExperienceLevel((int) experienceLevel);
 
             return new NullInstance();
         }
@@ -76,17 +62,11 @@ public class ServerPlayerEntityType extends BuiltinType {
     private static class SetExperiencePoints extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setExperiencePoints", 1, arguments.size());
-            }
+            this.validate("setExperiencePoints", arguments, List.of(IntegerType.TYPE));
 
-            BuiltinClass experiencePoints = arguments.get(0);
+            long experiencePoints = arguments.get(0).toInteger();
 
-            if (!experiencePoints.instanceOf(IntegerType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setExperiencePoints", IntegerType.TYPE, experiencePoints.getType());
-            }
-
-            this.boundClass.toServerPlayerEntity().setExperiencePoints((int) experiencePoints.toInteger());
+            this.boundClass.toServerPlayerEntity().setExperiencePoints((int) experiencePoints);
 
             return new NullInstance();
         }
@@ -95,17 +75,11 @@ public class ServerPlayerEntityType extends BuiltinType {
     private static class SetGameMode extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setGameMode", 1, arguments.size());
-            }
+            this.validate("setGameMode", arguments, List.of(GameModesEnumType.TYPE));
 
-            BuiltinClass gameMode = arguments.get(0);
+            GameMode gameMode = arguments.get(0).toGameMode();
 
-            if (!gameMode.instanceOf(GameModesEnumType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setGameMode", GameModesEnumType.TYPE, gameMode.getType());
-            }
-
-            this.boundClass.toServerPlayerEntity().changeGameMode(gameMode.toGameMode());
+            this.boundClass.toServerPlayerEntity().changeGameMode(gameMode);
 
             return new NullInstance();
         }

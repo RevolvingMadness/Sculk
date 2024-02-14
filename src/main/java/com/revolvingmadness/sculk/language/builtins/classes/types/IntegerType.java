@@ -38,22 +38,16 @@ public class IntegerType extends BuiltinType {
     private static class ParseInteger extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("parseInteger", 1, arguments.size());
-            }
+            this.validate("parseInteger", arguments, List.of(StringType.TYPE));
 
-            BuiltinClass stringClass = arguments.get(0);
-
-            if (!stringClass.instanceOf(StringType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "parseInteger", StringType.TYPE, stringClass.getType());
-            }
+            String stringClass = arguments.get(0).toString();
 
             long integer;
 
             try {
-                integer = Long.parseLong(stringClass.toString());
+                integer = Long.parseLong(stringClass);
             } catch (NumberFormatException nfe) {
-                throw new NumberFormatError(stringClass.toString());
+                throw new NumberFormatError(stringClass);
             }
 
             return new IntegerInstance(integer);

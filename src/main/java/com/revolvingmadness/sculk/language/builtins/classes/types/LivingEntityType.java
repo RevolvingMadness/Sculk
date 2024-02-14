@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
@@ -23,23 +22,12 @@ public class LivingEntityType extends BuiltinType {
     private static class TiltScreen extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 2) {
-                throw ErrorHolder.invalidArgumentCount("tiltScreen", 2, arguments.size());
-            }
+            this.validate("tiltScreen", arguments, List.of(FloatType.TYPE, FloatType.TYPE));
 
-            BuiltinClass deltaX = arguments.get(0);
+            double deltaX = arguments.get(0).toFloat();
+            double deltaZ = arguments.get(1).toFloat();
 
-            if (!deltaX.instanceOf(FloatType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "tiltScreen", FloatType.TYPE, deltaX.getType());
-            }
-
-            BuiltinClass deltaZ = arguments.get(1);
-
-            if (!deltaZ.instanceOf(FloatType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(2, "tiltScreen", FloatType.TYPE, deltaZ.getType());
-            }
-
-            this.boundClass.toLivingEntity().tiltScreen(deltaX.toFloat(), deltaZ.toFloat());
+            this.boundClass.toLivingEntity().tiltScreen(deltaX, deltaZ);
 
             return new NullInstance();
         }
@@ -48,9 +36,7 @@ public class LivingEntityType extends BuiltinType {
     private static class WakeUp extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("wakeUp", 0, arguments.size());
-            }
+            this.validate("wakeUp", arguments);
 
             this.boundClass.toLivingEntity().wakeUp();
 

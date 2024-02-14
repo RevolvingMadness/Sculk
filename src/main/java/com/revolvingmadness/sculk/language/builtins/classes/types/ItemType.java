@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
@@ -28,9 +27,7 @@ public class ItemType extends BuiltinType {
     private static class GetMaxCount extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getMaxCount", 0, arguments.size());
-            }
+            this.validate("getMaxCount", arguments);
 
             return new IntegerInstance(this.boundClass.toItem().getMaxCount());
         }
@@ -39,9 +36,7 @@ public class ItemType extends BuiltinType {
     private static class GetMaxDamage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getMaxDamage", 0, arguments.size());
-            }
+            this.validate("getMaxDamage", arguments);
 
             return new IntegerInstance(this.boundClass.toItem().getMaxDamage());
         }
@@ -50,9 +45,7 @@ public class ItemType extends BuiltinType {
     private static class GetName extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getName", 0, arguments.size());
-            }
+            this.validate("getName", arguments);
 
             return new StringInstance(this.boundClass.toItem().getName().getString());
         }
@@ -61,9 +54,7 @@ public class ItemType extends BuiltinType {
     private static class IsDamageable extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isDamageable", 0, arguments.size());
-            }
+            this.validate("isDamageable", arguments);
 
             return new BooleanInstance(this.boundClass.toItem().isDamageable());
         }
@@ -72,9 +63,7 @@ public class ItemType extends BuiltinType {
     private static class IsFireproof extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isFireproof", 0, arguments.size());
-            }
+            this.validate("isFireproof", arguments);
 
             return new BooleanInstance(this.boundClass.toItem().isFireproof());
         }
@@ -83,9 +72,7 @@ public class ItemType extends BuiltinType {
     private static class IsFood extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isFood", 0, arguments.size());
-            }
+            this.validate("isFood", arguments);
 
             return new BooleanInstance(this.boundClass.toItem().isFood());
         }

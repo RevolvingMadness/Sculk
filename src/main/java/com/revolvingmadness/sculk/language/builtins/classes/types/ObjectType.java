@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
@@ -24,6 +23,8 @@ public class ObjectType extends BuiltinType {
     private static class Init extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            this.validate("init", arguments);
+
             return new NullInstance();
         }
     }
@@ -31,9 +32,7 @@ public class ObjectType extends BuiltinType {
     private static class ToString extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("toString", 0, arguments.size());
-            }
+            this.validate("toString", arguments);
 
             return new StringInstance(this.boundClass.toString());
         }

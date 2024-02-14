@@ -55,17 +55,9 @@ public class ItemStackType extends BuiltinType {
     private static class Decrement extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("decrement", 1, arguments.size());
-            }
+            this.validate("decrement", arguments, List.of(IntegerType.TYPE));
 
-            BuiltinClass amountClass = arguments.get(0);
-
-            if (amountClass.instanceOf(IntegerType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "decrement", IntegerType.TYPE, amountClass.getType());
-            }
-
-            long amount = amountClass.toInteger();
+            long amount = arguments.get(0).toInteger();
 
             this.boundClass.toItemStack().decrement((int) amount);
 
@@ -76,9 +68,7 @@ public class ItemStackType extends BuiltinType {
     private static class GetCount extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getCount", 0, arguments.size());
-            }
+            this.validate("getCount", arguments);
 
             return new IntegerInstance(this.boundClass.toItemStack().getCount());
         }
@@ -87,9 +77,7 @@ public class ItemStackType extends BuiltinType {
     private static class GetDamage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getDamage", 0, arguments.size());
-            }
+            this.validate("getDamage", arguments);
 
             return new IntegerInstance(this.boundClass.toItemStack().getDamage());
         }
@@ -98,9 +86,7 @@ public class ItemStackType extends BuiltinType {
     private static class GetHolder extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getHolder", 0, arguments.size());
-            }
+            this.validate("getHolder", arguments);
 
             return new EntityInstance(this.boundClass.toItemStack().getHolder());
         }
@@ -109,9 +95,7 @@ public class ItemStackType extends BuiltinType {
     private static class GetItem extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getItem", 0, arguments.size());
-            }
+            this.validate("getItem", arguments);
 
             return new ItemInstance(this.boundClass.toItemStack().getItem());
         }
@@ -120,9 +104,7 @@ public class ItemStackType extends BuiltinType {
     private static class GetMaxCount extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getMaxCount", 0, arguments.size());
-            }
+            this.validate("getMaxCount", arguments);
 
             return new IntegerInstance(this.boundClass.toItemStack().getMaxCount());
         }
@@ -131,9 +113,7 @@ public class ItemStackType extends BuiltinType {
     private static class GetMaxDamage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getMaxDamage", 0, arguments.size());
-            }
+            this.validate("getMaxDamage", arguments);
 
             return new IntegerInstance(this.boundClass.toItemStack().getMaxDamage());
         }
@@ -142,9 +122,7 @@ public class ItemStackType extends BuiltinType {
     private static class GetName extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getName", 0, arguments.size());
-            }
+            this.validate("getName", arguments);
 
             return new StringInstance(this.boundClass.toItemStack().getName().getString());
         }
@@ -153,9 +131,7 @@ public class ItemStackType extends BuiltinType {
     private static class GetRepairCost extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getRepairCost", 0, arguments.size());
-            }
+            this.validate("getRepairCost", arguments);
 
             return new IntegerInstance(this.boundClass.toItemStack().getRepairCost());
         }
@@ -164,9 +140,7 @@ public class ItemStackType extends BuiltinType {
     private static class HasEnchantments extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("hasEnchantments", 0, arguments.size());
-            }
+            this.validate("hasEnchantments", arguments);
 
             return new BooleanInstance(this.boundClass.toItemStack().hasEnchantments());
         }
@@ -175,17 +149,9 @@ public class ItemStackType extends BuiltinType {
     private static class Increment extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("increment", 1, arguments.size());
-            }
+            this.validate("increment", arguments, List.of(IntegerType.TYPE));
 
-            BuiltinClass amountClass = arguments.get(0);
-
-            if (amountClass.instanceOf(IntegerType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "increment", IntegerType.TYPE, amountClass.getType());
-            }
-
-            long amount = amountClass.toInteger();
+            long amount = arguments.get(0).toInteger();
 
             this.boundClass.toItemStack().increment((int) amount);
 
@@ -196,9 +162,7 @@ public class ItemStackType extends BuiltinType {
     private static class IsDamageable extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isDamageable", 0, arguments.size());
-            }
+            this.validate("isDamageable", arguments);
 
             return new BooleanInstance(this.boundClass.toItemStack().isDamageable());
         }
@@ -207,9 +171,7 @@ public class ItemStackType extends BuiltinType {
     private static class IsDamaged extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isDamaged", 0, arguments.size());
-            }
+            this.validate("isDamaged", arguments);
 
             return new BooleanInstance(this.boundClass.toItemStack().isDamaged());
         }
@@ -218,9 +180,7 @@ public class ItemStackType extends BuiltinType {
     private static class IsEnchantable extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isEnchantable", 0, arguments.size());
-            }
+            this.validate("isEnchantable", arguments);
 
             return new BooleanInstance(this.boundClass.toItemStack().isEnchantable());
         }
@@ -229,9 +189,7 @@ public class ItemStackType extends BuiltinType {
     private static class IsFood extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isFood", 0, arguments.size());
-            }
+            this.validate("isFood", arguments);
 
             return new BooleanInstance(this.boundClass.toItemStack().isFood());
         }
@@ -240,9 +198,7 @@ public class ItemStackType extends BuiltinType {
     private static class IsInFrame extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isInFrame", 0, arguments.size());
-            }
+            this.validate("isInFrame", arguments);
 
             return new BooleanInstance(this.boundClass.toItemStack().isInFrame());
         }
@@ -251,9 +207,7 @@ public class ItemStackType extends BuiltinType {
     private static class IsStackable extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isStackable", 0, arguments.size());
-            }
+            this.validate("isStackable", arguments);
 
             return new BooleanInstance(this.boundClass.toItemStack().isStackable());
         }
@@ -262,17 +216,9 @@ public class ItemStackType extends BuiltinType {
     private static class SetCount extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setCount", 1, arguments.size());
-            }
+            this.validate("setCount", arguments, List.of(IntegerType.TYPE));
 
-            BuiltinClass countClass = arguments.get(0);
-
-            if (countClass.instanceOf(IntegerType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setCount", IntegerType.TYPE, countClass.getType());
-            }
-
-            long count = countClass.toInteger();
+            long count = arguments.get(0).toInteger();
 
             this.boundClass.toItemStack().setCount((int) count);
 
@@ -283,17 +229,9 @@ public class ItemStackType extends BuiltinType {
     private static class SetDamage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setDamage", 1, arguments.size());
-            }
+            this.validate("setDamage", arguments, List.of(IntegerType.TYPE));
 
-            BuiltinClass damageClass = arguments.get(0);
-
-            if (damageClass.instanceOf(IntegerType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setDamage", IntegerType.TYPE, damageClass.getType());
-            }
-
-            long damage = damageClass.toInteger();
+            long damage = arguments.get(0).toInteger();
 
             this.boundClass.toItemStack().setDamage((int) damage);
 
@@ -304,17 +242,9 @@ public class ItemStackType extends BuiltinType {
     private static class SetRepairCost extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setRepairCost", 1, arguments.size());
-            }
+            this.validate("setRepairCost", arguments, List.of(IntegerType.TYPE));
 
-            BuiltinClass repairCostClass = arguments.get(0);
-
-            if (repairCostClass.instanceOf(IntegerType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setRepairCost", IntegerType.TYPE, repairCostClass.getType());
-            }
-
-            long repairCost = repairCostClass.toInteger();
+            long repairCost = arguments.get(0).toInteger();
 
             this.boundClass.toItemStack().setRepairCost((int) repairCost);
 

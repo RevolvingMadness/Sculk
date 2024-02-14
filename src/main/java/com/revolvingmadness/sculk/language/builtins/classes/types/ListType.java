@@ -41,9 +41,7 @@ public class ListType extends BuiltinType {
     private static class Append extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("append", 1, arguments.size());
-            }
+            this.validate("append", arguments, List.of(ObjectType.TYPE));
 
             BuiltinClass object = arguments.get(0);
 
@@ -56,9 +54,7 @@ public class ListType extends BuiltinType {
     private static class Contains extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("contains", 1, arguments.size());
-            }
+            this.validate("contains", arguments, List.of(ObjectType.TYPE));
 
             BuiltinClass other = arguments.get(0);
 
@@ -69,9 +65,7 @@ public class ListType extends BuiltinType {
     private static class Length extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("length", 0, arguments.size());
-            }
+            this.validate("length", arguments);
 
             return new IntegerInstance(this.boundClass.toList().size());
         }

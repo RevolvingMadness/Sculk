@@ -38,22 +38,16 @@ public class FloatType extends BuiltinType {
     private static class ParseFloat extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("parseFloat", 1, arguments.size());
-            }
+            this.validate("parseFloat", arguments, List.of(StringType.TYPE));
 
-            BuiltinClass stringClass = arguments.get(0);
-
-            if (!stringClass.instanceOf(StringType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "parseFloat", StringType.TYPE, stringClass.getType());
-            }
+            String stringClass = arguments.get(0).toString();
 
             double float_;
 
             try {
-                float_ = Double.parseDouble(stringClass.toString());
+                float_ = Double.parseDouble(stringClass);
             } catch (NumberFormatException nfe) {
-                throw new NumberFormatError(stringClass.toString());
+                throw new NumberFormatError(stringClass);
             }
 
             return new FloatInstance(float_);

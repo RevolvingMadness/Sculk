@@ -101,6 +101,7 @@
 
 - Dictionaries don't work in nbt elements
 - Overriding `toString` does nothing
+- A class with no constructor takes an infinite amount of arguments
 
 ### Improved
 

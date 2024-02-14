@@ -2,7 +2,6 @@ package com.revolvingmadness.sculk.language.builtins.classes.types;
 
 import com.revolvingmadness.sculk.backend.SculkScript;
 import com.revolvingmadness.sculk.backend.SculkScriptManager;
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.Event;
 import com.revolvingmadness.sculk.language.EventHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
@@ -40,17 +39,9 @@ public class EventsType extends BuiltinType {
         BuiltinFunction eventFunction = new BuiltinFunction() {
             @Override
             public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-                if (arguments.size() != 1) {
-                    throw ErrorHolder.invalidArgumentCount(name, 1, arguments.size());
-                }
+                this.validate(name, arguments, List.of(FunctionType.TYPE));
 
-                BuiltinClass functionClass = arguments.get(0);
-
-                if (!functionClass.instanceOf(FunctionType.TYPE)) {
-                    throw ErrorHolder.argumentRequiresType(1, name, FunctionType.TYPE, functionClass.getType());
-                }
-
-                BuiltinFunction function = functionClass.toFunction();
+                BuiltinFunction function = arguments.get(0).toFunction();
 
                 Collection<SculkScript> loadScripts = SculkScriptManager.loader.getScriptsFromTag(SculkScriptManager.LOAD_TAG_ID);
 

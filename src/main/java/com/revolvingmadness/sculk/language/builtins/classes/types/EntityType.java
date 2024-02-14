@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
@@ -9,6 +8,7 @@ import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -89,17 +89,11 @@ public class EntityType extends BuiltinType {
     private static class AddTag extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("addTag", 1, arguments.size());
-            }
+            this.validate("addTag", arguments, List.of(StringType.TYPE));
 
-            BuiltinClass commandTag = arguments.get(0);
+            String commandTag = arguments.get(0).toString();
 
-            if (!commandTag.instanceOf(StringType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "addTag", StringType.TYPE, commandTag.getType());
-            }
-
-            this.boundClass.toEntity().addCommandTag(commandTag.toString());
+            this.boundClass.toEntity().addCommandTag(commandTag);
 
             return new NullInstance();
         }
@@ -108,9 +102,7 @@ public class EntityType extends BuiltinType {
     private static class CanFreeze extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("canFreeze", 0, arguments.size());
-            }
+            this.validate("canFreeze", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().canFreeze());
         }
@@ -119,9 +111,7 @@ public class EntityType extends BuiltinType {
     private static class CanUsePortals extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("canUsePortals", 0, arguments.size());
-            }
+            this.validate("canUsePortals", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().canUsePortals());
         }
@@ -130,9 +120,7 @@ public class EntityType extends BuiltinType {
     private static class Dismount extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("dismount", 0, arguments.size());
-            }
+            this.validate("dismount", arguments);
 
             this.boundClass.toEntity().dismountVehicle();
 
@@ -143,17 +131,11 @@ public class EntityType extends BuiltinType {
     private static class Extinguish extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("extinguish", 1, arguments.size());
-            }
+            this.validate("extinguish", arguments, List.of(BooleanType.TYPE));
 
-            BuiltinClass other = arguments.get(0);
+            boolean other = arguments.get(0).toBoolean();
 
-            if (!other.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "extinguish", BooleanType.TYPE, other.getType());
-            }
-
-            if (other.toBoolean()) {
+            if (other) {
                 this.boundClass.toEntity().extinguishWithSound();
             } else {
                 this.boundClass.toEntity().extinguish();
@@ -166,9 +148,7 @@ public class EntityType extends BuiltinType {
     private static class GetBlockPos extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getBlockPos", 0, arguments.size());
-            }
+            this.validate("getBlockPos", arguments);
 
             BlockPos blockPos = this.boundClass.toEntity().getBlockPos();
 
@@ -179,9 +159,7 @@ public class EntityType extends BuiltinType {
     private static class GetBlockX extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getBlockX", 0, arguments.size());
-            }
+            this.validate("getBlockX", arguments);
 
             long blockX = this.boundClass.toEntity().getBlockX();
 
@@ -192,9 +170,7 @@ public class EntityType extends BuiltinType {
     private static class GetBlockY extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getBlockY", 0, arguments.size());
-            }
+            this.validate("getBlockY", arguments);
 
             long blockY = this.boundClass.toEntity().getBlockY();
 
@@ -205,9 +181,7 @@ public class EntityType extends BuiltinType {
     private static class GetBlockZ extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getBlockZ", 0, arguments.size());
-            }
+            this.validate("getBlockZ", arguments);
 
             long blockZ = this.boundClass.toEntity().getBlockZ();
 
@@ -218,9 +192,7 @@ public class EntityType extends BuiltinType {
     private static class GetName extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getName", 0, arguments.size());
-            }
+            this.validate("getName", arguments);
 
             String name = this.boundClass.toEntity().getName().getString();
 
@@ -231,9 +203,7 @@ public class EntityType extends BuiltinType {
     private static class GetPassengers extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getPassengers", 0, arguments.size());
-            }
+            this.validate("getPassengers", arguments);
 
             List<BuiltinClass> passengers = new ArrayList<>();
 
@@ -246,9 +216,7 @@ public class EntityType extends BuiltinType {
     private static class GetTags extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getTags", 0, arguments.size());
-            }
+            this.validate("getTags", arguments);
 
             List<BuiltinClass> commandTags = new ArrayList<>();
 
@@ -261,9 +229,7 @@ public class EntityType extends BuiltinType {
     private static class GetVehicle extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getVehicle", 0, arguments.size());
-            }
+            this.validate("getVehicle", arguments);
 
             return new EntityInstance(this.boundClass.toEntity().getVehicle());
         }
@@ -272,9 +238,7 @@ public class EntityType extends BuiltinType {
     private static class GetX extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getX", 0, arguments.size());
-            }
+            this.validate("getX", arguments);
 
             double x = this.boundClass.toEntity().getX();
 
@@ -285,9 +249,7 @@ public class EntityType extends BuiltinType {
     private static class GetY extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getY", 0, arguments.size());
-            }
+            this.validate("getY", arguments);
 
             double y = this.boundClass.toEntity().getY();
 
@@ -298,9 +260,7 @@ public class EntityType extends BuiltinType {
     private static class GetZ extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getZ", 0, arguments.size());
-            }
+            this.validate("getZ", arguments);
 
             double z = this.boundClass.toEntity().getZ();
 
@@ -311,9 +271,7 @@ public class EntityType extends BuiltinType {
     private static class HasControllingPassenger extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("hasControllingPassenger", 0, arguments.size());
-            }
+            this.validate("hasControllingPassenger", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().hasControllingPassenger());
         }
@@ -322,9 +280,7 @@ public class EntityType extends BuiltinType {
     private static class HasNoGravity extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("hasNoGravity", 0, arguments.size());
-            }
+            this.validate("hasNoGravity", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().hasNoGravity());
         }
@@ -333,26 +289,18 @@ public class EntityType extends BuiltinType {
     private static class HasPassenger extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("hasPassenger", 1, arguments.size());
-            }
+            this.validate("hasPassenger", arguments, List.of(BooleanType.TYPE));
 
-            BuiltinClass passengerClass = arguments.get(0);
+            Entity passenger = arguments.get(0).toEntity();
 
-            if (!passengerClass.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "hasPassenger", BooleanType.TYPE, passengerClass.getType());
-            }
-
-            return new BooleanInstance(this.boundClass.toEntity().hasPassenger(passengerClass.toEntity()));
+            return new BooleanInstance(this.boundClass.toEntity().hasPassenger(passenger));
         }
     }
 
     private static class HasPassengers extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("hasPassengers", 0, arguments.size());
-            }
+            this.validate("hasPassengers", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().hasPassengers());
         }
@@ -361,9 +309,7 @@ public class EntityType extends BuiltinType {
     private static class HasVehicle extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("hasVehicle", 0, arguments.size());
-            }
+            this.validate("hasVehicle", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().hasVehicle());
         }
@@ -372,9 +318,7 @@ public class EntityType extends BuiltinType {
     private static class IsCrawling extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isCrawling", 0, arguments.size());
-            }
+            this.validate("isCrawling", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isCrawling());
         }
@@ -383,9 +327,7 @@ public class EntityType extends BuiltinType {
     private static class IsDescending extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isDecending", 0, arguments.size());
-            }
+            this.validate("isDecending", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isDescending());
         }
@@ -394,9 +336,7 @@ public class EntityType extends BuiltinType {
     private static class IsFireImmune extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isFireImmune", 0, arguments.size());
-            }
+            this.validate("isFireImmune", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isFireImmune());
         }
@@ -405,9 +345,7 @@ public class EntityType extends BuiltinType {
     private static class IsFrozen extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isFrozen", 0, arguments.size());
-            }
+            this.validate("isFrozen", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isFrozen());
         }
@@ -416,9 +354,7 @@ public class EntityType extends BuiltinType {
     private static class IsGlowing extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isGlowing", 0, arguments.size());
-            }
+            this.validate("isGlowing", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isGlowing());
         }
@@ -427,9 +363,7 @@ public class EntityType extends BuiltinType {
     private static class IsInFluid extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isInFluid", 0, arguments.size());
-            }
+            this.validate("isInFluid", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isInFluid());
         }
@@ -438,9 +372,7 @@ public class EntityType extends BuiltinType {
     private static class IsInLava extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isInLava", 0, arguments.size());
-            }
+            this.validate("isInLava", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isInLava());
         }
@@ -449,9 +381,7 @@ public class EntityType extends BuiltinType {
     private static class IsInsideWall extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isInsideWall", 0, arguments.size());
-            }
+            this.validate("isInsideWall", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isInsideWall());
         }
@@ -460,9 +390,7 @@ public class EntityType extends BuiltinType {
     private static class IsInvisible extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isInvisible", 0, arguments.size());
-            }
+            this.validate("isInvisible", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isInvisible());
         }
@@ -471,9 +399,7 @@ public class EntityType extends BuiltinType {
     private static class IsInvulnerable extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isInvulnerable", 0, arguments.size());
-            }
+            this.validate("isInvulnerable", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isInvulnerable());
         }
@@ -482,9 +408,7 @@ public class EntityType extends BuiltinType {
     private static class IsOnFire extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isOnFire", 0, arguments.size());
-            }
+            this.validate("isOnFire", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isOnFire());
         }
@@ -493,9 +417,7 @@ public class EntityType extends BuiltinType {
     private static class IsOnGround extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isOnGround", 0, arguments.size());
-            }
+            this.validate("isOnGround", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isOnGround());
         }
@@ -504,9 +426,7 @@ public class EntityType extends BuiltinType {
     private static class IsOnRail extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isOnRail", 0, arguments.size());
-            }
+            this.validate("isOnRail", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isOnRail());
         }
@@ -515,9 +435,7 @@ public class EntityType extends BuiltinType {
     private static class IsSilent extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isSilent", 0, arguments.size());
-            }
+            this.validate("isSilent", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isSilent());
         }
@@ -526,9 +444,7 @@ public class EntityType extends BuiltinType {
     private static class IsSneaking extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isSneaking", 0, arguments.size());
-            }
+            this.validate("isSneaking", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isSneaking());
         }
@@ -537,9 +453,7 @@ public class EntityType extends BuiltinType {
     private static class IsSprinting extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isSprinting", 0, arguments.size());
-            }
+            this.validate("isSprinting", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isSprinting());
         }
@@ -548,9 +462,7 @@ public class EntityType extends BuiltinType {
     private static class IsSwimming extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isSwimming", 0, arguments.size());
-            }
+            this.validate("isSwimming", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isSwimming());
         }
@@ -559,9 +471,7 @@ public class EntityType extends BuiltinType {
     private static class IsTouchingWater extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isTouchingWater", 0, arguments.size());
-            }
+            this.validate("isTouchingWater", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isTouchingWater());
         }
@@ -570,9 +480,7 @@ public class EntityType extends BuiltinType {
     private static class IsTouchingWaterOrRain extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isTouchingWaterOrRain", 0, arguments.size());
-            }
+            this.validate("isTouchingWaterOrRain", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isTouchingWaterOrRain());
         }
@@ -581,9 +489,7 @@ public class EntityType extends BuiltinType {
     private static class IsWet extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isWet", 0, arguments.size());
-            }
+            this.validate("isWet", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().isWet());
         }
@@ -592,9 +498,7 @@ public class EntityType extends BuiltinType {
     private static class Kill extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("kill", 0, arguments.size());
-            }
+            this.validate("kill", arguments);
 
             this.boundClass.toEntity().kill();
 
@@ -605,27 +509,13 @@ public class EntityType extends BuiltinType {
     private static class Raycast extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 3) {
-                throw ErrorHolder.invalidArgumentCount("raycast", 3, arguments.size());
-            }
+            this.validate("raycast", List.of(FloatType.TYPE, BlockType.TYPE, BooleanType.TYPE));
 
-            BuiltinClass distance = arguments.get(0);
-            BuiltinClass blockClass = arguments.get(1);
-            BuiltinClass includeFluids = arguments.get(2);
+            double distance = arguments.get(0).toFloat();
+            Block blockClass = arguments.get(1).toBlock();
+            boolean includeFluids = arguments.get(2).toBoolean();
 
-            if (!distance.instanceOf(FloatType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "raycast", FloatType.TYPE, distance.getType());
-            }
-
-            if (!blockClass.instanceOf(BlockType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(2, "raycast", BlockType.TYPE, blockClass.getType());
-            }
-
-            if (!includeFluids.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(3, "raycast", BooleanType.TYPE, includeFluids.getType());
-            }
-
-            HitResult result = this.boundClass.toEntity().raycast(distance.toFloat(), 1f, includeFluids.toBoolean());
+            HitResult result = this.boundClass.toEntity().raycast(distance, 1f, includeFluids);
 
             if (result.getType() != HitResult.Type.BLOCK) {
                 return new BooleanInstance(false);
@@ -636,16 +526,14 @@ public class EntityType extends BuiltinType {
             BlockState blockState = this.boundClass.toEntity().getWorld().getBlockState(blockPos);
             Block block = blockState.getBlock();
 
-            return new BlockHitResultInstance(blockPos, block, block.equals(blockClass.toBlock()));
+            return new BlockHitResultInstance(blockPos, block, block.equals(blockClass));
         }
     }
 
     private static class RemovePassengers extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("removePassengers", 0, arguments.size());
-            }
+            this.validate("removePassengers", arguments);
 
             this.boundClass.toEntity().removeAllPassengers();
 
@@ -656,17 +544,11 @@ public class EntityType extends BuiltinType {
     private static class RemoveTag extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("removeTag", 1, arguments.size());
-            }
+            this.validate("removeTag", List.of(StringType.TYPE));
 
-            BuiltinClass commandTag = arguments.get(0);
+            String commandTag = arguments.get(0).toString();
 
-            if (!commandTag.instanceOf(StringType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "removeTag", StringType.TYPE, commandTag.getType());
-            }
-
-            this.boundClass.toEntity().removeCommandTag(commandTag.toString());
+            this.boundClass.toEntity().removeCommandTag(commandTag);
 
             return new NullInstance();
         }
@@ -675,9 +557,7 @@ public class EntityType extends BuiltinType {
     private static class ResetPortalCooldown extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("resetPortalCooldown", 0, arguments.size());
-            }
+            this.validate("resetPortalCooldown", arguments);
 
             this.boundClass.toEntity().resetPortalCooldown();
 
@@ -688,17 +568,11 @@ public class EntityType extends BuiltinType {
     private static class SendMessage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("sendMessage", 1, arguments.size());
-            }
+            this.validate("sendMessage", arguments, List.of(StringType.TYPE));
 
-            BuiltinClass message = arguments.get(0);
+            String message = arguments.get(0).toString();
 
-            if (!message.instanceOf(StringType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "sendMessage", StringType.TYPE, message.getType());
-            }
-
-            this.boundClass.toEntity().sendMessage(Text.literal(message.toString()));
+            this.boundClass.toEntity().sendMessage(Text.literal(message));
 
             return new NullInstance();
         }
@@ -707,17 +581,11 @@ public class EntityType extends BuiltinType {
     private static class SetInvisible extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setInvisible", 1, arguments.size());
-            }
+            this.validate("setInvisible", arguments, List.of(BooleanType.TYPE));
 
-            BuiltinClass invisible = arguments.get(0);
+            boolean invisible = arguments.get(0).toBoolean();
 
-            if (!invisible.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setInvisible", BooleanType.TYPE, invisible.getType());
-            }
-
-            this.boundClass.toEntity().setInvisible(invisible.toBoolean());
+            this.boundClass.toEntity().setInvisible(invisible);
 
             return new NullInstance();
         }
@@ -726,17 +594,11 @@ public class EntityType extends BuiltinType {
     private static class SetInvulnerable extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setInvulnerable", 1, arguments.size());
-            }
+            this.validate("setInvulnerable", arguments, List.of(BooleanType.TYPE));
 
-            BuiltinClass invulnerable = arguments.get(0);
+            boolean invulnerable = arguments.get(0).toBoolean();
 
-            if (!invulnerable.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setInvulnerable", BooleanType.TYPE, invulnerable.getType());
-            }
-
-            this.boundClass.toEntity().setInvulnerable(invulnerable.toBoolean());
+            this.boundClass.toEntity().setInvulnerable(invulnerable);
 
             return new NullInstance();
         }
@@ -745,17 +607,11 @@ public class EntityType extends BuiltinType {
     private static class SetNoGravity extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setNoGravity", 1, arguments.size());
-            }
+            this.validate("setNoGravity", arguments, List.of(BooleanType.TYPE));
 
-            BuiltinClass noGravity = arguments.get(0);
+            boolean noGravity = arguments.get(0).toBoolean();
 
-            if (!noGravity.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setNoGravity", BooleanType.TYPE, noGravity.getType());
-            }
-
-            this.boundClass.toEntity().setNoGravity(noGravity.toBoolean());
+            this.boundClass.toEntity().setNoGravity(noGravity);
 
             return new NullInstance();
         }
@@ -764,17 +620,11 @@ public class EntityType extends BuiltinType {
     private static class SetOnFire extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setOnFire", 1, arguments.size());
-            }
+            this.validate("setOnFire", arguments, List.of(BooleanType.TYPE));
 
-            BuiltinClass onFire = arguments.get(0);
+            boolean onFire = arguments.get(0).toBoolean();
 
-            if (!onFire.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setOnFire", BooleanType.TYPE, onFire.getType());
-            }
-
-            this.boundClass.toEntity().setOnFire(onFire.toBoolean());
+            this.boundClass.toEntity().setOnFire(onFire);
 
             return new NullInstance();
         }
@@ -783,17 +633,11 @@ public class EntityType extends BuiltinType {
     private static class SetOnGround extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setOnGround", 1, arguments.size());
-            }
+            this.validate("setOnGround", arguments, List.of(BooleanType.TYPE));
 
-            BuiltinClass onGround = arguments.get(0);
+            boolean onGround = arguments.get(0).toBoolean();
 
-            if (!onGround.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setOnGround", BooleanType.TYPE, onGround.getType());
-            }
-
-            this.boundClass.toEntity().setOnGround(onGround.toBoolean());
+            this.boundClass.toEntity().setOnGround(onGround);
 
             return new NullInstance();
         }
@@ -802,17 +646,11 @@ public class EntityType extends BuiltinType {
     private static class SetPortalCooldown extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setPortalCooldown", 1, arguments.size());
-            }
+            this.validate("setPortalCooldown", arguments, List.of(IntegerType.TYPE));
 
-            BuiltinClass portalCooldown = arguments.get(0);
+            long portalCooldown = arguments.get(0).toInteger();
 
-            if (!portalCooldown.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setPortalCooldown", BooleanType.TYPE, portalCooldown.getType());
-            }
-
-            this.boundClass.toEntity().setPortalCooldown((int) portalCooldown.toInteger());
+            this.boundClass.toEntity().setPortalCooldown((int) portalCooldown);
 
             return new NullInstance();
         }
@@ -821,29 +659,13 @@ public class EntityType extends BuiltinType {
     private static class SetPos extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 3) {
-                throw ErrorHolder.invalidArgumentCount("setPos", 3, arguments.size());
-            }
+            this.validate("setPos", arguments, List.of(FloatType.TYPE, FloatType.TYPE, FloatType.TYPE));
 
-            BuiltinClass x = arguments.get(0);
+            double x = arguments.get(0).toFloat();
+            double y = arguments.get(1).toFloat();
+            double z = arguments.get(2).toFloat();
 
-            if (!x.instanceOf(FloatType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setPos", FloatType.TYPE, x.getType());
-            }
-
-            BuiltinClass y = arguments.get(1);
-
-            if (!y.instanceOf(FloatType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setPos", FloatType.TYPE, y.getType());
-            }
-
-            BuiltinClass z = arguments.get(2);
-
-            if (!z.instanceOf(FloatType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setPos", FloatType.TYPE, z.getType());
-            }
-
-            this.boundClass.toEntity().setPos(x.toFloat(), y.toFloat(), z.toFloat());
+            this.boundClass.toEntity().setPos(x, y, z);
 
             return new NullInstance();
         }
@@ -852,17 +674,11 @@ public class EntityType extends BuiltinType {
     private static class SetSilent extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setSilent", 1, arguments.size());
-            }
+            this.validate("setSilent", arguments, List.of(BooleanType.TYPE));
 
-            BuiltinClass silent = arguments.get(0);
+            boolean silent = arguments.get(0).toBoolean();
 
-            if (!silent.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setSilent", BooleanType.TYPE, silent.getType());
-            }
-
-            this.boundClass.toEntity().setSilent(silent.toBoolean());
+            this.boundClass.toEntity().setSilent(silent);
 
             return new NullInstance();
         }
@@ -871,17 +687,11 @@ public class EntityType extends BuiltinType {
     private static class SetSneaking extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setSneaking", 1, arguments.size());
-            }
+            this.validate("setSneaking", arguments, List.of(BooleanType.TYPE));
 
-            BuiltinClass sneaking = arguments.get(0);
+            boolean sneaking = arguments.get(0).toBoolean();
 
-            if (!sneaking.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setSneaking", BooleanType.TYPE, sneaking.getType());
-            }
-
-            this.boundClass.toEntity().setSneaking(sneaking.toBoolean());
+            this.boundClass.toEntity().setSneaking(sneaking);
 
             return new NullInstance();
         }
@@ -890,17 +700,11 @@ public class EntityType extends BuiltinType {
     private static class SetSprinting extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setSprinting", 1, arguments.size());
-            }
+            this.validate("setSprinting", arguments, List.of(BooleanType.TYPE));
 
-            BuiltinClass sprinting = arguments.get(0);
+            boolean sprinting = arguments.get(0).toBoolean();
 
-            if (!sprinting.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setSprinting", BooleanType.TYPE, sprinting.getType());
-            }
-
-            this.boundClass.toEntity().setSprinting(sprinting.toBoolean());
+            this.boundClass.toEntity().setSprinting(sprinting);
 
             return new NullInstance();
         }
@@ -909,17 +713,11 @@ public class EntityType extends BuiltinType {
     private static class SetSwimming extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setSwimming", 1, arguments.size());
-            }
+            this.validate("setSwimming", arguments, List.of(BooleanType.TYPE));
 
-            BuiltinClass swimming = arguments.get(0);
+            boolean swimming = arguments.get(0).toBoolean();
 
-            if (!swimming.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setSwimming", BooleanType.TYPE, swimming.getType());
-            }
-
-            this.boundClass.toEntity().setSwimming(swimming.toBoolean());
+            this.boundClass.toEntity().setSwimming(swimming);
 
             return new NullInstance();
         }
@@ -928,9 +726,7 @@ public class EntityType extends BuiltinType {
     private static class ShouldDismountUnderwater extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("shouldDismountUnderwater", 0, arguments.size());
-            }
+            this.validate("shouldDismountUnderwater", arguments);
 
             return new BooleanInstance(this.boundClass.toEntity().shouldDismountUnderwater());
         }
@@ -939,9 +735,7 @@ public class EntityType extends BuiltinType {
     private static class StopRiding extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("stopRiding", 0, arguments.size());
-            }
+            this.validate("stopRiding", arguments);
 
             this.boundClass.toEntity().stopRiding();
 
@@ -952,29 +746,13 @@ public class EntityType extends BuiltinType {
     private static class Teleport extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 3) {
-                throw ErrorHolder.invalidArgumentCount("teleport", 3, arguments.size());
-            }
+            this.validate("teleport", arguments, List.of(FloatType.TYPE, FloatType.TYPE, FloatType.TYPE));
 
-            BuiltinClass destX = arguments.get(0);
+            double destX = arguments.get(0).toFloat();
+            double destY = arguments.get(1).toFloat();
+            double destZ = arguments.get(2).toFloat();
 
-            if (!destX.instanceOf(FloatType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "teleport", FloatType.TYPE, destX.getType());
-            }
-
-            BuiltinClass destY = arguments.get(1);
-
-            if (!destY.instanceOf(FloatType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(2, "teleport", FloatType.TYPE, destY.getType());
-            }
-
-            BuiltinClass destZ = arguments.get(2);
-
-            if (!destZ.instanceOf(FloatType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(3, "teleport", FloatType.TYPE, destZ.getType());
-            }
-
-            this.boundClass.toEntity().teleport(destX.toFloat(), destY.toFloat(), destZ.toFloat());
+            this.boundClass.toEntity().teleport(destX, destY, destZ);
 
             return new NullInstance();
         }

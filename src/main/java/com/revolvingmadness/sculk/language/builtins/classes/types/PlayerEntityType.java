@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
@@ -33,17 +32,11 @@ public class PlayerEntityType extends BuiltinType {
     private static class AddExperienceLevels extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("addExperienceLevels", 1, arguments.size());
-            }
+            this.validate("addExperienceLevels", arguments, List.of(IntegerType.TYPE));
 
-            BuiltinClass experienceLevels = arguments.get(0);
+            long experienceLevels = arguments.get(0).toInteger();
 
-            if (!experienceLevels.instanceOf(IntegerType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "addExperienceLevels", IntegerType.TYPE, experienceLevels.getType());
-            }
-
-            this.boundClass.toPlayerEntity().addExperienceLevels((int) experienceLevels.toInteger());
+            this.boundClass.toPlayerEntity().addExperienceLevels((int) experienceLevels);
 
             return new NullInstance();
         }
@@ -52,17 +45,11 @@ public class PlayerEntityType extends BuiltinType {
     private static class AddExperiencePoints extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("addExperiencePoints", 1, arguments.size());
-            }
+            this.validate("addExperiencePoints", arguments, List.of(IntegerType.TYPE));
 
-            BuiltinClass experience = arguments.get(0);
+            long experience = arguments.get(0).toInteger();
 
-            if (!experience.instanceOf(IntegerType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "addExperiencePoints", IntegerType.TYPE, experience.getType());
-            }
-
-            this.boundClass.toPlayerEntity().addExperience((int) experience.toInteger());
+            this.boundClass.toPlayerEntity().addExperience((int) experience);
 
             return new NullInstance();
         }
@@ -71,9 +58,7 @@ public class PlayerEntityType extends BuiltinType {
     private static class GetName extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getName", 0, arguments.size());
-            }
+            this.validate("getName", arguments);
 
             return new StringInstance(this.boundClass.toPlayerEntity().getName().getLiteralString());
         }
@@ -82,9 +67,7 @@ public class PlayerEntityType extends BuiltinType {
     private static class GetUUID extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getUUID", 0, arguments.size());
-            }
+            this.validate("getUUID", arguments);
 
             return new StringInstance(this.boundClass.toPlayerEntity().getUuidAsString());
         }
@@ -93,9 +76,7 @@ public class PlayerEntityType extends BuiltinType {
     private static class GetWorld extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getWorld", 0, arguments.size());
-            }
+            this.validate("getWorld", arguments);
 
             World world = this.boundClass.toPlayerEntity().getWorld();
 
@@ -110,9 +91,7 @@ public class PlayerEntityType extends BuiltinType {
     private static class IsCreative extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isCreative", 0, arguments.size());
-            }
+            this.validate("isCreative", arguments);
 
             return new BooleanInstance(this.boundClass.toPlayerEntity().isCreative());
         }
@@ -121,9 +100,7 @@ public class PlayerEntityType extends BuiltinType {
     private static class IsSpectator extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isSpectator", 0, arguments.size());
-            }
+            this.validate("isSpectator", arguments);
 
             return new BooleanInstance(this.boundClass.toPlayerEntity().isSpectator());
         }

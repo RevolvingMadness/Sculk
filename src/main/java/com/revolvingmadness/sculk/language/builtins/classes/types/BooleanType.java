@@ -29,6 +29,4 @@ public class BooleanType extends BuiltinType {
 
         return new BooleanInstance(booleanClass.toBoolean());
     }
-
-
 }

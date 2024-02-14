@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
@@ -37,9 +36,7 @@ public class PlayerManagerType extends BuiltinType {
     private static class AreCheatsEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("areCheatsEnabled", 0, arguments.size());
-            }
+            this.validate("areCheatsEnabled", arguments);
 
             return new BooleanInstance(this.boundClass.toPlayerManager().areCheatsAllowed());
         }
@@ -48,9 +45,7 @@ public class PlayerManagerType extends BuiltinType {
     private static class GetCurrentPlayerCount extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getCurrentPlayerCount", 0, arguments.size());
-            }
+            this.validate("getCurrentPlayerCount", arguments);
 
             return new IntegerInstance(this.boundClass.toPlayerManager().getCurrentPlayerCount());
         }
@@ -59,9 +54,7 @@ public class PlayerManagerType extends BuiltinType {
     private static class GetMaxPlayerCount extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getMaxPlayerCount", 0, arguments.size());
-            }
+            this.validate("getMaxPlayerCount", arguments);
 
             return new IntegerInstance(this.boundClass.toPlayerManager().getMaxPlayerCount());
         }
@@ -70,17 +63,11 @@ public class PlayerManagerType extends BuiltinType {
     private static class GetPlayer extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("getPlayer", 0, arguments.size());
-            }
+            this.validate("getPlayer", arguments, List.of(StringType.TYPE));
 
-            BuiltinClass playerName = arguments.get(0);
+            String playerName = arguments.get(0).toString();
 
-            if (!playerName.instanceOf(StringType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "getPlayer", StringType.TYPE, playerName.getType());
-            }
-
-            ServerPlayerEntity serverPlayerEntity = this.boundClass.toPlayerManager().getPlayer(playerName.toString());
+            ServerPlayerEntity serverPlayerEntity = this.boundClass.toPlayerManager().getPlayer(playerName);
 
             if (serverPlayerEntity == null) {
                 throw new NameError("Cannot find player named '" + playerName + "'");
@@ -93,9 +80,7 @@ public class PlayerManagerType extends BuiltinType {
     private static class GetSimulationDistance extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getSimulationDistance", 0, arguments.size());
-            }
+            this.validate("getSimulationDistance", arguments);
 
             return new IntegerInstance(this.boundClass.toPlayerManager().getSimulationDistance());
         }
@@ -104,9 +89,7 @@ public class PlayerManagerType extends BuiltinType {
     private static class GetViewDistance extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getViewDistance", 0, arguments.size());
-            }
+            this.validate("getViewDistance", arguments);
 
             return new IntegerInstance(this.boundClass.toPlayerManager().getViewDistance());
         }
@@ -115,9 +98,7 @@ public class PlayerManagerType extends BuiltinType {
     private static class IsWhitelistEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isWhitelistEnabled", 0, arguments.size());
-            }
+            this.validate("isWhitelistEnabled", arguments);
 
             return new BooleanInstance(this.boundClass.toPlayerManager().isWhitelistEnabled());
         }
@@ -126,17 +107,11 @@ public class PlayerManagerType extends BuiltinType {
     private static class SetCheatsEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setCheatsEnabled", 1, arguments.size());
-            }
+            this.validate("setCheatsEnabled", arguments, List.of(BooleanType.TYPE));
 
-            BuiltinClass cheatsEnabled = arguments.get(0);
+            boolean cheatsEnabled = arguments.get(0).toBoolean();
 
-            if (!cheatsEnabled.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setCheatsEnabled", BooleanType.TYPE, cheatsEnabled.getType());
-            }
-
-            this.boundClass.toPlayerManager().setCheatsAllowed(cheatsEnabled.toBoolean());
+            this.boundClass.toPlayerManager().setCheatsAllowed(cheatsEnabled);
 
             return new NullInstance();
         }
@@ -145,17 +120,11 @@ public class PlayerManagerType extends BuiltinType {
     private static class SetSimulationDistance extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setSimulationDistance", 1, arguments.size());
-            }
+            this.validate("setSimulationDistance", arguments, List.of(IntegerType.TYPE));
 
-            BuiltinClass simulationDistance = arguments.get(0);
+            long simulationDistance = arguments.get(0).toInteger();
 
-            if (!simulationDistance.instanceOf(IntegerType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setSimulationDistance", IntegerType.TYPE, simulationDistance.getType());
-            }
-
-            this.boundClass.toPlayerManager().setSimulationDistance((int) simulationDistance.toInteger());
+            this.boundClass.toPlayerManager().setSimulationDistance((int) simulationDistance);
 
             return new NullInstance();
         }
@@ -164,17 +133,11 @@ public class PlayerManagerType extends BuiltinType {
     private static class SetViewDistance extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setViewDistance", 1, arguments.size());
-            }
+            this.validate("setViewDistance", arguments, List.of(IntegerType.TYPE));
 
-            BuiltinClass viewDistance = arguments.get(0);
+            long viewDistance = arguments.get(0).toInteger();
 
-            if (!viewDistance.instanceOf(IntegerType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setViewDistance", IntegerType.TYPE, viewDistance.getType());
-            }
-
-            this.boundClass.toPlayerManager().setViewDistance((int) viewDistance.toInteger());
+            this.boundClass.toPlayerManager().setViewDistance((int) viewDistance);
 
             return new NullInstance();
         }
@@ -184,17 +147,11 @@ public class PlayerManagerType extends BuiltinType {
 
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setWhitelistEnabled", 1, arguments.size());
-            }
+            this.validate("setWhitelistEnabled", arguments, List.of(BooleanType.TYPE));
 
-            BuiltinClass whitelistEnabled = arguments.get(0);
+            boolean whitelistEnabled = arguments.get(0).toBoolean();
 
-            if (!whitelistEnabled.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setWhitelistEnabled", BooleanType.TYPE, whitelistEnabled.getType());
-            }
-
-            this.boundClass.toPlayerManager().setWhitelistEnabled(whitelistEnabled.toBoolean());
+            this.boundClass.toPlayerManager().setWhitelistEnabled(whitelistEnabled);
 
             return new NullInstance();
         }

@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
@@ -13,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("resource")
 public class WorldType extends BuiltinType {
     public static final WorldType TYPE = new WorldType();
 
@@ -38,28 +38,13 @@ public class WorldType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getBlock", new GetBlock());
     }
 
-    @SuppressWarnings("resource")
     private static class BreakBlock extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 2) {
-                throw ErrorHolder.invalidArgumentCount("breakBlock", 2, arguments.size());
-            }
+            this.validate("breakBlock", arguments, List.of(BlockPosType.TYPE, BooleanType.TYPE));
 
-            BuiltinClass blockPosClass = arguments.get(0);
-
-            if (!blockPosClass.instanceOf(BlockPosType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "breakBlock", BlockPosType.TYPE, blockPosClass.getType());
-            }
-
-            BuiltinClass dropItemsClass = arguments.get(1);
-
-            if (!dropItemsClass.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(2, "breakBlock", BooleanType.TYPE, dropItemsClass.getType());
-            }
-
-            BlockPos blockPos = blockPosClass.toBlockPos();
-            boolean dropItems = dropItemsClass.toBoolean();
+            BlockPos blockPos = arguments.get(0).toBlockPos();
+            boolean dropItems = arguments.get(1).toBoolean();
 
             return new BooleanInstance(this.boundClass.toWorld().breakBlock(blockPos, dropItems));
         }
@@ -68,17 +53,9 @@ public class WorldType extends BuiltinType {
     private static class CanSetBlock extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("canSetBlock", 1, arguments.size());
-            }
+            this.validate("canSetBlock", arguments, List.of(BlockPosType.TYPE));
 
-            BuiltinClass blockPosClass = arguments.get(0);
-
-            if (!blockPosClass.instanceOf(BlockPosType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "canSetBlock", BlockPosType.TYPE, blockPosClass.getType());
-            }
-
-            BlockPos blockPos = blockPosClass.toBlockPos();
+            BlockPos blockPos = arguments.get(0).toBlockPos();
 
             return new BooleanInstance(this.boundClass.toWorld().canSetBlock(blockPos));
         }
@@ -87,29 +64,18 @@ public class WorldType extends BuiltinType {
     private static class GetBlock extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("getBlock", 1, arguments.size());
-            }
+            this.validate("getBlock", arguments, List.of(BlockPosType.TYPE));
 
-            BuiltinClass blockPosClass = arguments.get(0);
-
-            if (!blockPosClass.instanceOf(BlockPosType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "getBlock", BlockPosType.TYPE, blockPosClass.getType());
-            }
-
-            BlockPos blockPos = blockPosClass.toBlockPos();
+            BlockPos blockPos = arguments.get(0).toBlockPos();
 
             return new BlockInstance(this.boundClass.toWorld().getBlockState(blockPos).getBlock());
         }
     }
 
-    @SuppressWarnings("resource")
     private static class GetPlayers extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getPlayers", 0, arguments.size());
-            }
+            this.validate("getPlayers", arguments);
 
             List<BuiltinClass> list = new ArrayList<>();
 
@@ -122,9 +88,7 @@ public class WorldType extends BuiltinType {
     private static class GetSeed extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getSeed", 0, arguments.size());
-            }
+            this.validate("getSeed", arguments);
 
             return new IntegerInstance(this.boundClass.toWorld().getSeed());
         }
@@ -133,9 +97,7 @@ public class WorldType extends BuiltinType {
     private static class GetTime extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getTime", 0, arguments.size());
-            }
+            this.validate("getTime", arguments);
 
             return new IntegerInstance(this.boundClass.toWorld().getTime());
         }
@@ -144,9 +106,7 @@ public class WorldType extends BuiltinType {
     private static class GetTimeOfDay extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("getTimeOfDay", 0, arguments.size());
-            }
+            this.validate("getTimeOfDay", arguments);
 
             return new IntegerInstance(this.boundClass.toWorld().getTimeOfDay());
         }
@@ -155,17 +115,9 @@ public class WorldType extends BuiltinType {
     private static class HasRain extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("hasRain", 1, arguments.size());
-            }
+            this.validate("hasRain", arguments, List.of(BlockPosType.TYPE));
 
-            BuiltinClass blockPosClass = arguments.get(0);
-
-            if (!blockPosClass.instanceOf(BlockPosType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "hasRain", BlockPosType.TYPE, blockPosClass.getType());
-            }
-
-            BlockPos blockPos = blockPosClass.toBlockPos();
+            BlockPos blockPos = arguments.get(0).toBlockPos();
 
             return new BooleanInstance(this.boundClass.toWorld().hasRain(blockPos));
         }
@@ -174,9 +126,7 @@ public class WorldType extends BuiltinType {
     private static class IsDay extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isDay", 0, arguments.size());
-            }
+            this.validate("isDay", arguments);
 
             return new BooleanInstance(this.boundClass.toWorld().isDay());
         }
@@ -185,9 +135,7 @@ public class WorldType extends BuiltinType {
     private static class IsFlat extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isFlat", 0, arguments.size());
-            }
+            this.validate("isFlat", arguments);
 
             return new BooleanInstance(this.boundClass.toWorld().isFlat());
         }
@@ -196,9 +144,7 @@ public class WorldType extends BuiltinType {
     private static class IsNight extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isNight", 0, arguments.size());
-            }
+            this.validate("isNight", arguments);
 
             return new BooleanInstance(this.boundClass.toWorld().isNight());
         }
@@ -207,9 +153,7 @@ public class WorldType extends BuiltinType {
     private static class IsRaining extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isRaining", 0, arguments.size());
-            }
+            this.validate("isRaining", arguments);
 
             return new BooleanInstance(this.boundClass.toWorld().isRaining());
         }
@@ -218,9 +162,7 @@ public class WorldType extends BuiltinType {
     private static class IsSleepingEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isSleepingEnabled", 0, arguments.size());
-            }
+            this.validate("isSleepingEnabled", arguments);
 
             return new BooleanInstance(this.boundClass.toWorld().isSleepingEnabled());
         }
@@ -229,9 +171,7 @@ public class WorldType extends BuiltinType {
     private static class IsThundering extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 0) {
-                throw ErrorHolder.invalidArgumentCount("isThundering", 0, arguments.size());
-            }
+            this.validate("isThundering", arguments);
 
             return new BooleanInstance(this.boundClass.toWorld().isThundering());
         }
@@ -240,24 +180,10 @@ public class WorldType extends BuiltinType {
     private static class PlaceBlock extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 2) {
-                throw ErrorHolder.invalidArgumentCount("placeBlock", 2, arguments.size());
-            }
+            this.validate("isThundering", arguments, List.of(BlockPosType.TYPE, BlockType.TYPE));
 
-            BuiltinClass blockPosClass = arguments.get(0);
-
-            if (!blockPosClass.instanceOf(BlockPosType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "placeBlock", BlockPosType.TYPE, blockPosClass.getType());
-            }
-
-            BuiltinClass blockClass = arguments.get(1);
-
-            if (!blockClass.instanceOf(BlockType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(2, "placeBlock", BlockType.TYPE, blockClass.getType());
-            }
-
-            BlockPos blockPos = blockPosClass.toBlockPos();
-            Block block = blockClass.toBlock();
+            BlockPos blockPos = arguments.get(0).toBlockPos();
+            Block block = arguments.get(1).toBlock();
 
             return new BooleanInstance(this.boundClass.toWorld().setBlockState(blockPos, block.getDefaultState()));
         }
@@ -266,24 +192,10 @@ public class WorldType extends BuiltinType {
     private static class SetSpawnPos extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 2) {
-                throw ErrorHolder.invalidArgumentCount("setSpawnPos", 2, arguments.size());
-            }
+            this.validate("setSpawnPos", arguments, List.of(BlockPosType.TYPE, FloatType.TYPE));
 
-            BuiltinClass blockPosClass = arguments.get(0);
-
-            if (!blockPosClass.instanceOf(BlockPosType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setSpawnPos", BlockPosType.TYPE, blockPosClass.getType());
-            }
-
-            BuiltinClass angleClass = arguments.get(1);
-
-            if (!angleClass.instanceOf(FloatType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(2, "setSpawnPos", FloatType.TYPE, angleClass.getType());
-            }
-
-            BlockPos blockPos = blockPosClass.toBlockPos();
-            double angle = angleClass.toFloat();
+            BlockPos blockPos = arguments.get(0).toBlockPos();
+            double angle = arguments.get(1).toFloat();
 
             this.boundClass.toWorld().setSpawnPos(blockPos, (float) angle);
 
@@ -294,17 +206,9 @@ public class WorldType extends BuiltinType {
     private static class SetTimeOfDay extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            if (arguments.size() != 1) {
-                throw ErrorHolder.invalidArgumentCount("setTimeOfDay", 1, arguments.size());
-            }
+            this.validate("setTimeOfDay", arguments, List.of(IntegerType.TYPE));
 
-            BuiltinClass timeOfDayClass = arguments.get(0);
-
-            if (!timeOfDayClass.instanceOf(BlockPosType.TYPE)) {
-                throw ErrorHolder.argumentRequiresType(1, "setTimeOfDay", BlockPosType.TYPE, timeOfDayClass.getType());
-            }
-
-            long timeOfDay = timeOfDayClass.toInteger();
+            long timeOfDay = arguments.get(0).toInteger();
 
             this.boundClass.toWorld().setTimeOfDay(timeOfDay);
 
