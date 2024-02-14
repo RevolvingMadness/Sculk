@@ -74,11 +74,11 @@
 
 ### Added
 
-- `randomInteger(min: Integer, max: Integer): Integer`
-- `randomFloat(min: Float, max: Float): Float`
-- `String.length(): Integer`
-- `String.uppercase(): String`
-- `String.lowercase(): String`
+- `randomInteger(min: Integer, max: Integer) -> Integer`
+- `randomFloat(min: Float, max: Float) -> Float`
+- `String.length() -> Integer`
+- `String.uppercase() -> String`
+- `String.lowercase() -> String`
 - `Number` type/class
 - variables/fields have optional required types
 - functions have required return types
