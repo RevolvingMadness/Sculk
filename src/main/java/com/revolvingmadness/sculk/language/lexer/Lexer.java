@@ -135,6 +135,9 @@ public class Lexer {
                 if (this.current('=')) {
                     this.consume();
                     this.addToken(TokenType.EQUAL_TO);
+                } else if (this.current('>')) {
+                    this.consume();
+                    this.addToken(TokenType.DOUBLE_RIGHT_ARROW);
                 } else {
                     this.addToken(TokenType.EQUALS);
                 }

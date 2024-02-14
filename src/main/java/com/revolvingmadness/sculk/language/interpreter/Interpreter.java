@@ -121,7 +121,7 @@ public class Interpreter implements Visitor {
             Variable superClassVariable = this.variableTable.getOrThrow(classDeclarationStatement.superClassName);
 
             if (!(superClassVariable.value instanceof BuiltinType superClassType)) {
-                throw new TypeError("Cannot extend from non-type '" + superClassVariable.value.getType().name + "'");
+                throw new TypeError("Cannot extend from non-type '" + superClassVariable.type.name + "'");
             }
 
             superClass = superClassType;

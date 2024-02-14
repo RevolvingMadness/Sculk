@@ -586,7 +586,7 @@ public class Parser {
 
         List<StatementNode> body = new ArrayList<>();
 
-        if (this.current(TokenType.RIGHT_ARROW)) {
+        if (this.current(TokenType.DOUBLE_RIGHT_ARROW)) {
             this.consume();
 
             ExpressionNode expression = this.parseExpression();
