@@ -56,9 +56,6 @@ public class FunctionInstance extends BuiltinFunction {
                 throw new TypeError("The type of an argument cannot be an instance");
             }
 
-            /* TODO do what you did with functions but with methods */
-            /* TODO */
-
             interpreter.variableTable.declare(List.of(TokenType.CONST), type, argument.name, value);
         }
 

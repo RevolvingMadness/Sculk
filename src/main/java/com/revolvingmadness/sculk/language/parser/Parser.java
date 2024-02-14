@@ -699,19 +699,7 @@ public class Parser {
 
         this.consume(TokenType.LEFT_PARENTHESIS);
 
-        List<String> arguments = new ArrayList<>();
-
-        if (this.current(TokenType.IDENTIFIER)) {
-            String argumentName = (String) this.consume(TokenType.IDENTIFIER).value;
-            arguments.add(argumentName);
-        }
-
-        while (this.position < this.input.size() && this.current(TokenType.COMMA)) {
-            this.consume();
-
-            String argumentName = (String) this.consume(TokenType.IDENTIFIER).value;
-            arguments.add(argumentName);
-        }
+        List<Argument> arguments = this.parseDeclarationArguments();
 
         this.consume(TokenType.RIGHT_PARENTHESIS);
 

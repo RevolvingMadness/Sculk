@@ -453,9 +453,9 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visitMethodDeclarationStatement(MethodDeclarationStatementNode methodDeclarationStatement) {
-        BuiltinClass typeClass = this.variableTable.getOrThrow(methodDeclarationStatement.returnType).value;
+        BuiltinClass returnTypeClass = this.variableTable.getOrThrow(methodDeclarationStatement.returnType).value;
 
-        if (!(typeClass instanceof BuiltinType returnType)) {
+        if (!(returnTypeClass instanceof BuiltinType returnType)) {
             throw new TypeError("The return type of a function cannot be an instance");
         }
 

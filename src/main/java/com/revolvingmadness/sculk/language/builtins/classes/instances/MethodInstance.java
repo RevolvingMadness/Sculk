@@ -2,10 +2,12 @@ package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
 import com.revolvingmadness.sculk.Sculk;
 import com.revolvingmadness.sculk.gamerules.SculkGamerules;
+import com.revolvingmadness.sculk.language.Argument;
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
+import com.revolvingmadness.sculk.language.errors.TypeError;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.interpreter.errors.MaxArgumentError;
 import com.revolvingmadness.sculk.language.interpreter.errors.Return;
@@ -13,16 +15,17 @@ import com.revolvingmadness.sculk.language.lexer.TokenType;
 import com.revolvingmadness.sculk.language.parser.nodes.statement_nodes.StatementNode;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Objects;
 
 public class MethodInstance extends BuiltinMethod {
     public final List<TokenType> accessModifiers;
-    public final List<String> arguments;
+    public final List<Argument> arguments;
     public final List<StatementNode> body;
     public final String name;
     public final BuiltinType returnType;
 
-    public MethodInstance(List<TokenType> accessModifiers, String name, List<String> arguments, BuiltinType returnType, List<StatementNode> body) {
+    public MethodInstance(List<TokenType> accessModifiers, String name, List<Argument> arguments, BuiltinType returnType, List<StatementNode> body) {
         this.accessModifiers = accessModifiers;
         this.name = name;
         this.arguments = arguments;
@@ -44,12 +47,18 @@ public class MethodInstance extends BuiltinMethod {
             throw ErrorHolder.invalidArgumentCount(this.name, this.arguments.size(), arguments.size());
         }
 
-        int argumentNumber = 0;
+        ListIterator<Argument> argumentIterator = this.arguments.listIterator();
 
-        for (String argumentName : this.arguments) {
-            BuiltinClass argumentValue = arguments.get(argumentNumber);
-            interpreter.variableTable.declare(List.of(TokenType.CONST), argumentName, argumentValue);
-            argumentNumber++;
+        while (argumentIterator.hasNext()) {
+            Argument argument = argumentIterator.next();
+            BuiltinClass typeClass = interpreter.variableTable.getOrThrow(argument.type).value;
+            BuiltinClass value = arguments.get(argumentIterator.previousIndex());
+
+            if (!(typeClass instanceof BuiltinType type)) {
+                throw new TypeError("The type of an argument cannot be an instance");
+            }
+
+            interpreter.variableTable.declare(List.of(TokenType.CONST), type, argument.name, value);
         }
 
         if (this.boundClass != null) {

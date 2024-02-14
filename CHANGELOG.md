@@ -82,8 +82,9 @@
 - `Number` type/class
 - variables/fields have optional required types
 - functions have required return types
-- function arguments have required argument types
+- function arguments have required types
 - methods have required return types
+- method arguments have required types
 
 ### Changed
 
@@ -107,8 +108,6 @@
 
 ### Removed
 
-- Resource syntax due to conflict with variable declaration parsing
-
-  New syntax: `namespace:path` -> `"namespace:path"`
-
+- Resource syntax due to conflict with variable declaration parsing  
+  New syntax: `namespace:path` -> `"namespace:path"`  
   Resources are just strings.
