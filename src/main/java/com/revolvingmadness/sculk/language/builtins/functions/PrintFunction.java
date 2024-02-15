@@ -22,7 +22,7 @@ public class PrintFunction extends BuiltinFunction {
         BuiltinClass stringClass = value.call(interpreter, "toString", List.of());
 
         if (!stringClass.instanceOf(StringType.TYPE)) {
-            throw ErrorHolder.functionRequiresReturnType("toString", StringType.TYPE, stringClass.getType());
+            throw ErrorHolder.functionRequiresReturnType("toString", stringClass.getType(), StringType.TYPE);
         }
 
         Logger.broadcast(Text.literal(stringClass.toString()));

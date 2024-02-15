@@ -85,6 +85,7 @@
 - function arguments have required types
 - methods have required return types
 - method arguments have required types
+- `ItemStack.item`
 
 ### Changed
 
@@ -96,6 +97,16 @@
 - `Entity.removeAllPassengers` -> `Entity.removePassengers`
 - `ServerPlayerEntity.changeGameMode` -> `ServerPlayerEntity.setGameMode`
 - Integer now extends Float instead of Float extending Integer
+- `Events.onPlayerAttackEntity` -> `Events.onAttackEntity`
+- `Events.onPlayerBreakBlock` -> `Events.onBreakBlock`
+- `Events.onPlayerCraftItem` -> `Events.onCraftItem`
+- `Events.onPlayerDropItem` -> `Events.onDropItem`
+- `Events.onPlayerJump` -> `Events.onJump`
+- `Events.onPlayerPickupItem` -> `Events.onPickupItem`
+- `Events.onPlayerRingBell` -> `Events.onRingBell`
+- `Events.onPlayerSneak` -> `Events.whileSneaking`
+- `Events.onPlayerUseItem` -> `Events.onRightClickItem`
+- `Events.onPlayerSendChatMessage` -> `Events.onSendChatMessage`
 
 ### Fixed
 

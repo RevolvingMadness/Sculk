@@ -46,12 +46,15 @@ public class Interpreter implements Visitor {
             case FSLASH -> left.divide(right);
             case CARET -> left.exponentiate(right);
             case PERCENT -> left.mod(right);
-            case EQUAL_TO -> left.equalToMethod(right);
-            case NOT_EQUAL_TO -> left.notEqualToMethod(right);
+            case EQUAL_TO -> new BooleanInstance(left.call(this, "equals", List.of(right)).toBoolean());
+            case NOT_EQUAL_TO ->
+                    new BooleanInstance(left.call(this, "equals", List.of(right)).toBoolean()).logicalNot();
             case GREATER_THAN -> left.greaterThan(right);
-            case GREATER_THAN_OR_EQUAL_TO -> left.greaterThanOrEqualTo(right);
+            case GREATER_THAN_OR_EQUAL_TO ->
+                    new BooleanInstance(left.greaterThan(right).value || left.call(this, "equals", List.of(right)).toBoolean());
             case LESS_THAN -> left.lessThan(right);
-            case LESS_THAN_OR_EQUAL_TO -> left.lessThanOrEqualTo(right);
+            case LESS_THAN_OR_EQUAL_TO ->
+                    new BooleanInstance(left.lessThan(right).value || left.call(this, "equals", List.of(right)).toBoolean());
             case DOUBLE_AMPERSAND -> left.booleanAnd(right);
             case DOUBLE_PIPE -> left.booleanOr(right);
             case INSTANCEOF -> {
@@ -68,7 +71,7 @@ public class Interpreter implements Visitor {
                     yield new IntegerInstance(-1);
                 }
 
-                BuiltinClass equalTo = left.equalToMethod(right);
+                BuiltinClass equalTo = left.call(this, "equals", List.of(right));
 
                 if (equalTo.toBoolean()) {
                     yield new IntegerInstance(0);

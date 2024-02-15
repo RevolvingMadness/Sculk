@@ -19,41 +19,41 @@ import java.util.List;
 public class EventHolder {
     public static final List<Event> onEntitySleep = new ArrayList<>();
     public static final List<Event> onPlaceBlock = new ArrayList<>();
-    public static final List<Event> onPlayerAttackEntity = new ArrayList<>();
-    public static final List<Event> onPlayerBreakBlock = new ArrayList<>();
-    public static final List<Event> onPlayerCraftItem = new ArrayList<>();
-    public static final List<Event> onPlayerDropItem = new ArrayList<>();
-    public static final List<Event> onPlayerJump = new ArrayList<>();
-    public static final List<Event> onPlayerPickupItem = new ArrayList<>();
-    public static final List<Event> onPlayerRingBell = new ArrayList<>();
-    public static final List<Event> onPlayerSendChatMessage = new ArrayList<>();
-    public static final List<Event> onPlayerSneak = new ArrayList<>();
-    public static final List<Event> onPlayerUseItem = new ArrayList<>();
+    public static final List<Event> onAttackEntity = new ArrayList<>();
+    public static final List<Event> onBreakBlock = new ArrayList<>();
+    public static final List<Event> onCraftItem = new ArrayList<>();
+    public static final List<Event> onDropItem = new ArrayList<>();
+    public static final List<Event> onJump = new ArrayList<>();
+    public static final List<Event> onPickupItem = new ArrayList<>();
+    public static final List<Event> onRingBell = new ArrayList<>();
+    public static final List<Event> onSendChatMessage = new ArrayList<>();
+    public static final List<Event> whileSneaking = new ArrayList<>();
+    public static final List<Event> onRightClickItem = new ArrayList<>();
 
     public static void clearEvents() {
         EventHolder.onEntitySleep.clear();
         EventHolder.onPlaceBlock.clear();
-        EventHolder.onPlayerAttackEntity.clear();
-        EventHolder.onPlayerBreakBlock.clear();
-        EventHolder.onPlayerCraftItem.clear();
-        EventHolder.onPlayerDropItem.clear();
-        EventHolder.onPlayerJump.clear();
-        EventHolder.onPlayerPickupItem.clear();
-        EventHolder.onPlayerRingBell.clear();
-        EventHolder.onPlayerSendChatMessage.clear();
-        EventHolder.onPlayerSneak.clear();
-        EventHolder.onPlayerUseItem.clear();
+        EventHolder.onAttackEntity.clear();
+        EventHolder.onBreakBlock.clear();
+        EventHolder.onCraftItem.clear();
+        EventHolder.onDropItem.clear();
+        EventHolder.onJump.clear();
+        EventHolder.onPickupItem.clear();
+        EventHolder.onRingBell.clear();
+        EventHolder.onSendChatMessage.clear();
+        EventHolder.whileSneaking.clear();
+        EventHolder.onRightClickItem.clear();
     }
 
     public static void registerEvents() {
         AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
             if (!world.isClient) {
                 try {
-                    for (Event event : EventHolder.onPlayerAttackEntity) {
+                    for (Event event : EventHolder.onAttackEntity) {
                         BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new EntityInstance(entity), new ItemStackInstance(player.getStackInHand(hand))));
 
                         if (!eventResultClass.instanceOf(BooleanType.TYPE)) {
-                            throw ErrorHolder.functionRequiresReturnType("onPlayerAttackEntity", BooleanType.TYPE, eventResultClass.getType());
+                            throw ErrorHolder.functionRequiresReturnType("onPlayerAttackEntity", eventResultClass.getType(), BooleanType.TYPE);
                         }
 
                         boolean eventResult = eventResultClass.toBoolean();
@@ -73,11 +73,11 @@ public class EventHolder {
         PlayerBlockBreakEvents.BEFORE.register((world, player, pos, blockState, blockEntity) -> {
             if (!player.getWorld().isClient) {
                 try {
-                    for (Event event : EventHolder.onPlayerBreakBlock) {
+                    for (Event event : EventHolder.onBreakBlock) {
                         BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new BlockPosInstance(pos), new BlockInstance(world.getBlockState(pos).getBlock())));
 
                         if (!eventResultClass.instanceOf(BooleanType.TYPE)) {
-                            throw ErrorHolder.functionRequiresReturnType("onPlayerBreakBlock", BooleanType.TYPE, eventResultClass.getType());
+                            throw ErrorHolder.functionRequiresReturnType("onPlayerBreakBlock", eventResultClass.getType(), BooleanType.TYPE);
                         }
 
                         boolean eventResult = eventResultClass.toBoolean();
@@ -97,7 +97,7 @@ public class EventHolder {
         CraftItemCallback.EVENT.register((player, itemStack) -> {
             if (!player.getWorld().isClient) {
                 try {
-                    for (Event event : EventHolder.onPlayerCraftItem) {
+                    for (Event event : EventHolder.onCraftItem) {
                         event.execute(List.of(new PlayerEntityInstance(player), new ItemStackInstance(itemStack)));
                     }
                 } catch (Error error) {
@@ -111,7 +111,7 @@ public class EventHolder {
         DropItemCallback.EVENT.register((player, itemStack) -> {
             if (!player.getWorld().isClient) {
                 try {
-                    for (Event event : EventHolder.onPlayerDropItem) {
+                    for (Event event : EventHolder.onDropItem) {
                         event.execute(List.of(new PlayerEntityInstance(player), new ItemStackInstance(itemStack)));
                     }
                 } catch (Error error) {
@@ -124,7 +124,7 @@ public class EventHolder {
 
         PlayerJumpCallback.EVENT.register((player) -> {
             try {
-                for (Event event : EventHolder.onPlayerJump) {
+                for (Event event : EventHolder.onJump) {
                     event.execute(List.of(new PlayerEntityInstance(player)));
                 }
             } catch (Error error) {
@@ -136,11 +136,11 @@ public class EventHolder {
 
         PickupItemCallback.EVENT.register((player, itemStack) -> {
             try {
-                for (Event event : EventHolder.onPlayerPickupItem) {
+                for (Event event : EventHolder.onPickupItem) {
                     BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new ItemStackInstance(itemStack)));
 
                     if (!eventResultClass.instanceOf(BooleanType.TYPE)) {
-                        throw ErrorHolder.functionRequiresReturnType("onPlayerPickupItem", BooleanType.TYPE, eventResultClass.getType());
+                        throw ErrorHolder.functionRequiresReturnType("onPlayerPickupItem", eventResultClass.getType(), BooleanType.TYPE);
                     }
 
                     boolean eventResult = eventResultClass.toBoolean();
@@ -182,7 +182,7 @@ public class EventHolder {
 
         PlayerRingBellCallback.EVENT.register((player) -> {
             try {
-                for (Event event : EventHolder.onPlayerRingBell) {
+                for (Event event : EventHolder.onRingBell) {
                     event.execute(List.of(new PlayerEntityInstance(player)));
                 }
             } catch (Error error) {
@@ -194,11 +194,11 @@ public class EventHolder {
 
         SendChatMessageCallback.EVENT.register((player, message) -> {
             try {
-                for (Event event : EventHolder.onPlayerSendChatMessage) {
+                for (Event event : EventHolder.onSendChatMessage) {
                     BuiltinClass eventResultClass = event.execute(List.of(new ServerPlayerEntityInstance(player), new StringInstance(message.content().getString())));
 
                     if (!eventResultClass.instanceOf(BooleanType.TYPE)) {
-                        throw ErrorHolder.functionRequiresReturnType("onPlayerSendChatMessage", BooleanType.TYPE, eventResultClass.getType());
+                        throw ErrorHolder.functionRequiresReturnType("onPlayerSendChatMessage", eventResultClass.getType(), BooleanType.TYPE);
                     }
 
                     boolean eventResult = eventResultClass.toBoolean();
@@ -217,11 +217,11 @@ public class EventHolder {
         UseItemCallback.EVENT.register((player, world, hand) -> {
             if (!world.isClient) {
                 try {
-                    for (Event event : EventHolder.onPlayerUseItem) {
+                    for (Event event : EventHolder.onRightClickItem) {
                         BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new ItemStackInstance(player.getStackInHand(hand))));
 
                         if (!eventResultClass.instanceOf(BooleanType.TYPE)) {
-                            throw ErrorHolder.functionRequiresReturnType("onPlayerUseItem", BooleanType.TYPE, eventResultClass.getType());
+                            throw ErrorHolder.functionRequiresReturnType("onPlayerUseItem", eventResultClass.getType(), BooleanType.TYPE);
                         }
 
                         boolean eventResult = eventResultClass.toBoolean();
@@ -240,7 +240,7 @@ public class EventHolder {
 
         PlayerSneakCallback.EVENT.register((player) -> {
             try {
-                for (Event event : EventHolder.onPlayerSneak) {
+                for (Event event : EventHolder.whileSneaking) {
                     event.execute(List.of(new ServerPlayerEntityInstance(player)));
                 }
             } catch (Error error) {

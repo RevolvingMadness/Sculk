@@ -41,8 +41,10 @@ public class VariableTable {
             throw ErrorHolder.cannotAssignValueToVariableBecauseItIsAConstant(variable.name);
         }
 
-        if (!value.instanceOf(variable.type)) {
-            throw new SyntaxError("Cannot assign a value with type '" + value.getType().name + "' to a variable that requires type '" + variable.type.name + "'");
+        if (!value.instanceOf(NullType.TYPE)) {
+            if (!value.instanceOf(variable.type)) {
+                throw new SyntaxError("Cannot assign a value with type '" + value.getType().name + "' to a variable that requires type '" + variable.type.name + "'");
+            }
         }
 
         variable.value = value;

@@ -108,10 +108,6 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.cannotApplyBinaryOperatorToTypes("/", this.getType(), other.getType());
     }
 
-    public BooleanInstance equalToMethod(BuiltinClass other) {
-        return new BooleanInstance(this.equals(other));
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -158,10 +154,6 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.cannotApplyBinaryOperatorToTypes(">", this.getType(), other.getType());
     }
 
-    public BooleanInstance greaterThanOrEqualTo(BuiltinClass other) {
-        return new BooleanInstance(this.greaterThan(other).value || this.equalToMethod(other).value);
-    }
-
     public boolean hasAbstractMethods() {
         for (Variable variable : this.variableScope.variables.values()) {
             if (variable.isAbstract()) {
@@ -177,10 +169,6 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public boolean instanceOf(BuiltinType type) {
-        if (this.getType().equals(NullType.TYPE)) {
-            return true;
-        }
-
         BuiltinType valueType = this.getType();
 
         while (valueType != null) {
@@ -207,10 +195,6 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.cannotApplyBinaryOperatorToTypes("<", this.getType(), other.getType());
     }
 
-    public BooleanInstance lessThanOrEqualTo(BuiltinClass other) {
-        return new BooleanInstance(this.lessThan(other).value || this.equalToMethod(other).value);
-    }
-
     public BuiltinClass logicalNot() {
         throw ErrorHolder.cannotApplyUnaryOperatorToType("!", this.getType());
     }
@@ -225,10 +209,6 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public BuiltinClass negate() {
         throw ErrorHolder.cannotApplyUnaryOperatorToType("-", this.getType());
-    }
-
-    public BooleanInstance notEqualToMethod(BuiltinClass other) {
-        return new BooleanInstance(!this.equalToMethod(other).value);
     }
 
     public void setIndex(BuiltinClass index, BuiltinClass value) {

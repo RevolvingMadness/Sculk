@@ -22,17 +22,17 @@ public class EventsType extends BuiltinType {
         super("Events");
 
         this.registerEvent("onPlaceBlock", EventHolder.onPlaceBlock);
-        this.registerEvent("onPlayerAttackEntity", EventHolder.onPlayerAttackEntity);
-        this.registerEvent("onPlayerBreakBlock", EventHolder.onPlayerBreakBlock);
-        this.registerEvent("onPlayerCraftItem", EventHolder.onPlayerCraftItem);
-        this.registerEvent("onPlayerDropItem", EventHolder.onPlayerDropItem);
-        this.registerEvent("onPlayerJump", EventHolder.onPlayerJump);
-        this.registerEvent("onPlayerPickupItem", EventHolder.onPlayerPickupItem);
+        this.registerEvent("onAttackEntity", EventHolder.onAttackEntity);
+        this.registerEvent("onBreakBlock", EventHolder.onBreakBlock);
+        this.registerEvent("onCraftItem", EventHolder.onCraftItem);
+        this.registerEvent("onDropItem", EventHolder.onDropItem);
+        this.registerEvent("onJump", EventHolder.onJump);
+        this.registerEvent("onPickupItem", EventHolder.onPickupItem);
         this.registerEvent("onEntitySleep", EventHolder.onEntitySleep);
-        this.registerEvent("onPlayerUseItem", EventHolder.onPlayerUseItem);
-        this.registerEvent("onPlayerRingBell", EventHolder.onPlayerRingBell);
-        this.registerEvent("onPlayerSendChatMessage", EventHolder.onPlayerSendChatMessage);
-        this.registerEvent("onPlayerSneak", EventHolder.onPlayerSneak);
+        this.registerEvent("onRightClickItem", EventHolder.onRightClickItem);
+        this.registerEvent("onRingBell", EventHolder.onRingBell);
+        this.registerEvent("onSendChatMessage", EventHolder.onSendChatMessage);
+        this.registerEvent("whileSneaking", EventHolder.whileSneaking);
     }
 
     public void registerEvent(String name, List<Event> events) {
