@@ -3,8 +3,10 @@ package com.revolvingmadness.sculk.language.builtins.classes.instances;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.ItemStackType;
+import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.item.ItemStack;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ItemStackInstance extends BuiltinClass {
@@ -12,6 +14,8 @@ public class ItemStackInstance extends BuiltinClass {
 
     public ItemStackInstance(ItemStack value) {
         this.value = value;
+
+        this.variableScope.declare(List.of(TokenType.CONST), "item", new ItemInstance(this.value.getItem()));
     }
 
     @Override
