@@ -4,6 +4,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.ItemType;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 import java.util.Objects;
 
@@ -39,5 +40,10 @@ public class ItemInstance extends BuiltinClass {
     @Override
     public Item toItem() {
         return this.value;
+    }
+
+    @Override
+    public ItemStack toItemStack() {
+        return this.value.getDefaultStack();
     }
 }

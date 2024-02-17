@@ -6,6 +6,6 @@ public class MethodType extends BuiltinType {
     public static final MethodType TYPE = new MethodType();
 
     private MethodType() {
-        super("Method");
+        super("Method", CallableType.TYPE);
     }
 }

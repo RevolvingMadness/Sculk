@@ -12,6 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
@@ -37,6 +38,10 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public static BuiltinClass fromNbtElement(NbtElement result) {
+        if (result == null) {
+            return new NullInstance();
+        }
+        
         if (result instanceof NbtDouble nbtDouble) {
             return new FloatInstance(nbtDouble.doubleValue());
         } else if (result instanceof NbtLong nbtLong) {
@@ -251,6 +256,10 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.cannotConvertType(this.getType(), FunctionType.TYPE);
     }
 
+    public GUIInstance toGUI() {
+        throw ErrorHolder.cannotConvertType(this.getType(), GUIType.TYPE);
+    }
+
     public GameMode toGameMode() {
         throw ErrorHolder.cannotConvertType(this.getType(), GameModesEnumType.TYPE);
     }
@@ -261,6 +270,10 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public long toInteger() {
         throw ErrorHolder.cannotConvertType(this.getType(), IntegerType.TYPE);
+    }
+
+    public Inventory toInventory() {
+        throw ErrorHolder.cannotConvertType(this.getType(), InventoryType.TYPE);
     }
 
     public Item toItem() {

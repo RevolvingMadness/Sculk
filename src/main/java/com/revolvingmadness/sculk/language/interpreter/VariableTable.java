@@ -76,8 +76,10 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "Function", FunctionType.TYPE);
         this.declare(List.of(TokenType.CONST), "GameModes", GameModesEnumType.TYPE);
         this.declare(List.of(TokenType.CONST), "GameRules", GameRulesType.TYPE);
+        this.declare(List.of(TokenType.CONST), "GUI", GUIType.TYPE);
         this.declare(List.of(TokenType.CONST), "Module", ModuleType.TYPE);
         this.declare(List.of(TokenType.CONST), "Integer", IntegerType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Inventory", InventoryType.TYPE);
         this.declare(List.of(TokenType.CONST), "ItemStack", ItemStackType.TYPE);
         this.declare(List.of(TokenType.CONST), "Items", ItemsType.TYPE);
         this.declare(List.of(TokenType.CONST), "Item", ItemType.TYPE);

@@ -123,3 +123,14 @@
 - Resource syntax due to conflict with variable declaration parsing  
   New syntax: `namespace:path` -> `"namespace:path"`  
   Resources are just strings.
+
+## 0.0.5
+
+### Added
+
+- `Item` extends `ItemStack`
+- `PlayerEntity.getStackInMainHand`
+- `PlayerEntity.getStackInOffHand`
+- `Method` extends `Callable`
+- `Function` extends `Callable`
+- `Inventory` class

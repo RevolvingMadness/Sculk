@@ -15,7 +15,7 @@ public class ItemType extends BuiltinType {
     public static final ItemType TYPE = new ItemType();
 
     private ItemType() {
-        super("Item");
+        super("Item", ItemStackType.TYPE);
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getMaxCount", new GetMaxCount());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getMaxDamage", new GetMaxDamage());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getName", new GetName());

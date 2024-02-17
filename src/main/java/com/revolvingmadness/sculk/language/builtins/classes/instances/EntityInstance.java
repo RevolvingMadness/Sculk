@@ -48,10 +48,6 @@ public class EntityInstance extends BuiltinClass {
 
         NbtElement result = ((EntityAccessor) this.value).sculk$readCustomData(index.toString());
 
-        if (result == null) {
-            throw ErrorHolder.dictionaryHasNoKey(index.toString());
-        }
-
         return BuiltinClass.fromNbtElement(result);
     }
 

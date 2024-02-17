@@ -6,6 +6,6 @@ public class FunctionType extends BuiltinType {
     public static final FunctionType TYPE = new FunctionType();
 
     private FunctionType() {
-        super("Function");
+        super("Function", CallableType.TYPE);
     }
 }
