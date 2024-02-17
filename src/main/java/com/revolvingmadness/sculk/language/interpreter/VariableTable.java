@@ -38,7 +38,7 @@ public class VariableTable {
         Variable variable = optionalVariable.get();
 
         if (variable.isConstant()) {
-            throw ErrorHolder.cannotAssignValueToVariableBecauseItIsAConstant(variable.name);
+            throw ErrorHolder.cannotChangeValueOfVariableBecauseItIsAConstant(variable.name);
         }
 
         if (!value.instanceOf(NullType.TYPE)) {

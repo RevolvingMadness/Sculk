@@ -13,7 +13,7 @@ public abstract class BuiltinCallable extends BuiltinClass {
 
     public void validate(String callableName, List<BuiltinClass> arguments, List<BuiltinType> argumentTypes) {
         if (arguments.size() != argumentTypes.size()) {
-            throw ErrorHolder.invalidArgumentCount(callableName, argumentTypes.size(), arguments.size());
+            throw ErrorHolder.invalidArgumentCount(callableName, arguments.size(), argumentTypes.size());
         }
 
         int argumentNumber = 0;

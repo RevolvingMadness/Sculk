@@ -891,7 +891,7 @@ public class Parser {
         while (this.position < this.input.size() && (this.current(TokenType.CASE) || this.current(TokenType.DEFAULT))) {
             if (this.current(TokenType.DEFAULT)) {
                 if (defaultCase != null) {
-                    throw ErrorHolder.aSwitchStatementCanOnlyHave1DefaultCase();
+                    throw new SyntaxError("A switch expression can only have 1 default case");
                 }
 
                 this.consume();
@@ -980,7 +980,7 @@ public class Parser {
         while (this.position < this.input.size() && (this.current(TokenType.CASE) || this.current(TokenType.DEFAULT))) {
             if (this.current(TokenType.DEFAULT)) {
                 if (defaultCase != null) {
-                    throw ErrorHolder.aSwitchStatementCanOnlyHave1DefaultCase();
+                    throw new SyntaxError("A switch statement can only have 1 default case");
                 }
 
                 this.consume();

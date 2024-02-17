@@ -1,9 +1,9 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.DictionaryType;
+import com.revolvingmadness.sculk.language.errors.NameError;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 
@@ -34,7 +34,7 @@ public class DictionaryInstance extends BuiltinClass {
         BuiltinClass result = this.value.get(index);
 
         if (result == null) {
-            throw ErrorHolder.dictionaryHasNoKey(index.toString());
+            throw new NameError("Dictionary has no key '" + index + "'");
         }
 
         return result;

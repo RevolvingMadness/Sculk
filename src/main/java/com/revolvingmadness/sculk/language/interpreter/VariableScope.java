@@ -28,7 +28,7 @@ public class VariableScope implements Serializable {
         Variable variable = optionalVariable.get();
 
         if (variable.isConstant()) {
-            throw ErrorHolder.cannotAssignValueToVariableBecauseItIsAConstant(variable.name);
+            throw ErrorHolder.cannotChangeValueOfVariableBecauseItIsAConstant(variable.name);
         }
 
         if (!value.instanceOf(variable.type)) {

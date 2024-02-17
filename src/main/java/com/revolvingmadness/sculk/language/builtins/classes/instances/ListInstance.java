@@ -69,16 +69,10 @@ public class ListInstance extends BuiltinClass {
         int indexInteger = (int) index.toInteger();
 
         if (indexInteger < 0 || indexInteger >= this.value.size()) {
-            throw new SyntaxError("Index out of bounds " + indexInteger + " for length " + this.value.size());
+            throw new SyntaxError("Index " + indexInteger + " out of bounds for length " + this.value.size());
         }
 
-        BuiltinClass result = this.value.get(indexInteger);
-
-        if (result == null) {
-            throw ErrorHolder.dictionaryHasNoKey(index.toString());
-        }
-
-        return result;
+        return this.value.get(indexInteger);
     }
 
     @Override

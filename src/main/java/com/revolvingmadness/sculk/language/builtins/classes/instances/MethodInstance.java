@@ -44,7 +44,7 @@ public class MethodInstance extends BuiltinMethod {
         }
 
         if (this.arguments.size() != arguments.size()) {
-            throw ErrorHolder.invalidArgumentCount(this.name, this.arguments.size(), arguments.size());
+            throw ErrorHolder.invalidArgumentCount(this.name, arguments.size(), this.arguments.size());
         }
 
         ListIterator<Argument> argumentIterator = this.arguments.listIterator();

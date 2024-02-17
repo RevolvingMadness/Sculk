@@ -24,7 +24,7 @@ public class StringInstance extends BuiltinClass {
             return new StringInstance(this.value + other);
         }
 
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("+", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("+", this.getType(), other.getType());
     }
 
     @Override

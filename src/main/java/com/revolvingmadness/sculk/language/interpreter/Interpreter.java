@@ -312,7 +312,7 @@ public class Interpreter implements Visitor {
         SculkScript script = this.loader.scripts.get(fromStatement.identifier);
 
         if (script == null) {
-            throw ErrorHolder.cannotFindScript(fromStatement.identifier);
+            throw ErrorHolder.scriptDoesNotExist(fromStatement.identifier);
         }
 
         this.variableTable.enterScope();
@@ -397,7 +397,7 @@ public class Interpreter implements Visitor {
         SculkScript script = this.loader.scripts.get(importStatement.identifier);
 
         if (script == null) {
-            throw ErrorHolder.cannotFindScript(importStatement.identifier);
+            throw ErrorHolder.scriptDoesNotExist(importStatement.identifier);
         }
 
         this.variableTable.enterScope();

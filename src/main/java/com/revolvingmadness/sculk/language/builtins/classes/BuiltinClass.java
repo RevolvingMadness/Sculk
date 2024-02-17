@@ -98,15 +98,15 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public BuiltinClass add(BuiltinClass other) {
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("+", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("+", this.getType(), other.getType());
     }
 
     public BooleanInstance booleanAnd(BuiltinClass other) {
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("&&", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("&&", this.getType(), other.getType());
     }
 
     public BooleanInstance booleanOr(BuiltinClass other) {
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("||", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("||", this.getType(), other.getType());
     }
 
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -136,7 +136,7 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public BuiltinClass divide(BuiltinClass other) {
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("/", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("/", this.getType(), other.getType());
     }
 
     @Override
@@ -150,7 +150,7 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public BuiltinClass exponentiate(BuiltinClass other) {
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("^", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("^", this.getType(), other.getType());
     }
 
     public BuiltinClass fromNBT(BuiltinClass nbtElement) {
@@ -186,7 +186,7 @@ public abstract class BuiltinClass extends ExpressionNode {
     public abstract BuiltinType getType();
 
     public BooleanInstance greaterThan(BuiltinClass other) {
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes(">", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator(">", this.getType(), other.getType());
     }
 
     public boolean hasAbstractMethods() {
@@ -227,7 +227,7 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public BooleanInstance lessThan(BuiltinClass other) {
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("<", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("<", this.getType(), other.getType());
     }
 
     public BuiltinClass logicalNot() {
@@ -235,11 +235,11 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public BuiltinClass mod(BuiltinClass other) {
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("%", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("%", this.getType(), other.getType());
     }
 
     public BuiltinClass multiply(BuiltinClass other) {
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("*", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("*", this.getType(), other.getType());
     }
 
     public BuiltinClass negate() {
@@ -255,7 +255,7 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public BuiltinClass subtract(BuiltinClass other) {
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("-", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("-", this.getType(), other.getType());
     }
 
     public Block toBlock() {

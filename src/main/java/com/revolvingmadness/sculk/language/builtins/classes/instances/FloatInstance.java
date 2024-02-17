@@ -28,7 +28,7 @@ public class FloatInstance extends IntegerInstance {
             return new FloatInstance(this.value + other.toInteger());
         }
 
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("+", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("+", this.getType(), other.getType());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class FloatInstance extends IntegerInstance {
             return new FloatInstance(this.value / other.toInteger());
         }
 
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("/", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("/", this.getType(), other.getType());
     }
 
     @Override
@@ -71,7 +71,7 @@ public class FloatInstance extends IntegerInstance {
             return new FloatInstance(Math.pow(this.value, other.toInteger()));
         }
 
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("^", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("^", this.getType(), other.getType());
     }
 
     @Override
@@ -89,7 +89,7 @@ public class FloatInstance extends IntegerInstance {
             return new BooleanInstance(this.value > other.toInteger());
         }
 
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes(">", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator(">", this.getType(), other.getType());
     }
 
     @Override
@@ -112,7 +112,7 @@ public class FloatInstance extends IntegerInstance {
             return new BooleanInstance(this.value < other.toInteger());
         }
 
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("<", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("<", this.getType(), other.getType());
     }
 
     @Override
@@ -125,7 +125,7 @@ public class FloatInstance extends IntegerInstance {
             return new FloatInstance(this.value % other.toInteger());
         }
 
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("%", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("%", this.getType(), other.getType());
     }
 
     @Override
@@ -138,7 +138,7 @@ public class FloatInstance extends IntegerInstance {
             return new FloatInstance(this.value * other.toInteger());
         }
 
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("*", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("*", this.getType(), other.getType());
     }
 
     @Override
@@ -156,7 +156,7 @@ public class FloatInstance extends IntegerInstance {
             return new FloatInstance(this.value - other.toInteger());
         }
 
-        throw ErrorHolder.cannotApplyBinaryOperatorToTypes("-", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("-", this.getType(), other.getType());
     }
 
     @Override
