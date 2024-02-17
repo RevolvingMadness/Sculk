@@ -61,8 +61,13 @@ public class StringInstance extends BuiltinClass {
     }
 
     @Override
-    public NbtElement toNbtElement() {
+    public NbtElement toNBT() {
         return NbtString.of(this.value);
+    }
+
+    @Override
+    public String toRepresentation() {
+        return "\"" + this + "\"";
     }
 
     @Override

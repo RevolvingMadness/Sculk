@@ -41,19 +41,43 @@ public abstract class BuiltinClass extends ExpressionNode {
         if (result == null) {
             return new NullInstance();
         }
-        
-        if (result instanceof NbtDouble nbtDouble) {
-            return new FloatInstance(nbtDouble.doubleValue());
-        } else if (result instanceof NbtLong nbtLong) {
-            return new IntegerInstance(nbtLong.longValue());
+
+        if (result instanceof NbtByteArray nbtByteArray) {
+            List<BuiltinClass> list = new ArrayList<>();
+
+            nbtByteArray.forEach(nbtByte -> list.add(BuiltinClass.fromNbtElement(nbtByte)));
+
+            return new ListInstance(list);
+        } else if (result instanceof NbtIntArray nbtIntArray) {
+            List<BuiltinClass> list = new ArrayList<>();
+
+            nbtIntArray.forEach(nbtInt -> list.add(BuiltinClass.fromNbtElement(nbtInt)));
+
+            return new ListInstance(list);
         } else if (result instanceof NbtList nbtList) {
             List<BuiltinClass> list = new ArrayList<>();
 
             nbtList.forEach(nbtElement -> list.add(BuiltinClass.fromNbtElement(nbtElement)));
 
             return new ListInstance(list);
-        } else if (result instanceof NbtString nbtString) {
-            return new StringInstance(nbtString.asString());
+        } else if (result instanceof NbtLongArray nbtLongArray) {
+            List<BuiltinClass> list = new ArrayList<>();
+
+            nbtLongArray.forEach(nbtLong -> list.add(BuiltinClass.fromNbtElement(nbtLong)));
+
+            return new ListInstance(list);
+        } else if (result instanceof NbtByte nbtByte) {
+            return new IntegerInstance(nbtByte.byteValue());
+        } else if (result instanceof NbtDouble nbtDouble) {
+            return new FloatInstance(nbtDouble.doubleValue());
+        } else if (result instanceof NbtFloat nbtFloat) {
+            return new FloatInstance(nbtFloat.floatValue());
+        } else if (result instanceof NbtInt nbtInt) {
+            return new IntegerInstance(nbtInt.intValue());
+        } else if (result instanceof NbtLong nbtLong) {
+            return new IntegerInstance(nbtLong.longValue());
+        } else if (result instanceof NbtShort nbtShort) {
+            return new IntegerInstance(nbtShort.shortValue());
         } else if (result instanceof NbtCompound nbtCompound) {
             Map<BuiltinClass, BuiltinClass> dictionary = new HashMap<>();
 
@@ -66,6 +90,8 @@ public abstract class BuiltinClass extends ExpressionNode {
             });
 
             return new DictionaryInstance(dictionary);
+        } else if (result instanceof NbtString nbtString) {
+            return new StringInstance(nbtString.asString());
         }
 
         throw new TypeError("Cannot convert nbt element '" + result + "' to class");
@@ -125,6 +151,10 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public BuiltinClass exponentiate(BuiltinClass other) {
         throw ErrorHolder.cannotApplyBinaryOperatorToTypes("^", this.getType(), other.getType());
+    }
+
+    public BuiltinClass fromNBT(BuiltinClass nbtElement) {
+        throw new TypeError("Type '" + this.getType().name + "' does not support NBT de-serialization");
     }
 
     public BuiltinClass getIndex(BuiltinClass index) {
@@ -240,6 +270,10 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.cannotConvertType(this.getType(), BooleanType.TYPE);
     }
 
+    public Map<BuiltinClass, BuiltinClass> toDictionary() {
+        throw ErrorHolder.cannotConvertType(this.getType(), DictionaryType.TYPE);
+    }
+
     public Difficulty toDifficulty() {
         throw ErrorHolder.cannotConvertType(this.getType(), DifficultiesEnumType.TYPE);
     }
@@ -292,8 +326,8 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.cannotConvertType(this.getType(), LivingEntityType.TYPE);
     }
 
-    public NbtElement toNbtElement() {
-        throw new TypeError("Type '" + this.getType().name + "' is not part of Minecraft NBT");
+    public NbtElement toNBT() {
+        throw new TypeError("Type '" + this.getType().name + "' does not support NBT serialization");
     }
 
     public PlayerEntity toPlayerEntity() {
@@ -302,6 +336,10 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public PlayerManager toPlayerManager() {
         throw ErrorHolder.cannotConvertType(this.getType(), PlayerManagerType.TYPE);
+    }
+
+    public String toRepresentation() {
+        return this.toString();
     }
 
     public ServerPlayerEntity toServerPlayerEntity() {

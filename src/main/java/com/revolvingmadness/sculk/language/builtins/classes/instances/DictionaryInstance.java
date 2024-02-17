@@ -56,12 +56,37 @@ public class DictionaryInstance extends BuiltinClass {
     }
 
     @Override
-    public NbtElement toNbtElement() {
+    public Map<BuiltinClass, BuiltinClass> toDictionary() {
+        return this.value;
+    }
+
+    @Override
+    public NbtElement toNBT() {
         NbtCompound nbtCompound = new NbtCompound();
 
-        this.value.forEach((key, value) -> nbtCompound.put(key.toString(), value.toNbtElement()));
+        this.value.forEach((key, value) -> nbtCompound.put(key.toString(), value.toNBT()));
 
         return nbtCompound;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{");
+
+        this.value.forEach((key, value) -> {
+            stringBuilder.append(key.toRepresentation());
+            stringBuilder.append(": ");
+            stringBuilder.append(value.toRepresentation());
+            stringBuilder.append(", ");
+        });
+
+        String result = stringBuilder.toString();
+
+        if (this.value.size() != 0) {
+            result = stringBuilder.substring(0, stringBuilder.length() - 2);
+        }
+
+        return result + "}";
+    }
 }

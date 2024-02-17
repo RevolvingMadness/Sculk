@@ -60,7 +60,7 @@ public class GUIType extends BuiltinType {
     private static class OnSlotClick extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("onSlotClick", arguments, List.of(IntegerType.TYPE, IntegerType.TYPE, PlayerEntityType.TYPE));
+            this.validate("onSlotClick", arguments, List.of(IntegerType.TYPE, IntegerType.TYPE, GUIType.TYPE, PlayerEntityType.TYPE));
 
             return new BooleanInstance(true);
         }

@@ -175,7 +175,7 @@ public class FloatInstance extends IntegerInstance {
     }
 
     @Override
-    public NbtElement toNbtElement() {
+    public NbtElement toNBT() {
         return NbtDouble.of(this.value);
     }
 

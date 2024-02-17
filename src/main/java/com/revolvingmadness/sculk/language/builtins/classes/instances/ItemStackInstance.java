@@ -5,6 +5,8 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.ItemStackType;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 
 import java.util.List;
 import java.util.Objects;
@@ -43,5 +45,15 @@ public class ItemStackInstance extends BuiltinClass {
     @Override
     public ItemStack toItemStack() {
         return this.value;
+    }
+
+    @Override
+    public NbtElement toNBT() {
+        NbtCompound nbt = new NbtCompound();
+
+        nbt.put("id", new ItemInstance(this.value.getItem()).toNBT());
+        nbt.putInt("count", this.value.getCount());
+
+        return nbt;
     }
 }

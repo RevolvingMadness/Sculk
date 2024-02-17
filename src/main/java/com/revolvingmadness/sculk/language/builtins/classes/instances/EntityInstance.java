@@ -67,7 +67,7 @@ public class EntityInstance extends BuiltinClass {
             throw ErrorHolder.cannotIndexTypeByType(this.getType(), index.getType());
         }
 
-        ((EntityAccessor) this.value).sculk$writeCustomData(index.toString(), value.toNbtElement());
+        ((EntityAccessor) this.value).sculk$writeCustomData(index.toString(), value.toNBT());
     }
 
     @Override

@@ -182,7 +182,7 @@ public class IntegerInstance extends BuiltinClass {
     }
 
     @Override
-    public NbtElement toNbtElement() {
+    public NbtElement toNBT() {
         return NbtLong.of(this.value);
     }
 

@@ -134,3 +134,5 @@
 - `Method` extends `Callable`
 - `Function` extends `Callable`
 - `Inventory` class
+- `List` toString
+- `ItemStack.init(item: Item, count: Integer) -> Null`

@@ -68,7 +68,7 @@ public class BooleanInstance extends BuiltinClass {
     }
 
     @Override
-    public NbtElement toNbtElement() {
+    public NbtElement toNBT() {
         return NbtByte.of(this.value);
     }
 

@@ -5,6 +5,9 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.ItemType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtString;
+import net.minecraft.registry.Registries;
 
 import java.util.Objects;
 
@@ -45,5 +48,10 @@ public class ItemInstance extends BuiltinClass {
     @Override
     public ItemStack toItemStack() {
         return this.value.getDefaultStack();
+    }
+
+    @Override
+    public NbtElement toNBT() {
+        return NbtString.of(Registries.ITEM.getId(this.value).toString());
     }
 }

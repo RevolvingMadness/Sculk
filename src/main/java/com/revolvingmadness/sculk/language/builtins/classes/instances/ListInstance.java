@@ -9,6 +9,7 @@ import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.errors.TypeError;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -105,15 +106,20 @@ public class ListInstance extends BuiltinClass {
     }
 
     @Override
-    public NbtElement toNbtElement() {
+    public NbtElement toNBT() {
         NbtList list = new NbtList();
 
         if (!this.containsOnlyOneType()) {
             throw new TypeError("List NBT element can only contain one type");
         }
 
-        this.value.forEach(value -> list.add(value.toNbtElement()));
+        this.value.forEach(value -> list.add(value.toNBT()));
 
         return list;
+    }
+
+    @Override
+    public String toString() {
+        return StringUtils.joinWith(", ", this.value);
     }
 }

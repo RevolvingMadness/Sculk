@@ -7,6 +7,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
+import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
@@ -39,8 +40,8 @@ public class ItemStackType extends BuiltinType {
 
     @Override
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        if (arguments.size() != 1) {
-            throw ErrorHolder.invalidArgumentCount("init", 1, arguments.size());
+        if (arguments.size() != 2) {
+            throw ErrorHolder.invalidArgumentCount("init", 2, arguments.size());
         }
 
         BuiltinClass itemStackClass = arguments.get(0);
@@ -49,7 +50,13 @@ public class ItemStackType extends BuiltinType {
             throw ErrorHolder.argumentRequiresType(1, "init", ItemType.TYPE, itemStackClass.getType());
         }
 
-        return new ItemStackInstance(itemStackClass.toItem().getDefaultStack());
+        BuiltinClass amountClass = arguments.get(1);
+
+        if (!amountClass.instanceOf(IntegerType.TYPE)) {
+            throw ErrorHolder.argumentRequiresType(1, "init", IntegerType.TYPE, amountClass.getType());
+        }
+
+        return new ItemStackInstance(new ItemStack(itemStackClass.toItem(), (int) amountClass.toInteger()));
     }
 
     private static class Decrement extends BuiltinMethod {

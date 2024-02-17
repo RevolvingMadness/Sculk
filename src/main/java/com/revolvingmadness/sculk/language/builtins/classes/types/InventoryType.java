@@ -3,16 +3,19 @@ package com.revolvingmadness.sculk.language.builtins.classes.types;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.IntegerInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.ItemStackInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.NullInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
+import com.revolvingmadness.sculk.language.errors.TypeError;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
 
 import java.util.List;
+import java.util.Map;
 
 public class InventoryType extends BuiltinType {
     public static final InventoryType TYPE = new InventoryType();
@@ -26,6 +29,34 @@ public class InventoryType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "isEmpty", new IsEmpty());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "removeStack", new RemoveStack());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setStack", new SetStack());
+    }
+
+    @Override
+    public BuiltinClass fromNBT(BuiltinClass nbtElement) {
+        Inventory inventory = new SimpleInventory(27);
+
+        if (!nbtElement.instanceOf(ListType.TYPE)) {
+            throw new TypeError("Cannot de-serialize type '" + nbtElement.getType().name + "' to type '" + this.name + "'");
+        }
+
+        List<BuiltinClass> list = nbtElement.toList();
+
+        list.forEach(slotClass -> {
+            Map<BuiltinClass, BuiltinClass> slot = slotClass.toDictionary();
+
+            long slotNumber = slot.get(new StringInstance("slot")).toInteger();
+
+            Map<BuiltinClass, BuiltinClass> stack = slot.get(new StringInstance("stack")).toDictionary();
+
+            long count = stack.get(new StringInstance("count")).toInteger();
+            String id = stack.get(new StringInstance("id")).toString();
+
+            Item item = Registries.ITEM.get(Identifier.tryParse(id));
+
+            inventory.setStack((int) slotNumber, new ItemStack(item, (int) count));
+        });
+
+        return new InventoryInstance(inventory);
     }
 
     private static class Contains extends BuiltinMethod {
