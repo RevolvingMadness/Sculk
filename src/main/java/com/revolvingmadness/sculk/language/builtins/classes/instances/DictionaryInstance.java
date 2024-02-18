@@ -56,11 +56,6 @@ public class DictionaryInstance extends BuiltinClass {
     }
 
     @Override
-    public Map<BuiltinClass, BuiltinClass> toDictionary() {
-        return this.value;
-    }
-
-    @Override
     public NbtElement toNBT() {
         NbtCompound nbtCompound = new NbtCompound();
 
