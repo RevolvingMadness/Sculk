@@ -138,3 +138,6 @@
 - `ItemStack.init(item: Item, count: Integer) -> Null`
 - `\uXXXX` to strings
 - `String.fromUnicode(unicode: Integer) -> String`
+- `GUI.onClose(player: PlayerEntity, gui: GUI) -> Null`
+- `PlayerEntity.getEnderChestInventory() -> Inventory`
+- `PlayerEntity.setEnderChestInventory(inventory: Inventory) -> Null`

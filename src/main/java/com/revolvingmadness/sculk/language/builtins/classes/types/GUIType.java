@@ -19,6 +19,7 @@ public class GUIType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setInventory", new SetInventory());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getTitle", new GetTitle());
         this.typeVariableScope.declare(List.of(), CallableType.TYPE, "onSlotClick", new OnSlotClick());
+        this.typeVariableScope.declare(List.of(), CallableType.TYPE, "onClose", new OnClose());
     }
 
     @Override
@@ -43,6 +44,15 @@ public class GUIType extends BuiltinType {
             this.validateCall("getTitle", arguments, List.of());
 
             return new StringInstance(this.boundClass.toGUI().title);
+        }
+    }
+
+    private static class OnClose extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            this.validateCall("onClose", arguments, List.of(PlayerEntityType.TYPE, GUIType.TYPE));
+
+            return new NullInstance();
         }
     }
 

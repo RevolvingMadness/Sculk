@@ -30,6 +30,11 @@ public class GUIScreenHandler extends GenericContainerScreenHandler {
     }
 
     @Override
+    public void onClosed(PlayerEntity player) {
+        this.gui.call(this.interpreter, "onClose", List.of(new PlayerEntityInstance(player), this.gui));
+    }
+
+    @Override
     public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player) {
         try {
             BuiltinClass result = this.gui.call(this.interpreter, "onSlotClick", List.of(new IntegerInstance(slotIndex), new IntegerInstance(button), this.gui, new PlayerEntityInstance(player)));

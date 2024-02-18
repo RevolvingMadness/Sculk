@@ -7,6 +7,8 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
+import net.minecraft.inventory.EnderChestInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
@@ -30,6 +32,8 @@ public class PlayerEntityType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "openGUI", new OpenGUI());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getStackInMainHand", new GetStackInMainHand());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getStackInOffHand", new GetStackInOffHand());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getEnderChestInventory", new GetEnderChestInventory());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "setEnderChestInventory", new SetEnderChestInventory());
     }
 
     private static class AddExperienceLevels extends BuiltinMethod {
@@ -55,6 +59,15 @@ public class PlayerEntityType extends BuiltinType {
             this.boundClass.toPlayerEntity().addExperience((int) experience);
 
             return new NullInstance();
+        }
+    }
+
+    private static class GetEnderChestInventory extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            this.validateCall("getEnderChestInventory", arguments);
+
+            return new InventoryInstance(this.boundClass.toPlayerEntity().getEnderChestInventory());
         }
     }
 
@@ -135,6 +148,22 @@ public class PlayerEntityType extends BuiltinType {
             GUIInstance gui = arguments.get(0).toGUI();
 
             this.boundClass.toPlayerEntity().openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, playerInventory, player) -> new GUIScreenHandler(interpreter, gui, syncId, playerInventory, gui.inventory), Text.literal(gui.title)));
+
+            return new NullInstance();
+        }
+    }
+
+    private static class SetEnderChestInventory extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            this.validateCall("setEnderChestInventory", arguments, List.of(InventoryType.TYPE));
+
+            Inventory inventory = arguments.get(0).toInventory();
+            EnderChestInventory enderChestInventory = this.boundClass.toPlayerEntity().getEnderChestInventory();
+
+            for (int i = 0; i < enderChestInventory.size(); i++) {
+                enderChestInventory.setStack(i, inventory.getStack(i));
+            }
 
             return new NullInstance();
         }
