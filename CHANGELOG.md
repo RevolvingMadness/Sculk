@@ -141,3 +141,6 @@
 - `GUI.onClose(player: PlayerEntity, gui: GUI) -> Null`
 - `PlayerEntity.getEnderChestInventory() -> Inventory`
 - `PlayerEntity.setEnderChestInventory(inventory: Inventory) -> Null`
+- `Inventory` constructor
+- `PlayerEntity.setInventory(inventory: Inventory) -> Null`
+- `PlayerEntity.getInventory() -> Inventory`

@@ -32,6 +32,13 @@ public class InventoryType extends BuiltinType {
     }
 
     @Override
+    public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+        this.validateCall("init", arguments);
+
+        return new InventoryInstance(new SimpleInventory(27));
+    }
+
+    @Override
     public BuiltinClass fromNBT(BuiltinClass nbtElement) {
         Inventory inventory = new SimpleInventory(27);
 

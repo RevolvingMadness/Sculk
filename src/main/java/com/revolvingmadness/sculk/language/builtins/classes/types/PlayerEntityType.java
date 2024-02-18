@@ -34,6 +34,8 @@ public class PlayerEntityType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getStackInOffHand", new GetStackInOffHand());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getEnderChestInventory", new GetEnderChestInventory());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "setEnderChestInventory", new SetEnderChestInventory());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getInventory", new GetInventory());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "setInventory", new SetInventory());
     }
 
     private static class AddExperienceLevels extends BuiltinMethod {
@@ -68,6 +70,15 @@ public class PlayerEntityType extends BuiltinType {
             this.validateCall("getEnderChestInventory", arguments);
 
             return new InventoryInstance(this.boundClass.toPlayerEntity().getEnderChestInventory());
+        }
+    }
+
+    private static class GetInventory extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            this.validateCall("getInventory", arguments);
+
+            return new InventoryInstance(this.boundClass.toPlayerEntity().getInventory());
         }
     }
 
@@ -163,6 +174,22 @@ public class PlayerEntityType extends BuiltinType {
 
             for (int i = 0; i < enderChestInventory.size(); i++) {
                 enderChestInventory.setStack(i, inventory.getStack(i));
+            }
+
+            return new NullInstance();
+        }
+    }
+
+    private static class SetInventory extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            this.validateCall("setInventory", arguments, List.of(InventoryType.TYPE));
+
+            Inventory playerInventory = this.boundClass.toPlayerEntity().getInventory();
+            Inventory inventory = arguments.get(0).toInventory();
+
+            for (int i = 0; i < playerInventory.size(); i++) {
+                playerInventory.setStack(i, inventory.getStack(i));
             }
 
             return new NullInstance();
