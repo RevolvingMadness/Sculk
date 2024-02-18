@@ -137,3 +137,4 @@
 - `List` toString
 - `ItemStack.init(item: Item, count: Integer) -> Null`
 - `\uXXXX` to strings
+- `String.fromUnicode(unicode: Integer) -> String`

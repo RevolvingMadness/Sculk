@@ -6,6 +6,7 @@ import com.revolvingmadness.sculk.language.errors.SyntaxError;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class Lexer {
     private final String input;
@@ -290,7 +291,29 @@ public class Lexer {
             case 'r' -> '\r';
             case 'f' -> '\f';
             case 'u' -> {
-                String hexString = "" + this.consume() + this.consume() + this.consume() + this.consume();
+                Pattern pattern = Pattern.compile("\\p{XDigit}+");
+
+                String first = this.consume().toString();
+                if (!pattern.matcher(first).matches()) {
+                    throw new SyntaxError("(" + this.currentLineNumber + ":" + this.currentColumnNumber + ") Invalid hex digit '" + first + "'");
+                }
+
+                String second = this.consume().toString();
+                if (!pattern.matcher(second).matches()) {
+                    throw new SyntaxError("(" + this.currentLineNumber + ":" + this.currentColumnNumber + ") Invalid hex digit '" + second + "'");
+                }
+
+                String third = this.consume().toString();
+                if (!pattern.matcher(third).matches()) {
+                    throw new SyntaxError("(" + this.currentLineNumber + ":" + this.currentColumnNumber + ") Invalid hex digit '" + third + "'");
+                }
+
+                String forth = this.consume().toString();
+                if (!pattern.matcher(forth).matches()) {
+                    throw new SyntaxError("(" + this.currentLineNumber + ":" + this.currentColumnNumber + ") Invalid hex digit '" + forth + "'");
+                }
+
+                String hexString = first + second + third + forth;
 
                 yield (char) Integer.parseInt(hexString, 16);
             }

@@ -7,6 +7,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanIns
 import com.revolvingmadness.sculk.language.builtins.classes.instances.IntegerInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.ListInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.StringInstance;
+import com.revolvingmadness.sculk.language.errors.ValueError;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 
@@ -25,6 +26,7 @@ public class StringType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "length", new Length());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "lowercase", new Lowercase());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "uppercase", new Uppercase());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "fromUnicode", new FromUnicode());
     }
 
     private static class EndsWith extends BuiltinMethod {
@@ -35,6 +37,21 @@ public class StringType extends BuiltinType {
             String text = arguments.get(0).toString();
 
             return new BooleanInstance(this.boundClass.toString().endsWith(text));
+        }
+    }
+
+    private static class FromUnicode extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            this.validateCall("fromUnicode", arguments, List.of(IntegerType.TYPE));
+
+            long unicode = arguments.get(0).toInteger();
+
+            if (unicode < 0 || unicode > 9999) {
+                throw new ValueError("Invalid unicode '" + unicode + "'");
+            }
+
+            return new StringInstance(String.valueOf((char) unicode));
         }
     }
 
