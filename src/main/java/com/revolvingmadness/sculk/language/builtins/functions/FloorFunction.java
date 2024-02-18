@@ -14,7 +14,7 @@ import java.util.List;
 public class FloorFunction extends BuiltinFunction {
     @Override
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        this.validate("floor", arguments, List.of(NumberType.TYPE));
+        this.validateCall("floor", arguments, List.of(NumberType.TYPE));
 
         BuiltinClass number = arguments.get(0);
 

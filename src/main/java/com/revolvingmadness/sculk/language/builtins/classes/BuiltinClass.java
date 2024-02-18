@@ -354,4 +354,28 @@ public abstract class BuiltinClass extends ExpressionNode {
     public ServerWorld toWorld() {
         throw ErrorHolder.cannotConvertType(this.getType(), WorldType.TYPE);
     }
+
+    public void validateCall(String callableName, List<BuiltinClass> arguments, List<BuiltinType> argumentTypes) {
+        if (arguments.size() != argumentTypes.size()) {
+            throw ErrorHolder.invalidArgumentCount(callableName, arguments.size(), argumentTypes.size());
+        }
+
+        int argumentNumber = 0;
+
+        for (BuiltinClass argument : arguments) {
+            BuiltinType argumentType = argumentTypes.get(argumentNumber);
+
+            if (!argument.instanceOf(NullType.TYPE)) {
+                if (!argument.instanceOf(argumentType)) {
+                    throw ErrorHolder.argumentRequiresType(argumentNumber + 1, callableName, argument.getType(), argumentType);
+                }
+            }
+
+            argumentNumber++;
+        }
+    }
+
+    public void validateCall(String callableName, List<BuiltinClass> arguments) {
+        this.validateCall(callableName, arguments, List.of());
+    }
 }

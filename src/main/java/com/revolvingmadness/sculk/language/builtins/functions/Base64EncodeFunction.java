@@ -12,7 +12,7 @@ import java.util.List;
 public class Base64EncodeFunction extends BuiltinFunction {
     @Override
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        this.validate("base64encode", arguments, List.of(StringType.TYPE));
+        this.validateCall("base64encode", arguments, List.of(StringType.TYPE));
 
         String value = arguments.get(0).toString();
 

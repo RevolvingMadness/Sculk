@@ -14,7 +14,7 @@ import java.util.List;
 public class CeilFunction extends BuiltinFunction {
     @Override
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        this.validate("ceil", arguments, List.of(NumberType.TYPE));
+        this.validateCall("ceil", arguments, List.of(NumberType.TYPE));
 
         BuiltinClass number = arguments.get(0);
 

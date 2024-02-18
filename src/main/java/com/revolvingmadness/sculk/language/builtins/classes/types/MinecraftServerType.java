@@ -44,7 +44,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class AreCommandBlocksEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("areCommandBlocksEnabled", arguments);
+            this.validateCall("areCommandBlocksEnabled", arguments);
 
             return new BooleanInstance(Sculk.server.areCommandBlocksEnabled());
         }
@@ -53,7 +53,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class GetServerIp extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getServerIP", arguments);
+            this.validateCall("getServerIP", arguments);
 
             return new StringInstance(Sculk.server.getServerIp());
         }
@@ -62,7 +62,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class GetServerPort extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getServerPort", arguments);
+            this.validateCall("getServerPort", arguments);
 
             return new IntegerInstance(Sculk.server.getServerPort());
         }
@@ -71,7 +71,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class IsFlightEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isFlightEnabled", arguments);
+            this.validateCall("isFlightEnabled", arguments);
 
             return new BooleanInstance(Sculk.server.isFlightEnabled());
         }
@@ -80,7 +80,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class IsHardcore extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isHardcore", arguments);
+            this.validateCall("isHardcore", arguments);
 
             return new BooleanInstance(Sculk.server.isHardcore());
         }
@@ -89,7 +89,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class IsModInstalled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isModInstalled", arguments, List.of(StringType.TYPE));
+            this.validateCall("isModInstalled", arguments, List.of(StringType.TYPE));
 
             String modID = arguments.get(0).toString();
 
@@ -100,7 +100,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class IsNetherEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isNetherEnabled", arguments);
+            this.validateCall("isNetherEnabled", arguments);
 
             return new BooleanInstance(Sculk.server.isNetherAllowed());
         }
@@ -109,7 +109,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class IsPVPEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isPVPEnabled", arguments);
+            this.validateCall("isPVPEnabled", arguments);
 
             return new BooleanInstance(Sculk.server.isPvpEnabled());
         }
@@ -118,7 +118,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class RunCommand extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("runCommand", arguments, List.of(StringType.TYPE));
+            this.validateCall("runCommand", arguments, List.of(StringType.TYPE));
             String command = arguments.get(0).toString();
 
             CommandDispatcher<ServerCommandSource> commandDispatcher = Sculk.server.getCommandManager().getDispatcher();
@@ -138,7 +138,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class SetDifficulty extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDifficulty", arguments, List.of(DifficultiesEnumType.TYPE));
+            this.validateCall("setDifficulty", arguments, List.of(DifficultiesEnumType.TYPE));
 
             Difficulty difficulty = arguments.get(0).toDifficulty();
 
@@ -151,7 +151,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class SetDifficultyLocked extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDifficultyLocked", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDifficultyLocked", arguments, List.of(BooleanType.TYPE));
 
             boolean difficultyLocked = arguments.get(0).toBoolean();
 
@@ -164,7 +164,7 @@ public class MinecraftServerType extends BuiltinType {
     private static class SetPVPEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setPVPEnabled", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setPVPEnabled", arguments, List.of(BooleanType.TYPE));
 
             boolean pvpEnabled = arguments.get(0).toBoolean();
 

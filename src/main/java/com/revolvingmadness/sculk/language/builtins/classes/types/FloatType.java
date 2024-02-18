@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
@@ -20,25 +19,10 @@ public class FloatType extends BuiltinType {
         this.variableScope.declare(List.of(TokenType.CONST), "parseFloat", new ParseFloat());
     }
 
-    @Override
-    public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        if (arguments.size() != 1) {
-            throw ErrorHolder.invalidArgumentCount("init", 1, arguments.size());
-        }
-
-        BuiltinClass floatClass = arguments.get(0);
-
-        if (!floatClass.instanceOf(FloatType.TYPE)) {
-            throw ErrorHolder.argumentRequiresType(1, "init", FloatType.TYPE, floatClass.getType());
-        }
-
-        return new FloatInstance(floatClass.toFloat());
-    }
-
     private static class ParseFloat extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("parseFloat", arguments, List.of(StringType.TYPE));
+            this.validateCall("parseFloat", arguments, List.of(StringType.TYPE));
 
             String stringClass = arguments.get(0).toString();
 

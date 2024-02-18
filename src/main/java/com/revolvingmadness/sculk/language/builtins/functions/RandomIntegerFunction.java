@@ -12,7 +12,7 @@ import java.util.Random;
 public class RandomIntegerFunction extends BuiltinFunction {
     @Override
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        this.validate("randomInteger", arguments, List.of(IntegerType.TYPE, IntegerType.TYPE));
+        this.validateCall("randomInteger", arguments, List.of(IntegerType.TYPE, IntegerType.TYPE));
 
         long min = arguments.get(0).toInteger();
         long max = arguments.get(1).toInteger();

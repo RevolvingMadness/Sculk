@@ -28,7 +28,7 @@ public class ItemsType extends BuiltinType {
     private static class Get extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("get", arguments, List.of(StringType.TYPE));
+            this.validateCall("get", arguments, List.of(StringType.TYPE));
 
             String identifierClass = arguments.get(0).toString();
 

@@ -35,7 +35,7 @@ public class PlayerEntityType extends BuiltinType {
     private static class AddExperienceLevels extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("addExperienceLevels", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("addExperienceLevels", arguments, List.of(IntegerType.TYPE));
 
             long experienceLevels = arguments.get(0).toInteger();
 
@@ -48,7 +48,7 @@ public class PlayerEntityType extends BuiltinType {
     private static class AddExperiencePoints extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("addExperiencePoints", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("addExperiencePoints", arguments, List.of(IntegerType.TYPE));
 
             long experience = arguments.get(0).toInteger();
 
@@ -61,7 +61,7 @@ public class PlayerEntityType extends BuiltinType {
     private static class GetName extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getName", arguments);
+            this.validateCall("getName", arguments);
 
             return new StringInstance(this.boundClass.toPlayerEntity().getName().getLiteralString());
         }
@@ -70,7 +70,7 @@ public class PlayerEntityType extends BuiltinType {
     private static class GetStackInMainHand extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getStackInMainHand", arguments, List.of());
+            this.validateCall("getStackInMainHand", arguments, List.of());
 
             return new ItemStackInstance(this.boundClass.toPlayerEntity().getMainHandStack());
         }
@@ -79,7 +79,7 @@ public class PlayerEntityType extends BuiltinType {
     private static class GetStackInOffHand extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getStackInOffHand", arguments, List.of());
+            this.validateCall("getStackInOffHand", arguments, List.of());
 
             return new ItemStackInstance(this.boundClass.toPlayerEntity().getOffHandStack());
         }
@@ -88,7 +88,7 @@ public class PlayerEntityType extends BuiltinType {
     private static class GetUUID extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getUUID", arguments);
+            this.validateCall("getUUID", arguments);
 
             return new StringInstance(this.boundClass.toPlayerEntity().getUuidAsString());
         }
@@ -97,7 +97,7 @@ public class PlayerEntityType extends BuiltinType {
     private static class GetWorld extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getWorld", arguments);
+            this.validateCall("getWorld", arguments);
 
             World world = this.boundClass.toPlayerEntity().getWorld();
 
@@ -112,7 +112,7 @@ public class PlayerEntityType extends BuiltinType {
     private static class IsCreative extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isCreative", arguments);
+            this.validateCall("isCreative", arguments);
 
             return new BooleanInstance(this.boundClass.toPlayerEntity().isCreative());
         }
@@ -121,7 +121,7 @@ public class PlayerEntityType extends BuiltinType {
     private static class IsSpectator extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isSpectator", arguments);
+            this.validateCall("isSpectator", arguments);
 
             return new BooleanInstance(this.boundClass.toPlayerEntity().isSpectator());
         }
@@ -130,7 +130,7 @@ public class PlayerEntityType extends BuiltinType {
     private static class OpenGUI extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("openGUI", arguments, List.of(GUIType.TYPE));
+            this.validateCall("openGUI", arguments, List.of(GUIType.TYPE));
 
             GUIInstance gui = arguments.get(0).toGUI();
 

@@ -26,7 +26,7 @@ public class ObjectType extends BuiltinType {
     private static class Equals extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("equals", arguments, List.of(ObjectType.TYPE));
+            this.validateCall("equals", arguments, List.of(ObjectType.TYPE));
 
             BuiltinClass object = arguments.get(0);
 
@@ -37,7 +37,7 @@ public class ObjectType extends BuiltinType {
     private static class FromNBT extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("fromNBT", arguments, List.of(ObjectType.TYPE));
+            this.validateCall("fromNBT", arguments, List.of(ObjectType.TYPE));
 
             return this.boundClass.fromNBT(BuiltinClass.fromNbtElement(arguments.get(0).toNBT()));
         }
@@ -46,7 +46,7 @@ public class ObjectType extends BuiltinType {
     private static class Init extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("init", arguments);
+            this.validateCall("init", arguments);
 
             return new NullInstance();
         }
@@ -55,7 +55,7 @@ public class ObjectType extends BuiltinType {
     private static class ToString extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("toString", arguments);
+            this.validateCall("toString", arguments);
 
             return new StringInstance(this.boundClass.toString());
         }

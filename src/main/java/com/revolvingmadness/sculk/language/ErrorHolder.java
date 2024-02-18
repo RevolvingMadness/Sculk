@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 
 public class ErrorHolder {
     public static TypeError argumentRequiresType(int argumentNumber, String functionName, BuiltinType type, BuiltinType requiredType) {
-        return new TypeError("Argument " + argumentNumber + " for function '" + functionName + "' requires type '" + type + "' but was passed type '" + requiredType + "'");
+        return new TypeError("Argument " + argumentNumber + " for function '" + functionName + "' requires type '" + requiredType + "' but was passed type '" + type + "'");
     }
 
     public static TypeError cannotApplyUnaryOperatorToType(String operator, BuiltinType type) {

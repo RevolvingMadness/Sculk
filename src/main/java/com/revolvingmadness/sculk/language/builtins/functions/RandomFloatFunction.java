@@ -12,7 +12,7 @@ import java.util.Random;
 public class RandomFloatFunction extends BuiltinFunction {
     @Override
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        this.validate("randomFloat", arguments, List.of(FloatType.TYPE, FloatType.TYPE));
+        this.validateCall("randomFloat", arguments, List.of(FloatType.TYPE, FloatType.TYPE));
 
         double min = arguments.get(0).toFloat();
         double max = arguments.get(1).toFloat();

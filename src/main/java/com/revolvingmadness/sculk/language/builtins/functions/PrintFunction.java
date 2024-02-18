@@ -15,7 +15,7 @@ import java.util.List;
 public class PrintFunction extends BuiltinFunction {
     @Override
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        this.validate("print", arguments, List.of(ObjectType.TYPE));
+        this.validateCall("print", arguments, List.of(ObjectType.TYPE));
 
         BuiltinClass value = arguments.get(0);
 

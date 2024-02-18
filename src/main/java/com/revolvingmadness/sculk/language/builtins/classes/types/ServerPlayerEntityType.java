@@ -27,7 +27,7 @@ public class ServerPlayerEntityType extends BuiltinType {
     private static class DropSelectedItem extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("dropSelectedItem", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("dropSelectedItem", arguments, List.of(BooleanType.TYPE));
 
             boolean entireStack = arguments.get(0).toBoolean();
 
@@ -40,7 +40,7 @@ public class ServerPlayerEntityType extends BuiltinType {
     private static class GetViewDistance extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getViewDistance", arguments);
+            this.validateCall("getViewDistance", arguments);
 
             return new IntegerInstance(this.boundClass.toServerPlayerEntity().getViewDistance());
         }
@@ -49,7 +49,7 @@ public class ServerPlayerEntityType extends BuiltinType {
     private static class SetExperienceLevels extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setExperienceLevels", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setExperienceLevels", arguments, List.of(IntegerType.TYPE));
 
             long experienceLevel = arguments.get(0).toInteger();
 
@@ -62,7 +62,7 @@ public class ServerPlayerEntityType extends BuiltinType {
     private static class SetExperiencePoints extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setExperiencePoints", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setExperiencePoints", arguments, List.of(IntegerType.TYPE));
 
             long experiencePoints = arguments.get(0).toInteger();
 
@@ -75,7 +75,7 @@ public class ServerPlayerEntityType extends BuiltinType {
     private static class SetGameMode extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setGameMode", arguments, List.of(GameModesEnumType.TYPE));
+            this.validateCall("setGameMode", arguments, List.of(GameModesEnumType.TYPE));
 
             GameMode gameMode = arguments.get(0).toGameMode();
 

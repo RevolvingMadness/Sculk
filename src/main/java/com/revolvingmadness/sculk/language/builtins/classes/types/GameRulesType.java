@@ -121,7 +121,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetAnnounceAdvancements extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getAnnounceAdvancements", arguments);
+            this.validateCall("getAnnounceAdvancements", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.ANNOUNCE_ADVANCEMENTS));
         }
@@ -130,7 +130,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetBlockExplosionDropDecay extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getBlockExplosionDropDecay", arguments);
+            this.validateCall("getBlockExplosionDropDecay", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.BLOCK_EXPLOSION_DROP_DECAY));
         }
@@ -139,7 +139,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetCommandBlockOutput extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getCommandBlockOutput", arguments);
+            this.validateCall("getCommandBlockOutput", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.COMMAND_BLOCK_OUTPUT));
         }
@@ -148,7 +148,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetCommandModificationBlockLimit extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getCommandModificationBlockLimit", arguments);
+            this.validateCall("getCommandModificationBlockLimit", arguments);
 
             return new IntegerInstance(this.boundClass.toGameRules().getInt(GameRules.COMMAND_MODIFICATION_BLOCK_LIMIT));
         }
@@ -157,7 +157,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDisableElytraMovementCheck extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDisableElytraMovementCheck", arguments);
+            this.validateCall("getDisableElytraMovementCheck", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DISABLE_ELYTRA_MOVEMENT_CHECK));
         }
@@ -166,7 +166,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDisableRaids extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDisableRaids", arguments);
+            this.validateCall("getDisableRaids", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DISABLE_RAIDS));
         }
@@ -175,7 +175,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDoDaylightCycle extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDoDaylightCycle", arguments);
+            this.validateCall("getDoDaylightCycle", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE));
         }
@@ -184,7 +184,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDoEntityDrops extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDoEntityDrops", arguments);
+            this.validateCall("getDoEntityDrops", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DO_ENTITY_DROPS));
         }
@@ -193,7 +193,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDoFireTick extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDoFireTick", arguments);
+            this.validateCall("getDoFireTick", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DO_FIRE_TICK));
         }
@@ -202,7 +202,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDoImmediateRespawn extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDoImmediateRespawn", arguments);
+            this.validateCall("getDoImmediateRespawn", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DO_IMMEDIATE_RESPAWN));
         }
@@ -211,7 +211,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDoInsomnia extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDoInsomnia", arguments);
+            this.validateCall("getDoInsomnia", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DO_INSOMNIA));
         }
@@ -220,7 +220,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDoLimitedCrafting extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDoLimitedCrafting", arguments);
+            this.validateCall("getDoLimitedCrafting", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DO_LIMITED_CRAFTING));
         }
@@ -229,7 +229,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDoMobGriefing extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDoMobGriefing", arguments);
+            this.validateCall("getDoMobGriefing", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DO_MOB_GRIEFING));
         }
@@ -238,7 +238,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDoMobLoot extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDoMobLoot", arguments);
+            this.validateCall("getDoMobLoot", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DO_MOB_LOOT));
         }
@@ -247,7 +247,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDoMobSpawning extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDoMobSpawning", arguments);
+            this.validateCall("getDoMobSpawning", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DO_MOB_SPAWNING));
         }
@@ -256,7 +256,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDoPatrolSpawning extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDoPatrolSpawning", arguments);
+            this.validateCall("getDoPatrolSpawning", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DO_PATROL_SPAWNING));
         }
@@ -265,7 +265,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDoTileDrops extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDoTileDrops", arguments);
+            this.validateCall("getDoTileDrops", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DO_TILE_DROPS));
         }
@@ -274,7 +274,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDoTraderSpawning extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDoTraderSpawning", arguments);
+            this.validateCall("getDoTraderSpawning", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DO_TRADER_SPAWNING));
         }
@@ -283,7 +283,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDoVinesSpread extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDoVinesSpread", arguments);
+            this.validateCall("getDoVinesSpread", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DO_VINES_SPREAD));
         }
@@ -292,7 +292,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDoWardenSpawning extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDoWardenSpawning", arguments);
+            this.validateCall("getDoWardenSpawning", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DO_WARDEN_SPAWNING));
         }
@@ -301,7 +301,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDoWeatherCycle extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDoWeatherCycle", arguments);
+            this.validateCall("getDoWeatherCycle", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DO_WEATHER_CYCLE));
         }
@@ -310,7 +310,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetDrowningDamage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDrowningDamage", arguments);
+            this.validateCall("getDrowningDamage", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.DROWNING_DAMAGE));
         }
@@ -319,7 +319,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetEnderPearlsVanishOnDeath extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getEnderPearlsVanishOnDeath", arguments);
+            this.validateCall("getEnderPearlsVanishOnDeath", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.ENDER_PEARLS_VANISH_ON_DEATH));
         }
@@ -328,7 +328,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetFallDamage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getFallDamage", arguments);
+            this.validateCall("getFallDamage", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.FALL_DAMAGE));
         }
@@ -337,7 +337,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetFireDamage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getFireDamage", arguments);
+            this.validateCall("getFireDamage", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.FIRE_DAMAGE));
         }
@@ -346,7 +346,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetForgiveDeadPlayers extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getForgiveDeadPlayers", arguments);
+            this.validateCall("getForgiveDeadPlayers", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.FORGIVE_DEAD_PLAYERS));
         }
@@ -355,7 +355,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetFreezeDamage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getFreezeDamage", arguments);
+            this.validateCall("getFreezeDamage", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.FREEZE_DAMAGE));
         }
@@ -364,7 +364,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetGlobalSoundEvents extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getGlobalSoundEvents", arguments);
+            this.validateCall("getGlobalSoundEvents", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.GLOBAL_SOUND_EVENTS));
         }
@@ -373,7 +373,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetKeepInventory extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getKeepInventory", arguments);
+            this.validateCall("getKeepInventory", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.KEEP_INVENTORY));
         }
@@ -382,7 +382,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetLavaSourceConversion extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getLavaSourceConversion", arguments);
+            this.validateCall("getLavaSourceConversion", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.LAVA_SOURCE_CONVERSION));
         }
@@ -391,7 +391,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetLogAdminCommands extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getLogAdminCommands", arguments);
+            this.validateCall("getLogAdminCommands", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.LOG_ADMIN_COMMANDS));
         }
@@ -400,7 +400,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetMaxArgumentCount extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getMaxArgumentCount", arguments);
+            this.validateCall("getMaxArgumentCount", arguments);
 
             return new IntegerInstance(this.boundClass.toGameRules().getInt(SculkGamerules.MAX_ARGUMENT_COUNT));
         }
@@ -409,7 +409,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetMaxCommandChainLength extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getMaxCommandChainLength", arguments);
+            this.validateCall("getMaxCommandChainLength", arguments);
 
             return new IntegerInstance(this.boundClass.toGameRules().getInt(GameRules.MAX_COMMAND_CHAIN_LENGTH));
         }
@@ -418,7 +418,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetMaxEntityCramming extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getMaxEntityCramming", arguments);
+            this.validateCall("getMaxEntityCramming", arguments);
 
             return new IntegerInstance(this.boundClass.toGameRules().getInt(GameRules.MAX_ENTITY_CRAMMING));
         }
@@ -427,7 +427,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetMaxLoops extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getMaxLoops", arguments);
+            this.validateCall("getMaxLoops", arguments);
 
             return new IntegerInstance(this.boundClass.toGameRules().getInt(SculkGamerules.MAX_LOOPS));
         }
@@ -436,7 +436,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetMobExplosionDropDecay extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getMobExplosionDropDecay", arguments);
+            this.validateCall("getMobExplosionDropDecay", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.MOB_EXPLOSION_DROP_DECAY));
         }
@@ -445,7 +445,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetNaturalRegeneration extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getNaturalRegeneration", arguments);
+            this.validateCall("getNaturalRegeneration", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.NATURAL_REGENERATION));
         }
@@ -454,7 +454,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetPlayersSleepingPercentage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getPlayersSleepingPercentage", arguments);
+            this.validateCall("getPlayersSleepingPercentage", arguments);
 
             return new IntegerInstance(this.boundClass.toGameRules().getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE));
         }
@@ -463,7 +463,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetRandomTickSpeed extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getRandomTickSpeed", arguments);
+            this.validateCall("getRandomTickSpeed", arguments);
 
             return new IntegerInstance(this.boundClass.toGameRules().getInt(GameRules.RANDOM_TICK_SPEED));
         }
@@ -472,7 +472,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetReducedDebugInfo extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getReducedDebugInfo", arguments);
+            this.validateCall("getReducedDebugInfo", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.REDUCED_DEBUG_INFO));
         }
@@ -481,7 +481,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetSendCommandFeedback extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getSendCommandFeedback", arguments);
+            this.validateCall("getSendCommandFeedback", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.SEND_COMMAND_FEEDBACK));
         }
@@ -490,7 +490,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetShowDeathMessages extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getShowDeathMessages", arguments);
+            this.validateCall("getShowDeathMessages", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.SHOW_DEATH_MESSAGES));
         }
@@ -499,7 +499,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetSnowAccumulationHeight extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getSnowAccumulationHeight", arguments);
+            this.validateCall("getSnowAccumulationHeight", arguments);
 
             return new IntegerInstance(this.boundClass.toGameRules().getInt(GameRules.SNOW_ACCUMULATION_HEIGHT));
         }
@@ -508,7 +508,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetSpawnRadius extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getSpawnRadius", arguments);
+            this.validateCall("getSpawnRadius", arguments);
 
             return new IntegerInstance(this.boundClass.toGameRules().getInt(GameRules.SPAWN_RADIUS));
         }
@@ -517,7 +517,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetSpectatorsGenerateChunks extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getSpectatorsGenerateChunks", arguments);
+            this.validateCall("getSpectatorsGenerateChunks", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.SPECTATORS_GENERATE_CHUNKS));
         }
@@ -526,7 +526,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetTntExplosionDropDecay extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getTntExplosionDropDecay", arguments);
+            this.validateCall("getTntExplosionDropDecay", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.TNT_EXPLOSION_DROP_DECAY));
         }
@@ -535,7 +535,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetUniversalAnger extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getUniversalAnger", arguments);
+            this.validateCall("getUniversalAnger", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.UNIVERSAL_ANGER));
         }
@@ -544,7 +544,7 @@ public class GameRulesType extends BuiltinType {
     private static class GetWaterSourceConversion extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getWaterSourceConversion", arguments);
+            this.validateCall("getWaterSourceConversion", arguments);
 
             return new BooleanInstance(this.boundClass.toGameRules().getBoolean(GameRules.WATER_SOURCE_CONVERSION));
         }
@@ -553,7 +553,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetAnnounceAdvancements extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setAnnounceAdvancements", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setAnnounceAdvancements", arguments, List.of(BooleanType.TYPE));
 
             boolean announceAdvancements = arguments.get(0).toBoolean();
 
@@ -566,7 +566,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetBlockExplosionDropDecay extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setBlockExplosionDropDecay", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setBlockExplosionDropDecay", arguments, List.of(BooleanType.TYPE));
 
             boolean blockExplosionDropDecay = arguments.get(0).toBoolean();
 
@@ -579,7 +579,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetCommandBlockOutput extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setCommandBlockOutput", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setCommandBlockOutput", arguments, List.of(BooleanType.TYPE));
 
             boolean commandBlockOutput = arguments.get(0).toBoolean();
 
@@ -592,7 +592,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetCommandModificationBlockLimit extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setCommandModificationBlockLimit", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setCommandModificationBlockLimit", arguments, List.of(IntegerType.TYPE));
 
             long commandModificationBlockLimit = arguments.get(0).toInteger();
 
@@ -605,7 +605,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDisableElytraMovementCheck extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDisableElytraMovementCheck", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDisableElytraMovementCheck", arguments, List.of(BooleanType.TYPE));
 
             boolean disableElytraMovementCheck = arguments.get(0).toBoolean();
 
@@ -618,7 +618,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDisableRaids extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDisableRaids", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDisableRaids", arguments, List.of(BooleanType.TYPE));
 
             boolean disableRaids = arguments.get(0).toBoolean();
 
@@ -631,7 +631,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDoDaylightCycle extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDoDaylightCycle", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDoDaylightCycle", arguments, List.of(BooleanType.TYPE));
 
             boolean doDaylightCycle = arguments.get(0).toBoolean();
 
@@ -644,7 +644,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDoEntityDrops extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDoEntityDrops", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDoEntityDrops", arguments, List.of(BooleanType.TYPE));
 
             boolean doEntityDrops = arguments.get(0).toBoolean();
 
@@ -657,7 +657,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDoFireTick extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDoFireTick", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDoFireTick", arguments, List.of(BooleanType.TYPE));
 
             boolean doFireTick = arguments.get(0).toBoolean();
 
@@ -670,7 +670,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDoImmediateRespawn extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDoImmediateRespawn", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDoImmediateRespawn", arguments, List.of(BooleanType.TYPE));
 
             boolean immediateRespawn = arguments.get(0).toBoolean();
 
@@ -683,7 +683,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDoInsomnia extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDoInsomnia", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDoInsomnia", arguments, List.of(BooleanType.TYPE));
 
             boolean doInsomnia = arguments.get(0).toBoolean();
 
@@ -696,7 +696,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDoLimitedCrafting extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDoLimitedCrafting", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDoLimitedCrafting", arguments, List.of(BooleanType.TYPE));
 
             boolean doLimitedCrafting = arguments.get(0).toBoolean();
 
@@ -709,7 +709,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDoMobGriefing extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDoMobGriefing", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDoMobGriefing", arguments, List.of(BooleanType.TYPE));
 
             boolean doMobGriefing = arguments.get(0).toBoolean();
 
@@ -722,7 +722,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDoMobLoot extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDoMobLoot", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDoMobLoot", arguments, List.of(BooleanType.TYPE));
 
             boolean doMobLoot = arguments.get(0).toBoolean();
 
@@ -735,7 +735,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDoMobSpawning extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDoMobSpawning", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDoMobSpawning", arguments, List.of(BooleanType.TYPE));
 
             boolean doMobSpawning = arguments.get(0).toBoolean();
 
@@ -748,7 +748,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDoPatrolSpawning extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDoPatrolSpawning", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDoPatrolSpawning", arguments, List.of(BooleanType.TYPE));
 
             boolean doPatrolSpawning = arguments.get(0).toBoolean();
 
@@ -761,7 +761,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDoTileDrops extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDoTileDrops", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDoTileDrops", arguments, List.of(BooleanType.TYPE));
 
             boolean doTileDrops = arguments.get(0).toBoolean();
 
@@ -774,7 +774,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDoTraderSpawning extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDoTraderSpawning", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDoTraderSpawning", arguments, List.of(BooleanType.TYPE));
 
             boolean doTraderSpawning = arguments.get(0).toBoolean();
 
@@ -787,7 +787,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDoVinesSpread extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDoVinesSpread", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDoVinesSpread", arguments, List.of(BooleanType.TYPE));
 
             boolean doVinesSpread = arguments.get(0).toBoolean();
 
@@ -800,7 +800,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDoWardenSpawning extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDoWardenSpawning", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDoWardenSpawning", arguments, List.of(BooleanType.TYPE));
 
             boolean doWardenSpawning = arguments.get(0).toBoolean();
 
@@ -813,7 +813,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDoWeatherCycle extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDoWeatherCycle", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDoWeatherCycle", arguments, List.of(BooleanType.TYPE));
 
             boolean doWeatherCycle = arguments.get(0).toBoolean();
 
@@ -826,7 +826,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetDrowningDamage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDrowningDamage", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setDrowningDamage", arguments, List.of(BooleanType.TYPE));
 
             boolean drowningDamage = arguments.get(0).toBoolean();
 
@@ -839,7 +839,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetEnderPearlsVanishOnDeath extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setEnderPearlsVanishOnDeath", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setEnderPearlsVanishOnDeath", arguments, List.of(BooleanType.TYPE));
 
             boolean enderPearlsVanishOnDeath = arguments.get(0).toBoolean();
 
@@ -852,7 +852,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetFallDamage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setFallDamage", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setFallDamage", arguments, List.of(BooleanType.TYPE));
 
             boolean fallDamage = arguments.get(0).toBoolean();
 
@@ -865,7 +865,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetFireDamage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setFireDamage", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setFireDamage", arguments, List.of(BooleanType.TYPE));
 
             boolean fireDamage = arguments.get(0).toBoolean();
 
@@ -878,7 +878,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetForgiveDeadPlayers extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setForgiveDeadPlayers", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setForgiveDeadPlayers", arguments, List.of(BooleanType.TYPE));
 
             boolean forgiveDeadPlayers = arguments.get(0).toBoolean();
 
@@ -891,7 +891,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetFreezeDamage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setFreezeDamage", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setFreezeDamage", arguments, List.of(BooleanType.TYPE));
 
             boolean freezeDamage = arguments.get(0).toBoolean();
 
@@ -904,7 +904,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetGlobalSoundEvents extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setGlobalSoundEvents", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setGlobalSoundEvents", arguments, List.of(BooleanType.TYPE));
 
             boolean globalSoundEvents = arguments.get(0).toBoolean();
 
@@ -917,7 +917,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetKeepInventory extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setKeepInventory", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setKeepInventory", arguments, List.of(BooleanType.TYPE));
 
             boolean keepInventory = arguments.get(0).toBoolean();
 
@@ -930,7 +930,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetLavaSourceConversion extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setLavaSourceConversion", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setLavaSourceConversion", arguments, List.of(BooleanType.TYPE));
 
             boolean lavaSourceConversion = arguments.get(0).toBoolean();
 
@@ -943,7 +943,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetLogAdminCommands extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setLogAdminCommands", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setLogAdminCommands", arguments, List.of(BooleanType.TYPE));
 
             boolean logAdminCommands = arguments.get(0).toBoolean();
 
@@ -956,7 +956,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetMaxArgumentCount extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setMaxArgumentCount", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setMaxArgumentCount", arguments, List.of(IntegerType.TYPE));
 
             long maxArgumentCount = arguments.get(0).toInteger();
 
@@ -969,7 +969,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetMaxCommandChainLength extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setMaxCommandChainLength", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setMaxCommandChainLength", arguments, List.of(IntegerType.TYPE));
 
             long maxCommandChainLength = arguments.get(0).toInteger();
 
@@ -982,7 +982,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetMaxEntityCramming extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setMaxEntityCramming", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setMaxEntityCramming", arguments, List.of(IntegerType.TYPE));
 
             long maxEntityCramming = arguments.get(0).toInteger();
 
@@ -995,7 +995,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetMaxLoops extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setMaxLoops", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setMaxLoops", arguments, List.of(IntegerType.TYPE));
 
             long maxLoops = arguments.get(0).toInteger();
 
@@ -1008,7 +1008,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetMobExplosionDropDecay extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setMobExplosionDropDecay", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setMobExplosionDropDecay", arguments, List.of(BooleanType.TYPE));
 
             boolean mobExplosionDropDecay = arguments.get(0).toBoolean();
 
@@ -1021,7 +1021,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetNaturalRegeneration extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setNaturalRegeneration", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setNaturalRegeneration", arguments, List.of(BooleanType.TYPE));
 
             boolean naturalRegeneration = arguments.get(0).toBoolean();
 
@@ -1034,7 +1034,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetPlayersSleepingPercentage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setPlayersSleepingPercentage", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setPlayersSleepingPercentage", arguments, List.of(IntegerType.TYPE));
 
             long playerSleepingPercentage = arguments.get(0).toInteger();
 
@@ -1047,7 +1047,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetRandomTickSpeed extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setRandomTickSpeed", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setRandomTickSpeed", arguments, List.of(IntegerType.TYPE));
 
             long randomTickSpeed = arguments.get(0).toInteger();
 
@@ -1060,7 +1060,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetReducedDebugInfo extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setReducedDebugInfo", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setReducedDebugInfo", arguments, List.of(BooleanType.TYPE));
 
             boolean reducedDebugInfo = arguments.get(0).toBoolean();
 
@@ -1073,7 +1073,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetSendCommandFeedback extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setSendCommandFeedback", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setSendCommandFeedback", arguments, List.of(BooleanType.TYPE));
 
             boolean sendCommandFeedback = arguments.get(0).toBoolean();
 
@@ -1086,7 +1086,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetShowDeathMessages extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setShowDeathMessages", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setShowDeathMessages", arguments, List.of(BooleanType.TYPE));
 
             boolean showDeathMessages = arguments.get(0).toBoolean();
 
@@ -1099,7 +1099,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetSnowAccumulationHeight extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setSnowAccumulationHeight", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setSnowAccumulationHeight", arguments, List.of(IntegerType.TYPE));
 
             long snowAccumulationHeight = arguments.get(0).toInteger();
 
@@ -1112,7 +1112,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetSpawnRadius extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setSpawnRadius", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setSpawnRadius", arguments, List.of(IntegerType.TYPE));
 
             long spawnRadius = arguments.get(0).toInteger();
 
@@ -1125,7 +1125,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetSpectatorsGenerateChunks extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setSpectatorsGenerateChunks", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setSpectatorsGenerateChunks", arguments, List.of(BooleanType.TYPE));
 
             boolean spectatorsGenerateChunks = arguments.get(0).toBoolean();
 
@@ -1138,7 +1138,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetTntExplosionDropDecay extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setTntExplosionDropDecay", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setTntExplosionDropDecay", arguments, List.of(BooleanType.TYPE));
 
             boolean tntExplosionDropDecay = arguments.get(0).toBoolean();
 
@@ -1151,7 +1151,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetUniversalAnger extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setUniversalAnger", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setUniversalAnger", arguments, List.of(BooleanType.TYPE));
 
             boolean universalAnger = arguments.get(0).toBoolean();
 
@@ -1164,7 +1164,7 @@ public class GameRulesType extends BuiltinType {
     private static class SetWaterSourceConversion extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setWaterSourceConversion", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setWaterSourceConversion", arguments, List.of(BooleanType.TYPE));
 
             boolean waterSourceConversion = arguments.get(0).toBoolean();
 

@@ -62,7 +62,7 @@ public class InventoryType extends BuiltinType {
     private static class Contains extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("contains", arguments, List.of(ItemType.TYPE));
+            this.validateCall("contains", arguments, List.of(ItemType.TYPE));
 
             Item item = this.boundClass.toGUI().toItem();
 
@@ -73,7 +73,7 @@ public class InventoryType extends BuiltinType {
     private static class Count extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("count", arguments, List.of(ItemType.TYPE));
+            this.validateCall("count", arguments, List.of(ItemType.TYPE));
 
             Item item = arguments.get(0).toItem();
 
@@ -84,7 +84,7 @@ public class InventoryType extends BuiltinType {
     private static class GetStack extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getStack", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("getStack", arguments, List.of(IntegerType.TYPE));
 
             long slot = arguments.get(0).toInteger();
 
@@ -95,7 +95,7 @@ public class InventoryType extends BuiltinType {
     private static class IsEmpty extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isEmpty", arguments);
+            this.validateCall("isEmpty", arguments);
 
             return new BooleanInstance(this.boundClass.toInventory().isEmpty());
         }
@@ -104,7 +104,7 @@ public class InventoryType extends BuiltinType {
     private static class RemoveStack extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("removeStack", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("removeStack", arguments, List.of(IntegerType.TYPE));
 
             long slot = arguments.get(0).toInteger();
 
@@ -115,7 +115,7 @@ public class InventoryType extends BuiltinType {
     private static class SetStack extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setStack", arguments, List.of(IntegerType.TYPE, ItemStackType.TYPE));
+            this.validateCall("setStack", arguments, List.of(IntegerType.TYPE, ItemStackType.TYPE));
 
             long slot = arguments.get(0).toInteger();
 

@@ -6,7 +6,7 @@ import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class BuiltinMethod extends BuiltinCallable {
+public abstract class BuiltinMethod extends BuiltinClass {
     public BuiltinClass boundClass;
     public BuiltinClass boundSuperClass;
 

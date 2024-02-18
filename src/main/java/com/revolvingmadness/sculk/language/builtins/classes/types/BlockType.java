@@ -26,7 +26,7 @@ public class BlockType extends BuiltinType {
     private static class AsItem extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("asItem", arguments);
+            this.validateCall("asItem", arguments);
 
             return new ItemInstance(this.boundClass.toBlock().asItem());
         }
@@ -35,7 +35,7 @@ public class BlockType extends BuiltinType {
     private static class GetBlastResistance extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getBlastResistance", arguments);
+            this.validateCall("getBlastResistance", arguments);
 
             return new FloatInstance(this.boundClass.toBlock().getBlastResistance());
         }
@@ -44,7 +44,7 @@ public class BlockType extends BuiltinType {
     private static class GetName extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getName", arguments);
+            this.validateCall("getName", arguments);
 
             return new StringInstance(this.boundClass.toBlock().getName().getString());
         }
@@ -53,7 +53,7 @@ public class BlockType extends BuiltinType {
     private static class GetSlipperiness extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getSlipperiness", arguments);
+            this.validateCall("getSlipperiness", arguments);
 
             return new FloatInstance(this.boundClass.toBlock().getSlipperiness());
         }

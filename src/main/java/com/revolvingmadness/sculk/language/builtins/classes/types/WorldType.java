@@ -41,7 +41,7 @@ public class WorldType extends BuiltinType {
     private static class BreakBlock extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("breakBlock", arguments, List.of(BlockPosType.TYPE, BooleanType.TYPE));
+            this.validateCall("breakBlock", arguments, List.of(BlockPosType.TYPE, BooleanType.TYPE));
 
             BlockPos blockPos = arguments.get(0).toBlockPos();
             boolean dropItems = arguments.get(1).toBoolean();
@@ -53,7 +53,7 @@ public class WorldType extends BuiltinType {
     private static class CanSetBlock extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("canSetBlock", arguments, List.of(BlockPosType.TYPE));
+            this.validateCall("canSetBlock", arguments, List.of(BlockPosType.TYPE));
 
             BlockPos blockPos = arguments.get(0).toBlockPos();
 
@@ -64,7 +64,7 @@ public class WorldType extends BuiltinType {
     private static class GetBlock extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getBlock", arguments, List.of(BlockPosType.TYPE));
+            this.validateCall("getBlock", arguments, List.of(BlockPosType.TYPE));
 
             BlockPos blockPos = arguments.get(0).toBlockPos();
 
@@ -75,7 +75,7 @@ public class WorldType extends BuiltinType {
     private static class GetPlayers extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getPlayers", arguments);
+            this.validateCall("getPlayers", arguments);
 
             List<BuiltinClass> list = new ArrayList<>();
 
@@ -88,7 +88,7 @@ public class WorldType extends BuiltinType {
     private static class GetSeed extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getSeed", arguments);
+            this.validateCall("getSeed", arguments);
 
             return new IntegerInstance(this.boundClass.toWorld().getSeed());
         }
@@ -97,7 +97,7 @@ public class WorldType extends BuiltinType {
     private static class GetTime extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getTime", arguments);
+            this.validateCall("getTime", arguments);
 
             return new IntegerInstance(this.boundClass.toWorld().getTime());
         }
@@ -106,7 +106,7 @@ public class WorldType extends BuiltinType {
     private static class GetTimeOfDay extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getTimeOfDay", arguments);
+            this.validateCall("getTimeOfDay", arguments);
 
             return new IntegerInstance(this.boundClass.toWorld().getTimeOfDay());
         }
@@ -115,7 +115,7 @@ public class WorldType extends BuiltinType {
     private static class HasRain extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("hasRain", arguments, List.of(BlockPosType.TYPE));
+            this.validateCall("hasRain", arguments, List.of(BlockPosType.TYPE));
 
             BlockPos blockPos = arguments.get(0).toBlockPos();
 
@@ -126,7 +126,7 @@ public class WorldType extends BuiltinType {
     private static class IsDay extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isDay", arguments);
+            this.validateCall("isDay", arguments);
 
             return new BooleanInstance(this.boundClass.toWorld().isDay());
         }
@@ -135,7 +135,7 @@ public class WorldType extends BuiltinType {
     private static class IsFlat extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isFlat", arguments);
+            this.validateCall("isFlat", arguments);
 
             return new BooleanInstance(this.boundClass.toWorld().isFlat());
         }
@@ -144,7 +144,7 @@ public class WorldType extends BuiltinType {
     private static class IsNight extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isNight", arguments);
+            this.validateCall("isNight", arguments);
 
             return new BooleanInstance(this.boundClass.toWorld().isNight());
         }
@@ -153,7 +153,7 @@ public class WorldType extends BuiltinType {
     private static class IsRaining extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isRaining", arguments);
+            this.validateCall("isRaining", arguments);
 
             return new BooleanInstance(this.boundClass.toWorld().isRaining());
         }
@@ -162,7 +162,7 @@ public class WorldType extends BuiltinType {
     private static class IsSleepingEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isSleepingEnabled", arguments);
+            this.validateCall("isSleepingEnabled", arguments);
 
             return new BooleanInstance(this.boundClass.toWorld().isSleepingEnabled());
         }
@@ -171,7 +171,7 @@ public class WorldType extends BuiltinType {
     private static class IsThundering extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isThundering", arguments);
+            this.validateCall("isThundering", arguments);
 
             return new BooleanInstance(this.boundClass.toWorld().isThundering());
         }
@@ -180,7 +180,7 @@ public class WorldType extends BuiltinType {
     private static class PlaceBlock extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isThundering", arguments, List.of(BlockPosType.TYPE, BlockType.TYPE));
+            this.validateCall("isThundering", arguments, List.of(BlockPosType.TYPE, BlockType.TYPE));
 
             BlockPos blockPos = arguments.get(0).toBlockPos();
             Block block = arguments.get(1).toBlock();
@@ -192,7 +192,7 @@ public class WorldType extends BuiltinType {
     private static class SetSpawnPos extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setSpawnPos", arguments, List.of(BlockPosType.TYPE, FloatType.TYPE));
+            this.validateCall("setSpawnPos", arguments, List.of(BlockPosType.TYPE, FloatType.TYPE));
 
             BlockPos blockPos = arguments.get(0).toBlockPos();
             double angle = arguments.get(1).toFloat();
@@ -206,7 +206,7 @@ public class WorldType extends BuiltinType {
     private static class SetTimeOfDay extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setTimeOfDay", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setTimeOfDay", arguments, List.of(IntegerType.TYPE));
 
             long timeOfDay = arguments.get(0).toInteger();
 

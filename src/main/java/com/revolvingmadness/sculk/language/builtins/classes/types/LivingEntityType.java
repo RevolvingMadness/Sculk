@@ -22,7 +22,7 @@ public class LivingEntityType extends BuiltinType {
     private static class TiltScreen extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("tiltScreen", arguments, List.of(FloatType.TYPE, FloatType.TYPE));
+            this.validateCall("tiltScreen", arguments, List.of(FloatType.TYPE, FloatType.TYPE));
 
             double deltaX = arguments.get(0).toFloat();
             double deltaZ = arguments.get(1).toFloat();
@@ -36,7 +36,7 @@ public class LivingEntityType extends BuiltinType {
     private static class WakeUp extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("wakeUp", arguments);
+            this.validateCall("wakeUp", arguments);
 
             this.boundClass.toLivingEntity().wakeUp();
 

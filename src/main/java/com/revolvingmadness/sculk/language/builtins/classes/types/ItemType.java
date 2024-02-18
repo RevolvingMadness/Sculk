@@ -27,7 +27,7 @@ public class ItemType extends BuiltinType {
     private static class GetMaxCount extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getMaxCount", arguments);
+            this.validateCall("getMaxCount", arguments);
 
             return new IntegerInstance(this.boundClass.toItem().getMaxCount());
         }
@@ -36,7 +36,7 @@ public class ItemType extends BuiltinType {
     private static class GetMaxDamage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getMaxDamage", arguments);
+            this.validateCall("getMaxDamage", arguments);
 
             return new IntegerInstance(this.boundClass.toItem().getMaxDamage());
         }
@@ -45,7 +45,7 @@ public class ItemType extends BuiltinType {
     private static class GetName extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getName", arguments);
+            this.validateCall("getName", arguments);
 
             return new StringInstance(this.boundClass.toItem().getName().getString());
         }
@@ -54,7 +54,7 @@ public class ItemType extends BuiltinType {
     private static class IsDamageable extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isDamageable", arguments);
+            this.validateCall("isDamageable", arguments);
 
             return new BooleanInstance(this.boundClass.toItem().isDamageable());
         }
@@ -63,7 +63,7 @@ public class ItemType extends BuiltinType {
     private static class IsFireproof extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isFireproof", arguments);
+            this.validateCall("isFireproof", arguments);
 
             return new BooleanInstance(this.boundClass.toItem().isFireproof());
         }
@@ -72,7 +72,7 @@ public class ItemType extends BuiltinType {
     private static class IsFood extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isFood", arguments);
+            this.validateCall("isFood", arguments);
 
             return new BooleanInstance(this.boundClass.toItem().isFood());
         }

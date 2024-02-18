@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
@@ -28,25 +27,10 @@ public class StringType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "uppercase", new Uppercase());
     }
 
-    @Override
-    public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        if (arguments.size() != 1) {
-            throw ErrorHolder.invalidArgumentCount("init", 1, arguments.size());
-        }
-
-        BuiltinClass stringClass = arguments.get(0);
-
-        if (!stringClass.instanceOf(StringType.TYPE)) {
-            throw ErrorHolder.argumentRequiresType(1, "init", StringType.TYPE, stringClass.getType());
-        }
-
-        return new StringInstance(stringClass.toString());
-    }
-
     private static class EndsWith extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("endsWith", arguments, List.of(StringType.TYPE));
+            this.validateCall("endsWith", arguments, List.of(StringType.TYPE));
 
             String text = arguments.get(0).toString();
 
@@ -57,7 +41,7 @@ public class StringType extends BuiltinType {
     private static class Length extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("length", arguments);
+            this.validateCall("length", arguments);
 
             return new IntegerInstance(this.boundClass.toString().length());
         }
@@ -66,7 +50,7 @@ public class StringType extends BuiltinType {
     private static class Lowercase extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("lowercase", arguments);
+            this.validateCall("lowercase", arguments);
 
             return new StringInstance(this.boundClass.toString().toLowerCase());
         }
@@ -75,7 +59,7 @@ public class StringType extends BuiltinType {
     private static class Split extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("split", arguments, List.of(StringType.TYPE));
+            this.validateCall("split", arguments, List.of(StringType.TYPE));
 
             String splitter = arguments.get(0).toString();
 
@@ -94,7 +78,7 @@ public class StringType extends BuiltinType {
     private static class StartsWith extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("startsWith", arguments, List.of(StringType.TYPE));
+            this.validateCall("startsWith", arguments, List.of(StringType.TYPE));
 
             String text = arguments.get(0).toString();
 
@@ -105,7 +89,7 @@ public class StringType extends BuiltinType {
     private static class Uppercase extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("uppercase", arguments);
+            this.validateCall("uppercase", arguments);
 
             return new StringInstance(this.boundClass.toString().toUpperCase());
         }

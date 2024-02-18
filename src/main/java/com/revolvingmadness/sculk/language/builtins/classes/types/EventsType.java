@@ -39,7 +39,7 @@ public class EventsType extends BuiltinType {
         BuiltinFunction eventFunction = new BuiltinFunction() {
             @Override
             public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-                this.validate(name, arguments, List.of(FunctionType.TYPE));
+                this.validateCall(name, arguments, List.of(FunctionType.TYPE));
 
                 BuiltinFunction function = arguments.get(0).toFunction();
 

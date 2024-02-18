@@ -12,7 +12,7 @@ import java.util.List;
 public class TypeFunction extends BuiltinFunction {
     @Override
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        this.validate("type", arguments, List.of(ObjectType.TYPE));
+        this.validateCall("type", arguments, List.of(ObjectType.TYPE));
 
         BuiltinClass object = arguments.get(0);
         BuiltinType type = object.getType();

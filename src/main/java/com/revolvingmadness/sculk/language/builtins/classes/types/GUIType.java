@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
@@ -24,25 +23,15 @@ public class GUIType extends BuiltinType {
 
     @Override
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        if (arguments.size() != 1) {
-            throw ErrorHolder.invalidArgumentCount("init", 1, arguments.size());
-        }
+        this.validateCall("init", arguments, List.of(StringType.TYPE));
 
-        BuiltinClass nameClass = arguments.get(0);
-
-        if (!nameClass.instanceOf(StringType.TYPE)) {
-            throw ErrorHolder.argumentRequiresType(1, "init", nameClass.getType(), StringType.TYPE);
-        }
-
-        String name = nameClass.toString();
-
-        return new GUIInstance(name);
+        return new GUIInstance(arguments.get(0).toString());
     }
 
     private static class GetInventory extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getInventory", arguments, List.of());
+            this.validateCall("getInventory", arguments, List.of());
 
             return new InventoryInstance(this.boundClass.toGUI().inventory);
         }
@@ -51,7 +40,7 @@ public class GUIType extends BuiltinType {
     private static class GetTitle extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getTitle", arguments, List.of());
+            this.validateCall("getTitle", arguments, List.of());
 
             return new StringInstance(this.boundClass.toGUI().title);
         }
@@ -60,7 +49,7 @@ public class GUIType extends BuiltinType {
     private static class OnSlotClick extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("onSlotClick", arguments, List.of(IntegerType.TYPE, IntegerType.TYPE, GUIType.TYPE, PlayerEntityType.TYPE));
+            this.validateCall("onSlotClick", arguments, List.of(IntegerType.TYPE, IntegerType.TYPE, GUIType.TYPE, PlayerEntityType.TYPE));
 
             return new BooleanInstance(true);
         }
@@ -69,7 +58,7 @@ public class GUIType extends BuiltinType {
     private static class SetInventory extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setInventory", arguments, List.of(InventoryType.TYPE));
+            this.validateCall("setInventory", arguments, List.of(InventoryType.TYPE));
 
             this.boundClass.toGUI().inventory = arguments.get(0).toInventory();
 

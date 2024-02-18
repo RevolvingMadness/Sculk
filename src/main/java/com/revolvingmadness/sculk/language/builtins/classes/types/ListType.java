@@ -1,12 +1,10 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.IntegerInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.ListInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.NullInstance;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -23,25 +21,10 @@ public class ListType extends BuiltinType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "append", new Append());
     }
 
-    @Override
-    public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        if (arguments.size() != 1) {
-            throw ErrorHolder.invalidArgumentCount("init", 1, arguments.size());
-        }
-
-        BuiltinClass listClass = arguments.get(0);
-
-        if (!listClass.instanceOf(new ListType())) {
-            throw ErrorHolder.argumentRequiresType(1, "init", new ListType(), listClass.getType());
-        }
-
-        return new ListInstance(listClass.toList());
-    }
-
     private static class Append extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("append", arguments, List.of(ObjectType.TYPE));
+            this.validateCall("append", arguments, List.of(ObjectType.TYPE));
 
             BuiltinClass object = arguments.get(0);
 
@@ -54,7 +37,7 @@ public class ListType extends BuiltinType {
     private static class Contains extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("contains", arguments, List.of(ObjectType.TYPE));
+            this.validateCall("contains", arguments, List.of(ObjectType.TYPE));
 
             BuiltinClass other = arguments.get(0);
 
@@ -65,7 +48,7 @@ public class ListType extends BuiltinType {
     private static class Length extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("length", arguments);
+            this.validateCall("length", arguments);
 
             return new IntegerInstance(this.boundClass.toList().size());
         }

@@ -36,7 +36,7 @@ public class PlayerManagerType extends BuiltinType {
     private static class AreCheatsEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("areCheatsEnabled", arguments);
+            this.validateCall("areCheatsEnabled", arguments);
 
             return new BooleanInstance(this.boundClass.toPlayerManager().areCheatsAllowed());
         }
@@ -45,7 +45,7 @@ public class PlayerManagerType extends BuiltinType {
     private static class GetCurrentPlayerCount extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getCurrentPlayerCount", arguments);
+            this.validateCall("getCurrentPlayerCount", arguments);
 
             return new IntegerInstance(this.boundClass.toPlayerManager().getCurrentPlayerCount());
         }
@@ -54,7 +54,7 @@ public class PlayerManagerType extends BuiltinType {
     private static class GetMaxPlayerCount extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getMaxPlayerCount", arguments);
+            this.validateCall("getMaxPlayerCount", arguments);
 
             return new IntegerInstance(this.boundClass.toPlayerManager().getMaxPlayerCount());
         }
@@ -63,7 +63,7 @@ public class PlayerManagerType extends BuiltinType {
     private static class GetPlayer extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getPlayer", arguments, List.of(StringType.TYPE));
+            this.validateCall("getPlayer", arguments, List.of(StringType.TYPE));
 
             String playerName = arguments.get(0).toString();
 
@@ -80,7 +80,7 @@ public class PlayerManagerType extends BuiltinType {
     private static class GetSimulationDistance extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getSimulationDistance", arguments);
+            this.validateCall("getSimulationDistance", arguments);
 
             return new IntegerInstance(this.boundClass.toPlayerManager().getSimulationDistance());
         }
@@ -89,7 +89,7 @@ public class PlayerManagerType extends BuiltinType {
     private static class GetViewDistance extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getViewDistance", arguments);
+            this.validateCall("getViewDistance", arguments);
 
             return new IntegerInstance(this.boundClass.toPlayerManager().getViewDistance());
         }
@@ -98,7 +98,7 @@ public class PlayerManagerType extends BuiltinType {
     private static class IsWhitelistEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isWhitelistEnabled", arguments);
+            this.validateCall("isWhitelistEnabled", arguments);
 
             return new BooleanInstance(this.boundClass.toPlayerManager().isWhitelistEnabled());
         }
@@ -107,7 +107,7 @@ public class PlayerManagerType extends BuiltinType {
     private static class SetCheatsEnabled extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setCheatsEnabled", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setCheatsEnabled", arguments, List.of(BooleanType.TYPE));
 
             boolean cheatsEnabled = arguments.get(0).toBoolean();
 
@@ -120,7 +120,7 @@ public class PlayerManagerType extends BuiltinType {
     private static class SetSimulationDistance extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setSimulationDistance", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setSimulationDistance", arguments, List.of(IntegerType.TYPE));
 
             long simulationDistance = arguments.get(0).toInteger();
 
@@ -133,7 +133,7 @@ public class PlayerManagerType extends BuiltinType {
     private static class SetViewDistance extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setViewDistance", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setViewDistance", arguments, List.of(IntegerType.TYPE));
 
             long viewDistance = arguments.get(0).toInteger();
 
@@ -147,7 +147,7 @@ public class PlayerManagerType extends BuiltinType {
 
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setWhitelistEnabled", arguments, List.of(BooleanType.TYPE));
+            this.validateCall("setWhitelistEnabled", arguments, List.of(BooleanType.TYPE));
 
             boolean whitelistEnabled = arguments.get(0).toBoolean();
 

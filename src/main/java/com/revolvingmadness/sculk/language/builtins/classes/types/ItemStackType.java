@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
@@ -40,29 +39,15 @@ public class ItemStackType extends BuiltinType {
 
     @Override
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        if (arguments.size() != 2) {
-            throw ErrorHolder.invalidArgumentCount("init", 2, arguments.size());
-        }
+        this.validateCall("init", arguments, List.of(ItemType.TYPE, IntegerType.TYPE));
 
-        BuiltinClass itemStackClass = arguments.get(0);
-
-        if (!itemStackClass.instanceOf(ItemType.TYPE)) {
-            throw ErrorHolder.argumentRequiresType(1, "init", ItemType.TYPE, itemStackClass.getType());
-        }
-
-        BuiltinClass amountClass = arguments.get(1);
-
-        if (!amountClass.instanceOf(IntegerType.TYPE)) {
-            throw ErrorHolder.argumentRequiresType(1, "init", IntegerType.TYPE, amountClass.getType());
-        }
-
-        return new ItemStackInstance(new ItemStack(itemStackClass.toItem(), (int) amountClass.toInteger()));
+        return new ItemStackInstance(new ItemStack(arguments.get(0).toItem(), (int) arguments.get(1).toInteger()));
     }
 
     private static class Decrement extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("decrement", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("decrement", arguments, List.of(IntegerType.TYPE));
 
             long amount = arguments.get(0).toInteger();
 
@@ -75,7 +60,7 @@ public class ItemStackType extends BuiltinType {
     private static class GetCount extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getCount", arguments);
+            this.validateCall("getCount", arguments);
 
             return new IntegerInstance(this.boundClass.toItemStack().getCount());
         }
@@ -84,7 +69,7 @@ public class ItemStackType extends BuiltinType {
     private static class GetDamage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getDamage", arguments);
+            this.validateCall("getDamage", arguments);
 
             return new IntegerInstance(this.boundClass.toItemStack().getDamage());
         }
@@ -93,7 +78,7 @@ public class ItemStackType extends BuiltinType {
     private static class GetHolder extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getHolder", arguments);
+            this.validateCall("getHolder", arguments);
 
             return new EntityInstance(this.boundClass.toItemStack().getHolder());
         }
@@ -102,7 +87,7 @@ public class ItemStackType extends BuiltinType {
     private static class GetItem extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getItem", arguments);
+            this.validateCall("getItem", arguments);
 
             return new ItemInstance(this.boundClass.toItemStack().getItem());
         }
@@ -111,7 +96,7 @@ public class ItemStackType extends BuiltinType {
     private static class GetMaxCount extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getMaxCount", arguments);
+            this.validateCall("getMaxCount", arguments);
 
             return new IntegerInstance(this.boundClass.toItemStack().getMaxCount());
         }
@@ -120,7 +105,7 @@ public class ItemStackType extends BuiltinType {
     private static class GetMaxDamage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getMaxDamage", arguments);
+            this.validateCall("getMaxDamage", arguments);
 
             return new IntegerInstance(this.boundClass.toItemStack().getMaxDamage());
         }
@@ -129,7 +114,7 @@ public class ItemStackType extends BuiltinType {
     private static class GetName extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getName", arguments);
+            this.validateCall("getName", arguments);
 
             return new StringInstance(this.boundClass.toItemStack().getName().getString());
         }
@@ -138,7 +123,7 @@ public class ItemStackType extends BuiltinType {
     private static class GetRepairCost extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("getRepairCost", arguments);
+            this.validateCall("getRepairCost", arguments);
 
             return new IntegerInstance(this.boundClass.toItemStack().getRepairCost());
         }
@@ -147,7 +132,7 @@ public class ItemStackType extends BuiltinType {
     private static class HasEnchantments extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("hasEnchantments", arguments);
+            this.validateCall("hasEnchantments", arguments);
 
             return new BooleanInstance(this.boundClass.toItemStack().hasEnchantments());
         }
@@ -156,7 +141,7 @@ public class ItemStackType extends BuiltinType {
     private static class Increment extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("increment", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("increment", arguments, List.of(IntegerType.TYPE));
 
             long amount = arguments.get(0).toInteger();
 
@@ -169,7 +154,7 @@ public class ItemStackType extends BuiltinType {
     private static class IsDamageable extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isDamageable", arguments);
+            this.validateCall("isDamageable", arguments);
 
             return new BooleanInstance(this.boundClass.toItemStack().isDamageable());
         }
@@ -178,7 +163,7 @@ public class ItemStackType extends BuiltinType {
     private static class IsDamaged extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isDamaged", arguments);
+            this.validateCall("isDamaged", arguments);
 
             return new BooleanInstance(this.boundClass.toItemStack().isDamaged());
         }
@@ -187,7 +172,7 @@ public class ItemStackType extends BuiltinType {
     private static class IsEnchantable extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isEnchantable", arguments);
+            this.validateCall("isEnchantable", arguments);
 
             return new BooleanInstance(this.boundClass.toItemStack().isEnchantable());
         }
@@ -196,7 +181,7 @@ public class ItemStackType extends BuiltinType {
     private static class IsFood extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isFood", arguments);
+            this.validateCall("isFood", arguments);
 
             return new BooleanInstance(this.boundClass.toItemStack().isFood());
         }
@@ -205,7 +190,7 @@ public class ItemStackType extends BuiltinType {
     private static class IsInFrame extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isInFrame", arguments);
+            this.validateCall("isInFrame", arguments);
 
             return new BooleanInstance(this.boundClass.toItemStack().isInFrame());
         }
@@ -214,7 +199,7 @@ public class ItemStackType extends BuiltinType {
     private static class IsStackable extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("isStackable", arguments);
+            this.validateCall("isStackable", arguments);
 
             return new BooleanInstance(this.boundClass.toItemStack().isStackable());
         }
@@ -223,7 +208,7 @@ public class ItemStackType extends BuiltinType {
     private static class SetCount extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setCount", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setCount", arguments, List.of(IntegerType.TYPE));
 
             long count = arguments.get(0).toInteger();
 
@@ -236,7 +221,7 @@ public class ItemStackType extends BuiltinType {
     private static class SetDamage extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setDamage", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setDamage", arguments, List.of(IntegerType.TYPE));
 
             long damage = arguments.get(0).toInteger();
 
@@ -249,7 +234,7 @@ public class ItemStackType extends BuiltinType {
     private static class SetRepairCost extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validate("setRepairCost", arguments, List.of(IntegerType.TYPE));
+            this.validateCall("setRepairCost", arguments, List.of(IntegerType.TYPE));
 
             long repairCost = arguments.get(0).toInteger();
 
