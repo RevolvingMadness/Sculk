@@ -1,7 +1,9 @@
 package com.revolvingmadness.sculk.language.builtins.classes;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.GUIInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.nbt.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
 import com.revolvingmadness.sculk.language.errors.TypeError;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
@@ -37,61 +39,61 @@ public abstract class BuiltinClass extends ExpressionNode {
         this.variableScope = variableScope;
     }
 
-    public static BuiltinClass fromNbtElement(NbtElement result) {
+    public static NBTElementInstance fromNbtElement(NbtElement result) {
         if (result == null) {
-            return new NullInstance();
+            return new NBTNullInstance();
         }
 
         if (result instanceof NbtByteArray nbtByteArray) {
-            List<BuiltinClass> list = new ArrayList<>();
+            List<NBTElementInstance> list = new ArrayList<>();
 
             nbtByteArray.forEach(nbtByte -> list.add(BuiltinClass.fromNbtElement(nbtByte)));
 
-            return new ListInstance(list);
+            return new NBTListInstance(list);
         } else if (result instanceof NbtIntArray nbtIntArray) {
-            List<BuiltinClass> list = new ArrayList<>();
+            List<NBTElementInstance> list = new ArrayList<>();
 
             nbtIntArray.forEach(nbtInt -> list.add(BuiltinClass.fromNbtElement(nbtInt)));
 
-            return new ListInstance(list);
+            return new NBTListInstance(list);
         } else if (result instanceof NbtList nbtList) {
-            List<BuiltinClass> list = new ArrayList<>();
+            List<NBTElementInstance> list = new ArrayList<>();
 
             nbtList.forEach(nbtElement -> list.add(BuiltinClass.fromNbtElement(nbtElement)));
 
-            return new ListInstance(list);
+            return new NBTListInstance(list);
         } else if (result instanceof NbtLongArray nbtLongArray) {
-            List<BuiltinClass> list = new ArrayList<>();
+            List<NBTElementInstance> list = new ArrayList<>();
 
             nbtLongArray.forEach(nbtLong -> list.add(BuiltinClass.fromNbtElement(nbtLong)));
 
-            return new ListInstance(list);
+            return new NBTListInstance(list);
         } else if (result instanceof NbtByte nbtByte) {
-            return new IntegerInstance(nbtByte.byteValue());
+            return new NBTIntegerInstance(nbtByte.byteValue());
         } else if (result instanceof NbtDouble nbtDouble) {
-            return new FloatInstance(nbtDouble.doubleValue());
+            return new NBTFloatInstance(nbtDouble.doubleValue());
         } else if (result instanceof NbtFloat nbtFloat) {
-            return new FloatInstance(nbtFloat.floatValue());
+            return new NBTFloatInstance(nbtFloat.floatValue());
         } else if (result instanceof NbtInt nbtInt) {
-            return new IntegerInstance(nbtInt.intValue());
+            return new NBTIntegerInstance(nbtInt.intValue());
         } else if (result instanceof NbtLong nbtLong) {
-            return new IntegerInstance(nbtLong.longValue());
+            return new NBTIntegerInstance(nbtLong.longValue());
         } else if (result instanceof NbtShort nbtShort) {
-            return new IntegerInstance(nbtShort.shortValue());
+            return new NBTIntegerInstance(nbtShort.shortValue());
         } else if (result instanceof NbtCompound nbtCompound) {
-            Map<BuiltinClass, BuiltinClass> dictionary = new HashMap<>();
+            Map<String, NBTElementInstance> compound = new HashMap<>();
 
             Set<String> keys = nbtCompound.getKeys();
 
             keys.forEach(key -> {
-                BuiltinClass value = BuiltinClass.fromNbtElement(nbtCompound.get(key));
+                NBTElementInstance value = BuiltinClass.fromNbtElement(nbtCompound.get(key));
 
-                dictionary.put(new StringInstance(key), value);
+                compound.put(key, value);
             });
 
-            return new DictionaryInstance(dictionary);
+            return new NBTCompoundInstance(compound);
         } else if (result instanceof NbtString nbtString) {
-            return new StringInstance(nbtString.asString());
+            return new NBTStringInstance(nbtString.asString());
         }
 
         throw new TypeError("Cannot convert nbt element '" + result + "' to class");
@@ -153,7 +155,7 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.unsupportedBinaryOperator("^", this.getType(), other.getType());
     }
 
-    public BuiltinClass fromNBT(BuiltinClass nbtElement) {
+    public BuiltinClass fromNBT(NBTElementInstance nbtElement) {
         throw new TypeError("Type '" + this.getType().name + "' does not support NBT de-serialization");
     }
 
@@ -268,10 +270,6 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public boolean toBoolean() {
         throw ErrorHolder.cannotConvertType(this.getType(), BooleanType.TYPE);
-    }
-
-    public Map<BuiltinClass, BuiltinClass> toDictionary() {
-        throw ErrorHolder.cannotConvertType(this.getType(), DictionaryType.TYPE);
     }
 
     public Difficulty toDifficulty() {

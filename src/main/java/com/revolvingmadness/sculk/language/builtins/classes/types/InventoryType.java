@@ -4,7 +4,8 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
-import com.revolvingmadness.sculk.language.errors.TypeError;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.nbt.NBTCompoundInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.nbt.NBTElementInstance;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.inventory.Inventory;
@@ -15,7 +16,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
-import java.util.Map;
 
 public class InventoryType extends BuiltinType {
     public static final InventoryType TYPE = new InventoryType();
@@ -39,24 +39,19 @@ public class InventoryType extends BuiltinType {
     }
 
     @Override
-    public BuiltinClass fromNBT(BuiltinClass nbtElement) {
+    public BuiltinClass fromNBT(NBTElementInstance nbtElement) {
         Inventory inventory = new SimpleInventory(27);
-
-        if (!nbtElement.instanceOf(ListType.TYPE)) {
-            throw new TypeError("Cannot de-serialize type '" + nbtElement.getType().name + "' to type '" + this.name + "'");
-        }
-
-        List<BuiltinClass> list = nbtElement.toList();
+        List<NBTElementInstance> list = nbtElement.toNBTList();
 
         list.forEach(slotClass -> {
-            Map<BuiltinClass, BuiltinClass> slot = slotClass.toDictionary();
+            NBTCompoundInstance slot = slotClass.toNBTCompound();
 
-            long slotNumber = slot.get(new StringInstance("slot")).toInteger();
+            long slotNumber = slot.getOrThrow("slot").toNBTInteger();
 
-            Map<BuiltinClass, BuiltinClass> stack = slot.get(new StringInstance("stack")).toDictionary();
+            NBTCompoundInstance stack = slot.getOrThrow("stack").toNBTCompound();
 
-            long count = stack.get(new StringInstance("count")).toInteger();
-            String id = stack.get(new StringInstance("id")).toString();
+            long count = stack.getOrThrow("count").toNBTInteger();
+            String id = stack.getOrThrow("id").toNBTString();
 
             Item item = Registries.ITEM.get(Identifier.tryParse(id));
 

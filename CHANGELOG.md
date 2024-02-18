@@ -144,3 +144,11 @@
 - `Inventory` constructor
 - `PlayerEntity.setInventory(inventory: Inventory) -> Null`
 - `PlayerEntity.getInventory() -> Inventory`
+- `NBTBoolean`
+- `NBTCompound`
+- `NBTElement`
+- `NBTFloat`
+- `NBTInteger`
+- `NBTList`
+- `NBTNull`
+- `NBTString`

@@ -6,6 +6,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
+import com.revolvingmadness.sculk.language.builtins.classes.types.nbt.*;
 import com.revolvingmadness.sculk.language.builtins.functions.*;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -59,6 +60,15 @@ public class VariableTable {
     }
 
     private void declareClasses() {
+        this.declare(List.of(TokenType.CONST), "NBTBoolean", NBTBooleanType.TYPE);
+        this.declare(List.of(TokenType.CONST), "NBTCompound", NBTCompoundType.TYPE);
+        this.declare(List.of(TokenType.CONST), "NBTElement", NBTElementType.TYPE);
+        this.declare(List.of(TokenType.CONST), "NBTFloat", NBTFloatType.TYPE);
+        this.declare(List.of(TokenType.CONST), "NBTInteger", NBTIntegerType.TYPE);
+        this.declare(List.of(TokenType.CONST), "NBTList", NBTListType.TYPE);
+        this.declare(List.of(TokenType.CONST), "NBTNull", NBTNullType.TYPE);
+        this.declare(List.of(TokenType.CONST), "NBTString", NBTStringType.TYPE);
+
         this.declare(List.of(TokenType.CONST), "BlockHitResult", BlockHitResultType.TYPE);
         this.declare(List.of(TokenType.CONST), "BlockPos", BlockPosType.TYPE);
         this.declare(List.of(TokenType.CONST), "Blocks", BlocksType.TYPE);
