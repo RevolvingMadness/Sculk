@@ -17,18 +17,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventHolder {
-    public static final List<Event> onEntitySleep = new ArrayList<>();
-    public static final List<Event> onPlaceBlock = new ArrayList<>();
     public static final List<Event> onAttackEntity = new ArrayList<>();
     public static final List<Event> onBreakBlock = new ArrayList<>();
     public static final List<Event> onCraftItem = new ArrayList<>();
     public static final List<Event> onDropItem = new ArrayList<>();
+    public static final List<Event> onEntitySleep = new ArrayList<>();
     public static final List<Event> onJump = new ArrayList<>();
     public static final List<Event> onPickupItem = new ArrayList<>();
+    public static final List<Event> onPlaceBlock = new ArrayList<>();
+    public static final List<Event> onRightClickItem = new ArrayList<>();
     public static final List<Event> onRingBell = new ArrayList<>();
     public static final List<Event> onSendChatMessage = new ArrayList<>();
     public static final List<Event> whileSneaking = new ArrayList<>();
-    public static final List<Event> onRightClickItem = new ArrayList<>();
 
     public static void clearEvents() {
         EventHolder.onEntitySleep.clear();

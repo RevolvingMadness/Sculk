@@ -136,3 +136,4 @@
 - `Inventory` class
 - `List` toString
 - `ItemStack.init(item: Item, count: Integer) -> Null`
+- `\uXXXX` to strings

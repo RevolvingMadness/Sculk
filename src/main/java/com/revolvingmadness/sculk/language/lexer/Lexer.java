@@ -289,6 +289,11 @@ public class Lexer {
             case 'n' -> '\n';
             case 'r' -> '\r';
             case 'f' -> '\f';
+            case 'u' -> {
+                String hexString = "" + this.consume() + this.consume() + this.consume() + this.consume();
+
+                yield (char) Integer.parseInt(hexString, 16);
+            }
             case '"' -> '"';
             case '\\' -> '\\';
             default -> throw new SyntaxError("Unsupported escape character '" + escapeChar + "'");
