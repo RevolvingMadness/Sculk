@@ -100,6 +100,11 @@ public class Interpreter implements Visitor {
     }
 
     @Override
+    public BuiltinClass visitBuiltinClassExpression(BuiltinClass builtinClassExpression) {
+        return builtinClassExpression;
+    }
+
+    @Override
     public BuiltinClass visitCallExpression(CallExpressionNode callExpression) {
         BuiltinClass callee = this.visitExpression(callExpression.callee);
 
@@ -186,8 +191,8 @@ public class Interpreter implements Visitor {
             return this.visitIdentifierExpression(identifierExpression);
         } else if (expression instanceof GetExpressionNode getExpression) {
             return this.visitGetExpression(getExpression);
-        } else if (expression instanceof BuiltinClass baseClassExpression) {
-            return baseClassExpression;
+        } else if (expression instanceof BuiltinClass builtinClassExpression) {
+            return this.visitBuiltinClassExpression(builtinClassExpression);
         } else if (expression instanceof IndexExpressionNode indexExpression) {
             return this.visitIndexExpression(indexExpression);
         } else if (expression instanceof PostfixExpressionNode postfixExpression) {

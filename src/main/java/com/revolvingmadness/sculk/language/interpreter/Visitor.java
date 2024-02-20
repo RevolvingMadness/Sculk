@@ -13,6 +13,8 @@ public interface Visitor {
 
     void visitBreakStatement(BreakStatementNode breakStatement);
 
+    BuiltinClass visitBuiltinClassExpression(BuiltinClass builtinClassExpression);
+
     BuiltinClass visitCallExpression(CallExpressionNode callExpression);
 
     void visitClassDeclarationStatement(ClassDeclarationStatementNode classDeclarationStatement);
