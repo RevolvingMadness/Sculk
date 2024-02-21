@@ -1,11 +1,10 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.entity;
 
 import com.revolvingmadness.sculk.accessors.EntityAccessor;
-import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.entity.EntityType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.entity.EntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtElement;
 
@@ -21,9 +20,7 @@ public class EntityInstance extends BuiltinClass {
 
     @Override
     public void deleteIndex(BuiltinClass index) {
-        if (!index.instanceOf(StringType.TYPE)) {
-            throw ErrorHolder.cannotIndexTypeByType(this.getType(), index.getType());
-        }
+        this.validateIndex(StringType.TYPE, index);
 
         ((EntityAccessor) this.value).sculk$deleteCustomData(index.toString());
     }
@@ -42,9 +39,7 @@ public class EntityInstance extends BuiltinClass {
 
     @Override
     public BuiltinClass getIndex(BuiltinClass index) {
-        if (!index.instanceOf(StringType.TYPE)) {
-            throw ErrorHolder.cannotIndexTypeByType(this.getType(), index.getType());
-        }
+        this.validateIndex(StringType.TYPE, index);
 
         NbtElement result = ((EntityAccessor) this.value).sculk$readCustomData(index.toString());
 
@@ -63,9 +58,7 @@ public class EntityInstance extends BuiltinClass {
 
     @Override
     public void setIndex(BuiltinClass index, BuiltinClass value) {
-        if (!index.instanceOf(StringType.TYPE)) {
-            throw ErrorHolder.cannotIndexTypeByType(this.getType(), index.getType());
-        }
+        this.validateIndex(StringType.TYPE, index);
 
         ((EntityAccessor) this.value).sculk$writeCustomData(index.toString(), value.toNBT());
     }

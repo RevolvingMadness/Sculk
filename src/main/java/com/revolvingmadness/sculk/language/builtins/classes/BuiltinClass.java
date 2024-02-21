@@ -1,8 +1,8 @@
 package com.revolvingmadness.sculk.language.builtins.classes;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.GUIInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.nbt.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockPosType;
@@ -381,5 +381,11 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public void validateCall(String callableName, List<BuiltinClass> arguments) {
         this.validateCall(callableName, arguments, List.of());
+    }
+
+    public void validateIndex(BuiltinType type, BuiltinClass requiredType) {
+        if (!requiredType.instanceOf(type)) {
+            throw ErrorHolder.cannotIndexTypeByType(this.getType(), requiredType.getType());
+        }
     }
 }
