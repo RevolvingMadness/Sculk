@@ -1,20 +1,30 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.entity;
 
+import com.revolvingmadness.sculk.accessors.EntityAccessor;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.entity.ServerPlayerEntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.Objects;
 
-public class ServerPlayerEntityInstance extends PlayerEntityInstance {
+public class ServerPlayerEntityInstance extends BuiltinClass {
     public final ServerPlayerEntity value;
 
     public ServerPlayerEntityInstance(ServerPlayerEntity value) {
-        super(value);
         this.value = value;
+    }
+
+    @Override
+    public void deleteIndex(BuiltinClass index) {
+        this.validateIndex(StringType.TYPE, index);
+
+        ((EntityAccessor) this.value).sculk$deleteCustomData(index.toString());
     }
 
     @Override
@@ -30,6 +40,15 @@ public class ServerPlayerEntityInstance extends PlayerEntityInstance {
     }
 
     @Override
+    public BuiltinClass getIndex(BuiltinClass index) {
+        this.validateIndex(StringType.TYPE, index);
+
+        NbtElement result = ((EntityAccessor) this.value).sculk$readCustomData(index.toString());
+
+        return BuiltinClass.fromNbtElement(result);
+    }
+
+    @Override
     public BuiltinType getType() {
         return ServerPlayerEntityType.TYPE;
     }
@@ -37,6 +56,13 @@ public class ServerPlayerEntityInstance extends PlayerEntityInstance {
     @Override
     public int hashCode() {
         return Objects.hash(this.value);
+    }
+
+    @Override
+    public void setIndex(BuiltinClass index, BuiltinClass value) {
+        this.validateIndex(StringType.TYPE, index);
+
+        ((EntityAccessor) this.value).sculk$writeCustomData(index.toString(), value.toNBT());
     }
 
     @Override

@@ -229,11 +229,6 @@ public abstract class BuiltinClass extends ExpressionNode {
         return this.getType().isAbstract();
     }
 
-    @SuppressWarnings("unused")
-    public boolean isConstant() {
-        return this.getType().isConstant();
-    }
-
     public BooleanInstance lessThan(BuiltinClass other) {
         throw ErrorHolder.unsupportedBinaryOperator("<", this.getType(), other.getType());
     }

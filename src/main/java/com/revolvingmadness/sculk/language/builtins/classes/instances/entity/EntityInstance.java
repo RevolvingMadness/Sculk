@@ -10,7 +10,6 @@ import net.minecraft.nbt.NbtElement;
 
 import java.util.Objects;
 
-@SuppressWarnings("unused")
 public class EntityInstance extends BuiltinClass {
     public final Entity value;
 
