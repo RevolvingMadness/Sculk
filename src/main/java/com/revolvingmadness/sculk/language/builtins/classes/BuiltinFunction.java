@@ -1,6 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes;
 
-import com.revolvingmadness.sculk.language.builtins.classes.types.FunctionType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.FunctionType;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 
 import java.util.List;

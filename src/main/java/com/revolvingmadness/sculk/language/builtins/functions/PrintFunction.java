@@ -4,9 +4,9 @@ import com.revolvingmadness.sculk.backend.Logger;
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinFunction;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.NullInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.NullInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.ObjectType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.StringType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringType;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import net.minecraft.text.Text;
 

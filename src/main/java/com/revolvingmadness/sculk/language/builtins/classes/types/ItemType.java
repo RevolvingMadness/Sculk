@@ -3,9 +3,9 @@ package com.revolvingmadness.sculk.language.builtins.classes.types;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.IntegerInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.StringInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.IntegerInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.StringInstance;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 

@@ -4,6 +4,13 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.NullInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.StringInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.InventoryInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.entity.PlayerEntityType;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 

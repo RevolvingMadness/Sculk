@@ -1,10 +1,16 @@
 package com.revolvingmadness.sculk.language.builtins.classes;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.GUIInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.nbt.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
+import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockPosType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.*;
+import com.revolvingmadness.sculk.language.builtins.classes.types.entity.EntityType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.entity.PlayerEntityType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.entity.ServerPlayerEntityType;
 import com.revolvingmadness.sculk.language.errors.TypeError;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.interpreter.Variable;

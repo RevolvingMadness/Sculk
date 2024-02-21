@@ -5,7 +5,7 @@ import com.revolvingmadness.sculk.backend.SculkScript;
 import com.revolvingmadness.sculk.backend.SculkScriptManager;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinFunction;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
 import com.revolvingmadness.sculk.language.errors.Error;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 

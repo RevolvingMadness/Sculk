@@ -2,8 +2,8 @@ package com.revolvingmadness.sculk.language.builtins.functions;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinFunction;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.StringInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.types.StringType;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.StringInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringType;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 
 import java.util.Base64;

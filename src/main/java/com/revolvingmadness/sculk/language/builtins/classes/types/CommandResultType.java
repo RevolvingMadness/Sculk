@@ -2,8 +2,11 @@ package com.revolvingmadness.sculk.language.builtins.classes.types;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.BooleanInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.CommandResultInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.BooleanType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringType;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 
 import java.util.List;
