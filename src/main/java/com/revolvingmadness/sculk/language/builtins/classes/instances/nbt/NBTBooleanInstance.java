@@ -1,20 +1,16 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.nbt;
 
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.nbt.NBTBooleanType;
 import net.minecraft.nbt.NbtByte;
 import net.minecraft.nbt.NbtElement;
 
+@SuppressWarnings("unused")
 public class NBTBooleanInstance extends NBTElementInstance {
     public final boolean value;
 
     public NBTBooleanInstance(boolean value) {
+        super(NBTBooleanType.TYPE);
         this.value = value;
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return NBTBooleanType.TYPE;
     }
 
     @Override

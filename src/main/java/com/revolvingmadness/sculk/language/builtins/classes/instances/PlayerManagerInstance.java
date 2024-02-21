@@ -1,7 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.PlayerManagerType;
 import net.minecraft.server.PlayerManager;
 
@@ -11,6 +10,7 @@ public class PlayerManagerInstance extends BuiltinClass {
     public final PlayerManager value;
 
     public PlayerManagerInstance(PlayerManager value) {
+        super(PlayerManagerType.TYPE);
         this.value = value;
     }
 
@@ -24,11 +24,6 @@ public class PlayerManagerInstance extends BuiltinClass {
             return false;
         PlayerManagerInstance that = (PlayerManagerInstance) o;
         return Objects.equals(this.value, that.value);
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return PlayerManagerType.TYPE;
     }
 
     @Override

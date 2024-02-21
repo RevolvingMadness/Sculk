@@ -1,7 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.entity;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.entity.EntityTypeType;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -13,6 +12,7 @@ public class EntityTypeInstance extends BuiltinClass {
     public final boolean isFireImmune;
 
     public EntityTypeInstance(boolean isFireImmune) {
+        super(EntityTypeType.TYPE);
         this.isFireImmune = isFireImmune;
 
         this.variableScope.declare(List.of(TokenType.CONST), "isFireImmune", new BooleanInstance(isFireImmune));
@@ -28,11 +28,6 @@ public class EntityTypeInstance extends BuiltinClass {
             return false;
         EntityTypeInstance that = (EntityTypeInstance) o;
         return this.isFireImmune == that.isFireImmune;
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return EntityTypeType.TYPE;
     }
 
     @Override

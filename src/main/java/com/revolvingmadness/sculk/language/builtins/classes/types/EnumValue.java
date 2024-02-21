@@ -14,16 +14,12 @@ public abstract class EnumValue extends BuiltinClass {
     public final BuiltinType type;
 
     public EnumValue(String name, int position, BuiltinType type) {
+        super(type);
         this.name = name;
         this.position = position;
         this.type = type;
 
         this.variableScope.declare(List.of(TokenType.CONST), "name", new StringInstance(this.name));
         this.variableScope.declare(List.of(TokenType.CONST), "position", new IntegerInstance(this.position));
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return this.type;
     }
 }

@@ -22,6 +22,10 @@ public abstract class BuiltinType extends BuiltinClass {
         this(List.of(), name, ObjectType.TYPE, new VariableScope());
     }
 
+    public BuiltinType(BuiltinType type, String name) {
+        this(type, List.of(), name, ObjectType.TYPE, new VariableScope());
+    }
+
     public BuiltinType(String name, BuiltinType superClass) {
         this(List.of(), name, superClass, new VariableScope());
     }
@@ -31,6 +35,11 @@ public abstract class BuiltinType extends BuiltinClass {
     }
 
     public BuiltinType(List<TokenType> accessModifiers, String name, BuiltinType superClass, VariableScope typeVariableScope) {
+        this(TypeType.TYPE, accessModifiers, name, superClass, typeVariableScope);
+    }
+
+    public BuiltinType(BuiltinType type, List<TokenType> accessModifiers, String name, BuiltinType superClass, VariableScope typeVariableScope) {
+        super(type);
         this.accessModifiers = accessModifiers;
         this.name = name;
         this.superClass = superClass;
@@ -121,11 +130,6 @@ public abstract class BuiltinType extends BuiltinClass {
     }
 
     @Override
-    public BuiltinType getType() {
-        return TypeType.TYPE;
-    }
-
-    @Override
     public boolean hasAbstractMethods() {
         for (Variable variable : this.typeVariableScope.variables.values()) {
             if (variable.isAbstract()) {
@@ -144,11 +148,6 @@ public abstract class BuiltinType extends BuiltinClass {
     @Override
     public boolean isAbstract() {
         return this.accessModifiers.contains(TokenType.ABSTRACT);
-    }
-
-    @Override
-    public boolean isConstant() {
-        return this.accessModifiers.contains(TokenType.CONST);
     }
 
     @Override

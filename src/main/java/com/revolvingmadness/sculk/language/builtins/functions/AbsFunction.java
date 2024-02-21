@@ -27,6 +27,6 @@ public class AbsFunction extends BuiltinFunction {
             return new FloatInstance(Math.abs(number.toFloat()));
         }
 
-        throw ErrorHolder.argumentRequiresType(1, "abs", NumberType.TYPE, number.getType());
+        throw ErrorHolder.argumentRequiresType(1, "abs", NumberType.TYPE, number.type);
     }
 }

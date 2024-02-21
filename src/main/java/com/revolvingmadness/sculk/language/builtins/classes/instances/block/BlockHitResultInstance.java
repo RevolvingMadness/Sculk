@@ -1,7 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.block;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockHitResultType;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -16,6 +15,7 @@ public class BlockHitResultInstance extends BuiltinClass {
     public final boolean succeeded;
 
     public BlockHitResultInstance(BlockPos pos, Block block, boolean succeeded) {
+        super(BlockHitResultType.TYPE);
         this.pos = pos;
         this.block = block;
         this.succeeded = succeeded;
@@ -23,10 +23,5 @@ public class BlockHitResultInstance extends BuiltinClass {
         this.variableScope.declare(List.of(TokenType.CONST), "pos", new BlockPosInstance(pos));
         this.variableScope.declare(List.of(TokenType.CONST), "block", new BlockInstance(block));
         this.variableScope.declare(List.of(TokenType.CONST), "succeeded", new BooleanInstance(succeeded));
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return BlockHitResultType.TYPE;
     }
 }

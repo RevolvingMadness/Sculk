@@ -4,7 +4,10 @@ import com.revolvingmadness.sculk.Sculk;
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.GameRulesInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.MinecraftServerInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.PlayerManagerInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.WorldInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.FloatInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockHitResultType;
@@ -51,7 +54,7 @@ public class VariableTable {
 
         if (!value.instanceOf(NullType.TYPE)) {
             if (!value.instanceOf(variable.type)) {
-                throw new SyntaxError("Cannot assign a value with type '" + value.getType().name + "' to a variable that requires type '" + variable.type.name + "'");
+                throw new SyntaxError("Cannot assign a value with type '" + value.type.name + "' to a variable that requires type '" + variable.type.name + "'");
             }
         }
 
@@ -63,7 +66,7 @@ public class VariableTable {
     }
 
     public void declare(List<TokenType> accessModifiers, String name, BuiltinClass value) {
-        this.declare(accessModifiers, value.getType(), name, value);
+        this.declare(accessModifiers, value.type, name, value);
     }
 
     private void declareClasses() {

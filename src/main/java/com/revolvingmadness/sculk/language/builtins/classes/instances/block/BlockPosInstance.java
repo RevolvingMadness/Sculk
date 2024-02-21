@@ -1,7 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.block;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.IntegerInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockPosType;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -14,6 +13,7 @@ public class BlockPosInstance extends BuiltinClass {
     public final BlockPos value;
 
     public BlockPosInstance(BlockPos value) {
+        super(BlockPosType.TYPE);
         this.value = value;
 
         this.variableScope.declare(List.of(TokenType.CONST), "x", new IntegerInstance(value.getX()));
@@ -31,11 +31,6 @@ public class BlockPosInstance extends BuiltinClass {
             return false;
         BlockPosInstance that = (BlockPosInstance) o;
         return Objects.equals(this.value, that.value);
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return BlockPosType.TYPE;
     }
 
     @Override

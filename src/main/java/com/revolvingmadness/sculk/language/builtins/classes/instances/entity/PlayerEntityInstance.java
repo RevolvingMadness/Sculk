@@ -2,7 +2,6 @@ package com.revolvingmadness.sculk.language.builtins.classes.instances.entity;
 
 import com.revolvingmadness.sculk.accessors.EntityAccessor;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.entity.PlayerEntityType;
 import net.minecraft.entity.Entity;
@@ -16,6 +15,7 @@ public class PlayerEntityInstance extends BuiltinClass {
     public final PlayerEntity value;
 
     public PlayerEntityInstance(PlayerEntity value) {
+        super(PlayerEntityType.TYPE);
         this.value = value;
     }
 
@@ -45,11 +45,6 @@ public class PlayerEntityInstance extends BuiltinClass {
         NbtElement result = ((EntityAccessor) this.value).sculk$readCustomData(index.toString());
 
         return BuiltinClass.fromNbtElement(result);
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return PlayerEntityType.TYPE;
     }
 
     @Override

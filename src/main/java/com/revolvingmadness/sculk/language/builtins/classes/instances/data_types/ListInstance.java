@@ -18,6 +18,7 @@ public class ListInstance extends BuiltinClass {
     public final List<BuiltinClass> value;
 
     public ListInstance(List<BuiltinClass> value) {
+        super(ListType.TYPE);
         this.value = value;
     }
 
@@ -26,10 +27,10 @@ public class ListInstance extends BuiltinClass {
             return true;
         }
 
-        BuiltinType type = this.value.get(0).getType();
+        BuiltinType type = this.value.get(0).type;
 
         for (BuiltinClass item : this.value) {
-            if (!item.getType().equals(type)) {
+            if (!item.type.equals(type)) {
                 return false;
             }
         }
@@ -40,7 +41,7 @@ public class ListInstance extends BuiltinClass {
     @Override
     public void deleteIndex(BuiltinClass index) {
         if (!index.instanceOf(IntegerType.TYPE)) {
-            throw ErrorHolder.cannotIndexTypeByType(this.getType(), index.getType());
+            throw ErrorHolder.cannotIndexTypeByType(this.type, index.type);
         }
 
         long integerIndex = index.toInteger();
@@ -63,7 +64,7 @@ public class ListInstance extends BuiltinClass {
     @Override
     public BuiltinClass getIndex(BuiltinClass index) {
         if (!index.instanceOf(IntegerType.TYPE)) {
-            throw ErrorHolder.cannotIndexTypeByType(this.getType(), index.getType());
+            throw ErrorHolder.cannotIndexTypeByType(this.type, index.type);
         }
 
         int indexInteger = (int) index.toInteger();
@@ -76,11 +77,6 @@ public class ListInstance extends BuiltinClass {
     }
 
     @Override
-    public BuiltinType getType() {
-        return ListType.TYPE;
-    }
-
-    @Override
     public int hashCode() {
         return Objects.hash(this.value);
     }
@@ -88,7 +84,7 @@ public class ListInstance extends BuiltinClass {
     @Override
     public void setIndex(BuiltinClass index, BuiltinClass value) {
         if (!index.instanceOf(IntegerType.TYPE)) {
-            throw ErrorHolder.cannotIndexTypeByType(this.getType(), index.getType());
+            throw ErrorHolder.cannotIndexTypeByType(this.type, index.type);
         }
 
         this.value.set((int) index.toInteger(), value);

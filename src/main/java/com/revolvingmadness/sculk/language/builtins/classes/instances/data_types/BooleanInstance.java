@@ -1,7 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.data_types;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.BooleanType;
 import net.minecraft.nbt.NbtByte;
 import net.minecraft.nbt.NbtElement;
@@ -12,6 +11,7 @@ public class BooleanInstance extends BuiltinClass {
     public final boolean value;
 
     public BooleanInstance(boolean value) {
+        super(BooleanType.TYPE);
         this.value = value;
     }
 
@@ -35,11 +35,6 @@ public class BooleanInstance extends BuiltinClass {
             return false;
         BooleanInstance that = (BooleanInstance) o;
         return this.value == that.value;
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return BooleanType.TYPE;
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.revolvingmadness.sculk.language.builtins.classes.instances.data_type
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.FloatType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerType;
 import net.minecraft.nbt.NbtDouble;
@@ -14,6 +13,7 @@ public class FloatInstance extends BuiltinClass {
     public final double value;
 
     public FloatInstance(double value) {
+        super(FloatType.TYPE);
         this.value = value;
     }
 
@@ -27,7 +27,7 @@ public class FloatInstance extends BuiltinClass {
             return new FloatInstance(this.value + other.toInteger());
         }
 
-        throw ErrorHolder.unsupportedBinaryOperator("+", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("+", this.type, other.type);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class FloatInstance extends BuiltinClass {
             return new FloatInstance(this.value / other.toInteger());
         }
 
-        throw ErrorHolder.unsupportedBinaryOperator("/", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("/", this.type, other.type);
     }
 
     @Override
@@ -70,12 +70,7 @@ public class FloatInstance extends BuiltinClass {
             return new FloatInstance(Math.pow(this.value, other.toInteger()));
         }
 
-        throw ErrorHolder.unsupportedBinaryOperator("^", this.getType(), other.getType());
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return FloatType.TYPE;
+        throw ErrorHolder.unsupportedBinaryOperator("^", this.type, other.type);
     }
 
     @Override
@@ -88,7 +83,7 @@ public class FloatInstance extends BuiltinClass {
             return new BooleanInstance(this.value > other.toInteger());
         }
 
-        throw ErrorHolder.unsupportedBinaryOperator(">", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator(">", this.type, other.type);
     }
 
     @Override
@@ -111,7 +106,7 @@ public class FloatInstance extends BuiltinClass {
             return new BooleanInstance(this.value < other.toInteger());
         }
 
-        throw ErrorHolder.unsupportedBinaryOperator("<", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("<", this.type, other.type);
     }
 
     @Override
@@ -124,7 +119,7 @@ public class FloatInstance extends BuiltinClass {
             return new FloatInstance(this.value % other.toInteger());
         }
 
-        throw ErrorHolder.unsupportedBinaryOperator("%", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("%", this.type, other.type);
     }
 
     @Override
@@ -137,7 +132,7 @@ public class FloatInstance extends BuiltinClass {
             return new FloatInstance(this.value * other.toInteger());
         }
 
-        throw ErrorHolder.unsupportedBinaryOperator("*", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("*", this.type, other.type);
     }
 
     @Override
@@ -155,7 +150,7 @@ public class FloatInstance extends BuiltinClass {
             return new FloatInstance(this.value - other.toInteger());
         }
 
-        throw ErrorHolder.unsupportedBinaryOperator("-", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("-", this.type, other.type);
     }
 
     @Override

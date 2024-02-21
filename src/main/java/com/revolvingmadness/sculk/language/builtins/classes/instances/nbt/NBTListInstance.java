@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.nbt;
 
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.nbt.NBTListType;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -11,12 +10,8 @@ public class NBTListInstance extends NBTElementInstance {
     public final List<NBTElementInstance> value;
 
     public NBTListInstance(List<NBTElementInstance> value) {
+        super(NBTListType.TYPE);
         this.value = value;
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return NBTListType.TYPE;
     }
 
     @Override

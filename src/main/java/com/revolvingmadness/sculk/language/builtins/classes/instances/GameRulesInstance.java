@@ -1,7 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.GameRulesType;
 import net.minecraft.world.GameRules;
 
@@ -11,6 +10,7 @@ public class GameRulesInstance extends BuiltinClass {
     public final GameRules value;
 
     public GameRulesInstance(GameRules value) {
+        super(GameRulesType.TYPE);
         this.value = value;
     }
 
@@ -24,11 +24,6 @@ public class GameRulesInstance extends BuiltinClass {
             return false;
         GameRulesInstance that = (GameRulesInstance) o;
         return Objects.equals(this.value, that.value);
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return GameRulesType.TYPE;
     }
 
     @Override

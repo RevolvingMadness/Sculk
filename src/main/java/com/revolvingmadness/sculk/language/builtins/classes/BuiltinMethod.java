@@ -10,6 +10,10 @@ public abstract class BuiltinMethod extends BuiltinClass {
     public BuiltinClass boundClass;
     public BuiltinClass boundSuperClass;
 
+    public BuiltinMethod() {
+        super(MethodType.TYPE);
+    }
+
     public void bind(BuiltinClass clazz, BuiltinClass superClass) {
         this.boundClass = clazz;
         this.boundSuperClass = superClass;
@@ -27,11 +31,6 @@ public abstract class BuiltinMethod extends BuiltinClass {
             return false;
         BuiltinMethod that = (BuiltinMethod) o;
         return Objects.equals(this.boundClass, that.boundClass) && Objects.equals(this.boundSuperClass, that.boundSuperClass);
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return MethodType.TYPE;
     }
 
     @Override

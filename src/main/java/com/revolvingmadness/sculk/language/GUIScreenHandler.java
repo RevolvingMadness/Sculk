@@ -40,7 +40,7 @@ public class GUIScreenHandler extends GenericContainerScreenHandler {
             BuiltinClass result = this.gui.call(this.interpreter, "onSlotClick", List.of(new IntegerInstance(slotIndex), new IntegerInstance(button), this.gui, new PlayerEntityInstance(player)));
 
             if (!result.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.functionRequiresReturnType("onSlotClick", result.getType(), BooleanType.TYPE);
+                throw ErrorHolder.functionRequiresReturnType("onSlotClick", result.type, BooleanType.TYPE);
             }
 
             if (!result.toBoolean()) {

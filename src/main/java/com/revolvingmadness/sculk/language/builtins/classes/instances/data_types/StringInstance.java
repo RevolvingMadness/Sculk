@@ -2,7 +2,6 @@ package com.revolvingmadness.sculk.language.builtins.classes.instances.data_type
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringType;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtString;
@@ -15,6 +14,7 @@ public class StringInstance extends BuiltinClass {
     public final String value;
 
     public StringInstance(String value) {
+        super(StringType.TYPE);
         this.value = value;
     }
 
@@ -24,7 +24,7 @@ public class StringInstance extends BuiltinClass {
             return new StringInstance(this.value + other);
         }
 
-        throw ErrorHolder.unsupportedBinaryOperator("+", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("+", this.type, other.type);
     }
 
     @Override
@@ -37,11 +37,6 @@ public class StringInstance extends BuiltinClass {
             return false;
         StringInstance that = (StringInstance) o;
         return Objects.equals(this.value, that.value);
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return StringType.TYPE;
     }
 
     @Override

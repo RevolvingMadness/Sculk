@@ -26,6 +26,6 @@ public class FloorFunction extends BuiltinFunction {
             return new FloatInstance(Math.floor(number.toFloat()));
         }
 
-        throw ErrorHolder.argumentRequiresType(1, "floor", NumberType.TYPE, number.getType());
+        throw ErrorHolder.argumentRequiresType(1, "floor", NumberType.TYPE, number.type);
     }
 }

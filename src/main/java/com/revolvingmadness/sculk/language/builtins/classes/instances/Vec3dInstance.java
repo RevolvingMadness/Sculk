@@ -1,7 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.Vec3dType;
 import net.minecraft.util.math.Vec3d;
 
@@ -11,6 +10,7 @@ public class Vec3dInstance extends BuiltinClass {
     public final Vec3d value;
 
     public Vec3dInstance(Vec3d value) {
+        super(Vec3dType.TYPE);
         this.value = value;
     }
 
@@ -24,11 +24,6 @@ public class Vec3dInstance extends BuiltinClass {
             return false;
         Vec3dInstance that = (Vec3dInstance) o;
         return Objects.equals(this.value, that.value);
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return Vec3dType.TYPE;
     }
 
     @Override

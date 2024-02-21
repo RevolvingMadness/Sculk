@@ -15,7 +15,7 @@ public class TypeFunction extends BuiltinFunction {
         this.validateCall("type", arguments, List.of(ObjectType.TYPE));
 
         BuiltinClass object = arguments.get(0);
-        BuiltinType type = object.getType();
+        BuiltinType type = object.type;
 
         return new StringInstance(type.name);
     }

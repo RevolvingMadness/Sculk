@@ -36,12 +36,14 @@ import java.util.*;
 
 public abstract class BuiltinClass extends ExpressionNode {
     public final VariableScope variableScope;
+    public BuiltinType type;
 
-    public BuiltinClass() {
-        this(new VariableScope());
+    public BuiltinClass(BuiltinType type) {
+        this(type, new VariableScope());
     }
 
-    public BuiltinClass(VariableScope variableScope) {
+    public BuiltinClass(BuiltinType type, VariableScope variableScope) {
+        this.type = type;
         this.variableScope = variableScope;
     }
 
@@ -106,19 +108,19 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public BuiltinClass add(BuiltinClass other) {
-        throw ErrorHolder.unsupportedBinaryOperator("+", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("+", this.type, other.type);
     }
 
     public BooleanInstance booleanAnd(BuiltinClass other) {
-        throw ErrorHolder.unsupportedBinaryOperator("&&", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("&&", this.type, other.type);
     }
 
     public BooleanInstance booleanOr(BuiltinClass other) {
-        throw ErrorHolder.unsupportedBinaryOperator("||", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("||", this.type, other.type);
     }
 
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-        throw new TypeError("Type '" + this.getType().name + "' is not callable");
+        throw new TypeError("Type '" + this.type.name + "' is not callable");
     }
 
     public BuiltinClass call(Interpreter interpreter, String methodName, List<BuiltinClass> arguments) {
@@ -128,15 +130,15 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public void checkIfAllMethodsAreImplemented() {
-        this.getType().checkIfAllMethodsAreImplemented();
+        this.type.checkIfAllMethodsAreImplemented();
     }
 
     public BuiltinClass decrement() {
-        throw ErrorHolder.cannotApplyUnaryOperatorToType("--", this.getType());
+        throw ErrorHolder.cannotApplyUnaryOperatorToType("--", this.type);
     }
 
     public void deleteIndex(BuiltinClass index) {
-        throw ErrorHolder.typeIsNotIndexable(this.getType());
+        throw ErrorHolder.typeIsNotIndexable(this.type);
     }
 
     public void deleteProperty(String propertyName) {
@@ -144,7 +146,7 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public BuiltinClass divide(BuiltinClass other) {
-        throw ErrorHolder.unsupportedBinaryOperator("/", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("/", this.type, other.type);
     }
 
     @Override
@@ -158,15 +160,15 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public BuiltinClass exponentiate(BuiltinClass other) {
-        throw ErrorHolder.unsupportedBinaryOperator("^", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("^", this.type, other.type);
     }
 
     public BuiltinClass fromNBT(NBTElementInstance nbtElement) {
-        throw new TypeError("Type '" + this.getType().name + "' does not support NBT de-serialization");
+        throw new TypeError("Type '" + this.type.name + "' does not support NBT de-serialization");
     }
 
     public BuiltinClass getIndex(BuiltinClass index) {
-        throw ErrorHolder.typeIsNotIndexable(this.getType());
+        throw ErrorHolder.typeIsNotIndexable(this.type);
     }
 
     public BuiltinClass getProperty(String propertyName) {
@@ -176,25 +178,23 @@ public abstract class BuiltinClass extends ExpressionNode {
             BuiltinClass property = optionalProperty.get().value;
 
             if (property instanceof BuiltinMethod method) {
-                method.bind(this, this.getType().superClass);
+                method.bind(this, this.type.superClass);
             }
 
             return property;
         }
 
-        BuiltinClass property = this.getType().getProperty(propertyName);
+        BuiltinClass property = this.type.getProperty(propertyName);
 
         if (property instanceof BuiltinMethod method) {
-            method.bind(this, this.getType().superClass);
+            method.bind(this, this.type.superClass);
         }
 
         return property;
     }
 
-    public abstract BuiltinType getType();
-
     public BooleanInstance greaterThan(BuiltinClass other) {
-        throw ErrorHolder.unsupportedBinaryOperator(">", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator(">", this.type, other.type);
     }
 
     public boolean hasAbstractMethods() {
@@ -208,11 +208,11 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public BuiltinClass increment() {
-        throw ErrorHolder.cannotApplyUnaryOperatorToType("++", this.getType());
+        throw ErrorHolder.cannotApplyUnaryOperatorToType("++", this.type);
     }
 
     public boolean instanceOf(BuiltinType type) {
-        BuiltinType valueType = this.getType();
+        BuiltinType valueType = this.type;
 
         while (valueType != null) {
             if (valueType.name.equals(type.name)) {
@@ -226,115 +226,115 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public boolean isAbstract() {
-        return this.getType().isAbstract();
+        return this.type.isAbstract();
     }
 
     public BooleanInstance lessThan(BuiltinClass other) {
-        throw ErrorHolder.unsupportedBinaryOperator("<", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("<", this.type, other.type);
     }
 
     public BuiltinClass logicalNot() {
-        throw ErrorHolder.cannotApplyUnaryOperatorToType("!", this.getType());
+        throw ErrorHolder.cannotApplyUnaryOperatorToType("!", this.type);
     }
 
     public BuiltinClass mod(BuiltinClass other) {
-        throw ErrorHolder.unsupportedBinaryOperator("%", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("%", this.type, other.type);
     }
 
     public BuiltinClass multiply(BuiltinClass other) {
-        throw ErrorHolder.unsupportedBinaryOperator("*", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("*", this.type, other.type);
     }
 
     public BuiltinClass negate() {
-        throw ErrorHolder.cannotApplyUnaryOperatorToType("-", this.getType());
+        throw ErrorHolder.cannotApplyUnaryOperatorToType("-", this.type);
     }
 
     public void setIndex(BuiltinClass index, BuiltinClass value) {
-        throw ErrorHolder.typeIsNotIndexable(this.getType());
+        throw ErrorHolder.typeIsNotIndexable(this.type);
     }
 
     public void setProperty(String propertyName, BuiltinClass value) {
-        this.getType().setProperty(propertyName, value);
+        this.type.setProperty(propertyName, value);
     }
 
     public BuiltinClass subtract(BuiltinClass other) {
-        throw ErrorHolder.unsupportedBinaryOperator("-", this.getType(), other.getType());
+        throw ErrorHolder.unsupportedBinaryOperator("-", this.type, other.type);
     }
 
     public Block toBlock() {
-        throw ErrorHolder.cannotConvertType(this.getType(), BlockType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, BlockType.TYPE);
     }
 
     public BlockPos toBlockPos() {
-        throw ErrorHolder.cannotConvertType(this.getType(), BlockPosType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, BlockPosType.TYPE);
     }
 
     public boolean toBoolean() {
-        throw ErrorHolder.cannotConvertType(this.getType(), BooleanType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, BooleanType.TYPE);
     }
 
     public Difficulty toDifficulty() {
-        throw ErrorHolder.cannotConvertType(this.getType(), DifficultiesEnumType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, DifficultiesEnumType.TYPE);
     }
 
     public Entity toEntity() {
-        throw ErrorHolder.cannotConvertType(this.getType(), EntityType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, EntityType.TYPE);
     }
 
     public double toFloat() {
-        throw ErrorHolder.cannotConvertType(this.getType(), FloatType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, FloatType.TYPE);
     }
 
     public BuiltinFunction toFunction() {
-        throw ErrorHolder.cannotConvertType(this.getType(), FunctionType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, FunctionType.TYPE);
     }
 
     public GUIInstance toGUI() {
-        throw ErrorHolder.cannotConvertType(this.getType(), GUIType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, GUIType.TYPE);
     }
 
     public GameMode toGameMode() {
-        throw ErrorHolder.cannotConvertType(this.getType(), GameModesEnumType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, GameModesEnumType.TYPE);
     }
 
     public GameRules toGameRules() {
-        throw ErrorHolder.cannotConvertType(this.getType(), GameRulesType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, GameRulesType.TYPE);
     }
 
     public long toInteger() {
-        throw ErrorHolder.cannotConvertType(this.getType(), IntegerType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, IntegerType.TYPE);
     }
 
     public Inventory toInventory() {
-        throw ErrorHolder.cannotConvertType(this.getType(), InventoryType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, InventoryType.TYPE);
     }
 
     public Item toItem() {
-        throw ErrorHolder.cannotConvertType(this.getType(), ItemType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, ItemType.TYPE);
     }
 
     public ItemStack toItemStack() {
-        throw ErrorHolder.cannotConvertType(this.getType(), ItemStackType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, ItemStackType.TYPE);
     }
 
     public List<BuiltinClass> toList() {
-        throw ErrorHolder.cannotConvertType(this.getType(), ListType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, ListType.TYPE);
     }
 
     public LivingEntity toLivingEntity() {
-        throw ErrorHolder.cannotConvertType(this.getType(), LivingEntityType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, LivingEntityType.TYPE);
     }
 
     public NbtElement toNBT() {
-        throw new TypeError("Type '" + this.getType().name + "' does not support NBT serialization");
+        throw new TypeError("Type '" + this.type.name + "' does not support NBT serialization");
     }
 
     public PlayerEntity toPlayerEntity() {
-        throw ErrorHolder.cannotConvertType(this.getType(), PlayerEntityType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, PlayerEntityType.TYPE);
     }
 
     public PlayerManager toPlayerManager() {
-        throw ErrorHolder.cannotConvertType(this.getType(), PlayerManagerType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, PlayerManagerType.TYPE);
     }
 
     public String toRepresentation() {
@@ -342,16 +342,16 @@ public abstract class BuiltinClass extends ExpressionNode {
     }
 
     public ServerPlayerEntity toServerPlayerEntity() {
-        throw ErrorHolder.cannotConvertType(this.getType(), ServerPlayerEntityType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, ServerPlayerEntityType.TYPE);
     }
 
     @Override
     public String toString() {
-        return "<Class '" + this.getType().name + "'>";
+        return "<Class '" + this.type.name + "'>";
     }
 
     public ServerWorld toWorld() {
-        throw ErrorHolder.cannotConvertType(this.getType(), WorldType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, WorldType.TYPE);
     }
 
     public void validateCall(String callableName, List<BuiltinClass> arguments, List<BuiltinType> argumentTypes) {
@@ -366,7 +366,7 @@ public abstract class BuiltinClass extends ExpressionNode {
 
             if (!argument.instanceOf(NullType.TYPE)) {
                 if (!argument.instanceOf(argumentType)) {
-                    throw ErrorHolder.argumentRequiresType(argumentNumber + 1, callableName, argument.getType(), argumentType);
+                    throw ErrorHolder.argumentRequiresType(argumentNumber + 1, callableName, argument.type, argumentType);
                 }
             }
 
@@ -380,7 +380,7 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public void validateIndex(BuiltinType type, BuiltinClass requiredType) {
         if (!requiredType.instanceOf(type)) {
-            throw ErrorHolder.cannotIndexTypeByType(this.getType(), requiredType.getType());
+            throw ErrorHolder.cannotIndexTypeByType(this.type, requiredType.type);
         }
     }
 }

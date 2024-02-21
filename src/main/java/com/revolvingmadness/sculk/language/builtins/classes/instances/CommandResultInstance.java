@@ -1,7 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.CommandResultType;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -15,6 +14,7 @@ public class CommandResultInstance extends BuiltinClass {
     public final BooleanInstance succeeded;
 
     public CommandResultInstance(BuiltinClass result, BooleanInstance succeeded, BuiltinClass errorMessage) {
+        super(CommandResultType.TYPE);
         this.result = result;
         this.succeeded = succeeded;
         this.errorMessage = errorMessage;
@@ -34,11 +34,6 @@ public class CommandResultInstance extends BuiltinClass {
             return false;
         CommandResultInstance that = (CommandResultInstance) o;
         return Objects.equals(this.result, that.result) && Objects.equals(this.succeeded, that.succeeded) && Objects.equals(this.errorMessage, that.errorMessage);
-    }
-
-    @Override
-    public BuiltinType getType() {
-        return CommandResultType.TYPE;
     }
 
     @Override

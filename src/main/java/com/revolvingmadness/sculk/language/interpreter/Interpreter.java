@@ -10,7 +10,9 @@ import com.revolvingmadness.sculk.language.SwitchStatementCase;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.*;
-import com.revolvingmadness.sculk.language.builtins.classes.types.*;
+import com.revolvingmadness.sculk.language.builtins.classes.types.ObjectType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.UserDefinedEnumType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.UserDefinedType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.BooleanType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerType;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
@@ -218,7 +220,7 @@ public class Interpreter implements Visitor {
     @Override
     public void visitFieldDeclarationStatement(FieldDeclarationStatementNode fieldDeclarationStatement) {
         BuiltinClass value = this.visitExpression(fieldDeclarationStatement.value);
-        BuiltinClass typeClass = value.getType();
+        BuiltinClass typeClass = value.type;
 
         if (fieldDeclarationStatement.type != null) {
             typeClass = this.variableTable.getOrThrow(fieldDeclarationStatement.type).value;
@@ -252,7 +254,7 @@ public class Interpreter implements Visitor {
             BuiltinClass condition = this.visitExpression(forStatement.condition);
 
             if (!condition.instanceOf(BooleanType.TYPE)) {
-                throw new TypeError("For loop update requires type '" + IntegerType.TYPE + "' but got '" + condition.getType() + "'");
+                throw new TypeError("For loop update requires type '" + IntegerType.TYPE + "' but got '" + condition.type + "'");
             }
 
             if (!condition.toBoolean()) {
@@ -368,7 +370,7 @@ public class Interpreter implements Visitor {
         BuiltinClass ifCondition = this.visitExpression(ifStatement.ifConditionPair.getLeft());
 
         if (!ifCondition.instanceOf(BooleanType.TYPE)) {
-            throw new TypeError("If statement requires type '" + BooleanType.TYPE + "' but got '" + ifCondition.getType() + "'");
+            throw new TypeError("If statement requires type '" + BooleanType.TYPE + "' but got '" + ifCondition.type + "'");
         }
 
         if (ifCondition.toBoolean()) {
@@ -383,7 +385,7 @@ public class Interpreter implements Visitor {
             List<StatementNode> elseIfBody = elseIfConditionPair.getRight();
 
             if (!elseIfCondition.instanceOf(BooleanType.TYPE)) {
-                throw new TypeError("Else if statement requires type '" + BooleanType.TYPE + "' but got '" + elseIfCondition.getType() + "'");
+                throw new TypeError("Else if statement requires type '" + BooleanType.TYPE + "' but got '" + elseIfCondition.type + "'");
             }
 
             if (elseIfCondition.toBoolean()) {
@@ -777,7 +779,7 @@ public class Interpreter implements Visitor {
     @Override
     public void visitVariableDeclarationStatement(VariableDeclarationStatementNode variableDeclarationStatement) {
         BuiltinClass value = this.visitExpression(variableDeclarationStatement.value);
-        BuiltinClass typeClass = value.getType();
+        BuiltinClass typeClass = value.type;
 
         if (variableDeclarationStatement.type != null) {
             typeClass = this.variableTable.getOrThrow(variableDeclarationStatement.type).value;
@@ -802,7 +804,7 @@ public class Interpreter implements Visitor {
             BuiltinClass condition = this.visitExpression(whileStatement.condition);
 
             if (!condition.instanceOf(BooleanType.TYPE)) {
-                throw new TypeError("A while loop requires 'Boolean' but got '" + condition.getType() + "'");
+                throw new TypeError("A while loop requires 'Boolean' but got '" + condition.type + "'");
             }
 
             if (!condition.toBoolean()) {

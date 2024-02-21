@@ -9,34 +9,33 @@ import net.minecraft.nbt.NbtElement;
 import java.util.List;
 
 public abstract class NBTElementInstance extends BuiltinClass {
-    @Override
-    public BuiltinType getType() {
-        return NBTElementType.TYPE;
+    public NBTElementInstance(BuiltinType elementType) {
+        super(elementType);
     }
 
     public abstract NbtElement toNBT();
 
     public boolean toNBTBoolean() {
-        throw ErrorHolder.cannotConvertType(this.getType(), NBTBooleanType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, NBTBooleanType.TYPE);
     }
 
     public NBTCompoundInstance toNBTCompound() {
-        throw ErrorHolder.cannotConvertType(this.getType(), NBTCompoundType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, NBTCompoundType.TYPE);
     }
 
     public double toNBTFloat() {
-        throw ErrorHolder.cannotConvertType(this.getType(), NBTListType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, NBTListType.TYPE);
     }
 
     public long toNBTInteger() {
-        throw ErrorHolder.cannotConvertType(this.getType(), NBTIntegerType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, NBTIntegerType.TYPE);
     }
 
     public List<NBTElementInstance> toNBTList() {
-        throw ErrorHolder.cannotConvertType(this.getType(), NBTListType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, NBTListType.TYPE);
     }
 
     public String toNBTString() {
-        throw ErrorHolder.cannotConvertType(this.getType(), NBTStringType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, NBTStringType.TYPE);
     }
 }

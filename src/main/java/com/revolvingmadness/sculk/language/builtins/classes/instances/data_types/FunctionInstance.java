@@ -52,11 +52,11 @@ public class FunctionInstance extends BuiltinFunction {
             BuiltinClass typeClass = interpreter.variableTable.getOrThrow(argument.type).value;
             BuiltinClass value = arguments.get(argumentIterator.previousIndex());
 
-            if (!(typeClass instanceof BuiltinType type)) {
+            if (!(typeClass instanceof BuiltinType type_)) {
                 throw new TypeError("The type of an argument cannot be an instance");
             }
 
-            interpreter.variableTable.declare(List.of(TokenType.CONST), type, argument.name, value);
+            interpreter.variableTable.declare(List.of(TokenType.CONST), type_, argument.name, value);
         }
 
         try {
@@ -65,7 +65,7 @@ public class FunctionInstance extends BuiltinFunction {
             BuiltinClass value = returnException.value;
 
             if (!value.instanceOf(this.returnType)) {
-                throw ErrorHolder.functionRequiresReturnType(this.name, value.getType(), this.returnType);
+                throw ErrorHolder.functionRequiresReturnType(this.name, value.type, this.returnType);
             }
 
             interpreter.variableTable.exitScope();

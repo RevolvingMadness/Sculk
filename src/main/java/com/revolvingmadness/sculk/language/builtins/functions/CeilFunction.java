@@ -26,6 +26,6 @@ public class CeilFunction extends BuiltinFunction {
             return new FloatInstance(Math.ceil(number.toFloat()));
         }
 
-        throw ErrorHolder.argumentRequiresType(1, "ceil", NumberType.TYPE, number.getType());
+        throw ErrorHolder.argumentRequiresType(1, "ceil", NumberType.TYPE, number.type);
     }
 }
