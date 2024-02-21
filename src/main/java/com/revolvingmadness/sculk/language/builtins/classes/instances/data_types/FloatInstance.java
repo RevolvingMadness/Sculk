@@ -10,11 +10,10 @@ import net.minecraft.nbt.NbtElement;
 
 import java.util.Objects;
 
-public class FloatInstance extends IntegerInstance {
+public class FloatInstance extends BuiltinClass {
     public final double value;
 
     public FloatInstance(double value) {
-        super((long) value);
         this.value = value;
     }
 
