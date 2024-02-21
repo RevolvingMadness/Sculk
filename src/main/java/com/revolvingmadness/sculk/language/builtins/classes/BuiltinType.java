@@ -8,6 +8,7 @@ import com.revolvingmadness.sculk.language.interpreter.Variable;
 import com.revolvingmadness.sculk.language.interpreter.VariableScope;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -58,19 +59,15 @@ public abstract class BuiltinType extends BuiltinClass {
             return;
         }
 
-        if (!this.superClass.isAbstract()) {
+        if (this.isAbstract()) {
             return;
         }
 
-        for (Variable property : this.superClass.typeVariableScope.variables.values()) {
-            if (property.isAbstract()) {
-                if (!this.typeVariableScope.exists(property.name)) {
-                    throw new TypeError("Class '" + this.name + "' does not implement method '" + property.name + "'");
-                }
+        for (Variable property : this.superClass.getAbstractMethods()) {
+            if (!this.typeVariableScope.exists(property.name)) {
+                throw new TypeError("Class '" + this.name + "' does not implement method '" + property.name + "'");
             }
         }
-
-        this.superClass.checkIfAllMethodsAreImplemented();
     }
 
     @Override
@@ -88,6 +85,22 @@ public abstract class BuiltinType extends BuiltinClass {
             return false;
         BuiltinType that = (BuiltinType) o;
         return Objects.equals(this.accessModifiers, that.accessModifiers) && Objects.equals(this.name, that.name) && Objects.equals(this.superClass, that.superClass) && Objects.equals(this.typeVariableScope, that.typeVariableScope);
+    }
+
+    public List<Variable> getAbstractMethods() {
+        List<Variable> variables = new ArrayList<>();
+
+        for (Variable variable : this.typeVariableScope.variables.values()) {
+            if (variable.isAbstract()) {
+                variables.add(variable);
+            }
+        }
+
+        if (this.superClass != null) {
+            variables.addAll(this.superClass.getAbstractMethods());
+        }
+
+        return variables;
     }
 
     @Override
@@ -129,7 +142,6 @@ public abstract class BuiltinType extends BuiltinClass {
         return superProperty;
     }
 
-    @Override
     public boolean hasAbstractMethods() {
         for (Variable variable : this.typeVariableScope.variables.values()) {
             if (variable.isAbstract()) {

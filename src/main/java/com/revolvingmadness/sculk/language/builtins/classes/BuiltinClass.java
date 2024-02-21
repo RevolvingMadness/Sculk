@@ -197,16 +197,6 @@ public abstract class BuiltinClass extends ExpressionNode {
         throw ErrorHolder.unsupportedBinaryOperator(">", this.type, other.type);
     }
 
-    public boolean hasAbstractMethods() {
-        for (Variable variable : this.variableScope.variables.values()) {
-            if (variable.isAbstract()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public BuiltinClass increment() {
         throw ErrorHolder.cannotApplyUnaryOperatorToType("++", this.type);
     }
