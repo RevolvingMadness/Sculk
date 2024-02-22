@@ -120,6 +120,16 @@ public class Interpreter implements Visitor {
     }
 
     @Override
+    public BuiltinClass visitCastExpression(CastExpressionNode castExpression) {
+        BuiltinClass value = this.variableTable.getOrThrow(castExpression.variable).value;
+        BuiltinClass typeClass = this.variableTable.getOrThrow(castExpression.type).value;
+
+        value.downcast(typeClass);
+
+        return value;
+    }
+
+    @Override
     public void visitClassDeclarationStatement(ClassDeclarationStatementNode classDeclarationStatement) {
         this.variableTable.enterScope();
 
@@ -207,6 +217,8 @@ public class Interpreter implements Visitor {
             return this.visitSwitchExpression(switchExpression);
         } else if (expression instanceof TernaryExpressionNode ternaryExpression) {
             return this.visitTernaryExpression(ternaryExpression);
+        } else if (expression instanceof CastExpressionNode castExpression) {
+            return this.visitCastExpression(castExpression);
         } else {
             throw new RuntimeException("Unreachable");
         }

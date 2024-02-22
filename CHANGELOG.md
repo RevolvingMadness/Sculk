@@ -152,3 +152,4 @@
 - `NBTList`
 - `NBTNull`
 - `NBTString`
+- Casting

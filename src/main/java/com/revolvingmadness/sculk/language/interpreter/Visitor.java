@@ -17,6 +17,8 @@ public interface Visitor {
 
     BuiltinClass visitCallExpression(CallExpressionNode callExpression);
 
+    BuiltinClass visitCastExpression(CastExpressionNode castExpression);
+
     void visitClassDeclarationStatement(ClassDeclarationStatementNode classDeclarationStatement);
 
     void visitContinueStatement(ContinueStatementNode continueStatement);

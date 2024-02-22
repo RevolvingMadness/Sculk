@@ -53,6 +53,18 @@ public abstract class BuiltinType extends BuiltinClass {
         }
     }
 
+    public boolean canDowncastTo(BuiltinType type) {
+        if (this.name.equals(type.name)) {
+            return true;
+        }
+
+        if (this.superClass == null) {
+            return false;
+        }
+
+        return this.superClass.canDowncastTo(type);
+    }
+
     @Override
     public void checkIfAllMethodsAreImplemented() {
         if (this.superClass == null) {

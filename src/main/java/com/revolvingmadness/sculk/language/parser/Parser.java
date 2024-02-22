@@ -760,6 +760,10 @@ public class Parser {
 
             this.consume(TokenType.RIGHT_PARENTHESIS);
 
+            if (expression instanceof IdentifierExpressionNode identifierExpression) {
+                return new CastExpressionNode(identifierExpression.value, (String) this.consume(TokenType.IDENTIFIER).value);
+            }
+
             return expression;
         } else if (this.current(TokenType.TRUE)) {
             this.consume();

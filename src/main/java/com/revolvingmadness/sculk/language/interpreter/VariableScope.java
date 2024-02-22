@@ -47,6 +47,8 @@ public class VariableScope implements Serializable {
             throw new TypeError("Cannot declare a variable with type '" + value.type.name + "' that requires type '" + type.name + "'");
         }
 
+        value.type = type;
+
         this.variables.put(name, new Variable(accessModifiers, type, name, value));
     }
 

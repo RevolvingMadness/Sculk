@@ -32,9 +32,10 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.GameRules;
 
+import java.io.Serializable;
 import java.util.*;
 
-public abstract class BuiltinClass extends ExpressionNode {
+public abstract class BuiltinClass extends ExpressionNode implements Serializable {
     public final VariableScope variableScope;
     public BuiltinType type;
 
@@ -147,6 +148,18 @@ public abstract class BuiltinClass extends ExpressionNode {
 
     public BuiltinClass divide(BuiltinClass other) {
         throw ErrorHolder.unsupportedBinaryOperator("/", this.type, other.type);
+    }
+
+    public void downcast(BuiltinClass typeClass) {
+        if (!(typeClass instanceof BuiltinType type_)) {
+            throw new TypeError("Cannot cast a class to an instance");
+        }
+
+        if (!type_.canDowncastTo(this.type)) {
+            throw new TypeError("Cannot cast type '" + this.type + "' to type '" + type_ + "'");
+        }
+
+        this.type = type_;
     }
 
     @Override
