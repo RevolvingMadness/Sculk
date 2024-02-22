@@ -6,7 +6,7 @@ public class TypeType extends BuiltinType {
     public static final TypeType TYPE;
 
     private TypeType() {
-        super((BuiltinType) null, "Type");
+        super(TypeType.TYPE, "Type");
     }
 
     static {
