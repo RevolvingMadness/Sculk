@@ -17,6 +17,10 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlocksTy
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.entity.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.nbt.*;
+import com.revolvingmadness.sculk.language.builtins.enums.AttributesEnumType;
+import com.revolvingmadness.sculk.language.builtins.enums.DifficultiesEnumType;
+import com.revolvingmadness.sculk.language.builtins.enums.EnumType;
+import com.revolvingmadness.sculk.language.builtins.enums.GameModesEnumType;
 import com.revolvingmadness.sculk.language.builtins.functions.*;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -117,6 +121,7 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "Type", TypeType.TYPE);
         this.declare(List.of(TokenType.CONST), "Vec3d", Vec3dType.TYPE);
         this.declare(List.of(TokenType.CONST), "World", WorldType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Attributes", AttributesEnumType.TYPE);
     }
 
     private void declareFunctions() {

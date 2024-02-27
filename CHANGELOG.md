@@ -153,3 +153,4 @@
 - `NBTNull`
 - `NBTString`
 - Casting
+- Attribute setting / getting

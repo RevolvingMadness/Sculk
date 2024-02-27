@@ -11,6 +11,9 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.entity.EntityType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.entity.PlayerEntityType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.entity.ServerPlayerEntityType;
+import com.revolvingmadness.sculk.language.builtins.enums.AttributesEnumType;
+import com.revolvingmadness.sculk.language.builtins.enums.DifficultiesEnumType;
+import com.revolvingmadness.sculk.language.builtins.enums.GameModesEnumType;
 import com.revolvingmadness.sculk.language.errors.TypeError;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.interpreter.Variable;
@@ -19,6 +22,7 @@ import com.revolvingmadness.sculk.language.parser.nodes.expression_nodes.Express
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
@@ -262,6 +266,10 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
 
     public BuiltinClass subtract(BuiltinClass other) {
         throw ErrorHolder.unsupportedBinaryOperator("-", this.type, other.type);
+    }
+
+    public EntityAttribute toAttribute() {
+        throw ErrorHolder.cannotConvertType(this.type, AttributesEnumType.TYPE);
     }
 
     public Block toBlock() {

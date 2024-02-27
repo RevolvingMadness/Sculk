@@ -1,4 +1,4 @@
-package com.revolvingmadness.sculk.language.builtins.classes.types;
+package com.revolvingmadness.sculk.language.builtins.enums;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
 
