@@ -1,15 +1,15 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.types.UserDefinedType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.UserDefinedClassType;
 import com.revolvingmadness.sculk.language.interpreter.VariableScope;
 
 import java.util.Objects;
 
 public class UserDefinedInstance extends BuiltinClass {
-    public final UserDefinedType classType;
+    public final UserDefinedClassType classType;
 
-    public UserDefinedInstance(UserDefinedType classType, VariableScope variableScope) {
+    public UserDefinedInstance(UserDefinedClassType classType, VariableScope variableScope) {
         super(classType, variableScope);
         this.classType = classType;
     }

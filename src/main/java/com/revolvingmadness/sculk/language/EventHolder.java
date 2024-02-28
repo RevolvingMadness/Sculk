@@ -11,7 +11,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.entity.Ent
 import com.revolvingmadness.sculk.language.builtins.classes.instances.entity.LivingEntityInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.entity.PlayerEntityInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.entity.ServerPlayerEntityInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.BooleanType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.BooleanClassType;
 import com.revolvingmadness.sculk.language.errors.Error;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
@@ -59,8 +59,8 @@ public class EventHolder {
                     for (Event event : EventHolder.onAttackEntity) {
                         BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new EntityInstance(entity), new ItemStackInstance(player.getStackInHand(hand))));
 
-                        if (!eventResultClass.instanceOf(BooleanType.TYPE)) {
-                            throw ErrorHolder.functionRequiresReturnType("onPlayerAttackEntity", eventResultClass.type, BooleanType.TYPE);
+                        if (!eventResultClass.instanceOf(BooleanClassType.TYPE)) {
+                            throw ErrorHolder.functionRequiresReturnType("onPlayerAttackEntity", eventResultClass.type, BooleanClassType.TYPE);
                         }
 
                         boolean eventResult = eventResultClass.toBoolean();
@@ -83,8 +83,8 @@ public class EventHolder {
                     for (Event event : EventHolder.onBreakBlock) {
                         BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new BlockPosInstance(pos), new BlockInstance(world.getBlockState(pos).getBlock())));
 
-                        if (!eventResultClass.instanceOf(BooleanType.TYPE)) {
-                            throw ErrorHolder.functionRequiresReturnType("onPlayerBreakBlock", eventResultClass.type, BooleanType.TYPE);
+                        if (!eventResultClass.instanceOf(BooleanClassType.TYPE)) {
+                            throw ErrorHolder.functionRequiresReturnType("onPlayerBreakBlock", eventResultClass.type, BooleanClassType.TYPE);
                         }
 
                         boolean eventResult = eventResultClass.toBoolean();
@@ -146,8 +146,8 @@ public class EventHolder {
                 for (Event event : EventHolder.onPickupItem) {
                     BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new ItemStackInstance(itemStack)));
 
-                    if (!eventResultClass.instanceOf(BooleanType.TYPE)) {
-                        throw ErrorHolder.functionRequiresReturnType("onPlayerPickupItem", eventResultClass.type, BooleanType.TYPE);
+                    if (!eventResultClass.instanceOf(BooleanClassType.TYPE)) {
+                        throw ErrorHolder.functionRequiresReturnType("onPlayerPickupItem", eventResultClass.type, BooleanClassType.TYPE);
                     }
 
                     boolean eventResult = eventResultClass.toBoolean();
@@ -204,8 +204,8 @@ public class EventHolder {
                 for (Event event : EventHolder.onSendChatMessage) {
                     BuiltinClass eventResultClass = event.execute(List.of(new ServerPlayerEntityInstance(player), new StringInstance(message.content().getString())));
 
-                    if (!eventResultClass.instanceOf(BooleanType.TYPE)) {
-                        throw ErrorHolder.functionRequiresReturnType("onPlayerSendChatMessage", eventResultClass.type, BooleanType.TYPE);
+                    if (!eventResultClass.instanceOf(BooleanClassType.TYPE)) {
+                        throw ErrorHolder.functionRequiresReturnType("onPlayerSendChatMessage", eventResultClass.type, BooleanClassType.TYPE);
                     }
 
                     boolean eventResult = eventResultClass.toBoolean();
@@ -227,8 +227,8 @@ public class EventHolder {
                     for (Event event : EventHolder.onRightClickItem) {
                         BuiltinClass eventResultClass = event.execute(List.of(new PlayerEntityInstance(player), new ItemStackInstance(player.getStackInHand(hand))));
 
-                        if (!eventResultClass.instanceOf(BooleanType.TYPE)) {
-                            throw ErrorHolder.functionRequiresReturnType("onPlayerUseItem", eventResultClass.type, BooleanType.TYPE);
+                        if (!eventResultClass.instanceOf(BooleanClassType.TYPE)) {
+                            throw ErrorHolder.functionRequiresReturnType("onPlayerUseItem", eventResultClass.type, BooleanClassType.TYPE);
                         }
 
                         boolean eventResult = eventResultClass.toBoolean();

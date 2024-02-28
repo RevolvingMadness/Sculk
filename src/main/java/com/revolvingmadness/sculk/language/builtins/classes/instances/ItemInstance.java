@@ -1,7 +1,7 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.types.ItemType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.ItemClassType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtElement;
@@ -14,7 +14,7 @@ public class ItemInstance extends BuiltinClass {
     public final Item value;
 
     public ItemInstance(Item value) {
-        super(ItemType.TYPE);
+        super(ItemClassType.TYPE);
         this.value = value;
     }
 

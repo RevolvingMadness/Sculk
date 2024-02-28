@@ -1,7 +1,7 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.types.InventoryType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.InventoryClassType;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -12,7 +12,7 @@ public class InventoryInstance extends BuiltinClass {
     public final Inventory inventory;
 
     public InventoryInstance(Inventory inventory) {
-        super(InventoryType.TYPE);
+        super(InventoryClassType.TYPE);
         this.inventory = inventory;
     }
 

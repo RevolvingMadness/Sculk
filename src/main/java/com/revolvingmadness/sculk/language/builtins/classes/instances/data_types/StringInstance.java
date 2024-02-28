@@ -2,7 +2,7 @@ package com.revolvingmadness.sculk.language.builtins.classes.instances.data_type
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringClassType;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtString;
 
@@ -14,13 +14,13 @@ public class StringInstance extends BuiltinClass {
     public final String value;
 
     public StringInstance(String value) {
-        super(StringType.TYPE);
+        super(StringClassType.TYPE);
         this.value = value;
     }
 
     @Override
     public BuiltinClass add(BuiltinClass other) {
-        if (other.instanceOf(StringType.TYPE)) {
+        if (other.instanceOf(StringClassType.TYPE)) {
             return new StringInstance(this.value + other);
         }
 

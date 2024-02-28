@@ -1,7 +1,7 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.block;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockClassType;
 import net.minecraft.block.Block;
 
 import java.util.Objects;
@@ -10,7 +10,7 @@ public class BlockInstance extends BuiltinClass {
     public final Block value;
 
     public BlockInstance(Block value) {
-        super(BlockType.TYPE);
+        super(BlockClassType.TYPE);
         this.value = value;
     }
 

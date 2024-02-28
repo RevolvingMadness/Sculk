@@ -1,6 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.nbt;
 
-import com.revolvingmadness.sculk.language.builtins.classes.types.nbt.NBTCompoundType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.nbt.NBTCompoundClassType;
 import com.revolvingmadness.sculk.language.errors.NameError;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -11,7 +11,7 @@ public class NBTCompoundInstance extends NBTElementInstance {
     public final Map<String, NBTElementInstance> value;
 
     public NBTCompoundInstance(Map<String, NBTElementInstance> value) {
-        super(NBTCompoundType.TYPE);
+        super(NBTCompoundClassType.TYPE);
         this.value = value;
     }
 

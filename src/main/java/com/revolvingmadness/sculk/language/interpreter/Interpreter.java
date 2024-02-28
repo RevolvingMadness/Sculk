@@ -8,12 +8,12 @@ import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.SwitchExpressionCase;
 import com.revolvingmadness.sculk.language.SwitchStatementCase;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.*;
-import com.revolvingmadness.sculk.language.builtins.classes.types.ObjectType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.UserDefinedType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.BooleanType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.ObjectClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.UserDefinedClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.BooleanClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerClassType;
 import com.revolvingmadness.sculk.language.builtins.enums.UserDefinedEnumType;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.errors.TypeError;
@@ -62,7 +62,7 @@ public class Interpreter implements Visitor {
             case DOUBLE_AMPERSAND -> left.booleanAnd(right);
             case DOUBLE_PIPE -> left.booleanOr(right);
             case INSTANCEOF -> {
-                if (!(right instanceof BuiltinType type)) {
+                if (!(right instanceof BuiltinClassType type)) {
                     throw new SyntaxError("'instanceof' can only check types");
                 }
 
@@ -137,21 +137,21 @@ public class Interpreter implements Visitor {
 
         VariableScope variableScope = this.variableTable.exitScope();
 
-        BuiltinType superClass;
+        BuiltinClassType superClass;
 
         if (classDeclarationStatement.superClassName != null) {
             Variable superClassVariable = this.variableTable.getOrThrow(classDeclarationStatement.superClassName);
 
-            if (!(superClassVariable.value instanceof BuiltinType superClassType)) {
+            if (!(superClassVariable.value instanceof BuiltinClassType superClassType)) {
                 throw new TypeError("Cannot extend from non-type '" + superClassVariable.type.name + "'");
             }
 
             superClass = superClassType;
         } else {
-            superClass = ObjectType.TYPE;
+            superClass = ObjectClassType.TYPE;
         }
 
-        this.variableTable.declare(classDeclarationStatement.accessModifiers, classDeclarationStatement.name, new UserDefinedType(classDeclarationStatement.accessModifiers, classDeclarationStatement.name, superClass, variableScope));
+        this.variableTable.declare(classDeclarationStatement.accessModifiers, classDeclarationStatement.name, new UserDefinedClassType(classDeclarationStatement.accessModifiers, classDeclarationStatement.name, superClass, variableScope));
     }
 
     @Override
@@ -238,7 +238,7 @@ public class Interpreter implements Visitor {
             typeClass = this.variableTable.getOrThrow(fieldDeclarationStatement.type).value;
         }
 
-        if (!(typeClass instanceof BuiltinType type)) {
+        if (!(typeClass instanceof BuiltinClassType type)) {
             throw new TypeError("The type of a field cannot be an instance");
         }
 
@@ -265,8 +265,8 @@ public class Interpreter implements Visitor {
 
             BuiltinClass condition = this.visitExpression(forStatement.condition);
 
-            if (!condition.instanceOf(BooleanType.TYPE)) {
-                throw new TypeError("For loop update requires type '" + IntegerType.TYPE + "' but got '" + condition.type + "'");
+            if (!condition.instanceOf(BooleanClassType.TYPE)) {
+                throw new TypeError("For loop update requires type '" + IntegerClassType.TYPE + "' but got '" + condition.type + "'");
             }
 
             if (!condition.toBoolean()) {
@@ -347,7 +347,7 @@ public class Interpreter implements Visitor {
     public void visitFunctionDeclarationStatement(FunctionDeclarationStatementNode functionDeclarationStatement) {
         BuiltinClass typeClass = this.variableTable.getOrThrow(functionDeclarationStatement.returnType).value;
 
-        if (!(typeClass instanceof BuiltinType returnType)) {
+        if (!(typeClass instanceof BuiltinClassType returnType)) {
             throw new TypeError("The return type of a function cannot be an instance");
         }
 
@@ -358,7 +358,7 @@ public class Interpreter implements Visitor {
     public BuiltinClass visitFunctionExpression(FunctionExpressionNode functionExpression) {
         BuiltinClass typeClass = this.variableTable.getOrThrow(functionExpression.returnType).value;
 
-        if (!(typeClass instanceof BuiltinType returnType)) {
+        if (!(typeClass instanceof BuiltinClassType returnType)) {
             throw new TypeError("The return type of a function cannot be an instance");
         }
 
@@ -381,8 +381,8 @@ public class Interpreter implements Visitor {
     public void visitIfStatement(IfStatementNode ifStatement) {
         BuiltinClass ifCondition = this.visitExpression(ifStatement.ifConditionPair.getLeft());
 
-        if (!ifCondition.instanceOf(BooleanType.TYPE)) {
-            throw new TypeError("If statement requires type '" + BooleanType.TYPE + "' but got '" + ifCondition.type + "'");
+        if (!ifCondition.instanceOf(BooleanClassType.TYPE)) {
+            throw new TypeError("If statement requires type '" + BooleanClassType.TYPE + "' but got '" + ifCondition.type + "'");
         }
 
         if (ifCondition.toBoolean()) {
@@ -396,8 +396,8 @@ public class Interpreter implements Visitor {
             BuiltinClass elseIfCondition = this.visitExpression(elseIfConditionPair.getLeft());
             List<StatementNode> elseIfBody = elseIfConditionPair.getRight();
 
-            if (!elseIfCondition.instanceOf(BooleanType.TYPE)) {
-                throw new TypeError("Else if statement requires type '" + BooleanType.TYPE + "' but got '" + elseIfCondition.type + "'");
+            if (!elseIfCondition.instanceOf(BooleanClassType.TYPE)) {
+                throw new TypeError("Else if statement requires type '" + BooleanClassType.TYPE + "' but got '" + elseIfCondition.type + "'");
             }
 
             if (elseIfCondition.toBoolean()) {
@@ -479,7 +479,7 @@ public class Interpreter implements Visitor {
     public void visitMethodDeclarationStatement(MethodDeclarationStatementNode methodDeclarationStatement) {
         BuiltinClass returnTypeClass = this.variableTable.getOrThrow(methodDeclarationStatement.returnType).value;
 
-        if (!(returnTypeClass instanceof BuiltinType returnType)) {
+        if (!(returnTypeClass instanceof BuiltinClassType returnType)) {
             throw new TypeError("The return type of a function cannot be an instance");
         }
 
@@ -797,7 +797,7 @@ public class Interpreter implements Visitor {
             typeClass = this.variableTable.getOrThrow(variableDeclarationStatement.type).value;
         }
 
-        if (!(typeClass instanceof BuiltinType type)) {
+        if (!(typeClass instanceof BuiltinClassType type)) {
             throw new TypeError("The type of a variable cannot be an instance");
         }
 
@@ -815,7 +815,7 @@ public class Interpreter implements Visitor {
 
             BuiltinClass condition = this.visitExpression(whileStatement.condition);
 
-            if (!condition.instanceOf(BooleanType.TYPE)) {
+            if (!condition.instanceOf(BooleanClassType.TYPE)) {
                 throw new TypeError("A while loop requires 'Boolean' but got '" + condition.type + "'");
             }
 

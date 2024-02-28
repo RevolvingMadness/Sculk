@@ -6,7 +6,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.GUIInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.IntegerInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.entity.PlayerEntityInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.BooleanType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.BooleanClassType;
 import com.revolvingmadness.sculk.language.errors.Error;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import net.minecraft.entity.player.PlayerEntity;
@@ -39,8 +39,8 @@ public class GUIScreenHandler extends GenericContainerScreenHandler {
         try {
             BuiltinClass result = this.gui.call(this.interpreter, "onSlotClick", List.of(new IntegerInstance(slotIndex), new IntegerInstance(button), this.gui, new PlayerEntityInstance(player)));
 
-            if (!result.instanceOf(BooleanType.TYPE)) {
-                throw ErrorHolder.functionRequiresReturnType("onSlotClick", result.type, BooleanType.TYPE);
+            if (!result.instanceOf(BooleanClassType.TYPE)) {
+                throw ErrorHolder.functionRequiresReturnType("onSlotClick", result.type, BooleanClassType.TYPE);
             }
 
             if (!result.toBoolean()) {

@@ -1,7 +1,7 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.data_types;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.DictionaryType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.DictionaryClassType;
 import com.revolvingmadness.sculk.language.errors.NameError;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -13,7 +13,7 @@ public class DictionaryInstance extends BuiltinClass {
     public final Map<BuiltinClass, BuiltinClass> value;
 
     public DictionaryInstance(Map<BuiltinClass, BuiltinClass> value) {
-        super(DictionaryType.TYPE);
+        super(DictionaryClassType.TYPE);
         this.value = value;
     }
 

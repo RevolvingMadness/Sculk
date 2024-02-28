@@ -1,7 +1,7 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.types.MinecraftServerType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.MinecraftServerClassType;
 import net.minecraft.server.MinecraftServer;
 
 import java.util.Objects;
@@ -10,7 +10,7 @@ public class MinecraftServerInstance extends BuiltinClass {
     public final MinecraftServer value;
 
     public MinecraftServerInstance(MinecraftServer value) {
-        super(MinecraftServerType.TYPE);
+        super(MinecraftServerClassType.TYPE);
         this.value = value;
     }
 

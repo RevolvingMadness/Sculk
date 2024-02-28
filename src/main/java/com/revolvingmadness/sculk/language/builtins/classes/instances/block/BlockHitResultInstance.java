@@ -2,7 +2,7 @@ package com.revolvingmadness.sculk.language.builtins.classes.instances.block;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockHitResultType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockHitResultClassType;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
@@ -15,7 +15,7 @@ public class BlockHitResultInstance extends BuiltinClass {
     public final boolean succeeded;
 
     public BlockHitResultInstance(BlockPos pos, Block block, boolean succeeded) {
-        super(BlockHitResultType.TYPE);
+        super(BlockHitResultClassType.TYPE);
         this.pos = pos;
         this.block = block;
         this.succeeded = succeeded;

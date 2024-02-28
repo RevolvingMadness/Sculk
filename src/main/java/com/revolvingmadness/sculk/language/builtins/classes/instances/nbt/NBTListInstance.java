@@ -1,6 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.nbt;
 
-import com.revolvingmadness.sculk.language.builtins.classes.types.nbt.NBTListType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.nbt.NBTListClassType;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 
@@ -10,7 +10,7 @@ public class NBTListInstance extends NBTElementInstance {
     public final List<NBTElementInstance> value;
 
     public NBTListInstance(List<NBTElementInstance> value) {
-        super(NBTListType.TYPE);
+        super(NBTListClassType.TYPE);
         this.value = value;
     }
 

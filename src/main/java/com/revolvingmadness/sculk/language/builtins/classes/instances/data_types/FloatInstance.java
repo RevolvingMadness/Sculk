@@ -2,8 +2,8 @@ package com.revolvingmadness.sculk.language.builtins.classes.instances.data_type
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.FloatType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.FloatClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerClassType;
 import net.minecraft.nbt.NbtDouble;
 import net.minecraft.nbt.NbtElement;
 
@@ -13,17 +13,17 @@ public class FloatInstance extends BuiltinClass {
     public final double value;
 
     public FloatInstance(double value) {
-        super(FloatType.TYPE);
+        super(FloatClassType.TYPE);
         this.value = value;
     }
 
     @Override
     public BuiltinClass add(BuiltinClass other) {
-        if (other.instanceOf(FloatType.TYPE)) {
+        if (other.instanceOf(FloatClassType.TYPE)) {
             return new FloatInstance(this.value + other.toFloat());
         }
 
-        if (other.instanceOf(IntegerType.TYPE)) {
+        if (other.instanceOf(IntegerClassType.TYPE)) {
             return new FloatInstance(this.value + other.toInteger());
         }
 
@@ -37,11 +37,11 @@ public class FloatInstance extends BuiltinClass {
 
     @Override
     public BuiltinClass divide(BuiltinClass other) {
-        if (other.instanceOf(FloatType.TYPE)) {
+        if (other.instanceOf(FloatClassType.TYPE)) {
             return new FloatInstance(this.value / other.toFloat());
         }
 
-        if (other.instanceOf(IntegerType.TYPE)) {
+        if (other.instanceOf(IntegerClassType.TYPE)) {
             return new FloatInstance(this.value / other.toInteger());
         }
 
@@ -62,11 +62,11 @@ public class FloatInstance extends BuiltinClass {
 
     @Override
     public BuiltinClass exponentiate(BuiltinClass other) {
-        if (other.instanceOf(FloatType.TYPE)) {
+        if (other.instanceOf(FloatClassType.TYPE)) {
             return new FloatInstance(Math.pow(this.value, other.toFloat()));
         }
 
-        if (other.instanceOf(IntegerType.TYPE)) {
+        if (other.instanceOf(IntegerClassType.TYPE)) {
             return new FloatInstance(Math.pow(this.value, other.toInteger()));
         }
 
@@ -75,11 +75,11 @@ public class FloatInstance extends BuiltinClass {
 
     @Override
     public BooleanInstance greaterThan(BuiltinClass other) {
-        if (other.instanceOf(FloatType.TYPE)) {
+        if (other.instanceOf(FloatClassType.TYPE)) {
             return new BooleanInstance(this.value > other.toFloat());
         }
 
-        if (other.instanceOf(IntegerType.TYPE)) {
+        if (other.instanceOf(IntegerClassType.TYPE)) {
             return new BooleanInstance(this.value > other.toInteger());
         }
 
@@ -98,11 +98,11 @@ public class FloatInstance extends BuiltinClass {
 
     @Override
     public BooleanInstance lessThan(BuiltinClass other) {
-        if (other.instanceOf(FloatType.TYPE)) {
+        if (other.instanceOf(FloatClassType.TYPE)) {
             return new BooleanInstance(this.value < other.toFloat());
         }
 
-        if (other.instanceOf(IntegerType.TYPE)) {
+        if (other.instanceOf(IntegerClassType.TYPE)) {
             return new BooleanInstance(this.value < other.toInteger());
         }
 
@@ -111,11 +111,11 @@ public class FloatInstance extends BuiltinClass {
 
     @Override
     public BuiltinClass mod(BuiltinClass other) {
-        if (other.instanceOf(FloatType.TYPE)) {
+        if (other.instanceOf(FloatClassType.TYPE)) {
             return new FloatInstance(this.value % other.toFloat());
         }
 
-        if (other.instanceOf(IntegerType.TYPE)) {
+        if (other.instanceOf(IntegerClassType.TYPE)) {
             return new FloatInstance(this.value % other.toInteger());
         }
 
@@ -124,11 +124,11 @@ public class FloatInstance extends BuiltinClass {
 
     @Override
     public BuiltinClass multiply(BuiltinClass other) {
-        if (other.instanceOf(FloatType.TYPE)) {
+        if (other.instanceOf(FloatClassType.TYPE)) {
             return new FloatInstance(this.value * other.toFloat());
         }
 
-        if (other.instanceOf(IntegerType.TYPE)) {
+        if (other.instanceOf(IntegerClassType.TYPE)) {
             return new FloatInstance(this.value * other.toInteger());
         }
 
@@ -142,11 +142,11 @@ public class FloatInstance extends BuiltinClass {
 
     @Override
     public BuiltinClass subtract(BuiltinClass other) {
-        if (other.instanceOf(FloatType.TYPE)) {
+        if (other.instanceOf(FloatClassType.TYPE)) {
             return new FloatInstance(this.value - other.toFloat());
         }
 
-        if (other.instanceOf(IntegerType.TYPE)) {
+        if (other.instanceOf(IntegerClassType.TYPE)) {
             return new FloatInstance(this.value - other.toInteger());
         }
 

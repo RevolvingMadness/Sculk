@@ -1,7 +1,7 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.types.GameRulesType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.GameRulesClassType;
 import net.minecraft.world.GameRules;
 
 import java.util.Objects;
@@ -10,7 +10,7 @@ public class GameRulesInstance extends BuiltinClass {
     public final GameRules value;
 
     public GameRulesInstance(GameRules value) {
-        super(GameRulesType.TYPE);
+        super(GameRulesClassType.TYPE);
         this.value = value;
     }
 

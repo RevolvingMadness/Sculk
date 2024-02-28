@@ -2,9 +2,9 @@ package com.revolvingmadness.sculk.language.builtins.classes.instances.data_type
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.ListType;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.ListClassType;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.errors.TypeError;
 import net.minecraft.nbt.NbtElement;
@@ -18,7 +18,7 @@ public class ListInstance extends BuiltinClass {
     public final List<BuiltinClass> value;
 
     public ListInstance(List<BuiltinClass> value) {
-        super(ListType.TYPE);
+        super(ListClassType.TYPE);
         this.value = value;
     }
 
@@ -27,7 +27,7 @@ public class ListInstance extends BuiltinClass {
             return true;
         }
 
-        BuiltinType type = this.value.get(0).type;
+        BuiltinClassType type = this.value.get(0).type;
 
         for (BuiltinClass item : this.value) {
             if (!item.type.equals(type)) {
@@ -40,7 +40,7 @@ public class ListInstance extends BuiltinClass {
 
     @Override
     public void deleteIndex(BuiltinClass index) {
-        if (!index.instanceOf(IntegerType.TYPE)) {
+        if (!index.instanceOf(IntegerClassType.TYPE)) {
             throw ErrorHolder.cannotIndexTypeByType(this.type, index.type);
         }
 
@@ -63,7 +63,7 @@ public class ListInstance extends BuiltinClass {
 
     @Override
     public BuiltinClass getIndex(BuiltinClass index) {
-        if (!index.instanceOf(IntegerType.TYPE)) {
+        if (!index.instanceOf(IntegerClassType.TYPE)) {
             throw ErrorHolder.cannotIndexTypeByType(this.type, index.type);
         }
 
@@ -83,7 +83,7 @@ public class ListInstance extends BuiltinClass {
 
     @Override
     public void setIndex(BuiltinClass index, BuiltinClass value) {
-        if (!index.instanceOf(IntegerType.TYPE)) {
+        if (!index.instanceOf(IntegerClassType.TYPE)) {
             throw ErrorHolder.cannotIndexTypeByType(this.type, index.type);
         }
 

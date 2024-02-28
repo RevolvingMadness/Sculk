@@ -2,7 +2,7 @@ package com.revolvingmadness.sculk.language.builtins.classes.instances.block;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.IntegerInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockPosType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockPosClassType;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.util.math.BlockPos;
 
@@ -13,7 +13,7 @@ public class BlockPosInstance extends BuiltinClass {
     public final BlockPos value;
 
     public BlockPosInstance(BlockPos value) {
-        super(BlockPosType.TYPE);
+        super(BlockPosClassType.TYPE);
         this.value = value;
 
         this.variableScope.declare(List.of(TokenType.CONST), "x", new IntegerInstance(value.getX()));

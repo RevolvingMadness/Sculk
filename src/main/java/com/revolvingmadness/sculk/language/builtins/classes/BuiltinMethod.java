@@ -1,6 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes;
 
-import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.MethodType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.MethodClassType;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 
 import java.util.List;
@@ -11,7 +11,7 @@ public abstract class BuiltinMethod extends BuiltinClass {
     public BuiltinClass boundSuperClass;
 
     public BuiltinMethod() {
-        super(MethodType.TYPE);
+        super(MethodClassType.TYPE);
     }
 
     public void bind(BuiltinClass clazz, BuiltinClass superClass) {

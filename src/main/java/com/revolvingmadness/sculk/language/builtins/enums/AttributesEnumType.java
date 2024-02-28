@@ -1,14 +1,14 @@
 package com.revolvingmadness.sculk.language.builtins.enums;
 
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinEnum;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinEnumType;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
 
 import java.util.List;
 
-public class AttributesEnumType extends BuiltinEnum {
+public class AttributesEnumType extends BuiltinEnumType {
     public static final AttributesEnumType TYPE = new AttributesEnumType();
 
     private AttributesEnumType() {
@@ -37,7 +37,7 @@ public class AttributesEnumType extends BuiltinEnum {
     private static class EntityAttributesEnumValue extends EnumValue {
         public final EntityAttribute attribute;
 
-        public EntityAttributesEnumValue(String name, int position, BuiltinType type, EntityAttribute attribute) {
+        public EntityAttributesEnumValue(String name, int position, BuiltinClassType type, EntityAttribute attribute) {
             super(name, position, type);
 
             this.attribute = attribute;

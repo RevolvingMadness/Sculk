@@ -1,6 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.nbt;
 
-import com.revolvingmadness.sculk.language.builtins.classes.types.nbt.NBTFloatType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.nbt.NBTFloatClassType;
 import net.minecraft.nbt.NbtDouble;
 import net.minecraft.nbt.NbtElement;
 
@@ -8,7 +8,7 @@ public class NBTFloatInstance extends NBTElementInstance {
     public final double value;
 
     public NBTFloatInstance(double value) {
-        super(NBTFloatType.TYPE);
+        super(NBTFloatClassType.TYPE);
         this.value = value;
     }
 

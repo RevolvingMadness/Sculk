@@ -6,7 +6,7 @@ import com.revolvingmadness.sculk.language.Argument;
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
 import com.revolvingmadness.sculk.language.errors.TypeError;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.interpreter.errors.MaxArgumentError;
@@ -23,9 +23,9 @@ public class MethodInstance extends BuiltinMethod {
     public final List<Argument> arguments;
     public final List<StatementNode> body;
     public final String name;
-    public final BuiltinType returnType;
+    public final BuiltinClassType returnType;
 
-    public MethodInstance(List<TokenType> accessModifiers, String name, List<Argument> arguments, BuiltinType returnType, List<StatementNode> body) {
+    public MethodInstance(List<TokenType> accessModifiers, String name, List<Argument> arguments, BuiltinClassType returnType, List<StatementNode> body) {
         this.accessModifiers = accessModifiers;
         this.name = name;
         this.arguments = arguments;
@@ -54,7 +54,7 @@ public class MethodInstance extends BuiltinMethod {
             BuiltinClass typeClass = interpreter.variableTable.getOrThrow(argument.type).value;
             BuiltinClass value = arguments.get(argumentIterator.previousIndex());
 
-            if (!(typeClass instanceof BuiltinType type_)) {
+            if (!(typeClass instanceof BuiltinClassType type_)) {
                 throw new TypeError("The type of an argument cannot be an instance");
             }
 

@@ -5,12 +5,12 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.GUIInstanc
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.nbt.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
-import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockPosType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockPosClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.*;
-import com.revolvingmadness.sculk.language.builtins.classes.types.entity.EntityType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.entity.PlayerEntityType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.entity.ServerPlayerEntityType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.entity.EntityClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.entity.PlayerEntityClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.entity.ServerPlayerEntityClassType;
 import com.revolvingmadness.sculk.language.builtins.enums.AttributesEnumType;
 import com.revolvingmadness.sculk.language.builtins.enums.DifficultiesEnumType;
 import com.revolvingmadness.sculk.language.builtins.enums.GameModesEnumType;
@@ -41,13 +41,13 @@ import java.util.*;
 
 public abstract class BuiltinClass extends ExpressionNode implements Serializable {
     public final VariableScope variableScope;
-    public BuiltinType type;
+    public BuiltinClassType type;
 
-    public BuiltinClass(BuiltinType type) {
+    public BuiltinClass(BuiltinClassType type) {
         this(type, new VariableScope());
     }
 
-    public BuiltinClass(BuiltinType type, VariableScope variableScope) {
+    public BuiltinClass(BuiltinClassType type, VariableScope variableScope) {
         this.type = type;
         this.variableScope = variableScope;
     }
@@ -155,7 +155,7 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
     }
 
     public void downcast(BuiltinClass typeClass) {
-        if (!(typeClass instanceof BuiltinType type_)) {
+        if (!(typeClass instanceof BuiltinClassType type_)) {
             throw new TypeError("Cannot cast a class to an instance");
         }
 
@@ -218,8 +218,8 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
         throw ErrorHolder.cannotApplyUnaryOperatorToType("++", this.type);
     }
 
-    public boolean instanceOf(BuiltinType type) {
-        BuiltinType valueType = this.type;
+    public boolean instanceOf(BuiltinClassType type) {
+        BuiltinClassType valueType = this.type;
 
         while (valueType != null) {
             if (valueType.name.equals(type.name)) {
@@ -273,15 +273,15 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
     }
 
     public Block toBlock() {
-        throw ErrorHolder.cannotConvertType(this.type, BlockType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, BlockClassType.TYPE);
     }
 
     public BlockPos toBlockPos() {
-        throw ErrorHolder.cannotConvertType(this.type, BlockPosType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, BlockPosClassType.TYPE);
     }
 
     public boolean toBoolean() {
-        throw ErrorHolder.cannotConvertType(this.type, BooleanType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, BooleanClassType.TYPE);
     }
 
     public Difficulty toDifficulty() {
@@ -289,19 +289,19 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
     }
 
     public Entity toEntity() {
-        throw ErrorHolder.cannotConvertType(this.type, EntityType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, EntityClassType.TYPE);
     }
 
     public double toFloat() {
-        throw ErrorHolder.cannotConvertType(this.type, FloatType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, FloatClassType.TYPE);
     }
 
     public BuiltinFunction toFunction() {
-        throw ErrorHolder.cannotConvertType(this.type, FunctionType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, FunctionClassType.TYPE);
     }
 
     public GUIInstance toGUI() {
-        throw ErrorHolder.cannotConvertType(this.type, GUIType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, GUIClassType.TYPE);
     }
 
     public GameMode toGameMode() {
@@ -309,31 +309,31 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
     }
 
     public GameRules toGameRules() {
-        throw ErrorHolder.cannotConvertType(this.type, GameRulesType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, GameRulesClassType.TYPE);
     }
 
     public long toInteger() {
-        throw ErrorHolder.cannotConvertType(this.type, IntegerType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, IntegerClassType.TYPE);
     }
 
     public Inventory toInventory() {
-        throw ErrorHolder.cannotConvertType(this.type, InventoryType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, InventoryClassType.TYPE);
     }
 
     public Item toItem() {
-        throw ErrorHolder.cannotConvertType(this.type, ItemType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, ItemClassType.TYPE);
     }
 
     public ItemStack toItemStack() {
-        throw ErrorHolder.cannotConvertType(this.type, ItemStackType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, ItemStackClassType.TYPE);
     }
 
     public List<BuiltinClass> toList() {
-        throw ErrorHolder.cannotConvertType(this.type, ListType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, ListClassType.TYPE);
     }
 
     public LivingEntity toLivingEntity() {
-        throw ErrorHolder.cannotConvertType(this.type, LivingEntityType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, LivingEntityClassType.TYPE);
     }
 
     public NbtElement toNBT() {
@@ -341,11 +341,11 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
     }
 
     public PlayerEntity toPlayerEntity() {
-        throw ErrorHolder.cannotConvertType(this.type, PlayerEntityType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, PlayerEntityClassType.TYPE);
     }
 
     public PlayerManager toPlayerManager() {
-        throw ErrorHolder.cannotConvertType(this.type, PlayerManagerType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, PlayerManagerClassType.TYPE);
     }
 
     public String toRepresentation() {
@@ -353,7 +353,7 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
     }
 
     public ServerPlayerEntity toServerPlayerEntity() {
-        throw ErrorHolder.cannotConvertType(this.type, ServerPlayerEntityType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, ServerPlayerEntityClassType.TYPE);
     }
 
     @Override
@@ -362,10 +362,10 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
     }
 
     public ServerWorld toWorld() {
-        throw ErrorHolder.cannotConvertType(this.type, WorldType.TYPE);
+        throw ErrorHolder.cannotConvertType(this.type, WorldClassType.TYPE);
     }
 
-    public void validateCall(String callableName, List<BuiltinClass> arguments, List<BuiltinType> argumentTypes) {
+    public void validateCall(String callableName, List<BuiltinClass> arguments, List<BuiltinClassType> argumentTypes) {
         if (arguments.size() != argumentTypes.size()) {
             throw ErrorHolder.invalidArgumentCount(callableName, arguments.size(), argumentTypes.size());
         }
@@ -373,9 +373,9 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
         int argumentNumber = 0;
 
         for (BuiltinClass argument : arguments) {
-            BuiltinType argumentType = argumentTypes.get(argumentNumber);
+            BuiltinClassType argumentType = argumentTypes.get(argumentNumber);
 
-            if (!argument.instanceOf(NullType.TYPE)) {
+            if (!argument.instanceOf(NullClassType.TYPE)) {
                 if (!argument.instanceOf(argumentType)) {
                     throw ErrorHolder.argumentRequiresType(argumentNumber + 1, callableName, argument.type, argumentType);
                 }
@@ -389,7 +389,7 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
         this.validateCall(callableName, arguments, List.of());
     }
 
-    public void validateIndex(BuiltinType type, BuiltinClass requiredType) {
+    public void validateIndex(BuiltinClassType type, BuiltinClass requiredType) {
         if (!requiredType.instanceOf(type)) {
             throw ErrorHolder.cannotIndexTypeByType(this.type, requiredType.type);
         }

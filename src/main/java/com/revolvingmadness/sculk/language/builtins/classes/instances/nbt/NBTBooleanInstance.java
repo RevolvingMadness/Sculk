@@ -1,6 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.nbt;
 
-import com.revolvingmadness.sculk.language.builtins.classes.types.nbt.NBTBooleanType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.nbt.NBTBooleanClassType;
 import net.minecraft.nbt.NbtByte;
 import net.minecraft.nbt.NbtElement;
 
@@ -9,7 +9,7 @@ public class NBTBooleanInstance extends NBTElementInstance {
     public final boolean value;
 
     public NBTBooleanInstance(boolean value) {
-        super(NBTBooleanType.TYPE);
+        super(NBTBooleanClassType.TYPE);
         this.value = value;
     }
 

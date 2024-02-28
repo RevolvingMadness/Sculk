@@ -1,7 +1,7 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.types.PlayerManagerType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.PlayerManagerClassType;
 import net.minecraft.server.PlayerManager;
 
 import java.util.Objects;
@@ -10,7 +10,7 @@ public class PlayerManagerInstance extends BuiltinClass {
     public final PlayerManager value;
 
     public PlayerManagerInstance(PlayerManager value) {
-        super(PlayerManagerType.TYPE);
+        super(PlayerManagerClassType.TYPE);
         this.value = value;
     }
 

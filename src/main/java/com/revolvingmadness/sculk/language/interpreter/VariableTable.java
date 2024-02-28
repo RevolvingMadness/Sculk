@@ -3,23 +3,23 @@ package com.revolvingmadness.sculk.language.interpreter;
 import com.revolvingmadness.sculk.Sculk;
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.GameRulesInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.MinecraftServerInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.PlayerManagerInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.WorldInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.FloatInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
-import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockHitResultType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockPosType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlocksType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockHitResultClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockPosClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlocksClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.entity.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.nbt.*;
 import com.revolvingmadness.sculk.language.builtins.enums.AttributesEnumType;
 import com.revolvingmadness.sculk.language.builtins.enums.DifficultiesEnumType;
-import com.revolvingmadness.sculk.language.builtins.enums.EnumType;
+import com.revolvingmadness.sculk.language.builtins.enums.EnumClassType;
 import com.revolvingmadness.sculk.language.builtins.enums.GameModesEnumType;
 import com.revolvingmadness.sculk.language.builtins.functions.*;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
@@ -56,7 +56,7 @@ public class VariableTable {
             throw ErrorHolder.cannotChangeValueOfVariableBecauseItIsAConstant(variable.name);
         }
 
-        if (!value.instanceOf(NullType.TYPE)) {
+        if (!value.instanceOf(NullClassType.TYPE)) {
             if (!value.instanceOf(variable.type)) {
                 throw new SyntaxError("Cannot assign a value with type '" + value.type.name + "' to a variable that requires type '" + variable.type.name + "'");
             }
@@ -65,7 +65,7 @@ public class VariableTable {
         variable.value = value;
     }
 
-    public void declare(List<TokenType> accessModifiers, BuiltinType type, String name, BuiltinClass value) {
+    public void declare(List<TokenType> accessModifiers, BuiltinClassType type, String name, BuiltinClass value) {
         this.variableScopes.peek().declare(accessModifiers, type, name, value);
     }
 
@@ -74,53 +74,53 @@ public class VariableTable {
     }
 
     private void declareClasses() {
-        this.declare(List.of(TokenType.CONST), "NBTBoolean", NBTBooleanType.TYPE);
-        this.declare(List.of(TokenType.CONST), "NBTCompound", NBTCompoundType.TYPE);
-        this.declare(List.of(TokenType.CONST), "NBTElement", NBTElementType.TYPE);
-        this.declare(List.of(TokenType.CONST), "NBTFloat", NBTFloatType.TYPE);
-        this.declare(List.of(TokenType.CONST), "NBTInteger", NBTIntegerType.TYPE);
-        this.declare(List.of(TokenType.CONST), "NBTList", NBTListType.TYPE);
-        this.declare(List.of(TokenType.CONST), "NBTNull", NBTNullType.TYPE);
-        this.declare(List.of(TokenType.CONST), "NBTString", NBTStringType.TYPE);
+        this.declare(List.of(TokenType.CONST), "NBTBoolean", NBTBooleanClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "NBTCompound", NBTCompoundClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "NBTElement", NBTElementClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "NBTFloat", NBTFloatClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "NBTInteger", NBTIntegerClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "NBTList", NBTListClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "NBTNull", NBTNullClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "NBTString", NBTStringClassType.TYPE);
 
-        this.declare(List.of(TokenType.CONST), "BlockHitResult", BlockHitResultType.TYPE);
-        this.declare(List.of(TokenType.CONST), "BlockPos", BlockPosType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Blocks", BlocksType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Block", BlockType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Boolean", BooleanType.TYPE);
-        this.declare(List.of(TokenType.CONST), "CommandResult", CommandResultType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Dictionary", DictionaryType.TYPE);
+        this.declare(List.of(TokenType.CONST), "BlockHitResult", BlockHitResultClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "BlockPos", BlockPosClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Blocks", BlocksClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Block", BlockClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Boolean", BooleanClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "CommandResult", CommandResultClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Dictionary", DictionaryClassType.TYPE);
         this.declare(List.of(TokenType.CONST), "Difficulties", DifficultiesEnumType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Entity", EntityType.TYPE);
-        this.declare(List.of(TokenType.CONST), "EntityTypes", EntityTypesType.TYPE);
-        this.declare(List.of(TokenType.CONST), "EntityType", EntityTypeType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Enum", EnumType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Events", EventsType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Float", FloatType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Function", FunctionType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Entity", EntityClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "EntityTypes", EntityTypesClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "EntityType", EntityTypeClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Enum", EnumClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Events", EventsClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Float", FloatClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Function", FunctionClassType.TYPE);
         this.declare(List.of(TokenType.CONST), "GameModes", GameModesEnumType.TYPE);
-        this.declare(List.of(TokenType.CONST), "GameRules", GameRulesType.TYPE);
-        this.declare(List.of(TokenType.CONST), "GUI", GUIType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Module", ModuleType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Integer", IntegerType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Inventory", InventoryType.TYPE);
-        this.declare(List.of(TokenType.CONST), "ItemStack", ItemStackType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Items", ItemsType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Item", ItemType.TYPE);
-        this.declare(List.of(TokenType.CONST), "List", ListType.TYPE);
-        this.declare(List.of(TokenType.CONST), "LivingEntity", LivingEntityType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Method", MethodType.TYPE);
-        this.declare(List.of(TokenType.CONST), "MinecraftServer", MinecraftServerType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Null", NullType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Number", NumberType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Object", ObjectType.TYPE);
-        this.declare(List.of(TokenType.CONST), "PlayerEntity", PlayerEntityType.TYPE);
-        this.declare(List.of(TokenType.CONST), "PlayerManager", PlayerManagerType.TYPE);
-        this.declare(List.of(TokenType.CONST), "ServerPlayerEntity", ServerPlayerEntityType.TYPE);
-        this.declare(List.of(TokenType.CONST), "String", StringType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Type", TypeType.TYPE);
-        this.declare(List.of(TokenType.CONST), "Vec3d", Vec3dType.TYPE);
-        this.declare(List.of(TokenType.CONST), "World", WorldType.TYPE);
+        this.declare(List.of(TokenType.CONST), "GameRules", GameRulesClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "GUI", GUIClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Module", ModuleClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Integer", IntegerClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Inventory", InventoryClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "ItemStack", ItemStackClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Items", ItemsClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Item", ItemClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "List", ListClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "LivingEntity", LivingEntityClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Method", MethodClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "MinecraftServer", MinecraftServerClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Null", NullClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Number", NumberClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Object", ObjectClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "PlayerEntity", PlayerEntityClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "PlayerManager", PlayerManagerClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "ServerPlayerEntity", ServerPlayerEntityClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "String", StringClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Type", TypeClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Vec3d", Vec3DClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "World", WorldClassType.TYPE);
         this.declare(List.of(TokenType.CONST), "Attributes", AttributesEnumType.TYPE);
     }
 

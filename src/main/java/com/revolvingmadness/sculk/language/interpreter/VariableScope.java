@@ -2,7 +2,7 @@ package com.revolvingmadness.sculk.language.interpreter;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
 import com.revolvingmadness.sculk.language.errors.NameError;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.errors.TypeError;
@@ -38,7 +38,7 @@ public class VariableScope implements Serializable {
         variable.value = value;
     }
 
-    public void declare(List<TokenType> accessModifiers, BuiltinType type, String name, BuiltinClass value) {
+    public void declare(List<TokenType> accessModifiers, BuiltinClassType type, String name, BuiltinClass value) {
         if (this.exists(name)) {
             throw new NameError("Variable '" + name + "' has already been declared");
         }

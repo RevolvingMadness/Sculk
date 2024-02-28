@@ -1,13 +1,13 @@
 package com.revolvingmadness.sculk.language.builtins.enums;
 
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinEnum;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinType;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinEnumType;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.world.Difficulty;
 
 import java.util.List;
 
-public class DifficultiesEnumType extends BuiltinEnum {
+public class DifficultiesEnumType extends BuiltinEnumType {
     public static final DifficultiesEnumType TYPE = new DifficultiesEnumType();
 
     private DifficultiesEnumType() {
@@ -26,7 +26,7 @@ public class DifficultiesEnumType extends BuiltinEnum {
     private static class DifficultiesEnumValue extends EnumValue {
         public final Difficulty difficulty;
 
-        public DifficultiesEnumValue(String name, int position, BuiltinType type, Difficulty difficulty) {
+        public DifficultiesEnumValue(String name, int position, BuiltinClassType type, Difficulty difficulty) {
             super(name, position, type);
 
             this.difficulty = difficulty;

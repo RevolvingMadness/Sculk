@@ -1,7 +1,7 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.types.ItemStackType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.ItemStackClassType;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -14,7 +14,7 @@ public class ItemStackInstance extends BuiltinClass {
     public final ItemStack value;
 
     public ItemStackInstance(ItemStack value) {
-        super(ItemStackType.TYPE);
+        super(ItemStackClassType.TYPE);
         this.value = value;
 
         this.variableScope.declare(List.of(TokenType.CONST), "item", new ItemInstance(this.value.getItem()));
