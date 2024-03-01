@@ -30,6 +30,7 @@ public class Sculk implements ModInitializer {
         Sculk.keywords.put("abstract", TokenType.ABSTRACT);
         Sculk.keywords.put("static", TokenType.STATIC);
         Sculk.keywords.put("const", TokenType.CONST);
+        Sculk.keywords.put("nonnull", TokenType.NONULL);
 
         // Control flow
         Sculk.keywords.put("if", TokenType.IF);

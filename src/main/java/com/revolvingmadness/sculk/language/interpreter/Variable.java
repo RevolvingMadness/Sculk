@@ -43,4 +43,8 @@ public class Variable implements Serializable {
     public boolean isConstant() {
         return this.accessModifiers.contains(TokenType.CONST);
     }
+
+    public boolean isNonNull() {
+        return this.accessModifiers.contains(TokenType.NONULL);
+    }
 }

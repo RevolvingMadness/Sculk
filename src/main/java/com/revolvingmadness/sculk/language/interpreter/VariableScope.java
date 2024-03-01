@@ -3,6 +3,8 @@ package com.revolvingmadness.sculk.language.interpreter;
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.NullInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.NullClassType;
 import com.revolvingmadness.sculk.language.errors.NameError;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.errors.TypeError;
@@ -31,8 +33,14 @@ public class VariableScope implements Serializable {
             throw ErrorHolder.cannotChangeValueOfVariableBecauseItIsAConstant(variable.name);
         }
 
-        if (!value.instanceOf(variable.type)) {
-            throw new SyntaxError("Cannot assign a value with type '" + variable.type.name + "' to a variable that requires the type '" + value.type.name + "'");
+        if (variable.isNonNull() && value.equals(new NullInstance())) {
+            throw new TypeError("Variable '" + name + "' is non-null and was assigned a null value");
+        }
+
+        if (!value.instanceOf(NullClassType.TYPE)) {
+            if (!value.instanceOf(variable.type)) {
+                throw new SyntaxError("Cannot assign a value with type '" + variable.type.name + "' to a variable that requires the type '" + value.type.name + "'");
+            }
         }
 
         variable.value = value;

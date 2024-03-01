@@ -9,6 +9,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.MinecraftS
 import com.revolvingmadness.sculk.language.builtins.classes.instances.PlayerManagerInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.WorldInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.FloatInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.NullInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockHitResultClassType;
@@ -23,6 +24,7 @@ import com.revolvingmadness.sculk.language.builtins.enums.EnumClassType;
 import com.revolvingmadness.sculk.language.builtins.enums.GameModesEnumType;
 import com.revolvingmadness.sculk.language.builtins.functions.*;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
+import com.revolvingmadness.sculk.language.errors.TypeError;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.world.World;
 
@@ -54,6 +56,10 @@ public class VariableTable {
 
         if (variable.isConstant()) {
             throw ErrorHolder.cannotChangeValueOfVariableBecauseItIsAConstant(variable.name);
+        }
+
+        if (variable.isNonNull() && value.equals(new NullInstance())) {
+            throw new TypeError("Variable '" + name + "' is non-null and was assigned a null value");
         }
 
         if (!value.instanceOf(NullClassType.TYPE)) {

@@ -155,3 +155,4 @@
 - Casting
 - Attribute setting / getting
 - `start` script tag
+- `nonnull` access modifier

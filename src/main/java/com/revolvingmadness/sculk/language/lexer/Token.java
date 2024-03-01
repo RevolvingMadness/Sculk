@@ -18,7 +18,7 @@ public class Token {
     }
 
     public boolean isAccessModifier() {
-        return this.type == TokenType.PUBLIC || this.type == TokenType.PRIVATE || this.type == TokenType.ABSTRACT || this.type == TokenType.STATIC || this.type == TokenType.CONST;
+        return this.type == TokenType.PUBLIC || this.type == TokenType.PRIVATE || this.type == TokenType.ABSTRACT || this.type == TokenType.STATIC || this.type == TokenType.CONST || this.type == TokenType.NONULL;
     }
 
     public boolean isAdditiveOperator() {

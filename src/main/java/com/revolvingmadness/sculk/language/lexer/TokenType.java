@@ -5,7 +5,7 @@ import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import java.util.List;
 
 public enum TokenType {
-    FLOAT, INTEGER, PLUS, HYPHEN, STAR, FSLASH, CARET, PERCENT, IDENTIFIER, SEMICOLON, TRUE, FALSE, EQUALS, LEFT_PARENTHESIS, RIGHT_PARENTHESIS, EXCLAMATION_MARK, DOUBLE_PLUS, DOUBLE_HYPHEN, SINGLE_QUOTE, STRING, COLON, IMPORT, EQUAL_TO, NOT_EQUAL_TO, GREATER_THAN_OR_EQUAL_TO, GREATER_THAN, LESS_THAN, LESS_THAN_OR_EQUAL_TO, IF, LEFT_BRACE, RIGHT_BRACE, WHILE, FOR, FUNCTION, COMMA, RIGHT_ARROW, LEFT_ARROW, NULL, RETURN, BREAK, CONTINUE, LEFT_BRACKET, RIGHT_BRACKET, CONST, AMPERSAND, DOUBLE_AMPERSAND, DOUBLE_PIPE, PIPE, PERIOD, VAR, CLASS, EXTENDS, ELSE, INSTANCEOF, STATIC, DELETE, ABSTRACT, EOF, PUBLIC, PRIVATE, SPACESHIP, FOREACH, ENUM, AS, FROM, SWITCH, CASE, DEFAULT, YIELD, QUESTION_MARK, DOUBLE_RIGHT_ARROW;
+    FLOAT, INTEGER, PLUS, HYPHEN, STAR, FSLASH, CARET, PERCENT, IDENTIFIER, SEMICOLON, TRUE, FALSE, EQUALS, LEFT_PARENTHESIS, RIGHT_PARENTHESIS, EXCLAMATION_MARK, DOUBLE_PLUS, DOUBLE_HYPHEN, SINGLE_QUOTE, STRING, COLON, IMPORT, EQUAL_TO, NOT_EQUAL_TO, GREATER_THAN_OR_EQUAL_TO, GREATER_THAN, LESS_THAN, LESS_THAN_OR_EQUAL_TO, IF, LEFT_BRACE, RIGHT_BRACE, WHILE, FOR, FUNCTION, COMMA, RIGHT_ARROW, LEFT_ARROW, NULL, RETURN, BREAK, CONTINUE, LEFT_BRACKET, RIGHT_BRACKET, CONST, AMPERSAND, DOUBLE_AMPERSAND, DOUBLE_PIPE, PIPE, PERIOD, VAR, CLASS, EXTENDS, ELSE, INSTANCEOF, STATIC, DELETE, ABSTRACT, EOF, PUBLIC, PRIVATE, SPACESHIP, FOREACH, ENUM, AS, FROM, SWITCH, CASE, DEFAULT, YIELD, QUESTION_MARK, DOUBLE_RIGHT_ARROW, NONULL;
 
     public static void validateClassAccessModifiers(List<TokenType> accessModifiers) {
         accessModifiers.forEach(accessModifier -> {
@@ -56,27 +56,27 @@ public enum TokenType {
     }
 
     private boolean isClassAccessModifier() {
-        return this == TokenType.CONST || this == TokenType.ABSTRACT;
+        return this == TokenType.CONST || this == TokenType.ABSTRACT || this == TokenType.NONULL;
     }
 
     private boolean isEnumAccessModifier() {
-        return this == TokenType.CONST;
+        return this == TokenType.CONST || this == TokenType.NONULL;
     }
 
     private boolean isFieldAccessModifier() {
-        return this == TokenType.CONST || this == TokenType.STATIC || this == TokenType.PUBLIC || this == TokenType.PRIVATE;
+        return this == TokenType.CONST || this == TokenType.STATIC || this == TokenType.PUBLIC || this == TokenType.PRIVATE || this == TokenType.NONULL;
     }
 
     private boolean isFunctionAccessModifier() {
-        return this == TokenType.CONST;
+        return this == TokenType.CONST || this == TokenType.NONULL;
     }
 
     private boolean isMethodAccessModifier() {
-        return this == TokenType.CONST || this == TokenType.STATIC || this == TokenType.ABSTRACT || this == TokenType.PUBLIC || this == TokenType.PRIVATE;
+        return this == TokenType.CONST || this == TokenType.STATIC || this == TokenType.ABSTRACT || this == TokenType.PUBLIC || this == TokenType.PRIVATE || this == TokenType.NONULL;
     }
 
     private boolean isVariableAccessModifier() {
-        return this == TokenType.CONST;
+        return this == TokenType.CONST || this == TokenType.NONULL;
     }
 
     @Override
@@ -153,6 +153,7 @@ public enum TokenType {
             case YIELD -> "yield";
             case QUESTION_MARK -> "?";
             case DOUBLE_RIGHT_ARROW -> "=>";
+            case NONULL -> "nonnull";
         };
     }
 }
