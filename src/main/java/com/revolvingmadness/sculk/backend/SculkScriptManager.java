@@ -13,16 +13,19 @@ import java.util.Objects;
 
 public class SculkScriptManager {
     public static final Identifier LOAD_TAG_ID = new Identifier(Sculk.ID, "load");
+    public static final Identifier START_TAG_ID = new Identifier(Sculk.ID, "start");
     public static final Identifier TICK_TAG_ID = new Identifier(Sculk.ID, "tick");
     public static SculkScript currentScript;
     public static SculkScriptLoader loader;
     private boolean shouldRunLoadScripts;
+    private boolean shouldRunStartScripts;
     private List<SculkScript> tickScripts = ImmutableList.of();
 
     public SculkScriptManager(SculkScriptLoader loader) {
         this.setLoader(loader);
 
         this.shouldRunLoadScripts = true;
+        this.shouldRunStartScripts = true;
     }
 
     private void execute(SculkScript script) {
@@ -82,6 +85,14 @@ public class SculkScriptManager {
             this.executeAll(loadScripts, LOAD_TAG_ID);
 
             this.shouldRunLoadScripts = false;
+        }
+
+        if (this.shouldRunStartScripts) {
+            Collection<SculkScript> startScripts = SculkScriptManager.loader.getScriptsFromTag(START_TAG_ID);
+
+            this.executeAll(startScripts, START_TAG_ID);
+
+            this.shouldRunStartScripts = false;
         }
 
         this.executeAll(this.tickScripts, TICK_TAG_ID);
