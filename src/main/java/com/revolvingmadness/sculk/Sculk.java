@@ -1,13 +1,18 @@
 package com.revolvingmadness.sculk;
 
+import com.revolvingmadness.sculk.accessors.DatapackContentsAccessor;
+import com.revolvingmadness.sculk.backend.SculkScript;
+import com.revolvingmadness.sculk.backend.SculkScriptManager;
 import com.revolvingmadness.sculk.gamerules.SculkGamerules;
 import com.revolvingmadness.sculk.language.EventHolder;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +42,18 @@ public class Sculk implements ModInitializer {
     public void onInitialize() {
         SculkGamerules.registerGamerules();
         EventHolder.registerEvents();
+
+        ServerLifecycleEvents.SERVER_STARTING.register(server_ -> {
+            Sculk.server = server_;
+
+            SculkScriptManager.setLoader(((DatapackContentsAccessor) Sculk.server.resourceManagerHolder.dataPackContents()).sculk$getSculkScriptLoader());
+
+            SculkScriptManager.initialize();
+
+            Collection<SculkScript> scripts = SculkScriptManager.loader.getScriptsFromTag(SculkScriptManager.START_TAG_ID);
+
+            SculkScriptManager.executeAll(scripts, SculkScriptManager.START_TAG_ID);
+        });
 
         // Values
         Sculk.keywords.put("true", TokenType.TRUE);
