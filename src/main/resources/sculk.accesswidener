@@ -7,3 +7,13 @@ accessible method net/minecraft/server/MinecraftServer$ResourceManagerHolder <in
 accessible method net/minecraft/registry/entry/RegistryEntry$Reference setValue (Ljava/lang/Object;)V
 accessible field net/minecraft/server/MinecraftServer resourceManagerHolder Lnet/minecraft/server/MinecraftServer$ResourceManagerHolder;
 accessible method net/minecraft/server/MinecraftServer runServer ()V
+
+accessible field net/minecraft/block/AbstractBlock$Settings hardness F
+accessible field net/minecraft/block/AbstractBlock$Settings resistance F
+accessible field net/minecraft/block/AbstractBlock$Settings collidable Z
+accessible field net/minecraft/block/AbstractBlock$Settings luminance Ljava/util/function/ToIntFunction;
+accessible field net/minecraft/block/AbstractBlock$Settings slipperiness F
+accessible field net/minecraft/block/AbstractBlock$Settings burnable Z
+accessible field net/minecraft/block/AbstractBlock$Settings pistonBehavior Lnet/minecraft/block/piston/PistonBehavior;
+accessible field net/minecraft/block/AbstractBlock$Settings blockBreakParticles Z
+accessible field net/minecraft/block/AbstractBlock$Settings instrument Lnet/minecraft/block/enums/Instrument;

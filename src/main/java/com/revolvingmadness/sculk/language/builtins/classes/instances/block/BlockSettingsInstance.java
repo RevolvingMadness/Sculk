@@ -8,6 +8,8 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockSettingsClassType;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.enums.Instrument;
 import net.minecraft.block.piston.PistonBehavior;
 
@@ -15,17 +17,53 @@ import java.util.List;
 
 public class BlockSettingsInstance extends BuiltinClass {
     public BlockSettingsInstance() {
+        this(FabricBlockSettings.create());
+    }
+
+    public BlockSettingsInstance(AbstractBlock.Settings settings) {
         super(BlockSettingsClassType.TYPE);
 
-        this.variableScope.declare(List.of(TokenType.NONULL), "hardness", new FloatInstance(0.5));
-        this.variableScope.declare(List.of(TokenType.NONULL), "resistance", new FloatInstance(0.5));
-        this.variableScope.declare(List.of(TokenType.NONULL), "collidable", new BooleanInstance(true));
-        this.variableScope.declare(List.of(TokenType.NONULL), "luminance", new IntegerInstance(0));
-        this.variableScope.declare(List.of(TokenType.NONULL), "slipperiness", new FloatInstance(0.6));
-        this.variableScope.declare(List.of(TokenType.NONULL), "burnable", new BooleanInstance(false));
-        this.variableScope.declare(List.of(TokenType.NONULL), "pistonBehavior", new StringInstance("normal"));
-        this.variableScope.declare(List.of(TokenType.NONULL), "hasBlockBreakParticles", new BooleanInstance(true));
-        this.variableScope.declare(List.of(TokenType.NONULL), "instrument", new StringInstance("harp"));
+        this.variableScope.declare(List.of(TokenType.NONULL), "hardness", new FloatInstance(settings.hardness));
+        this.variableScope.declare(List.of(TokenType.NONULL), "resistance", new FloatInstance(settings.resistance));
+        this.variableScope.declare(List.of(TokenType.NONULL), "collidable", new BooleanInstance(settings.collidable));
+        this.variableScope.declare(List.of(TokenType.NONULL), "luminance", new IntegerInstance(settings.luminance.applyAsInt(Blocks.AIR.getDefaultState())));
+        this.variableScope.declare(List.of(TokenType.NONULL), "slipperiness", new FloatInstance(settings.slipperiness));
+        this.variableScope.declare(List.of(TokenType.NONULL), "burnable", new BooleanInstance(settings.burnable));
+        String pistonBehavior = switch (settings.pistonBehavior) {
+            case NORMAL -> "normal";
+            case DESTROY -> "destroy";
+            case BLOCK -> "block";
+            case IGNORE -> "ignore";
+            case PUSH_ONLY -> "push_only";
+        };
+        this.variableScope.declare(List.of(TokenType.NONULL), "pistonBehavior", new StringInstance(pistonBehavior));
+        this.variableScope.declare(List.of(TokenType.NONULL), "hasBlockBreakParticles", new BooleanInstance(settings.blockBreakParticles));
+        String instrument = switch (settings.instrument) {
+            case HARP -> "harp";
+            case BASEDRUM -> "basedrum";
+            case SNARE -> "snare";
+            case HAT -> "hat";
+            case BASS -> "bass";
+            case FLUTE -> "flute";
+            case BELL -> "bell";
+            case GUITAR -> "guitar";
+            case CHIME -> "chime";
+            case XYLOPHONE -> "xylophone";
+            case IRON_XYLOPHONE -> "iron_xylophone";
+            case COW_BELL -> "cow_bell";
+            case DIDGERIDOO -> "didgeridoo";
+            case BIT -> "bit";
+            case BANJO -> "banjo";
+            case PLING -> "pling";
+            case ZOMBIE -> "zombie";
+            case SKELETON -> "skeleton";
+            case CREEPER -> "creeper";
+            case DRAGON -> "dragon";
+            case WITHER_SKELETON -> "wither_skeleton";
+            case PIGLIN -> "piglin";
+            case CUSTOM_HEAD -> "custom_head";
+        };
+        this.variableScope.declare(List.of(TokenType.NONULL), "instrument", new StringInstance(instrument));
     }
 
     @Override
