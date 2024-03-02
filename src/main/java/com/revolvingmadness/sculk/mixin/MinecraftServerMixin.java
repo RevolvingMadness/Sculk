@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.DataFixer;
 import com.revolvingmadness.sculk.Sculk;
 import com.revolvingmadness.sculk.accessors.DatapackContentsAccessor;
+import com.revolvingmadness.sculk.backend.SculkScript;
 import com.revolvingmadness.sculk.backend.SculkScriptManager;
 import net.minecraft.network.QueryableServer;
 import net.minecraft.registry.CombinedDynamicRegistries;
@@ -20,10 +21,10 @@ import net.minecraft.util.profiler.Profiler;
 import net.minecraft.util.thread.ReentrantThreadExecutor;
 import net.minecraft.world.SaveProperties;
 import net.minecraft.world.level.storage.LevelStorage;
+import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -34,11 +35,18 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BooleanSupplier;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 @Mixin(MinecraftServer.class)
 public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<ServerTask> implements QueryableServer, CommandOutput, AutoCloseable {
+    @Shadow
+    @Final
+    private static Logger LOGGER;
+    @Shadow
+    public MinecraftServer.ResourceManagerHolder resourceManagerHolder;
     @Shadow
     @Final
     protected SaveProperties saveProperties;
@@ -53,10 +61,6 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
     private ResourcePackManager dataPackManager;
     @Shadow
     private Profiler profiler;
-    @Shadow
-    private MinecraftServer.ResourceManagerHolder resourceManagerHolder;
-    @Unique
-    private SculkScriptManager sculkScriptManager;
     @Shadow
     @Final
     private StructureTemplateManager structureTemplateManager;
@@ -73,6 +77,39 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
         return null;
     }
 
+    @Inject(at = @At("HEAD"), method = "startServer", cancellable = true)
+    private static <S extends MinecraftServer> void injectStartServer(Function<Thread, S> serverFactory, CallbackInfoReturnable<S> cir) {
+        AtomicReference<MinecraftServer> atomicReference = new AtomicReference<>();
+        Thread thread2 = new Thread(() -> {
+            MinecraftServer server = atomicReference.get();
+
+            SculkScriptManager.setLoader(((DatapackContentsAccessor) server.resourceManagerHolder.dataPackContents()).sculk$getSculkScriptLoader());
+
+            SculkScriptManager.initialize();
+
+            if (SculkScriptManager.shouldRunStartScripts) {
+                Collection<SculkScript> scripts = SculkScriptManager.loader.getScriptsFromTag(SculkScriptManager.START_TAG_ID);
+
+                SculkScriptManager.executeAll(scripts, SculkScriptManager.START_TAG_ID);
+
+                SculkScriptManager.shouldRunStartScripts = false;
+            }
+
+            server.runServer();
+        }, "Server thread");
+        thread2.setUncaughtExceptionHandler((thread, throwable) -> LOGGER.error("Uncaught exception in server thread", throwable));
+
+        if (Runtime.getRuntime().availableProcessors() > 4) {
+            thread2.setPriority(8);
+        }
+
+        S minecraftServer = serverFactory.apply(thread2);
+        atomicReference.set(minecraftServer);
+        thread2.start();
+
+        cir.setReturnValue(minecraftServer);
+    }
+
     @Shadow
     public abstract int getFunctionPermissionLevel();
 
@@ -82,15 +119,10 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
     @Shadow
     public abstract DynamicRegistryManager.Immutable getRegistryManager();
 
-    @Unique
-    private SculkScriptManager getSculkScriptManager() {
-        return this.sculkScriptManager;
-    }
-
     @Inject(at = @At("TAIL"), method = "<init>")
     public void injectInit(Thread serverThread, LevelStorage.Session session, ResourcePackManager dataPackManager, SaveLoader saveLoader, Proxy proxy, DataFixer dataFixer, ApiServices apiServices, WorldGenerationProgressListenerFactory worldGenerationProgressListenerFactory, CallbackInfo ci) {
         Sculk.server = (MinecraftServer) (Object) this;
-        this.sculkScriptManager = new SculkScriptManager(((DatapackContentsAccessor) this.resourceManagerHolder.dataPackContents()).sculk$getSculkScriptLoader());
+        SculkScriptManager.setLoader(((DatapackContentsAccessor) this.resourceManagerHolder.dataPackContents()).sculk$getSculkScriptLoader());
     }
 
     @Inject(at = @At("HEAD"), method = "reloadResources", cancellable = true)
@@ -122,7 +154,7 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
             this.getPlayerManager().saveAllPlayerData();
             this.getPlayerManager().onDataPacksReloaded();
             this.commandFunctionManager.setFunctions(this.resourceManagerHolder.dataPackContents().getFunctionLoader());
-            this.sculkScriptManager.setLoader(((DatapackContentsAccessor) this.resourceManagerHolder.dataPackContents()).sculk$getSculkScriptLoader());
+            SculkScriptManager.setLoader(((DatapackContentsAccessor) this.resourceManagerHolder.dataPackContents()).sculk$getSculkScriptLoader());
             this.structureTemplateManager.setResourceManager(this.resourceManagerHolder.resourceManager());
         }, this);
         if (this.isOnThread()) {
@@ -136,7 +168,7 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
     @Inject(at = @At("HEAD"), method = "tickWorlds")
     public void injectTickWorlds(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
         this.profiler.push("sculkScripts");
-        this.getSculkScriptManager().tick();
+        SculkScriptManager.tick();
         this.profiler.pop();
     }
 

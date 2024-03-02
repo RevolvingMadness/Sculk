@@ -3,7 +3,6 @@ package com.revolvingmadness.sculk.language;
 import com.revolvingmadness.sculk.backend.Logger;
 import com.revolvingmadness.sculk.events.*;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.ItemStackInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.block.BlockInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.block.BlockPosInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.StringInstance;
@@ -11,6 +10,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.entity.Ent
 import com.revolvingmadness.sculk.language.builtins.classes.instances.entity.LivingEntityInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.entity.PlayerEntityInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.entity.ServerPlayerEntityInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.item.ItemStackInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.BooleanClassType;
 import com.revolvingmadness.sculk.language.errors.Error;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;

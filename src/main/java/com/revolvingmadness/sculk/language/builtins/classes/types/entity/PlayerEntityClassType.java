@@ -2,13 +2,15 @@ package com.revolvingmadness.sculk.language.builtins.classes.types.entity;
 
 import com.revolvingmadness.sculk.language.GUIScreenHandler;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.GUIInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.InventoryInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.WorldInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.NullInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.StringInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.InventoryInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.item.ItemStackInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.GUIClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.InventoryClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.LivingEntityClassType;

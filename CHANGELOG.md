@@ -156,3 +156,9 @@
 - Attribute setting / getting
 - `start` script tag
 - `nonnull` access modifier
+- Custom item/block support
+- `Items.register(item: Item) -> Item`
+- `ItemSettings`
+- `Blocks.register(block: Block) -> Block`
+- `Blocks.registerWithItem(block: Block) -> Block`
+- `BlockSettings`

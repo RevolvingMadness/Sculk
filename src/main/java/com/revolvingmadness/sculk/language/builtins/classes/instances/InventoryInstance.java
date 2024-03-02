@@ -1,6 +1,7 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.item.ItemStackInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.InventoryClassType;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;

@@ -1,7 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.data_types;
 
 import com.revolvingmadness.sculk.Sculk;
-import com.revolvingmadness.sculk.gamerules.SculkGamerules;
 import com.revolvingmadness.sculk.language.Argument;
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
@@ -35,7 +34,7 @@ public class FunctionInstance extends BuiltinFunction {
     public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
         interpreter.variableTable.enterScope();
 
-        int maxArguments = Sculk.server.getGameRules().getInt(SculkGamerules.MAX_ARGUMENT_COUNT);
+        int maxArguments = Sculk.getMaxArgumentCount();
 
         if (arguments.size() > maxArguments) {
             throw new MaxArgumentError("Function '" + this.name + "' has more than " + maxArguments + " argument(s)");

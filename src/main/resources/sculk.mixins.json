@@ -11,7 +11,8 @@
         "ItemStackMixin",
         "MinecraftServerMixin",
         "PlayerEntityMixin",
-        "ServerPlayerEntityMixin"
+        "ServerPlayerEntityMixin",
+        "SimpleRegistryMixin"
     ],
     "injectors": {
         "defaultRequire": 1

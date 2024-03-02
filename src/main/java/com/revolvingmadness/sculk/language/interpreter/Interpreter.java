@@ -3,8 +3,8 @@ package com.revolvingmadness.sculk.language.interpreter;
 import com.revolvingmadness.sculk.Sculk;
 import com.revolvingmadness.sculk.backend.SculkScript;
 import com.revolvingmadness.sculk.backend.SculkScriptLoader;
-import com.revolvingmadness.sculk.gamerules.SculkGamerules;
 import com.revolvingmadness.sculk.language.ErrorHolder;
+import com.revolvingmadness.sculk.language.ScriptTag;
 import com.revolvingmadness.sculk.language.SwitchExpressionCase;
 import com.revolvingmadness.sculk.language.SwitchStatementCase;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
@@ -24,16 +24,21 @@ import com.revolvingmadness.sculk.language.parser.nodes.ScriptNode;
 import com.revolvingmadness.sculk.language.parser.nodes.expression_nodes.*;
 import com.revolvingmadness.sculk.language.parser.nodes.expression_nodes.literal_expression_nodes.*;
 import com.revolvingmadness.sculk.language.parser.nodes.statement_nodes.*;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 
 import java.util.*;
 
 public class Interpreter implements Visitor {
     public final SculkScriptLoader loader;
+    public final ScriptTag scriptTag;
     public final VariableTable variableTable;
+    public Identifier identifier;
 
-    public Interpreter(SculkScriptLoader loader) {
+    public Interpreter(SculkScriptLoader loader, ScriptTag scriptTag, Identifier identifier) {
         this.loader = loader;
+        this.scriptTag = scriptTag;
+        this.identifier = identifier;
 
         this.variableTable = new VariableTable();
     }
@@ -253,7 +258,7 @@ public class Interpreter implements Visitor {
     @Override
     public void visitForStatement(ForStatementNode forStatement) {
         int loops = 0;
-        long maxLoops = Sculk.server.getGameRules().getInt(SculkGamerules.MAX_LOOPS);
+        int maxLoops = Sculk.getMaxLoops();
 
         if (forStatement.initialization != null) {
             this.visitStatement(forStatement.initialization);
@@ -298,7 +303,7 @@ public class Interpreter implements Visitor {
     @Override
     public void visitForeachStatement(ForeachStatementNode foreachStatement) {
         int loops = 0;
-        long maxLoops = Sculk.server.getGameRules().getInt(SculkGamerules.MAX_LOOPS);
+        int maxLoops = Sculk.getMaxLoops();
 
         Iterator<BuiltinClass> variableIterator = this.visitExpression(foreachStatement.variableToIterate).toList().iterator();
 
@@ -807,7 +812,7 @@ public class Interpreter implements Visitor {
     @Override
     public void visitWhileStatement(WhileStatementNode whileStatement) {
         int loops = 0;
-        int maxLoops = Sculk.server.getGameRules().getInt(SculkGamerules.MAX_LOOPS);
+        int maxLoops = Sculk.getMaxLoops();
 
         while_loop:
         while (true) {

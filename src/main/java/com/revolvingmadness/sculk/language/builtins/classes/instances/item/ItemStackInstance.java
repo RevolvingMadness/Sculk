@@ -1,7 +1,7 @@
-package com.revolvingmadness.sculk.language.builtins.classes.instances;
+package com.revolvingmadness.sculk.language.builtins.classes.instances.item;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.types.ItemStackClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemStackClassType;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;

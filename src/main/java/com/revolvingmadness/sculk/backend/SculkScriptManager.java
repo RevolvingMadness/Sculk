@@ -1,15 +1,13 @@
 package com.revolvingmadness.sculk.backend;
 
-import com.google.common.collect.ImmutableList;
 import com.revolvingmadness.sculk.Sculk;
 import com.revolvingmadness.sculk.language.EventHolder;
 import com.revolvingmadness.sculk.language.errors.Error;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
 
 public class SculkScriptManager {
     public static final Identifier LOAD_TAG_ID = new Identifier(Sculk.ID, "load");
@@ -17,18 +15,51 @@ public class SculkScriptManager {
     public static final Identifier TICK_TAG_ID = new Identifier(Sculk.ID, "tick");
     public static SculkScript currentScript;
     public static SculkScriptLoader loader;
-    private boolean shouldRunLoadScripts;
-    private boolean shouldRunStartScripts;
-    private List<SculkScript> tickScripts = ImmutableList.of();
+    public static boolean shouldRunStartScripts = true;
+    private static boolean shouldRunLoadScripts = true;
+    private static Collection<SculkScript> tickScripts = new ArrayList<>();
 
-    public SculkScriptManager(SculkScriptLoader loader) {
-        this.setLoader(loader);
+    public static void executeAll(Collection<SculkScript> scripts, Identifier tag) {
+        Profiler serverProfiler = Sculk.server.getProfiler();
 
-        this.shouldRunLoadScripts = true;
-        this.shouldRunStartScripts = true;
+        serverProfiler.push(tag::toString);
+
+        scripts.forEach(SculkScriptManager::execute);
+
+        Sculk.server.getProfiler().pop();
     }
 
-    private void execute(SculkScript script) {
+    public static void initialize() {
+        SculkScriptManager.loader.scripts.forEach((identifier, script) -> {
+            try {
+                script.initialize();
+            } catch (Error exception) {
+                Logger.scriptError(script, exception);
+                script.hasErrors = true;
+            }
+        });
+    }
+
+    public static void setLoader(SculkScriptLoader loader) {
+        SculkScriptManager.loader = loader;
+        SculkScriptManager.reload();
+    }
+
+    public static void tick() {
+        if (SculkScriptManager.shouldRunLoadScripts) {
+            SculkScriptManager.initialize();
+
+            Collection<SculkScript> scripts = SculkScriptManager.loader.getScriptsFromTag(SculkScriptManager.LOAD_TAG_ID);
+
+            SculkScriptManager.executeAll(scripts, LOAD_TAG_ID);
+
+            SculkScriptManager.shouldRunLoadScripts = false;
+        }
+
+        SculkScriptManager.executeAll(SculkScriptManager.tickScripts, TICK_TAG_ID);
+    }
+
+    private static void execute(SculkScript script) {
         if (script.hasErrors) {
             return;
         }
@@ -44,57 +75,11 @@ public class SculkScriptManager {
         }
     }
 
-    private void executeAll(Collection<SculkScript> scripts, Identifier label) {
-        Profiler serverProfiler = Sculk.server.getProfiler();
-
-        Objects.requireNonNull(label);
-
-        serverProfiler.push(label::toString);
-
-        scripts.forEach(this::execute);
-
-        Sculk.server.getProfiler().pop();
-    }
-
-    public void reload(SculkScriptLoader loader) {
-        this.tickScripts = List.copyOf(loader.getScriptsFromTag(TICK_TAG_ID));
+    private static void reload() {
+        SculkScriptManager.tickScripts = SculkScriptManager.loader.getScriptsFromTag(SculkScriptManager.TICK_TAG_ID);
         SculkScriptManager.currentScript = null;
-        this.shouldRunLoadScripts = true;
+        SculkScriptManager.shouldRunLoadScripts = true;
 
         EventHolder.clearEvents();
-    }
-
-    public void setLoader(SculkScriptLoader loader) {
-        SculkScriptManager.loader = loader;
-        this.reload(loader);
-    }
-
-    public void tick() {
-        if (this.shouldRunLoadScripts) {
-            SculkScriptManager.loader.scripts.forEach((identifier, script) -> {
-                try {
-                    script.initialize();
-                } catch (Error exception) {
-                    Logger.scriptError(script, exception);
-                    script.hasErrors = true;
-                }
-            });
-
-            Collection<SculkScript> loadScripts = SculkScriptManager.loader.getScriptsFromTag(LOAD_TAG_ID);
-
-            this.executeAll(loadScripts, LOAD_TAG_ID);
-
-            this.shouldRunLoadScripts = false;
-        }
-
-        if (this.shouldRunStartScripts) {
-            Collection<SculkScript> startScripts = SculkScriptManager.loader.getScriptsFromTag(START_TAG_ID);
-
-            this.executeAll(startScripts, START_TAG_ID);
-
-            this.shouldRunStartScripts = false;
-        }
-
-        this.executeAll(this.tickScripts, TICK_TAG_ID);
     }
 }

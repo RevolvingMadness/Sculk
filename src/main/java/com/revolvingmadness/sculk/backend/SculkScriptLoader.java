@@ -1,6 +1,7 @@
 package com.revolvingmadness.sculk.backend;
 
 import com.mojang.datafixers.util.Pair;
+import com.revolvingmadness.sculk.language.ScriptTag;
 import net.minecraft.registry.tag.TagGroupLoader;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceFinder;
@@ -62,20 +63,20 @@ public class SculkScriptLoader implements ResourceReloader {
         CompletableFuture<Map<Identifier, List<TagGroupLoader.TrackedEntry>>> completableScriptTags = CompletableFuture.supplyAsync(() -> this.TAG_LOADER.loadTags(resourceManager), prepareExecutor);
 
         CompletableFuture<Map<Identifier, CompletableFuture<SculkScript>>> completableIdentifiedScripts = CompletableFuture.supplyAsync(() -> FINDER.findResources(resourceManager), prepareExecutor).thenCompose((identifiedScriptResources) -> {
-            Map<Identifier, CompletableFuture<SculkScript>> identifiedCompletableScripts = new HashMap<>();
+            Map<Identifier, CompletableFuture<SculkScript>> taggedCompletableScripts = new HashMap<>();
 
             identifiedScriptResources.forEach((scriptIdentifier, scriptResource) -> {
-                Identifier scriptResourceIdentifier = FINDER.toResourceId(scriptIdentifier);
+                Identifier scriptTag = FINDER.toResourceId(scriptIdentifier);
 
-                identifiedCompletableScripts.put(scriptResourceIdentifier, CompletableFuture.supplyAsync(() -> {
+                taggedCompletableScripts.put(scriptTag, CompletableFuture.supplyAsync(() -> {
                     List<String> scriptContentsList = readResource(scriptResource);
 
-                    return new SculkScript(scriptIdentifier, scriptContentsList, this);
+                    return new SculkScript(scriptIdentifier, scriptContentsList, this, ScriptTag.of(scriptTag));
                 }, prepareExecutor));
             });
 
-            CompletableFuture<?>[] completableFutures = identifiedCompletableScripts.values().toArray(new CompletableFuture[0]);
-            return CompletableFuture.allOf(completableFutures).handle((unused, ex) -> identifiedCompletableScripts);
+            CompletableFuture<?>[] completableFutures = taggedCompletableScripts.values().toArray(new CompletableFuture[0]);
+            return CompletableFuture.allOf(completableFutures).handle((unused, ex) -> taggedCompletableScripts);
         });
 
         CompletableFuture<Pair<Map<Identifier, List<TagGroupLoader.TrackedEntry>>, Map<Identifier, CompletableFuture<SculkScript>>>> completableScriptTagPair = completableScriptTags.thenCombine(completableIdentifiedScripts, Pair::of);

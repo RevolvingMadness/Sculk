@@ -14,6 +14,22 @@ public class Sculk implements ModInitializer {
     public static final Map<String, TokenType> keywords = new HashMap<>();
     public static MinecraftServer server;
 
+    public static int getMaxArgumentCount() {
+        if (Sculk.server.getOverworld() == null) {
+            return 255;
+        }
+
+        return Sculk.getMaxArgumentCount();
+    }
+
+    public static int getMaxLoops() {
+        if (Sculk.server.getOverworld() == null) {
+            return 65535;
+        }
+
+        return Sculk.server.getGameRules().getInt(SculkGamerules.MAX_LOOPS);
+    }
+
     @Override
     public void onInitialize() {
         SculkGamerules.registerGamerules();

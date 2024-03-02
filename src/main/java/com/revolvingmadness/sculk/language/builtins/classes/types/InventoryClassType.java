@@ -1,16 +1,18 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.*;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.InventoryInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.IntegerInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.NullInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.InventoryInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.item.ItemStackInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.nbt.NBTCompoundInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.nbt.NBTElementInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemStackClassType;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.inventory.Inventory;

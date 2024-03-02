@@ -7,10 +7,14 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.nbt.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockPosClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockSettingsClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.entity.EntityClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.entity.PlayerEntityClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.entity.ServerPlayerEntityClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemSettingsClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemStackClassType;
 import com.revolvingmadness.sculk.language.builtins.enums.AttributesEnumType;
 import com.revolvingmadness.sculk.language.builtins.enums.DifficultiesEnumType;
 import com.revolvingmadness.sculk.language.builtins.enums.GameModesEnumType;
@@ -19,6 +23,8 @@ import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.interpreter.Variable;
 import com.revolvingmadness.sculk.language.interpreter.VariableScope;
 import com.revolvingmadness.sculk.language.parser.nodes.expression_nodes.ExpressionNode;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -261,6 +267,14 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
     }
 
     public void setProperty(String propertyName, BuiltinClass value) {
+        Optional<Variable> optionalVariable = this.variableScope.getOptional(propertyName);
+
+        if (optionalVariable.isPresent()) {
+            this.variableScope.assign(propertyName, value);
+
+            return;
+        }
+
         this.type.setProperty(propertyName, value);
     }
 
@@ -278,6 +292,10 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
 
     public BlockPos toBlockPos() {
         throw ErrorHolder.cannotConvertType(this.type, BlockPosClassType.TYPE);
+    }
+
+    public FabricBlockSettings toBlockSettings() {
+        throw ErrorHolder.cannotConvertType(this.type, BlockSettingsClassType.TYPE);
     }
 
     public boolean toBoolean() {
@@ -322,6 +340,10 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
 
     public Item toItem() {
         throw ErrorHolder.cannotConvertType(this.type, ItemClassType.TYPE);
+    }
+
+    public FabricItemSettings toItemSettings() {
+        throw ErrorHolder.cannotConvertType(this.type, ItemSettingsClassType.TYPE);
     }
 
     public ItemStack toItemStack() {

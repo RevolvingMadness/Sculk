@@ -1,5 +1,6 @@
 package com.revolvingmadness.sculk.backend;
 
+import com.revolvingmadness.sculk.language.ScriptTag;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.Lexer;
 import com.revolvingmadness.sculk.language.lexer.Token;
@@ -14,16 +15,18 @@ public class SculkScript {
     public final String contents;
     public final Identifier identifier;
     public final SculkScriptLoader loader;
+    public final ScriptTag tag;
     public boolean hasBeenInitialized;
     public boolean hasErrors;
     public Interpreter interpreter;
     public boolean isBeingImported;
     public ScriptNode scriptNode;
 
-    public SculkScript(Identifier identifier, List<String> contentsList, SculkScriptLoader loader) {
+    public SculkScript(Identifier identifier, List<String> contentsList, SculkScriptLoader loader, ScriptTag tag) {
         this.identifier = identifier;
         this.contents = String.join("\n", contentsList);
         this.loader = loader;
+        this.tag = tag;
         this.hasErrors = false;
         this.hasBeenInitialized = false;
         this.isBeingImported = false;
@@ -63,15 +66,19 @@ public class SculkScript {
         List<Token> tokens = lexer.lex();
         Parser parser = new Parser(tokens);
         this.scriptNode = parser.parse();
-        this.interpreter = new Interpreter(this.loader);
+        this.interpreter = new Interpreter(this.loader, this.tag, this.identifier);
         this.hasBeenInitialized = true;
     }
 
     public void interpret() {
+        if (!this.hasBeenInitialized) {
+            throw new RuntimeException("Script has not been initialized");
+        }
+
         this.interpreter.visitScript(this.scriptNode);
     }
 
     public void reset() {
-        this.interpreter = new Interpreter(this.loader);
+        this.interpreter = new Interpreter(this.loader, this.tag, this.identifier);
     }
 }

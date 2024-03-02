@@ -1,12 +1,15 @@
-package com.revolvingmadness.sculk.language.builtins.classes.types;
+package com.revolvingmadness.sculk.language.builtins.classes.types.item;
 
+import com.revolvingmadness.sculk.dynamicreg.DynamicRegistries;
 import com.revolvingmadness.sculk.language.ErrorHolder;
+import com.revolvingmadness.sculk.language.ScriptTag;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.ItemInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.item.ItemInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringClassType;
 import com.revolvingmadness.sculk.language.errors.NameError;
+import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.item.Item;
@@ -24,6 +27,7 @@ public class ItemsClassType extends BuiltinClassType {
         super("Items");
 
         this.variableScope.declare(List.of(TokenType.CONST), "get", new Get());
+        this.variableScope.declare(List.of(TokenType.CONST), "register", new Register());
     }
 
     private static class Get extends BuiltinMethod {
@@ -48,6 +52,23 @@ public class ItemsClassType extends BuiltinClassType {
             if (item == Items.AIR) {
                 throw new NameError("Item '" + identifier + "' does not exist");
             }
+
+            return new ItemInstance(item);
+        }
+    }
+
+    private static class Register extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            this.validateCall("register", arguments, List.of(StringClassType.TYPE, ItemClassType.TYPE));
+
+            if (interpreter.scriptTag != ScriptTag.START) {
+                throw new SyntaxError("Items can only be registered in the 'start' script tag");
+            }
+
+            Item item = arguments.get(1).toItem();
+
+            DynamicRegistries.ITEM.register(new Identifier(interpreter.identifier.getNamespace(), arguments.get(0).toString()), item);
 
             return new ItemInstance(item);
         }

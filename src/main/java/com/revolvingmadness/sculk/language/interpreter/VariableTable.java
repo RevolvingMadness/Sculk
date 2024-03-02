@@ -11,12 +11,13 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.WorldInsta
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.FloatInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.NullInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
-import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockClassType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockHitResultClassType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockPosClassType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlocksClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.block.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.entity.*;
+import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemSettingsClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemStackClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemsClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.nbt.*;
 import com.revolvingmadness.sculk.language.builtins.enums.AttributesEnumType;
 import com.revolvingmadness.sculk.language.builtins.enums.DifficultiesEnumType;
@@ -128,6 +129,8 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "Vec3d", Vec3DClassType.TYPE);
         this.declare(List.of(TokenType.CONST), "World", WorldClassType.TYPE);
         this.declare(List.of(TokenType.CONST), "Attributes", AttributesEnumType.TYPE);
+        this.declare(List.of(TokenType.CONST), "ItemSettings", ItemSettingsClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "BlockSettings", BlockSettingsClassType.TYPE);
     }
 
     private void declareFunctions() {
@@ -146,10 +149,13 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "PI", new FloatInstance(Math.PI));
         this.declare(List.of(TokenType.CONST), "server", new MinecraftServerInstance(Sculk.server));
         this.declare(List.of(TokenType.CONST), "playerManager", new PlayerManagerInstance(Sculk.server.getPlayerManager()));
-        this.declare(List.of(TokenType.CONST), "gameRules", new GameRulesInstance(Sculk.server.getGameRules()));
-        this.declare(List.of(TokenType.CONST), "overworld", new WorldInstance(Sculk.server.getWorld(World.OVERWORLD)));
-        this.declare(List.of(TokenType.CONST), "nether", new WorldInstance(Sculk.server.getWorld(World.NETHER)));
-        this.declare(List.of(TokenType.CONST), "end", new WorldInstance(Sculk.server.getWorld(World.END)));
+
+        if (Sculk.server.getOverworld() != null) {
+            this.declare(List.of(TokenType.CONST), "gameRules", new GameRulesInstance(Sculk.server.getGameRules()));
+            this.declare(List.of(TokenType.CONST), "overworld", new WorldInstance(Sculk.server.getWorld(World.OVERWORLD)));
+            this.declare(List.of(TokenType.CONST), "nether", new WorldInstance(Sculk.server.getWorld(World.NETHER)));
+            this.declare(List.of(TokenType.CONST), "end", new WorldInstance(Sculk.server.getWorld(World.END)));
+        }
     }
 
     public void deleteOrThrow(String name) {
