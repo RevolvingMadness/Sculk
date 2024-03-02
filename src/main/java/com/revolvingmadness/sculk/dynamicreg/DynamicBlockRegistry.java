@@ -18,7 +18,7 @@ public class DynamicBlockRegistry extends DynamicRegistry<Block> {
         boolean alreadyRegistered = this.registry.containsId(id);
 
         if (alreadyRegistered) {
-            Logger.scriptError(SculkScriptManager.currentScript, new RegistryError("Block '" + id + "' already registered"));
+            Logger.scriptWarn(SculkScriptManager.currentScript, new RegistryError("Block '" + id + "' already registered"));
             return;
         }
 

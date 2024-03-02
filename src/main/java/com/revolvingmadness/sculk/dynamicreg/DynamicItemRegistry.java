@@ -18,7 +18,7 @@ public class DynamicItemRegistry extends DynamicRegistry<Item> {
         boolean alreadyRegistered = this.registry.containsId(id);
 
         if (alreadyRegistered) {
-            Logger.scriptError(SculkScriptManager.currentScript, new RegistryError("Item '" + id + "' already registered"));
+            Logger.scriptWarn(SculkScriptManager.currentScript, new RegistryError("Item '" + id + "' already registered"));
             return;
         }
 

@@ -15,7 +15,6 @@ public class SculkScriptManager {
     public static final Identifier TICK_TAG_ID = new Identifier(Sculk.ID, "tick");
     public static SculkScript currentScript;
     public static SculkScriptLoader loader;
-    public static boolean shouldRunStartScripts = true;
     private static boolean shouldRunLoadScripts = true;
     private static Collection<SculkScript> tickScripts = new ArrayList<>();
 

@@ -5,12 +5,15 @@ import com.revolvingmadness.sculk.language.EventHolder;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.server.MinecraftServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Sculk implements ModInitializer {
     public static final String ID = "sculk";
+    public static final Logger LOGGER = LoggerFactory.getLogger(Sculk.ID);
     public static final Map<String, TokenType> keywords = new HashMap<>();
     public static MinecraftServer server;
 

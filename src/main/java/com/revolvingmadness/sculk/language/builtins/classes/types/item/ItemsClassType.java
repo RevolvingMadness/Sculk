@@ -66,11 +66,11 @@ public class ItemsClassType extends BuiltinClassType {
                 throw new SyntaxError("Items can only be registered in the 'start' script tag");
             }
 
-            Item item = arguments.get(1).toItem();
+            ItemInstance item = arguments.get(1).toItemInstance();
 
-            DynamicRegistries.ITEM.register(new Identifier(interpreter.identifier.getNamespace(), arguments.get(0).toString()), item);
+            DynamicRegistries.ITEM.register(item.id, item.value);
 
-            return new ItemInstance(item);
+            return item;
         }
     }
 }

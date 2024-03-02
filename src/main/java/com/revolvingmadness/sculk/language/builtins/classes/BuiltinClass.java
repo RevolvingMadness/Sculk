@@ -2,7 +2,9 @@ package com.revolvingmadness.sculk.language.builtins.classes;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.GUIInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.block.BlockInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.item.ItemInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.nbt.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockClassType;
@@ -290,6 +292,10 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
         throw ErrorHolder.cannotConvertType(this.type, BlockClassType.TYPE);
     }
 
+    public BlockInstance toBlockInstance() {
+        throw ErrorHolder.cannotConvertType(this.type, BlockClassType.TYPE);
+    }
+
     public BlockPos toBlockPos() {
         throw ErrorHolder.cannotConvertType(this.type, BlockPosClassType.TYPE);
     }
@@ -339,6 +345,10 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
     }
 
     public Item toItem() {
+        throw ErrorHolder.cannotConvertType(this.type, ItemClassType.TYPE);
+    }
+
+    public ItemInstance toItemInstance() {
         throw ErrorHolder.cannotConvertType(this.type, ItemClassType.TYPE);
     }
 

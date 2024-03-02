@@ -87,13 +87,9 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
 
             SculkScriptManager.initialize();
 
-            if (SculkScriptManager.shouldRunStartScripts) {
-                Collection<SculkScript> scripts = SculkScriptManager.loader.getScriptsFromTag(SculkScriptManager.START_TAG_ID);
+            Collection<SculkScript> scripts = SculkScriptManager.loader.getScriptsFromTag(SculkScriptManager.START_TAG_ID);
 
-                SculkScriptManager.executeAll(scripts, SculkScriptManager.START_TAG_ID);
-
-                SculkScriptManager.shouldRunStartScripts = false;
-            }
+            SculkScriptManager.executeAll(scripts, SculkScriptManager.START_TAG_ID);
 
             server.runServer();
         }, "Server thread");

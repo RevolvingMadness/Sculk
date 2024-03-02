@@ -48,4 +48,9 @@ public class BlockInstance extends BuiltinClass {
     public Block toBlock() {
         return this.value;
     }
+
+    @Override
+    public BlockInstance toBlockInstance() {
+        return this;
+    }
 }

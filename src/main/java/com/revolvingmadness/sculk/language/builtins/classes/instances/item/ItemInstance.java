@@ -48,6 +48,11 @@ public class ItemInstance extends BuiltinClass {
     }
 
     @Override
+    public ItemInstance toItemInstance() {
+        return this;
+    }
+
+    @Override
     public ItemStack toItemStack() {
         return this.value.getDefaultStack();
     }

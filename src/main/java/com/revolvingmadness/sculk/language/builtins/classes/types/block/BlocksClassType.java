@@ -63,17 +63,17 @@ public class BlocksClassType extends BuiltinClassType {
     private static class Register extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("register", arguments, List.of(StringClassType.TYPE, BlockClassType.TYPE));
+            this.validateCall("register", arguments, List.of(BlockClassType.TYPE));
 
             if (interpreter.scriptTag != ScriptTag.START) {
                 throw new SyntaxError("Blocks can only be registered in the 'start' script tag");
             }
 
-            Block block = arguments.get(1).toBlock();
+            BlockInstance block = arguments.get(0).toBlockInstance();
 
-            DynamicRegistries.BLOCK.register(new Identifier(interpreter.identifier.getNamespace(), arguments.get(0).toString()), block);
+            DynamicRegistries.BLOCK.register(block.id, block.value);
 
-            return new BlockInstance(block);
+            return block;
         }
     }
 
@@ -86,22 +86,12 @@ public class BlocksClassType extends BuiltinClassType {
                 throw new SyntaxError("Blocks can only be registered in the 'start' script tag");
             }
 
-            BuiltinClass blockClass = arguments.get(0);
+            BlockInstance block = arguments.get(0).toBlockInstance();
 
-            String idString = blockClass.variableScope.getOrThrow("id").value.toString();
+            DynamicRegistries.BLOCK.register(block.id, block.value);
+            DynamicRegistries.ITEM.register(block.id, new BlockItem(block.value, new FabricItemSettings()));
 
-            Identifier id = Identifier.tryParse(idString);
-
-            if (id == null) {
-                throw new SyntaxError("Invalid identifier '" + idString + "'");
-            }
-
-            Block block = blockClass.toBlock();
-
-            DynamicRegistries.BLOCK.register(id, block);
-            DynamicRegistries.ITEM.register(id, new BlockItem(block, new FabricItemSettings()));
-
-            return new BlockInstance(block);
+            return block;
         }
     }
 }
