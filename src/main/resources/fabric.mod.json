@@ -17,6 +17,9 @@
     "entrypoints": {
         "main": [
             "com.revolvingmadness.sculk.Sculk"
+        ],
+        "client": [
+            "com.revolvingmadness.sculk.SculkClient"
         ]
     },
     "accessWidener": "sculk.accesswidener",

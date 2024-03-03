@@ -8,7 +8,12 @@ import com.revolvingmadness.sculk.language.EventHolder;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +24,7 @@ import java.util.Map;
 public class Sculk implements ModInitializer {
     public static final String ID = "sculk";
     public static final Logger LOGGER = LoggerFactory.getLogger(Sculk.ID);
+    public static final Identifier RELOAD_RESOURCES_ID = new Identifier(Sculk.ID, "reload_resources");
     public static final Map<String, TokenType> keywords = new HashMap<>();
     public static MinecraftServer server;
 
@@ -53,6 +59,12 @@ public class Sculk implements ModInitializer {
             Collection<SculkScript> scripts = SculkScriptManager.loader.getScriptsFromTag(SculkScriptManager.START_TAG_ID);
 
             SculkScriptManager.executeAll(scripts, SculkScriptManager.START_TAG_ID);
+        });
+
+        ServerLifecycleEvents.START_DATA_PACK_RELOAD.register((server_, resourceManager) -> {
+            for (ServerPlayerEntity player : PlayerLookup.all(Sculk.server)) {
+                ServerPlayNetworking.send(player, Sculk.RELOAD_RESOURCES_ID, PacketByteBufs.empty());
+            }
         });
 
         // Values
