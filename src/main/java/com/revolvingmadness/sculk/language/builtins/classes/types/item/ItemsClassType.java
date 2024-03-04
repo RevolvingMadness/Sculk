@@ -1,6 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types.item;
 
-import com.revolvingmadness.sculk.dynamicreg.DynamicRegistries;
+import com.revolvingmadness.sculk.dynamicreg.DynamicItemRegistry;
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.ScriptTag;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
@@ -60,15 +60,15 @@ public class ItemsClassType extends BuiltinClassType {
     private static class Register extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("register", arguments, List.of(StringClassType.TYPE, ItemClassType.TYPE));
+            this.validateCall("register", arguments, List.of(ItemClassType.TYPE));
 
             if (interpreter.scriptTag != ScriptTag.START) {
                 throw new SyntaxError("Items can only be registered in the 'start' script tag");
             }
 
-            ItemInstance item = arguments.get(1).toItemInstance();
+            ItemInstance item = arguments.get(0).toItemInstance();
 
-            DynamicRegistries.ITEM.register(item.id, item.value);
+            DynamicItemRegistry.register(item.id, item.value);
 
             return item;
         }

@@ -1,28 +1,27 @@
 package com.revolvingmadness.sculk.dynamicreg;
 
-import com.revolvingmadness.sculk.backend.Logger;
-import com.revolvingmadness.sculk.backend.SculkScriptManager;
-import com.revolvingmadness.sculk.language.errors.RegistryError;
+import com.revolvingmadness.sculk.Sculk;
 import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
-public class DynamicBlockRegistry extends DynamicRegistry<Block> {
-    public DynamicBlockRegistry() {
-        super(Registries.BLOCK);
-    }
+import java.util.HashMap;
+import java.util.Map;
 
-    @Override
-    public void register(Identifier id, Block value) {
-        boolean alreadyRegistered = this.registry.containsId(id);
+public class DynamicBlockRegistry {
+    public static final Map<Identifier, Block> REGISTERED_BLOCKS = new HashMap<>();
+
+    public static void register(Identifier id, Block value) {
+        Sculk.LOGGER.info("Registering block '" + id + "'");
+        boolean alreadyRegistered = Registries.BLOCK.containsId(id);
 
         if (alreadyRegistered) {
-            Logger.scriptWarn(SculkScriptManager.currentScript, new RegistryError("Block '" + id + "' already registered"));
+            Sculk.LOGGER.info("Block '" + id + "' already registered");
             return;
         }
 
-        Registry.register(this.registry, id, value);
-        this.registeredComponents.put(id, value);
+        Registry.register(Registries.BLOCK, id, value);
+        REGISTERED_BLOCKS.put(id, value);
     }
 }

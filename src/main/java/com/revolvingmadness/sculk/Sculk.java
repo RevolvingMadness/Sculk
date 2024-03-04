@@ -23,6 +23,7 @@ import java.util.Map;
 
 public class Sculk implements ModInitializer {
     public static final String ID = "sculk";
+    public static final Identifier DYNAMIC_REGISTRY_SYNC_ID = new Identifier(Sculk.ID, "dynamic_registry_sync");
     public static final Logger LOGGER = LoggerFactory.getLogger(Sculk.ID);
     public static final Identifier RELOAD_RESOURCES_ID = new Identifier(Sculk.ID, "reload_resources");
     public static final Map<String, TokenType> keywords = new HashMap<>();

@@ -1,6 +1,7 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types.block;
 
-import com.revolvingmadness.sculk.dynamicreg.DynamicRegistries;
+import com.revolvingmadness.sculk.dynamicreg.DynamicBlockRegistry;
+import com.revolvingmadness.sculk.dynamicreg.DynamicItemRegistry;
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.ScriptTag;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
@@ -71,7 +72,7 @@ public class BlocksClassType extends BuiltinClassType {
 
             BlockInstance block = arguments.get(0).toBlockInstance();
 
-            DynamicRegistries.BLOCK.register(block.id, block.value);
+            DynamicBlockRegistry.register(block.id, block.value);
 
             return block;
         }
@@ -88,8 +89,8 @@ public class BlocksClassType extends BuiltinClassType {
 
             BlockInstance block = arguments.get(0).toBlockInstance();
 
-            DynamicRegistries.BLOCK.register(block.id, block.value);
-            DynamicRegistries.ITEM.register(block.id, new BlockItem(block.value, new FabricItemSettings()));
+            DynamicBlockRegistry.register(block.id, block.value);
+            DynamicItemRegistry.register(block.id, new BlockItem(block.value, new FabricItemSettings()));
 
             return block;
         }

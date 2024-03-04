@@ -11,7 +11,7 @@
         "ItemStackMixin",
         "MinecraftServerMixin",
         "PlayerEntityMixin",
-        "ServerConfigurationNetworkHandlerMixin",
+        "RegistrySyncManagerMixin",
         "ServerPlayerEntityMixin",
         "SimpleRegistryMixin"
     ],

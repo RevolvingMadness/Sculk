@@ -30,14 +30,12 @@ public abstract class SimpleRegistryMixin<T> {
     @SuppressWarnings("unchecked")
     @Inject(at = @At("HEAD"), method = "freeze", cancellable = true)
     public void injectFreeze(CallbackInfoReturnable<Registry<T>> cir) {
-        SimpleRegistry<T> instance = (SimpleRegistry<T>) (Object) this;
-
         this.valueToEntry.forEach((value, entry) -> entry.setValue(value));
         List<Identifier> list = this.keyToEntry.entrySet().stream().filter(entry -> !entry.getValue().hasKeyAndValue()).map(entry -> entry.getKey().getValue()).sorted().toList();
         if (!list.isEmpty()) {
             throw new IllegalStateException("Unbound values in registry " + this.getKey() + ": " + list);
         }
 
-        cir.setReturnValue(instance);
+        cir.setReturnValue((SimpleRegistry<T>) (Object) this);
     }
 }
