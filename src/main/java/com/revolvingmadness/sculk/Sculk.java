@@ -50,8 +50,8 @@ public class Sculk implements ModInitializer {
         SculkGamerules.registerGamerules();
         EventHolder.registerEvents();
 
-        ServerLifecycleEvents.SERVER_STARTING.register(server_ -> {
-            Sculk.server = server_;
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+            Sculk.server = server;
 
             SculkScriptManager.setLoader(((DatapackContentsAccessor) Sculk.server.resourceManagerHolder.dataPackContents()).sculk$getSculkScriptLoader());
 
@@ -62,7 +62,7 @@ public class Sculk implements ModInitializer {
             SculkScriptManager.executeAll(scripts, SculkScriptManager.START_TAG_ID);
         });
 
-        ServerLifecycleEvents.START_DATA_PACK_RELOAD.register((server, resourceManager) -> {
+        ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((ignored1, ignored2, ignored3) -> {
             for (ServerPlayerEntity player : PlayerLookup.all(Sculk.server)) {
                 ServerPlayNetworking.send(player, Sculk.RELOAD_RESOURCES_ID, PacketByteBufs.empty());
             }
