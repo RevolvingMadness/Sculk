@@ -62,7 +62,7 @@ public class Sculk implements ModInitializer {
             SculkScriptManager.executeAll(scripts, SculkScriptManager.START_TAG_ID);
         });
 
-        ServerLifecycleEvents.START_DATA_PACK_RELOAD.register((server_, resourceManager) -> {
+        ServerLifecycleEvents.START_DATA_PACK_RELOAD.register((server, resourceManager) -> {
             for (ServerPlayerEntity player : PlayerLookup.all(Sculk.server)) {
                 ServerPlayNetworking.send(player, Sculk.RELOAD_RESOURCES_ID, PacketByteBufs.empty());
             }
