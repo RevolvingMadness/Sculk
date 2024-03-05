@@ -6,7 +6,6 @@ accessible method net/minecraft/block/BellBlock isPointOnBell (Lnet/minecraft/bl
 accessible method net/minecraft/server/MinecraftServer$ResourceManagerHolder <init> (Lnet/minecraft/resource/LifecycledResourceManager;Lnet/minecraft/server/DataPackContents;)V
 accessible method net/minecraft/registry/entry/RegistryEntry$Reference setValue (Ljava/lang/Object;)V
 accessible field net/minecraft/server/MinecraftServer resourceManagerHolder Lnet/minecraft/server/MinecraftServer$ResourceManagerHolder;
-accessible method net/minecraft/server/MinecraftServer runServer ()V
 
 accessible field net/minecraft/block/AbstractBlock$Settings hardness F
 accessible field net/minecraft/block/AbstractBlock$Settings resistance F

@@ -1,6 +1,8 @@
 package com.revolvingmadness.sculk.dynamicreg;
 
 import com.revolvingmadness.sculk.Sculk;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -23,5 +25,8 @@ public class DynamicItemRegistry {
 
         Registry.register(Registries.ITEM, id, value);
         REGISTERED_ITEMS.put(id, value);
+        if (MinecraftClient.getInstance() != null) {
+            MinecraftClient.getInstance().getItemRenderer().getModels().putModel(value, new ModelIdentifier(id, "inventory"));
+        }
     }
 }
