@@ -13,10 +13,8 @@ import com.revolvingmadness.sculk.language.errors.NameError;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.BlockItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
@@ -90,7 +88,7 @@ public class BlocksClassType extends BuiltinClassType {
             BlockInstance block = arguments.get(0).toBlockInstance();
 
             DynamicBlockRegistry.register(block.id, block.value);
-            DynamicItemRegistry.register(block.id, new BlockItem(block.value, new FabricItemSettings()));
+            DynamicItemRegistry.register(block.id, block.value);
 
             return block;
         }

@@ -64,7 +64,7 @@ public class BlockSettingsInstance extends BuiltinClass {
             case CUSTOM_HEAD -> "custom_head";
         };
         this.variableScope.declare(List.of(TokenType.NONULL), "instrument", new StringInstance(instrument));
-        this.variableScope.declare(List.of(TokenType.NONULL), "requiresTool", new BooleanInstance(false));
+        this.variableScope.declare(List.of(TokenType.NONULL), "requiresTool", new BooleanInstance(settings.toolRequired));
     }
 
     @Override

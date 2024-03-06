@@ -5,7 +5,6 @@ import com.revolvingmadness.sculk.dynamicreg.DynamicItemRegistry;
 import com.revolvingmadness.sculk.network.PacketByteBufSerialization;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking;
-import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -29,8 +28,8 @@ public class SculkClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ClientLoginConnectionEvents.INIT.register((handler, client) -> SculkClient.reloadResources(client));
-
+        ClientConfigurationNetworking.registerGlobalReceiver(Sculk.RELOAD_RESOURCES_ID, (client, handler, buf, responseSender) -> client.reloadResources());
+        
         ClientPlayNetworking.registerGlobalReceiver(Sculk.RELOAD_RESOURCES_ID, (client, handler, buf, responseSender) -> SculkClient.reloadResources(client));
 
         ClientConfigurationNetworking.registerGlobalReceiver(Sculk.DYNAMIC_REGISTRY_SYNC_ID, (client, handler, buf, responseSender) -> {

@@ -1,8 +1,13 @@
 package com.revolvingmadness.sculk.dynamicreg;
 
 import com.revolvingmadness.sculk.Sculk;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.ModelIdentifier;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -25,8 +30,12 @@ public class DynamicItemRegistry {
 
         Registry.register(Registries.ITEM, id, value);
         REGISTERED_ITEMS.put(id, value);
-        if (MinecraftClient.getInstance() != null) {
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             MinecraftClient.getInstance().getItemRenderer().getModels().putModel(value, new ModelIdentifier(id, "inventory"));
         }
+    }
+
+    public static void register(Identifier id, Block value) {
+        DynamicItemRegistry.register(id, new BlockItem(value, new FabricItemSettings()));
     }
 }

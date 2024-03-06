@@ -8,11 +8,7 @@ import com.revolvingmadness.sculk.language.EventHolder;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,19 +49,13 @@ public class Sculk implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
             Sculk.server = server;
 
-            SculkScriptManager.setLoader(((DatapackContentsAccessor) Sculk.server.resourceManagerHolder.dataPackContents()).sculk$getSculkScriptLoader());
+            SculkScriptManager.setLoader(((DatapackContentsAccessor) server.resourceManagerHolder.dataPackContents()).sculk$getSculkScriptLoader());
 
             SculkScriptManager.initialize();
 
             Collection<SculkScript> scripts = SculkScriptManager.loader.getScriptsFromTag(SculkScriptManager.START_TAG_ID);
 
             SculkScriptManager.executeAll(scripts, SculkScriptManager.START_TAG_ID);
-        });
-
-        ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((ignored1, ignored2, ignored3) -> {
-            for (ServerPlayerEntity player : PlayerLookup.all(Sculk.server)) {
-                ServerPlayNetworking.send(player, Sculk.RELOAD_RESOURCES_ID, PacketByteBufs.empty());
-            }
         });
 
         // Values
