@@ -5,6 +5,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.IntegerInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.StringInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemSettingsClassType;
+import com.revolvingmadness.sculk.language.errors.ValueError;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 
@@ -24,8 +25,21 @@ public class ItemSettingsInstance extends BuiltinClass {
     public FabricItemSettings toItemSettings() {
         FabricItemSettings settings = new FabricItemSettings();
 
-        settings.maxCount((int) this.variableScope.getOrThrow("maxCount").value.toInteger());
-        settings.maxDamage((int) this.variableScope.getOrThrow("maxDamage").value.toInteger());
+        int maxCount = (int) this.variableScope.getOrThrow("maxCount").value.toInteger();
+        int maxDamage = (int) this.variableScope.getOrThrow("maxDamage").value.toInteger();
+
+        if (maxCount > 1 && maxDamage > 1) {
+            throw new ValueError("Unable to have damage and stack");
+        }
+
+        if (maxCount > 1) {
+            settings.maxCount(maxCount);
+        }
+
+        if (maxDamage > 0) {
+            settings.maxDamage(maxDamage);
+        }
+
         boolean isFireproof = this.variableScope.getOrThrow("fireproof").value.toBoolean();
         if (isFireproof) {
             settings.fireproof();

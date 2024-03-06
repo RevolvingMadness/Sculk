@@ -16,3 +16,4 @@ accessible field net/minecraft/block/AbstractBlock$Settings burnable Z
 accessible field net/minecraft/block/AbstractBlock$Settings pistonBehavior Lnet/minecraft/block/piston/PistonBehavior;
 accessible field net/minecraft/block/AbstractBlock$Settings blockBreakParticles Z
 accessible field net/minecraft/block/AbstractBlock$Settings instrument Lnet/minecraft/block/enums/Instrument;
+accessible field net/minecraft/block/AbstractBlock$Settings toolRequired Z

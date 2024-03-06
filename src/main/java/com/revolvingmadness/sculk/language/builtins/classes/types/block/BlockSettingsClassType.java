@@ -16,7 +16,7 @@ public class BlockSettingsClassType extends BuiltinClassType {
     private BlockSettingsClassType() {
         super("BlockSettings");
 
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "of", new Of());
+        this.variableScope.declare(List.of(TokenType.CONST), "of", new Of());
     }
 
     @Override

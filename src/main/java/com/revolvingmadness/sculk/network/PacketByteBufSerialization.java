@@ -27,6 +27,9 @@ public class PacketByteBufSerialization {
             settings.noBlockBreakParticles();
         }
         settings.instrument(buf.readEnumConstant(Instrument.class));
+        if (buf.readBoolean()) {
+            settings.requiresTool();
+        }
 
         return settings;
     }
@@ -59,6 +62,7 @@ public class PacketByteBufSerialization {
         buf.writeEnumConstant(settings.pistonBehavior);
         buf.writeBoolean(settings.blockBreakParticles);
         buf.writeEnumConstant(settings.instrument);
+        buf.writeBoolean(settings.toolRequired);
     }
 
     public static void writeItemSettings(PacketByteBuf buf, Item item) {

@@ -64,6 +64,7 @@ public class BlockSettingsInstance extends BuiltinClass {
             case CUSTOM_HEAD -> "custom_head";
         };
         this.variableScope.declare(List.of(TokenType.NONULL), "instrument", new StringInstance(instrument));
+        this.variableScope.declare(List.of(TokenType.NONULL), "requiresTool", new BooleanInstance(false));
     }
 
     @Override
@@ -118,6 +119,10 @@ public class BlockSettingsInstance extends BuiltinClass {
             default -> Instrument.HARP;
         };
         settings.instrument(instrument);
+        boolean requiresTool = this.variableScope.getOrThrow("requiresTool").value.toBoolean();
+        if (requiresTool) {
+            settings.requiresTool();
+        }
 
         return settings;
     }
