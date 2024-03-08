@@ -131,6 +131,7 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "Attributes", AttributesEnumType.TYPE);
         this.declare(List.of(TokenType.CONST), "ItemSettings", ItemSettingsClassType.TYPE);
         this.declare(List.of(TokenType.CONST), "BlockSettings", BlockSettingsClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "SlabBlock", SlabBlockClassType.TYPE);
     }
 
     private void declareFunctions() {

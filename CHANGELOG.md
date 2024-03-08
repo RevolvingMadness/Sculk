@@ -161,3 +161,9 @@
 - `Blocks.register(block: Block) -> Block`
 - `Blocks.registerWithItem(block: Block) -> Block`
 - `BlockSettings`
+
+# 0.0.6
+
+## Added
+
+- `SlabBlock`
