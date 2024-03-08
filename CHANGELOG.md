@@ -153,7 +153,6 @@
 - `NBTNull`
 - `NBTString`
 - Casting
-- Attribute setting / getting
 - `start` script tag
 - `nonnull` access modifier
 - Custom item/block support
