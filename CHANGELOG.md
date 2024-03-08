@@ -167,3 +167,5 @@
 ## Added
 
 - `SlabBlock`
+- `WallBlock`
+- `StairBlock`

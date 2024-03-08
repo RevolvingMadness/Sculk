@@ -6,6 +6,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.block.BlockSettingsInstance;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class BlockSettingsClassType extends BuiltinClassType {
 
             Block block = arguments.get(0).toBlock();
 
-            return new BlockSettingsInstance(block.getSettings());
+            return new BlockSettingsInstance(FabricBlockSettings.copyOf(block));
         }
     }
 }
