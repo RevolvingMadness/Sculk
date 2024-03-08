@@ -9,6 +9,7 @@
         "EntityMixin",
         "ItemEntityMixin",
         "ItemStackMixin",
+        "KeyBindingMixin",
         "MinecraftServerMixin",
         "PlayerEntityMixin",
         "RegistrySyncManagerMixin",

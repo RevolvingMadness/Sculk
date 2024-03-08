@@ -169,3 +169,4 @@
 - `SlabBlock`
 - `WallBlock`
 - `StairBlock`
+- Custom keybinds

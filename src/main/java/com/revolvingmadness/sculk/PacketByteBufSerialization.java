@@ -1,4 +1,4 @@
-package com.revolvingmadness.sculk.network;
+package com.revolvingmadness.sculk;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -6,6 +6,7 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.enums.Instrument;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.Item;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
@@ -52,6 +53,13 @@ public class PacketByteBufSerialization {
         };
     }
 
+    public static InputUtil.Key readKey(PacketByteBuf buf) {
+        InputUtil.Type type = buf.readEnumConstant(InputUtil.Type.class);
+        int code = buf.readInt();
+
+        return type.createFromCode(code);
+    }
+
     public static void writeBlockSettings(PacketByteBuf buf, AbstractBlock.Settings settings) {
         buf.writeFloat(settings.hardness);
         buf.writeFloat(settings.resistance);
@@ -70,5 +78,10 @@ public class PacketByteBufSerialization {
         buf.writeInt(item.getMaxDamage());
         buf.writeText(item.getName());
         buf.writeBoolean(item.isFireproof());
+    }
+
+    public static void writeKey(InputUtil.Key key, PacketByteBuf buf) {
+        buf.writeEnumConstant(key.getCategory());
+        buf.writeInt(key.getCode());
     }
 }

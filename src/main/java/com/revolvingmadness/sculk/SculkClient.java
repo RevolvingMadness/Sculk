@@ -2,7 +2,6 @@ package com.revolvingmadness.sculk;
 
 import com.revolvingmadness.sculk.dynamicreg.DynamicBlockRegistry;
 import com.revolvingmadness.sculk.dynamicreg.DynamicItemRegistry;
-import com.revolvingmadness.sculk.network.PacketByteBufSerialization;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking;
 import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents;

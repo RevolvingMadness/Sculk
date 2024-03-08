@@ -134,6 +134,8 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "SlabBlock", SlabBlockClassType.TYPE);
         this.declare(List.of(TokenType.CONST), "WallBlock", WallBlockClassType.TYPE);
         this.declare(List.of(TokenType.CONST), "StairBlock", StairBlockClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Keybinds", KeybindsClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Keys", KeysClassType.TYPE);
     }
 
     private void declareFunctions() {

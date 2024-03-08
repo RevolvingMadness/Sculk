@@ -1,6 +1,7 @@
 package com.revolvingmadness.sculk.backend;
 
 import com.revolvingmadness.sculk.Sculk;
+import com.revolvingmadness.sculk.keybinds.KeybindHelper;
 import com.revolvingmadness.sculk.language.EventHolder;
 import com.revolvingmadness.sculk.language.errors.Error;
 import net.minecraft.util.Identifier;
@@ -81,5 +82,6 @@ public class SculkScriptManager {
         SculkScriptManager.shouldRunLoadScripts = true;
 
         EventHolder.clearEvents();
+        KeybindHelper.clearEvents();
     }
 }

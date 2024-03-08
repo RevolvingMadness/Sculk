@@ -1,9 +1,9 @@
 package com.revolvingmadness.sculk.mixin;
 
+import com.revolvingmadness.sculk.PacketByteBufSerialization;
 import com.revolvingmadness.sculk.Sculk;
 import com.revolvingmadness.sculk.dynamicreg.DynamicBlockRegistry;
 import com.revolvingmadness.sculk.dynamicreg.DynamicItemRegistry;
-import com.revolvingmadness.sculk.network.PacketByteBufSerialization;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerConfigurationNetworking;
