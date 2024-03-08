@@ -54,8 +54,6 @@ public class RegistrySyncManagerMixin {
 
         ServerConfigurationNetworking.send(handler, Sculk.DYNAMIC_REGISTRY_SYNC_ID, buf);
 
-        ServerConfigurationNetworking.send(handler, Sculk.RELOAD_RESOURCES_ID, PacketByteBufs.empty());
-
         final Map<Identifier, Object2IntMap<Identifier>> map = RegistrySyncManager.createAndPopulateRegistryMap();
 
         if (map == null) {

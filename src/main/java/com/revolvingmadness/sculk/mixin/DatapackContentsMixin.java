@@ -45,7 +45,7 @@ public class DatapackContentsMixin implements DatapackContentsAccessor {
 
     @Inject(at = @At("HEAD"), method = "getContents", cancellable = true)
     public void injectGetContents(CallbackInfoReturnable<List<ResourceReloader>> cir) {
-        cir.setReturnValue(List.of(this.registryTagManager, this.lootManager, this.recipeManager, this.functionLoader, this.serverAdvancementLoader, this.sculkScriptLoader, this.registryTagManager));
+        cir.setReturnValue(List.of(this.sculkScriptLoader, this.registryTagManager, this.lootManager, this.recipeManager, this.functionLoader, this.serverAdvancementLoader));
     }
 
     @Inject(at = @At("TAIL"), method = "<init>")

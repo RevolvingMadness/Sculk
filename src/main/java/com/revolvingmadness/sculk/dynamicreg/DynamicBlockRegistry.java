@@ -1,6 +1,7 @@
 package com.revolvingmadness.sculk.dynamicreg;
 
 import com.revolvingmadness.sculk.Sculk;
+import com.revolvingmadness.sculk.accessors.SimpleRegistryAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -12,12 +13,13 @@ import java.util.Map;
 public class DynamicBlockRegistry {
     public static final Map<Identifier, Block> REGISTERED_BLOCKS = new HashMap<>();
 
+    @SuppressWarnings("unchecked")
     public static void register(Identifier id, Block value) {
         Sculk.LOGGER.info("Registering block '" + id + "'");
         boolean alreadyRegistered = Registries.BLOCK.containsId(id);
 
         if (alreadyRegistered) {
-            Sculk.LOGGER.info("Block '" + id + "' already registered");
+            ((SimpleRegistryAccessor<Block>) Registries.BLOCK).sculk$set(id, value);
             return;
         }
 

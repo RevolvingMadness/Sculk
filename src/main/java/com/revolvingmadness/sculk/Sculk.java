@@ -1,8 +1,5 @@
 package com.revolvingmadness.sculk;
 
-import com.revolvingmadness.sculk.accessors.DatapackContentsAccessor;
-import com.revolvingmadness.sculk.backend.SculkScript;
-import com.revolvingmadness.sculk.backend.SculkScriptManager;
 import com.revolvingmadness.sculk.gamerules.SculkGamerules;
 import com.revolvingmadness.sculk.language.EventHolder;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -13,7 +10,6 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +17,6 @@ public class Sculk implements ModInitializer {
     public static final String ID = "sculk";
     public static final Identifier DYNAMIC_REGISTRY_SYNC_ID = new Identifier(Sculk.ID, "dynamic_registry_sync");
     public static final Logger LOGGER = LoggerFactory.getLogger(Sculk.ID);
-    public static final Identifier RELOAD_RESOURCES_ID = new Identifier(Sculk.ID, "reload_resources");
     public static final Map<String, TokenType> keywords = new HashMap<>();
     public static MinecraftServer server;
 
@@ -46,17 +41,7 @@ public class Sculk implements ModInitializer {
         SculkGamerules.registerGamerules();
         EventHolder.registerEvents();
 
-        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-            Sculk.server = server;
-
-            SculkScriptManager.setLoader(((DatapackContentsAccessor) server.resourceManagerHolder.dataPackContents()).sculk$getSculkScriptLoader());
-
-            SculkScriptManager.initialize();
-
-            Collection<SculkScript> scripts = SculkScriptManager.loader.getScriptsFromTag(SculkScriptManager.START_TAG_ID);
-
-            SculkScriptManager.executeAll(scripts, SculkScriptManager.START_TAG_ID);
-        });
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> Sculk.server = server);
 
         // Values
         Sculk.keywords.put("true", TokenType.TRUE);

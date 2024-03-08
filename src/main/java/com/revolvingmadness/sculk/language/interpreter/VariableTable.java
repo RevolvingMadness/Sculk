@@ -148,20 +148,24 @@ public class VariableTable {
     private void declareVariables() {
         this.declare(List.of(TokenType.CONST), "PI", new FloatInstance(Math.PI));
 
-        if (Sculk.server.getOverworld() != null) {
+        if (Sculk.server != null) {
             this.declare(List.of(TokenType.CONST), "server", new MinecraftServerInstance(Sculk.server));
             this.declare(List.of(TokenType.CONST), "playerManager", new PlayerManagerInstance(Sculk.server.getPlayerManager()));
-            this.declare(List.of(TokenType.CONST), "gameRules", new GameRulesInstance(Sculk.server.getGameRules()));
-            this.declare(List.of(TokenType.CONST), "overworld", new WorldInstance(Sculk.server.getWorld(World.OVERWORLD)));
-            this.declare(List.of(TokenType.CONST), "nether", new WorldInstance(Sculk.server.getWorld(World.NETHER)));
-            this.declare(List.of(TokenType.CONST), "end", new WorldInstance(Sculk.server.getWorld(World.END)));
+
+            if (Sculk.server.getOverworld() != null) {
+                this.declare(List.of(TokenType.CONST), "gameRules", new GameRulesInstance(Sculk.server.getGameRules()));
+                this.declare(List.of(TokenType.CONST), "overworld", new WorldInstance(Sculk.server.getWorld(World.OVERWORLD)));
+                this.declare(List.of(TokenType.CONST), "nether", new WorldInstance(Sculk.server.getWorld(World.NETHER)));
+                this.declare(List.of(TokenType.CONST), "end", new WorldInstance(Sculk.server.getWorld(World.END)));
+            } else {
+                this.declare(List.of(TokenType.CONST), "gameRules", new NullInstance());
+                this.declare(List.of(TokenType.CONST), "overworld", new NullInstance());
+                this.declare(List.of(TokenType.CONST), "nether", new NullInstance());
+                this.declare(List.of(TokenType.CONST), "end", new NullInstance());
+            }
         } else {
             this.declare(List.of(TokenType.CONST), "server", new NullInstance());
             this.declare(List.of(TokenType.CONST), "playerManager", new NullInstance());
-            this.declare(List.of(TokenType.CONST), "gameRules", new NullInstance());
-            this.declare(List.of(TokenType.CONST), "overworld", new NullInstance());
-            this.declare(List.of(TokenType.CONST), "nether", new NullInstance());
-            this.declare(List.of(TokenType.CONST), "end", new NullInstance());
         }
     }
 

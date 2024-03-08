@@ -1,6 +1,7 @@
 package com.revolvingmadness.sculk.dynamicreg;
 
 import com.revolvingmadness.sculk.Sculk;
+import com.revolvingmadness.sculk.accessors.SimpleRegistryAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.loader.api.FabricLoader;
@@ -19,12 +20,14 @@ import java.util.Map;
 public class DynamicItemRegistry {
     public static final Map<Identifier, Item> REGISTERED_ITEMS = new HashMap<>();
 
+    @SuppressWarnings("unchecked")
     public static void register(Identifier id, Item value) {
         Sculk.LOGGER.info("Registering item '" + id + "'");
         boolean alreadyRegistered = Registries.ITEM.containsId(id);
 
+
         if (alreadyRegistered) {
-            Sculk.LOGGER.info("Item '" + id + "' already registered");
+            ((SimpleRegistryAccessor<Item>) Registries.ITEM).sculk$set(id, value);
             return;
         }
 

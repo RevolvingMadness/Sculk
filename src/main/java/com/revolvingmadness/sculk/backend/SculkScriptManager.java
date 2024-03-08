@@ -4,7 +4,6 @@ import com.revolvingmadness.sculk.Sculk;
 import com.revolvingmadness.sculk.language.EventHolder;
 import com.revolvingmadness.sculk.language.errors.Error;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.profiler.Profiler;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,13 +18,15 @@ public class SculkScriptManager {
     private static Collection<SculkScript> tickScripts = new ArrayList<>();
 
     public static void executeAll(Collection<SculkScript> scripts, Identifier tag) {
-        Profiler serverProfiler = Sculk.server.getProfiler();
-
-        serverProfiler.push(tag::toString);
+        if (Sculk.server != null) {
+            Sculk.server.getProfiler().push(tag::toString);
+        }
 
         scripts.forEach(SculkScriptManager::execute);
 
-        Sculk.server.getProfiler().pop();
+        if (Sculk.server != null) {
+            Sculk.server.getProfiler().pop();
+        }
     }
 
     public static void initialize() {
