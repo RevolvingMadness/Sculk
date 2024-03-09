@@ -225,7 +225,7 @@ public class Interpreter implements Visitor {
         } else if (expression instanceof CastExpressionNode castExpression) {
             return this.visitCastExpression(castExpression);
         } else {
-            throw new RuntimeException("Unreachable");
+            throw this.unreachable();
         }
     }
 
@@ -476,7 +476,7 @@ public class Interpreter implements Visitor {
         } else if (literalExpression instanceof StringExpressionNode stringExpression) {
             return this.visitStringExpression(stringExpression);
         } else {
-            throw new RuntimeException("Unreachable");
+            throw this.unreachable();
         }
     }
 
@@ -621,7 +621,7 @@ public class Interpreter implements Visitor {
         } else if (statement instanceof YieldStatementNode yieldStatement) {
             this.visitYieldStatement(yieldStatement);
         } else {
-            throw new RuntimeException("Unreachable");
+            throw this.unreachable();
         }
     }
 
@@ -784,7 +784,7 @@ public class Interpreter implements Visitor {
 
             currentValue = assignee.getIndex(index);
         } else {
-            throw new RuntimeException("Unreachable");
+            throw this.unreachable();
         }
 
         newValue = switch (variableAssignmentExpression.operator) {
@@ -795,7 +795,7 @@ public class Interpreter implements Visitor {
             case FSLASH_EQUALS -> currentValue.divide(newValue);
             case CARET_EQUALS -> currentValue.exponentiate(newValue);
             case PERCENT_EQUALS -> currentValue.mod(newValue);
-            default -> throw new RuntimeException("Unreachable");
+            default -> throw this.unreachable();
         };
 
         if (variableAssignmentExpression.expression instanceof IdentifierExpressionNode identifierExpression) {
@@ -818,6 +818,10 @@ public class Interpreter implements Visitor {
         }
 
         throw new SyntaxError("Cannot assign to r-value");
+    }
+
+    private RuntimeException unreachable() {
+        throw new RuntimeException("Unreachable");
     }
 
     @Override

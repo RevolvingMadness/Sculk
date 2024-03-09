@@ -176,3 +176,4 @@
 - `/=`
 - `^=`
 - `%=`
+- If `->` not specified in function return types, will default to null.
