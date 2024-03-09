@@ -769,25 +769,52 @@ public class Interpreter implements Visitor {
 
     @Override
     public BuiltinClass visitVariableAssignmentExpression(VariableAssignmentExpressionNode variableAssignmentExpression) {
-        BuiltinClass value = this.visitExpression(variableAssignmentExpression.value);
+        BuiltinClass newValue = this.visitExpression(variableAssignmentExpression.value);
+        BuiltinClass currentValue;
 
         if (variableAssignmentExpression.expression instanceof IdentifierExpressionNode identifierExpression) {
-            this.variableTable.assign(identifierExpression.value, value);
-
-            return value;
+            currentValue = this.variableTable.getOrThrow(identifierExpression.value).value;
         } else if (variableAssignmentExpression.expression instanceof GetExpressionNode getExpression) {
             BuiltinClass assignee = this.visitExpression(getExpression.expression);
 
-            assignee.setProperty(getExpression.propertyName, value);
-
-            return value;
+            currentValue = assignee.getProperty(getExpression.propertyName);
         } else if (variableAssignmentExpression.expression instanceof IndexExpressionNode indexExpression) {
             BuiltinClass assignee = this.visitExpression(indexExpression.expression);
             BuiltinClass index = this.visitExpression(indexExpression.index);
 
-            assignee.setIndex(index, value);
+            currentValue = assignee.getIndex(index);
+        } else {
+            throw new RuntimeException("Unreachable");
+        }
 
-            return value;
+        newValue = switch (variableAssignmentExpression.operator) {
+            case EQUALS -> newValue;
+            case PLUS_EQUALS -> currentValue.add(newValue);
+            case HYPHEN_EQUALS -> currentValue.subtract(newValue);
+            case STAR_EQUALS -> currentValue.multiply(newValue);
+            case FSLASH_EQUALS -> currentValue.divide(newValue);
+            case CARET_EQUALS -> currentValue.exponentiate(newValue);
+            case PERCENT_EQUALS -> currentValue.mod(newValue);
+            default -> throw new RuntimeException("Unreachable");
+        };
+
+        if (variableAssignmentExpression.expression instanceof IdentifierExpressionNode identifierExpression) {
+            this.variableTable.assign(identifierExpression.value, newValue);
+
+            return newValue;
+        } else if (variableAssignmentExpression.expression instanceof GetExpressionNode getExpression) {
+            BuiltinClass assignee = this.visitExpression(getExpression.expression);
+
+            assignee.setProperty(getExpression.propertyName, newValue);
+
+            return newValue;
+        } else if (variableAssignmentExpression.expression instanceof IndexExpressionNode indexExpression) {
+            BuiltinClass assignee = this.visitExpression(indexExpression.expression);
+            BuiltinClass index = this.visitExpression(indexExpression.index);
+
+            assignee.setIndex(index, newValue);
+
+            return newValue;
         }
 
         throw new SyntaxError("Cannot assign to r-value");

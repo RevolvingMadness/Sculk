@@ -170,3 +170,9 @@
 - `WallBlock`
 - `StairBlock`
 - Custom keybinds
+- `+=`
+- `-=`
+- `*=`
+- `/=`
+- `^=`
+- `%=`

@@ -87,6 +87,10 @@ public class Lexer {
                     this.consume();
 
                     this.addToken(TokenType.DOUBLE_PLUS);
+                } else if (this.current('=')) {
+                    this.consume();
+
+                    this.addToken(TokenType.PLUS_EQUALS);
                 } else {
                     this.addToken(TokenType.PLUS);
                 }
@@ -99,12 +103,23 @@ public class Lexer {
                 } else if (this.current('>')) {
                     this.consume();
                     this.addToken(TokenType.RIGHT_ARROW);
+                } else if (this.current('=')) {
+                    this.consume();
+
+                    this.addToken(TokenType.HYPHEN_EQUALS);
                 } else {
                     this.addToken(TokenType.HYPHEN);
                 }
             } else if (this.current('*')) {
                 this.consume();
-                this.addToken(TokenType.STAR);
+
+                if (this.current('=')) {
+                    this.consume();
+
+                    this.addToken(TokenType.STAR_EQUALS);
+                } else {
+                    this.addToken(TokenType.STAR);
+                }
             } else if (this.current('/')) {
                 this.consume();
 
@@ -114,15 +129,33 @@ public class Lexer {
                 } else if (this.current('*')) {
                     this.consume();
                     this.lexMultilineComment();
+                } else if (this.current('=')) {
+                    this.consume();
+
+                    this.addToken(TokenType.FSLASH_EQUALS);
                 } else {
                     this.addToken(TokenType.FSLASH);
                 }
             } else if (this.current('^')) {
                 this.consume();
-                this.addToken(TokenType.CARET);
+
+                if (this.current('=')) {
+                    this.consume();
+
+                    this.addToken(TokenType.CARET_EQUALS);
+                } else {
+                    this.addToken(TokenType.CARET);
+                }
             } else if (this.current('%')) {
                 this.consume();
-                this.addToken(TokenType.PERCENT);
+
+                if (this.current('=')) {
+                    this.consume();
+
+                    this.addToken(TokenType.PERCENT_EQUALS);
+                } else {
+                    this.addToken(TokenType.PERCENT);
+                }
             } else if (Character.isWhitespace(this.current())) {
                 this.consume();
             } else if (Character.isAlphabetic(this.current()) || this.current('_')) {

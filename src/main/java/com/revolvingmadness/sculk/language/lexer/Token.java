@@ -29,10 +29,6 @@ public class Token {
         return this.type == TokenType.DOUBLE_AMPERSAND || this.type == TokenType.DOUBLE_PIPE;
     }
 
-    public boolean isBinaryOperator() {
-        return this.isAdditiveOperator() || this.isMultiplicativeOperator() || this.isExponentiationOperator();
-    }
-
     public boolean isEqualityOperator() {
         return this.type == TokenType.EQUAL_TO || this.type == TokenType.NOT_EQUAL_TO;
     }
@@ -59,5 +55,9 @@ public class Token {
 
     public boolean isUnaryOperator() {
         return this.type == TokenType.HYPHEN || this.type == TokenType.EXCLAMATION_MARK || this.type == TokenType.PLUS || this.type == TokenType.DOUBLE_PLUS || this.type == TokenType.DOUBLE_HYPHEN;
+    }
+
+    public boolean isShortBinaryOperator() {
+        return this.type == TokenType.PLUS_EQUALS || this.type == TokenType.HYPHEN_EQUALS || this.type == TokenType.STAR_EQUALS || this.type == TokenType.FSLASH_EQUALS || this.type == TokenType.CARET_EQUALS || this.type == TokenType.PERCENT_EQUALS || this.type == TokenType.EQUALS;
     }
 }

@@ -108,25 +108,15 @@ public class Parser {
         if (this.current().isIncrementOperator()) {
             TokenType incrementOperator = this.consume().type;
 
-            return new VariableAssignmentExpressionNode(expression, new BinaryExpressionNode(expression, incrementOperator, new IntegerExpressionNode(1L)));
+            return new VariableAssignmentExpressionNode(expression, TokenType.EQUALS, new BinaryExpressionNode(expression, incrementOperator, new IntegerExpressionNode(1L)));
         }
 
-        if (this.current().isBinaryOperator()) {
-            TokenType binaryOperator = this.consume().type;
-
-            this.consume(TokenType.EQUALS);
+        if (this.current().isShortBinaryOperator()) {
+            TokenType operator = this.consume().type;
 
             ExpressionNode right = this.parseExpression();
 
-            return new VariableAssignmentExpressionNode(expression, new BinaryExpressionNode(expression, binaryOperator, right));
-        }
-
-        if (this.current(TokenType.EQUALS)) {
-            this.consume();
-
-            ExpressionNode value = this.parseTernaryExpression();
-
-            return new VariableAssignmentExpressionNode(expression, value);
+            return new VariableAssignmentExpressionNode(expression, operator, right);
         }
 
         return expression;
