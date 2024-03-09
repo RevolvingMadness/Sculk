@@ -576,9 +576,15 @@ public class Parser {
 
         this.consume(TokenType.RIGHT_PARENTHESIS);
 
-        this.consume(TokenType.RIGHT_ARROW);
+        String returnType;
 
-        String returnType = (String) this.consume(TokenType.IDENTIFIER).value;
+        if (this.current(TokenType.RIGHT_ARROW)) {
+            this.consume();
+
+            returnType = (String) this.consume(TokenType.IDENTIFIER).value;
+        } else {
+            returnType = "Null";
+        }
 
         List<StatementNode> body = new ArrayList<>();
 
@@ -699,9 +705,15 @@ public class Parser {
 
         this.consume(TokenType.RIGHT_PARENTHESIS);
 
-        this.consume(TokenType.RIGHT_ARROW);
+        String returnType;
 
-        String returnType = (String) this.consume(TokenType.IDENTIFIER).value;
+        if (this.current(TokenType.RIGHT_ARROW)) {
+            this.consume();
+
+            returnType = (String) this.consume(TokenType.IDENTIFIER).value;
+        } else {
+            returnType = "Null";
+        }
 
         List<StatementNode> body = new ArrayList<>();
 
