@@ -9,6 +9,10 @@ import net.minecraft.util.Formatting;
 
 public class Logger {
     public static void broadcast(MutableText text) {
+        if (Sculk.server == null) {
+            return;
+        }
+
         if (Sculk.server.getPlayerManager() == null) {
             return;
         }

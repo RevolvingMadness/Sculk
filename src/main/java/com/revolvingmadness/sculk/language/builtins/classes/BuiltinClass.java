@@ -17,6 +17,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.entity.ServerP
 import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemSettingsClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemStackClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.item.ToolMaterialClassType;
 import com.revolvingmadness.sculk.language.builtins.enums.AttributesEnumType;
 import com.revolvingmadness.sculk.language.builtins.enums.DifficultiesEnumType;
 import com.revolvingmadness.sculk.language.builtins.enums.GameModesEnumType;
@@ -35,6 +36,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolMaterial;
 import net.minecraft.nbt.*;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -290,6 +292,10 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
 
     public Block toBlock() {
         throw ErrorHolder.cannotConvertType(this.type, BlockClassType.TYPE);
+    }
+
+    public ToolMaterial toToolMaterial() {
+        throw ErrorHolder.cannotConvertType(this.type, ToolMaterialClassType.TYPE);
     }
 
     public BlockInstance toBlockInstance() {

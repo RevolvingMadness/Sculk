@@ -14,10 +14,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.entity.*;
-import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemClassType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemSettingsClassType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemStackClassType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemsClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.item.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.nbt.*;
 import com.revolvingmadness.sculk.language.builtins.enums.AttributesEnumType;
 import com.revolvingmadness.sculk.language.builtins.enums.DifficultiesEnumType;
@@ -136,6 +133,8 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "StairBlock", StairBlockClassType.TYPE);
         this.declare(List.of(TokenType.CONST), "Keybinds", KeybindsClassType.TYPE);
         this.declare(List.of(TokenType.CONST), "Keys", KeysClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "SwordItem", SwordItemClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "ToolMaterial", ToolMaterialClassType.TYPE);
     }
 
     private void declareFunctions() {
