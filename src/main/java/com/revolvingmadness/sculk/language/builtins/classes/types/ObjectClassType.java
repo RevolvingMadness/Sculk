@@ -1,11 +1,7 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
-import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
+import com.revolvingmadness.sculk.language.builtins.classes.*;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.DictionaryInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.NullInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.StringInstance;
 import com.revolvingmadness.sculk.language.errors.NBTDeserializationError;
@@ -52,11 +48,11 @@ public class ObjectClassType extends BuiltinClassType {
                 throw new NBTDeserializationError("Type '" + object.type + "' is not a primary NBT data type");
             }
 
-            if (!(this.boundClass instanceof NBTBuiltinClass nbtBuiltinClass1)) {
+            if (!(this.boundClass instanceof NBTBuiltinClassType nbtBuiltinClassType)) {
                 throw new NBTDeserializationError(this.boundClass.type);
             }
 
-            return nbtBuiltinClass1.fromNBT(new DictionaryInstance(arguments.get(0).toDictionary()));
+            return nbtBuiltinClassType.fromNBT(nbtBuiltinClass);
         }
     }
 

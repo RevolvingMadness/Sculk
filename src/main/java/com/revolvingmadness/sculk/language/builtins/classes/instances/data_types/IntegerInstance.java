@@ -84,11 +84,6 @@ public class IntegerInstance extends NBTBuiltinClass {
     }
 
     @Override
-    public BuiltinClass fromNBTInteger(IntegerInstance integer) {
-        return integer;
-    }
-
-    @Override
     public BooleanInstance greaterThan(BuiltinClass other) {
         if (other.instanceOf(IntegerClassType.TYPE)) {
             return new BooleanInstance(this.value > other.toInteger());

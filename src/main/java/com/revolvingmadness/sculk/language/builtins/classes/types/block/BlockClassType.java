@@ -1,8 +1,8 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types.block;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
+import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.block.BlockInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.FloatInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.StringInstance;
@@ -11,11 +11,12 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.Str
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.block.Block;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
 
-public class BlockClassType extends BuiltinClassType {
+public class BlockClassType extends NBTBuiltinClassType {
     public static final BlockClassType TYPE = new BlockClassType();
 
     private BlockClassType() {
@@ -32,6 +33,11 @@ public class BlockClassType extends BuiltinClassType {
         this.validateCall("init", arguments, List.of(StringClassType.TYPE, BlockSettingsClassType.TYPE));
 
         return new BlockInstance(new Identifier(interpreter.identifier.getNamespace(), arguments.get(0).toString()), new Block(arguments.get(1).toBlockSettings()));
+    }
+
+    @Override
+    public BuiltinClass fromNBTString(StringInstance string) {
+        return new BlockInstance(Registries.BLOCK.get(Identifier.tryParse(string.toString())));
     }
 
     private static class AsItem extends BuiltinMethod {

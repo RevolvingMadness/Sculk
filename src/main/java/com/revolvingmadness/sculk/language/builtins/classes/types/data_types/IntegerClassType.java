@@ -1,8 +1,8 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types.data_types;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
+import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.IntegerInstance;
 import com.revolvingmadness.sculk.language.errors.NumberFormatError;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
@@ -10,13 +10,18 @@ import com.revolvingmadness.sculk.language.lexer.TokenType;
 
 import java.util.List;
 
-public class IntegerClassType extends BuiltinClassType {
+public class IntegerClassType extends NBTBuiltinClassType {
     public static final IntegerClassType TYPE = new IntegerClassType();
 
     private IntegerClassType() {
         super("Integer", FloatClassType.TYPE);
 
         this.variableScope.declare(List.of(TokenType.CONST), "parseInteger", new ParseInteger());
+    }
+
+    @Override
+    public BuiltinClass fromNBTInteger(IntegerInstance integer) {
+        return integer;
     }
 
     private static class ParseInteger extends BuiltinMethod {

@@ -1,6 +1,5 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.block;
 
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.StringInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockClassType;
@@ -40,13 +39,6 @@ public class BlockInstance extends NBTBuiltinClass {
             return false;
         BlockInstance that = (BlockInstance) o;
         return Objects.equals(this.id, that.id) && Objects.equals(this.value, that.value);
-    }
-
-    @Override
-    public BuiltinClass fromNBTString(StringInstance string) {
-        Block block = Registries.BLOCK.get(Identifier.tryParse(string.toString()));
-
-        return new BlockInstance(block);
     }
 
     @Override

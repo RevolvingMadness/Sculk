@@ -75,11 +75,6 @@ public class FloatInstance extends NBTBuiltinClass {
     }
 
     @Override
-    public BuiltinClass fromNBTFloat(FloatInstance float_) {
-        return float_;
-    }
-
-    @Override
     public BooleanInstance greaterThan(BuiltinClass other) {
         if (other.instanceOf(FloatClassType.TYPE)) {
             return new BooleanInstance(this.value > other.toFloat());

@@ -32,11 +32,6 @@ public class DictionaryInstance extends NBTBuiltinClass {
         return Objects.equals(this.value, that.value);
     }
 
-    @Override
-    public BuiltinClass fromNBTDictionary(DictionaryInstance dictionary) {
-        return dictionary;
-    }
-
     public BuiltinClass get(String key) {
         return this.getIndex(new StringInstance(key));
     }

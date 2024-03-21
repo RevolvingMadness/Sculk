@@ -64,11 +64,6 @@ public class ListInstance extends NBTBuiltinClass {
     }
 
     @Override
-    public BuiltinClass fromNBTList(ListInstance list) {
-        return list;
-    }
-
-    @Override
     public BuiltinClass getIndex(BuiltinClass index) {
         if (!index.instanceOf(IntegerClassType.TYPE)) {
             throw ErrorHolder.cannotIndexTypeByType(this.type, index.type);

@@ -2,7 +2,7 @@ package com.revolvingmadness.sculk.language.builtins.classes.types.data_types;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.IntegerInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.ListInstance;
@@ -14,7 +14,7 @@ import com.revolvingmadness.sculk.language.lexer.TokenType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringClassType extends BuiltinClassType {
+public class StringClassType extends NBTBuiltinClassType {
     public static final StringClassType TYPE = new StringClassType();
 
     private StringClassType() {
@@ -27,6 +27,11 @@ public class StringClassType extends BuiltinClassType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "lowercase", new Lowercase());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "uppercase", new Uppercase());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "fromUnicode", new FromUnicode());
+    }
+
+    @Override
+    public BuiltinClass fromNBTString(StringInstance string) {
+        return string;
     }
 
     private static class EndsWith extends BuiltinMethod {

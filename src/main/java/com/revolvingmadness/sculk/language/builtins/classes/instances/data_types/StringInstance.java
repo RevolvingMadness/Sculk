@@ -41,11 +41,6 @@ public class StringInstance extends NBTBuiltinClass {
     }
 
     @Override
-    public BuiltinClass fromNBTString(StringInstance string) {
-        return string;
-    }
-
-    @Override
     public int hashCode() {
         return Objects.hash(this.value);
     }

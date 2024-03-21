@@ -39,11 +39,6 @@ public class BooleanInstance extends NBTBuiltinClass {
     }
 
     @Override
-    public BuiltinClass fromNBTBoolean(BooleanInstance boolean_) {
-        return boolean_;
-    }
-
-    @Override
     public int hashCode() {
         return Objects.hash(this.value);
     }
