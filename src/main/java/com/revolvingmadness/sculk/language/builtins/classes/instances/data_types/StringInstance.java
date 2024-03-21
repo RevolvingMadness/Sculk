@@ -2,6 +2,7 @@ package com.revolvingmadness.sculk.language.builtins.classes.instances.data_type
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
+import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringClassType;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtString;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class StringInstance extends BuiltinClass {
+public class StringInstance extends NBTBuiltinClass {
     public final String value;
 
     public StringInstance(String value) {
@@ -40,6 +41,11 @@ public class StringInstance extends BuiltinClass {
     }
 
     @Override
+    public BuiltinClass fromNBTString(StringInstance string) {
+        return string;
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(this.value);
     }
@@ -57,6 +63,11 @@ public class StringInstance extends BuiltinClass {
 
     @Override
     public NbtElement toNBT() {
+        return NbtString.of(this.value);
+    }
+
+    @Override
+    public NbtElement toNBTElement() {
         return NbtString.of(this.value);
     }
 

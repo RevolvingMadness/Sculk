@@ -2,6 +2,7 @@ package com.revolvingmadness.sculk.language.builtins.classes.instances.data_type
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
+import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.FloatClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerClassType;
 import net.minecraft.nbt.NbtDouble;
@@ -9,7 +10,7 @@ import net.minecraft.nbt.NbtElement;
 
 import java.util.Objects;
 
-public class FloatInstance extends BuiltinClass {
+public class FloatInstance extends NBTBuiltinClass {
     public final double value;
 
     public FloatInstance(double value) {
@@ -71,6 +72,11 @@ public class FloatInstance extends BuiltinClass {
         }
 
         throw ErrorHolder.unsupportedBinaryOperator("^", this.type, other.type);
+    }
+
+    @Override
+    public BuiltinClass fromNBTFloat(FloatInstance float_) {
+        return float_;
     }
 
     @Override
@@ -170,6 +176,11 @@ public class FloatInstance extends BuiltinClass {
 
     @Override
     public NbtElement toNBT() {
+        return NbtDouble.of(this.value);
+    }
+
+    @Override
+    public NbtElement toNBTElement() {
         return NbtDouble.of(this.value);
     }
 

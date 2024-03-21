@@ -2,8 +2,10 @@ package com.revolvingmadness.sculk.language.builtins.classes.instances.entity;
 
 import com.revolvingmadness.sculk.accessors.EntityAccessor;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
+import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.types.LivingEntityClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringClassType;
+import com.revolvingmadness.sculk.language.errors.NBTSerializationError;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtElement;
@@ -43,7 +45,7 @@ public class LivingEntityInstance extends BuiltinClass {
 
         NbtElement result = ((EntityAccessor) this.value).sculk$readCustomData(index.toString());
 
-        return BuiltinClass.fromNbtElement(result);
+        return NBTBuiltinClass.fromNbtElement(result);
     }
 
     @Override
@@ -55,7 +57,11 @@ public class LivingEntityInstance extends BuiltinClass {
     public void setIndex(BuiltinClass index, BuiltinClass value) {
         this.validateIndex(StringClassType.TYPE, index);
 
-        ((EntityAccessor) this.value).sculk$writeCustomData(index.toString(), value.toNBT());
+        if (!(value instanceof NBTBuiltinClass nbtBuiltinClass)) {
+            throw new NBTSerializationError(value.type);
+        }
+
+        ((EntityAccessor) this.value).sculk$writeCustomData(index.toString(), nbtBuiltinClass.toNBTElement());
     }
 
     @Override

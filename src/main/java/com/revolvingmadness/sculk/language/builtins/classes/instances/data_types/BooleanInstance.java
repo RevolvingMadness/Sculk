@@ -1,13 +1,14 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.data_types;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
+import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.BooleanClassType;
 import net.minecraft.nbt.NbtByte;
 import net.minecraft.nbt.NbtElement;
 
 import java.util.Objects;
 
-public class BooleanInstance extends BuiltinClass {
+public class BooleanInstance extends NBTBuiltinClass {
     public final boolean value;
 
     public BooleanInstance(boolean value) {
@@ -38,6 +39,11 @@ public class BooleanInstance extends BuiltinClass {
     }
 
     @Override
+    public BuiltinClass fromNBTBoolean(BooleanInstance boolean_) {
+        return boolean_;
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(this.value);
     }
@@ -64,6 +70,11 @@ public class BooleanInstance extends BuiltinClass {
 
     @Override
     public NbtElement toNBT() {
+        return NbtByte.of(this.value);
+    }
+
+    @Override
+    public NbtElement toNBTElement() {
         return NbtByte.of(this.value);
     }
 

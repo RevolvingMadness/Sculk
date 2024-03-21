@@ -8,19 +8,14 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.IntegerInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.NullInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.item.ItemStackInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.nbt.NBTCompoundInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.nbt.NBTElementInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemStackClassType;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
 
 import java.util.List;
 
@@ -43,29 +38,6 @@ public class InventoryClassType extends BuiltinClassType {
         this.validateCall("init", arguments);
 
         return new InventoryInstance(new SimpleInventory(27));
-    }
-
-    @Override
-    public BuiltinClass fromNBT(NBTElementInstance nbtElement) {
-        Inventory inventory = new SimpleInventory(27);
-        List<NBTElementInstance> list = nbtElement.toNBTList();
-
-        list.forEach(slotClass -> {
-            NBTCompoundInstance slot = slotClass.toNBTCompound();
-
-            long slotNumber = slot.getOrThrow("slot").toNBTInteger();
-
-            NBTCompoundInstance stack = slot.getOrThrow("stack").toNBTCompound();
-
-            long count = stack.getOrThrow("count").toNBTInteger();
-            String id = stack.getOrThrow("id").toNBTString();
-
-            Item item = Registries.ITEM.get(Identifier.tryParse(id));
-
-            inventory.setStack((int) slotNumber, new ItemStack(item, (int) count));
-        });
-
-        return new InventoryInstance(inventory);
     }
 
     private static class Contains extends BuiltinMethod {

@@ -15,7 +15,6 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.block.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.entity.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.item.*;
-import com.revolvingmadness.sculk.language.builtins.classes.types.nbt.*;
 import com.revolvingmadness.sculk.language.builtins.enums.AttributesEnumType;
 import com.revolvingmadness.sculk.language.builtins.enums.DifficultiesEnumType;
 import com.revolvingmadness.sculk.language.builtins.enums.EnumClassType;
@@ -78,15 +77,6 @@ public class VariableTable {
     }
 
     private void declareClasses() {
-        this.declare(List.of(TokenType.CONST), "NBTBoolean", NBTBooleanClassType.TYPE);
-        this.declare(List.of(TokenType.CONST), "NBTCompound", NBTCompoundClassType.TYPE);
-        this.declare(List.of(TokenType.CONST), "NBTElement", NBTElementClassType.TYPE);
-        this.declare(List.of(TokenType.CONST), "NBTFloat", NBTFloatClassType.TYPE);
-        this.declare(List.of(TokenType.CONST), "NBTInteger", NBTIntegerClassType.TYPE);
-        this.declare(List.of(TokenType.CONST), "NBTList", NBTListClassType.TYPE);
-        this.declare(List.of(TokenType.CONST), "NBTNull", NBTNullClassType.TYPE);
-        this.declare(List.of(TokenType.CONST), "NBTString", NBTStringClassType.TYPE);
-
         this.declare(List.of(TokenType.CONST), "BlockHitResult", BlockHitResultClassType.TYPE);
         this.declare(List.of(TokenType.CONST), "BlockPos", BlockPosClassType.TYPE);
         this.declare(List.of(TokenType.CONST), "Blocks", BlocksClassType.TYPE);

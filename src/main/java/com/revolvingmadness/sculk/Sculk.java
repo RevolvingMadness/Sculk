@@ -43,6 +43,10 @@ public class Sculk implements ModInitializer {
         return Sculk.server.getGameRules().getInt(SculkGamerules.MAX_LOOPS);
     }
 
+    public static RuntimeException unreachable() {
+        throw new RuntimeException("Unreachable");
+    }
+
     @Override
     public void onInitialize() {
         SculkGamerules.registerGamerules();

@@ -1,17 +1,20 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.block;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
+import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.StringInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockClassType;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.block.Block;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
 import java.util.Objects;
 
-public class BlockInstance extends BuiltinClass {
+public class BlockInstance extends NBTBuiltinClass {
     public final Identifier id;
     public final Block value;
 
@@ -40,6 +43,13 @@ public class BlockInstance extends BuiltinClass {
     }
 
     @Override
+    public BuiltinClass fromNBTString(StringInstance string) {
+        Block block = Registries.BLOCK.get(Identifier.tryParse(string.toString()));
+
+        return new BlockInstance(block);
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(this.id, this.value);
     }
@@ -52,5 +62,10 @@ public class BlockInstance extends BuiltinClass {
     @Override
     public BlockInstance toBlockInstance() {
         return this;
+    }
+
+    @Override
+    public NbtElement toNBTElement() {
+        return NbtString.of(Registries.BLOCK.getId(this.value).toString());
     }
 }

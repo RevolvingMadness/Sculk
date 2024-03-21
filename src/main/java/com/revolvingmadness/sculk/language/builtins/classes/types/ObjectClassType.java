@@ -1,11 +1,14 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
+import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.DictionaryInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.NullInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.StringInstance;
+import com.revolvingmadness.sculk.language.errors.NBTDeserializationError;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 
@@ -39,7 +42,21 @@ public class ObjectClassType extends BuiltinClassType {
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
             this.validateCall("fromNBT", arguments, List.of(ObjectClassType.TYPE));
 
-            return this.boundClass.fromNBT(BuiltinClass.fromNbtElement(arguments.get(0).toNBT()));
+            BuiltinClass object = arguments.get(0);
+
+            if (!(object instanceof NBTBuiltinClass nbtBuiltinClass)) {
+                throw new NBTDeserializationError(object.type);
+            }
+
+            if (!nbtBuiltinClass.isPrimaryNBT()) {
+                throw new NBTDeserializationError("Type '" + object.type + "' is not a primary NBT data type");
+            }
+
+            if (!(this.boundClass instanceof NBTBuiltinClass nbtBuiltinClass1)) {
+                throw new NBTDeserializationError(this.boundClass.type);
+            }
+
+            return nbtBuiltinClass1.fromNBT(new DictionaryInstance(arguments.get(0).toDictionary()));
         }
     }
 

@@ -5,7 +5,6 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.GUIInstanc
 import com.revolvingmadness.sculk.language.builtins.classes.instances.block.BlockInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.item.ItemInstance;
-import com.revolvingmadness.sculk.language.builtins.classes.instances.nbt.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockPosClassType;
@@ -37,7 +36,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -47,7 +46,10 @@ import net.minecraft.world.GameMode;
 import net.minecraft.world.GameRules;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 public abstract class BuiltinClass extends ExpressionNode implements Serializable {
     public final VariableScope variableScope;
@@ -60,66 +62,6 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
     public BuiltinClass(BuiltinClassType type, VariableScope variableScope) {
         this.type = type;
         this.variableScope = variableScope;
-    }
-
-    public static NBTElementInstance fromNbtElement(NbtElement result) {
-        if (result == null) {
-            return new NBTNullInstance();
-        }
-
-        if (result instanceof NbtByteArray nbtByteArray) {
-            List<NBTElementInstance> list = new ArrayList<>();
-
-            nbtByteArray.forEach(nbtByte -> list.add(BuiltinClass.fromNbtElement(nbtByte)));
-
-            return new NBTListInstance(list);
-        } else if (result instanceof NbtIntArray nbtIntArray) {
-            List<NBTElementInstance> list = new ArrayList<>();
-
-            nbtIntArray.forEach(nbtInt -> list.add(BuiltinClass.fromNbtElement(nbtInt)));
-
-            return new NBTListInstance(list);
-        } else if (result instanceof NbtList nbtList) {
-            List<NBTElementInstance> list = new ArrayList<>();
-
-            nbtList.forEach(nbtElement -> list.add(BuiltinClass.fromNbtElement(nbtElement)));
-
-            return new NBTListInstance(list);
-        } else if (result instanceof NbtLongArray nbtLongArray) {
-            List<NBTElementInstance> list = new ArrayList<>();
-
-            nbtLongArray.forEach(nbtLong -> list.add(BuiltinClass.fromNbtElement(nbtLong)));
-
-            return new NBTListInstance(list);
-        } else if (result instanceof NbtByte nbtByte) {
-            return new NBTIntegerInstance(nbtByte.byteValue());
-        } else if (result instanceof NbtDouble nbtDouble) {
-            return new NBTFloatInstance(nbtDouble.doubleValue());
-        } else if (result instanceof NbtFloat nbtFloat) {
-            return new NBTFloatInstance(nbtFloat.floatValue());
-        } else if (result instanceof NbtInt nbtInt) {
-            return new NBTIntegerInstance(nbtInt.intValue());
-        } else if (result instanceof NbtLong nbtLong) {
-            return new NBTIntegerInstance(nbtLong.longValue());
-        } else if (result instanceof NbtShort nbtShort) {
-            return new NBTIntegerInstance(nbtShort.shortValue());
-        } else if (result instanceof NbtCompound nbtCompound) {
-            Map<String, NBTElementInstance> compound = new HashMap<>();
-
-            Set<String> keys = nbtCompound.getKeys();
-
-            keys.forEach(key -> {
-                NBTElementInstance value = BuiltinClass.fromNbtElement(nbtCompound.get(key));
-
-                compound.put(key, value);
-            });
-
-            return new NBTCompoundInstance(compound);
-        } else if (result instanceof NbtString nbtString) {
-            return new NBTStringInstance(nbtString.asString());
-        }
-
-        throw new TypeError("Cannot convert nbt element '" + result + "' to class");
     }
 
     public BuiltinClass add(BuiltinClass other) {
@@ -188,10 +130,6 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
 
     public BuiltinClass exponentiate(BuiltinClass other) {
         throw ErrorHolder.unsupportedBinaryOperator("^", this.type, other.type);
-    }
-
-    public BuiltinClass fromNBT(NBTElementInstance nbtElement) {
-        throw new TypeError("Type '" + this.type.name + "' does not support NBT de-serialization");
     }
 
     public BuiltinClass getIndex(BuiltinClass index) {
@@ -294,10 +232,6 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
         throw ErrorHolder.cannotConvertType(this.type, BlockClassType.TYPE);
     }
 
-    public ToolMaterial toToolMaterial() {
-        throw ErrorHolder.cannotConvertType(this.type, ToolMaterialClassType.TYPE);
-    }
-
     public BlockInstance toBlockInstance() {
         throw ErrorHolder.cannotConvertType(this.type, BlockClassType.TYPE);
     }
@@ -312,6 +246,10 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
 
     public boolean toBoolean() {
         throw ErrorHolder.cannotConvertType(this.type, BooleanClassType.TYPE);
+    }
+
+    public Map<BuiltinClass, BuiltinClass> toDictionary() {
+        throw ErrorHolder.cannotConvertType(this.type, DictionaryClassType.TYPE);
     }
 
     public Difficulty toDifficulty() {
@@ -397,6 +335,10 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
     @Override
     public String toString() {
         return "<Class '" + this.type.name + "'>";
+    }
+
+    public ToolMaterial toToolMaterial() {
+        throw ErrorHolder.cannotConvertType(this.type, ToolMaterialClassType.TYPE);
     }
 
     public ServerWorld toWorld() {

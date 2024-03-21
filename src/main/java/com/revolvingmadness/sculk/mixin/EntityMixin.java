@@ -1,6 +1,7 @@
 package com.revolvingmadness.sculk.mixin;
 
 import com.revolvingmadness.sculk.accessors.EntityAccessor;
+import com.revolvingmadness.sculk.language.errors.KeyError;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -54,6 +55,10 @@ public abstract class EntityMixin implements EntityAccessor {
 
     @Override
     public NbtElement sculk$readCustomData(String key) {
+        if (!this.customData.contains(key)) {
+            throw new KeyError("Entity has no data '" + key + "'");
+        }
+
         return this.customData.get(key);
     }
 

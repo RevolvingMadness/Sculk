@@ -3,8 +3,10 @@ package com.revolvingmadness.sculk.language.builtins.classes.instances.data_type
 import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.ListClassType;
+import com.revolvingmadness.sculk.language.errors.NBTSerializationError;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.errors.TypeError;
 import net.minecraft.nbt.NbtElement;
@@ -14,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 import java.util.Objects;
 
-public class ListInstance extends BuiltinClass {
+public class ListInstance extends NBTBuiltinClass {
     public final List<BuiltinClass> value;
 
     public ListInstance(List<BuiltinClass> value) {
@@ -62,6 +64,11 @@ public class ListInstance extends BuiltinClass {
     }
 
     @Override
+    public BuiltinClass fromNBTList(ListInstance list) {
+        return list;
+    }
+
+    @Override
     public BuiltinClass getIndex(BuiltinClass index) {
         if (!index.instanceOf(IntegerClassType.TYPE)) {
             throw ErrorHolder.cannotIndexTypeByType(this.type, index.type);
@@ -104,6 +111,21 @@ public class ListInstance extends BuiltinClass {
         }
 
         this.value.forEach(value -> list.add(value.toNBT()));
+
+        return list;
+    }
+
+    @Override
+    public NbtElement toNBTElement() {
+        NbtList list = new NbtList();
+
+        this.value.forEach(value -> {
+            if (!(value instanceof NBTBuiltinClass nbtBuiltinClass)) {
+                throw new NBTSerializationError(value.type);
+            }
+
+            list.add(nbtBuiltinClass.toNBTElement());
+        });
 
         return list;
     }

@@ -1,7 +1,10 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.data_types;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
+import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.DictionaryClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringClassType;
+import com.revolvingmadness.sculk.language.errors.NBTSerializationError;
 import com.revolvingmadness.sculk.language.errors.NameError;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -9,7 +12,7 @@ import net.minecraft.nbt.NbtElement;
 import java.util.Map;
 import java.util.Objects;
 
-public class DictionaryInstance extends BuiltinClass {
+public class DictionaryInstance extends NBTBuiltinClass {
     public final Map<BuiltinClass, BuiltinClass> value;
 
     public DictionaryInstance(Map<BuiltinClass, BuiltinClass> value) {
@@ -27,6 +30,15 @@ public class DictionaryInstance extends BuiltinClass {
             return false;
         DictionaryInstance that = (DictionaryInstance) o;
         return Objects.equals(this.value, that.value);
+    }
+
+    @Override
+    public BuiltinClass fromNBTDictionary(DictionaryInstance dictionary) {
+        return dictionary;
+    }
+
+    public BuiltinClass get(String key) {
+        return this.getIndex(new StringInstance(key));
     }
 
     @Override
@@ -51,12 +63,36 @@ public class DictionaryInstance extends BuiltinClass {
     }
 
     @Override
+    public Map<BuiltinClass, BuiltinClass> toDictionary() {
+        return this.value;
+    }
+
+    @Override
     public NbtElement toNBT() {
         NbtCompound nbtCompound = new NbtCompound();
 
         this.value.forEach((key, value) -> nbtCompound.put(key.toString(), value.toNBT()));
 
         return nbtCompound;
+    }
+
+    @Override
+    public NbtElement toNBTElement() {
+        NbtCompound compound = new NbtCompound();
+
+        this.value.forEach((key, value) -> {
+            if (!key.instanceOf(StringClassType.TYPE)) {
+                throw new NBTSerializationError("Dictionary keys have to be strings when de-serializing");
+            }
+
+            if (!(value instanceof NBTBuiltinClass nbtBuiltinClass)) {
+                throw new NBTSerializationError(value.type);
+            }
+
+            compound.put(value.toString(), nbtBuiltinClass.toNBTElement());
+        });
+
+        return compound;
     }
 
     @Override
