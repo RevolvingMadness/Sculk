@@ -1,15 +1,16 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types.block;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.block.BlockPosInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.DictionaryInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerClassType;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 
-public class BlockPosClassType extends BuiltinClassType {
+public class BlockPosClassType extends NBTBuiltinClassType {
     public static final BlockPosClassType TYPE = new BlockPosClassType();
 
     private BlockPosClassType() {
@@ -27,5 +28,12 @@ public class BlockPosClassType extends BuiltinClassType {
         return new BlockPosInstance(new BlockPos((int) x, (int) y, (int) z));
     }
 
+    @Override
+    public BuiltinClass fromNBTDictionary(DictionaryInstance dictionary) {
+        long x = dictionary.get("x").toInteger();
+        long y = dictionary.get("y").toInteger();
+        long z = dictionary.get("z").toInteger();
 
+        return new BlockPosInstance(new BlockPos((int) x, (int) y, (int) z));
+    }
 }

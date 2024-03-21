@@ -8,8 +8,9 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.block.Bloc
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.*;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.entity.EntityInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockClassType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.*;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.BooleanClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.FloatClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringClassType;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
@@ -516,7 +517,7 @@ public class EntityClassType extends BuiltinClassType {
     private static class Raycast extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("raycast", List.of(FloatClassType.TYPE, BlockClassType.TYPE, BooleanClassType.TYPE));
+            this.validateCall("raycast", arguments, List.of(FloatClassType.TYPE, BlockClassType.TYPE, BooleanClassType.TYPE));
 
             double distance = arguments.get(0).toFloat();
             Block blockClass = arguments.get(1).toBlock();
@@ -551,7 +552,7 @@ public class EntityClassType extends BuiltinClassType {
     private static class RemoveTag extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("removeTag", List.of(StringClassType.TYPE));
+            this.validateCall("removeTag", arguments, List.of(StringClassType.TYPE));
 
             String commandTag = arguments.get(0).toString();
 

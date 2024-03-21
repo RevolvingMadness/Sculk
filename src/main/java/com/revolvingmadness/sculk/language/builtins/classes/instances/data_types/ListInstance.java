@@ -1,12 +1,12 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.data_types;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
+import com.revolvingmadness.sculk.language.NBTSerializer;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.ListClassType;
-import com.revolvingmadness.sculk.language.errors.NBTSerializationError;
 import com.revolvingmadness.sculk.language.errors.SyntaxError;
 import com.revolvingmadness.sculk.language.errors.TypeError;
 import net.minecraft.nbt.NbtElement;
@@ -112,17 +112,7 @@ public class ListInstance extends NBTBuiltinClass {
 
     @Override
     public NbtElement toNBTElement() {
-        NbtList list = new NbtList();
-
-        this.value.forEach(value -> {
-            if (!(value instanceof NBTBuiltinClass nbtBuiltinClass)) {
-                throw new NBTSerializationError(value.type);
-            }
-
-            list.add(nbtBuiltinClass.toNBTElement());
-        });
-
-        return list;
+        return NBTSerializer.serializeList(this.value);
     }
 
     @Override

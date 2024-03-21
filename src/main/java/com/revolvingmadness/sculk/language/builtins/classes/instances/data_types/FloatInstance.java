@@ -1,6 +1,7 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.data_types;
 
 import com.revolvingmadness.sculk.language.ErrorHolder;
+import com.revolvingmadness.sculk.language.NBTSerializer;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.FloatClassType;
@@ -176,7 +177,7 @@ public class FloatInstance extends NBTBuiltinClass {
 
     @Override
     public NbtElement toNBTElement() {
-        return NbtDouble.of(this.value);
+        return NBTSerializer.serializeFloat(this.value);
     }
 
     @Override

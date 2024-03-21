@@ -1,5 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.data_types;
 
+import com.revolvingmadness.sculk.language.NBTSerializer;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.BooleanClassType;
@@ -70,7 +71,7 @@ public class BooleanInstance extends NBTBuiltinClass {
 
     @Override
     public NbtElement toNBTElement() {
-        return NbtByte.of(this.value);
+        return NBTSerializer.serializeBoolean(this.value);
     }
 
     @Override

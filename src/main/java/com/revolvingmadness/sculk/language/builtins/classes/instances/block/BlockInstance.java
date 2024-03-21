@@ -1,12 +1,12 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.block;
 
+import com.revolvingmadness.sculk.language.NBTSerializer;
 import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.StringInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockClassType;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
@@ -58,6 +58,6 @@ public class BlockInstance extends NBTBuiltinClass {
 
     @Override
     public NbtElement toNBTElement() {
-        return NbtString.of(Registries.BLOCK.getId(this.value).toString());
+        return NBTSerializer.serializeBlock(this.value);
     }
 }

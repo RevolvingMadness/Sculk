@@ -1,10 +1,9 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.data_types;
 
+import com.revolvingmadness.sculk.language.NBTSerializer;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.DictionaryClassType;
-import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringClassType;
-import com.revolvingmadness.sculk.language.errors.NBTSerializationError;
 import com.revolvingmadness.sculk.language.errors.NameError;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -73,21 +72,7 @@ public class DictionaryInstance extends NBTBuiltinClass {
 
     @Override
     public NbtElement toNBTElement() {
-        NbtCompound compound = new NbtCompound();
-
-        this.value.forEach((key, value) -> {
-            if (!key.instanceOf(StringClassType.TYPE)) {
-                throw new NBTSerializationError("Dictionary keys have to be strings when de-serializing");
-            }
-
-            if (!(value instanceof NBTBuiltinClass nbtBuiltinClass)) {
-                throw new NBTSerializationError(value.type);
-            }
-
-            compound.put(value.toString(), nbtBuiltinClass.toNBTElement());
-        });
-
-        return compound;
+        return NBTSerializer.serializeDictionary(this.value);
     }
 
     @Override

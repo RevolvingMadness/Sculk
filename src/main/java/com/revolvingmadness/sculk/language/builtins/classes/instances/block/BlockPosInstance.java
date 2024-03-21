@@ -1,15 +1,17 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.block;
 
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
+import com.revolvingmadness.sculk.language.NBTSerializer;
+import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.IntegerInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockPosClassType;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 import java.util.Objects;
 
-public class BlockPosInstance extends BuiltinClass {
+public class BlockPosInstance extends NBTBuiltinClass {
     public final BlockPos value;
 
     public BlockPosInstance(BlockPos value) {
@@ -41,6 +43,11 @@ public class BlockPosInstance extends BuiltinClass {
     @Override
     public BlockPos toBlockPos() {
         return this.value;
+    }
+
+    @Override
+    public NbtElement toNBTElement() {
+        return NBTSerializer.serializeBlockPos(this.value);
     }
 
     @Override
