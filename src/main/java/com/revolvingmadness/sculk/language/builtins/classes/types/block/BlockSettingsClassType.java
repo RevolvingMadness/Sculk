@@ -1,9 +1,11 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types.block;
 
+import com.revolvingmadness.sculk.language.NBTDeserializer;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
+import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.block.BlockSettingsInstance;
+import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.DictionaryInstance;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -11,7 +13,7 @@ import net.minecraft.block.Block;
 
 import java.util.List;
 
-public class BlockSettingsClassType extends BuiltinClassType {
+public class BlockSettingsClassType extends NBTBuiltinClassType {
     public static final BlockSettingsClassType TYPE = new BlockSettingsClassType();
 
     private BlockSettingsClassType() {
@@ -25,6 +27,11 @@ public class BlockSettingsClassType extends BuiltinClassType {
         this.validateCall("init", arguments);
 
         return new BlockSettingsInstance();
+    }
+
+    @Override
+    public BuiltinClass fromNBTDictionary(DictionaryInstance dictionary) {
+        return NBTDeserializer.deserializeBlockSettings(dictionary);
     }
 
     private static class Of extends BuiltinMethod {

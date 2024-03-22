@@ -1,5 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types.block;
 
+import com.revolvingmadness.sculk.language.NBTDeserializer;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClassType;
@@ -11,7 +12,6 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.Str
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.block.Block;
-import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public class BlockClassType extends NBTBuiltinClassType {
 
     @Override
     public BuiltinClass fromNBTString(StringInstance string) {
-        return new BlockInstance(Registries.BLOCK.get(Identifier.tryParse(string.toString())));
+        return NBTDeserializer.deserializeBlock(string);
     }
 
     private static class AsItem extends BuiltinMethod {

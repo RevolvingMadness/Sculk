@@ -1,6 +1,7 @@
 package com.revolvingmadness.sculk.language.builtins.classes.instances.block;
 
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
+import com.revolvingmadness.sculk.language.NBTSerializer;
+import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.FloatInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.IntegerInstance;
@@ -12,16 +13,21 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.enums.Instrument;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.nbt.NbtElement;
 
 import java.util.List;
 
-public class BlockSettingsInstance extends BuiltinClass {
+public class BlockSettingsInstance extends NBTBuiltinClass {
+    public final AbstractBlock.Settings settings;
+
     public BlockSettingsInstance() {
         this(FabricBlockSettings.create());
     }
 
     public BlockSettingsInstance(AbstractBlock.Settings settings) {
         super(BlockSettingsClassType.TYPE);
+
+        this.settings = settings;
 
         this.variableScope.declare(List.of(TokenType.NONULL), "hardness", new FloatInstance(settings.hardness));
         this.variableScope.declare(List.of(TokenType.NONULL), "resistance", new FloatInstance(settings.resistance));
@@ -125,5 +131,10 @@ public class BlockSettingsInstance extends BuiltinClass {
         }
 
         return settings;
+    }
+
+    @Override
+    public NbtElement toNBTElement() {
+        return NBTSerializer.serializeBlockSettings(this.settings);
     }
 }

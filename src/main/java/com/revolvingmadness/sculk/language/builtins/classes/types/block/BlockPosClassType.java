@@ -1,5 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types.block;
 
+import com.revolvingmadness.sculk.language.NBTDeserializer;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.block.BlockPosInstance;
@@ -30,10 +31,6 @@ public class BlockPosClassType extends NBTBuiltinClassType {
 
     @Override
     public BuiltinClass fromNBTDictionary(DictionaryInstance dictionary) {
-        long x = dictionary.get("x").toInteger();
-        long y = dictionary.get("y").toInteger();
-        long z = dictionary.get("z").toInteger();
-
-        return new BlockPosInstance(new BlockPos((int) x, (int) y, (int) z));
+        return NBTDeserializer.deserializeBlockPos(dictionary);
     }
 }

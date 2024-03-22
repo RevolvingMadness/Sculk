@@ -6,7 +6,6 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types
 import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockHitResultClassType;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.block.Block;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.BlockPos;
 
@@ -30,12 +29,6 @@ public class BlockHitResultInstance extends NBTBuiltinClass {
 
     @Override
     public NbtElement toNBTElement() {
-        NbtCompound compound = new NbtCompound();
-
-        compound.put("block", NBTSerializer.serializeBlock(this.block));
-        compound.put("pos", NBTSerializer.serializeBlockPos(this.pos));
-        compound.put("succeeded", NBTSerializer.serializeBoolean(this.succeeded));
-
-        return compound;
+        return NBTSerializer.serializeBlockHitResult(this.block, this.pos, this.succeeded);
     }
 }

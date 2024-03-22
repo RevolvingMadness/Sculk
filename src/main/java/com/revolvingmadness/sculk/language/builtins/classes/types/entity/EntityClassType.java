@@ -92,6 +92,8 @@ public class EntityClassType extends BuiltinClassType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "hasPassenger", new HasPassenger());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "hasPassengers", new HasPassengers());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "raycast", new Raycast());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getPitch", new GetPitch());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "getYaw", new GetYaw());
     }
 
     private static class AddTag extends BuiltinMethod {
@@ -221,6 +223,15 @@ public class EntityClassType extends BuiltinClassType {
         }
     }
 
+    private static class GetPitch extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            this.validateCall("getPitch", arguments);
+
+            return new FloatInstance(this.boundClass.toEntity().getPitch());
+        }
+    }
+
     private static class GetTags extends BuiltinMethod {
         @Override
         public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
@@ -262,6 +273,15 @@ public class EntityClassType extends BuiltinClassType {
             double y = this.boundClass.toEntity().getY();
 
             return new FloatInstance(y);
+        }
+    }
+
+    private static class GetYaw extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            this.validateCall("getYaw", arguments);
+
+            return new FloatInstance(this.boundClass.toEntity().getYaw());
         }
     }
 

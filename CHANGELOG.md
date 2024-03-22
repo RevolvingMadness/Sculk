@@ -178,3 +178,12 @@
 - `%=`
 - If `->` not specified in function return types, will default to null.
 - `SwordItem`
+- `Entity.getPitch`
+- `Entity.getYaw`
+
+### NBT Serialization
+
+- `BlockHitResult`
+- `Block`
+- `BlockPos`
+- `BlockSettings`
