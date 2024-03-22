@@ -14,9 +14,12 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.block.BlockPos
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.BooleanClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.FloatClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.particle.ParticleClassType;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.block.Block;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
@@ -46,6 +49,7 @@ public class WorldClassType extends BuiltinClassType {
         this.typeVariableScope.declare(List.of(TokenType.CONST), "placeBlock", new PlaceBlock());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "breakBlock", new BreakBlock());
         this.typeVariableScope.declare(List.of(TokenType.CONST), "getBlock", new GetBlock());
+        this.typeVariableScope.declare(List.of(TokenType.CONST), "spawnParticle", new SpawnParticle());
     }
 
     private static class BreakBlock extends BuiltinMethod {
@@ -221,6 +225,36 @@ public class WorldClassType extends BuiltinClassType {
             long timeOfDay = arguments.get(0).toInteger();
 
             this.boundClass.toWorld().setTimeOfDay(timeOfDay);
+
+            return new NullInstance();
+        }
+    }
+
+    private static class SpawnParticle extends BuiltinMethod {
+        @Override
+        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+            /*
+            T particle, double x, double y, double z, int count, double deltaX, double deltaY, double deltaZ, double speed
+             */
+            this.validateCall("spawnParticle", arguments, List.of(ParticleClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE, IntegerClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE));
+
+            ServerWorld world = this.boundClass.toWorld();
+
+            ParticleEffect particle = arguments.get(0).toParticle();
+
+            double x = arguments.get(1).toFloat();
+            double y = arguments.get(2).toFloat();
+            double z = arguments.get(3).toFloat();
+
+            int count = (int) arguments.get(4).toInteger();
+
+            double deltaX = arguments.get(5).toFloat();
+            double deltaY = arguments.get(6).toFloat();
+            double deltaZ = arguments.get(7).toFloat();
+
+            double speed = arguments.get(8).toFloat();
+
+            world.spawnParticles(particle, x, y, z, count, deltaX, deltaY, deltaZ, speed);
 
             return new NullInstance();
         }

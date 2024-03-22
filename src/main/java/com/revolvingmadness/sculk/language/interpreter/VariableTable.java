@@ -15,6 +15,8 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.block.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.entity.*;
 import com.revolvingmadness.sculk.language.builtins.classes.types.item.*;
+import com.revolvingmadness.sculk.language.builtins.classes.types.particle.ParticleClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.particle.ParticlesClassType;
 import com.revolvingmadness.sculk.language.builtins.enums.AttributesEnumType;
 import com.revolvingmadness.sculk.language.builtins.enums.DifficultiesEnumType;
 import com.revolvingmadness.sculk.language.builtins.enums.EnumClassType;
@@ -125,6 +127,8 @@ public class VariableTable {
         this.declare(List.of(TokenType.CONST), "Keys", KeysClassType.TYPE);
         this.declare(List.of(TokenType.CONST), "SwordItem", SwordItemClassType.TYPE);
         this.declare(List.of(TokenType.CONST), "ToolMaterial", ToolMaterialClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Particle", ParticleClassType.TYPE);
+        this.declare(List.of(TokenType.CONST), "Particles", ParticlesClassType.TYPE);
     }
 
     private void declareFunctions() {

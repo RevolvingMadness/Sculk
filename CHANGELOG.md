@@ -180,6 +180,7 @@
 - `SwordItem`
 - `Entity.getPitch`
 - `Entity.getYaw`
+- Particle support
 
 ### NBT Serialization
 

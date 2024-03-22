@@ -17,6 +17,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemClass
 import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemSettingsClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.item.ItemStackClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.item.ToolMaterialClassType;
+import com.revolvingmadness.sculk.language.builtins.classes.types.particle.ParticleClassType;
 import com.revolvingmadness.sculk.language.builtins.enums.AttributesEnumType;
 import com.revolvingmadness.sculk.language.builtins.enums.DifficultiesEnumType;
 import com.revolvingmadness.sculk.language.builtins.enums.GameModesEnumType;
@@ -37,6 +38,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -314,6 +316,10 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
 
     public NbtElement toNBT() {
         throw new TypeError("Type '" + this.type.name + "' does not support NBT serialization");
+    }
+
+    public ParticleEffect toParticle() {
+        throw ErrorHolder.cannotConvertType(this.type, ParticleClassType.TYPE);
     }
 
     public PlayerEntity toPlayerEntity() {
