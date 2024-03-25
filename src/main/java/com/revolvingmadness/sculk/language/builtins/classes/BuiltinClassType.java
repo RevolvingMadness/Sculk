@@ -70,7 +70,7 @@ public abstract class BuiltinClassType extends BuiltinClass {
     }
 
     public void addMethod(String name, List<BuiltinClassType> argumentTypes) throws NoSuchMethodException {
-        Method method = this.getClass().getMethod(name, BuiltinClass.class, BuiltinClass[].class);
+        Method method = this.getClass().getMethod(name, Interpreter.class, BuiltinClass.class, BuiltinClass[].class);
 
         BuiltinMethod methodClass = new BuiltinMethod() {
             @Override
@@ -81,6 +81,7 @@ public abstract class BuiltinClassType extends BuiltinClass {
 
                 List<Object> methodCallArguments = new ArrayList<>();
 
+                methodCallArguments.add(interpreter);
                 methodCallArguments.add(this.boundClass);
                 methodCallArguments.add(arguments.toArray(new BuiltinClass[0]));
 

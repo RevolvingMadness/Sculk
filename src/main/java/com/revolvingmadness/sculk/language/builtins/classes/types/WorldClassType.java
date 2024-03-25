@@ -14,6 +14,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.Boo
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.FloatClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.particle.ParticleClassType;
+import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import net.minecraft.block.Block;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -61,39 +62,39 @@ public class WorldClassType extends BuiltinClassType {
         }
     }
 
-    public static BuiltinClass breakBlock(BuiltinClass boundClass, BuiltinClass[] arguments) {
+    public static BuiltinClass breakBlock(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
         BlockPos blockPos = arguments[0].toBlockPos();
         boolean dropItems = arguments[1].toBoolean();
 
         return new BooleanInstance(boundClass.toWorld().breakBlock(blockPos, dropItems));
     }
 
-    public static BuiltinClass canSetBlock(BuiltinClass boundClass, BuiltinClass[] arguments) {
+    public static BuiltinClass canSetBlock(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
         BlockPos blockPos = arguments[0].toBlockPos();
 
         return new BooleanInstance(boundClass.toWorld().canSetBlock(blockPos));
     }
 
-    public static BuiltinClass getBlock(BuiltinClass boundClass, BuiltinClass[] arguments) {
+    public static BuiltinClass getBlock(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
         BlockPos blockPos = arguments[0].toBlockPos();
 
         return new BlockInstance(boundClass.toWorld().getBlockState(blockPos).getBlock());
     }
 
-    public static BuiltinClass hasRain(BuiltinClass boundClass, BuiltinClass[] arguments) {
+    public static BuiltinClass hasRain(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
         BlockPos blockPos = arguments[0].toBlockPos();
 
         return new BooleanInstance(boundClass.toWorld().hasRain(blockPos));
     }
 
-    public static BuiltinClass placeBlock(BuiltinClass boundClass, BuiltinClass[] arguments) {
+    public static BuiltinClass placeBlock(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
         BlockPos blockPos = arguments[0].toBlockPos();
         Block block = arguments[1].toBlock();
 
         return new BooleanInstance(boundClass.toWorld().setBlockState(blockPos, block.getDefaultState()));
     }
 
-    public static BuiltinClass setSpawnPos(BuiltinClass boundClass, BuiltinClass[] arguments) {
+    public static BuiltinClass setSpawnPos(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
         BlockPos blockPos = arguments[0].toBlockPos();
         double angle = arguments[1].toFloat();
 
@@ -102,7 +103,7 @@ public class WorldClassType extends BuiltinClassType {
         return new NullInstance();
     }
 
-    public static BuiltinClass setTimeOfDay(BuiltinClass boundClass, BuiltinClass[] arguments) {
+    public static BuiltinClass setTimeOfDay(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
         long timeOfDay = arguments[0].toInteger();
 
         boundClass.toWorld().setTimeOfDay(timeOfDay);
@@ -110,7 +111,7 @@ public class WorldClassType extends BuiltinClassType {
         return new NullInstance();
     }
 
-    public static BuiltinClass spawnParticle(BuiltinClass boundClass, BuiltinClass[] arguments) {
+    public static BuiltinClass spawnParticle(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
         ServerWorld world = boundClass.toWorld();
 
         ParticleEffect particle = arguments[0].toParticle();

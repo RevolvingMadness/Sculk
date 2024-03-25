@@ -10,6 +10,7 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.Boo
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringClassType;
 import com.revolvingmadness.sculk.language.errors.NameError;
+import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.List;
@@ -22,12 +23,12 @@ public class PlayerManagerClassType extends BuiltinClassType {
         super("PlayerManager");
 
         try {
-            this.addMethod("areCheatsEnabled", List.of());
-            this.addMethod("getCurrentPlayerCount", List.of());
-            this.addMethod("getMaxPlayerCount", List.of());
-            this.addMethod("getSimulationDistance", List.of());
-            this.addMethod("getViewDistance", List.of());
-            this.addMethod("isWhitelistEnabled", List.of());
+            this.addGetterMethod("areCheatsEnabled", builtinClass -> new BooleanInstance(builtinClass.toPlayerManager().areCheatsAllowed()));
+            this.addGetterMethod("getCurrentPlayerCount", builtinClass -> new IntegerInstance(builtinClass.toPlayerManager().getCurrentPlayerCount()));
+            this.addGetterMethod("getMaxPlayerCount", builtinClass -> new IntegerInstance(builtinClass.toPlayerManager().getMaxPlayerCount()));
+            this.addGetterMethod("getSimulationDistance", builtinClass -> new IntegerInstance(builtinClass.toPlayerManager().getSimulationDistance()));
+            this.addGetterMethod("getViewDistance", builtinClass -> new IntegerInstance(builtinClass.toPlayerManager().getViewDistance()));
+            this.addGetterMethod("isWhitelistEnabled", builtinClass -> new BooleanInstance(builtinClass.toPlayerManager().isWhitelistEnabled()));
             this.addMethod("setCheatsEnabled", List.of(BooleanClassType.TYPE));
             this.addMethod("setSimulationDistance", List.of(IntegerClassType.TYPE));
             this.addMethod("setViewDistance", List.of(IntegerClassType.TYPE));
@@ -38,19 +39,7 @@ public class PlayerManagerClassType extends BuiltinClassType {
         }
     }
 
-    public BuiltinClass areCheatsEnabled(BuiltinClass boundClass, BuiltinClass[] arguments) {
-        return new BooleanInstance(boundClass.toPlayerManager().areCheatsAllowed());
-    }
-
-    public BuiltinClass getCurrentPlayerCount(BuiltinClass boundClass, BuiltinClass[] arguments) {
-        return new IntegerInstance(boundClass.toPlayerManager().getCurrentPlayerCount());
-    }
-
-    public BuiltinClass getMaxPlayerCount(BuiltinClass boundClass, BuiltinClass[] arguments) {
-        return new IntegerInstance(boundClass.toPlayerManager().getMaxPlayerCount());
-    }
-
-    public BuiltinClass getPlayer(BuiltinClass boundClass, BuiltinClass[] arguments) {
+    public BuiltinClass getPlayer(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
         String playerName = arguments[0].toString();
 
         ServerPlayerEntity serverPlayerEntity = boundClass.toPlayerManager().getPlayer(playerName);
@@ -62,19 +51,7 @@ public class PlayerManagerClassType extends BuiltinClassType {
         return new ServerPlayerEntityInstance(serverPlayerEntity);
     }
 
-    public BuiltinClass getSimulationDistance(BuiltinClass boundClass, BuiltinClass[] arguments) {
-        return new IntegerInstance(boundClass.toPlayerManager().getSimulationDistance());
-    }
-
-    public BuiltinClass getViewDistance(BuiltinClass boundClass, BuiltinClass[] arguments) {
-        return new IntegerInstance(boundClass.toPlayerManager().getViewDistance());
-    }
-
-    public BuiltinClass isWhitelistEnabled(BuiltinClass boundClass, BuiltinClass[] arguments) {
-        return new BooleanInstance(boundClass.toPlayerManager().isWhitelistEnabled());
-    }
-
-    public BuiltinClass setCheatsEnabled(BuiltinClass boundClass, BuiltinClass[] arguments) {
+    public BuiltinClass setCheatsEnabled(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
         boolean cheatsEnabled = arguments[0].toBoolean();
 
         boundClass.toPlayerManager().setCheatsAllowed(cheatsEnabled);
@@ -82,7 +59,7 @@ public class PlayerManagerClassType extends BuiltinClassType {
         return new NullInstance();
     }
 
-    public BuiltinClass setSimulationDistance(BuiltinClass boundClass, BuiltinClass[] arguments) {
+    public BuiltinClass setSimulationDistance(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
         long simulationDistance = arguments[0].toInteger();
 
         boundClass.toPlayerManager().setSimulationDistance((int) simulationDistance);
@@ -90,8 +67,7 @@ public class PlayerManagerClassType extends BuiltinClassType {
         return new NullInstance();
     }
 
-
-    public BuiltinClass setViewDistance(BuiltinClass boundClass, BuiltinClass[] arguments) {
+    public BuiltinClass setViewDistance(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
         long viewDistance = arguments[0].toInteger();
 
         boundClass.toPlayerManager().setViewDistance((int) viewDistance);
@@ -99,8 +75,7 @@ public class PlayerManagerClassType extends BuiltinClassType {
         return new NullInstance();
     }
 
-
-    public BuiltinClass setWhitelistEnabled(BuiltinClass boundClass, BuiltinClass[] arguments) {
+    public BuiltinClass setWhitelistEnabled(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
         boolean whitelistEnabled = arguments[0].toBoolean();
 
         boundClass.toPlayerManager().setWhitelistEnabled(whitelistEnabled);
