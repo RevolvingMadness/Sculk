@@ -114,7 +114,6 @@ public abstract class BuiltinClassType extends BuiltinClass {
         return this.superClass.canDowncastTo(type);
     }
 
-    @Override
     public void checkIfAllMethodsAreImplemented() {
         if (this.superClass == null) {
             return;
@@ -218,7 +217,6 @@ public abstract class BuiltinClassType extends BuiltinClass {
         return Objects.hash(this.accessModifiers, this.name, this.superClass, this.typeVariableScope);
     }
 
-    @Override
     public boolean isAbstract() {
         return this.accessModifiers.contains(TokenType.ABSTRACT);
     }

@@ -30,10 +30,10 @@ import net.minecraft.util.Pair;
 import java.util.*;
 
 public class Interpreter implements Visitor {
+    public final Identifier identifier;
     public final SculkScriptLoader loader;
     public final ScriptTag scriptTag;
     public final VariableTable variableTable;
-    public Identifier identifier;
 
     public Interpreter(SculkScriptLoader loader, ScriptTag scriptTag, Identifier identifier) {
         this.loader = loader;

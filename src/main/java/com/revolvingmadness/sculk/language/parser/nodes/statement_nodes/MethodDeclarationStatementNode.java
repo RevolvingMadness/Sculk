@@ -35,12 +35,4 @@ public class MethodDeclarationStatementNode extends StatementNode {
     public int hashCode() {
         return Objects.hash(this.accessModifiers, this.arguments, this.body, this.name, this.returnType);
     }
-
-    public boolean isAbstract() {
-        return this.accessModifiers.contains(TokenType.ABSTRACT);
-    }
-
-    public boolean isStatic() {
-        return this.accessModifiers.contains(TokenType.STATIC);
-    }
 }

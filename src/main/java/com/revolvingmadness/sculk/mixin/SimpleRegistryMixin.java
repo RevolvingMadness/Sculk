@@ -60,6 +60,7 @@ public abstract class SimpleRegistryMixin<T> implements SimpleRegistryAccessor<T
         this.set(this.getRawId(value), key.get(), value, Lifecycle.stable());
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     @Shadow
     public abstract RegistryEntry.Reference<T> set(int rawId, RegistryKey<T> key2, T value, Lifecycle lifecycle);
 }

@@ -88,10 +88,6 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
         return method.call(interpreter, arguments);
     }
 
-    public void checkIfAllMethodsAreImplemented() {
-        this.type.checkIfAllMethodsAreImplemented();
-    }
-
     public BuiltinClass decrement() {
         throw ErrorHolder.cannotApplyUnaryOperatorToType("--", this.type);
     }
@@ -180,10 +176,6 @@ public abstract class BuiltinClass extends ExpressionNode implements Serializabl
         }
 
         return false;
-    }
-
-    public boolean isAbstract() {
-        return this.type.isAbstract();
     }
 
     public BooleanInstance lessThan(BuiltinClass other) {

@@ -63,6 +63,7 @@ public abstract class MinecraftServerMixin extends ReentrantThreadExecutor<Serve
         super(string);
     }
 
+    @SuppressWarnings("SameReturnValue")
     @Shadow
     private static DataPackSettings createDataPackSettings(ResourcePackManager dataPackManager) {
         return null;

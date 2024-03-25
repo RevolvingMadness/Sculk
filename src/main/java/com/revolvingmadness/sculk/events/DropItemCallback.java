@@ -7,8 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 
 public interface DropItemCallback {
-    Event<PickupItemCallback> EVENT = EventFactory.createArrayBacked(PickupItemCallback.class, (listeners) -> (player, itemStack) -> {
-        for (PickupItemCallback listener : listeners) {
+    Event<DropItemCallback> EVENT = EventFactory.createArrayBacked(DropItemCallback.class, (listeners) -> (player, itemStack) -> {
+        for (DropItemCallback listener : listeners) {
             ActionResult result = listener.interact(player, itemStack);
 
             if (result != ActionResult.PASS) {
