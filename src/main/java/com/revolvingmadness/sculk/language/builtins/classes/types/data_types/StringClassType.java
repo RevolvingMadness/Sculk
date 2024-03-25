@@ -1,7 +1,6 @@
 package com.revolvingmadness.sculk.language.builtins.classes.types.data_types;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.NBTBuiltinClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.IntegerInstance;
@@ -9,24 +8,32 @@ import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.StringInstance;
 import com.revolvingmadness.sculk.language.errors.ValueError;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
-import com.revolvingmadness.sculk.language.lexer.TokenType;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class StringClassType extends NBTBuiltinClassType {
     public static final StringClassType TYPE = new StringClassType();
 
     private StringClassType() {
         super("String");
 
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "startsWith", new StartsWith());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "endsWith", new EndsWith());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "split", new Split());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "length", new Length());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "lowercase", new Lowercase());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "uppercase", new Uppercase());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "fromUnicode", new FromUnicode());
+        try {
+            this.addMethod("startsWith", List.of(StringClassType.TYPE));
+            this.addMethod("endsWith", List.of(StringClassType.TYPE));
+            this.addMethod("split", List.of(StringClassType.TYPE));
+            this.addGetterMethod("length", builtinClass -> new IntegerInstance(builtinClass.toString().length()));
+            this.addGetterMethod("lowercase", builtinClass -> new StringInstance(builtinClass.toString().toLowerCase()));
+            this.addGetterMethod("uppercase", builtinClass -> new StringInstance(builtinClass.toString().toUpperCase()));
+            this.addMethod("fromUnicode", List.of(IntegerClassType.TYPE));
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public BuiltinClass endsWith(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        return new BooleanInstance(boundClass.toString().endsWith(arguments[0].toString()));
     }
 
     @Override
@@ -34,86 +41,29 @@ public class StringClassType extends NBTBuiltinClassType {
         return string;
     }
 
-    private static class EndsWith extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("endsWith", arguments, List.of(StringClassType.TYPE));
+    public BuiltinClass fromUnicode(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        long unicode = arguments[0].toInteger();
 
-            String text = arguments.get(0).toString();
-
-            return new BooleanInstance(this.boundClass.toString().endsWith(text));
+        if (unicode < 0 || unicode > 9999) {
+            throw new ValueError("Invalid unicode '" + unicode + "'");
         }
+
+        return new StringInstance(String.valueOf((char) unicode));
     }
 
-    private static class FromUnicode extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("fromUnicode", arguments, List.of(IntegerClassType.TYPE));
+    public BuiltinClass split(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        String[] splitted = boundClass.toString().split(arguments[0].toString());
 
-            long unicode = arguments.get(0).toInteger();
+        List<BuiltinClass> result = new ArrayList<>();
 
-            if (unicode < 0 || unicode > 9999) {
-                throw new ValueError("Invalid unicode '" + unicode + "'");
-            }
-
-            return new StringInstance(String.valueOf((char) unicode));
+        for (String part : splitted) {
+            result.add(new StringInstance(part));
         }
+
+        return new ListInstance(result);
     }
 
-    private static class Length extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("length", arguments);
-
-            return new IntegerInstance(this.boundClass.toString().length());
-        }
-    }
-
-    private static class Lowercase extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("lowercase", arguments);
-
-            return new StringInstance(this.boundClass.toString().toLowerCase());
-        }
-    }
-
-    private static class Split extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("split", arguments, List.of(StringClassType.TYPE));
-
-            String splitter = arguments.get(0).toString();
-
-            List<BuiltinClass> list = new ArrayList<>();
-
-            String[] split = this.boundClass.toString().split(splitter);
-
-            for (String s : split) {
-                list.add(new StringInstance(s));
-            }
-
-            return new ListInstance(list);
-        }
-    }
-
-    private static class StartsWith extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("startsWith", arguments, List.of(StringClassType.TYPE));
-
-            String text = arguments.get(0).toString();
-
-            return new BooleanInstance(this.boundClass.toString().startsWith(text));
-        }
-    }
-
-    private static class Uppercase extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("uppercase", arguments);
-
-            return new StringInstance(this.boundClass.toString().toUpperCase());
-        }
+    public BuiltinClass startsWith(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        return new BooleanInstance(boundClass.toString().startsWith(arguments[0].toString()));
     }
 }

@@ -69,7 +69,7 @@ public abstract class BuiltinClassType extends BuiltinClass {
         this.typeVariableScope.declare(List.of(TokenType.CONST), name, method);
     }
 
-    public void addMethod(String name, List<BuiltinClassType> argumentTypes) throws NoSuchMethodException {
+    public void addMethod(String name, List<BuiltinClassType> argumentTypes) throws ReflectiveOperationException {
         Method method = this.getClass().getMethod(name, Interpreter.class, BuiltinClass.class, BuiltinClass[].class);
 
         BuiltinMethod methodClass = new BuiltinMethod() {
@@ -100,6 +100,39 @@ public abstract class BuiltinClassType extends BuiltinClass {
         };
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), method.getName(), methodClass);
+    }
+
+    public void addStaticMethod(String name, List<BuiltinClassType> argumentTypes) throws ReflectiveOperationException {
+        Method method = this.getClass().getMethod(name, Interpreter.class, BuiltinClass.class, BuiltinClass[].class);
+
+        BuiltinMethod methodClass = new BuiltinMethod() {
+            @Override
+            public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+                this.validateCall(name, arguments, argumentTypes);
+
+                Object result;
+
+                List<Object> methodCallArguments = new ArrayList<>();
+
+                methodCallArguments.add(interpreter);
+                methodCallArguments.add(this.boundClass);
+                methodCallArguments.add(arguments.toArray(new BuiltinClass[0]));
+
+                try {
+                    result = method.invoke(this.boundClass, methodCallArguments.toArray());
+                } catch (ReflectiveOperationException e) {
+                    throw new RuntimeException(e);
+                }
+
+                if (!(result instanceof BuiltinClass builtinClass)) {
+                    throw new RuntimeException("Invalid method '" + name + "'");
+                }
+
+                return builtinClass;
+            }
+        };
+
+        this.variableScope.declare(List.of(TokenType.CONST), method.getName(), methodClass);
     }
 
     public boolean canDowncastTo(BuiltinClassType type) {
