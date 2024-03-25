@@ -65,5 +65,4 @@ public class LivingEntityClassType extends BuiltinClassType {
             return new NullInstance();
         }
     }
-
 }

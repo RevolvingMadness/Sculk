@@ -2,7 +2,6 @@ package com.revolvingmadness.sculk.language.builtins.classes.types;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.block.BlockInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.BooleanInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.IntegerInstance;
@@ -15,248 +14,121 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.Boo
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.FloatClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.particle.ParticleClassType;
-import com.revolvingmadness.sculk.language.interpreter.Interpreter;
-import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.block.Block;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("resource")
+@SuppressWarnings({"resource", "unused"})
 public class WorldClassType extends BuiltinClassType {
     public static final WorldClassType TYPE = new WorldClassType();
 
     private WorldClassType() {
         super("World");
 
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "canSetBlock", new CanSetBlock());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getTime", new GetTime());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getTimeOfDay", new GetTimeOfDay());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "hasRain", new HasRain());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isDay", new IsDay());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isNight", new IsNight());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isRaining", new IsRaining());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isThundering", new IsThundering());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getPlayers", new GetPlayers());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isFlat", new IsFlat());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isSleepingEnabled", new IsSleepingEnabled());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getSeed", new GetSeed());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setSpawnPos", new SetSpawnPos());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setTimeOfDay", new SetTimeOfDay());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "placeBlock", new PlaceBlock());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "breakBlock", new BreakBlock());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getBlock", new GetBlock());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "spawnParticle", new SpawnParticle());
-    }
+        try {
+            this.addMethod("breakBlock", List.of(BlockPosClassType.TYPE, BooleanClassType.TYPE));
+            this.addMethod("canSetBlock", List.of(BlockPosClassType.TYPE));
+            this.addMethod("getBlock", List.of(BlockPosClassType.TYPE));
+            this.addGetterMethod("getPlayers", builtinClass -> {
+                List<ServerPlayerEntity> players = builtinClass.toWorld().getPlayers();
+                List<BuiltinClass> playersClasses = new ArrayList<>();
 
-    private static class BreakBlock extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("breakBlock", arguments, List.of(BlockPosClassType.TYPE, BooleanClassType.TYPE));
+                players.forEach(serverPlayerEntity -> playersClasses.add(new ServerPlayerEntityInstance(serverPlayerEntity)));
 
-            BlockPos blockPos = arguments.get(0).toBlockPos();
-            boolean dropItems = arguments.get(1).toBoolean();
-
-            return new BooleanInstance(this.boundClass.toWorld().breakBlock(blockPos, dropItems));
+                return new ListInstance(playersClasses);
+            });
+            this.addGetterMethod("getSeed", builtinClass -> new IntegerInstance(builtinClass.toWorld().getSeed()));
+            this.addGetterMethod("getTime", builtinClass -> new IntegerInstance(builtinClass.toWorld().getTime()));
+            this.addGetterMethod("getTimeOfDay", builtinClass -> new IntegerInstance(builtinClass.toWorld().getTimeOfDay()));
+            this.addMethod("hasRain", List.of(BlockPosClassType.TYPE));
+            this.addGetterMethod("isDay", builtinClass -> new BooleanInstance(builtinClass.toWorld().isDay()));
+            this.addGetterMethod("isFlat", builtinClass -> new BooleanInstance(builtinClass.toWorld().isFlat()));
+            this.addGetterMethod("isNight", builtinClass -> new BooleanInstance(builtinClass.toWorld().isNight()));
+            this.addGetterMethod("isRaining", builtinClass -> new BooleanInstance(builtinClass.toWorld().isRaining()));
+            this.addGetterMethod("isSleepingEnabled", builtinClass -> new BooleanInstance(builtinClass.toWorld().isSleepingEnabled()));
+            this.addGetterMethod("isThundering", builtinClass -> new BooleanInstance(builtinClass.toWorld().isThundering()));
+            this.addMethod("placeBlock", List.of(BlockPosClassType.TYPE, BlockClassType.TYPE));
+            this.addMethod("setSpawnPos", List.of(BlockPosClassType.TYPE, FloatClassType.TYPE));
+            this.addMethod("setTimeOfDay", List.of(IntegerClassType.TYPE));
+            this.addMethod("spawnParticle", List.of(ParticleClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE, IntegerClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE));
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private static class CanSetBlock extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("canSetBlock", arguments, List.of(BlockPosClassType.TYPE));
+    public static BuiltinClass breakBlock(BuiltinClass boundClass, BuiltinClass[] arguments) {
+        BlockPos blockPos = arguments[0].toBlockPos();
+        boolean dropItems = arguments[1].toBoolean();
 
-            BlockPos blockPos = arguments.get(0).toBlockPos();
-
-            return new BooleanInstance(this.boundClass.toWorld().canSetBlock(blockPos));
-        }
+        return new BooleanInstance(boundClass.toWorld().breakBlock(blockPos, dropItems));
     }
 
-    private static class GetBlock extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getBlock", arguments, List.of(BlockPosClassType.TYPE));
+    public static BuiltinClass canSetBlock(BuiltinClass boundClass, BuiltinClass[] arguments) {
+        BlockPos blockPos = arguments[0].toBlockPos();
 
-            BlockPos blockPos = arguments.get(0).toBlockPos();
-
-            return new BlockInstance(this.boundClass.toWorld().getBlockState(blockPos).getBlock());
-        }
+        return new BooleanInstance(boundClass.toWorld().canSetBlock(blockPos));
     }
 
-    private static class GetPlayers extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getPlayers", arguments);
+    public static BuiltinClass getBlock(BuiltinClass boundClass, BuiltinClass[] arguments) {
+        BlockPos blockPos = arguments[0].toBlockPos();
 
-            List<BuiltinClass> list = new ArrayList<>();
-
-            this.boundClass.toWorld().getPlayers().forEach(player -> list.add(new ServerPlayerEntityInstance(player)));
-
-            return new ListInstance(list);
-        }
+        return new BlockInstance(boundClass.toWorld().getBlockState(blockPos).getBlock());
     }
 
-    private static class GetSeed extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getSeed", arguments);
+    public static BuiltinClass hasRain(BuiltinClass boundClass, BuiltinClass[] arguments) {
+        BlockPos blockPos = arguments[0].toBlockPos();
 
-            return new IntegerInstance(this.boundClass.toWorld().getSeed());
-        }
+        return new BooleanInstance(boundClass.toWorld().hasRain(blockPos));
     }
 
-    private static class GetTime extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getTime", arguments);
+    public static BuiltinClass placeBlock(BuiltinClass boundClass, BuiltinClass[] arguments) {
+        BlockPos blockPos = arguments[0].toBlockPos();
+        Block block = arguments[1].toBlock();
 
-            return new IntegerInstance(this.boundClass.toWorld().getTime());
-        }
+        return new BooleanInstance(boundClass.toWorld().setBlockState(blockPos, block.getDefaultState()));
     }
 
-    private static class GetTimeOfDay extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getTimeOfDay", arguments);
+    public static BuiltinClass setSpawnPos(BuiltinClass boundClass, BuiltinClass[] arguments) {
+        BlockPos blockPos = arguments[0].toBlockPos();
+        double angle = arguments[1].toFloat();
 
-            return new IntegerInstance(this.boundClass.toWorld().getTimeOfDay());
-        }
+        boundClass.toWorld().setSpawnPos(blockPos, (float) angle);
+
+        return new NullInstance();
     }
 
-    private static class HasRain extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("hasRain", arguments, List.of(BlockPosClassType.TYPE));
+    public static BuiltinClass setTimeOfDay(BuiltinClass boundClass, BuiltinClass[] arguments) {
+        long timeOfDay = arguments[0].toInteger();
 
-            BlockPos blockPos = arguments.get(0).toBlockPos();
+        boundClass.toWorld().setTimeOfDay(timeOfDay);
 
-            return new BooleanInstance(this.boundClass.toWorld().hasRain(blockPos));
-        }
+        return new NullInstance();
     }
 
-    private static class IsDay extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isDay", arguments);
+    public static BuiltinClass spawnParticle(BuiltinClass boundClass, BuiltinClass[] arguments) {
+        ServerWorld world = boundClass.toWorld();
 
-            return new BooleanInstance(this.boundClass.toWorld().isDay());
-        }
-    }
+        ParticleEffect particle = arguments[0].toParticle();
 
-    private static class IsFlat extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isFlat", arguments);
+        double x = arguments[1].toFloat();
+        double y = arguments[2].toFloat();
+        double z = arguments[3].toFloat();
 
-            return new BooleanInstance(this.boundClass.toWorld().isFlat());
-        }
-    }
+        int count = (int) arguments[4].toInteger();
 
-    private static class IsNight extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isNight", arguments);
+        double deltaX = arguments[5].toFloat();
+        double deltaY = arguments[6].toFloat();
+        double deltaZ = arguments[7].toFloat();
 
-            return new BooleanInstance(this.boundClass.toWorld().isNight());
-        }
-    }
+        double speed = arguments[8].toFloat();
 
-    private static class IsRaining extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isRaining", arguments);
+        world.spawnParticles(particle, x, y, z, count, deltaX, deltaY, deltaZ, speed);
 
-            return new BooleanInstance(this.boundClass.toWorld().isRaining());
-        }
-    }
-
-    private static class IsSleepingEnabled extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isSleepingEnabled", arguments);
-
-            return new BooleanInstance(this.boundClass.toWorld().isSleepingEnabled());
-        }
-    }
-
-    private static class IsThundering extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isThundering", arguments);
-
-            return new BooleanInstance(this.boundClass.toWorld().isThundering());
-        }
-    }
-
-    private static class PlaceBlock extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isThundering", arguments, List.of(BlockPosClassType.TYPE, BlockClassType.TYPE));
-
-            BlockPos blockPos = arguments.get(0).toBlockPos();
-            Block block = arguments.get(1).toBlock();
-
-            return new BooleanInstance(this.boundClass.toWorld().setBlockState(blockPos, block.getDefaultState()));
-        }
-    }
-
-    private static class SetSpawnPos extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("setSpawnPos", arguments, List.of(BlockPosClassType.TYPE, FloatClassType.TYPE));
-
-            BlockPos blockPos = arguments.get(0).toBlockPos();
-            double angle = arguments.get(1).toFloat();
-
-            this.boundClass.toWorld().setSpawnPos(blockPos, (float) angle);
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SetTimeOfDay extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("setTimeOfDay", arguments, List.of(IntegerClassType.TYPE));
-
-            long timeOfDay = arguments.get(0).toInteger();
-
-            this.boundClass.toWorld().setTimeOfDay(timeOfDay);
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SpawnParticle extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            /*
-            T particle, double x, double y, double z, int count, double deltaX, double deltaY, double deltaZ, double speed
-             */
-            this.validateCall("spawnParticle", arguments, List.of(ParticleClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE, IntegerClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE));
-
-            ServerWorld world = this.boundClass.toWorld();
-
-            ParticleEffect particle = arguments.get(0).toParticle();
-
-            double x = arguments.get(1).toFloat();
-            double y = arguments.get(2).toFloat();
-            double z = arguments.get(3).toFloat();
-
-            int count = (int) arguments.get(4).toInteger();
-
-            double deltaX = arguments.get(5).toFloat();
-            double deltaY = arguments.get(6).toFloat();
-            double deltaZ = arguments.get(7).toFloat();
-
-            double speed = arguments.get(8).toFloat();
-
-            world.spawnParticles(particle, x, y, z, count, deltaX, deltaY, deltaZ, speed);
-
-            return new NullInstance();
-        }
+        return new NullInstance();
     }
 }

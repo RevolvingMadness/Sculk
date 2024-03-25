@@ -26,5 +26,4 @@ public class Vec3DClassType extends BuiltinClassType {
 
         return new Vec3dInstance(new Vec3d(x, y, z));
     }
-
 }

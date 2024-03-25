@@ -35,5 +35,4 @@ public class Vec3dInstance extends BuiltinClass {
     public String toString() {
         return this.value.toString();
     }
-
 }

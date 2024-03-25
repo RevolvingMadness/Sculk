@@ -30,5 +30,4 @@ public class MinecraftServerInstance extends BuiltinClass {
     public int hashCode() {
         return Objects.hash(this.value);
     }
-
 }

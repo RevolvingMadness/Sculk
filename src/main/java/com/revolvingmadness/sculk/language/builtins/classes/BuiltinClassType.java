@@ -4,14 +4,17 @@ import com.revolvingmadness.sculk.language.ErrorHolder;
 import com.revolvingmadness.sculk.language.builtins.classes.types.ObjectClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.TypeClassType;
 import com.revolvingmadness.sculk.language.errors.TypeError;
+import com.revolvingmadness.sculk.language.interpreter.Interpreter;
 import com.revolvingmadness.sculk.language.interpreter.Variable;
 import com.revolvingmadness.sculk.language.interpreter.VariableScope;
 import com.revolvingmadness.sculk.language.lexer.TokenType;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 
 public abstract class BuiltinClassType extends BuiltinClass {
     public final List<TokenType> accessModifiers;
@@ -51,6 +54,51 @@ public abstract class BuiltinClassType extends BuiltinClass {
         if (!this.isAbstract() && this.hasAbstractMethods()) {
             throw new TypeError("Cannot declare a non-abstract class with abstract methods");
         }
+    }
+
+    public void addGetterMethod(String name, Function<BuiltinClass, BuiltinClass> supplier) {
+        BuiltinMethod method = new BuiltinMethod() {
+            @Override
+            public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+                this.validateCall(name, arguments);
+
+                return supplier.apply(this.boundClass);
+            }
+        };
+
+        this.typeVariableScope.declare(List.of(TokenType.CONST), name, method);
+    }
+
+    public void addMethod(String name, List<BuiltinClassType> argumentTypes) throws NoSuchMethodException {
+        Method method = this.getClass().getMethod(name, BuiltinClass.class, BuiltinClass[].class);
+
+        BuiltinMethod methodClass = new BuiltinMethod() {
+            @Override
+            public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+                this.validateCall(name, arguments, argumentTypes);
+
+                Object result;
+
+                List<Object> methodCallArguments = new ArrayList<>();
+
+                methodCallArguments.add(this.boundClass);
+                methodCallArguments.add(arguments.toArray(new BuiltinClass[0]));
+
+                try {
+                    result = method.invoke(this.boundClass, methodCallArguments.toArray());
+                } catch (ReflectiveOperationException e) {
+                    throw new RuntimeException(e);
+                }
+
+                if (!(result instanceof BuiltinClass builtinClass)) {
+                    throw new RuntimeException("Invalid method '" + name + "'");
+                }
+
+                return builtinClass;
+            }
+        };
+
+        this.typeVariableScope.declare(List.of(TokenType.CONST), method.getName(), methodClass);
     }
 
     public boolean canDowncastTo(BuiltinClassType type) {
