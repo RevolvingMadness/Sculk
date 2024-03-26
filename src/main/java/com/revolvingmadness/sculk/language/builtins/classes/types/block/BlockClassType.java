@@ -20,10 +20,10 @@ public class BlockClassType extends NBTBuiltinClassType {
     private BlockClassType() {
         super("Block");
 
-        this.addGetterMethod("asItem", builtinClass -> new ItemInstance(builtinClass.toBlock().asItem()));
-        this.addGetterMethod("getBlastResistance", builtinClass -> new FloatInstance(builtinClass.toBlock().getBlastResistance()));
-        this.addGetterMethod("getName", builtinClass -> new StringInstance(builtinClass.toBlock().getName().getString()));
-        this.addGetterMethod("getSlipperiness", builtinClass -> new FloatInstance(builtinClass.toBlock().getSlipperiness()));
+        this.addNoArgMethod("asItem", builtinClass -> new ItemInstance(builtinClass.toBlock().asItem()));
+        this.addNoArgMethod("getBlastResistance", builtinClass -> new FloatInstance(builtinClass.toBlock().getBlastResistance()));
+        this.addNoArgMethod("getName", builtinClass -> new StringInstance(builtinClass.toBlock().getName().getString()));
+        this.addNoArgMethod("getSlipperiness", builtinClass -> new FloatInstance(builtinClass.toBlock().getSlipperiness()));
     }
 
     @Override

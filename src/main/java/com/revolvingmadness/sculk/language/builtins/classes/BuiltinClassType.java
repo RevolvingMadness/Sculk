@@ -56,19 +56,6 @@ public abstract class BuiltinClassType extends BuiltinClass {
         }
     }
 
-    public void addGetterMethod(String name, Function<BuiltinClass, BuiltinClass> supplier) {
-        BuiltinMethod method = new BuiltinMethod() {
-            @Override
-            public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-                this.validateCall(name, arguments);
-
-                return supplier.apply(this.boundClass);
-            }
-        };
-
-        this.typeVariableScope.declare(List.of(TokenType.CONST), name, method);
-    }
-
     public void addMethod(String name, List<BuiltinClassType> argumentTypes) throws ReflectiveOperationException {
         Method method = this.getClass().getMethod(name, Interpreter.class, BuiltinClass.class, BuiltinClass[].class);
 
@@ -100,6 +87,19 @@ public abstract class BuiltinClassType extends BuiltinClass {
         };
 
         this.typeVariableScope.declare(List.of(TokenType.CONST), method.getName(), methodClass);
+    }
+
+    public void addNoArgMethod(String name, Function<BuiltinClass, BuiltinClass> supplier) {
+        BuiltinMethod method = new BuiltinMethod() {
+            @Override
+            public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
+                this.validateCall(name, arguments);
+
+                return supplier.apply(this.boundClass);
+            }
+        };
+
+        this.typeVariableScope.declare(List.of(TokenType.CONST), name, method);
     }
 
     public void addStaticMethod(String name, List<BuiltinClassType> argumentTypes) throws ReflectiveOperationException {

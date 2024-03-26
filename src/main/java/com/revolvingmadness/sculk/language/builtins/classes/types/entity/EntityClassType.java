@@ -2,7 +2,6 @@ package com.revolvingmadness.sculk.language.builtins.classes.types.entity;
 
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.block.BlockHitResultInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.block.BlockPosInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.data_types.*;
@@ -13,7 +12,6 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.Flo
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.StringClassType;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
-import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -25,764 +23,296 @@ import net.minecraft.util.math.BlockPos;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class EntityClassType extends BuiltinClassType {
     public static final EntityClassType TYPE = new EntityClassType();
 
     private EntityClassType() {
         super("Entity");
 
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "addTag", new AddTag());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getTags", new GetTags());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "removeTag", new RemoveTag());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "dismount", new Dismount());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getBlockPos", new GetBlockPos());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getBlockX", new GetBlockX());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getBlockY", new GetBlockY());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getBlockZ", new GetBlockZ());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getName", new GetName());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getX", new GetX());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getY", new GetY());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getZ", new GetZ());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "hasVehicle", new HasVehicle());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isCrawling", new IsCrawling());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isFrozen", new IsFrozen());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isGlowing", new IsGlowing());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isFireImmune", new IsFireImmune());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isDescending", new IsDescending());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isInFluid", new IsInFluid());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isInLava", new IsInLava());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isInsideWall", new IsInsideWall());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isInvisible", new IsInvisible());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isInvulnerable", new IsInvulnerable());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isOnFire", new IsOnFire());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isOnGround", new IsOnGround());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isOnRail", new IsOnRail());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isSilent", new IsSilent());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isSneaking", new IsSneaking());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isSprinting", new IsSprinting());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isSwimming", new IsSwimming());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isTouchingWater", new IsTouchingWater());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isTouchingWaterOrRain", new IsTouchingWaterOrRain());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isWet", new IsWet());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "kill", new Kill());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "removePassengers", new RemovePassengers());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "resetPortalCooldown", new ResetPortalCooldown());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "sendMessage", new SendMessage());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setInvisible", new SetInvisible());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setInvulnerable", new SetInvulnerable());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setNoGravity", new SetNoGravity());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setOnFire", new SetOnFire());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setOnGround", new SetOnGround());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setPortalCooldown", new SetPortalCooldown());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setPos", new SetPos());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setSilent", new SetSilent());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setSneaking", new SetSneaking());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setSprinting", new SetSprinting());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setSwimming", new SetSwimming());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "shouldDismountUnderwater", new ShouldDismountUnderwater());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "stopRiding", new StopRiding());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "teleport", new Teleport());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "canFreeze", new CanFreeze());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "canUsePortals", new CanUsePortals());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "extinguish", new Extinguish());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getPassengers", new GetPassengers());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getVehicle", new GetVehicle());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "hasControllingPassenger", new HasControllingPassenger());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "hasNoGravity", new HasNoGravity());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "hasPassenger", new HasPassenger());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "hasPassengers", new HasPassengers());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "raycast", new Raycast());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getPitch", new GetPitch());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getYaw", new GetYaw());
-    }
+        try {
+            this.addMethod("addTag", List.of(StringClassType.TYPE));
+            this.addNoArgMethod("getTags", builtinClass -> {
+                List<BuiltinClass> tags = new ArrayList<>();
 
-    private static class AddTag extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("addTag", arguments, List.of(StringClassType.TYPE));
+                builtinClass.toEntity().getCommandTags().forEach(string -> tags.add(new StringInstance(string)));
 
-            String commandTag = arguments.get(0).toString();
+                return new ListInstance(tags);
+            });
+            this.addMethod("removeTag", List.of(StringClassType.TYPE));
+            this.addNoArgMethod("dismount", builtinClass -> {
+                builtinClass.toEntity().dismountVehicle();
 
-            this.boundClass.toEntity().addCommandTag(commandTag);
+                return new NullInstance();
+            });
+            this.addNoArgMethod("getBlockPos", builtinClass -> new BlockPosInstance(builtinClass.toEntity().getBlockPos()));
+            this.addNoArgMethod("getBlockX", builtinClass -> new IntegerInstance(builtinClass.toEntity().getBlockX()));
+            this.addNoArgMethod("getBlockY", builtinClass -> new IntegerInstance(builtinClass.toEntity().getBlockY()));
+            this.addNoArgMethod("getBlockZ", builtinClass -> new IntegerInstance(builtinClass.toEntity().getBlockZ()));
+            this.addNoArgMethod("getName", builtinClass -> new StringInstance(builtinClass.toEntity().getName().getString()));
+            this.addNoArgMethod("getX", builtinClass -> new FloatInstance(builtinClass.toEntity().getX()));
+            this.addNoArgMethod("getY", builtinClass -> new FloatInstance(builtinClass.toEntity().getY()));
+            this.addNoArgMethod("getZ", builtinClass -> new FloatInstance(builtinClass.toEntity().getZ()));
+            this.addNoArgMethod("hasVehicle", builtinClass -> new BooleanInstance(builtinClass.toEntity().hasVehicle()));
+            this.addNoArgMethod("isCrawling", builtinClass -> new BooleanInstance(builtinClass.toEntity().isCrawling()));
+            this.addNoArgMethod("isFrozen", builtinClass -> new BooleanInstance(builtinClass.toEntity().isFrozen()));
+            this.addNoArgMethod("isGlowing", builtinClass -> new BooleanInstance(builtinClass.toEntity().isGlowing()));
+            this.addNoArgMethod("isFireImmune", builtinClass -> new BooleanInstance(builtinClass.toEntity().isFireImmune()));
+            this.addNoArgMethod("isDescending", builtinClass -> new BooleanInstance(builtinClass.toEntity().isDescending()));
+            this.addNoArgMethod("isInFluid", builtinClass -> new BooleanInstance(builtinClass.toEntity().isInFluid()));
+            this.addNoArgMethod("isInLava", builtinClass -> new BooleanInstance(builtinClass.toEntity().isInLava()));
+            this.addNoArgMethod("isInsideWall", builtinClass -> new BooleanInstance(builtinClass.toEntity().isInsideWall()));
+            this.addNoArgMethod("isInvisible", builtinClass -> new BooleanInstance(builtinClass.toEntity().isInvisible()));
+            this.addNoArgMethod("isInvulnerable", builtinClass -> new BooleanInstance(builtinClass.toEntity().isInvulnerable()));
+            this.addNoArgMethod("isOnFire", builtinClass -> new BooleanInstance(builtinClass.toEntity().isOnFire()));
+            this.addNoArgMethod("isOnGround", builtinClass -> new BooleanInstance(builtinClass.toEntity().isOnGround()));
+            this.addNoArgMethod("isOnRail", builtinClass -> new BooleanInstance(builtinClass.toEntity().isOnRail()));
+            this.addNoArgMethod("isSilent", builtinClass -> new BooleanInstance(builtinClass.toEntity().isSilent()));
+            this.addNoArgMethod("isSneaking", builtinClass -> new BooleanInstance(builtinClass.toEntity().isSneaking()));
+            this.addNoArgMethod("isSprinting", builtinClass -> new BooleanInstance(builtinClass.toEntity().isSprinting()));
+            this.addNoArgMethod("isSwimming", builtinClass -> new BooleanInstance(builtinClass.toEntity().isSwimming()));
+            this.addNoArgMethod("isTouchingWater", builtinClass -> new BooleanInstance(builtinClass.toEntity().isTouchingWater()));
+            this.addNoArgMethod("isTouchingWaterOrRain", builtinClass -> new BooleanInstance(builtinClass.toEntity().isTouchingWaterOrRain()));
+            this.addNoArgMethod("isWet", builtinClass -> new BooleanInstance(builtinClass.toEntity().isWet()));
+            this.addNoArgMethod("kill", builtinClass -> {
+                builtinClass.toEntity().kill();
 
-            return new NullInstance();
+                return new NullInstance();
+            });
+            this.addNoArgMethod("removePassengers", builtinClass -> {
+                builtinClass.toEntity().removeAllPassengers();
+
+                return new NullInstance();
+            });
+            this.addNoArgMethod("resetPortalCooldown", builtinClass -> {
+                builtinClass.toEntity().resetPortalCooldown();
+
+                return new NullInstance();
+            });
+            this.addMethod("sendMessage", List.of(StringClassType.TYPE));
+            this.addMethod("setInvisible", List.of(BooleanClassType.TYPE));
+            this.addMethod("setInvulnerable", List.of(BooleanClassType.TYPE));
+            this.addMethod("setNoGravity", List.of(BooleanClassType.TYPE));
+            this.addMethod("setOnFire", List.of(BooleanClassType.TYPE));
+            this.addMethod("setOnGround", List.of(BooleanClassType.TYPE));
+            this.addMethod("setPortalCooldown", List.of(IntegerClassType.TYPE));
+            this.addMethod("setPos", List.of(FloatClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE));
+            this.addMethod("setSilent", List.of(BooleanClassType.TYPE));
+            this.addMethod("setSneaking", List.of(BooleanClassType.TYPE));
+            this.addMethod("setSprinting", List.of(BooleanClassType.TYPE));
+            this.addMethod("setSwimming", List.of(BooleanClassType.TYPE));
+            this.addNoArgMethod("shouldDismountUnderwater", builtinClass -> new BooleanInstance(builtinClass.toEntity().shouldDismountUnderwater()));
+            this.addNoArgMethod("stopRiding", builtinClass -> {
+                builtinClass.toEntity().stopRiding();
+
+                return new NullInstance();
+            });
+            this.addMethod("teleport", List.of(FloatClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE));
+            this.addNoArgMethod("canFreeze", builtinClass -> new BooleanInstance(builtinClass.toEntity().canFreeze()));
+            this.addNoArgMethod("canUsePortals", builtinClass -> new BooleanInstance(builtinClass.toEntity().canUsePortals()));
+            this.addMethod("extinguish", List.of(BooleanClassType.TYPE));
+            this.addNoArgMethod("getPassengers", builtinClass -> {
+                List<BuiltinClass> passengers = new ArrayList<>();
+
+                builtinClass.toEntity().getPassengerList().forEach(entity -> passengers.add(new EntityInstance(entity)));
+
+                return new ListInstance(passengers);
+            });
+            this.addNoArgMethod("getVehicle", builtinClass -> new EntityInstance(builtinClass.toEntity().getVehicle()));
+            this.addNoArgMethod("hasControllingPassenger", builtinClass -> new BooleanInstance(builtinClass.toEntity().hasControllingPassenger()));
+            this.addNoArgMethod("hasNoGravity", builtinClass -> new BooleanInstance(builtinClass.toEntity().hasNoGravity()));
+            this.addNoArgMethod("hasPassengers", builtinClass -> new BooleanInstance(builtinClass.toEntity().hasPassengers()));
+            this.addMethod("raycast", List.of(FloatClassType.TYPE, BlockClassType.TYPE, BooleanClassType.TYPE));
+            this.addNoArgMethod("getPitch", builtinClass -> new FloatInstance(builtinClass.toEntity().getPitch()));
+            this.addNoArgMethod("getYaw", builtinClass -> new FloatInstance(builtinClass.toEntity().getYaw()));
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private static class CanFreeze extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("canFreeze", arguments);
+    public BuiltinClass addTag(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        String commandTag = arguments[0].toString();
 
-            return new BooleanInstance(this.boundClass.toEntity().canFreeze());
-        }
+        boundClass.toEntity().addCommandTag(commandTag);
+
+        return new NullInstance();
+
     }
 
-    private static class CanUsePortals extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("canUsePortals", arguments);
+    public BuiltinClass extinguish(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        boolean other = arguments[0].toBoolean();
 
-            return new BooleanInstance(this.boundClass.toEntity().canUsePortals());
+        if (other) {
+            boundClass.toEntity().extinguishWithSound();
+        } else {
+            boundClass.toEntity().extinguish();
         }
+
+        return new NullInstance();
+
     }
 
-    private static class Dismount extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("dismount", arguments);
+    public BuiltinClass hasPassenger(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        Entity passenger = arguments[0].toEntity();
 
-            this.boundClass.toEntity().dismountVehicle();
+        return new BooleanInstance(boundClass.toEntity().hasPassenger(passenger));
 
-            return new NullInstance();
-        }
     }
 
-    private static class Extinguish extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("extinguish", arguments, List.of(BooleanClassType.TYPE));
+    public BuiltinClass raycast(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        double distance = arguments[0].toFloat();
+        Block blockClass = arguments[1].toBlock();
+        boolean includeFluids = arguments[2].toBoolean();
 
-            boolean other = arguments.get(0).toBoolean();
+        HitResult result = boundClass.toEntity().raycast(distance, 1f, includeFluids);
 
-            if (other) {
-                this.boundClass.toEntity().extinguishWithSound();
-            } else {
-                this.boundClass.toEntity().extinguish();
-            }
-
-            return new NullInstance();
+        if (result.getType() != HitResult.Type.BLOCK) {
+            return new BooleanInstance(false);
         }
+
+        BlockHitResult blockHitResult = (BlockHitResult) result;
+        BlockPos blockPos = blockHitResult.getBlockPos();
+        BlockState blockState = boundClass.toEntity().getWorld().getBlockState(blockPos);
+        Block block = blockState.getBlock();
+
+        return new BlockHitResultInstance(blockPos, block, block.equals(blockClass));
+
     }
 
-    private static class GetBlockPos extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getBlockPos", arguments);
+    public BuiltinClass removeTag(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        String commandTag = arguments[0].toString();
 
-            BlockPos blockPos = this.boundClass.toEntity().getBlockPos();
+        boundClass.toEntity().removeCommandTag(commandTag);
 
-            return new BlockPosInstance(blockPos);
-        }
+        return new NullInstance();
+
     }
 
-    private static class GetBlockX extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getBlockX", arguments);
+    public BuiltinClass sendMessage(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        String message = arguments[0].toString();
 
-            long blockX = this.boundClass.toEntity().getBlockX();
+        boundClass.toEntity().sendMessage(Text.literal(message));
 
-            return new IntegerInstance(blockX);
-        }
+        return new NullInstance();
+
     }
 
-    private static class GetBlockY extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getBlockY", arguments);
+    public BuiltinClass setInvisible(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        boolean invisible = arguments[0].toBoolean();
 
-            long blockY = this.boundClass.toEntity().getBlockY();
+        boundClass.toEntity().setInvisible(invisible);
 
-            return new IntegerInstance(blockY);
-        }
+        return new NullInstance();
+
     }
 
-    private static class GetBlockZ extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getBlockZ", arguments);
+    public BuiltinClass setInvulnerable(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        boolean invulnerable = arguments[0].toBoolean();
 
-            long blockZ = this.boundClass.toEntity().getBlockZ();
+        boundClass.toEntity().setInvulnerable(invulnerable);
 
-            return new IntegerInstance(blockZ);
-        }
+        return new NullInstance();
+
     }
 
-    private static class GetName extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getName", arguments);
+    public BuiltinClass setNoGravity(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        boolean noGravity = arguments[0].toBoolean();
 
-            String name = this.boundClass.toEntity().getName().getString();
+        boundClass.toEntity().setNoGravity(noGravity);
 
-            return new StringInstance(name);
-        }
+        return new NullInstance();
+
     }
 
-    private static class GetPassengers extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getPassengers", arguments);
+    public BuiltinClass setOnFire(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        boolean onFire = arguments[0].toBoolean();
 
-            List<BuiltinClass> passengers = new ArrayList<>();
+        boundClass.toEntity().setOnFire(onFire);
 
-            this.boundClass.toEntity().getPassengerList().forEach(passenger -> passengers.add(new EntityInstance(passenger)));
+        return new NullInstance();
 
-            return new ListInstance(passengers);
-        }
     }
 
-    private static class GetPitch extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getPitch", arguments);
+    public BuiltinClass setOnGround(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        boolean onGround = arguments[0].toBoolean();
 
-            return new FloatInstance(this.boundClass.toEntity().getPitch());
-        }
+        boundClass.toEntity().setOnGround(onGround);
+
+        return new NullInstance();
+
     }
 
-    private static class GetTags extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getTags", arguments);
+    public BuiltinClass setPortalCooldown(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        long portalCooldown = arguments[0].toInteger();
 
-            List<BuiltinClass> commandTags = new ArrayList<>();
+        boundClass.toEntity().setPortalCooldown((int) portalCooldown);
 
-            this.boundClass.toEntity().getCommandTags().forEach(commandTag -> commandTags.add(new StringInstance(commandTag)));
+        return new NullInstance();
 
-            return new ListInstance(commandTags);
-        }
     }
 
-    private static class GetVehicle extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getVehicle", arguments);
+    public BuiltinClass setPos(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        double x = arguments[0].toFloat();
+        double y = arguments[1].toFloat();
+        double z = arguments[2].toFloat();
 
-            return new EntityInstance(this.boundClass.toEntity().getVehicle());
-        }
+        boundClass.toEntity().setPos(x, y, z);
+
+        return new NullInstance();
+
     }
 
-    private static class GetX extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getX", arguments);
+    public BuiltinClass setSilent(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        boolean silent = arguments[0].toBoolean();
 
-            double x = this.boundClass.toEntity().getX();
+        boundClass.toEntity().setSilent(silent);
 
-            return new FloatInstance(x);
-        }
+        return new NullInstance();
+
     }
 
-    private static class GetY extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getY", arguments);
+    public BuiltinClass setSneaking(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        boolean sneaking = arguments[0].toBoolean();
 
-            double y = this.boundClass.toEntity().getY();
+        boundClass.toEntity().setSneaking(sneaking);
 
-            return new FloatInstance(y);
-        }
+        return new NullInstance();
+
     }
 
-    private static class GetYaw extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getYaw", arguments);
+    public BuiltinClass setSprinting(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        boolean sprinting = arguments[0].toBoolean();
 
-            return new FloatInstance(this.boundClass.toEntity().getYaw());
-        }
+        boundClass.toEntity().setSprinting(sprinting);
+
+        return new NullInstance();
+
     }
 
-    private static class GetZ extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getZ", arguments);
+    public BuiltinClass setSwimming(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        boolean swimming = arguments[0].toBoolean();
 
-            double z = this.boundClass.toEntity().getZ();
+        boundClass.toEntity().setSwimming(swimming);
 
-            return new FloatInstance(z);
-        }
+        return new NullInstance();
+
     }
 
-    private static class HasControllingPassenger extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("hasControllingPassenger", arguments);
+    public BuiltinClass teleport(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        double destX = arguments[0].toFloat();
+        double destY = arguments[1].toFloat();
+        double destZ = arguments[2].toFloat();
 
-            return new BooleanInstance(this.boundClass.toEntity().hasControllingPassenger());
-        }
+        boundClass.toEntity().teleport(destX, destY, destZ);
+
+        return new NullInstance();
     }
 
-    private static class HasNoGravity extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("hasNoGravity", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().hasNoGravity());
-        }
-    }
-
-    private static class HasPassenger extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("hasPassenger", arguments, List.of(BooleanClassType.TYPE));
-
-            Entity passenger = arguments.get(0).toEntity();
-
-            return new BooleanInstance(this.boundClass.toEntity().hasPassenger(passenger));
-        }
-    }
-
-    private static class HasPassengers extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("hasPassengers", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().hasPassengers());
-        }
-    }
-
-    private static class HasVehicle extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("hasVehicle", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().hasVehicle());
-        }
-    }
-
-    private static class IsCrawling extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isCrawling", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isCrawling());
-        }
-    }
-
-    private static class IsDescending extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isDecending", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isDescending());
-        }
-    }
-
-    private static class IsFireImmune extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isFireImmune", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isFireImmune());
-        }
-    }
-
-    private static class IsFrozen extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isFrozen", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isFrozen());
-        }
-    }
-
-    private static class IsGlowing extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isGlowing", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isGlowing());
-        }
-    }
-
-    private static class IsInFluid extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isInFluid", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isInFluid());
-        }
-    }
-
-    private static class IsInLava extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isInLava", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isInLava());
-        }
-    }
-
-    private static class IsInsideWall extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isInsideWall", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isInsideWall());
-        }
-    }
-
-    private static class IsInvisible extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isInvisible", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isInvisible());
-        }
-    }
-
-    private static class IsInvulnerable extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isInvulnerable", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isInvulnerable());
-        }
-    }
-
-    private static class IsOnFire extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isOnFire", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isOnFire());
-        }
-    }
-
-    private static class IsOnGround extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isOnGround", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isOnGround());
-        }
-    }
-
-    private static class IsOnRail extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isOnRail", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isOnRail());
-        }
-    }
-
-    private static class IsSilent extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isSilent", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isSilent());
-        }
-    }
-
-    private static class IsSneaking extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isSneaking", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isSneaking());
-        }
-    }
-
-    private static class IsSprinting extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isSprinting", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isSprinting());
-        }
-    }
-
-    private static class IsSwimming extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isSwimming", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isSwimming());
-        }
-    }
-
-    private static class IsTouchingWater extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isTouchingWater", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isTouchingWater());
-        }
-    }
-
-    private static class IsTouchingWaterOrRain extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isTouchingWaterOrRain", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isTouchingWaterOrRain());
-        }
-    }
-
-    private static class IsWet extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isWet", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().isWet());
-        }
-    }
-
-    private static class Kill extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("kill", arguments);
-
-            this.boundClass.toEntity().kill();
-
-            return new NullInstance();
-        }
-    }
-
-    private static class Raycast extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("raycast", arguments, List.of(FloatClassType.TYPE, BlockClassType.TYPE, BooleanClassType.TYPE));
-
-            double distance = arguments.get(0).toFloat();
-            Block blockClass = arguments.get(1).toBlock();
-            boolean includeFluids = arguments.get(2).toBoolean();
-
-            HitResult result = this.boundClass.toEntity().raycast(distance, 1f, includeFluids);
-
-            if (result.getType() != HitResult.Type.BLOCK) {
-                return new BooleanInstance(false);
-            }
-
-            BlockHitResult blockHitResult = (BlockHitResult) result;
-            BlockPos blockPos = blockHitResult.getBlockPos();
-            BlockState blockState = this.boundClass.toEntity().getWorld().getBlockState(blockPos);
-            Block block = blockState.getBlock();
-
-            return new BlockHitResultInstance(blockPos, block, block.equals(blockClass));
-        }
-    }
-
-    private static class RemovePassengers extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("removePassengers", arguments);
-
-            this.boundClass.toEntity().removeAllPassengers();
-
-            return new NullInstance();
-        }
-    }
-
-    private static class RemoveTag extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("removeTag", arguments, List.of(StringClassType.TYPE));
-
-            String commandTag = arguments.get(0).toString();
-
-            this.boundClass.toEntity().removeCommandTag(commandTag);
-
-            return new NullInstance();
-        }
-    }
-
-    private static class ResetPortalCooldown extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("resetPortalCooldown", arguments);
-
-            this.boundClass.toEntity().resetPortalCooldown();
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SendMessage extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("sendMessage", arguments, List.of(StringClassType.TYPE));
-
-            String message = arguments.get(0).toString();
-
-            this.boundClass.toEntity().sendMessage(Text.literal(message));
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SetInvisible extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("setInvisible", arguments, List.of(BooleanClassType.TYPE));
-
-            boolean invisible = arguments.get(0).toBoolean();
-
-            this.boundClass.toEntity().setInvisible(invisible);
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SetInvulnerable extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("setInvulnerable", arguments, List.of(BooleanClassType.TYPE));
-
-            boolean invulnerable = arguments.get(0).toBoolean();
-
-            this.boundClass.toEntity().setInvulnerable(invulnerable);
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SetNoGravity extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("setNoGravity", arguments, List.of(BooleanClassType.TYPE));
-
-            boolean noGravity = arguments.get(0).toBoolean();
-
-            this.boundClass.toEntity().setNoGravity(noGravity);
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SetOnFire extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("setOnFire", arguments, List.of(BooleanClassType.TYPE));
-
-            boolean onFire = arguments.get(0).toBoolean();
-
-            this.boundClass.toEntity().setOnFire(onFire);
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SetOnGround extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("setOnGround", arguments, List.of(BooleanClassType.TYPE));
-
-            boolean onGround = arguments.get(0).toBoolean();
-
-            this.boundClass.toEntity().setOnGround(onGround);
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SetPortalCooldown extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("setPortalCooldown", arguments, List.of(IntegerClassType.TYPE));
-
-            long portalCooldown = arguments.get(0).toInteger();
-
-            this.boundClass.toEntity().setPortalCooldown((int) portalCooldown);
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SetPos extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("setPos", arguments, List.of(FloatClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE));
-
-            double x = arguments.get(0).toFloat();
-            double y = arguments.get(1).toFloat();
-            double z = arguments.get(2).toFloat();
-
-            this.boundClass.toEntity().setPos(x, y, z);
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SetSilent extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("setSilent", arguments, List.of(BooleanClassType.TYPE));
-
-            boolean silent = arguments.get(0).toBoolean();
-
-            this.boundClass.toEntity().setSilent(silent);
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SetSneaking extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("setSneaking", arguments, List.of(BooleanClassType.TYPE));
-
-            boolean sneaking = arguments.get(0).toBoolean();
-
-            this.boundClass.toEntity().setSneaking(sneaking);
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SetSprinting extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("setSprinting", arguments, List.of(BooleanClassType.TYPE));
-
-            boolean sprinting = arguments.get(0).toBoolean();
-
-            this.boundClass.toEntity().setSprinting(sprinting);
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SetSwimming extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("setSwimming", arguments, List.of(BooleanClassType.TYPE));
-
-            boolean swimming = arguments.get(0).toBoolean();
-
-            this.boundClass.toEntity().setSwimming(swimming);
-
-            return new NullInstance();
-        }
-    }
-
-    private static class ShouldDismountUnderwater extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("shouldDismountUnderwater", arguments);
-
-            return new BooleanInstance(this.boundClass.toEntity().shouldDismountUnderwater());
-        }
-    }
-
-    private static class StopRiding extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("stopRiding", arguments);
-
-            this.boundClass.toEntity().stopRiding();
-
-            return new NullInstance();
-        }
-    }
-
-    private static class Teleport extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("teleport", arguments, List.of(FloatClassType.TYPE, FloatClassType.TYPE, FloatClassType.TYPE));
-
-            double destX = arguments.get(0).toFloat();
-            double destY = arguments.get(1).toFloat();
-            double destZ = arguments.get(2).toFloat();
-
-            this.boundClass.toEntity().teleport(destX, destY, destZ);
-
-            return new NullInstance();
+    static {
+        try {
+            TYPE.addMethod("hasPassenger", List.of(EntityClassType.TYPE));
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
         }
     }
 }

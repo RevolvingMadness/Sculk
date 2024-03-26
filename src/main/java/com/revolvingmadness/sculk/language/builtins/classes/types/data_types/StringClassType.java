@@ -14,22 +14,10 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public class StringClassType extends NBTBuiltinClassType {
-    public static final StringClassType TYPE = new StringClassType();
+    public static final StringClassType TYPE;
 
     private StringClassType() {
         super("String");
-
-        try {
-            this.addMethod("startsWith", List.of(StringClassType.TYPE));
-            this.addMethod("endsWith", List.of(StringClassType.TYPE));
-            this.addMethod("split", List.of(StringClassType.TYPE));
-            this.addGetterMethod("length", builtinClass -> new IntegerInstance(builtinClass.toString().length()));
-            this.addGetterMethod("lowercase", builtinClass -> new StringInstance(builtinClass.toString().toLowerCase()));
-            this.addGetterMethod("uppercase", builtinClass -> new StringInstance(builtinClass.toString().toUpperCase()));
-            this.addMethod("fromUnicode", List.of(IntegerClassType.TYPE));
-        } catch (ReflectiveOperationException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public BuiltinClass endsWith(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
@@ -65,5 +53,21 @@ public class StringClassType extends NBTBuiltinClassType {
 
     public BuiltinClass startsWith(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
         return new BooleanInstance(boundClass.toString().startsWith(arguments[0].toString()));
+    }
+
+    static {
+        TYPE = new StringClassType();
+
+        try {
+            TYPE.addMethod("startsWith", List.of(StringClassType.TYPE));
+            TYPE.addMethod("endsWith", List.of(StringClassType.TYPE));
+            TYPE.addMethod("split", List.of(StringClassType.TYPE));
+            TYPE.addNoArgMethod("length", builtinClass -> new IntegerInstance(builtinClass.toString().length()));
+            TYPE.addNoArgMethod("lowercase", builtinClass -> new StringInstance(builtinClass.toString().toLowerCase()));
+            TYPE.addNoArgMethod("uppercase", builtinClass -> new StringInstance(builtinClass.toString().toUpperCase()));
+            TYPE.addMethod("fromUnicode", List.of(IntegerClassType.TYPE));
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

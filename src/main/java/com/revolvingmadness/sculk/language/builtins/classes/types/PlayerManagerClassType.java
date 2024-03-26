@@ -23,12 +23,12 @@ public class PlayerManagerClassType extends BuiltinClassType {
         super("PlayerManager");
 
         try {
-            this.addGetterMethod("areCheatsEnabled", builtinClass -> new BooleanInstance(builtinClass.toPlayerManager().areCheatsAllowed()));
-            this.addGetterMethod("getCurrentPlayerCount", builtinClass -> new IntegerInstance(builtinClass.toPlayerManager().getCurrentPlayerCount()));
-            this.addGetterMethod("getMaxPlayerCount", builtinClass -> new IntegerInstance(builtinClass.toPlayerManager().getMaxPlayerCount()));
-            this.addGetterMethod("getSimulationDistance", builtinClass -> new IntegerInstance(builtinClass.toPlayerManager().getSimulationDistance()));
-            this.addGetterMethod("getViewDistance", builtinClass -> new IntegerInstance(builtinClass.toPlayerManager().getViewDistance()));
-            this.addGetterMethod("isWhitelistEnabled", builtinClass -> new BooleanInstance(builtinClass.toPlayerManager().isWhitelistEnabled()));
+            this.addNoArgMethod("areCheatsEnabled", builtinClass -> new BooleanInstance(builtinClass.toPlayerManager().areCheatsAllowed()));
+            this.addNoArgMethod("getCurrentPlayerCount", builtinClass -> new IntegerInstance(builtinClass.toPlayerManager().getCurrentPlayerCount()));
+            this.addNoArgMethod("getMaxPlayerCount", builtinClass -> new IntegerInstance(builtinClass.toPlayerManager().getMaxPlayerCount()));
+            this.addNoArgMethod("getSimulationDistance", builtinClass -> new IntegerInstance(builtinClass.toPlayerManager().getSimulationDistance()));
+            this.addNoArgMethod("getViewDistance", builtinClass -> new IntegerInstance(builtinClass.toPlayerManager().getViewDistance()));
+            this.addNoArgMethod("isWhitelistEnabled", builtinClass -> new BooleanInstance(builtinClass.toPlayerManager().isWhitelistEnabled()));
             this.addMethod("setCheatsEnabled", List.of(BooleanClassType.TYPE));
             this.addMethod("setSimulationDistance", List.of(IntegerClassType.TYPE));
             this.addMethod("setViewDistance", List.of(IntegerClassType.TYPE));

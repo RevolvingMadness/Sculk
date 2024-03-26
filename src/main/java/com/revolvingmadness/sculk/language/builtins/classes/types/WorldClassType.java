@@ -35,7 +35,7 @@ public class WorldClassType extends BuiltinClassType {
             this.addMethod("breakBlock", List.of(BlockPosClassType.TYPE, BooleanClassType.TYPE));
             this.addMethod("canSetBlock", List.of(BlockPosClassType.TYPE));
             this.addMethod("getBlock", List.of(BlockPosClassType.TYPE));
-            this.addGetterMethod("getPlayers", builtinClass -> {
+            this.addNoArgMethod("getPlayers", builtinClass -> {
                 List<ServerPlayerEntity> players = builtinClass.toWorld().getPlayers();
                 List<BuiltinClass> playersClasses = new ArrayList<>();
 
@@ -43,16 +43,16 @@ public class WorldClassType extends BuiltinClassType {
 
                 return new ListInstance(playersClasses);
             });
-            this.addGetterMethod("getSeed", builtinClass -> new IntegerInstance(builtinClass.toWorld().getSeed()));
-            this.addGetterMethod("getTime", builtinClass -> new IntegerInstance(builtinClass.toWorld().getTime()));
-            this.addGetterMethod("getTimeOfDay", builtinClass -> new IntegerInstance(builtinClass.toWorld().getTimeOfDay()));
+            this.addNoArgMethod("getSeed", builtinClass -> new IntegerInstance(builtinClass.toWorld().getSeed()));
+            this.addNoArgMethod("getTime", builtinClass -> new IntegerInstance(builtinClass.toWorld().getTime()));
+            this.addNoArgMethod("getTimeOfDay", builtinClass -> new IntegerInstance(builtinClass.toWorld().getTimeOfDay()));
             this.addMethod("hasRain", List.of(BlockPosClassType.TYPE));
-            this.addGetterMethod("isDay", builtinClass -> new BooleanInstance(builtinClass.toWorld().isDay()));
-            this.addGetterMethod("isFlat", builtinClass -> new BooleanInstance(builtinClass.toWorld().isFlat()));
-            this.addGetterMethod("isNight", builtinClass -> new BooleanInstance(builtinClass.toWorld().isNight()));
-            this.addGetterMethod("isRaining", builtinClass -> new BooleanInstance(builtinClass.toWorld().isRaining()));
-            this.addGetterMethod("isSleepingEnabled", builtinClass -> new BooleanInstance(builtinClass.toWorld().isSleepingEnabled()));
-            this.addGetterMethod("isThundering", builtinClass -> new BooleanInstance(builtinClass.toWorld().isThundering()));
+            this.addNoArgMethod("isDay", builtinClass -> new BooleanInstance(builtinClass.toWorld().isDay()));
+            this.addNoArgMethod("isFlat", builtinClass -> new BooleanInstance(builtinClass.toWorld().isFlat()));
+            this.addNoArgMethod("isNight", builtinClass -> new BooleanInstance(builtinClass.toWorld().isNight()));
+            this.addNoArgMethod("isRaining", builtinClass -> new BooleanInstance(builtinClass.toWorld().isRaining()));
+            this.addNoArgMethod("isSleepingEnabled", builtinClass -> new BooleanInstance(builtinClass.toWorld().isSleepingEnabled()));
+            this.addNoArgMethod("isThundering", builtinClass -> new BooleanInstance(builtinClass.toWorld().isThundering()));
             this.addMethod("placeBlock", List.of(BlockPosClassType.TYPE, BlockClassType.TYPE));
             this.addMethod("setSpawnPos", List.of(BlockPosClassType.TYPE, FloatClassType.TYPE));
             this.addMethod("setTimeOfDay", List.of(IntegerClassType.TYPE));

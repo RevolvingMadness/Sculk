@@ -3,7 +3,6 @@ package com.revolvingmadness.sculk.language.builtins.classes.types.entity;
 import com.revolvingmadness.sculk.language.GUIScreenHandler;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClass;
 import com.revolvingmadness.sculk.language.builtins.classes.BuiltinClassType;
-import com.revolvingmadness.sculk.language.builtins.classes.BuiltinMethod;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.GUIInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.InventoryInstance;
 import com.revolvingmadness.sculk.language.builtins.classes.instances.WorldInstance;
@@ -16,7 +15,6 @@ import com.revolvingmadness.sculk.language.builtins.classes.types.InventoryClass
 import com.revolvingmadness.sculk.language.builtins.classes.types.LivingEntityClassType;
 import com.revolvingmadness.sculk.language.builtins.classes.types.data_types.IntegerClassType;
 import com.revolvingmadness.sculk.language.interpreter.Interpreter;
-import com.revolvingmadness.sculk.language.lexer.TokenType;
 import net.minecraft.inventory.EnderChestInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
@@ -26,183 +24,84 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class PlayerEntityClassType extends BuiltinClassType {
     public static final PlayerEntityClassType TYPE = new PlayerEntityClassType();
 
     private PlayerEntityClassType() {
         super("PlayerEntity", LivingEntityClassType.TYPE);
 
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "addExperiencePoints", new AddExperiencePoints());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "addExperienceLevels", new AddExperienceLevels());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isCreative", new IsCreative());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "isSpectator", new IsSpectator());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getName", new GetName());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getUUID", new GetUUID());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getWorld", new GetWorld());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "openGUI", new OpenGUI());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getStackInMainHand", new GetStackInMainHand());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getStackInOffHand", new GetStackInOffHand());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getEnderChestInventory", new GetEnderChestInventory());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setEnderChestInventory", new SetEnderChestInventory());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "getInventory", new GetInventory());
-        this.typeVariableScope.declare(List.of(TokenType.CONST), "setInventory", new SetInventory());
-    }
+        try {
+            this.addMethod("addExperiencePoints", List.of(IntegerClassType.TYPE));
+            this.addMethod("addExperienceLevels", List.of(IntegerClassType.TYPE));
+            this.addNoArgMethod("isCreative", builtinClass -> new BooleanInstance(builtinClass.toPlayerEntity().isCreative()));
+            this.addNoArgMethod("isSpectator", builtinClass -> new BooleanInstance(builtinClass.toPlayerEntity().isSpectator()));
+            this.addNoArgMethod("getName", builtinClass -> new StringInstance(builtinClass.toPlayerEntity().getName().getString()));
+            this.addNoArgMethod("getUUID", builtinClass -> new StringInstance(builtinClass.toPlayerEntity().getUuidAsString()));
+            this.addNoArgMethod("getWorld", builtinClass -> {
+                World world = builtinClass.toPlayerEntity().getWorld();
 
-    private static class AddExperienceLevels extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("addExperienceLevels", arguments, List.of(IntegerClassType.TYPE));
+                if (!(world instanceof ServerWorld serverWorld)) {
+                    throw new RuntimeException("World is on client");
+                }
 
-            long experienceLevels = arguments.get(0).toInteger();
-
-            this.boundClass.toPlayerEntity().addExperienceLevels((int) experienceLevels);
-
-            return new NullInstance();
+                return new WorldInstance(serverWorld);
+            });
+            this.addMethod("openGUI", List.of(GUIClassType.TYPE));
+            this.addNoArgMethod("getStackInMainHand", builtinClass -> new ItemStackInstance(builtinClass.toPlayerEntity().getMainHandStack()));
+            this.addNoArgMethod("getStackInOffHand", builtinClass -> new ItemStackInstance(builtinClass.toPlayerEntity().getOffHandStack()));
+            this.addNoArgMethod("getEnderChestInventory", builtinClass -> new InventoryInstance(builtinClass.toPlayerEntity().getEnderChestInventory()));
+            this.addMethod("setEnderChestInventory", List.of(InventoryClassType.TYPE));
+            this.addNoArgMethod("getInventory", builtinClass -> new InventoryInstance(builtinClass.toPlayerEntity().getInventory()));
+            this.addMethod("setInventory", List.of(InventoryClassType.TYPE));
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private static class AddExperiencePoints extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("addExperiencePoints", arguments, List.of(IntegerClassType.TYPE));
+    public BuiltinClass addExperienceLevels(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        long experienceLevels = arguments[0].toInteger();
 
-            long experience = arguments.get(0).toInteger();
+        boundClass.toPlayerEntity().addExperienceLevels((int) experienceLevels);
 
-            this.boundClass.toPlayerEntity().addExperience((int) experience);
-
-            return new NullInstance();
-        }
+        return new NullInstance();
     }
 
-    private static class GetEnderChestInventory extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getEnderChestInventory", arguments);
+    public BuiltinClass addExperiencePoints(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        long experience = arguments[0].toInteger();
 
-            return new InventoryInstance(this.boundClass.toPlayerEntity().getEnderChestInventory());
-        }
+        boundClass.toPlayerEntity().addExperience((int) experience);
+
+        return new NullInstance();
     }
 
-    private static class GetInventory extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getInventory", arguments);
+    public BuiltinClass openGUI(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        GUIInstance gui = arguments[0].toGUI();
 
-            return new InventoryInstance(this.boundClass.toPlayerEntity().getInventory());
-        }
+        boundClass.toPlayerEntity().openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, playerInventory, player) -> new GUIScreenHandler(interpreter, gui, syncId, playerInventory, gui.inventory), Text.literal(gui.title)));
+
+        return new NullInstance();
     }
 
-    private static class GetName extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getName", arguments);
+    public BuiltinClass setEnderChestInventory(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        Inventory inventory = arguments[0].toInventory();
+        EnderChestInventory enderChestInventory = boundClass.toPlayerEntity().getEnderChestInventory();
 
-            return new StringInstance(this.boundClass.toPlayerEntity().getName().getLiteralString());
+        for (int i = 0; i < enderChestInventory.size(); i++) {
+            enderChestInventory.setStack(i, inventory.getStack(i));
         }
+
+        return new NullInstance();
     }
 
-    private static class GetStackInMainHand extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getStackInMainHand", arguments, List.of());
+    public BuiltinClass setInventory(Interpreter interpreter, BuiltinClass boundClass, BuiltinClass[] arguments) {
+        Inventory playerInventory = boundClass.toPlayerEntity().getInventory();
+        Inventory inventory = arguments[0].toInventory();
 
-            return new ItemStackInstance(this.boundClass.toPlayerEntity().getMainHandStack());
+        for (int i = 0; i < playerInventory.size(); i++) {
+            playerInventory.setStack(i, inventory.getStack(i));
         }
-    }
 
-    private static class GetStackInOffHand extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getStackInOffHand", arguments, List.of());
-
-            return new ItemStackInstance(this.boundClass.toPlayerEntity().getOffHandStack());
-        }
-    }
-
-    private static class GetUUID extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getUUID", arguments);
-
-            return new StringInstance(this.boundClass.toPlayerEntity().getUuidAsString());
-        }
-    }
-
-    private static class GetWorld extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("getWorld", arguments);
-
-            World world = this.boundClass.toPlayerEntity().getWorld();
-
-            if (!(world instanceof ServerWorld serverWorld)) {
-                throw new RuntimeException("World is on client");
-            }
-
-            return new WorldInstance(serverWorld);
-        }
-    }
-
-    private static class IsCreative extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isCreative", arguments);
-
-            return new BooleanInstance(this.boundClass.toPlayerEntity().isCreative());
-        }
-    }
-
-    private static class IsSpectator extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("isSpectator", arguments);
-
-            return new BooleanInstance(this.boundClass.toPlayerEntity().isSpectator());
-        }
-    }
-
-    private static class OpenGUI extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("openGUI", arguments, List.of(GUIClassType.TYPE));
-
-            GUIInstance gui = arguments.get(0).toGUI();
-
-            this.boundClass.toPlayerEntity().openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, playerInventory, player) -> new GUIScreenHandler(interpreter, gui, syncId, playerInventory, gui.inventory), Text.literal(gui.title)));
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SetEnderChestInventory extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("setEnderChestInventory", arguments, List.of(InventoryClassType.TYPE));
-
-            Inventory inventory = arguments.get(0).toInventory();
-            EnderChestInventory enderChestInventory = this.boundClass.toPlayerEntity().getEnderChestInventory();
-
-            for (int i = 0; i < enderChestInventory.size(); i++) {
-                enderChestInventory.setStack(i, inventory.getStack(i));
-            }
-
-            return new NullInstance();
-        }
-    }
-
-    private static class SetInventory extends BuiltinMethod {
-        @Override
-        public BuiltinClass call(Interpreter interpreter, List<BuiltinClass> arguments) {
-            this.validateCall("setInventory", arguments, List.of(InventoryClassType.TYPE));
-
-            Inventory playerInventory = this.boundClass.toPlayerEntity().getInventory();
-            Inventory inventory = arguments.get(0).toInventory();
-
-            for (int i = 0; i < playerInventory.size(); i++) {
-                playerInventory.setStack(i, inventory.getStack(i));
-            }
-
-            return new NullInstance();
-        }
+        return new NullInstance();
     }
 }

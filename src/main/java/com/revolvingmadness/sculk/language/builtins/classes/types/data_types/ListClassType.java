@@ -21,7 +21,7 @@ public class ListClassType extends NBTBuiltinClassType {
         try {
             this.addMethod("append", List.of(ObjectClassType.TYPE));
             this.addMethod("contains", List.of(ObjectClassType.TYPE));
-            this.addGetterMethod("length", builtinClass -> new IntegerInstance(builtinClass.toList().size()));
+            this.addNoArgMethod("length", builtinClass -> new IntegerInstance(builtinClass.toList().size()));
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
