@@ -34,20 +34,7 @@ the [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files).
 
 ## Usage
 
-One example of Sculk is the following.
-
-```java
-// load.sk
-events.onPlayerBreakBlock(function(player, block) {
-    if (block == Blocks.get(minecraft:diamond_block)){
-        return false; // cancel the event by returning false
-    }
-
-    return true;
-});
-```
-
-_For more examples, please refer to [Examples](https://RevolvingMadness.github.io/Sculk/examples)_
+_For examples, please refer to [Examples](https://RevolvingMadness.github.io/Sculk/examples)_
 
 ## Contributing
 
